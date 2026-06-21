@@ -706,6 +706,8 @@
             }
             
             document.getElementById('results').innerHTML = '';
+
+            shuffleWordBanks();
         }
 
         function downloadResults() {
@@ -784,6 +786,31 @@
                 lastFocusedInput = this;
             });
         }
+
+        // --- Shuffle word-bank chips so they never appear in gap order ---
+        function shuffleWordBanks() {
+            var banks = document.querySelectorAll('.word-bank-words');
+            for (var b = 0; b < banks.length; b++) {
+                var container = banks[b];
+                var chips = Array.prototype.slice.call(container.querySelectorAll('.word-chip'));
+                // Fisher-Yates shuffle; re-shuffle if order is unchanged and >1 chip
+                if (chips.length > 1) {
+                    var original = chips.map(function(c){ return c.textContent; }).join('|');
+                    var attempts = 0;
+                    do {
+                        for (var i = chips.length - 1; i > 0; i--) {
+                            var j = Math.floor(Math.random() * (i + 1));
+                            var tmp = chips[i]; chips[i] = chips[j]; chips[j] = tmp;
+                        }
+                        attempts++;
+                    } while (chips.map(function(c){ return c.textContent; }).join('|') === original && attempts < 10);
+                    for (var k = 0; k < chips.length; k++) {
+                        container.appendChild(chips[k]);
+                    }
+                }
+            }
+        }
+        shuffleWordBanks();
     </script>
 </body>
 </html>
