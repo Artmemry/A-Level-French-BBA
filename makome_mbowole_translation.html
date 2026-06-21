@@ -1,0 +1,833 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>French Translation Assessment</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            opacity: 0.9;
+            font-size: 1.1em;
+        }
+        
+        .content {
+            padding: 40px;
+        }
+        
+        .name-section {
+            margin-bottom: 30px;
+        }
+        
+        .name-section label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #333;
+            font-size: 1.1em;
+        }
+        
+        .name-section input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 1em;
+            transition: border-color 0.3s;
+        }
+        
+        .name-section input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        
+        .instructions {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .instructions h2 {
+            color: #667eea;
+            margin-bottom: 10px;
+            font-size: 1.3em;
+        }
+        
+        .instructions p {
+            color: #555;
+            line-height: 1.6;
+            margin-bottom: 8px;
+        }
+        
+        .text-image {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            border: 2px solid #e0e0e0;
+        }
+        
+        .text-image canvas {
+            width: 100%;
+            border-radius: 5px;
+        }
+        
+        .translation-area {
+            margin-bottom: 30px;
+        }
+        
+        .translation-area label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #333;
+            font-size: 1.1em;
+        }
+        
+        .translation-area textarea {
+            width: 100%;
+            min-height: 400px;
+            padding: 15px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 1em;
+            font-family: 'Courier New', monospace;
+            line-height: 1.8;
+            resize: vertical;
+            transition: border-color 0.3s;
+        }
+        
+        .translation-area textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        
+        .button-group {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 30px;
+        }
+        
+        button {
+            padding: 15px 40px;
+            font-size: 1.1em;
+            font-weight: 600;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+        
+        .submit-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+        }
+        
+        .submit-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .download-btn {
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            color: white;
+            display: none;
+        }
+        
+        .download-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+        }
+        
+        .results {
+            display: none;
+            background: #f8f9fa;
+            padding: 30px;
+            border-radius: 8px;
+            margin-top: 30px;
+        }
+        
+        .results h2 {
+            color: #667eea;
+            margin-bottom: 20px;
+            font-size: 1.5em;
+        }
+        
+        .score-display {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            text-align: center;
+            border: 3px solid #667eea;
+        }
+        
+        .score-display h3 {
+            font-size: 2em;
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+        
+        .score-display p {
+            color: #666;
+            font-size: 1.1em;
+        }
+        
+        .feedback-item {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            border-left: 4px solid #ddd;
+        }
+        
+        .feedback-item.correct {
+            border-left-color: #38ef7d;
+        }
+        
+        .feedback-item.partial {
+            border-left-color: #ffa500;
+        }
+        
+        .feedback-item.incorrect {
+            border-left-color: #ff6b6b;
+        }
+        
+        .feedback-item strong {
+            color: #333;
+        }
+        
+        .feedback-item p {
+            margin: 5px 0;
+            color: #666;
+        }
+        
+        .feedback-item .found-text {
+            background: #e8f5e9;
+            padding: 5px 10px;
+            border-radius: 4px;
+            margin-top: 5px;
+            font-family: 'Courier New', monospace;
+        }
+        
+        .accent-keyboard {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: white;
+            padding: 15px;
+            border-radius: 12px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+            z-index: 1000;
+            border: 2px solid #667eea;
+        }
+        
+        .accent-keyboard h3 {
+            margin: 0 0 10px 0;
+            color: #667eea;
+            font-size: 0.9em;
+            text-align: center;
+        }
+        
+        .accent-buttons {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 5px;
+        }
+        
+        .accent-btn {
+            padding: 10px;
+            background: #f8f9fa;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1.2em;
+            transition: all 0.2s;
+            min-width: 40px;
+            text-align: center;
+        }
+        
+        .accent-btn:hover {
+            background: #667eea;
+            color: white;
+            transform: scale(1.1);
+        }
+        
+        .accent-btn:active {
+            transform: scale(0.95);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>French Translation Assessment</h1>
+            <p>Translate the text from English to French</p>
+        </div>
+        
+        <div class="content">
+            <div class="name-section">
+                <label for="studentName">Your Name:</label>
+                <input type="text" id="studentName" placeholder="Enter your full name" required>
+            </div>
+            
+            <div class="instructions">
+                <h2>Instructions</h2>
+                <p>Translate the English text shown below into French. Write your translation as continuous prose in the text box.</p>
+                <p><strong>Important:</strong> The system will search for key phrases throughout your entire translation, so you can write naturally. Focus on correct verb forms, gender agreements, and number agreements.</p>
+            </div>
+            
+            <div class="text-image">
+                <canvas id="textCanvas"></canvas>
+            </div>
+            
+            <div class="translation-area">
+                <label for="translation">Your French Translation:</label>
+                <textarea id="translation" placeholder="Type your French translation here as continuous prose..."></textarea>
+            </div>
+            
+            <div class="button-group">
+                <button class="submit-btn" id="submitBtn">Submit Translation</button>
+                <button class="download-btn" id="downloadBtn">Download PDF Report</button>
+            </div>
+            
+            <div class="results" id="results"></div>
+        </div>
+    </div>
+    
+    <div class="accent-keyboard">
+        <h3>French Accents</h3>
+        <div class="accent-buttons">
+            <button class="accent-btn" data-char="à">à</button>
+            <button class="accent-btn" data-char="â">â</button>
+            <button class="accent-btn" data-char="é">é</button>
+            <button class="accent-btn" data-char="è">è</button>
+            <button class="accent-btn" data-char="ê">ê</button>
+            <button class="accent-btn" data-char="ë">ë</button>
+            <button class="accent-btn" data-char="î">î</button>
+            <button class="accent-btn" data-char="ï">ï</button>
+            <button class="accent-btn" data-char="ô">ô</button>
+            <button class="accent-btn" data-char="ù">ù</button>
+            <button class="accent-btn" data-char="û">û</button>
+            <button class="accent-btn" data-char="ü">ü</button>
+            <button class="accent-btn" data-char="ç">ç</button>
+            <button class="accent-btn" data-char="œ">œ</button>
+            <button class="accent-btn" data-char="æ">æ</button>
+            <button class="accent-btn" data-char="À">À</button>
+            <button class="accent-btn" data-char="É">É</button>
+            <button class="accent-btn" data-char="È">È</button>
+            <button class="accent-btn" data-char="Ç">Ç</button>
+            <button class="accent-btn" data-char="«">«</button>
+            <button class="accent-btn" data-char="»">»</button>
+            <button class="accent-btn" data-char="'">'</button>
+        </div>
+    </div>
+
+    <script>
+        const englishText = `In April 1993, the police arrested Makomé M'Bowole, a seventeen-year-old Zairian, in Paris for a minor theft. They took him to a police station where a detective interrogated him. Despite an order to release the teenager, the officer continued the questioning. To intimidate him, the policeman pointed his pistol at the boy's head. Suddenly, the weapon went off and the bullet killed the victim at point-blank range. This tragic event caused many riots across France. Three years later, a jury found the officer guilty of unintentional homicide. The judge sentenced him to eight years in prison. Many people condemned this verdict.`;
+
+        // Mark scheme - uses OR logic for alternatives
+        const markScheme = [
+            { 
+                english: "In April 1993,", 
+                mustHaveAll: ["avril", "1993"],
+                rejected: [{phrase: "dans avril", reason: "Wrong preposition - use 'en' not 'dans'"}]
+            },
+            { 
+                english: "the police arrested Makomé M'Bowole,", 
+                mustHaveAll: ["police", "makomé"],
+                mustHaveOne: ["arrêt", "arrêt"],
+                rejected: [
+                    {phrase: "police arrêté", reason: "Missing auxiliary"},
+                    {phrase: "police arrête", reason: "Wrong tense"}
+                ]
+            },
+            { 
+                english: "a seventeen-year-old Zairian, in Paris", 
+                mustHaveAll: ["zaïrois", "paris"],
+                mustHaveOne: ["dix-sept", "17"],
+                rejected: [
+                    {phrase: "une zaïrois", reason: "Wrong gender - 'zaïrois' is masculine"},
+                    {phrase: "des zaïrois", reason: "Wrong number - singular"}
+                ]
+            },
+            { 
+                english: "for a minor theft.", 
+                mustHaveAll: ["vol"],
+                mustHaveOne: ["mineur", "petit"],
+                rejected: [
+                    {phrase: "une vol", reason: "Wrong gender - 'vol' is masculine"},
+                    {phrase: "des vol", reason: "Wrong number - singular"}
+                ]
+            },
+            { 
+                english: "They took him", 
+                mustHaveAll: [],
+                mustHaveOne: ["emmen", "condui", "amen", "pris"],
+                rejected: [
+                    {phrase: "ils l'emmen é", reason: "Missing auxiliary"},
+                    {phrase: "il l'ont", reason: "Wrong subject - 'ils' not 'il'"}
+                ]
+            },
+            { 
+                english: "to a police station", 
+                mustHaveAll: [],
+                mustHaveOne: ["commissariat", "poste"],
+                rejected: [
+                    {phrase: "une commissariat", reason: "Wrong gender - masculine"},
+                    {phrase: "commissariats", reason: "Wrong number - singular"}
+                ]
+            },
+            { 
+                english: "where a detective interrogated him.", 
+                mustHaveAll: [],
+                mustHaveOne: ["interrogé", "interrogea"],
+                rejected: [
+                    {phrase: "une inspecteur", reason: "Wrong gender - masculine"},
+                    {phrase: "interrogeait", reason: "Wrong tense"}
+                ]
+            },
+            { 
+                english: "Despite an order to release the teenager,", 
+                mustHaveAll: ["malgré", "ordre"],
+                mustHaveOne: ["liber", "liberté"],
+                rejected: [
+                    {phrase: "une ordre", reason: "Wrong gender - masculine"},
+                    {phrase: "les ordres", reason: "Wrong number - singular"}
+                ]
+            },
+            { 
+                english: "the officer continued the questioning.", 
+                mustHaveAll: [],
+                mustHaveOne: ["officier", "agent", "policier"],
+                mustHaveTwo: ["contin", "poursuiv", "interrogatoire", "question"],
+                rejected: [
+                    {phrase: "continuait", reason: "Wrong tense - need passé composé/simple"},
+                    {phrase: "une officier", reason: "Wrong gender - masculine"}
+                ]
+            },
+            { 
+                english: "To intimidate him,", 
+                mustHaveAll: [],
+                mustHaveOne: ["intimid", "peur"],
+                rejected: []
+            },
+            { 
+                english: "the policeman pointed his pistol", 
+                mustHaveAll: ["policier"],
+                mustHaveOne: ["point", "braq", "dirig"],
+                mustHaveTwo: ["pistolet", "arme"],
+                rejected: [
+                    {phrase: "sa pistolet", reason: "Wrong gender - masculine (son)"},
+                    {phrase: "la policier", reason: "Wrong gender - masculine"}
+                ]
+            },
+            { 
+                english: "at the boy's head.", 
+                mustHaveAll: ["tête"],
+                mustHaveOne: ["garçon", "jeune", "adolescent"],
+                rejected: [
+                    {phrase: "une tête", reason: "Wrong gender - feminine (la)"},
+                    {phrase: "le tête", reason: "Wrong gender - feminine (la)"}
+                ]
+            },
+            { 
+                english: "Suddenly, the weapon went off", 
+                mustHaveAll: [],
+                mustHaveOne: ["soudain", "tout à coup"],
+                mustHaveTwo: ["arme", "coup", "parti", "déclenché"],
+                rejected: [
+                    {phrase: "coup parti", reason: "Missing auxiliary (unless passé simple)"},
+                    {phrase: "la coup", reason: "Wrong gender - masculine"}
+                ]
+            },
+            { 
+                english: "and the bullet killed the victim", 
+                mustHaveAll: ["balle"],
+                mustHaveOne: ["tué", "tua"],
+                mustHaveTwo: ["victime", "jeune", "adolescent"],
+                rejected: [
+                    {phrase: "balle tué", reason: "Missing auxiliary (unless passé simple)"},
+                    {phrase: "le balle", reason: "Wrong gender - feminine"}
+                ]
+            },
+            { 
+                english: "at point-blank range.", 
+                mustHaveAll: [],
+                mustHaveOne: ["bout portant", "très près", "courte distance"],
+                rejected: []
+            },
+            { 
+                english: "This tragic event caused many riots across France.", 
+                mustHaveAll: ["tragique", "france"],
+                mustHaveOne: ["événement", "incident", "fait divers"],
+                mustHaveTwo: ["provoqu", "caus", "émeute", "révolte"],
+                rejected: [
+                    {phrase: "cette événement", reason: "Wrong gender - masculine (cet)"},
+                    {phrase: "ces événements", reason: "Wrong number - singular"}
+                ]
+            },
+            { 
+                english: "Three years later, a jury found the officer guilty", 
+                mustHaveAll: ["trois ans", "jury", "officier", "coupable"],
+                mustHaveOne: ["reconn", "trouv", "jug"],
+                rejected: [
+                    {phrase: "trois ans dernier", reason: "Wrong expression - need 'plus tard' or 'après'"},
+                    {phrase: "une jury", reason: "Wrong gender - masculine"}
+                ]
+            },
+            { 
+                english: "of unintentional homicide.", 
+                mustHaveAll: ["homicide"],
+                mustHaveOne: ["involontaire", "non intentionnel"],
+                rejected: [
+                    {phrase: "homicides", reason: "Wrong number - singular"}
+                ]
+            },
+            { 
+                english: "The judge sentenced him to eight years in prison.", 
+                mustHaveAll: ["juge", "huit ans", "prison"],
+                mustHaveOne: ["condam"],
+                rejected: [
+                    {phrase: "la juge", reason: "Wrong gender - masculine in this context"},
+                    {phrase: "huit année", reason: "Wrong word - 'ans' not 'année'"}
+                ]
+            },
+            { 
+                english: "Many people condemned this verdict.", 
+                mustHaveAll: ["verdict"],
+                mustHaveOne: ["nombreux", "nombreuses", "beaucoup"],
+                mustHaveTwo: ["personnes", "gens", "condam", "dénonc"],
+                rejected: [
+                    {phrase: "personnes condamné", reason: "Missing auxiliary"},
+                    {phrase: "gens a condamné", reason: "Wrong auxiliary - plural 'ont'"}
+                ]
+            }
+        ];
+
+        function drawTextAsImage() {
+            const canvas = document.getElementById('textCanvas');
+            const ctx = canvas.getContext('2d');
+            
+            canvas.width = 800;
+            canvas.height = 400;
+            
+            ctx.fillStyle = '#ffffff';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            ctx.fillStyle = '#333333';
+            ctx.font = '16px Georgia, serif';
+            
+            const lines = wrapText(ctx, englishText, canvas.width - 40);
+            const lineHeight = 24;
+            let y = 30;
+            
+            lines.forEach(line => {
+                ctx.fillText(line, 20, y);
+                y += lineHeight;
+            });
+        }
+
+        function wrapText(ctx, text, maxWidth) {
+            const words = text.split(' ');
+            const lines = [];
+            let currentLine = '';
+
+            words.forEach(word => {
+                const testLine = currentLine + word + ' ';
+                const metrics = ctx.measureText(testLine);
+                
+                if (metrics.width > maxWidth && currentLine !== '') {
+                    lines.push(currentLine.trim());
+                    currentLine = word + ' ';
+                } else {
+                    currentLine = testLine;
+                }
+            });
+            
+            lines.push(currentLine.trim());
+            return lines;
+        }
+
+        function normalizeText(text) {
+            return text
+                .toLowerCase()
+                .normalize("NFD").replace(/[\u0300-\u036f]/g, "") // Remove accents for matching
+                .replace(/['']/g, "'")
+                .replace(/[""]/g, '"')
+                .replace(/\s+/g, ' ')
+                .trim();
+        }
+
+        function containsWord(text, word) {
+            const normalized = normalizeText(text);
+            const wordNorm = normalizeText(word);
+            return normalized.includes(wordNorm);
+        }
+
+        function checkTranslation(fullText, schemeItem) {
+            const normalized = normalizeText(fullText);
+            
+            // First check for critical errors
+            for (let rejected of schemeItem.rejected) {
+                const rejectedNorm = normalizeText(rejected.phrase);
+                if (normalized.includes(rejectedNorm)) {
+                    return { 
+                        correct: false, 
+                        reason: `❌ ${rejected.reason}`
+                    };
+                }
+            }
+            
+            // Check mustHaveAll
+            if (schemeItem.mustHaveAll) {
+                for (let required of schemeItem.mustHaveAll) {
+                    if (!containsWord(fullText, required)) {
+                        return {
+                            correct: false,
+                            reason: `Missing required word: "${required}"`
+                        };
+                    }
+                }
+            }
+            
+            // Check mustHaveOne
+            if (schemeItem.mustHaveOne && schemeItem.mustHaveOne.length > 0) {
+                let foundOne = false;
+                for (let option of schemeItem.mustHaveOne) {
+                    if (containsWord(fullText, option)) {
+                        foundOne = true;
+                        break;
+                    }
+                }
+                if (!foundOne) {
+                    return {
+                        correct: false,
+                        reason: `Need one of: ${schemeItem.mustHaveOne.join(', ')}`
+                    };
+                }
+            }
+            
+            // Check mustHaveTwo (at least 2 from the list)
+            if (schemeItem.mustHaveTwo && schemeItem.mustHaveTwo.length > 0) {
+                let foundCount = 0;
+                for (let option of schemeItem.mustHaveTwo) {
+                    if (containsWord(fullText, option)) {
+                        foundCount++;
+                    }
+                }
+                if (foundCount < 2) {
+                    return {
+                        correct: false,
+                        reason: `Need at least 2 of: ${schemeItem.mustHaveTwo.join(', ')}`
+                    };
+                }
+            }
+            
+            return {
+                correct: true,
+                reason: "✓ Correct"
+            };
+        }
+
+        function gradeTranslation() {
+            const studentName = document.getElementById('studentName').value.trim();
+            const translation = document.getElementById('translation').value;
+            
+            if (!studentName) {
+                alert('Please enter your name before submitting.');
+                return;
+            }
+            
+            if (!translation.trim()) {
+                alert('Please complete your translation before submitting.');
+                return;
+            }
+            
+            const results = [];
+            let totalScore = 0;
+            
+            markScheme.forEach((item, index) => {
+                const result = checkTranslation(translation, item);
+                
+                if (result.correct) {
+                    totalScore += 1;
+                }
+                
+                results.push({
+                    chunk: index + 1,
+                    english: item.english,
+                    correct: result.correct,
+                    reason: result.reason
+                });
+            });
+            
+            displayResults(studentName, results, totalScore, translation);
+        }
+
+        function displayResults(studentName, results, score, translation) {
+            const resultsDiv = document.getElementById('results');
+            const maxScore = markScheme.length;
+            const percentage = Math.round((score / maxScore) * 100);
+            
+            let html = `
+                <h2>Assessment Results</h2>
+                <div class="score-display">
+                    <h3>${score} / ${maxScore}</h3>
+                    <p>${percentage}% - ${getGrade(percentage)}</p>
+                </div>
+            `;
+            
+            results.forEach(result => {
+                const className = result.correct ? 'correct' : 'incorrect';
+                
+                html += `
+                    <div class="feedback-item ${className}">
+                        <strong>${result.chunk}. ${result.english}</strong>
+                        <p><strong>Result:</strong> ${result.reason}</p>
+                    </div>
+                `;
+            });
+            
+            resultsDiv.innerHTML = html;
+            resultsDiv.style.display = 'block';
+            
+            document.getElementById('downloadBtn').style.display = 'inline-block';
+            
+            window.assessmentResults = { studentName, results, score, maxScore, percentage, fullTranslation: translation };
+        }
+
+        function getGrade(percentage) {
+            if (percentage >= 90) return 'Excellent';
+            if (percentage >= 80) return 'Very Good';
+            if (percentage >= 70) return 'Good';
+            if (percentage >= 60) return 'Satisfactory';
+            if (percentage >= 50) return 'Pass';
+            return 'Needs Improvement';
+        }
+
+        function generatePDF() {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+            const { studentName, results, score, maxScore, percentage, fullTranslation } = window.assessmentResults;
+            
+            let y = 20;
+            
+            doc.setFontSize(18);
+            doc.text('French Translation Assessment', 105, y, { align: 'center' });
+            y += 15;
+            
+            doc.setFontSize(12);
+            doc.text(`Student: ${studentName}`, 20, y);
+            y += 10;
+            doc.text(`Date: ${new Date().toLocaleDateString()}`, 20, y);
+            y += 10;
+            doc.text(`Score: ${score} / ${maxScore} (${percentage}%) - ${getGrade(percentage)}`, 20, y);
+            y += 15;
+            
+            doc.setFontSize(10);
+            doc.setFont(undefined, 'bold');
+            doc.text('Your Translation:', 20, y);
+            y += 7;
+            doc.setFont(undefined, 'normal');
+            const translationLines = doc.splitTextToSize(fullTranslation, 170);
+            doc.text(translationLines, 20, y);
+            y += translationLines.length * 5 + 15;
+            
+            if (y > 240) {
+                doc.addPage();
+                y = 20;
+            }
+            
+            doc.setFont(undefined, 'bold');
+            doc.text('Detailed Feedback:', 20, y);
+            y += 10;
+            
+            results.forEach((result) => {
+                if (y > 260) {
+                    doc.addPage();
+                    y = 20;
+                }
+                
+                doc.setFont(undefined, 'bold');
+                const chunkText = doc.splitTextToSize(`${result.chunk}. ${result.english}`, 170);
+                doc.text(chunkText, 20, y);
+                y += chunkText.length * 5 + 2;
+                
+                doc.setFont(undefined, 'normal');
+                const reasonText = doc.splitTextToSize(`${result.reason}`, 170);
+                doc.text(reasonText, 20, y);
+                y += reasonText.length * 5 + 8;
+            });
+            
+            doc.save(`${studentName}_French_Translation.pdf`);
+        }
+
+        document.getElementById('submitBtn').addEventListener('click', gradeTranslation);
+        document.getElementById('downloadBtn').addEventListener('click', generatePDF);
+        
+        const accentButtons = document.querySelectorAll('.accent-btn');
+        const textarea = document.getElementById('translation');
+        
+        accentButtons.forEach(button => {
+            button.addEventListener('click', (e) => {
+                e.preventDefault();
+                const char = button.getAttribute('data-char');
+                const start = textarea.selectionStart;
+                const end = textarea.selectionEnd;
+                const text = textarea.value;
+                
+                textarea.value = text.substring(0, start) + char + text.substring(end);
+                textarea.selectionStart = textarea.selectionEnd = start + 1;
+                textarea.focus();
+            });
+        });
+        
+        drawTextAsImage();
+    </script>
+</body>
+</html>

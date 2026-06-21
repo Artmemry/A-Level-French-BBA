@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>La Haine – Essay Paragraph Builder</title>
+  <style>
+    :root {
+      --red: #d9232d;
+      --dark-bg: #0a0a14;
+      --panel: #16213e;
+      --panel2: #1a1a2e;
+      --border: #0f3460;
+      --text: #f0f0f0;
+      --muted: #c0c0c0;
+      --success: #4caf50;
+      --warning: #f39c12;
+      --info: #3498db;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+    body { background: var(--dark-bg); color: var(--text); min-height: 100vh; padding: 20px; }
+    .container { max-width: 1080px; margin: 0 auto; }
+
+    header {
+      text-align: center; padding: 28px 20px;
+      border-bottom: 3px solid var(--red); margin-bottom: 20px;
+      background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.85)); border-radius: 12px;
+    }
+    header h1 { font-size: 2.2rem; color: var(--red); text-transform: uppercase; letter-spacing: 3px; text-shadow: 2px 2px 6px rgba(0,0,0,0.8); margin-bottom: 8px; }
+    header p { font-size: 0.9rem; color: var(--muted); max-width: 620px; margin: 0 auto; }
+
+    .question-bar { background: var(--panel2); padding: 16px 20px; border-radius: 10px; margin-bottom: 18px; border: 1px solid var(--border); }
+    .question-bar label { font-weight: 700; color: var(--red); font-size: 0.88rem; display: block; margin-bottom: 8px; }
+    .q-select {
+      width: 100%; padding: 10px 13px; border: 2px solid var(--border);
+      border-radius: 8px; font-size: 0.92rem; color: var(--text);
+      background: var(--dark-bg); cursor: pointer;
+    }
+    .q-select:focus { outline: none; border-color: var(--red); }
+    .question-text {
+      margin-top: 10px; padding: 10px 14px;
+      background: #1a0505; border-left: 4px solid var(--red);
+      border-radius: 6px; font-size: 0.92rem; font-style: italic; color: #ff8a80;
+      display: none;
+    }
+    .question-text.show { display: block; }
+
+    .builder-grid { display: grid; grid-template-columns: 1fr 380px; min-height: 580px; gap: 0; }
+    @media (max-width: 860px) { .builder-grid { grid-template-columns: 1fr; } }
+
+    /* STEPS */
+    .steps-panel { border-right: 2px solid var(--border); overflow-y: auto; padding: 18px 20px; }
+    .step { border: 2px solid var(--border); border-radius: 12px; margin-bottom: 14px; overflow: hidden; transition: border-color 0.2s; }
+    .step.active { border-color: var(--red); box-shadow: 0 4px 14px rgba(217,35,45,0.25); }
+    .step.done { border-color: var(--success); }
+    .step-header { display: flex; align-items: center; gap: 10px; padding: 11px 14px; background: var(--panel2); cursor: pointer; user-select: none; }
+    .step.active .step-header { background: #1a0508; }
+    .step.done .step-header { background: #0a180a; }
+    .step-num { width: 27px; height: 27px; border-radius: 50%; background: var(--red); color: white; font-weight: 700; font-size: 0.82rem; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .step.done .step-num { background: var(--success); }
+    .step-title { font-weight: 700; font-size: 0.88rem; color: var(--muted); flex: 1; }
+    .step.active .step-title { color: #ff8a80; }
+    .step.done .step-title { color: #a5d6a7; }
+    .step-status { font-size: 0.72rem; color: #555; }
+    .step-body { padding: 14px; display: none; }
+    .step.active .step-body { display: block; }
+    .step-desc { font-size: 0.8rem; color: var(--muted); margin-bottom: 10px; line-height: 1.5; background: var(--panel); padding: 8px 10px; border-radius: 6px; border-left: 3px solid var(--border); }
+    .phrase-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-bottom: 10px; }
+    @media (max-width: 600px) { .phrase-grid { grid-template-columns: 1fr; } }
+    .phrase-btn {
+      padding: 8px 10px; border: 1px solid var(--border); border-radius: 7px;
+      cursor: pointer; font-size: 0.79rem; text-align: left;
+      background: var(--panel2); color: var(--muted); line-height: 1.35;
+      transition: all 0.15s;
+    }
+    .phrase-btn:hover { background: var(--panel); border-color: var(--red); color: var(--text); }
+    .phrase-btn.selected { background: var(--red); color: white; border-color: var(--red); font-weight: 600; }
+    .custom-input {
+      width: 100%; padding: 9px 12px; border: 2px solid var(--border); border-radius: 8px;
+      font-size: 0.86rem; margin-top: 6px; background: var(--dark-bg); color: var(--text);
+    }
+    .custom-input:focus { outline: none; border-color: var(--red); }
+    .step-btns { display: flex; gap: 8px; margin-top: 10px; }
+    .step-next-btn { padding: 9px 18px; border: none; border-radius: 7px; background: var(--red); color: white; font-weight: 700; font-size: 0.83rem; cursor: pointer; transition: background 0.2s; }
+    .step-next-btn:hover { background: #b71c1c; }
+    .step-clear-btn { padding: 9px 13px; border: 1px solid var(--border); border-radius: 7px; background: transparent; color: var(--muted); font-size: 0.83rem; cursor: pointer; }
+    .step-clear-btn:hover { border-color: var(--muted); color: var(--text); }
+    .char-count { font-size: 0.72rem; color: #444; margin-top: 4px; }
+
+    /* PREVIEW */
+    .preview-panel { padding: 20px; background: var(--panel2); }
+    .preview-panel h2 { font-size: 0.95rem; color: var(--red); margin-bottom: 12px; display: flex; align-items: center; gap: 7px; }
+    .para-preview {
+      background: var(--panel); border: 2px solid var(--border); border-radius: 10px;
+      padding: 18px; min-height: 210px; font-size: 0.9rem; line-height: 2;
+      color: var(--text); margin-bottom: 14px;
+    }
+    .seg-topic { color: #90caf9; font-weight: 600; }
+    .seg-point { color: #a5d6a7; font-weight: 600; }
+    .seg-evidence { color: #ffe082; font-weight: 600; }
+    .seg-analysis { color: #cf94da; font-weight: 600; }
+    .seg-connector { color: #ff8a65; font-weight: 600; }
+    .seg-conclusion { color: #80deea; font-weight: 600; }
+    .seg-placeholder { color: #333; font-style: italic; }
+    .legend { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 12px; font-size: 0.7rem; }
+    .legend span { padding: 2px 7px; border-radius: 10px; font-weight: 700; }
+    .leg-topic { background: #0d1a30; color: #90caf9; border: 1px solid #1e3a5f; }
+    .leg-point { background: #0a1a0a; color: #a5d6a7; border: 1px solid #1a3a1a; }
+    .leg-evidence { background: #1a1500; color: #ffe082; border: 1px solid #3a3000; }
+    .leg-analysis { background: #1a0a1a; color: #cf94da; border: 1px solid #3a1a3a; }
+    .leg-connector { background: #1a0a00; color: #ff8a65; border: 1px solid #3a1a00; }
+    .leg-conclusion { background: #001a1a; color: #80deea; border: 1px solid #003a3a; }
+
+    .word-count-bar { display: flex; justify-content: space-between; align-items: center; font-size: 0.78rem; color: #555; margin-bottom: 12px; }
+    .wc-num { font-weight: 700; color: var(--red); font-size: 1rem; }
+    .action-btns { display: flex; flex-direction: column; gap: 7px; }
+    .copy-btn, .reset-btn-main, .print-btn2 { padding: 11px 14px; border: none; border-radius: 8px; cursor: pointer; font-weight: 700; font-size: 0.85rem; transition: all 0.2s; text-align: center; }
+    .copy-btn { background: var(--info); color: white; }
+    .copy-btn:hover { background: #1a6fa0; }
+    .print-btn2 { background: var(--red); color: white; }
+    .print-btn2:hover { background: #b71c1c; }
+    .reset-btn-main { background: var(--panel); color: var(--muted); border: 1px solid var(--border); }
+    .reset-btn-main:hover { background: var(--border); color: var(--text); }
+    .copy-feedback { font-size: 0.75rem; color: var(--success); text-align: center; height: 15px; margin-top: 2px; }
+
+    @media print {
+      body { background: white; color: black; }
+      header, .question-bar, .steps-panel, .legend, .action-btns, .word-count-bar { display: none !important; }
+      .builder-grid { grid-template-columns: 1fr; }
+      .preview-panel { background: white; padding: 0; }
+      .para-preview { border: 1px solid #ccc; background: white; font-size: 1rem; color: black; }
+      .seg-topic, .seg-point, .seg-evidence, .seg-analysis, .seg-connector, .seg-conclusion { color: black; font-weight: normal; }
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <header>
+    <h1>La Haine – Paragraph Builder</h1>
+    <p>Choose a question, then build a structured analytical paragraph step by step using the phrase bank. Colour-coded preview updates live.</p>
+  </header>
+
+  <div class="question-bar">
+    <label>📋 Choose an essay question:</label>
+    <select class="q-select" id="questionSelect" onchange="pickQuestion()">
+      <option value="">— Select a question —</option>
+      <option value="q1">1. Dans quelle mesure La Haine représente-t-elle l'exclusion sociale comme une force destructrice ? (To what extent does La Haine represent social exclusion as a destructive force?)</option>
+      <option value="q2">2. « La violence dans La Haine est inévitable. » Discutez. ("Violence in La Haine is inevitable." Discuss.)</option>
+      <option value="q3">3. Comment Kassovitz utilise-t-il la banlieue comme cadre pour explorer les thèmes du film ? (How does Kassovitz use the banlieue setting to explore the film's themes?)</option>
+      <option value="q4">4. Analysez l'importance du choix du noir et blanc dans La Haine. (Analyse the importance of the choice of black and white in La Haine.)</option>
+      <option value="q5">5. « Vinz, Hubert et Saïd représentent trois façons différentes de réagir à la marginalisation. » Êtes-vous d'accord ? (Do you agree that the three characters represent three different responses to marginalisation?)</option>
+      <option value="q6">6. Dans quelle mesure La Haine est-elle une critique du système policier français ? (To what extent is La Haine a criticism of the French police system?)</option>
+    </select>
+    <div class="question-text" id="questionText"></div>
+  </div>
+
+  <div class="builder-grid">
+    <div class="steps-panel" id="stepsPanel">
+      <p style="color:#333;font-size:0.9rem;text-align:center;padding:20px 0;">← Select a question above to begin.</p>
+    </div>
+
+    <div class="preview-panel">
+      <h2>📝 Paragraph preview</h2>
+      <div class="legend">
+        <span class="leg-topic">Topic</span>
+        <span class="leg-point">Point</span>
+        <span class="leg-evidence">Evidence</span>
+        <span class="leg-analysis">Analysis</span>
+        <span class="leg-connector">Connector</span>
+        <span class="leg-conclusion">Conclusion</span>
+      </div>
+      <div class="para-preview" id="paraPreview">
+        <span class="seg-placeholder">Your paragraph will appear here as you complete each step…</span>
+      </div>
+      <div class="word-count-bar">
+        <span>Mots : <span class="wc-num" id="wordCountPrev">0</span></span>
+        <span id="qualityNote" style="color:#444"></span>
+      </div>
+      <div class="action-btns">
+        <button class="copy-btn" onclick="copyParagraph()">📋 Copy paragraph</button>
+        <button class="print-btn2" onclick="window.print()">🖨️ Print / Save as PDF</button>
+        <button class="reset-btn-main" onclick="resetAll()">↺ Start over</button>
+      </div>
+      <div class="copy-feedback" id="copyFeedback"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+const QUESTIONS = {
+  q1: { full: "Dans quelle mesure La Haine représente-t-elle l'exclusion sociale comme une force destructrice ?", keyword: "l'exclusion sociale" },
+  q2: { full: "« La violence dans La Haine est inévitable. » Discutez.", keyword: "la violence / la fatalité" },
+  q3: { full: "Comment Kassovitz utilise-t-il la banlieue comme cadre pour explorer les thèmes du film ?", keyword: "le cadre de la banlieue" },
+  q4: { full: "Analysez l'importance du choix du noir et blanc dans La Haine.", keyword: "le noir et blanc" },
+  q5: { full: "« Vinz, Hubert et Saïd représentent trois façons différentes de réagir à la marginalisation. » Êtes-vous d'accord ?", keyword: "la marginalisation / les trois protagonistes" },
+  q6: { full: "Dans quelle mesure La Haine est-elle une critique du système policier français ?", keyword: "la critique du système policier" },
+};
+
+const STEP_DATA = {
+  q1: [
+    { title: 'Topic Sentence', role: 'topic', desc: 'Introduce your main argument in response to the question. Use an essay-opening phrase.', phrases: [
+      "Dans La Haine, l'exclusion sociale constitue le moteur central de la tragédie qui se déroule au fil des vingt-quatre heures du récit…",
+      "Kassovitz met en évidence que l'exclusion sociale n'est pas seulement un contexte décor, mais la force motrice qui conduit inévitablement les personnages vers leur destin…",
+      "Le fait est que la cité dans La Haine fonctionne comme un espace clos dont les habitants ne peuvent s'échapper ni physiquement ni socialement…",
+      "Au fur et à mesure que le film avance, on se rend compte que l'exclusion sociale opère à plusieurs niveaux : spatial, économique, identitaire et symbolique…",
+    ]},
+    { title: 'Key Point', role: 'point', desc: 'State your main analytical point about social exclusion in the film.', phrases: [
+      "Les trois protagonistes sont enfermés dans un espace géographique dont la société majoritaire les exclut délibérément, ce qui rend toute perspective d'avenir quasi impossible…",
+      "Il convient de souligner que Kassovitz présente la banlieue non comme un simple décor, mais comme une prison invisible dont les barreaux sont faits de pauvreté, de discrimination et d'absence d'opportunités…",
+      "Le personnage de Vinz se distingue comme l'incarnation de cette exclusion : sa rage est la conséquence directe d'une société qui refuse de le reconnaître comme citoyen à part entière…",
+      "On ne peut pas nier que les personnages sont condamnés à une identité négative : définis non par ce qu'ils sont, mais par ce que la société refuse de leur accorder…",
+    ]},
+    { title: 'Evidence from the film', role: 'evidence', desc: 'Cite a specific scene, quote or cinematic technique from La Haine.', phrases: [
+      "À titre d'exemple, la séquence d'ouverture — la chute libre symbolisée par la phrase « Jusqu'ici, tout va bien » — pose immédiatement la question de la fatalité comme conséquence de l'exclusion…",
+      "Prenons l'exemple de la scène à Paris, où les trois amis se trouvent déplacés dans un monde qui ne les reconnaît pas : les plans montrant leur malaise en dehors de la cité illustrent cette exclusion de façon poignante…",
+      "La scène où Vinz pointe le pistolet contre son reflet dans le miroir — « Tu me parles ? » — met en évidence l'isolement psychologique et l'absence de modèles positifs dans son environnement…",
+      "L'image de la cité filmée en plan large au lever du jour traduit visuellement cet isolement : un univers à part, enclavé, séparé du reste de la France par une frontière invisible mais omniprésente…",
+    ]},
+    { title: 'Analysis', role: 'analysis', desc: 'Interpret the significance of the evidence. Use analytical verbs and avoid retelling.', phrases: [
+      "Cela met en lumière que Kassovitz ne présente pas l'exclusion comme un simple fait divers, mais comme une structure systémique qui produit inévitablement de la violence et du désespoir…",
+      "On peut donc conclure que cette scène illustre comment l'identité des personnages est façonnée par le regard de l'Autre : ils n'existent socialement que dans la négation…",
+      "Il s'agit, en définitive, d'un commentaire politique autant qu'artistique : en filmant l'exclusion de l'intérieur, Kassovitz force le spectateur à l'habiter plutôt que l'observer de loin…",
+      "On pourrait même dire que la caméra à l'épaule, en maintenant le spectateur au niveau des personnages, refuse toute distanciation : l'exclusion sociale devient ainsi une expérience partagée…",
+    ]},
+    { title: 'Connector & Development', role: 'connector', desc: 'Extend or qualify your argument with a sophisticated connecting phrase.', phrases: [
+      "Cependant, il serait réducteur de considérer les trois personnages comme de simples victimes : Hubert, en particulier, tente de résister à la fatalité par la discipline et l'ambition, ce qui complexifie la thèse d'une exclusion totalement déterministe…",
+      "En revanche, on pourrait arguer que le film idéalise légèrement la solidarité entre les trois amis, présentant leur amitié comme un espace de résistance à l'exclusion que la réalité sociale rend plus fragile…",
+      "Quoi qu'il en soit, force est de constater que la structure narrative des vingt-quatre heures accentue l'impression que l'exclusion est une spirale sans issue : chaque heure qui passe rapproche les personnages d'un dénouement inévitable…",
+      "Il convient également de souligner que la violence policière représentée dans le film n'est pas indépendante de l'exclusion sociale : elle en est la manifestation institutionnelle, la face officielle de la même logique de rejet…",
+    ]},
+    { title: 'Conclusion', role: 'conclusion', desc: 'Draw a convincing conclusion linked to the question.', phrases: [
+      "En fin de compte, on peut conclure que La Haine présente l'exclusion sociale non comme un problème parmi d'autres, mais comme la condition fondatrice d'une tragédie collective inévitable si rien ne change…",
+      "En résumé, Kassovitz démontre que l'exclusion sociale est une force non seulement destructrice au niveau individuel, mais également mortelle pour le tissu social dans son ensemble…",
+      "En définitive, La Haine est moins un film sur la violence qu'un film sur ses causes : en mettant l'exclusion au cœur du récit, Kassovitz transforme ce long métrage en acte politique autant qu'en œuvre cinématographique…",
+      "Force est de constater que le dénouement tragique du film n'est pas présenté comme un accident, mais comme la conséquence logique et inéluctable d'une société qui a choisi de marginaliser une partie de sa jeunesse…",
+    ]},
+  ],
+  q2: [
+    { title: 'Topic Sentence', role: 'topic', desc: 'Introduce your argument about whether violence in La Haine is inevitable.', phrases: [
+      "La Haine suggère que la violence n'est pas un choix individuel, mais le produit inévitable d'un système social qui marginalise et ignore une partie de sa population…",
+      "Bien que l'affirmation selon laquelle la violence est inévitable dans La Haine soit en grande partie justifiée, il convient de la nuancer en examinant les différentes façons dont les personnages répondent à la pression sociale…",
+      "Au fur et à mesure que le film avance, on se rend compte que la violence représentée n'est ni gratuite ni accidentelle : elle est la continuation logique de l'injustice sociale par d'autres moyens…",
+      "Le fait est que la métaphore de la chute libre — « jusqu'ici, tout va bien » — positionne la violence non comme une possibilité mais comme une certitude : la question n'est pas de savoir si elle arrivera, mais quand…",
+    ]},
+    { title: 'Key Point', role: 'point', desc: 'State your main point about violence and inevitability.', phrases: [
+      "Vinz incarne cette fatalité de la violence : son obsession avec le pistolet représente une logique de réaction à l'humiliation que la société lui impose quotidiennement…",
+      "Il convient de souligner que Kassovitz présente deux formes de violence : la violence institutionnelle de la police et la violence réactive des jeunes — et que la première génère inévitablement la seconde…",
+      "Le personnage d'Hubert se distingue comme un contrepoint : sa tentative de résister à la spirale de la violence suggère que le déterminisme n'est pas absolu, même si l'issue du film semble contredire cet espoir…",
+      "On ne peut pas nier que la structure narrative en temps réel crée un sentiment de compte à rebours inexorable : chaque scène rapproche les personnages d'un affrontement que le spectateur pressent dès les premières minutes…",
+    ]},
+    { title: 'Evidence from the film', role: 'evidence', desc: 'Cite a specific scene or cinematic technique related to violence.', phrases: [
+      "La scène finale — où Saïd est contraint d'assister à la mort de ses deux amis — constitue le dénouement tragique annoncé par la métaphore de la chute : la violence s'est révélée inévitable…",
+      "Prenons l'exemple de la séquence à Paris, dans laquelle les trois amis se retrouvent désœuvrés et humiliés : la violence latente de leur déplacement social préfigure l'explosion finale…",
+      "La scène de la salle de bain — où Vinz rejoue la mort d'Abdel devant le miroir — illustre comment la violence imaginaire devient une obsession qui finit par matérialiser la réalité qu'elle redoutait…",
+      "Le choix de Kassovitz de filmer en noir et blanc traduit visuellement cette fatalité : l'absence de couleur suggère un monde sans nuances, sans issue, où la violence est la seule logique opérante…",
+    ]},
+    { title: 'Analysis', role: 'analysis', desc: 'Interpret the significance of the evidence for the question of inevitability.', phrases: [
+      "Cela démontre que pour Kassovitz, la violence n'est pas présentée comme un trait de caractère, mais comme une réponse structurellement conditionnée à une oppression systémique…",
+      "On pourrait même dire que le film invite le spectateur à interroger sa propre complicité : en regardant passivement, on reproduit le silence de la société qui laisse la violence devenir inévitable…",
+      "Il s'agit, en fin de compte, d'un argument sur la responsabilité collective : si la violence est inévitable dans La Haine, c'est parce que personne — ni la police, ni le gouvernement, ni la société — ne choisit de l'éviter…",
+      "Cette scène met en lumière que le pistolet n'est pas seulement une arme : il est le symbole d'une société qui n'a donné aux personnages aucun autre outil pour affirmer leur existence…",
+    ]},
+    { title: 'Connector & Development', role: 'connector', desc: 'Qualify or extend your argument with a counterpoint.', phrases: [
+      "Cependant, on pourrait arguer que le personnage d'Hubert démontre que la violence n'est pas totalement inévitable : ses efforts pour s'extraire de la spirale destructrice montrent qu'une forme de résistance individuelle est possible…",
+      "En revanche, il serait simpliste de réduire la violence du film à une simple fatalité : Kassovitz montre aussi des moments de tendresse, d'humour et de solidarité qui suggèrent que les personnages auraient pu choisir autrement dans un contexte différent…",
+      "Quoi qu'il en soit, force est de constater que la fin du film semble donner raison à la thèse de l'inévitabilité : en faisant mourir à la fois Vinz et Hubert, Kassovitz ferme la porte à tout espoir d'issue non violente…",
+      "Il convient également de souligner que la violence policière n'est jamais présentée comme une réponse à la violence des jeunes, mais comme son déclencheur : dans ce sens, l'inévitabilité est le produit d'un système, non d'une nature humaine…",
+    ]},
+    { title: 'Conclusion', role: 'conclusion', desc: 'Draw a conclusion about violence and inevitability in La Haine.', phrases: [
+      "En fin de compte, La Haine soutient que la violence est inévitable non pas parce que les personnages sont violents par nature, mais parce que la société les a placés dans des conditions où toute autre issue a été systématiquement fermée…",
+      "En résumé, Kassovitz ne glorifie pas la violence : il la présente comme le symptôme d'une injustice sociale profonde, et c'est précisément ce regard critique qui fait de La Haine un long métrage politiquement engagé et toujours d'actualité…",
+      "En définitive, la fatalité de la violence dans La Haine est moins une vérité anthropologique qu'un avertissement : si une société refuse de s'interroger sur ses propres injustices, elle fabrique elle-même les conditions de son autodestruction…",
+    ]},
+  ],
+};
+
+const GENERIC_STEPS = (qKey) => {
+  const q = QUESTIONS[qKey];
+  return [
+    { title: 'Topic Sentence', role: 'topic', desc: 'Introduce your main argument in response to the question.', phrases: [
+      `Le fait est que ${q.keyword} est l'un des aspects les plus frappants de La Haine, et Kassovitz l'aborde de façon délibérée et nuancée…`,
+      `Au fur et à mesure que le film avance, on se rend compte que ${q.keyword} est fondamental pour comprendre le message politique et artistique du réalisateur…`,
+      `En regardant le film, on se rend compte que ${q.keyword} n'est pas un simple détail formel, mais une décision esthétique lourde de sens…`,
+      `On affirme souvent que La Haine est un chef-d'œuvre du cinéma français, et le traitement de ${q.keyword} en est l'une des raisons essentielles…`,
+    ]},
+    { title: 'Key Point', role: 'point', desc: 'State your main analytical point.', phrases: [
+      `Il convient de souligner que ${q.keyword} contribue directement à la construction du propos politique de Kassovitz…`,
+      `Le personnage de Vinz se distingue comme la figure qui incarne le plus clairement les enjeux liés à ${q.keyword}…`,
+      `On ne peut pas nier que ${q.keyword} traverse l'ensemble du film, de l'ouverture symbolique au dénouement tragique…`,
+      `Ce qui frappe le spectateur, c'est que ${q.keyword} est traité avec une ambiguïté morale qui refuse les jugements faciles…`,
+    ]},
+    { title: 'Evidence from the film', role: 'evidence', desc: 'Cite a specific scene, quote or cinematic technique.', phrases: [
+      "À titre d'exemple, la séquence d'ouverture — la métaphore de la chute libre — pose immédiatement le ton du film et illustre ce thème de façon saisissante…",
+      "Prenons l'exemple de la scène finale : c'est le moment où tous les fils narratifs convergent et où Kassovitz révèle pleinement son intention…",
+      "La scène dans laquelle Vinz rejoint ses amis après la mort d'Abdel est particulièrement révélatrice : elle montre comment la pression collective conditionne les choix individuels…",
+      "Le choix du noir et blanc est en lui-même une déclaration : Kassovitz refuse la couleur pour imposer une vision sans compromis, sans nuance, d'un monde en noir et blanc moral autant que visuel…",
+    ]},
+    { title: 'Analysis', role: 'analysis', desc: 'Interpret the significance of your evidence using analytical verbs.', phrases: [
+      "Cela met en lumière que Kassovitz utilise le cinéma comme un outil de dénonciation sociale, et non comme un simple divertissement…",
+      "On ne peut pas nier que cette décision de mise en scène traduit une position idéologique claire : le réalisateur refuse de neutraliser la violence en la rendant esthétique…",
+      "On pourrait même dire que cette scène constitue le moment où le film bascule de la chronique sociale au tragique grec : le destin des personnages semble scellé…",
+      "Il s'agit, en fin de compte, d'un geste cinématographique d'une grande cohérence : chaque choix formel renforce et prolonge le sens thématique de l'œuvre…",
+    ]},
+    { title: 'Connector & Development', role: 'connector', desc: 'Extend or qualify your argument.', phrases: [
+      "Cependant, il serait réducteur d'ignorer la complexité de la position de Kassovitz : son film n'offre pas de solutions faciles ni de coupables évidents…",
+      "En revanche, certains critiques ont souligné que cette approche risque de renforcer les stéréotypes qu'elle prétend déconstruire : c'est une tension inhérente au projet…",
+      "Quoi qu'il en soit, force est de constater que La Haine reste, trente ans après sa sortie, un film aussi pertinent que lors de sa première : ses thèmes résonnent avec une actualité troublante…",
+      "Il convient également de souligner que la réception du film en France a elle-même illustré ses thèmes : la controverse qu'il a suscitée révèle les zones d'inconfort d'une société confrontée à son propre miroir…",
+    ]},
+    { title: 'Conclusion', role: 'conclusion', desc: 'Draw a convincing conclusion linked to the question.', phrases: [
+      `En fin de compte, on peut conclure que ${q.keyword} est central dans La Haine, et que Kassovitz le traite avec une profondeur qui justifie une analyse attentive…`,
+      `En résumé, La Haine démontre que ${q.keyword} n'est pas un thème accessoire mais la clé interprétative de l'ensemble du film…`,
+      `En définitive, la capacité de Kassovitz à transformer ${q.keyword} en matière cinématographique de première qualité est l'une des raisons pour lesquelles ce long métrage reste une œuvre de référence du cinéma français contemporain…`,
+    ]},
+  ];
+};
+
+let currentQ = null;
+let steps = [];
+let selections = {};
+
+function pickQuestion() {
+  const val = document.getElementById('questionSelect').value;
+  if (!val) return;
+  currentQ = val;
+  const q = QUESTIONS[val];
+  document.getElementById('questionText').textContent = q.full;
+  document.getElementById('questionText').classList.add('show');
+  steps = STEP_DATA[val] || GENERIC_STEPS(val);
+  selections = {};
+  renderSteps();
+  updatePreview();
+}
+
+function renderSteps() {
+  const panel = document.getElementById('stepsPanel');
+  panel.innerHTML = '';
+  steps.forEach((step, i) => {
+    const div = document.createElement('div');
+    div.className = `step${i === 0 ? ' active' : ''}`;
+    div.id = `step${i}`;
+    const sel = selections[i];
+    div.innerHTML = `
+      <div class="step-header" onclick="toggleStep(${i})">
+        <div class="step-num">${i + 1}</div>
+        <div class="step-title">${step.title}</div>
+        <div class="step-status">${sel ? '✓' : ''}</div>
+      </div>
+      <div class="step-body">
+        <div class="step-desc">${step.desc}</div>
+        <div class="phrase-grid" id="pg${i}">
+          ${step.phrases.map((p, j) => `
+            <button class="phrase-btn${sel && sel.text === p ? ' selected' : ''}" onclick="selectPhrase(${i},${j},this)">${p}</button>
+          `).join('')}
+        </div>
+        <div style="font-size:0.78rem;color:#444;margin-bottom:3px;">Or write your own:</div>
+        <input class="custom-input" type="text" id="custom${i}" placeholder="Écrivez votre propre phrase…"
+          value="${sel && sel.custom ? sel.text : ''}"
+          oninput="selectCustom(${i},this.value)">
+        <div class="char-count" id="cc${i}">${sel ? sel.text.length : 0} caractères</div>
+        <div class="step-btns">
+          <button class="step-next-btn" onclick="nextStep(${i})">Étape suivante →</button>
+          <button class="step-clear-btn" onclick="clearStep(${i})">Effacer</button>
+        </div>
+      </div>
+    `;
+    panel.appendChild(div);
+  });
+}
+
+function toggleStep(i) { document.querySelectorAll('.step').forEach((s, idx) => s.classList.toggle('active', idx === i)); }
+
+function selectPhrase(si, pi, btn) {
+  const phrase = steps[si].phrases[pi];
+  selections[si] = { text: phrase, custom: false };
+  document.querySelectorAll(`#pg${si} .phrase-btn`).forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+  document.getElementById(`custom${si}`).value = '';
+  document.getElementById(`cc${si}`).textContent = phrase.length + ' caractères';
+  document.getElementById(`step${si}`).querySelector('.step-status').textContent = '✓';
+  document.getElementById(`step${si}`).classList.add('done');
+  updatePreview();
+}
+
+function selectCustom(si, val) {
+  if (!val.trim()) { delete selections[si]; document.getElementById(`step${si}`).querySelector('.step-status').textContent = ''; document.getElementById(`step${si}`).classList.remove('done'); }
+  else { selections[si] = { text: val.trim(), custom: true }; document.querySelectorAll(`#pg${si} .phrase-btn`).forEach(b => b.classList.remove('selected')); document.getElementById(`step${si}`).querySelector('.step-status').textContent = '✓'; document.getElementById(`step${si}`).classList.add('done'); }
+  document.getElementById(`cc${si}`).textContent = val.length + ' caractères';
+  updatePreview();
+}
+
+function nextStep(i) {
+  const next = i + 1;
+  if (next < steps.length) { document.querySelectorAll('.step').forEach((s, idx) => s.classList.toggle('active', idx === next)); document.getElementById(`step${next}`).scrollIntoView({ behavior: 'smooth', block: 'nearest' }); }
+}
+
+function clearStep(i) {
+  delete selections[i];
+  document.querySelectorAll(`#pg${i} .phrase-btn`).forEach(b => b.classList.remove('selected'));
+  document.getElementById(`custom${i}`).value = '';
+  document.getElementById(`cc${i}`).textContent = '0 caractères';
+  document.getElementById(`step${i}`).querySelector('.step-status').textContent = '';
+  document.getElementById(`step${i}`).classList.remove('done');
+  updatePreview();
+}
+
+function updatePreview() {
+  const roleClasses = { topic: 'seg-topic', point: 'seg-point', evidence: 'seg-evidence', analysis: 'seg-analysis', connector: 'seg-connector', conclusion: 'seg-conclusion' };
+  const placeholders = { topic: '[phrase d\'introduction]', point: '[point clé]', evidence: '[citation / scène]', analysis: '[analyse]', connector: '[connecteur / développement]', conclusion: '[conclusion]' };
+  let html = '', fullText = '';
+  steps.forEach((step, i) => {
+    const sel = selections[i];
+    const cls = roleClasses[step.role] || '';
+    if (sel) { html += `<span class="para-segment ${cls}">${sel.text} </span>`; fullText += sel.text + ' '; }
+    else { html += `<span class="para-segment seg-placeholder">${placeholders[step.role]} </span>`; }
+  });
+  document.getElementById('paraPreview').innerHTML = html || '<span class="seg-placeholder">Your paragraph will appear here…</span>';
+  const words = fullText.trim() ? fullText.trim().split(/\s+/).length : 0;
+  document.getElementById('wordCountPrev').textContent = words;
+  let quality = '';
+  if (words > 0 && words < 60) quality = '💡 Visez 80–120 mots par paragraphe';
+  else if (words >= 60 && words < 100) quality = '✅ Bonne longueur';
+  else if (words >= 100) quality = '🌟 Excellent !';
+  document.getElementById('qualityNote').textContent = quality;
+}
+
+function copyParagraph() {
+  const text = steps.map((s, i) => selections[i] ? selections[i].text : '').filter(Boolean).join(' ');
+  if (!text) { document.getElementById('copyFeedback').textContent = 'Rien à copier !'; return; }
+  navigator.clipboard.writeText(text).then(() => { document.getElementById('copyFeedback').textContent = '✓ Copié !'; setTimeout(() => document.getElementById('copyFeedback').textContent = '', 2500); });
+}
+
+function resetAll() {
+  currentQ = null; steps = []; selections = {};
+  document.getElementById('questionSelect').value = '';
+  document.getElementById('questionText').classList.remove('show');
+  document.getElementById('stepsPanel').innerHTML = '<p style="color:#333;font-size:0.9rem;text-align:center;padding:20px 0;">← Select a question above to begin.</p>';
+  document.getElementById('paraPreview').innerHTML = '<span class="seg-placeholder">Your paragraph will appear here as you complete each step…</span>';
+  document.getElementById('wordCountPrev').textContent = '0';
+  document.getElementById('qualityNote').textContent = '';
+}
+</script>
+</body>
+</html>

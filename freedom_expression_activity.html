@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Liberté d'expression – Translation Activity</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',sans-serif;background:#f4f6fa;color:#222;padding:20px;max-width:900px;margin:0 auto;padding-bottom:80px}
+h1{color:#1a3a6b;font-size:1.4rem;margin-bottom:4px}
+.subtitle{color:#555;font-size:0.85rem;margin-bottom:18px}
+.name-box{background:#fff;border:2px solid #1a3a6b;border-radius:8px;padding:14px;margin-bottom:18px;display:flex;align-items:center;gap:10px}
+.name-box label{font-weight:600;white-space:nowrap}
+.name-box input{flex:1;padding:6px 10px;border:1px solid #ccc;border-radius:5px;font-size:1rem}
+h2{color:#1a3a6b;font-size:1.05rem;margin:18px 0 8px}
+.level-tabs{display:flex;gap:6px;margin-bottom:0}
+.level-tab{padding:9px 20px;border-radius:8px 8px 0 0;border:2px solid #c9d4e8;border-bottom:none;cursor:pointer;font-size:0.9rem;font-weight:600;background:#e8edf7;color:#555}
+.level-tab.active-foundation{background:#2a7d4f;color:#fff;border-color:#2a7d4f}
+.level-tab.active-higher{background:#1a3a6b;color:#fff;border-color:#1a3a6b}
+.level-content{display:none;background:#fff;border:2px solid #c9d4e8;border-radius:0 8px 8px 8px;padding:20px;margin-bottom:18px}
+.level-content.active{display:block}
+/* Foundation styles */
+.error-box{background:#fff5f5;border-left:4px solid #e63946;border-radius:6px;padding:12px 14px;margin-bottom:14px}
+.error-box .chunk{font-size:0.8rem;color:#888;margin-bottom:4px;text-transform:uppercase;letter-spacing:.5px}
+.error-box .english{font-style:italic;color:#444;margin-bottom:6px;font-size:0.9rem}
+.error-box .wrong{color:#e63946;font-weight:600;margin-bottom:4px;font-size:0.9rem}
+.wrong-label{font-size:0.75rem;color:#e63946;text-transform:uppercase;letter-spacing:.5px}
+.correct-label{font-size:0.75rem;color:#2a7d4f;text-transform:uppercase;letter-spacing:.5px}
+.rule-box{background:#f0f7ff;border-left:3px solid #1a3a6b;padding:8px 12px;border-radius:4px;font-size:0.83rem;margin-top:6px;color:#333;line-height:1.5}
+/* Gap fill */
+.section{background:#fff;border:1px solid #c9d4e8;border-radius:8px;padding:18px;margin-bottom:14px}
+.hint{font-size:0.78rem;color:#888;margin-bottom:10px}
+input.gap{border:none;border-bottom:2px solid #1a3a6b;width:130px;font-size:0.92rem;padding:2px 4px;background:transparent;color:#222;outline:none;text-align:center}
+input.gap:focus{border-bottom-color:#e63946}
+input.gap.correct{border-bottom-color:#2a7d4f;background:#eaffea;color:#2a7d4f}
+input.gap.wrong{border-bottom-color:#e63946;background:#fff0f0;color:#e63946}
+select.gap-sel{padding:4px 6px;border:2px solid #1a3a6b;border-radius:5px;font-size:0.88rem;background:#fff}
+select.gap-sel.correct{border-color:#2a7d4f;background:#eaffea}
+select.gap-sel.wrong{border-color:#e63946;background:#fff0f0}
+.para-line{line-height:2.2;font-size:0.93rem;margin-bottom:8px}
+/* Higher */
+.higher-task{background:#f0f4ff;border-left:4px solid #1a3a6b;border-radius:6px;padding:14px;margin-bottom:14px}
+.higher-task h3{color:#1a3a6b;font-size:0.95rem;margin-bottom:8px}
+.higher-task p{font-size:0.88rem;color:#444;margin-bottom:8px;line-height:1.6}
+textarea.higher-ta{width:100%;padding:10px;border:1px solid #c9d4e8;border-radius:6px;font-size:0.9rem;min-height:90px;resize:vertical;font-family:inherit}
+.reveal-btn{padding:6px 14px;border:1px solid #1a3a6b;border-radius:5px;background:#fff;color:#1a3a6b;cursor:pointer;font-size:0.82rem;margin-top:6px}
+.reveal-btn:hover{background:#e8f0fe}
+.model-answer{display:none;background:#e8f5e9;border-left:3px solid #2a7d4f;padding:10px 12px;border-radius:5px;font-size:0.87rem;margin-top:8px;line-height:1.6}
+/* Actions */
+.actions{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:14px}
+.btn{padding:9px 20px;border:none;border-radius:6px;cursor:pointer;font-size:0.88rem;font-weight:600}
+.btn-check{background:#1a3a6b;color:#fff}
+.btn-check:hover{background:#14305a}
+.btn-reset{background:#e0e5f0;color:#333}
+.btn-reset:hover{background:#c9d4e8}
+.btn-dl{background:#2a7d4f;color:#fff}
+.btn-dl:hover{background:#1f5e3a}
+.score-box{display:inline-block;background:#f0f4ff;border:1px solid #c9d4e8;border-radius:6px;padding:7px 14px;font-size:0.88rem}
+.score-box span{font-weight:700;color:#1a3a6b;font-size:1.1rem}
+.feedback{font-size:0.8rem;margin-top:3px;min-height:14px}
+.feedback.ok{color:#2a7d4f}
+.feedback.no{color:#e63946}
+/* MC */
+.mc-q{margin-bottom:14px;padding:12px;background:#f8f9fd;border-radius:6px}
+.mc-q p{font-size:0.9rem;font-weight:600;margin-bottom:8px}
+.mc-opt{display:block;margin-bottom:5px;font-size:0.88rem;cursor:pointer}
+.mc-opt input{margin-right:6px}
+.mc-fb{font-size:0.82rem;margin-top:5px;min-height:14px}
+/* Accent kb */
+.accent-kb{position:fixed;bottom:18px;right:18px;background:#1a3a6b;border-radius:10px;padding:10px 12px;display:flex;gap:7px;box-shadow:0 4px 14px rgba(0,0,0,.25);z-index:999;align-items:center}
+.accent-kb button{background:#fff;border:none;border-radius:5px;width:34px;height:34px;font-size:1.1rem;cursor:pointer;color:#1a3a6b;font-weight:700}
+.accent-kb button:hover{background:#e8f0fe}
+.accent-kb .kb-label{color:#aac4ff;font-size:0.7rem;white-space:nowrap}
+.badge{display:inline-block;padding:2px 8px;border-radius:10px;font-size:0.75rem;font-weight:700;margin-left:6px;vertical-align:middle}
+.badge-f{background:#d4edda;color:#155724}
+.badge-h{background:#cce0ff;color:#1a3a6b}
+</style>
+</head>
+<body>
+
+<h1>🇫🇷 La liberté d'expression — Translation Review</h1>
+<p class="subtitle">A-Level French | Based on class translation results</p>
+
+<div class="name-box">
+  <label for="sname">Your name:</label>
+  <input type="text" id="sname" placeholder="Enter your name before starting…">
+</div>
+
+<div class="level-tabs">
+  <div class="level-tab active-foundation" id="tab-f" onclick="showLevel('foundation')">🟢 Foundation — Core Errors</div>
+  <div class="level-tab" id="tab-h" onclick="showLevel('higher')">🔵 Higher — Stretch Tasks</div>
+</div>
+
+<!-- ======= FOUNDATION ======= -->
+<div id="foundation" class="level-content active">
+
+  <h2>Part A — Learn from the errors <span class="badge badge-f">Foundation</span></h2>
+  <p style="font-size:0.85rem;color:#555;margin-bottom:12px">These are the most common mistakes from the class translation. Study each one carefully before doing the exercises.</p>
+
+  <div class="error-box">
+    <div class="chunk">Chunk 1</div>
+    <div class="english">The debate on freedom of expression</div>
+    <div class="wrong-label">❌ Common error</div>
+    <div class="wrong">Le débat de la liberté d'expression</div>
+    <div class="correct-label">✓ Correct</div>
+    <div class="wrong" style="color:#2a7d4f">Le débat sur la liberté d'expression</div>
+    <div class="rule-box">Use <strong>sur</strong> (not <em>de</em>) when a debate is <em>about</em> a topic. <em>De</em> implies possession, not subject matter. Also: <em>liberté de la parole</em> is non-standard — the correct term is always <strong>liberté d'expression</strong>.</div>
+  </div>
+
+  <div class="error-box">
+    <div class="chunk">Chunk 2</div>
+    <div class="english">has been revived in France</div>
+    <div class="wrong-label">❌ Common error</div>
+    <div class="wrong">a été réanimé / a été renouvelé</div>
+    <div class="correct-label">✓ Correct</div>
+    <div class="wrong" style="color:#2a7d4f">a été relancé / s'est ravivé / a ressurgi</div>
+    <div class="rule-box"><strong>Réanimer</strong> = to resuscitate (medical). <strong>Renouveler</strong> = to renew/update. Neither captures re-igniting a debate. Use <strong>relancer, raviver, ressurgir</strong> for debates/controversies coming back to life.</div>
+  </div>
+
+  <div class="error-box">
+    <div class="chunk">Chunk 6</div>
+    <div class="english">who had drawn caricatures</div>
+    <div class="wrong-label">❌ Common error</div>
+    <div class="wrong">qui dessinaient des caricatures (present tense / wrong tense)</div>
+    <div class="correct-label">✓ Correct</div>
+    <div class="wrong" style="color:#2a7d4f">qui avaient dessiné des caricatures (pluperfect)</div>
+    <div class="rule-box">The drawing happened <em>before</em> the killing — so the <strong>pluperfect (plus-que-parfait)</strong> is required: <em>avaient dessiné</em>. Also: <strong>dessins animés</strong> = animated cartoons (TV/film), NOT press cartoons. Use <strong>caricatures</strong> or <strong>dessins satiriques</strong>.</div>
+  </div>
+
+  <div class="error-box">
+    <div class="chunk">Chunk 7</div>
+    <div class="english">many have asked</div>
+    <div class="wrong-label">❌ Common error</div>
+    <div class="wrong">beaucoup ont demandé</div>
+    <div class="correct-label">✓ Correct</div>
+    <div class="wrong" style="color:#2a7d4f">beaucoup se sont demandé</div>
+    <div class="rule-box"><strong>Demander</strong> = to ask someone something. <strong>Se demander</strong> = to wonder / ask oneself. "Many have asked whether…" = internal wondering, so the reflexive <strong>se demander</strong> is required.</div>
+  </div>
+
+  <div class="error-box">
+    <div class="chunk">Chunk 9</div>
+    <div class="english">can still accept without difficulty</div>
+    <div class="wrong-label">❌ Common error</div>
+    <div class="wrong">peut encore accepter facilement</div>
+    <div class="correct-label">✓ Correct</div>
+    <div class="wrong" style="color:#2a7d4f">peut encore accepter sans difficulté</div>
+    <div class="rule-box"><strong>Sans difficulté</strong> = without difficulty (exact translation). <strong>Facilement</strong> = easily — a different meaning that loses the nuance of the original. In translation, match the structure of the source text where possible.</div>
+  </div>
+
+  <div class="error-box">
+    <div class="chunk">Chunk 17</div>
+    <div class="english">it is a fundamental democratic right</div>
+    <div class="wrong-label">❌ Common error</div>
+    <div class="wrong">il est un droit démocratique fondamental / c'est un fondamental droit*</div>
+    <div class="correct-label">✓ Correct</div>
+    <div class="wrong" style="color:#2a7d4f">c'est un droit démocratique fondamental</div>
+    <div class="rule-box">Before an indefinite article + noun: <strong>c'est</strong> is always required, never <em>il est</em>. Adjective order: in French, most adjectives follow the noun — <strong>un droit démocratique fondamental</strong>, not <em>fondamental droit</em>.</div>
+  </div>
+
+  <div class="error-box">
+    <div class="chunk">Chunk 19</div>
+    <div class="english">the press remain completely free</div>
+    <div class="wrong-label">❌ Common error</div>
+    <div class="wrong">la presse reste complète libre / la presse reste gratuite</div>
+    <div class="correct-label">✓ Correct</div>
+    <div class="wrong" style="color:#2a7d4f">la presse reste entièrement libre</div>
+    <div class="rule-box"><strong>Entièrement / totalement</strong> = completely (adverb modifying an adjective). <strong>Complet(e)</strong> is an adjective, not an adverb. Also: <strong>gratuit</strong> = free of charge — completely different meaning from <strong>libre</strong> = free (unrestricted).</div>
+  </div>
+
+  <h2>Part B — Gap Fill <span class="badge badge-f">Foundation</span></h2>
+  <div class="section">
+    <p class="hint">Complete the translation using the correct French. Click a gap first, then use the accent keyboard if needed.</p>
+    <div class="para-line">1. <em>"The debate on freedom of expression"</em> → Le débat <input class="gap" id="g1" data-ans="sur"> la liberté d'expression</div>
+    <div class="para-line">2. <em>"has been revived"</em> → a été <input class="gap" id="g2" data-ans="relancé"></div>
+    <div class="para-line">3. <em>"since the 7 January 2015 attack"</em> → depuis <input class="gap" id="g3" data-ans="l'attentat"> du 7 janvier 2015</div>
+    <div class="para-line">4. <em>"who had drawn caricatures"</em> → qui <input class="gap" id="g4" data-ans="avaient dessiné"> des caricatures</div>
+    <div class="para-line">5. <em>"many have asked whether"</em> → beaucoup <input class="gap" id="g5" data-ans="se sont demandé"> si</div>
+    <div class="para-line">6. <em>"without difficulty"</em> → <input class="gap" id="g6" data-ans="sans difficulté"></div>
+    <div class="para-line">7. <em>"it is a fundamental democratic right"</em> → <input class="gap" id="g7" data-ans="c'est"> un droit démocratique fondamental</div>
+    <div class="para-line">8. <em>"the press remain completely free"</em> → la presse reste <input class="gap" id="g8" data-ans="entièrement"> libre</div>
+    <div class="actions">
+      <button class="btn btn-check" onclick="checkGaps()">Check answers</button>
+      <button class="btn btn-reset" onclick="resetGaps()">Reset</button>
+      <div id="gap-score" class="score-box" style="display:none">Score: <span id="gscore"></span> / 8</div>
+    </div>
+  </div>
+
+  <h2>Part C — Spot the Error <span class="badge badge-f">Foundation</span></h2>
+  <div class="section">
+    <p class="hint">Each sentence contains one error from the class results. Choose the correct version.</p>
+    <div id="mc-area"></div>
+    <div class="actions">
+      <button class="btn btn-check" onclick="checkMC()">Check answers</button>
+      <button class="btn btn-reset" onclick="resetMC()">Reset</button>
+      <div id="mc-score" class="score-box" style="display:none">Score: <span id="mcscore"></span> / 5</div>
+    </div>
+  </div>
+
+</div><!-- end foundation -->
+
+<!-- ======= HIGHER ======= -->
+<div id="higher" class="level-content">
+
+  <h2>Part D — Nuance & Grammar <span class="badge badge-h">Higher</span></h2>
+
+  <div class="higher-task">
+    <h3>D1 — <em>demander</em> vs <em>se demander</em></h3>
+    <p>Translate these two sentences into French, paying careful attention to the difference between asking someone something and wondering internally.</p>
+    <p><strong>a)</strong> "Many people have asked the government whether the law is enough."</p>
+    <textarea class="higher-ta" id="h1a" placeholder="Your French translation…"></textarea>
+    <p style="margin-top:8px"><strong>b)</strong> "Since then, many have wondered whether satire still has a place."</p>
+    <textarea class="higher-ta" id="h1b" placeholder="Your French translation…"></textarea>
+    <button class="reveal-btn" onclick="reveal('ma1')">Show model answers</button>
+    <div id="ma1" class="model-answer">
+      <strong>a)</strong> Beaucoup de personnes ont demandé au gouvernement si la loi était suffisante.<br>
+      <strong>b)</strong> Depuis lors, beaucoup se sont demandé si la satire avait encore sa place.<br>
+      <em>Note: demander au gouvernement si… = asking someone. Se demander si… = to wonder.</em>
+    </div>
+  </div>
+
+  <div class="higher-task">
+    <h3>D2 — Tense accuracy: pluperfect</h3>
+    <p>Translate the following, ensuring the correct sequence of tenses.</p>
+    <p><strong>"The murderers attacked cartoonists who had published caricatures of the prophet."</strong></p>
+    <textarea class="higher-ta" id="h2" placeholder="Your French translation…"></textarea>
+    <button class="reveal-btn" onclick="reveal('ma2')">Show model answer</button>
+    <div id="ma2" class="model-answer">
+      Les meurtriers ont attaqué des dessinateurs qui <strong>avaient publié</strong> des caricatures du prophète.<br>
+      <em>Note: the publishing happened before the attack — pluperfect (avaient publié) is required. The attack itself = passé composé (ont attaqué).</em>
+    </div>
+  </div>
+
+  <div class="higher-task">
+    <h3>D3 — <em>c'est</em> vs <em>il est</em> — advanced use</h3>
+    <p>Translate these three sentences, each requiring a different structure.</p>
+    <p><strong>a)</strong> "It is a fundamental right." &nbsp;&nbsp; <strong>b)</strong> "It is essential that the press be free." &nbsp;&nbsp; <strong>c)</strong> "It is difficult to define the limits of satire."</p>
+    <textarea class="higher-ta" id="h3" placeholder="Translate all three…"></textarea>
+    <button class="reveal-btn" onclick="reveal('ma3')">Show model answers</button>
+    <div id="ma3" class="model-answer">
+      <strong>a)</strong> C'est un droit fondamental. <em>(c'est + indefinite article + noun)</em><br>
+      <strong>b)</strong> Il est essentiel que la presse soit libre. <em>(il est + adjective + que + subjonctif)</em><br>
+      <strong>c)</strong> Il est difficile de définir les limites de la satire. <em>(il est + adjective + de + infinitive)</em><br>
+      <em>Rule: c'est before nouns; il est before adjectives followed by que/de.</em>
+    </div>
+  </div>
+
+  <div class="higher-task">
+    <h3>D4 — Register & vocabulary choice</h3>
+    <p>The word <em>troubler</em> was used by some students for "deeply upset." Explain in English why this is too weak, and give three stronger alternatives in French with a brief English gloss for each.</p>
+    <textarea class="higher-ta" id="h4" placeholder="Your answer…"></textarea>
+    <button class="reveal-btn" onclick="reveal('ma4')">Show model answer</button>
+    <div id="ma4" class="model-answer">
+      <strong>Why troubler is too weak:</strong> Troubler means to unsettle, disturb or confuse — it is psychological and soft. It does not carry the emotional weight of "deeply upset."<br><br>
+      <strong>Stronger alternatives:</strong><br>
+      • <strong>bouleverser</strong> — to deeply upset, to shatter emotionally<br>
+      • <strong>heurter</strong> — to offend, to shock (often used for ideas/values)<br>
+      • <strong>blesser</strong> — to hurt, to wound (emotionally)<br>
+      • <strong>choquer</strong> — to shock, to offend<br>
+      • <strong>vexer</strong> — to offend someone's pride (slightly milder)
+    </div>
+  </div>
+
+  <div class="higher-task">
+    <h3>D5 — Full paragraph re-translation</h3>
+    <p>Now translate the full passage into French from scratch, applying everything you have learned. Aim for fluency, accuracy and A-level register.</p>
+    <p style="background:#fff;padding:10px;border-radius:5px;border:1px solid #c9d4e8;font-style:italic;font-size:0.88rem;line-height:1.7">"The debate on freedom of expression has been revived in France since the 7 January 2015 attack at the offices of the satirical newspaper Charlie Hebdo, when murderers put an end to the life of cartoonists who had drawn caricatures of the prophet Mohammed. Since then, many have asked whether a society that is becoming more diverse can still accept without difficulty all forms of satire and provocation. Some people think that there are limits to freedom of expression and that, by saying what we want, we can offend and deeply upset certain groups of people. Others think, on the contrary, that it is a fundamental democratic right and that it is essential that the press remain completely free."</p>
+    <textarea class="higher-ta" id="h5" placeholder="Your full French translation…" style="min-height:160px"></textarea>
+    <button class="reveal-btn" onclick="reveal('ma5')">Show model translation</button>
+    <div id="ma5" class="model-answer" style="line-height:1.8">
+      Le débat sur la liberté d'expression a été relancé en France depuis l'attentat du 7 janvier 2015 contre la rédaction du journal satirique Charlie Hebdo, quand des tueurs ont mis fin à la vie de dessinateurs qui <strong>avaient dessiné</strong> des caricatures du prophète Mahomet. Depuis, beaucoup <strong>se sont demandé</strong> si une société qui devient de plus en plus diversifiée peut encore accepter <strong>sans difficulté</strong> toutes les formes de satire et de provocation. Certaines personnes pensent que la liberté d'expression <strong>a des limites</strong> et que, en disant ce que nous voulons, on peut offenser et profondément bouleverser certains groupes de personnes. D'autres pensent au contraire que <strong>c'est</strong> un droit démocratique fondamental et qu'il est essentiel que la presse reste entièrement libre.<br><br>
+      <em>Key structures to check: pluperfect (avaient dessiné), se sont demandé, sans difficulté, c'est un droit, qu'il est essentiel que + subjonctif (reste).</em>
+    </div>
+  </div>
+
+</div><!-- end higher -->
+
+<!-- DOWNLOAD -->
+<div style="margin-top:22px;padding:16px;background:#fff;border:1px solid #c9d4e8;border-radius:8px">
+  <h2 style="margin-top:0">📥 Download your results</h2>
+  <p style="font-size:0.85rem;color:#555;margin-bottom:10px">Complete the exercises then download a summary of your work.</p>
+  <button class="btn btn-dl" onclick="downloadResults()">Download results (.txt)</button>
+</div>
+
+<!-- FLOATING ACCENT KEYBOARD -->
+<div class="accent-kb">
+  <span class="kb-label">Accents</span>
+  <button onclick="insertAccent('é')" title="é">é</button>
+  <button onclick="insertAccent('è')" title="è">è</button>
+  <button onclick="insertAccent('ê')" title="ê">ê</button>
+  <button onclick="insertAccent('à')" title="à">à</button>
+  <button onclick="insertAccent('ô')" title="ô">ô</button>
+</div>
+
+<script>
+// ---- Level tabs ----
+function showLevel(l){
+  document.getElementById('foundation').classList.remove('active');
+  document.getElementById('higher').classList.remove('active');
+  document.getElementById('tab-f').className='level-tab';
+  document.getElementById('tab-h').className='level-tab';
+  document.getElementById(l).classList.add('active');
+  if(l==='foundation'){document.getElementById('tab-f').className='level-tab active-foundation';}
+  else{document.getElementById('tab-h').className='level-tab active-higher';}
+}
+
+// ---- Accent keyboard ----
+let activeInput=null;
+function trackFocus(el){el.addEventListener('focus',()=>activeInput=el);}
+document.querySelectorAll('input.gap,textarea').forEach(trackFocus);
+function insertAccent(ch){
+  if(!activeInput)return;
+  const s=activeInput.selectionStart,e=activeInput.selectionEnd,v=activeInput.value;
+  activeInput.value=v.slice(0,s)+ch+v.slice(e);
+  activeInput.selectionStart=activeInput.selectionEnd=s+1;
+  activeInput.focus();
+}
+
+// ---- Gap fill ----
+const altAnswers={
+  g2:['relancé','ravivé','ressurgi','s\'est ravivé','a ressurgi'],
+  g3:['l\'attentat','l\'attaque'],
+  g4:['avaient dessiné','avaient fait','avaient réalisé'],
+  g5:['se sont demandé','ont posé la question'],
+  g6:['sans difficulté'],
+  g8:['entièrement','totalement']
+};
+function checkGaps(){
+  let score=0;
+  document.querySelectorAll('input.gap').forEach(inp=>{
+    const v=inp.value.toLowerCase().trim();
+    const main=inp.dataset.ans.toLowerCase();
+    const alts=altAnswers[inp.id]||[];
+    const ok=v===main||alts.some(a=>v===a.toLowerCase());
+    inp.classList.remove('correct','wrong');
+    if(ok){inp.classList.add('correct');score++;}
+    else inp.classList.add('wrong');
+  });
+  document.getElementById('gap-score').style.display='inline-block';
+  document.getElementById('gscore').textContent=score;
+}
+function resetGaps(){
+  document.querySelectorAll('input.gap').forEach(i=>{i.value='';i.classList.remove('correct','wrong');});
+  document.getElementById('gap-score').style.display='none';
+}
+
+// ---- MC ----
+const mcData=[
+  {q:'Choose the correct translation of "the debate on freedom of expression":',
+   opts:['Le débat de la liberté d\'expression','Le débat sur la liberté d\'expression','Le débat de la parole libre','Le débat pour la liberté d\'expression'],
+   ans:1,explain:'Use <strong>sur</strong> (not de) when something is about a topic. Liberté d\'expression is the standard term.'},
+  {q:'Choose the correct tense for "who had drawn caricatures":',
+   opts:['qui dessinaient des caricatures','qui ont dessiné des caricatures','qui avaient dessiné des caricatures','qui dessinent des caricatures'],
+   ans:2,explain:'The drawing happened before the attack — <strong>pluperfect (avaient dessiné)</strong> is required.'},
+  {q:'Choose the correct translation of "many have asked whether":',
+   opts:['beaucoup ont demandé si','beaucoup se sont demandé si','beaucoup ont posé si','beaucoup demandaient si'],
+   ans:1,explain:'<strong>Se demander</strong> = to wonder. <em>Demander</em> without reflexive implies asking a specific person.'},
+  {q:'Choose the correct translation of "it is a fundamental democratic right":',
+   opts:['il est un droit démocratique fondamental','c\'est un fondamental droit démocratique','c\'est un droit démocratique fondamental','il s\'agit d\'un fondamental droit'],
+   ans:2,explain:'<strong>C\'est</strong> is required before indefinite article + noun. Adjective order: noun before adjective in French.'},
+  {q:'Choose the correct translation of "the press remain completely free":',
+   opts:['la presse reste complète libre','la presse reste gratuite','la presse reste entièrement libre','la presse reste totale libre'],
+   ans:2,explain:'<strong>Entièrement</strong> (adverb) modifies the adjective libre. Gratuit = free of charge — wrong meaning.'}
+];
+function buildMC(){
+  const area=document.getElementById('mc-area');
+  mcData.forEach((item,i)=>{
+    const div=document.createElement('div');
+    div.className='mc-q';
+    div.innerHTML=`<p>${i+1}. ${item.q}</p>`+
+      item.opts.map((o,j)=>`<label class="mc-opt"><input type="radio" name="mc${i}" value="${j}"> ${o}</label>`).join('')+
+      `<div class="mc-fb" id="mcfb${i}"></div>`;
+    area.appendChild(div);
+  });
+}
+buildMC();
+function checkMC(){
+  let score=0;
+  mcData.forEach((item,i)=>{
+    const sel=document.querySelector(`input[name="mc${i}"]:checked`);
+    const fb=document.getElementById(`mcfb${i}`);
+    if(!sel){fb.innerHTML='Please select an answer.';fb.className='mc-fb feedback no';return;}
+    const ok=parseInt(sel.value)===item.ans;
+    if(ok){score++;fb.innerHTML='✓ Correct!';fb.className='mc-fb feedback ok';}
+    else{fb.innerHTML=`✗ Incorrect. ${item.explain}`;fb.className='mc-fb feedback no';}
+  });
+  document.getElementById('mc-score').style.display='inline-block';
+  document.getElementById('mcscore').textContent=score;
+}
+function resetMC(){
+  document.querySelectorAll('input[type="radio"]').forEach(r=>r.checked=false);
+  mcData.forEach((_,i)=>{const fb=document.getElementById(`mcfb${i}`);fb.textContent='';fb.className='mc-fb';});
+  document.getElementById('mc-score').style.display='none';
+}
+
+// ---- Reveal model answers ----
+function reveal(id){
+  const el=document.getElementById(id);
+  el.style.display=el.style.display==='block'?'none':'block';
+}
+
+// ---- Download ----
+function downloadResults(){
+  const name=document.getElementById('sname').value.trim()||'Unknown student';
+  const date=new Date().toLocaleString('en-GB');
+  let out=`LIBERTÉ D'EXPRESSION – Translation Review Results\n`;
+  out+=`Student: ${name}\nDate: ${date}\n${'='.repeat(55)}\n\n`;
+
+  out+=`PART B – Gap Fill\n${'-'.repeat(30)}\n`;
+  let gs=0;
+  document.querySelectorAll('input.gap').forEach((inp,i)=>{
+    const ok=inp.classList.contains('correct');
+    if(ok)gs++;
+    out+=`Gap ${i+1}: "${inp.value}" | Correct: "${inp.dataset.ans}" | ${ok?'✓':'✗'}\n`;
+  });
+  const gTotal=document.querySelectorAll('input.gap').length;
+  out+=`Score: ${gs}/${gTotal}\n\n`;
+
+  out+=`PART C – Spot the Error (Multiple Choice)\n${'-'.repeat(30)}\n`;
+  let ms=0;
+  mcData.forEach((item,i)=>{
+    const sel=document.querySelector(`input[name="mc${i}"]:checked`);
+    const given=sel?item.opts[parseInt(sel.value)]:'No answer';
+    const ok=sel&&parseInt(sel.value)===item.ans;
+    if(ok)ms++;
+    out+=`Q${i+1}: ${given} | ${ok?'✓':'✗'}\n`;
+  });
+  out+=`Score: ${ms}/5\n\n`;
+
+  out+=`PART D – Higher Stretch Tasks\n${'-'.repeat(30)}\n`;
+  const higherIds=[['h1a','D1a'],['h1b','D1b'],['h2','D2'],['h3','D3'],['h4','D4'],['h5','D5 Full translation']];
+  higherIds.forEach(([id,label])=>{
+    const el=document.getElementById(id);
+    out+=`${label}:\n${el?el.value.trim()||'(no answer)':'(not attempted)'}\n\n`;
+  });
+
+  out+=`${'='.repeat(55)}\n`;
+  out+=`Foundation total: ${gs+ms}/${gTotal+5}\n`;
+  const blob=new Blob([out],{type:'text/plain'});
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);
+  a.download=`liberte_expression_${name.replace(/\s+/g,'_')}.txt`;
+  a.click();
+}
+</script>
+</body>
+</html>

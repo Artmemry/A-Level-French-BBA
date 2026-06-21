@@ -1,0 +1,888 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>L'Étranger - Analyse A-Level</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Georgia', serif;
+            line-height: 1.6;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: #333;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 2.2em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.95;
+        }
+        
+        .text-toggle {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 15px 25px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 1em;
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.5);
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+        
+        .text-toggle:hover {
+            background: #764ba2;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.6);
+        }
+        
+        .floating-text {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            max-width: 800px;
+            max-height: 80vh;
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+            overflow-y: auto;
+            z-index: 999;
+            display: none;
+        }
+        
+        .floating-text.show {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        .floating-text h2 {
+            color: #667eea;
+            margin-bottom: 20px;
+            font-size: 1.8em;
+        }
+        
+        .floating-text p {
+            margin-bottom: 15px;
+            line-height: 1.8;
+            text-align: justify;
+        }
+        
+        .close-text {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            background: #dc3545;
+            color: white;
+            border: none;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+        
+        .close-text:hover {
+            background: #c82333;
+        }
+        
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            z-index: 998;
+            display: none;
+        }
+        
+        .overlay.show {
+            display: block;
+        }
+        
+        .content {
+            padding: 40px;
+        }
+        
+        .section {
+            margin-bottom: 40px;
+            padding: 30px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            border-left: 5px solid #667eea;
+            display: none;
+        }
+        
+        .section.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .section h2 {
+            color: #667eea;
+            margin-bottom: 20px;
+            font-size: 1.8em;
+            border-bottom: 2px solid #667eea;
+            padding-bottom: 10px;
+        }
+        
+        .question {
+            background: white;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .question-text {
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-size: 1.1em;
+        }
+        
+        .options {
+            margin: 15px 0;
+        }
+        
+        .option {
+            padding: 12px 15px;
+            margin: 8px 0;
+            background: #f8f9fa;
+            border: 2px solid #e9ecef;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .option:hover {
+            background: #e9ecef;
+            border-color: #667eea;
+            transform: translateX(5px);
+        }
+        
+        .option.selected {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+        
+        .option.correct {
+            background: #28a745;
+            color: white;
+            border-color: #28a745;
+        }
+        
+        .option.incorrect {
+            background: #dc3545;
+            color: white;
+            border-color: #dc3545;
+        }
+        
+        textarea {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e9ecef;
+            border-radius: 6px;
+            font-family: inherit;
+            font-size: 1em;
+            resize: vertical;
+            min-height: 100px;
+        }
+        
+        textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        
+        .btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: all 0.3s ease;
+            margin: 10px 5px;
+        }
+        
+        .btn:hover {
+            background: #764ba2;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+        
+        .btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .feedback {
+            margin-top: 15px;
+            padding: 15px;
+            border-radius: 6px;
+            display: none;
+        }
+        
+        .feedback.show {
+            display: block;
+            animation: slideIn 0.3s ease;
+        }
+        
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .feedback.correct {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .feedback.incorrect {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        
+        .feedback.info {
+            background: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+        
+        .nav-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 2px solid #e9ecef;
+        }
+        
+        .progress {
+            background: #e9ecef;
+            height: 8px;
+            border-radius: 10px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+        
+        .progress-bar {
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            height: 100%;
+            transition: width 0.3s ease;
+            border-radius: 10px;
+        }
+        
+        .quote {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin: 15px 0;
+            font-style: italic;
+            color: #856404;
+        }
+        
+        .hint {
+            background: #e7f3ff;
+            border-left: 4px solid #2196F3;
+            padding: 12px;
+            margin: 10px 0;
+            font-size: 0.95em;
+            color: #014361;
+        }
+        
+        .english-help {
+            background: #f0f8f0;
+            border-left: 4px solid #28a745;
+            padding: 12px;
+            margin: 10px 0;
+            font-size: 0.9em;
+            color: #155724;
+            font-style: italic;
+        }
+        
+        .score-display {
+            text-align: center;
+            font-size: 1.5em;
+            color: #667eea;
+            margin: 20px 0;
+            font-weight: bold;
+        }
+        
+        .vocab {
+            color: #667eea;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <button class="text-toggle" onclick="toggleText()">📖 Voir le texte intégral</button>
+    
+    <div class="overlay" id="overlay" onclick="toggleText()"></div>
+    
+    <div class="floating-text" id="floatingText">
+        <button class="close-text" onclick="toggleText()">×</button>
+        <h2>L'Étranger - Extrait du Chapitre 4 (Deuxième Partie)</h2>
+        <p>Même sur un banc d'accusé, il est toujours intéressant d'entendre parler de soi. Pendant les plaidoiries du procureur et de mon avocat, je peux dire qu'on a beaucoup parlé de moi et peut être plus de moi que de mon crime. Etaient-elles si différentes d'ailleurs, ces plaidoiries ? L'avocat levait les bras et plaidait coupable, mais avec excuses. Le procureur tendait ses mains et dénonçait la culpabilité, mais sans excuses. Une chose pourtant me gênait vaguement. Malgré mes préoccupations, j'étais parfois tenté d'intervenir et mon avocat me disait alors: «Taisez-vous, cela vaut mieux pour votre affaire.» En quelque sorte, on avait l'air de traiter cette affaire en dehors de moi. Tout se déroulait sans mon intervention. Mon sort se réglait sans qu'on prenne mon avis. De temps en temps, j'avais envie d'interrompre tout le monde et de dire: «Mais tout de même, qui est l'accusé? C'est important d'être l'accusé. Et j'ai quelque chose à dire.» Mais réflexion faite, je n'avais rien à dire.</p>
+        
+        <p>D'ailleurs, je dois reconnaître que l'intérêt qu'on trouve à occuper les gens ne dure pas longtemps. Par exemple, la plaidoirie du procureur m'a très vite lassé. Ce sont seulement des fragments, des gestes ou des tirades entières, mais détachées de l'ensemble, qui m'ont frappé ou ont éveillé mon intérêt. Le fond de sa pensée, si j'ai bien compris, c'est que j'avais prémédité mon crime. Du moins, il a essayé de le démontrer. Comme il le disait lui-même: «J'en ferai la preuve, messieurs, et je la ferai doublement. Sous l'aveuglante clarté des faits d'abord et ensuite dans l'éclairage sombre que me fournira la psychologie de cette âme criminelle.»</p>
+        
+        <p>Il a résumé les faits à partir de la mort de maman. Il a rappelé mon insensibilité, l'ignorance où j'étais de l'âge de maman, mon bain du lendemain, avec une femme, le cinéma, Fernandel et enfin la rentrée avec Marie. J'ai mis du temps à le comprendre, à ce moment, parce qu'il disait «sa maîtresse» et pour moi, elle était Marie. Ensuite, il en est venu à l'histoire de Raymond. J'ai trouvé que sa façon de voir les événements ne manquait pas de clarté. Ce qu'il disait était plausible. J'avais écrit la lettre d'accord avec Raymond pour attirer sa maîtresse et la livrer aux mauvais traitements d'un homme «de moralité douteuse». J'avais provoqué sur la plage les adversaires de Raymond. Celui-ci avait été blessé. Je lui avais demandé son revolver. J'étais revenu seul pour m'en servir. J'avais abattu l'Arabe comme je le projetais. J'avais attendu. Et «pour être sûr que la besogne était bien faite», j'avais tiré encore quatre balles, posément, à coup sûr, d'une façon réfléchie en quelque sorte.</p>
+        
+        <p>« Et voilà, messieurs, a dit l'avocat général. J'ai retracé devant vous le fil d'événements qui a conduit cet homme à tuer en pleine connaissance de cause. J'insiste là-dessus, a-t-il dit. Car il ne s'agit pas d'un assassinat ordinaire, d'un acte irréfléchi que vous pourriez estimer atténué par les circonstances. Cet homme, messieurs, cet homme est intelligent. Vous l'avez entendu, n'est-ce pas ? Il sait répondre. Il connaît la valeur des mots. Et l'on ne peut pas dire qu'il a agi sans se rendre compte de ce qu'il faisait. » Moi j'écoutais et j'entendais qu'on me jugeait intelligent. Mais je ne comprenais pas bien comment les qualités d'un homme ordinaire pouvaient devenir des charges écrasantes contre un coupable.</p>
+    </div>
+    
+    <div class="container">
+        <div class="header">
+            <h1>L'Étranger - Albert Camus</h1>
+            <p>Analyse littéraire : Chapitre 4, Deuxième Partie (Le Procès)</p>
+        </div>
+        
+        <div class="content">
+            <div class="progress">
+                <div class="progress-bar" id="progressBar"></div>
+            </div>
+            <div class="score-display" id="scoreDisplay">Score : 0/0</div>
+            
+            <!-- Section 1: Point de vue narratif -->
+            <div class="section active" id="section1">
+                <h2>I. Le Point de Vue Narratif</h2>
+                
+                <div class="english-help">
+                    📚 <strong>Key vocabulary:</strong> <span class="vocab">le point de vue narratif</span> = narrative perspective | <span class="vocab">la narration</span> = narration | <span class="vocab">le narrateur</span> = narrator
+                </div>
+                
+                <div class="quote">
+                    "Même sur un banc d'accusé, il est toujours intéressant d'entendre parler de soi."<br>
+                    <small style="color: #666;">(Even from a defendant's bench, it's always interesting to hear people talk about you.)</small>
+                </div>
+                
+                <div class="question">
+                    <div class="question-text">1. Quel est le point de vue narratif utilisé dans cet extrait ?</div>
+                    <div class="options">
+                        <div class="option" data-answer="a">a) Narration à la troisième personne omnisciente (third-person omniscient)</div>
+                        <div class="option" data-answer="b">b) Narration à la première personne / point de vue interne (first-person/internal perspective)</div>
+                        <div class="option" data-answer="c">c) Narration à la deuxième personne (second-person)</div>
+                        <div class="option" data-answer="d">d) Focalisation zéro (zero focalization)</div>
+                    </div>
+                    <button class="btn" onclick="checkAnswer(this, 'b', 1)">Vérifier</button>
+                    <div class="feedback"></div>
+                </div>
+                
+                <div class="question">
+                    <div class="question-text">2. Quel effet produit ce point de vue narratif ?</div>
+                    <div class="english-help">Think about: What does the reader see/understand through Meursault's eyes?</div>
+                    <div class="options">
+                        <div class="option" data-answer="a">a) Il donne des faits objectifs sur le procès (objective facts)</div>
+                        <div class="option" data-answer="b">b) Il montre le décalage (gap/disconnect) entre ce qui est dit et comment Meursault le perçoit</div>
+                        <div class="option" data-answer="c">c) Il rend le procureur sympathique (makes the prosecutor likeable)</div>
+                        <div class="option" data-answer="d">d) Il cache les vrais sentiments de Meursault (hides Meursault's true feelings)</div>
+                    </div>
+                    <button class="btn" onclick="checkAnswer(this, 'b', 1)">Vérifier</button>
+                    <div class="feedback"></div>
+                </div>
+                
+                <div class="question">
+                    <div class="question-text">3. Réponse courte : En quoi le titre « L'Étranger » s'applique-t-il à Meursault dans cette scène de procès ? (50-100 mots)</div>
+                    <div class="english-help">Consider: How is Meursault "a stranger" or "an outsider" to his own trial?</div>
+                    <textarea id="answer3" placeholder="Écrivez votre réponse ici..."></textarea>
+                    <button class="btn" onclick="showModelAnswer(3)">Voir un exemple de réponse</button>
+                    <div class="feedback"></div>
+                </div>
+            </div>
+            
+            <!-- Section 2: Le regard détaché -->
+            <div class="section" id="section2">
+                <h2>II. Meursault comme Observateur Détaché</h2>
+                
+                <div class="english-help">
+                    📚 <strong>Key vocabulary:</strong> <span class="vocab">détaché</span> = detached | <span class="vocab">un observateur</span> = an observer | <span class="vocab">le décalage</span> = gap/disconnect
+                </div>
+                
+                <div class="hint">
+                    💡 Astuce : Cherchez les expressions qui montrent l'hésitation ou l'incertitude dans la compréhension de Meursault.<br>
+                    <small style="color: #666;">(Look for expressions showing hesitation or uncertainty in Meursault's understanding.)</small>
+                </div>
+                
+                <div class="question">
+                    <div class="question-text">4. Quels adverbes montrent que Meursault ne comprend pas tout ?</div>
+                    <div class="options">
+                        <div class="option" data-answer="a">a) « vraiment », « absolument », « certainement » (really, absolutely, certainly)</div>
+                        <div class="option" data-answer="b">b) « peut-être », « en quelque sorte », « si j'ai bien compris » (perhaps, in a way, if I understood correctly)</div>
+                        <div class="option" data-answer="c">c) « toujours », « jamais », « souvent » (always, never, often)</div>
+                        <div class="option" data-answer="d">d) « rapidement », « lentement », « heureusement » (quickly, slowly, fortunately)</div>
+                    </div>
+                    <button class="btn" onclick="checkAnswer(this, 'b', 2)">Vérifier</button>
+                    <div class="feedback"></div>
+                </div>
+                
+                <div class="question">
+                    <div class="question-text">5. Comment Meursault décrit-il le parallélisme entre son avocat et le procureur ?</div>
+                    <div class="english-help"><span class="vocab">le parallélisme</span> = parallelism/similarity in structure</div>
+                    <div class="options">
+                        <div class="option" data-answer="a">a) Ils utilisent des stratégies complètement opposées (completely opposite strategies)</div>
+                        <div class="option" data-answer="b">b) Ils parlent tous les deux de culpabilité avec des gestes et un langage similaires (both speak of guilt with similar gestures and language)</div>
+                        <div class="option" data-answer="c">c) Ils ne se ressemblent en rien (they don't resemble each other at all)</div>
+                        <div class="option" data-answer="d">d) L'un parle de crime, l'autre d'innocence (one speaks of crime, the other of innocence)</div>
+                    </div>
+                    <button class="btn" onclick="checkAnswer(this, 'b', 2)">Vérifier</button>
+                    <div class="feedback"></div>
+                </div>
+                
+                <div class="question">
+                    <div class="question-text">6. Analyse : Expliquez comment le point de vue interne crée un effet de distanciation et révèle l'absurdité du procès. Citez des expressions précises du texte. (150-200 mots)</div>
+                    <div class="english-help">Explain how the internal perspective creates a distancing effect and reveals the absurdity of the trial. Quote specific expressions from the text.</div>
+                    <textarea id="answer6" placeholder="Développez votre analyse..."></textarea>
+                    <button class="btn" onclick="showModelAnswer(6)">Voir un exemple de réponse</button>
+                    <div class="feedback"></div>
+                </div>
+            </div>
+            
+            <!-- Section 3: L'exclusion -->
+            <div class="section" id="section3">
+                <h2>III. Meursault Exclu de Son Propre Procès</h2>
+                
+                <div class="english-help">
+                    📚 <strong>Key vocabulary:</strong> <span class="vocab">exclu</span> = excluded | <span class="vocab">en dehors de</span> = outside of | <span class="vocab">sans mon intervention</span> = without my involvement
+                </div>
+                
+                <div class="quote">
+                    "On avait l'air de traiter cette affaire en dehors de moi. Tout se déroulait sans mon intervention."<br>
+                    <small style="color: #666;">(They seemed to be treating this case without me. Everything was happening without my involvement.)</small>
+                </div>
+                
+                <div class="question">
+                    <div class="question-text">7. Que dit l'avocat de Meursault quand celui-ci veut intervenir ?</div>
+                    <div class="options">
+                        <div class="option" data-answer="a">a) « Parlez librement » (Speak freely)</div>
+                        <div class="option" data-answer="b">b) « Taisez-vous, cela vaut mieux pour votre affaire » (Be quiet, it's better for your case)</div>
+                        <div class="option" data-answer="c">c) « Dites ce que vous pensez » (Say what you think)</div>
+                        <div class="option" data-answer="d">d) « Vous avez raison de vous défendre » (You're right to defend yourself)</div>
+                    </div>
+                    <button class="btn" onclick="checkAnswer(this, 'b', 3)">Vérifier</button>
+                    <div class="feedback"></div>
+                </div>
+                
+                <div class="question">
+                    <div class="question-text">8. Dans les phrases « On avait l'air de traiter cette affaire sans moi. Tout se déroulait sans mon intervention », quel effet produit l'absence de Meursault comme sujet grammatical ?</div>
+                    <div class="english-help">What effect does the grammatical absence of Meursault as the subject create?</div>
+                    <div class="options">
+                        <div class="option" data-answer="a">a) Un effet d'action et de participation active (effect of action and active participation)</div>
+                        <div class="option" data-answer="b">b) Un effet de passivité et d'exclusion totale (effect of passivity and total exclusion)</div>
+                        <div class="option" data-answer="c">c) Un effet de domination sur les événements (effect of domination over events)</div>
+                        <div class="option" data-answer="d">d) Un effet de clarté narrative (effect of narrative clarity)</div>
+                    </div>
+                    <button class="btn" onclick="checkAnswer(this, 'b', 3)">Vérifier</button>
+                    <div class="feedback"></div>
+                </div>
+                
+                <div class="question">
+                    <div class="question-text">9. Meursault pense : « Mais tout de même, qui est l'accusé ? C'est important d'être l'accusé. » Pourquoi ne dit-il finalement rien ?</div>
+                    <div class="english-help">"But after all, who is the accused? It's important to be the accused." Why does he ultimately say nothing?</div>
+                    <div class="options">
+                        <div class="option" data-answer="a">a) Il a peur du jugement (He's afraid of judgment)</div>
+                        <div class="option" data-answer="b">b) Il réalise qu'il n'a rien à dire / n'a pas d'intérêt (He realizes he has nothing to say / no interest)</div>
+                        <div class="option" data-answer="c">c) Il est en colère (He's angry)</div>
+                        <div class="option" data-answer="d">d) Il veut protéger quelqu'un (He wants to protect someone)</div>
+                    </div>
+                    <button class="btn" onclick="checkAnswer(this, 'b', 3)">Vérifier</button>
+                    <div class="feedback"></div>
+                </div>
+                
+                <div class="question">
+                    <div class="question-text">10. Réponse développée : Analysez le paradoxe de la situation de Meursault - comment peut-il être simultanément au centre (comme accusé) et exclu de son propre procès ? (200-250 mots)</div>
+                    <div class="english-help">Analyze the paradox: how can he be simultaneously at the centre (as the accused) and excluded from his own trial?</div>
+                    <textarea id="answer10" placeholder="Rédigez votre réponse..."></textarea>
+                    <button class="btn" onclick="showModelAnswer(10)">Voir un exemple de réponse</button>
+                    <div class="feedback"></div>
+                </div>
+            </div>
+            
+            <!-- Section 4: Le réquisitoire -->
+            <div class="section" id="section4">
+                <h2>IV. Le Réquisitoire du Procureur</h2>
+                
+                <div class="english-help">
+                    📚 <strong>Key vocabulary:</strong> <span class="vocab">le réquisitoire</span> = prosecution's closing speech/indictment | <span class="vocab">le procureur</span> = prosecutor | <span class="vocab">prémédité</span> = premeditated
+                </div>
+                
+                <div class="question">
+                    <div class="question-text">11. Selon le texte, de quoi parle-t-on le plus pendant le procès ?</div>
+                    <div class="options">
+                        <div class="option" data-answer="a">a) Uniquement du crime (only the crime)</div>
+                        <div class="option" data-answer="b">b) De la victime (the victim)</div>
+                        <div class="option" data-answer="c">c) De Meursault comme personne, peut-être plus que de son crime (Meursault as a person, perhaps more than his crime)</div>
+                        <div class="option" data-answer="d">d) Des témoins (the witnesses)</div>
+                    </div>
+                    <button class="btn" onclick="checkAnswer(this, 'c', 4)">Vérifier</button>
+                    <div class="feedback"></div>
+                </div>
+                
+                <div class="question">
+                    <div class="question-text">12. Quels comportements de Meursault après la mort de sa mère le procureur utilise-t-il contre lui ?</div>
+                    <div class="english-help">Which behaviours after his mother's death does the prosecutor use against him?</div>
+                    <div class="options">
+                        <div class="option" data-answer="a">a) Son insensibilité, ne pas connaître l'âge de sa mère, aller se baigner avec une femme, aller au cinéma voir Fernandel</div>
+                        <div class="option" data-answer="b">b) Seulement le fait qu'il ait tué un homme (only that he killed a man)</div>
+                        <div class="option" data-answer="c">c) Ses relations avec Raymond uniquement (his relationship with Raymond only)</div>
+                        <div class="option" data-answer="d">d) Son refus de pleurer au tribunal (his refusal to cry at court)</div>
+                    </div>
+                    <button class="btn" onclick="checkAnswer(this, 'a', 4)">Vérifier</button>
+                    <div class="feedback"></div>
+                </div>
+                
+                <div class="question">
+                    <div class="question-text">13. Identifiez les clichés rhétoriques utilisés par le procureur :</div>
+                    <div class="hint">💡 Les clichés sont des expressions toutes faites, sans originalité.<br><small style="color: #666;">(Clichés are ready-made expressions, without originality.)</small></div>
+                    <div class="english-help"><span class="vocab">un cliché</span> = a cliché/stock phrase | <span class="vocab">la rhétorique</span> = rhetoric</div>
+                    <div class="options">
+                        <div class="option" data-answer="a">a) « l'aveuglante clarté » (blinding clarity)</div>
+                        <div class="option" data-answer="b">b) « l'âme criminelle » (the criminal soul)</div>
+                        <div class="option" data-answer="c">c) « moralité douteuse » (dubious morality)</div>
+                        <div class="option" data-answer="d">d) Toutes ces expressions sont des clichés (all these expressions are clichés)</div>
+                    </div>
+                    <button class="btn" onclick="checkAnswer(this, 'd', 4)">Vérifier</button>
+                    <div class="feedback"></div>
+                </div>
+                
+                <div class="question">
+                    <div class="question-text">14. Analyse stylistique : Identifiez et expliquez l'ironie dans l'expression « aveuglante clarté » utilisée par le procureur. Pourquoi Camus a-t-il choisi cette expression ? (150-200 mots)</div>
+                    <div class="english-help">Identify and explain the irony in "blinding clarity". Why did Camus choose this expression? Consider the role of the sun in the murder.</div>
+                    <textarea id="answer14" placeholder="Analysez l'ironie..."></textarea>
+                    <button class="btn" onclick="showModelAnswer(14)">Voir un exemple de réponse</button>
+                    <div class="feedback"></div>
+                </div>
+            </div>
+            
+            <!-- Section 5: La satire -->
+            <div class="section" id="section5">
+                <h2>V. La Satire de la Justice</h2>
+                
+                <div class="english-help">
+                    📚 <strong>Key vocabulary:</strong> <span class="vocab">la satire</span> = satire (criticism through humor/irony) | <span class="vocab">les guillemets</span> = quotation marks | <span class="vocab">le jargon</span> = jargon
+                </div>
+                
+                <div class="question">
+                    <div class="question-text">15. Pourquoi Meursault met-il certains mots entre guillemets quand il rapporte les paroles du procureur ?</div>
+                    <div class="english-help">Why does Meursault put certain words in quotation marks when reporting the prosecutor's words?</div>
+                    <div class="options">
+                        <div class="option" data-answer="a">a) Pour citer exactement (to quote exactly)</div>
+                        <div class="option" data-answer="b">b) Pour montrer sa distance et son incompréhension du vocabulaire (to show his distance and lack of understanding)</div>
+                        <div class="option" data-answer="c">c) Pour souligner leur importance (to emphasize their importance)</div>
+                        <div class="option" data-answer="d">d) Par habitude stylistique (out of stylistic habit)</div>
+                    </div>
+                    <button class="btn" onclick="checkAnswer(this, 'b', 5)">Vérifier</button>
+                    <div class="feedback"></div>
+                </div>
+                
+                <div class="question">
+                    <div class="question-text">16. Donnez un exemple de décalage entre le vocabulaire du procureur et la compréhension de Meursault :</div>
+                    <div class="english-help">Give an example of the gap between the prosecutor's vocabulary and Meursault's understanding:</div>
+                    <div class="options">
+                        <div class="option" data-answer="a">a) Le procureur dit « sa maîtresse », mais pour Meursault « elle était Marie » (prosecutor says "his mistress" but for Meursault "she was Marie")</div>
+                        <div class="option" data-answer="b">b) Meursault ne comprend aucun mot français (Meursault doesn't understand any French)</div>
+                        <div class="option" data-answer="c">c) Le procureur parle en langue étrangère (the prosecutor speaks a foreign language)</div>
+                        <div class="option" data-answer="d">d) Il n'y a aucun décalage (there is no gap)</div>
+                    </div>
+                    <button class="btn" onclick="checkAnswer(this, 'a', 5)">Vérifier</button>
+                    <div class="feedback"></div>
+                </div>
+                
+                <div class="question">
+                    <div class="question-text">17. Identifiez la figure de style dans : « l'aveuglante clarté des faits » / « l'éclairage sombre de la psychologie » :</div>
+                    <div class="english-help"><span class="vocab">une figure de style</span> = figure of speech/literary device</div>
+                    <div class="options">
+                        <div class="option" data-answer="a">a) Une métaphore (metaphor)</div>
+                        <div class="option" data-answer="b">b) Une antithèse (antithesis - opposition between light and darkness)</div>
+                        <div class="option" data-answer="c">c) Une hyperbole (hyperbole/exaggeration)</div>
+                        <div class="option" data-answer="d">d) Une litote (litote/understatement)</div>
+                    </div>
+                    <button class="btn" onclick="checkAnswer(this, 'b', 5)">Vérifier</button>
+                    <div class="feedback"></div>
+                </div>
+                
+                <div class="question">
+                    <div class="question-text">18. Analyse de synthèse : Comment Camus construit-il la satire de la justice dans ce passage ? Analysez les procédés littéraires utilisés. (250-300 mots)</div>
+                    <div class="english-help">How does Camus construct the satire of justice in this passage? Analyze the literary techniques used. Consider: narrative perspective, parallelism, clichés, linguistic gaps.</div>
+                    <textarea id="answer18" placeholder="Développez votre analyse complète..."></textarea>
+                    <button class="btn" onclick="showModelAnswer(18)">Voir un exemple de réponse</button>
+                    <div class="feedback"></div>
+                </div>
+            </div>
+            
+            <!-- Section 6: Synthèse -->
+            <div class="section" id="section6">
+                <h2>VI. Synthèse et Thèmes Principaux</h2>
+                
+                <div class="english-help">
+                    📚 <strong>Key vocabulary:</strong> <span class="vocab">les conventions sociales</span> = social conventions | <span class="vocab">l'aliénation</span> = alienation | <span class="vocab">l'incompréhension</span> = lack of understanding/miscommunication
+                </div>
+                
+                <div class="question">
+                    <div class="question-text">19. Quelle est la réaction finale de Meursault face au discours du procureur qui le qualifie d'intelligent ?</div>
+                    <div class="english-help">What is Meursault's final reaction to the prosecutor calling him intelligent?</div>
+                    <div class="options">
+                        <div class="option" data-answer="a">a) Il est flatté (He's flattered)</div>
+                        <div class="option" data-answer="b">b) Il ne comprend pas comment les qualités d'un homme ordinaire peuvent devenir des charges écrasantes (He doesn't understand how ordinary qualities can become crushing charges)</div>
+                        <div class="option" data-answer="c">c) Il est en colère (He's angry)</div>
+                        <div class="option" data-answer="d">d) Il accepte totalement l'accusation (He totally accepts the accusation)</div>
+                    </div>
+                    <button class="btn" onclick="checkAnswer(this, 'b', 6)">Vérifier</button>
+                    <div class="feedback"></div>
+                </div>
+                
+                <div class="question">
+                    <div class="question-text">20. Pourquoi peut-on dire que Meursault est condamné pour son refus des conventions sociales plutôt que pour le meurtre lui-même ?</div>
+                    <div class="english-help">Why can we say that Meursault is condemned for refusing social conventions rather than for the murder itself? Think about what the prosecutor focuses on.</div>
+                    <textarea id="answer20" placeholder="Réfléchissez à cette question centrale..."></textarea>
+                    <button class="btn" onclick="showModelAnswer(20)">Voir un exemple de réponse</button>
+                    <div class="feedback"></div>
+                </div>
+                
+                <div class="question">
+                    <div class="question-text">21. Dissertation : Comment ce passage illustre-t-il les thèmes de l'aliénation et de l'incompréhension dans L'Étranger ? Rédigez une réponse structurée avec introduction, développement et conclusion. (400-500 mots)</div>
+                    <div class="hint">💡 Pensez à structurer votre réponse : <br>
+                    I. L'aliénation linguistique et sociale (linguistic and social alienation)<br>
+                    II. Le système judiciaire comme machine absurde (judicial system as absurd machine)<br>
+                    III. Le refus des conventions sociales (refusal of social conventions)</div>
+                    <div class="english-help">Essay: How does this passage illustrate the themes of alienation and miscommunication in <em>L'Étranger</em>? Write a structured response with introduction, development, and conclusion.</div>
+                    <textarea id="answer21" style="min-height: 300px;" placeholder="Rédigez votre dissertation..."></textarea>
+                    <button class="btn" onclick="showModelAnswer(21)">Voir un exemple de réponse</button>
+                    <div class="feedback"></div>
+                </div>
+                
+                <div class="question">
+                    <div class="question-text">22. Réflexion personnelle : En quoi ce passage reste-t-il pertinent aujourd'hui ? Pouvez-vous établir des parallèles avec des situations contemporaines ?</div>
+                    <div class="english-help">Personal reflection: How does this passage remain relevant today? Can you draw parallels with contemporary situations?</div>
+                    <textarea id="answer22" placeholder="Réflexion personnelle..."></textarea>
+                    <div class="feedback info show">
+                        <strong>💭 Réflexion libre :</strong> Il n'y a pas de "bonne" réponse unique. Pensez aux médias, aux réseaux sociaux, aux jugements hâtifs, à la façon dont on catégorise les gens...<br>
+                        <small style="color: #666;">(There's no single "right" answer. Think about media, social networks, hasty judgments, how we categorize people...)</small>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="nav-buttons">
+                <button class="btn" id="prevBtn" onclick="changeSection(-1)">← Précédent</button>
+                <button class="btn" id="nextBtn" onclick="changeSection(1)">Suivant →</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentSection = 1;
+        const totalSections = 6;
+        let scores = {};
+        let totalQuestions = 0;
+        let correctAnswers = 0;
+
+        function toggleText() {
+            const floatingText = document.getElementById('floatingText');
+            const overlay = document.getElementById('overlay');
+            
+            if (floatingText.classList.contains('show')) {
+                floatingText.classList.remove('show');
+                overlay.classList.remove('show');
+            } else {
+                floatingText.classList.add('show');
+                overlay.classList.add('show');
+            }
+        }
+
+        function updateProgress() {
+            const progress = (currentSection / totalSections) * 100;
+            document.getElementById('progressBar').style.width = progress + '%';
+        }
+
+        function updateScore() {
+            document.getElementById('scoreDisplay').textContent = 
+                `Score : ${correctAnswers}/${totalQuestions} questions correctes`;
+        }
+
+        function changeSection(direction) {
+            const sections = document.querySelectorAll('.section');
+            sections[currentSection - 1].classList.remove('active');
+            
+            currentSection += direction;
+            
+            if (currentSection < 1) currentSection = 1;
+            if (currentSection > totalSections) currentSection = totalSections;
+            
+            sections[currentSection - 1].classList.add('active');
+            
+            document.getElementById('prevBtn').disabled = currentSection === 1;
+            document.getElementById('nextBtn').disabled = currentSection === totalSections;
+            
+            updateProgress();
+            window.scrollTo({top: 0, behavior: 'smooth'});
+        }
+
+        function checkAnswer(button, correctAnswer, sectionNum) {
+            const question = button.closest('.question');
+            const options = question.querySelectorAll('.option');
+            const feedback = question.querySelector('.feedback');
+            
+            let selectedAnswer = null;
+            options.forEach(option => {
+                if (option.classList.contains('selected')) {
+                    selectedAnswer = option.dataset.answer;
+                }
+            });
+            
+            if (!selectedAnswer) {
+                feedback.className = 'feedback show incorrect';
+                feedback.innerHTML = '⚠️ Veuillez sélectionner une réponse.';
+                return;
+            }
+            
+            const questionId = button.closest('.question').querySelector('.question-text').textContent.split('.')[0];
+            
+            if (!scores[questionId]) {
+                totalQuestions++;
+            }
+            
+            if (selectedAnswer === correctAnswer) {
+                feedback.className = 'feedback show correct';
+                feedback.innerHTML = '✓ Excellent ! Réponse correcte.';
+                options.forEach(option => {
+                    if (option.dataset.answer === correctAnswer) {
+                        option.classList.add('correct');
+                    }
+                });
+                
+                if (!scores[questionId]) {
+                    correctAnswers++;
+                    scores[questionId] = true;
+                }
+            } else {
+                feedback.className = 'feedback show incorrect';
+                feedback.innerHTML = '✗ Pas tout à fait. Relisez le texte et réfléchissez à nouveau.';
+                options.forEach(option => {
+                    if (option.dataset.answer === correctAnswer) {
+                        option.classList.add('correct');
+                    }
+                    if (option.dataset.answer === selectedAnswer) {
+                        option.classList.add('incorrect');
+                    }
+                });
+                
+                if (scores[questionId]) {
+                    correctAnswers--;
+                }
+                scores[questionId] = false;
+            }
+            
+            button.disabled = true;
+            updateScore();
+        }
+
+        function showModelAnswer(questionNum) {
+            const question = document.getElementById(`answer${questionNum}`).closest('.question');
+            const feedback = question.querySelector('.feedback');
+            
+            const modelAnswers = {
+                3: `<strong>Exemple de réponse :</strong><br><br>
+                Meursault est « étranger » à son propre procès car il en est exclu psychologiquement et linguistiquement. Bien qu'il soit l'accusé, il se perçoit comme un spectateur externe qui observe sans vraiment comprendre. Les expressions « en dehors de moi », « sans mon intervention » montrent cette distance. De plus, il ne se reconnaît pas dans le portrait que dresse le procureur : le vocabulaire utilisé (« maîtresse », « moralité douteuse ») lui est étranger. Cette étrangeté illustre son refus des codes sociaux et moraux qui régissent la société et son incapacité à jouer le jeu social attendu.`,
+                
+                6: `<strong>Exemple de réponse :</strong><br><br>
+                Le point de vue interne crée un effet de distanciation remarquable. En filtrant tous les événements à travers la conscience de Meursault, Camus nous fait percevoir l'absurdité du procès. Les adverbes d'approximation (« peut-être », « en quelque sorte », « si j'ai bien compris ») révèlent un narrateur qui a des difficultés à saisir la logique judiciaire et les arguments utilisés. Cette incompréhension n'est pas due à une faiblesse intellectuelle, mais à une distance ou différence fondamentale entre la vision morale du procureur et la perception simple de Meursault.<br><br>
+                Quand il note que l'avocat « levait les bras et plaidait coupable, mais avec excuses » tandis que « le procureur tendait ses mains et dénonçait la culpabilité, mais sans excuses », les phrases parallèles soulignent l'absurdité : les deux hommes défendent la même thèse (la culpabilité), seule l'intensité diffère. Cette observation naïve en quelque sorte se moque du théâtre de la justice. Le point de vue interne transforme le lecteur en complice de Meursault, nous faisant percevoir l'incohérence d'un système qui juge plus un homme que ses actes.`,
+                
+                10: `<strong>Exemple de réponse :</strong><br><br>
+                Le paradoxe (la chose surprenante/the surprising thing) de la situation de Meursault réside dans sa double position contradictoire : il est à la fois le centre apparent du procès (l'accusé) et totalement exclu. Physiquement, il occupe le « banc d'accusé », position centrale qui devrait lui conférer un rôle principal. Pourtant, il est absent et il n'a pas l'occasion de parler : « On avait l'air de traiter cette affaire en dehors de moi », « mon sort se réglait sans qu'on prenne mon avis ». Le passage à la voix passive (« tout se déroulait ») et l'utilisation du pronom impersonnel « on » effacent/gomment (erase) Meursault comme sujet actif de son procès.<br><br>
+                Ce paradoxe révèle la nature même du procès : il ne s'agit pas de juger les actes de Meursault, mais de plaquer/coller (to stick/impose) sur lui une interprétation morale préétablie (preestablished). Le système judiciaire a besoin d'un coupable qui corresponde à ses schémas (schemas/patterns) - le criminel froid, calculateur - non de l'individu réel. Quand Meursault veut intervenir, son avocat le fait taire : sa parole authentique menacerait la fiction judiciaire. Cette exclusion illustre comment le système social est devenu une machine autonome, déconnectée de la réalité humaine qu'elle prétend juger.`,
+                
+                14: `<strong>Exemple de réponse :</strong><br><br>
+                L'ironie de l'expression « aveuglante clarté » (blinding clarity) est remarquable. Le procureur l'utilise au sens figuré pour parler de l'évidence des preuves contre Meursault. Mais Camus, en choisissant précisément cette métaphore lumineuse, pointe vers la vraie cause du meurtre : le soleil aveuglant qui a perturbé Meursault sur la plage. Dans le roman, Meursault décrit comment la lumière intense et la chaleur écrasante (overwhelming heat) l'ont désorienté au moment du meurtre.<br><br>
+                Cette ironie dramatique est double : d'abord, le procureur croit avoir une vision claire des faits alors qu'il passe complètement à côté du déclencheur réel (misses the real trigger) - le soleil, élément physique et non moral. Ensuite, sa « clarté aveuglante » est en réalité une obscurité : elle éclaire mal car elle projette sur les faits une interprétation moraliste inadéquate (inadequate moralistic interpretation). L'antithèse avec « l'éclairage sombre » de la psychologie criminelle renforce le paradoxe : ce qui devrait éclairer aveugle, ce qui devrait révéler obscurcit (obscures).`,
+                
+                18: `<strong>Exemple de réponse :</strong><br><br>
+                Camus construit une satire implacable (relentless/merciless) de la justice en combinant plusieurs procédés littéraires. Le point de vue interne est fondamental : en filtrant le procès à travers la conscience de Meursault, Camus crée un décalage (gap) entre ce qui est dit et ce qui est perçu. Meursault, observateur naïf, enregistre fidèlement les absurdités du système sans les analyser explicitement, laissant au lecteur le soin de tirer les conclusions (leaving the reader to draw conclusions).<br><br>
+                Le parallélisme entre l'avocat et le procureur (« levait les bras »/« tendait ses mains », « plaidait coupable »/« dénonçait la culpabilité ») révèle que les deux camps jouent la même partition (play the same tune), réduisant le procès à un théâtre rituel. Cette théâtralisation est accentuée par l'accumulation de clichés rhétoriques : « l'aveuglante clarté », « l'âme criminelle », « moralité douteuse ». Ces expressions toutes faites (ready-made expressions) trahissent l'absence de pensée authentique.<br><br>
+                Le décalage linguistique achève la satire (completes the satire) : les guillemets que Meursault place autour de certains termes (« maîtresse », « pour être sûr que la besogne était bien faite ») marquent son étrangeté à ce vocabulaire moralisant. Son explication « il disait 'sa maîtresse', et pour moi, elle était Marie » oppose la froideur abstraite du jargon judiciaire à la simplicité concrète de sa perception. Camus ne dénonce pas : il montre, et c'est ce qui rend la satire si efficace.`,
+                
+                20: `<strong>Exemple de réponse :</strong><br><br>
+                Meursault est condamné pour son refus des conventions sociales car le procureur construit son réquisitoire (prosecution speech) non sur le meurtre, mais sur le comportement de Meursault après la mort de sa mère. Le texte le dit explicitement : « on a beaucoup parlé de moi et peut-être plus de moi que de mon crime ». Les « preuves » citées sont révélatrices (revealing) : « mon insensibilité, l'ignorance où j'étais de l'âge de maman, mon bain du lendemain, avec une femme, le cinéma, Fernandel ».<br><br>
+                Ces éléments n'ont aucun rapport juridique (legal connection) avec le meurtre, mais ils violent les codes sociaux du deuil (mourning) et de la piété filiale (filial piety). Meursault est coupable de ne pas avoir joué la comédie de la tendresse filiale, de ne pas avoir pleuré, de ne pas avoir respecté les rituels attendus (expected rituals). La société, à travers le procureur, ne lui pardonne pas son authenticité, son refus de l'hypocrisie sociale. Il est condamné pour être resté indifférent aux valeurs morales et sociales, c'est-à-dire pour être lui-même plutôt que de se conformer aux attentes (rather than conforming to expectations). Le meurtre devient presque un prétexte pour punir un homme qui, par son existence même, met en question les fondements de l'ordre social (challenges the foundations of social order).`,
+                
+                21: `<strong>Exemple de dissertation :</strong><br><br>
+                <strong>Introduction :</strong> Dans L'Étranger, Albert Camus met en scène le procès de Meursault, un homme accusé de meurtre mais étrangement détaché de son propre jugement. Ce passage du chapitre 4 de la deuxième partie cristallise (crystallizes) les thèmes centraux du roman : l'aliénation et l'incompréhension mutuelle entre l'individu et la société. Comment cette scène illustre-t-elle la profonde aliénation de Meursault face aux institutions sociales et l'impossibilité de la communication ?<br><br>
+                
+                <strong>I. L'aliénation linguistique et sociale</strong><br>
+                Meursault vit une aliénation totale car le langage du procureur lui est fondamentalement étranger. L'écart (gap) apparaît clairement quand le procureur parle de « sa maîtresse » alors que pour Meursault « elle était Marie ». Ce n'est pas qu'une question de vocabulaire : c'est toute une vision morale du monde qui sépare les deux hommes. Le procureur utilise un vocabulaire chargé de (loaded with) jugements moraux (« moralité douteuse », « pour être sûr que la besogne était bien faite »), que Meursault met entre guillemets pour marquer sa distance. Cette mise à distance linguistique révèle une incompréhension plus profonde : Meursault ne comprend pas les codes sociaux qui gouvernent le discours judiciaire. Son honnêteté simple se heurte à (clashes with) la rhétorique moraliste et exagérée du procureur.<br><br>
+                
+                <strong>II. Le système judiciaire comme machine absurde</strong><br>
+                Le procès apparaît comme une machine qui fonctionne indépendamment de la réalité. Le parallélisme entre l'avocat et le procureur est révélateur : tous deux « plaident coupable », l'un avec excuses, l'autre sans. Cette similitude transforme le procès en rituel vide de sens où le verdict semble préétabli (pre-established). Meursault observe que « tout se déroulait sans mon intervention », « mon sort se réglait sans qu'on prenne mon avis ». L'utilisation de la voix passive et du pronom impersonnel « on » gomme (erases) Meursault comme sujet actif. Il n'est plus qu'un objet sur lequel s'exerce la mécanique judiciaire. Le procès ne cherche pas la vérité mais applique des catégories préexistantes (« l'âme criminelle », « l'aveuglante clarté ») qui ne correspondent pas à la réalité vécue (lived reality) par Meursault.<br><br>
+                
+                <strong>III. Le refus des conventions sociales</strong><br>
+                Finalement, ce n'est pas le meurtre qui est jugé mais l'homme lui-même et son refus de jouer les conventions sociales. Le procureur liste les comportements de Meursault après la mort de sa mère : son insensibilité apparente, le fait qu'il ne connaisse pas l'âge de sa mère, qu'il soit allé se baigner et au cinéma le lendemain de l'enterrement. Ces éléments n'ont aucun lien juridique (legal link) avec le meurtre mais violent les codes du deuil (mourning). Meursault est condamné pour n'avoir pas pleuré, pour ne pas avoir feint (feigned/pretended) une émotion qu'il ne ressentait pas. Son crime véritable est son honnêteté, son refus de l'hypocrisie sociale. La dernière phrase du passage est révélatrice : « je ne comprenais pas bien comment les qualités d'un homme ordinaire pouvaient devenir des charges écrasantes contre un coupable ». L'intelligence, normalement une qualité, devient une accusation. Cette inversion (reversal) montre que c'est l'authenticité même de Meursault qui est mise en procès.<br><br>
+                
+                <strong>Conclusion :</strong> Ce passage illustre magistralement l'aliénation de l'individu face aux institutions. Le procès, censé incarner la justice, apparaît comme une machine absurde produisant des fictions moralisantes. Meursault, aliéné de son propre jugement par le langage et les conventions, devient la figure de l'homme moderne face aux institutions qui prétendent le définir sans le comprendre. Camus révèle ainsi la faille (flaw/gap) : entre l'individu authentique et le rôle social, il y a un gouffre (gulf/chasm) que nulle rhétorique ne peut combler (fill/bridge). L'étranger n'est pas celui qui tue, mais celui qui refuse de mentir.`
+            };
+            
+            feedback.className = 'feedback show info';
+            feedback.innerHTML = modelAnswers[questionNum];
+        }
+
+        // Event listeners pour les options
+        document.addEventListener('click', function(e) {
+            if (e.target.classList.contains('option')) {
+                const question = e.target.closest('.question');
+                const options = question.querySelectorAll('.option');
+                options.forEach(opt => opt.classList.remove('selected'));
+                e.target.classList.add('selected');
+            }
+        });
+
+        // Initialisation
+        updateProgress();
+        updateScore();
+        document.getElementById('prevBtn').disabled = true;
+    </script>
+</body>
+</html>

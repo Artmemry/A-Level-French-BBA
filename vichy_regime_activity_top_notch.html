@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Le Régime de Vichy - Activité Interactive</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            color: #333;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+        }
+        
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2em;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 15px;
+        }
+        
+        h2 {
+            color: #34495e;
+            margin-top: 35px;
+            margin-bottom: 20px;
+            font-size: 1.5em;
+            padding-left: 10px;
+            border-left: 4px solid #764ba2;
+        }
+        
+        .reading-text {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            border-left: 5px solid #667eea;
+            font-size: 1.05em;
+            line-height: 1.8;
+        }
+        
+        .reading-text p {
+            margin-bottom: 15px;
+        }
+        
+        .activity-section {
+            margin-bottom: 40px;
+            padding: 20px;
+            background: #ffffff;
+            border-radius: 10px;
+            border: 2px solid #e9ecef;
+        }
+        
+        .question {
+            margin-bottom: 25px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+        
+        .question-text {
+            font-weight: bold;
+            margin-bottom: 12px;
+            color: #2c3e50;
+            font-size: 1.05em;
+        }
+        
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            font-size: 1em;
+            transition: border-color 0.3s;
+        }
+        
+        input[type="text"]:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        
+        .matching-pair {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 15px;
+            align-items: center;
+        }
+        
+        .matching-left {
+            background: #e3f2fd;
+            padding: 12px;
+            border-radius: 5px;
+            font-weight: 500;
+        }
+        
+        select {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            font-size: 1em;
+            background: white;
+            cursor: pointer;
+            transition: border-color 0.3s;
+        }
+        
+        select:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        
+        .btn-container {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+            flex-wrap: wrap;
+        }
+        
+        button {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        
+        .btn-check {
+            background: #667eea;
+            color: white;
+        }
+        
+        .btn-check:hover {
+            background: #5568d3;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+        
+        .btn-hint {
+            background: #ffc107;
+            color: #333;
+        }
+        
+        .btn-hint:hover {
+            background: #ffb300;
+        }
+        
+        .btn-reset {
+            background: #e74c3c;
+            color: white;
+        }
+        
+        .btn-reset:hover {
+            background: #c0392b;
+        }
+        
+        .btn-download {
+            background: #27ae60;
+            color: white;
+        }
+        
+        .btn-download:hover {
+            background: #229954;
+        }
+        
+        .feedback {
+            margin-top: 10px;
+            padding: 12px;
+            border-radius: 5px;
+            font-weight: 500;
+            display: none;
+        }
+        
+        .feedback.correct {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+            display: block;
+        }
+        
+        .feedback.incorrect {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+            display: block;
+        }
+        
+        .feedback.hint {
+            background: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffeaa7;
+            display: block;
+        }
+        
+        .accent-keyboard {
+            position: sticky;
+            top: 10px;
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            margin-bottom: 20px;
+            z-index: 100;
+            border: 2px solid #667eea;
+        }
+        
+        .accent-keyboard h3 {
+            font-size: 0.9em;
+            margin-bottom: 10px;
+            color: #555;
+        }
+        
+        .accent-btn {
+            padding: 8px 12px;
+            margin: 3px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1.1em;
+            transition: all 0.2s;
+        }
+        
+        .accent-btn:hover {
+            background: #764ba2;
+            transform: scale(1.1);
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 30px;
+            background: #e9ecef;
+            border-radius: 15px;
+            overflow: hidden;
+            margin: 20px 0;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            width: 0%;
+            transition: width 0.5s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+        
+        .cloze-input {
+            display: inline-block;
+            width: 150px;
+            margin: 0 5px;
+        }
+        
+        .difficulty-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 0.85em;
+            font-weight: 600;
+            margin-left: 10px;
+        }
+        
+        .diff-easy {
+            background: #d4edda;
+            color: #155724;
+        }
+        
+        .diff-medium {
+            background: #fff3cd;
+            color: #856404;
+        }
+        
+        .diff-hard {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+            
+            h1 {
+                font-size: 1.5em;
+            }
+            
+            .matching-pair {
+                grid-template-columns: 1fr;
+            }
+            
+            .cloze-input {
+                width: 120px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Le Régime de Vichy (1940-1944)</h1>
+        
+        <div class="accent-keyboard" id="accentKeyboard">
+            <h3>Clavier des accents :</h3>
+            <button class="accent-btn" data-char="é">é</button>
+            <button class="accent-btn" data-char="è">è</button>
+            <button class="accent-btn" data-char="ê">ê</button>
+            <button class="accent-btn" data-char="à">à</button>
+            <button class="accent-btn" data-char="â">â</button>
+            <button class="accent-btn" data-char="ù">ù</button>
+            <button class="accent-btn" data-char="û">û</button>
+            <button class="accent-btn" data-char="ô">ô</button>
+            <button class="accent-btn" data-char="î">î</button>
+            <button class="accent-btn" data-char="ï">ï</button>
+            <button class="accent-btn" data-char="ç">ç</button>
+            <button class="accent-btn" data-char="œ">œ</button>
+        </div>
+        
+        <div class="progress-bar">
+            <div class="progress-fill" id="progressBar">0%</div>
+        </div>
+        
+        <div class="reading-text">
+            <h2>Texte de compréhension</h2>
+            <p>En juin 1940, après la défaite militaire française face à l'Allemagne nazie, le maréchal Philippe Pétain, héros de la Première Guerre mondiale, demande un armistice à Hitler. Cet accord divise la France en deux zones : une zone occupée par les Allemands au nord et à l'ouest, et une zone dite « libre » au sud, où le gouvernement français conserve une certaine autonomie.</p>
+            
+            <p>Pétain établit son gouvernement à Vichy, une ville thermale du centre de la France. Le 10 juillet 1940, le parlement vote pour lui donner les pleins pouvoirs, marquant ainsi la fin de la Troisième République. Pétain instaure un régime autoritaire qu'il appelle la « Révolution nationale », avec pour devise « Travail, Famille, Patrie », remplaçant « Liberté, Égalité, Fraternité ».</p>
+            
+            <p>Le régime de Vichy collabore activement avec l'Allemagne nazie. Contrairement à ce que Pétain prétendra plus tard, cette collaboration ne se limite pas à répondre aux exigences allemandes. Vichy prend des initiatives autonomes, notamment en promulguant dès 1940 des lois antisémites qui excluent les Juifs de nombreuses professions et confisquent leurs biens. Entre 1942 et 1944, environ 75 000 Juifs sont déportés de France vers les camps d'extermination, dont seulement 5 % survivront.</p>
+            
+            <p>Après la guerre, Pétain est jugé pour trahison en juillet 1945. Durant son procès, sa défense affirme qu'il a joué un « double jeu », protégeant secrètement les Français tout en paraissant coopérer avec l'ennemi. Il utilise la métaphore du « bouclier et de l'épée » : de Gaulle aurait été l'épée (la résistance), tandis que Pétain aurait été le bouclier (la protection). Cette version est aujourd'hui réfutée par les historiens, qui ont démontré que Vichy a poursuivi sa propre agenda réactionnaire de transformation de la société française.</p>
+            
+            <p>Condamné à mort, Pétain voit sa peine commuée en emprisonnement à vie en raison de son âge et de ses services pendant la Grande Guerre. Il meurt en 1951, mais les débats sur son héritage continuent de diviser la France. Certains à l'extrême droite cherchent encore à réhabiliter sa mémoire, affirmant qu'il aurait sauvé les Juifs français, une affirmation que les preuves historiques contredisent formellement.</p>
+        </div>
+        
+        <!-- Activity 1: Comprehension Questions -->
+        <div class="activity-section">
+            <h2>Activité 1 : Compréhension <span class="difficulty-badge diff-easy">Facile</span></h2>
+            
+            <div class="question">
+                <div class="question-text">1. Pourquoi Pétain demande-t-il un armistice à Hitler en juin 1940 ?</div>
+                <input type="text" id="comp1" placeholder="Écrivez votre réponse ici...">
+                <div class="btn-container">
+                    <button class="btn-check" onclick="checkComprehension(1)">Vérifier</button>
+                    <button class="btn-hint" onclick="showHint(1)">Indice</button>
+                </div>
+                <div class="feedback" id="feedback1"></div>
+            </div>
+            
+            <div class="question">
+                <div class="question-text">2. Quelle était la devise de la Révolution nationale de Pétain ?</div>
+                <input type="text" id="comp2" placeholder="Écrivez votre réponse ici...">
+                <div class="btn-container">
+                    <button class="btn-check" onclick="checkComprehension(2)">Vérifier</button>
+                    <button class="btn-hint" onclick="showHint(2)">Indice</button>
+                </div>
+                <div class="feedback" id="feedback2"></div>
+            </div>
+            
+            <div class="question">
+                <div class="question-text">3. Qu'est-ce que la métaphore du « bouclier et de l'épée » selon Pétain ?</div>
+                <input type="text" id="comp3" placeholder="Écrivez votre réponse ici...">
+                <div class="btn-container">
+                    <button class="btn-check" onclick="checkComprehension(3)">Vérifier</button>
+                    <button class="btn-hint" onclick="showHint(3)">Indice</button>
+                </div>
+                <div class="feedback" id="feedback3"></div>
+            </div>
+        </div>
+        
+        <!-- Activity 2: Vocabulary Matching -->
+        <div class="activity-section">
+            <h2>Activité 2 : Correspondance de vocabulaire <span class="difficulty-badge diff-medium">Moyen</span></h2>
+            
+            <div class="matching-pair">
+                <div class="matching-left">1. L'armistice</div>
+                <select id="match1">
+                    <option value="">Choisissez...</option>
+                    <option value="a">a) Accord pour arrêter les combats</option>
+                    <option value="b">b) Période de guerre totale</option>
+                    <option value="c">c) Déclaration de guerre</option>
+                    <option value="d">d) Traité de paix définitif</option>
+                </select>
+            </div>
+            
+            <div class="matching-pair">
+                <div class="matching-left">2. Un régime autoritaire</div>
+                <select id="match2">
+                    <option value="">Choisissez...</option>
+                    <option value="a">a) Gouvernement démocratique</option>
+                    <option value="b">b) Système où le pouvoir est concentré</option>
+                    <option value="c">c) Organisation internationale</option>
+                    <option value="d">d) Parti politique modéré</option>
+                </select>
+            </div>
+            
+            <div class="matching-pair">
+                <div class="matching-left">3. Collaborer</div>
+                <select id="match3">
+                    <option value="">Choisissez...</option>
+                    <option value="a">a) Résister activement</option>
+                    <option value="b">b) Rester neutre</option>
+                    <option value="c">c) Coopérer avec l'ennemi</option>
+                    <option value="d">d) Déclarer la guerre</option>
+                </select>
+            </div>
+            
+            <div class="matching-pair">
+                <div class="matching-left">4. Des lois antisémites</div>
+                <select id="match4">
+                    <option value="">Choisissez...</option>
+                    <option value="a">a) Lois protégeant les minorités</option>
+                    <option value="b">b) Lois discriminant les Juifs</option>
+                    <option value="c">c) Lois économiques</option>
+                    <option value="d">d) Lois sur l'éducation</option>
+                </select>
+            </div>
+            
+            <div class="matching-pair">
+                <div class="matching-left">5. Déporter</div>
+                <select id="match5">
+                    <option value="">Choisissez...</option>
+                    <option value="a">a) Accueillir des réfugiés</option>
+                    <option value="b">b) Envoyer de force vers un camp</option>
+                    <option value="c">c) Libérer des prisonniers</option>
+                    <option value="d">d) Protéger des civils</option>
+                </select>
+            </div>
+            
+            <div class="matching-pair">
+                <div class="matching-left">6. La trahison</div>
+                <select id="match6">
+                    <option value="">Choisissez...</option>
+                    <option value="a">a) Acte de loyauté</option>
+                    <option value="b">b) Acte de courage</option>
+                    <option value="c">c) Acte de déloyauté grave</option>
+                    <option value="d">d) Acte de générosité</option>
+                </select>
+            </div>
+            
+            <div class="btn-container">
+                <button class="btn-check" onclick="checkMatching()">Vérifier tout</button>
+                <button class="btn-hint" onclick="showMatchingHint()">Indice</button>
+            </div>
+            <div class="feedback" id="matchingFeedback"></div>
+        </div>
+        
+        <!-- Activity 3: Cloze Test -->
+        <div class="activity-section">
+            <h2>Activité 3 : Texte à trous <span class="difficulty-badge diff-medium">Moyen</span></h2>
+            <p style="margin-bottom: 20px; line-height: 2;">
+                En 1940, après la <input type="text" class="cloze-input" id="cloze1" placeholder="..."> militaire, 
+                Pétain établit un gouvernement à Vichy. Il instaure un régime <input type="text" class="cloze-input" id="cloze2" placeholder="..."> 
+                et <input type="text" class="cloze-input" id="cloze3" placeholder="..."> activement avec les nazis. 
+                Le régime promulgue des lois <input type="text" class="cloze-input" id="cloze4" placeholder="..."> 
+                qui excluent les Juifs de la société. Environ 75 000 Juifs sont <input type="text" class="cloze-input" id="cloze5" placeholder="..."> 
+                vers les camps d'extermination. Après la guerre, Pétain est jugé pour <input type="text" class="cloze-input" id="cloze6" placeholder="...">.
+            </p>
+            <div class="btn-container">
+                <button class="btn-check" onclick="checkCloze()">Vérifier</button>
+                <button class="btn-hint" onclick="showClozeHint()">Indice</button>
+            </div>
+            <div class="feedback" id="clozeFeedback"></div>
+        </div>
+        
+        <!-- Activity 4: Grammar - Infinitives -->
+        <div class="activity-section">
+            <h2>Activité 4 : Grammaire - Infinitifs passés et dépendants <span class="difficulty-badge diff-hard">Difficile</span></h2>
+            
+            <div class="question">
+                <div class="question-text">1. Pétain prétend _______ (protéger) les Français.</div>
+                <input type="text" id="gram1" placeholder="Complétez avec l'infinitif correct...">
+                <div class="btn-container">
+                    <button class="btn-check" onclick="checkGrammar(1)">Vérifier</button>
+                    <button class="btn-hint" onclick="showGrammarHint(1)">Indice</button>
+                </div>
+                <div class="feedback" id="gramFeedback1"></div>
+            </div>
+            
+            <div class="question">
+                <div class="question-text">2. Il affirme _______ (jouer) un double jeu pendant la guerre.</div>
+                <input type="text" id="gram2" placeholder="Complétez avec l'infinitif correct...">
+                <div class="btn-container">
+                    <button class="btn-check" onclick="checkGrammar(2)">Vérifier</button>
+                    <button class="btn-hint" onclick="showGrammarHint(2)">Indice</button>
+                </div>
+                <div class="feedback" id="gramFeedback2"></div>
+            </div>
+            
+            <div class="question">
+                <div class="question-text">3. Les historiens refusent _______ (accepter) cette version des faits.</div>
+                <input type="text" id="gram3" placeholder="Complétez avec l'infinitif correct...">
+                <div class="btn-container">
+                    <button class="btn-check" onclick="checkGrammar(3)">Vérifier</button>
+                    <button class="btn-hint" onclick="showGrammarHint(3)">Indice</button>
+                </div>
+                <div class="feedback" id="gramFeedback3"></div>
+            </div>
+            
+            <div class="question">
+                <div class="question-text">4. Pétain regrette _______ (ne pas partir) en Afrique du Nord.</div>
+                <input type="text" id="gram4" placeholder="Complétez avec l'infinitif correct...">
+                <div class="btn-container">
+                    <button class="btn-check" onclick="checkGrammar(4)">Vérifier</button>
+                    <button class="btn-hint" onclick="showGrammarHint(4)">Indice</button>
+                </div>
+                <div class="feedback" id="gramFeedback4"></div>
+            </div>
+            
+            <div class="question">
+                <div class="question-text">5. Le régime de Vichy cherche _______ (transformer) la société française.</div>
+                <input type="text" id="gram5" placeholder="Complétez avec l'infinitif correct...">
+                <div class="btn-container">
+                    <button class="btn-check" onclick="checkGrammar(5)">Vérifier</button>
+                    <button class="btn-hint" onclick="showGrammarHint(5)">Indice</button>
+                </div>
+                <div class="feedback" id="gramFeedback5"></div>
+            </div>
+            
+            <div class="question">
+                <div class="question-text">6. Les Juifs sont accusés _______ (menacer) l'ordre national.</div>
+                <input type="text" id="gram6" placeholder="Complétez avec l'infinitif correct...">
+                <div class="btn-container">
+                    <button class="btn-check" onclick="checkGrammar(6)">Vérifier</button>
+                    <button class="btn-hint" onclick="showGrammarHint(6)">Indice</button>
+                </div>
+                <div class="feedback" id="gramFeedback6"></div>
+            </div>
+        </div>
+        
+        <!-- Download Button -->
+        <div style="text-align: center; margin-top: 40px;">
+            <button class="btn-download" onclick="downloadResults()">📥 Télécharger mes résultats</button>
+            <button class="btn-reset" onclick="resetAll()">🔄 Tout recommencer</button>
+        </div>
+    </div>
+
+    <script>
+        let lastFocusedInput = null;
+        let studentData = {
+            comprehension: {},
+            matching: {},
+            cloze: {},
+            grammar: {},
+            attempts: {},
+            hintsUsed: []
+        };
+        
+        // Track focused input for accent keyboard
+        document.addEventListener('DOMContentLoaded', function() {
+            const inputs = document.querySelectorAll('input[type="text"]');
+            inputs.forEach(input => {
+                input.addEventListener('focus', function() {
+                    lastFocusedInput = this;
+                });
+            });
+        });
+        
+        // Accent keyboard functionality
+        document.querySelectorAll('.accent-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const char = this.getAttribute('data-char');
+                if (lastFocusedInput) {
+                    const start = lastFocusedInput.selectionStart;
+                    const end = lastFocusedInput.selectionEnd;
+                    const text = lastFocusedInput.value;
+                    lastFocusedInput.value = text.substring(0, start) + char + text.substring(end);
+                    lastFocusedInput.selectionStart = lastFocusedInput.selectionEnd = start + 1;
+                    lastFocusedInput.focus();
+                }
+            });
+        });
+        
+        // Comprehension answers
+        const comprehensionAnswers = {
+            1: {
+                keywords: ['défaite', 'militaire', 'guerre'],
+                model: 'Après la défaite militaire française face à l\'Allemagne nazie.',
+                hint: 'Pensez à la situation militaire de la France en juin 1940...'
+            },
+            2: {
+                keywords: ['travail', 'famille', 'patrie'],
+                model: 'Travail, Famille, Patrie',
+                hint: 'Cette devise remplace « Liberté, Égalité, Fraternité »...'
+            },
+            3: {
+                keywords: ['gaulle', 'épée', 'bouclier', 'résistance', 'protection'],
+                model: 'De Gaulle était l\'épée (la résistance) et Pétain le bouclier (la protection).',
+                hint: 'Il y a deux parties : l\'épée et le bouclier. Qui représentait quoi ?'
+            }
+        };
+        
+        function checkComprehension(num) {
+            const input = document.getElementById('comp' + num);
+            const answer = input.value.toLowerCase().trim();
+            const feedback = document.getElementById('feedback' + num);
+            const correct = comprehensionAnswers[num];
+            
+            if (!studentData.attempts['comp' + num]) {
+                studentData.attempts['comp' + num] = 0;
+            }
+            studentData.attempts['comp' + num]++;
+            
+            const hasKeywords = correct.keywords.some(keyword => answer.includes(keyword));
+            
+            if (hasKeywords && answer.length > 10) {
+                feedback.className = 'feedback correct';
+                feedback.textContent = '✓ Excellente réponse ! ' + correct.model;
+                studentData.comprehension[num] = { answer: answer, correct: true };
+                updateProgress();
+            } else if (answer.length > 5) {
+                feedback.className = 'feedback incorrect';
+                feedback.textContent = '✗ Pas tout à fait. Réponse modèle : ' + correct.model;
+                studentData.comprehension[num] = { answer: answer, correct: false };
+            } else {
+                feedback.className = 'feedback incorrect';
+                feedback.textContent = '✗ Réponse trop courte. Essayez de développer votre réponse.';
+            }
+        }
+        
+        function showHint(num) {
+            const feedback = document.getElementById('feedback' + num);
+            feedback.className = 'feedback hint';
+            feedback.textContent = '💡 ' + comprehensionAnswers[num].hint;
+            if (!studentData.hintsUsed.includes('comp' + num)) {
+                studentData.hintsUsed.push('comp' + num);
+            }
+        }
+        
+        // Matching answers
+        const matchingAnswers = {
+            1: 'a', 2: 'b', 3: 'c', 4: 'b', 5: 'b', 6: 'c'
+        };
+        
+        function checkMatching() {
+            let correct = 0;
+            const total = 6;
+            
+            for (let i = 1; i <= 6; i++) {
+                const select = document.getElementById('match' + i);
+                const value = select.value;
+                studentData.matching[i] = { answer: value, correct: value === matchingAnswers[i] };
+                
+                if (value === matchingAnswers[i]) {
+                    correct++;
+                    select.style.borderColor = '#28a745';
+                } else if (value !== '') {
+                    select.style.borderColor = '#dc3545';
+                } else {
+                    select.style.borderColor = '#ddd';
+                }
+            }
+            
+            const feedback = document.getElementById('matchingFeedback');
+            feedback.className = correct === total ? 'feedback correct' : 'feedback incorrect';
+            feedback.textContent = `Vous avez ${correct} réponse(s) correcte(s) sur ${total}.`;
+            
+            updateProgress();
+        

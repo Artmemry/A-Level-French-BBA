@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>La Loi Rixain – A-Level French Activity</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Segoe UI',sans-serif;background:#f4f6fa;color:#222;padding:20px;max-width:860px;margin:0 auto}
+  h1{color:#1a3a6b;font-size:1.4rem;margin-bottom:4px}
+  h2{color:#1a3a6b;font-size:1.1rem;margin:20px 0 8px}
+  .subtitle{color:#555;font-size:0.85rem;margin-bottom:18px}
+  .name-box{background:#fff;border:2px solid #1a3a6b;border-radius:8px;padding:14px;margin-bottom:18px;display:flex;align-items:center;gap:10px}
+  .name-box label{font-weight:600;white-space:nowrap}
+  .name-box input{flex:1;padding:6px 10px;border:1px solid #ccc;border-radius:5px;font-size:1rem}
+  .intro-box{background:#e8f0fe;border-left:4px solid #1a3a6b;border-radius:6px;padding:14px;margin-bottom:18px;font-size:0.92rem;line-height:1.6}
+  .intro-box h3{color:#1a3a6b;margin-bottom:6px;font-size:0.95rem}
+  .summary-box{background:#fff;border:1px solid #c9d4e8;border-radius:8px;padding:16px;margin-bottom:18px;font-size:0.93rem;line-height:1.75}
+  .vocab-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:18px}
+  @media(max-width:540px){.vocab-grid{grid-template-columns:1fr}}
+  .vocab-card{background:#fff;border:1px solid #c9d4e8;border-radius:7px;padding:10px 12px;font-size:0.88rem}
+  .vocab-card .fr{font-weight:700;color:#1a3a6b;font-size:0.95rem}
+  .vocab-card .en{color:#444;margin-top:2px}
+  .section{background:#fff;border:1px solid #c9d4e8;border-radius:8px;padding:18px;margin-bottom:18px}
+  .section p{line-height:1.9;margin-bottom:8px;font-size:0.93rem}
+  input.gap{border:none;border-bottom:2px solid #1a3a6b;width:120px;font-size:0.92rem;padding:2px 4px;background:transparent;color:#222;outline:none;text-align:center}
+  input.gap:focus{border-bottom-color:#e63946}
+  input.gap.correct{border-bottom-color:#2a9d4e;background:#eaffea;color:#2a9d4e}
+  input.gap.wrong{border-bottom-color:#e63946;background:#fff0f0;color:#e63946}
+  .vocab-q{margin-bottom:12px}
+  .vocab-q label{display:block;font-size:0.9rem;margin-bottom:4px;font-weight:600}
+  .vocab-q select{padding:6px 8px;border:1px solid #aaa;border-radius:5px;font-size:0.9rem;width:100%;background:#fff}
+  .vocab-q select.correct{border-color:#2a9d4e;background:#eaffea}
+  .vocab-q select.wrong{border-color:#e63946;background:#fff0f0}
+  .btn{padding:9px 20px;border:none;border-radius:6px;cursor:pointer;font-size:0.92rem;font-weight:600}
+  .btn-check{background:#1a3a6b;color:#fff;margin-right:8px}
+  .btn-check:hover{background:#14305a}
+  .btn-reset{background:#e0e5f0;color:#333}
+  .btn-reset:hover{background:#c9d4e8}
+  .btn-dl{background:#2a9d4e;color:#fff}
+  .btn-dl:hover{background:#228040}
+  .score-box{display:inline-block;background:#f0f4ff;border:1px solid #c9d4e8;border-radius:6px;padding:8px 16px;font-size:0.9rem;margin-top:10px}
+  .score-box span{font-weight:700;color:#1a3a6b;font-size:1.1rem}
+  /* Accent keyboard */
+  .accent-kb{position:fixed;bottom:18px;right:18px;background:#1a3a6b;border-radius:10px;padding:10px 12px;display:flex;gap:7px;box-shadow:0 4px 14px rgba(0,0,0,0.25);z-index:999}
+  .accent-kb button{background:#fff;border:none;border-radius:5px;width:34px;height:34px;font-size:1.1rem;cursor:pointer;color:#1a3a6b;font-weight:700}
+  .accent-kb button:hover{background:#e8f0fe}
+  .accent-kb .kb-label{color:#aac4ff;font-size:0.7rem;align-self:center;margin-right:4px;white-space:nowrap}
+  .feedback{font-size:0.82rem;margin-top:4px;min-height:16px}
+  .feedback.ok{color:#2a9d4e}
+  .feedback.no{color:#e63946}
+  .tabs{display:flex;gap:6px;margin-bottom:16px;flex-wrap:wrap}
+  .tab{padding:7px 16px;border-radius:6px 6px 0 0;border:1px solid #c9d4e8;border-bottom:none;cursor:pointer;font-size:0.88rem;background:#e8edf7;color:#555}
+  .tab.active{background:#fff;color:#1a3a6b;font-weight:700}
+  .tab-content{display:none}
+  .tab-content.active{display:block}
+  .hint{font-size:0.78rem;color:#888;margin-bottom:10px}
+  .actions{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:14px}
+</style>
+</head>
+<body>
+
+<h1>🇫🇷 La Loi Rixain – Parité en entreprise</h1>
+<p class="subtitle">A-Level French Activity | B1/B2 | Gender equality in French law</p>
+
+<div class="name-box">
+  <label for="sname">Your name:</label>
+  <input type="text" id="sname" placeholder="Enter your name before starting…">
+</div>
+
+<!-- ENGLISH INTRODUCTION -->
+<div class="intro-box">
+  <h3>📘 Background — What you need to know (in English)</h3>
+  <p>France has a law called the <strong>Loi Rixain</strong> (named after MP Marie-Pierre Rixain), which came into force on <strong>1 March 2026</strong>. It requires large companies (1,000+ employees) to have at least <strong>30% women</strong> in two types of leadership roles:</p>
+  <ul style="margin:6px 0 6px 18px">
+    <li><strong>Senior executives</strong> (<em>cadres dirigeants</em>) — the top managers running day-to-day operations</li>
+    <li><strong>Governing bodies</strong> (<em>instances dirigeantes</em>) — boards and committees that set strategy (e.g. Board of Directors, Executive Committee)</li>
+  </ul>
+  <p>By 2029, this target rises to <strong>40%</strong>. Companies that fail to comply must publish a corrective action plan and face financial penalties. This builds on an earlier law (Copé-Zimmermann, 2011) which already brought more women onto company boards.</p>
+</div>
+
+<!-- SUMMARY TEXT -->
+<div class="summary-box">
+  <h2 style="margin-top:0">📄 Résumé (150 mots) — Read this carefully</h2>
+  <p>Depuis le 1er mars 2026, la <strong>loi Rixain</strong> oblige les entreprises de plus de 1 000 salariés à compter au moins <strong>30 % de femmes</strong> parmi leurs dirigeants. Cette obligation concerne deux groupes : les <em>cadres dirigeants</em> (les responsables opérationnels au sommet) et les membres des <em>instances dirigeantes</em> (les organes de gouvernance comme le conseil d'administration).</p>
+  <p>Les entreprises doivent publier leurs résultats chaque année. Si elles ne respectent pas la loi, elles risquent des <strong>pénalités financières</strong>.</p>
+  <p>Cette loi s'inscrit dans la lutte contre le <em>plafond de verre</em> — les obstacles invisibles qui empêchent les femmes d'accéder aux postes de direction. Des phénomènes comme la <em>mommy penalty</em> (ralentissement de carrière après la maternité) et le <em>plancher collant</em> (concentration des femmes dans des postes peu valorisés) persistent.</p>
+  <p>Le prochain objectif est fixé à <strong>40 % en 2029</strong>. L'enjeu n'est plus la faisabilité, mais la volonté de maintenir l'effort.</p>
+</div>
+
+<!-- KEY VOCABULARY -->
+<h2>🔑 Key Vocabulary</h2>
+<div class="vocab-grid">
+  <div class="vocab-card"><div class="fr">le plafond de verre</div><div class="en">the glass ceiling — invisible barriers stopping women reaching the top</div></div>
+  <div class="vocab-card"><div class="fr">le plancher collant</div><div class="en">the sticky floor — women concentrated in low-progression jobs</div></div>
+  <div class="vocab-card"><div class="fr">les cadres dirigeants</div><div class="en">senior executives — top operational managers</div></div>
+  <div class="vocab-card"><div class="fr">les instances dirigeantes</div><div class="en">governing bodies — boards and strategic committees</div></div>
+  <div class="vocab-card"><div class="fr">la parité</div><div class="en">parity / gender equality in representation</div></div>
+  <div class="vocab-card"><div class="fr">une pénalité financière</div><div class="en">a financial penalty / fine</div></div>
+  <div class="vocab-card"><div class="fr">la maternité</div><div class="en">maternity / motherhood</div></div>
+  <div class="vocab-card"><div class="fr">la mixité</div><div class="en">gender diversity / mixed representation</div></div>
+  <div class="vocab-card"><div class="fr">un salarié</div><div class="en">an employee</div></div>
+  <div class="vocab-card"><div class="fr">la transparence salariale</div><div class="en">pay transparency — openly reporting wage data</div></div>
+</div>
+
+<!-- EXERCISE TABS -->
+<div class="tabs">
+  <div class="tab active" onclick="showTab('cloze')">✏️ Exercise 1 — Gap Fill</div>
+  <div class="tab" onclick="showTab('vocab')">🔤 Exercise 2 — Vocabulary Match</div>
+  <div class="tab" onclick="showTab('comprehension')">💬 Exercise 3 — True / False</div>
+</div>
+
+<!-- EXERCISE 1: CLOZE -->
+<div id="cloze" class="tab-content active">
+  <div class="section">
+    <p class="hint">Fill in each gap using the words from the summary above. Click a gap first, then use the accent keyboard (bottom right) if needed.</p>
+    <p>Depuis le 1er mars <input class="gap" id="c1" data-ans="2026">, la loi Rixain oblige les entreprises de plus de <input class="gap" id="c2" data-ans="1000"> salariés à compter au moins <input class="gap" id="c3" data-ans="30"> % de femmes parmi leurs dirigeants.</p>
+    <p>Cette loi concerne les <input class="gap" id="c4" data-ans="cadres"> dirigeants et les membres des <input class="gap" id="c5" data-ans="instances"> dirigeantes.</p>
+    <p>Les entreprises doivent publier leurs résultats chaque <input class="gap" id="c6" data-ans="année">. Si elles ne respectent pas la loi, elles risquent des <input class="gap" id="c7" data-ans="pénalités"> financières.</p>
+    <p>Le <input class="gap" id="c8" data-ans="plafond"> de verre désigne les obstacles invisibles qui empêchent les femmes d'accéder aux postes de direction.</p>
+    <p>Le prochain objectif est fixé à <input class="gap" id="c9" data-ans="40"> % en <input class="gap" id="c10" data-ans="2029">.</p>
+    <div class="actions">
+      <button class="btn btn-check" onclick="checkCloze()">Check answers</button>
+      <button class="btn btn-reset" onclick="resetCloze()">Reset</button>
+      <div id="cloze-score" class="score-box" style="display:none">Score: <span id="cscore"></span> / 10</div>
+    </div>
+  </div>
+</div>
+
+<!-- EXERCISE 2: VOCAB MATCH -->
+<div id="vocab" class="tab-content">
+  <div class="section">
+    <p class="hint">Match each French term to its correct English meaning.</p>
+
+    <div class="vocab-q">
+      <label>1. le plafond de verre</label>
+      <select id="v1" data-ans="b">
+        <option value="">— choose —</option>
+        <option value="a">the sticky floor — women stuck in low-progression roles</option>
+        <option value="b">the glass ceiling — invisible barriers to reaching the top</option>
+        <option value="c">pay transparency</option>
+        <option value="d">maternity leave</option>
+      </select>
+    </div>
+
+    <div class="vocab-q">
+      <label>2. la mixité</label>
+      <select id="v2" data-ans="c">
+        <option value="">— choose —</option>
+        <option value="a">a financial penalty</option>
+        <option value="b">governing body</option>
+        <option value="c">gender diversity / mixed representation</option>
+        <option value="d">an employee</option>
+      </select>
+    </div>
+
+    <div class="vocab-q">
+      <label>3. un salarié</label>
+      <select id="v3" data-ans="d">
+        <option value="">— choose —</option>
+        <option value="a">a board member</option>
+        <option value="b">a senior executive</option>
+        <option value="c">a penalty</option>
+        <option value="d">an employee</option>
+      </select>
+    </div>
+
+    <div class="vocab-q">
+      <label>4. le plancher collant</label>
+      <select id="v4" data-ans="a">
+        <option value="">— choose —</option>
+        <option value="a">the sticky floor — women concentrated in low-progression jobs</option>
+        <option value="b">the glass ceiling</option>
+        <option value="c">maternity leave</option>
+        <option value="d">pay gap</option>
+      </select>
+    </div>
+
+    <div class="vocab-q">
+      <label>5. la transparence salariale</label>
+      <select id="v5" data-ans="b">
+        <option value="">— choose —</option>
+        <option value="a">gender parity</option>
+        <option value="b">pay transparency — openly reporting wage data</option>
+        <option value="c">the glass ceiling</option>
+        <option value="d">an action plan</option>
+      </select>
+    </div>
+
+    <div class="vocab-q">
+      <label>6. les instances dirigeantes</label>
+      <select id="v6" data-ans="c">
+        <option value="">— choose —</option>
+        <option value="a">senior operational managers</option>
+        <option value="b">financial penalties</option>
+        <option value="c">governing bodies — boards and strategic committees</option>
+        <option value="d">employees with maternity rights</option>
+      </select>
+    </div>
+
+    <div class="vocab-q">
+      <label>7. la maternité</label>
+      <select id="v7" data-ans="d">
+        <option value="">— choose —</option>
+        <option value="a">gender diversity</option>
+        <option value="b">the sticky floor</option>
+        <option value="c">a governing body</option>
+        <option value="d">maternity / motherhood</option>
+      </select>
+    </div>
+
+    <div class="vocab-q">
+      <label>8. une pénalité financière</label>
+      <select id="v8" data-ans="a">
+        <option value="">— choose —</option>
+        <option value="a">a financial penalty / fine</option>
+        <option value="b">a wage report</option>
+        <option value="c">a senior executive</option>
+        <option value="d">pay transparency</option>
+      </select>
+    </div>
+
+    <div class="actions">
+      <button class="btn btn-check" onclick="checkVocab()">Check answers</button>
+      <button class="btn btn-reset" onclick="resetVocab()">Reset</button>
+      <div id="vocab-score" class="score-box" style="display:none">Score: <span id="vscore"></span> / 8</div>
+    </div>
+  </div>
+</div>
+
+<!-- EXERCISE 3: TRUE/FALSE -->
+<div id="comprehension" class="tab-content">
+  <div class="section">
+    <p class="hint">Based on the summary text, decide if each statement is <strong>Vrai</strong> (true) or <strong>Faux</strong> (false).</p>
+
+    <div id="tf-area"></div>
+
+    <div class="actions">
+      <button class="btn btn-check" onclick="checkTF()">Check answers</button>
+      <button class="btn btn-reset" onclick="resetTF()">Reset</button>
+      <div id="tf-score" class="score-box" style="display:none">Score: <span id="tfscore"></span> / 7</div>
+    </div>
+  </div>
+</div>
+
+<!-- DOWNLOAD -->
+<div style="margin-top:22px;padding:16px;background:#fff;border:1px solid #c9d4e8;border-radius:8px">
+  <h2 style="margin-top:0">📥 Download your results</h2>
+  <p style="font-size:0.88rem;color:#555;margin-bottom:10px">Complete all three exercises then download a summary of your answers.</p>
+  <button class="btn btn-dl" onclick="downloadResults()">Download results (.txt)</button>
+</div>
+
+<!-- FLOATING ACCENT KEYBOARD -->
+<div class="accent-kb">
+  <span class="kb-label">Accents</span>
+  <button onclick="insertAccent('é')" title="é">é</button>
+  <button onclick="insertAccent('è')" title="è">è</button>
+  <button onclick="insertAccent('ê')" title="ê">ê</button>
+  <button onclick="insertAccent('à')" title="à">à</button>
+  <button onclick="insertAccent('ô')" title="ô">ô</button>
+</div>
+
+<script>
+// ---- Tab switching ----
+function showTab(id){
+  document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  event.target.classList.add('active');
+}
+
+// ---- Accent keyboard ----
+let activeInput = null;
+document.querySelectorAll('input.gap').forEach(inp=>{
+  inp.addEventListener('focus',()=>activeInput=inp);
+});
+function insertAccent(ch){
+  if(!activeInput) return;
+  const s=activeInput.selectionStart, e=activeInput.selectionEnd;
+  const v=activeInput.value;
+  activeInput.value=v.slice(0,s)+ch+v.slice(e);
+  activeInput.selectionStart=activeInput.selectionEnd=s+1;
+  activeInput.focus();
+}
+
+// ---- Cloze ----
+const clozeResults={};
+function checkCloze(){
+  let score=0;
+  document.querySelectorAll('input.gap').forEach(inp=>{
+    const ans=inp.dataset.ans.toLowerCase().trim();
+    const val=inp.value.toLowerCase().trim();
+    inp.classList.remove('correct','wrong');
+    if(val===ans){inp.classList.add('correct');score++;}
+    else inp.classList.add('wrong');
+    clozeResults[inp.id]={given:inp.value,correct:inp.dataset.ans,ok:val===ans};
+  });
+  const el=document.getElementById('cloze-score');
+  el.style.display='inline-block';
+  document.getElementById('cscore').textContent=score;
+}
+function resetCloze(){
+  document.querySelectorAll('input.gap').forEach(inp=>{inp.value='';inp.classList.remove('correct','wrong');});
+  document.getElementById('cloze-score').style.display='none';
+}
+
+// ---- Vocab ----
+const vocabResults={};
+function checkVocab(){
+  let score=0;
+  document.querySelectorAll('select[id^="v"]').forEach(sel=>{
+    sel.classList.remove('correct','wrong');
+    if(sel.value===sel.dataset.ans){sel.classList.add('correct');score++;}
+    else sel.classList.add('wrong');
+    vocabResults[sel.id]={given:sel.options[sel.selectedIndex]?.text||'—',ok:sel.value===sel.dataset.ans};
+  });
+  const el=document.getElementById('vocab-score');
+  el.style.display='inline-block';
+  document.getElementById('vscore').textContent=score;
+}
+function resetVocab(){
+  document.querySelectorAll('select[id^="v"]').forEach(sel=>{sel.value='';sel.classList.remove('correct','wrong');});
+  document.getElementById('vocab-score').style.display='none';
+}
+
+// ---- True/False ----
+const tfData=[
+  {q:"La loi Rixain entre en vigueur en 2025.",ans:"Faux"},
+  {q:"Les entreprises concernées ont plus de 1 000 salariés.",ans:"Vrai"},
+  {q:"L'objectif de 30 % concerne uniquement les cadres dirigeants.",ans:"Faux"},
+  {q:"Les entreprises doivent publier leurs résultats chaque année.",ans:"Vrai"},
+  {q:"Le plafond de verre aide les femmes à progresser dans leur carrière.",ans:"Faux"},
+  {q:"Le prochain objectif est de 40 % de femmes en 2029.",ans:"Vrai"},
+  {q:"La mommy penalty désigne l'accélération de carrière après la maternité.",ans:"Faux"},
+];
+const tfResults={};
+function buildTF(){
+  const area=document.getElementById('tf-area');
+  tfData.forEach((item,i)=>{
+    const div=document.createElement('div');
+    div.style.cssText='margin-bottom:12px;padding:10px;background:#f8f9fd;border-radius:6px;font-size:0.9rem';
+    div.innerHTML=`<strong>${i+1}.</strong> ${item.q}<br>
+    <label style="margin-top:6px;display:inline-flex;align-items:center;gap:6px;margin-right:16px">
+      <input type="radio" name="tf${i}" value="Vrai"> Vrai</label>
+    <label style="display:inline-flex;align-items:center;gap:6px">
+      <input type="radio" name="tf${i}" value="Faux"> Faux</label>
+    <div class="feedback" id="tfb${i}"></div>`;
+    area.appendChild(div);
+  });
+}
+buildTF();
+function checkTF(){
+  let score=0;
+  tfData.forEach((item,i)=>{
+    const sel=document.querySelector(`input[name="tf${i}"]:checked`);
+    const fb=document.getElementById(`tfb${i}`);
+    if(!sel){fb.textContent='Please select an answer.';fb.className='feedback no';return;}
+    const ok=sel.value===item.ans;
+    if(ok){score++;fb.textContent='✓ Correct!';fb.className='feedback ok';}
+    else{fb.textContent=`✗ The answer is: ${item.ans}`;fb.className='feedback no';}
+    tfResults[i]={q:item.q,given:sel.value,correct:item.ans,ok};
+  });
+  const el=document.getElementById('tf-score');
+  el.style.display='inline-block';
+  document.getElementById('tfscore').textContent=score;
+}
+function resetTF(){
+  document.querySelectorAll('input[type="radio"]').forEach(r=>r.checked=false);
+  tfData.forEach((_,i)=>{const fb=document.getElementById(`tfb${i}`);fb.textContent='';fb.className='feedback';});
+  document.getElementById('tf-score').style.display='none';
+}
+
+// ---- Download ----
+function downloadResults(){
+  const name=document.getElementById('sname').value.trim()||'Unknown student';
+  const date=new Date().toLocaleString('en-GB');
+  let out=`LA LOI RIXAIN – Activity Results\n`;
+  out+=`Student: ${name}\nDate: ${date}\n`;
+  out+=`${'='.repeat(50)}\n\n`;
+
+  out+=`EXERCISE 1 – Gap Fill\n${'-'.repeat(30)}\n`;
+  let c1s=0;
+  document.querySelectorAll('input.gap').forEach((inp,i)=>{
+    const ok=inp.classList.contains('correct');
+    if(ok)c1s++;
+    out+=`Gap ${i+1}: Your answer: "${inp.value}" | Correct: "${inp.dataset.ans}" | ${ok?'✓':'✗'}\n`;
+  });
+  out+=`Score: ${c1s}/10\n\n`;
+
+  out+=`EXERCISE 2 – Vocabulary Match\n${'-'.repeat(30)}\n`;
+  let v1s=0;
+  document.querySelectorAll('select[id^="v"]').forEach((sel,i)=>{
+    const ok=sel.classList.contains('correct');
+    if(ok)v1s++;
+    out+=`Q${i+1}: Your answer: "${sel.options[sel.selectedIndex]?.text||'—'}" | ${ok?'✓':'✗'}\n`;
+  });
+  out+=`Score: ${v1s}/8\n\n`;
+
+  out+=`EXERCISE 3 – True / False\n${'-'.repeat(30)}\n`;
+  let t1s=0;
+  tfData.forEach((item,i)=>{
+    const sel=document.querySelector(`input[name="tf${i}"]:checked`);
+    const given=sel?sel.value:'No answer';
+    const ok=given===item.ans;
+    if(ok)t1s++;
+    out+=`Q${i+1}: "${item.q}"\n  Your answer: ${given} | Correct: ${item.ans} | ${ok?'✓':'✗'}\n`;
+  });
+  out+=`Score: ${t1s}/7\n\n`;
+  out+=`${'='.repeat(50)}\n`;
+  out+=`TOTAL: ${c1s+v1s+t1s} / 25\n`;
+
+  const blob=new Blob([out],{type:'text/plain'});
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);
+  a.download=`loi_rixain_${name.replace(/\s+/g,'_')}.txt`;
+  a.click();
+}
+</script>
+</body>
+</html>

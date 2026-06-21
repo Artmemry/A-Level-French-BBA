@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edexcel A-Level French: Le Monde du Travail - COMPLETE 15 Questions</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #2c3e50;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        header {
+            background: linear-gradient(135deg, #2c3e50, #34495e);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        h1 { font-size: 2.5rem; margin-bottom: 10px; }
+        .subtitle { opacity: 0.9; }
+
+        .stats-bar {
+            background: #34495e;
+            color: white;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .progress-container {
+            flex-grow: 1;
+            background: #2c3e50;
+            height: 8px;
+            border-radius: 4px;
+            margin: 0 20px;
+            overflow: hidden;
+        }
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #3498db, #2ecc71);
+            transition: width 0.5s ease;
+            width: 0%;
+        }
+        .content { padding: 30px; }
+
+        .exercise {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 25px;
+            margin-bottom: 30px;
+            border-left: 5px solid #3498db;
+        }
+        .exercise-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .exercise-title {
+            font-size: 1.5rem;
+            color: #2c3e50;
+            font-weight: 600;
+        }
+        .difficulty {
+            background: #e74c3c;
+            color: white;
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+        .english-text {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            border: 2px solid #e9ecef;
+            margin-bottom: 25px;
+            font-size: 1.1rem;
+            line-height: 1.7;
+        }
+
+        .translation-item {
+            background: white;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+        .item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        .item-number {
+            background: #3498db;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+        .item-score {
+            font-weight: bold;
+            color: #7f8c8d;
+        }
+        .english-sentence {
+            font-weight: 600;
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+            color: #2c3e50;
+        }
+        textarea {
+            width: 100%;
+            min-height: 100px;
+            padding: 15px;
+            border: 2px solid #e9ecef;
+            border-radius: 6px;
+            font-family: inherit;
+            font-size: 1rem;
+            resize: vertical;
+        }
+        textarea:focus {
+            outline: none;
+            border-color: #3498db;
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+        }
+
+        .button-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+            flex-wrap: wrap;
+        }
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .btn-primary {
+            background: #3498db;
+            color: white;
+        }
+        .btn-primary:hover {
+            background: #2980b9;
+            transform: translateY(-2px);
+        }
+        .btn-secondary {
+            background: #95a5a6;
+            color: white;
+        }
+        .btn-secondary:hover {
+            background: #7f8c8d;
+        }
+
+        .feedback {
+            margin-top: 15px;
+            padding: 15px;
+            border-radius: 6px;
+            display: none;
+            font-weight: 500;
+        }
+        .feedback.correct {
+            background: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+        }
+        .feedback.incorrect {
+            background: #f8d7da;
+            border: 1px solid #f5c6cb;
+            color: #721c24;
+        }
+
+        .mark-scheme {
+            margin-top: 15px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 6px;
+            border-left: 4px solid #6c757d;
+            display: none;
+        }
+
+        .accent-keyboard {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            padding: 15px;
+            z-index: 1000;
+            display: none;
+        }
+        .keyboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .accent-buttons {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 8px;
+        }
+        .accent-btn {
+            padding: 10px;
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            transition: all 0.2s ease;
+        }
+        .accent-btn:hover {
+            background: #e9ecef;
+            transform: translateY(-1px);
+        }
+
+        .toggle-keyboard {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #3498db;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            z-index: 999;
+        }
+
+        .correct .item-score { color: #27ae60; }
+        .incorrect .item-score { color: #e74c3c; }
+
+        @media (max-width: 768px) {
+            .container { margin: 10px; }
+            .stats-bar { flex-direction: column; gap: 10px; text-align: center; }
+            .progress-container { margin: 10px 0; width: 100%; }
+            .button-group { flex-direction: column; }
+            .btn { width: 100%; }
+            .accent-keyboard { bottom: 80px; right: 20px; left: 20px; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <header>
+        <h1>Edexcel A-Level French: Le Monde du Travail</h1>
+        <p class="subtitle">COMPLETE 15-Question Translation Practice</p>
+    </header>
+
+    <div class="stats-bar">
+        <div class="score">Score: <span id="total-score">0</span>/15</div>
+        <div class="progress-container">
+            <div class="progress-bar" id="progress-bar"></div>
+        </div>
+        <div class="progress-text"><span id="progress-percent">0</span>% Complete</div>
+    </div>
+
+    <div class="content">
+        <!-- EXERCISE 1: CDI/CDD CONTRACTS - 5 QUESTIONS -->
+        <div class="exercise">
+            <div class="exercise-header">
+                <h2 class="exercise-title">CDI vs CDD Contracts (Questions 1-5)</h2>
+                <div class="difficulty">A-Level</div>
+            </div>
+            <div class="english-text">
+                <p>The French labour market is characterized by the coexistence of CDI and CDD contracts. CDIs provide permanent employment with strong job protection, while CDDs offer temporary solutions for specific business needs. This dual system creates tension between employers seeking flexibility and employees desiring stability.</p>
+            </div>
+            <div id="translation-sections-1"></div>
+        </div>
+
+        <!-- EXERCISE 2: 35-HOUR WEEK - 5 QUESTIONS -->
+        <div class="exercise">
+            <div class="exercise-header">
+                <h2 class="exercise-title">The 35-Hour Week (Questions 6-10)</h2>
+                <div class="difficulty">A-Level</div>
+            </div>
+            <div class="english-text">
+                <p>The 35-hour working week legislation, implemented in 2000, represents one of France's most significant social reforms. While aiming to reduce unemployment through work-sharing, it has generated ongoing debate about its economic impact and administrative complexity.</p>
+            </div>
+            <div id="translation-sections-2"></div>
+        </div>
+
+        <!-- EXERCISE 3: WAGE NEGOTIATIONS - 5 QUESTIONS -->
+        <div class="exercise">
+            <div class="exercise-header">
+                <h2 class="exercise-title">Wage Negotiations (Questions 11-15)</h2>
+                <div class="difficulty">A-Level</div>
+            </div>
+            <div class="english-text">
+                <p>France's wage negotiation system operates across multiple levels, from national branch agreements to company-specific discussions. Recent reforms attempting to decentralize this process have faced resistance from unions concerned about preserving collective bargaining power.</p>
+            </div>
+            <div id="translation-sections-3"></div>
+        </div>
+    </div>
+</div>
+
+<button class="toggle-keyboard" onclick="toggleAccentKeyboard()">é</button>
+
+<div class="accent-keyboard" id="accent-keyboard">
+    <div class="keyboard-header">
+        <strong>French Accents</strong>
+        <button onclick="toggleAccentKeyboard()" style="background:none; border:none; font-size:1.2rem; cursor:pointer;">×</button>
+    </div>
+    <div class="accent-buttons">
+        <button class="accent-btn" onclick="insertAccent('à')">à</button>
+        <button class="accent-btn" onclick="insertAccent('â')">â</button>
+        <button class="accent-btn" onclick="insertAccent('ç')">ç</button>
+        <button class="accent-btn" onclick="insertAccent('è')">è</button>
+        <button class="accent-btn" onclick="insertAccent('é')">é</button>
+        <button class="accent-btn" onclick="insertAccent('ê')">ê</button>
+        <button class="accent-btn" onclick="insertAccent('ë')">ë</button>
+        <button class="accent-btn" onclick="insertAccent('î')">î</button>
+        <button class="accent-btn" onclick="insertAccent('ï')">ï</button>
+        <button class="accent-btn" onclick="insertAccent('ô')">ô</button>
+        <button class="accent-btn" onclick="insertAccent('ù')">ù</button>
+        <button class="accent-btn" onclick="insertAccent('û')">û</button>
+        <button class="accent-btn" onclick="insertAccent('ü')">ü</button>
+        <button class="accent-btn" onclick="insertAccent('œ')">œ</button>
+    </div>
+</div>
+
+<script>
+const markSchemes = {
+    text1: [
+        {
+            english: "The French labour market is characterized by the coexistence of CDI and CDD contracts",
+            mainTranslation: "Le marché du travail français est caractérisé par la coexistence des contrats CDI et CDD",
+            accepted: [
+                "Le système d'emploi en France se distingue par la présence simultanée des CDI et CDD",
+                "En France, le monde du travail se définit par la cohabitation des CDI et CDD"
+            ],
+            rejected: [
+                "The French labour market est caractérisé",
+                "Le marché du travail français est characterisé"
+            ]
+        },
+        {
+            english: "CDIs provide permanent employment with strong job protection",
+            mainTranslation: "Les CDI offrent un emploi permanent avec une forte protection de l'emploi",
+            accepted: [
+                "Les contrats à durée indéterminée assurent un travail stable avec une sécurité professionnelle importante",
+                "Les CDI garantissent un emploi durable avec une protection sociale solide"
+            ],
+            rejected: [
+                "CDIs provide permanent employment",
+                "Les CDI offrent un permanent employment"
+            ]
+        },
+        {
+            english: "while CDDs offer temporary solutions for specific business needs",
+            mainTranslation: "tandis que les CDD proposent des solutions temporaires pour des besoins spécifiques des entreprises",
+            accepted: [
+                "alors que les CDD fournissent des emplois provisoires pour des besoins particuliers des sociétés",
+                "tandis que les contrats à durée déterminée offrent des réponses temporaires à des besoins précis des compagnies"
+            ],
+            rejected: [
+                "while CDDs offer temporary solutions",
+                "pendant les CDD offrent temporary solutions"
+            ]
+        },
+        {
+            english: "This dual system creates tension between employers seeking flexibility",
+            mainTranslation: "Ce système dual crée des tensions entre les employeurs recherchant la flexibilité",
+            accepted: [
+                "Cette double structure génère des conflits entre les entreprises désirant de la souplesse",
+                "Ce dispositif à deux vitesses engendre des frictions entre les patrons voulant de l'adaptabilité"
+            ],
+            rejected: [
+                "This dual system crée tension",
+                "Ce dual system crée des tensions"
+            ]
+        },
+        {
+            english: "and employees desiring stability in their professional lives",
+            mainTranslation: "et les salariés désirant la stabilité dans leur vie professionnelle",
+            accepted: [
+                "et les travailleurs souhaitant la sécurité dans leur carrière",
+                "et les employés aspirant à la stabilité dans leur parcours professionnel"
+            ],
+            rejected: [
+                "and employees desiring stability",
+                "et les employees désirant stability"
+            ]
+        }
+    ],
+    text2: [
+        {
+            english: "The 35-hour working week legislation was implemented in 2000",
+            mainTranslation: "La législation sur la semaine de 35 heures a été mise en œuvre en 2000",
+            accepted: [
+                "La loi des 35 heures a été appliquée en 2000",
+                "Le texte sur les 35 heures a été instauré en 2000"
+            ],
+            rejected: [
+                "The 35-hour working week legislation was implemented",
+                "La législation 35-hour week était implemented"
+            ]
+        },
+        {
+            english: "It represents one of France's most significant social reforms",
+            mainTranslation: "Elle représente l'une des réformes sociales les plus importantes de la France",
+            accepted: [
+                "Elle constitue une des transformations sociales majeures du pays",
+                "Elle symbolise une des changements sociétaux les plus notables en France"
+            ],
+            rejected: [
+                "It represents one of France's most significant social reforms",
+                "Elle représente one of France's most significant reforms"
+            ]
+        },
+        {
+            english: "While aiming to reduce unemployment through work-sharing",
+            mainTranslation: "Bien que visant à réduire le chômage par le partage du travail",
+            accepted: [
+                "Tout en ayant pour objectif de diminuer le chômage via une meilleure répartition de l'emploi",
+                "Bien qu'ayant pour but de faire baisser le chômage grâce au partage du temps de travail"
+            ],
+            rejected: [
+                "While aiming to reduce unemployment",
+                "Pendant visant à réduire unemployment"
+            ]
+        },
+        {
+            english: "it has generated ongoing debate about its economic impact",
+            mainTranslation: "elle a généré un débat permanent sur son impact économique",
+            accepted: [
+                "elle a provoqué une controverse continue concernant ses conséquences économiques",
+                "elle a suscité des discussions incessantes sur ses effets économiques"
+            ],
+            rejected: [
+                "it has generated ongoing debate",
+                "elle a généré ongoing debate"
+            ]
+        },
+        {
+            english: "and the administrative complexity it has created for businesses",
+            mainTranslation: "et la complexité administrative qu'elle a créée pour les entreprises",
+            accepted: [
+                "et la lourdeur administrative qu'elle a engendrée pour les sociétés",
+                "et les complications bureaucratiques qu'elle a produites pour les compagnies"
+            ],
+            rejected: [
+                "and the administrative complexity it has created",
+                "et la administrative complexity elle a créé"
+            ]
+        }
+    ],
+    text3: [
+        {
+            english: "France's wage negotiation system operates across multiple levels",
+            mainTranslation: "Le système de négociation salariale français fonctionne à plusieurs niveaux",
+            accepted: [
+                "Le dispositif de discussion sur les salaires en France opère à divers échelons",
+                "Le mécanisme de négociation des rémunérations français agit à différents paliers"
+            ],
+            rejected: [
+                "France's wage negotiation system opère",
+                "Le système wage negotiation français operate"
+            ]
+        },
+        {
+            english: "from national branch agreements to company-specific discussions",
+            mainTranslation: "des accords de branche nationaux aux discussions spécifiques à l'entreprise",
+            accepted: [
+                "des conventions collectives nationales aux pourparlers propres à chaque société",
+                "des négociations sectorielles nationales aux débats particuliers à chaque compagnie"
+            ],
+            rejected: [
+                "from national branch agreements",
+                "de national branch agreements à company-specific discussions"
+            ]
+        },
+        {
+            english: "Recent reforms attempting to decentralize this process",
+            mainTranslation: "Les réformes récentes tentant de décentraliser ce processus",
+            accepted: [
+                "Les changements récents cherchant à territorialiser cette procédure",
+                "Les modifications apportées dernièrement visant à rapprocher ce mécanisme des entreprises"
+            ],
+            rejected: [
+                "Recent reforms attempting to decentralize",
+                "Les réformes récentes attemptant décentraliser"
+            ]
+        },
+        {
+            english: "have faced resistance from unions concerned about preserving collective bargaining power",
+            mainTranslation: "ont rencontré une résistance des syndicats préoccupés par la préservation du pouvoir de négociation collective",
+            accepted: [
+                "se sont heurtées à l'opposition des organisations syndicales soucieuses de maintenir la force de négociation collective",
+                "ont fait face à la contestation des centrales syndicales inquiètes pour la conservation de la capacité de négociation collective"
+            ],
+            rejected: [
+                "have faced resistance from unions",
+                "ont face resistance des unions"
+            ]
+        },
+        {
+            english: "This reflects the challenge of modernizing traditional labour relations structures",
+            mainTranslation: "Cela reflète le défi de moderniser les structures traditionnelles de relations professionnelles",
+            accepted: [
+                "Ceci illustre la difficulté de faire évoluer les cadres classiques des relations du travail",
+                "Cela montre la complexité d'actualiser les systèmes établis de relations sociales"
+            ],
+            rejected: [
+                "This reflects the challenge of modernizing",
+                "Cela reflect le challenge de moderniser"
+            ]
+        }
+    ]
+};
+
+let activeTextarea = null;
+
+document.addEventListener('DOMContentLoaded', function() {
+    initializeExercise('text1', 'translation-sections-1', 0);   // 1–5
+    initializeExercise('text2', 'translation-sections-2', 5);   // 6–10
+    initializeExercise('text3', 'translation-sections-3', 10);  // 11–15
+
+    document.querySelectorAll('textarea').forEach(textarea => {
+        textarea.addEventListener('focus', function() {
+            activeTextarea = this;
+        });
+    });
+
+    updateProgress();
+});
+
+function initializeExercise(textId, containerId, offset) {
+    const container = document.getElementById(containerId);
+    const markScheme = markSchemes[textId];
+
+    markScheme.forEach((item, index) => {
+        const globalIndex = offset + index + 1;
+        const section = document.createElement('div');
+        section.className = 'translation-item';
+        section.innerHTML = `
+            <div class="item-header">
+                <div class="item-number">${globalIndex}</div>
+                <div class="item-score">0/1</div>
+            </div>
+            <div class="english-sentence">${item.english}</div>
+            <textarea placeholder="Your French translation..."></textarea>
+            <div class="button-group">
+                <button class="btn btn-primary" onclick="checkTranslation('${textId}', ${index})">Check Answer</button>
+                <button class="btn btn-secondary" onclick="toggleMarkScheme('${textId}', ${index})">Show Mark Scheme</button>
+            </div>
+            <div class="feedback" id="${textId}-feedback-${index}"></div>
+            <div class="mark-scheme" id="${textId}-markscheme-${index}">
+                <p><strong>Expected:</strong> ${item.mainTranslation}</p>
+                <p><strong>Also accept:</strong> ${item.accepted.join('; ')}</p>
+                <p><strong>Avoid:</strong> ${item.rejected.slice(0, 2).join('; ')}</p>
+            </div>
+        `;
+        container.appendChild(section);
+    });
+}
+
+function checkTranslation(textId, index) {
+    const item = markSchemes[textId][index];
+    const containerId = textId === 'text1' ? 'translation-sections-1'
+                        : textId === 'text2' ? 'translation-sections-2'
+                        : 'translation-sections-3';
+    const sections = document.querySelectorAll('#' + containerId + ' .translation-item');
+    const section = sections[index];
+    const textarea = section.querySelector('textarea');
+    const feedback = document.getElementById(`${textId}-feedback-${index}`);
+    const scoreElement = section.querySelector('.item-score');
+
+    const userTranslation = textarea.value.trim();
+    let isCorrect = false;
+
+    if (!userTranslation) {
+        feedback.textContent = "Please enter a translation before checking.";
+        feedback.className = "feedback incorrect";
+        feedback.style.display = "block";
+        return;
+    }
+
+    if (normalizeText(userTranslation) === normalizeText(item.mainTranslation)) {
+        isCorrect = true;
+    }
+
+    if (!isCorrect) {
+        for (const accepted of item.accepted) {
+            if (normalizeText(userTranslation) === normalizeText(accepted)) {
+                isCorrect = true;
+                break;
+            }
+        }
+    }
+
+    if (isCorrect) {
+        feedback.textContent = "✓ Correct! This would score full marks.";
+        feedback.className = "feedback correct";
+        scoreElement.textContent = "1/1";
+        scoreElement.style.color = "#27ae60";
+        section.style.borderColor = "#27ae60";
+        section.style.background = "#f0fff4";
+    } else {
+        feedback.textContent = "✗ Not quite right. Check the mark scheme for guidance.";
+        feedback.className = "feedback incorrect";
+        scoreElement.textContent = "0/1";
+        scoreElement.style.color = "#e74c3c";
+        section.style.borderColor = "#e74c3c";
+        section.style.background = "#fff5f5";
+    }
+
+    feedback.style.display = "block";
+    updateProgress();
+}
+
+function toggleMarkScheme(textId, index) {
+    const markScheme = document.getElementById(`${textId}-markscheme-${index}`);
+    markScheme.style.display = markScheme.style.display === "block" ? "none" : "block";
+}
+
+function toggleAccentKeyboard() {
+    const keyboard = document.getElementById('accent-keyboard');
+    keyboard.style.display = keyboard.style.display === "block" ? "none" : "block";
+}
+
+function insertAccent(accent) {
+    if (activeTextarea) {
+        const start = activeTextarea.selectionStart;
+        const end = activeTextarea.selectionEnd;
+        const text = activeTextarea.value;
+        activeTextarea.value = text.substring(0, start) + accent + text.substring(end);
+        activeTextarea.selectionStart = activeTextarea.selectionEnd = start + accent.length;
+        activeTextarea.focus();
+    }
+}
+
+function normalizeText(text) {
+    return text
+        .toLowerCase()
+        .replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, '')
+        .replace(/\s+/g, ' ')
+        .trim();
+}
+
+function updateProgress() {
+    const totalItems = 15;
+    let correctItems = 0;
+
+    document.querySelectorAll('.item-score').forEach(score => {
+        if (score.textContent === "1/1") correctItems++;
+    });
+
+    const progress = (correctItems / totalItems) * 100;
+    document.getElementById('total-score').textContent = correctItems;
+    document.getElementById('progress-bar').style.width = progress + '%';
+    document.getElementById('progress-percent').textContent = Math.round(progress);
+}
+</script>
+</body>
+</html>

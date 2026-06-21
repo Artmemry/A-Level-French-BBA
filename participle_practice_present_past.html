@@ -1,0 +1,835 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>French Grammar Exercises - Participles & Passé Composé</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f5f5f5;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+            font-size: 28px;
+        }
+        h2 {
+            color: #34495e;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            font-size: 20px;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 5px;
+        }
+        .name-input {
+            margin: 20px 0;
+        }
+        .name-input label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        .name-input input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        .exercise {
+            margin: 25px 0;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 6px;
+            border-left: 4px solid #3498db;
+        }
+        .question {
+            margin: 15px 0;
+        }
+        .question-text {
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+        .input-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        input[type="text"] {
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 15px;
+            min-width: 200px;
+            flex: 1;
+        }
+        input[type="text"]:focus {
+            outline: none;
+            border-color: #3498db;
+            box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.1);
+        }
+        .accent-btn {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 6px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background 0.2s;
+            flex-shrink: 0;
+        }
+        .accent-btn:hover {
+            background: #2980b9;
+        }
+        .accent-btn:active {
+            background: #21618c;
+        }
+        .accent-keyboard {
+            display: none;
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+            z-index: 1000;
+            border: 2px solid #3498db;
+        }
+        .accent-keyboard.active {
+            display: block;
+        }
+        .keyboard-header {
+            font-size: 12px;
+            color: #7f8c8d;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+        .accent-keys {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 8px;
+        }
+        .accent-key {
+            background: #ecf0f1;
+            border: 1px solid #bdc3c7;
+            padding: 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 18px;
+            transition: all 0.2s;
+            min-width: 40px;
+        }
+        .accent-key:hover {
+            background: #3498db;
+            color: white;
+            transform: scale(1.1);
+        }
+        .accent-key:active {
+            transform: scale(0.95);
+        }
+        .close-keyboard {
+            background: #e74c3c;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-bottom: 10px;
+            width: 100%;
+            font-size: 14px;
+        }
+        .close-keyboard:hover {
+            background: #c0392b;
+        }
+        .buttons {
+            margin-top: 30px;
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+        button {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.2s;
+        }
+        .submit-btn {
+            background: #27ae60;
+            color: white;
+        }
+        .submit-btn:hover {
+            background: #229954;
+        }
+        .download-btn {
+            background: #3498db;
+            color: white;
+        }
+        .download-btn:hover {
+            background: #2980b9;
+        }
+        .reset-btn {
+            background: #95a5a6;
+            color: white;
+        }
+        .reset-btn:hover {
+            background: #7f8c8d;
+        }
+        .instructions {
+            background: #e8f4f8;
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            border-left: 4px solid #3498db;
+        }
+        .example {
+            font-style: italic;
+            color: #7f8c8d;
+            margin-top: 5px;
+            font-size: 14px;
+        }
+        .score {
+            font-size: 18px;
+            font-weight: bold;
+            color: #27ae60;
+            margin-top: 20px;
+            padding: 15px;
+            background: #d5f4e6;
+            border-radius: 6px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>French Grammar Exercises</h1>
+        <p style="color: #7f8c8d; margin-bottom: 20px;">Participes présents et passés / Passé composé</p>
+
+        <div class="name-input">
+            <label for="studentName">Student Name: *</label>
+            <input type="text" id="studentName" placeholder="Enter your full name" required>
+        </div>
+
+        <div class="instructions">
+            <strong>Instructions:</strong> Complete all exercises below. Click the "Accents" button next to any input field to access French accent characters. Click "Check Answers" when finished, then download your results.
+        </div>
+
+        <h2>Section A: Present Participle Formation</h2>
+        <div class="exercise">
+            <p style="margin-bottom: 15px;"><strong>Instructions:</strong> Form the present participle from the nous form of these verbs.</p>
+            
+            <div class="question">
+                <div class="question-text">1. parler (nous parlons) → <span style="color: #7f8c8d;">______ant</span></div>
+                <div class="input-group">
+                    <input type="text" id="a1" data-answer="parlant">
+                    <button class="accent-btn" onclick="showAccents('a1')">Accents</button>
+                </div>
+            </div>
+
+            <div class="question">
+                <div class="question-text">2. choisir (nous choisissons) → <span style="color: #7f8c8d;">______ant</span></div>
+                <div class="input-group">
+                    <input type="text" id="a2" data-answer="choisissant">
+                    <button class="accent-btn" onclick="showAccents('a2')">Accents</button>
+                </div>
+            </div>
+
+            <div class="question">
+                <div class="question-text">3. attendre (nous attendons) → <span style="color: #7f8c8d;">______ant</span></div>
+                <div class="input-group">
+                    <input type="text" id="a3" data-answer="attendant">
+                    <button class="accent-btn" onclick="showAccents('a3')">Accents</button>
+                </div>
+            </div>
+
+            <div class="question">
+                <div class="question-text">4. faire (nous faisons) → <span style="color: #7f8c8d;">______ant</span></div>
+                <div class="input-group">
+                    <input type="text" id="a4" data-answer="faisant">
+                    <button class="accent-btn" onclick="showAccents('a4')">Accents</button>
+                </div>
+            </div>
+
+            <div class="question">
+                <div class="question-text">5. prendre (nous prenons) → <span style="color: #7f8c8d;">______ant</span></div>
+                <div class="input-group">
+                    <input type="text" id="a5" data-answer="prenant">
+                    <button class="accent-btn" onclick="showAccents('a5')">Accents</button>
+                </div>
+            </div>
+        </div>
+
+        <h2>Section B: Present Participle with "en"</h2>
+        <div class="exercise">
+            <p style="margin-bottom: 15px;"><strong>Instructions:</strong> Translate these sentences into French using "en + present participle".</p>
+            
+            <div class="question">
+                <div class="question-text">6. By studying hard, I passed the exam.</div>
+                <div class="example">Example: En étudiant dur, j'ai réussi l'examen.</div>
+                <div class="input-group">
+                    <input type="text" id="b1" data-answer="en étudiant dur, j'ai réussi l'examen" style="min-width: 300px;">
+                    <button class="accent-btn" onclick="showAccents('b1')">Accents</button>
+                </div>
+            </div>
+
+            <div class="question">
+                <div class="question-text">7. Through working together, we finished on time.</div>
+                <div class="input-group">
+                    <input type="text" id="b2" data-answer="en travaillant ensemble, nous avons fini à l'heure" style="min-width: 300px;">
+                    <button class="accent-btn" onclick="showAccents('b2')">Accents</button>
+                </div>
+            </div>
+
+            <div class="question">
+                <div class="question-text">8. Being tired, she went to bed early.</div>
+                <div class="input-group">
+                    <input type="text" id="b3" data-answer="étant fatiguée, elle s'est couchée tôt" style="min-width: 300px;">
+                    <button class="accent-btn" onclick="showAccents('b3')">Accents</button>
+                </div>
+            </div>
+        </div>
+
+        <h2>Section C: Passé Composé with AVOIR</h2>
+        <div class="exercise">
+            <p style="margin-bottom: 15px;"><strong>Instructions:</strong> Complete these sentences with the correct passé composé form (use AVOIR).</p>
+            
+            <div class="question">
+                <div class="question-text">9. Hier, je __________ (manger) une pizza.</div>
+                <div class="input-group">
+                    <input type="text" id="c1" data-answer="ai mangé">
+                    <button class="accent-btn" onclick="showAccents('c1')">Accents</button>
+                </div>
+            </div>
+
+            <div class="question">
+                <div class="question-text">10. Nous __________ (finir) nos devoirs à minuit.</div>
+                <div class="input-group">
+                    <input type="text" id="c2" data-answer="avons fini">
+                    <button class="accent-btn" onclick="showAccents('c2')">Accents</button>
+                </div>
+            </div>
+
+            <div class="question">
+                <div class="question-text">11. Tu __________ (vendre) ta voiture?</div>
+                <div class="input-group">
+                    <input type="text" id="c3" data-answer="as vendu">
+                    <button class="accent-btn" onclick="showAccents('c3')">Accents</button>
+                </div>
+            </div>
+
+            <div class="question">
+                <div class="question-text">12. Elle __________ (prendre) le train ce matin.</div>
+                <div class="input-group">
+                    <input type="text" id="c4" data-answer="a pris">
+                    <button class="accent-btn" onclick="showAccents('c4')">Accents</button>
+                </div>
+            </div>
+
+            <div class="question">
+                <div class="question-text">13. Ils __________ (faire) leurs valises hier soir.</div>
+                <div class="input-group">
+                    <input type="text" id="c5" data-answer="ont fait">
+                    <button class="accent-btn" onclick="showAccents('c5')">Accents</button>
+                </div>
+            </div>
+        </div>
+
+        <h2>Section D: DR & MRS VANDERTRAMP Verbs</h2>
+        <div class="exercise">
+            <p style="margin-bottom: 15px;"><strong>Instructions:</strong> Complete with the correct passé composé form using ÊTRE. Remember agreement!</p>
+            
+            <div class="question">
+                <div class="question-text">14. Marie __________ (aller) à Paris la semaine dernière.</div>
+                <div class="input-group">
+                    <input type="text" id="d1" data-answer="est allée">
+                    <button class="accent-btn" onclick="showAccents('d1')">Accents</button>
+                </div>
+            </div>
+
+            <div class="question">
+                <div class="question-text">15. Nous (masculine) __________ (arriver) en retard.</div>
+                <div class="input-group">
+                    <input type="text" id="d2" data-answer="sommes arrivés">
+                    <button class="accent-btn" onclick="showAccents('d2')">Accents</button>
+                </div>
+            </div>
+
+            <div class="question">
+                <div class="question-text">16. Les filles __________ (partir) ce matin.</div>
+                <div class="input-group">
+                    <input type="text" id="d3" data-answer="sont parties">
+                    <button class="accent-btn" onclick="showAccents('d3')">Accents</button>
+                </div>
+            </div>
+
+            <div class="question">
+                <div class="question-text">17. Je (feminine) __________ (naître) en 2005.</div>
+                <div class="input-group">
+                    <input type="text" id="d4" data-answer="suis née">
+                    <button class="accent-btn" onclick="showAccents('d4')">Accents</button>
+                </div>
+            </div>
+
+            <div class="question">
+                <div class="question-text">18. Vous (formal, feminine) __________ (devenir) professeur?</div>
+                <div class="input-group">
+                    <input type="text" id="d5" data-answer="êtes devenue">
+                    <button class="accent-btn" onclick="showAccents('d5')">Accents</button>
+                </div>
+            </div>
+
+            <div class="question">
+                <div class="question-text">19. Mon grand-père __________ (mourir) en 2020.</div>
+                <div class="input-group">
+                    <input type="text" id="d6" data-answer="est mort">
+                    <button class="accent-btn" onclick="showAccents('d6')">Accents</button>
+                </div>
+            </div>
+
+            <div class="question">
+                <div class="question-text">20. Elles __________ (descendre) par l'escalier.</div>
+                <div class="input-group">
+                    <input type="text" id="d7" data-answer="sont descendues">
+                    <button class="accent-btn" onclick="showAccents('d7')">Accents</button>
+                </div>
+            </div>
+        </div>
+
+        <h2>Section E: AVOIR or ÊTRE? (Tricky cases)</h2>
+        <div class="exercise">
+            <p style="margin-bottom: 15px;"><strong>Instructions:</strong> Some verbs use AVOIR when they have a direct object. Choose correctly!</p>
+            
+            <div class="question">
+                <div class="question-text">21. Je __________ (monter) les valises. <span style="color: #7f8c8d;">(I brought up the suitcases)</span></div>
+                <div class="input-group">
+                    <input type="text" id="e1" data-answer="ai monté">
+                    <button class="accent-btn" onclick="showAccents('e1')">Accents</button>
+                </div>
+            </div>
+
+            <div class="question">
+                <div class="question-text">22. Je __________ (monter) par l'escalier. <span style="color: #7f8c8d;">(I went up the stairs)</span></div>
+                <div class="input-group">
+                    <input type="text" id="e2" data-answer="suis monté" data-answer-alt="suis montée">
+                    <button class="accent-btn" onclick="showAccents('e2')">Accents</button>
+                </div>
+            </div>
+
+            <div class="question">
+                <div class="question-text">23. Il __________ (sortir) la poubelle. <span style="color: #7f8c8d;">(He took out the trash)</span></div>
+                <div class="input-group">
+                    <input type="text" id="e3" data-answer="a sorti">
+                    <button class="accent-btn" onclick="showAccents('e3')">Accents</button>
+                </div>
+            </div>
+
+            <div class="question">
+                <div class="question-text">24. Nous (feminine) __________ (sortir) hier soir. <span style="color: #7f8c8d;">(We went out last night)</span></div>
+                <div class="input-group">
+                    <input type="text" id="e4" data-answer="sommes sorties">
+                    <button class="accent-btn" onclick="showAccents('e4')">Accents</button>
+                </div>
+            </div>
+        </div>
+
+        <h2>Section F: Reflexive Verbs</h2>
+        <div class="exercise">
+            <p style="margin-bottom: 15px;"><strong>Instructions:</strong> Complete with reflexive verbs in passé composé. Watch for agreement!</p>
+            
+            <div class="question">
+                <div class="question-text">25. Elle __________ (se lever) à 7h.</div>
+                <div class="input-group">
+                    <input type="text" id="f1" data-answer="s'est levée">
+                    <button class="accent-btn" onclick="showAccents('f1')">Accents</button>
+                </div>
+            </div>
+
+            <div class="question">
+                <div class="question-text">26. Nous (masculine) __________ (se réveiller) tard.</div>
+                <div class="input-group">
+                    <input type="text" id="f2" data-answer="nous sommes réveillés">
+                    <button class="accent-btn" onclick="showAccents('f2')">Accents</button>
+                </div>
+            </div>
+
+            <div class="question">
+                <div class="question-text">27. Elles __________ (se maquiller) avant la fête.</div>
+                <div class="input-group">
+                    <input type="text" id="f3" data-answer="se sont maquillées">
+                    <button class="accent-btn" onclick="showAccents('f3')">Accents</button>
+                </div>
+            </div>
+
+            <div class="question">
+                <div class="question-text">28. Elle __________ (se laver) les cheveux. <span style="color: #7f8c8d;">(Note: "les cheveux" is direct object)</span></div>
+                <div class="input-group">
+                    <input type="text" id="f4" data-answer="s'est lavé">
+                    <button class="accent-btn" onclick="showAccents('f4')">Accents</button>
+                </div>
+            </div>
+
+            <div class="question">
+                <div class="question-text">29. Vous (formal, feminine) __________ (se coucher) tôt?</div>
+                <div class="input-group">
+                    <input type="text" id="f5" data-answer="vous êtes couchée">
+                    <button class="accent-btn" onclick="showAccents('f5')">Accents</button>
+                </div>
+            </div>
+        </div>
+
+        <h2>Section G: Creative Writing with DR & MRS VANDERTRAMP</h2>
+        <div class="exercise">
+            <p style="margin-bottom: 15px;"><strong>Instructions:</strong> Create original sentences using these verbs in passé composé. Vary gender and number as shown in the example.</p>
+            
+            <div class="question">
+                <div class="question-text">30. Revenir (to come back) - Write a sentence:</div>
+                <div class="example">Example: Nous sommes devenues encore plus belles!</div>
+                <div class="input-group">
+                    <input type="text" id="g1" style="min-width: 400px;">
+                    <button class="accent-btn" onclick="showAccents('g1')">Accents</button>
+                </div>
+            </div>
+
+            <div class="question">
+                <div class="question-text">31. Monter (to go up) - Write a sentence:</div>
+                <div class="input-group">
+                    <input type="text" id="g2" style="min-width: 400px;">
+                    <button class="accent-btn" onclick="showAccents('g2')">Accents</button>
+                </div>
+            </div>
+
+            <div class="question">
+                <div class="question-text">32. Tomber (to fall) - Write a sentence:</div>
+                <div class="input-group">
+                    <input type="text" id="g3" style="min-width: 400px;">
+                    <button class="accent-btn" onclick="showAccents('g3')">Accents</button>
+                </div>
+            </div>
+
+            <div class="question">
+                <div class="question-text">33. Rentrer (to return home) - Write a sentence:</div>
+                <div class="input-group">
+                    <input type="text" id="g4" style="min-width: 400px;">
+                    <button class="accent-btn" onclick="showAccents('g4')">Accents</button>
+                </div>
+            </div>
+
+            <div class="question">
+                <div class="question-text">34. Venir (to come) - Write a sentence:</div>
+                <div class="input-group">
+                    <input type="text" id="g5" style="min-width: 400px;">
+                    <button class="accent-btn" onclick="showAccents('g5')">Accents</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="score" id="scoreDisplay"></div>
+
+        <div class="buttons">
+            <button class="submit-btn" onclick="checkAnswers()">Check Answers</button>
+            <button class="download-btn" onclick="downloadResults()">Download Results</button>
+            <button class="reset-btn" onclick="resetForm()">Reset All</button>
+        </div>
+    </div>
+
+    <div class="accent-keyboard" id="accentKeyboard">
+        <button class="close-keyboard" onclick="hideAccents()">✕ Close</button>
+        <div class="keyboard-header">Click a character to insert it</div>
+        <div class="accent-keys">
+            <button class="accent-key" onclick="insertAccent('à')">à</button>
+            <button class="accent-key" onclick="insertAccent('â')">â</button>
+            <button class="accent-key" onclick="insertAccent('é')">é</button>
+            <button class="accent-key" onclick="insertAccent('è')">è</button>
+            <button class="accent-key" onclick="insertAccent('ê')">ê</button>
+            <button class="accent-key" onclick="insertAccent('ë')">ë</button>
+            <button class="accent-key" onclick="insertAccent('î')">î</button>
+            <button class="accent-key" onclick="insertAccent('ï')">ï</button>
+            <button class="accent-key" onclick="insertAccent('ô')">ô</button>
+            <button class="accent-key" onclick="insertAccent('ù')">ù</button>
+            <button class="accent-key" onclick="insertAccent('û')">û</button>
+            <button class="accent-key" onclick="insertAccent('ç')">ç</button>
+            <button class="accent-key" onclick="insertAccent('À')">À</button>
+            <button class="accent-key" onclick="insertAccent('É')">É</button>
+            <button class="accent-key" onclick="insertAccent('È')">È</button>
+            <button class="accent-key" onclick="insertAccent('Ê')">Ê</button>
+            <button class="accent-key" onclick="insertAccent('Ç')">Ç</button>
+            <!-- Correct apostrophe button -->
+            <button class="accent-key" onclick="insertAccent('&#39;')">'</button>
+        </div>
+    </div>
+
+    <script>
+        let currentInputId = null;
+
+        function showAccents(inputId) {
+            currentInputId = inputId;
+            const keyboard = document.getElementById('accentKeyboard');
+            keyboard.classList.add('active');
+            document.getElementById(inputId).focus();
+        }
+
+        function hideAccents() {
+            const keyboard = document.getElementById('accentKeyboard');
+            keyboard.classList.remove('active');
+            currentInputId = null;
+        }
+
+        function insertAccent(char) {
+            if (currentInputId) {
+                const input = document.getElementById(currentInputId);
+                const start = input.selectionStart;
+                const end = input.selectionEnd;
+                const text = input.value;
+                input.value = text.substring(0, start) + char + text.substring(end);
+                const newPosition = start + String(char).length;
+                input.focus();
+                input.setSelectionRange(newPosition, newPosition);
+            }
+        }
+
+        function normalizeAnswer(text) {
+            return text.toLowerCase()
+                .trim()
+                .replace(/\s+/g, ' ');
+        }
+
+        function checkAnswers() {
+            const studentName = document.getElementById('studentName').value.trim();
+            if (!studentName) {
+                alert('Please enter your name before checking answers.');
+                document.getElementById('studentName').focus();
+                return;
+            }
+
+            let score = 0;
+            let total = 0;
+            const inputs = document.querySelectorAll('input[type="text"]:not(#studentName)');
+            
+            inputs.forEach(input => {
+                if (input.id.startsWith('g')) {
+                    if (input.value.trim().length > 10) {
+                        input.style.borderColor = '#27ae60';
+                        input.style.background = '#d5f4e6';
+                        score++;
+                    } else {
+                        input.style.borderColor = '#e74c3c';
+                        input.style.background = '#fadbd8';
+                    }
+                    total++;
+                } else if (input.dataset.answer) {
+                    const userAnswer = normalizeAnswer(input.value);
+                    const correctAnswer = normalizeAnswer(input.dataset.answer);
+                    const altAnswer = input.dataset.answerAlt ? normalizeAnswer(input.dataset.answerAlt) : null;
+                    
+                    if (userAnswer === correctAnswer || (altAnswer && userAnswer === altAnswer)) {
+                        input.style.borderColor = '#27ae60';
+                        input.style.background = '#d5f4e6';
+                        score++;
+                    } else {
+                        input.style.borderColor = '#e74c3c';
+                        input.style.background = '#fadbd8';
+                    }
+                    total++;
+                }
+            });
+
+            const percentage = Math.round((score / total) * 100);
+            const scoreDisplay = document.getElementById('scoreDisplay');
+            scoreDisplay.textContent = `Score: ${score}/${total} (${percentage}%)`;
+            scoreDisplay.style.display = 'block';
+            scoreDisplay.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+
+        function resetForm() {
+            if (confirm('Are you sure you want to reset all answers?')) {
+                const inputs = document.querySelectorAll('input[type="text"]');
+                inputs.forEach(input => {
+                    input.value = '';
+                    input.style.borderColor = '#ddd';
+                    input.style.background = 'white';
+                });
+                document.getElementById('scoreDisplay').style.display = 'none';
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        }
+
+        function downloadResults() {
+            const studentName = document.getElementById('studentName').value.trim();
+            if (!studentName) {
+                alert('Please enter your name before downloading.');
+                document.getElementById('studentName').focus();
+                return;
+            }
+
+            let content = 'FRENCH GRAMMAR EXERCISE RESULTS\n';
+            content += '='.repeat(70) + '\n\n';
+            content += `Student Name: ${studentName}\n`;
+            content += `Date: ${new Date().toLocaleDateString('en-GB')}\n`;
+            content += `Time: ${new Date().toLocaleTimeString('en-GB')}\n`;
+            content += '='.repeat(70) + '\n\n';
+
+            const sections = [
+                { 
+                    name: 'Section A: Present Participle Formation', 
+                    ids: ['a1', 'a2', 'a3', 'a4', 'a5'],
+                    questions: [
+                        'parler → ',
+                        'choisir → ',
+                        'attendre → ',
+                        'faire → ',
+                        'prendre → '
+                    ]
+                },
+                { 
+                    name: 'Section B: Present Participle with "en"', 
+                    ids: ['b1', 'b2', 'b3'],
+                    questions: [
+                        'By studying hard, I passed the exam.',
+                        'Through working together, we finished on time.',
+                        'Being tired, she went to bed early.'
+                    ]
+                },
+                { 
+                    name: 'Section C: Passé Composé with AVOIR', 
+                    ids: ['c1', 'c2', 'c3', 'c4', 'c5'],
+                    questions: [
+                        'Hier, je _____ (manger) une pizza.',
+                        'Nous _____ (finir) nos devoirs à minuit.',
+                        'Tu _____ (vendre) ta voiture?',
+                        'Elle _____ (prendre) le train ce matin.',
+                        'Ils _____ (faire) leurs valises hier soir.'
+                    ]
+                },
+                { 
+                    name: 'Section D: DR & MRS VANDERTRAMP Verbs', 
+                    ids: ['d1', 'd2', 'd3', 'd4', 'd5', 'd6', 'd7'],
+                    questions: [
+                        'Marie _____ (aller) à Paris la semaine dernière.',
+                        'Nous (masculine) _____ (arriver) en retard.',
+                        'Les filles _____ (partir) ce matin.',
+                        'Je (feminine) _____ (naître) en 2005.',
+                        'Vous (formal, feminine) _____ (devenir) professeur?',
+                        'Mon grand-père _____ (mourir) en 2020.',
+                        'Elles _____ (descendre) par l\'escalier.'
+                    ]
+                },
+                { 
+                    name: 'Section E: AVOIR or ÊTRE? (Tricky cases)', 
+                    ids: ['e1', 'e2', 'e3', 'e4'],
+                    questions: [
+                        'Je _____ (monter) les valises.',
+                        'Je _____ (monter) par l\'escalier.',
+                        'Il _____ (sortir) la poubelle.',
+                        'Nous (feminine) _____ (sortir) hier soir.'
+                    ]
+                },
+                { 
+                    name: 'Section F: Reflexive Verbs', 
+                    ids: ['f1', 'f2', 'f3', 'f4', 'f5'],
+                    questions: [
+                        'Elle _____ (se lever) à 7h.',
+                        'Nous (masculine) _____ (se réveiller) tard.',
+                        'Elles _____ (se maquiller) avant la fête.',
+                        'Elle _____ (se laver) les cheveux.',
+                        'Vous (formal, feminine) _____ (se coucher) tôt?'
+                    ]
+                },
+                { 
+                    name: 'Section G: Creative Writing', 
+                    ids: ['g1', 'g2', 'g3', 'g4', 'g5'],
+                    questions: [
+                        'Revenir (to come back)',
+                        'Monter (to go up)',
+                        'Tomber (to fall)',
+                        'Rentrer (to return home)',
+                        'Venir (to come)'
+                    ]
+                }
+            ];
+
+            sections.forEach(section => {
+                content += section.name + '\n';
+                content += '-'.repeat(70) + '\n\n';
+                
+                section.ids.forEach((id, index) => {
+                    const input = document.getElementById(id);
+                    const questionText = section.questions[index];
+                    const answer = input.value.trim() || '[No answer]';
+                    
+                    content += `Q${index + 1}: ${questionText}\n`;
+                    content += `Answer: ${answer}\n\n`;
+                });
+                
+                content += '\n';
+            });
+
+            const scoreDisplay = document.getElementById('scoreDisplay');
+            if (scoreDisplay.style.display !== 'none') {
+                content += '\n' + '='.repeat(70) + '\n';
+                content += scoreDisplay.textContent + '\n';
+                content += '='.repeat(70) + '\n';
+            }
+
+            const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            const fileName = `French_Grammar_${studentName.replace(/\s+/g, '_')}_${new Date().toISOString().split('T')[0]}.txt`;
+            a.href = url;
+            a.download = fileName;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            
+            alert(`Results downloaded as: ${fileName}`);
+        }
+
+        document.addEventListener('click', function(event) {
+            const keyboard = document.getElementById('accentKeyboard');
+            const isAccentBtn = event.target.classList.contains('accent-btn');
+            const isInsideKeyboard = keyboard.contains(event.target);
+            
+            if (!isAccentBtn && !isInsideKeyboard && keyboard.classList.contains('active')) {
+                hideAccents();
+            }
+        });
+
+        document.addEventListener('keydown', function(event) {
+            if (event.altKey && currentInputId) {
+                const key = event.key.toLowerCase();
+                const accentMap = {
+                    'e': 'é',
+                    'a': 'à',
+                    'u': 'ù',
+                    'c': 'ç'
+                };
+                
+                if (accentMap[key]) {
+                    event.preventDefault();
+                    insertAccent(accentMap[key]);
+                }
+            }
+        });
+    </script>
+</body>
+</html>

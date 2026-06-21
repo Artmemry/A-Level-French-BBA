@@ -1,0 +1,789 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>La Haine - Analyse de Scènes Clé</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+            padding: 40px;
+        }
+
+        h1 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-size: 2em;
+            border-bottom: 3px solid #e74c3c;
+            padding-bottom: 15px;
+        }
+
+        .subtitle {
+            color: #7f8c8d;
+            margin-bottom: 30px;
+            font-size: 1.1em;
+            line-height: 1.6;
+        }
+
+        .instructions {
+            background: #ecf0f1;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            border-left: 4px solid #3498db;
+        }
+
+        .instructions strong {
+            color: #2c3e50;
+        }
+
+        .difficulty-toggle {
+            background: #3498db;
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: 600;
+            margin-bottom: 20px;
+            transition: all 0.3s;
+        }
+
+        .difficulty-toggle:hover {
+            background: #2980b9;
+            transform: scale(1.05);
+        }
+
+        .question-section {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 25px;
+            border-left: 5px solid #e74c3c;
+            transition: all 0.3s;
+        }
+
+        .question-section:hover {
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+            transform: translateY(-2px);
+        }
+
+        .question-header {
+            background: #2c3e50;
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            font-weight: 600;
+            font-size: 1.1em;
+        }
+
+        .points {
+            background: #e74c3c;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            display: inline-block;
+            margin-left: 10px;
+        }
+
+        .word-bank {
+            background: #fff3cd;
+            border: 3px dashed #ffc107;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 20px;
+            transition: all 0.3s;
+        }
+
+        .word-bank.hidden {
+            display: none;
+        }
+
+        .word-bank-title {
+            font-weight: bold;
+            color: #856404;
+            margin-bottom: 10px;
+        }
+
+        .word-bank-words {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .word-chip {
+            background: white;
+            border: 2px solid #ffc107;
+            color: #856404;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 0.95em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .word-chip:hover {
+            background: #ffc107;
+            color: white;
+            transform: scale(1.05);
+        }
+
+        .word-chip.used {
+            opacity: 0.4;
+            text-decoration: line-through;
+        }
+
+        .passage {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            line-height: 2;
+            font-size: 1.05em;
+            border: 2px solid #ecf0f1;
+        }
+
+        .gap-input {
+            background: #fff3cd;
+            border: 2px solid #ffc107;
+            border-radius: 5px;
+            padding: 5px 10px;
+            font-size: 1em;
+            min-width: 150px;
+            transition: all 0.3s;
+        }
+
+        .gap-input:focus {
+            outline: none;
+            border-color: #e74c3c;
+            background: #fff;
+            box-shadow: 0 0 10px rgba(231, 76, 60, 0.3);
+        }
+
+        .gap-input.correct {
+            background: #d4edda;
+            border-color: #28a745;
+        }
+
+        .gap-input.incorrect {
+            background: #f8d7da;
+            border-color: #dc3545;
+        }
+
+        .feedback {
+            background: #d4edda;
+            border: 2px solid #28a745;
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 15px;
+            display: none;
+        }
+
+        .feedback.show {
+            display: block;
+        }
+
+        .feedback h4 {
+            color: #155724;
+            margin-bottom: 10px;
+        }
+
+        .feedback-item {
+            margin-bottom: 10px;
+            padding: 10px;
+            background: white;
+            border-radius: 5px;
+        }
+
+        .feedback-item.correct {
+            border-left: 4px solid #28a745;
+        }
+
+        .feedback-item.incorrect {
+            border-left: 4px solid #dc3545;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+
+        .action-btn {
+            padding: 15px 30px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1.1em;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s;
+        }
+
+        .check-btn {
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            color: white;
+        }
+
+        .check-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(40, 167, 69, 0.3);
+        }
+
+        .reset-btn {
+            background: linear-gradient(135deg, #ffc107 0%, #ff9800 100%);
+            color: white;
+        }
+
+        .reset-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(255, 193, 7, 0.3);
+        }
+
+        .download-btn {
+            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+            color: white;
+        }
+
+        .download-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(231, 76, 60, 0.3);
+        }
+
+        .results {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+            font-size: 1.2em;
+            text-align: center;
+        }
+
+        .keyboard {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: white;
+            padding: 15px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            z-index: 1000;
+        }
+
+        .keyboard-title {
+            font-size: 0.9em;
+            color: #2c3e50;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .keyboard-buttons {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+        }
+
+        .keyboard-btn {
+            background: #e74c3c;
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1.1em;
+            transition: all 0.2s;
+        }
+
+        .keyboard-btn:hover {
+            background: #c0392b;
+            transform: scale(1.1);
+        }
+
+        .keyboard-btn:active {
+            transform: scale(0.95);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+
+            h1 {
+                font-size: 1.5em;
+            }
+
+            .button-group {
+                flex-direction: column;
+            }
+
+            .action-btn {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .keyboard {
+                bottom: 10px;
+                right: 10px;
+                padding: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎬 La Haine - Analyse de Scènes Clé</h1>
+        <p class="subtitle">Exercice de compréhension avec textes à trous</p>
+
+        <div class="instructions">
+            <strong>Instructions:</strong> Remplissez les espaces vides dans les passages ci-dessous. Utilisez la banque de mots pour vous aider, ou cliquez sur le bouton ci-dessous pour masquer les mots et rendre l'exercice plus difficile. Faites attention à la forme correcte des mots (terminaisons des verbes, des noms, etc.).
+        </div>
+
+        <button class="difficulty-toggle" onclick="toggleWordBanks()">
+            <span id="toggle-text">🔒 Mode Difficile (masquer les banques de mots)</span>
+        </button>
+
+        <div class="question-section">
+            <div class="question-header">
+                Question 1 <span class="points">4 Points</span>
+            </div>
+            <p><strong>Vinz joue les durs devant son miroir (9'12-9'44)</strong><br>
+            Qu'apprend-on de sa personnalité ? En quoi la mise en scène est-elle très habile ?</p>
+            
+            <div class="word-bank" data-q="1">
+                <div class="word-bank-title">📝 Banque de mots:</div>
+                <div class="word-bank-words">
+                    <span class="word-chip" onclick="useWord(this)">soucieux</span>
+                    <span class="word-chip" onclick="useWord(this)">mine</span>
+                    <span class="word-chip" onclick="useWord(this)">agressif</span>
+                    <span class="word-chip" onclick="useWord(this)">préoccupé</span>
+                    <span class="word-chip" onclick="useWord(this)">semblant</span>
+                    <span class="word-chip" onclick="useWord(this)">bagarreur</span>
+                </div>
+            </div>
+
+            <div class="passage">
+                La scène a surtout pour but de montrer le côté <input type="text" class="gap-input" data-q="1" data-n="1" placeholder="..."> de Vinz, en imitant le personnage principal du fameux film Taxi Driver (de Mario Scorsese). Il fait déjà <input type="text" class="gap-input" data-q="1" data-n="2" placeholder="..."> d'utiliser son révolver, mais est également <input type="text" class="gap-input" data-q="1" data-n="3" placeholder="..."> de son apparence (boutons sur le nez).
+            </div>
+
+            <div class="feedback" data-q="1"></div>
+        </div>
+
+        <div class="question-section">
+            <div class="question-header">
+                Question 2 <span class="points">4 Points</span>
+            </div>
+            <p><strong>Des journalistes TV cherchent à interroger Vinz, Saïd et Hubert (19'04-20'20)</strong><br>
+            Que nous montre cette scène sur les rapports entre les médias et les jeunes des banlieues ?</p>
+            
+            <div class="word-bank" data-q="2">
+                <div class="word-bank-title">📝 Banque de mots:</div>
+                <div class="word-bank-words">
+                    <span class="word-chip" onclick="useWord(this)">télévisé</span>
+                    <span class="word-chip" onclick="useWord(this)">s'ennuient</span>
+                    <span class="word-chip" onclick="useWord(this)">considérer</span>
+                    <span class="word-chip" onclick="useWord(this)">estimer</span>
+                    <span class="word-chip" onclick="useWord(this)">penser</span>
+                </div>
+            </div>
+
+            <div class="passage">
+                Les jeunes <input type="text" class="gap-input" data-q="2" data-n="1" placeholder="..."> d'abord. Les médias semblent <input type="text" class="gap-input" data-q="2" data-n="2" placeholder="..."> les jeunes comme dangereux (ne sortent pas de leur voiture). Hubert lance : « On n'est pas à Thoiry » (un zoo du style safari). Et on imagine l'effet que donnerait l'image prise avec le gros plan sur Vinz si elle devait passer dans un journal <input type="text" class="gap-input" data-q="2" data-n="3" placeholder="...">.
+            </div>
+
+            <div class="feedback" data-q="2"></div>
+        </div>
+
+        <div class="question-section">
+            <div class="question-header">
+                Question 3 <span class="points">10 Points</span>
+            </div>
+            <p><strong>Vinz montre son revolver et a une dispute avec Hubert (25'55-27'30)</strong><br>
+            Quelle fonction a cette scène ? Analyse la scène.</p>
+            
+            <div class="word-bank" data-q="3">
+                <div class="word-bank-title">📝 Banque de mots:</div>
+                <div class="word-bank-words">
+                    <span class="word-chip" onclick="useWord(this)">montre</span>
+                    <span class="word-chip" onclick="useWord(this)">souligne</span>
+                    <span class="word-chip" onclick="useWord(this)">personnages</span>
+                    <span class="word-chip" onclick="useWord(this)">tragédie</span>
+                    <span class="word-chip" onclick="useWord(this)">annonçant</span>
+                    <span class="word-chip" onclick="useWord(this)">l'évolution</span>
+                    <span class="word-chip" onclick="useWord(this)">vengeance</span>
+                    <span class="word-chip" onclick="useWord(this)">lumière</span>
+                    <span class="word-chip" onclick="useWord(this)">réagissent</span>
+                    <span class="word-chip" onclick="useWord(this)">accentue</span>
+                    <span class="word-chip" onclick="useWord(this)">présageant</span>
+                    <span class="word-chip" onclick="useWord(this)">revanche</span>
+                </div>
+            </div>
+
+            <div class="passage">
+                La scène où Vinz <input type="text" class="gap-input" data-q="3" data-n="1" placeholder="..."> son revolver et se dispute avec Hubert dans le film La Haine a plusieurs fonctions importantes. Tout d'abord, elle <input type="text" class="gap-input" data-q="3" data-n="2" placeholder="..."> les tensions et les divisions profondes qui existent entre les différents <input type="text" class="gap-input" data-q="3" data-n="3" placeholder="..."> du film. Cette scène montre également le pouvoir destructeur de la violence et de la possession d'une arme à feu, qui peut facilement dégénérer en <input type="text" class="gap-input" data-q="3" data-n="4" placeholder="...">. L'image du revolver peut être considérée comme <input type="text" class="gap-input" data-q="3" data-n="5" placeholder="..."> un événement tragique qui se produira plus tard dans le film. Enfin, cette scène est un moment clé dans <input type="text" class="gap-input" data-q="3" data-n="6" placeholder="..."> du personnage de Vinz, qui devient de plus en plus obsédé par l'idée de <input type="text" class="gap-input" data-q="3" data-n="7" placeholder="..."> et de justice après la mort de son ami. Elle met en <input type="text" class="gap-input" data-q="3" data-n="8" placeholder="..."> les différentes façons dont les personnages <input type="text" class="gap-input" data-q="3" data-n="9" placeholder="..."> à la violence et au chaos qui les entourent.
+            </div>
+
+            <div class="feedback" data-q="3"></div>
+        </div>
+
+        <div class="question-section">
+            <div class="question-header">
+                Question 4 <span class="points">12 Points</span>
+            </div>
+            <p><strong>Hubert, Saïd et Vinz rencontrent dans les toilettes un vieil homme (48'25-53'26)</strong><br>
+            Quel est le sens de l'histoire racontée et de la scène dans le film ?</p>
+            
+            <div class="word-bank" data-q="4">
+                <div class="word-bank-title">📝 Banque de mots:</div>
+                <div class="word-bank-words">
+                    <span class="word-chip" onclick="useWord(this)">meurt</span>
+                    <span class="word-chip" onclick="useWord(this)">sont</span>
+                    <span class="word-chip" onclick="useWord(this)">montrer</span>
+                    <span class="word-chip" onclick="useWord(this)">pourrait</span>
+                    <span class="word-chip" onclick="useWord(this)">perdre</span>
+                    <span class="word-chip" onclick="useWord(this)">sien</span>
+                    <span class="word-chip" onclick="useWord(this)">enchaîner</span>
+                    <span class="word-chip" onclick="useWord(this)">soit</span>
+                    <span class="word-chip" onclick="useWord(this)">histoire</span>
+                    <span class="word-chip" onclick="useWord(this)">se trouvent</span>
+                </div>
+            </div>
+
+            <div class="passage">
+                Vinz annonce qu'il va « shooter un keuf » si Abdel <input type="text" class="gap-input" data-q="4" data-n="1" placeholder="...">. Vinz et Hubert <input type="text" class="gap-input" data-q="4" data-n="2" placeholder="..."> de nouveau face-à-face. L'histoire sur Grunwalski racontée par le vieillard sympathique semble <input type="text" class="gap-input" data-q="4" data-n="3" placeholder="..."> qu'il y a des situations encore bien plus graves que celle vécue par les trois jeunes. En même temps, on <input type="text" class="gap-input" data-q="4" data-n="4" placeholder="..."> aussi comprendre que celui qui ne s'adapte pas (Grunwalski refuse de lâcher son pantalon) est destiné à tout <input type="text" class="gap-input" data-q="4" data-n="5" placeholder="...">, c'est à faire une fin tragique. Une autre interprétation : Grunwalski meurt parce qu'il rate le train, le trio va aussi manquer le <input type="text" class="gap-input" data-q="4" data-n="6" placeholder="..."> et les évènements vont s'<input type="text" class="gap-input" data-q="4" data-n="7" placeholder="...">. Il est aussi possible que le vieillard <input type="text" class="gap-input" data-q="4" data-n="8" placeholder="..."> une image de l'artiste, il raconte une <input type="text" class="gap-input" data-q="4" data-n="9" placeholder="..."> pour échapper au danger.
+            </div>
+
+            <div class="feedback" data-q="4"></div>
+        </div>
+
+        <div class="button-group">
+            <button class="action-btn check-btn" onclick="checkAnswers()">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+                Vérifier les Réponses
+            </button>
+            <button class="action-btn reset-btn" onclick="resetExercise()">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="1 4 1 10 7 10"></polyline>
+                    <path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path>
+                </svg>
+                Réinitialiser
+            </button>
+            <button class="action-btn download-btn" onclick="downloadResults()">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                    <polyline points="7 10 12 15 17 10"></polyline>
+                    <line x1="12" y1="15" x2="12" y2="3"></line>
+                </svg>
+                Télécharger les Résultats
+            </button>
+        </div>
+
+        <div id="results"></div>
+    </div>
+
+    <div class="keyboard">
+        <div class="keyboard-title">Accents</div>
+        <div class="keyboard-buttons">
+            <button class="keyboard-btn" onclick="insertChar('à')">à</button>
+            <button class="keyboard-btn" onclick="insertChar('é')">é</button>
+            <button class="keyboard-btn" onclick="insertChar('è')">è</button>
+            <button class="keyboard-btn" onclick="insertChar('ê')">ê</button>
+            <button class="keyboard-btn" onclick="insertChar('ç')">ç</button>
+            <button class="keyboard-btn" onclick="insertChar('ù')">ù</button>
+            <button class="keyboard-btn" onclick="insertChar('û')">û</button>
+            <button class="keyboard-btn" onclick="insertChar('ô')">ô</button>
+            <button class="keyboard-btn" onclick="insertChar('î')">î</button>
+        </div>
+    </div>
+
+    <script>
+        var correctAnswers = {
+            "1": {
+                "1": ["agressif", "bagarreur"],
+                "2": ["mine", "semblant"],
+                "3": ["soucieux", "préoccupé", "anxieux", "inquiet", "obsédé", "soigneux"]
+            },
+            "2": {
+                "1": ["s'ennuient"],
+                "2": ["considérer", "estimer", "penser"],
+                "3": ["télévisé", "de télé", "sur la télé"]
+            },
+            "3": {
+                "1": ["montre"],
+                "2": ["souligne", "accentue", "marque", "fait ressortir", "relève"],
+                "3": ["personnages", "héros"],
+                "4": ["tragédie"],
+                "5": ["présageant", "annonçant", "prédisant", "avisant"],
+                "6": ["l'évolution", "le développement"],
+                "7": ["vengeance", "revanche", "vendetta"],
+                "8": ["lumière", "relief"],
+                "9": ["réagissent", "répondent"]
+            },
+            "4": {
+                "1": ["meurt"],
+                "2": ["sont", "se trouvent"],
+                "3": ["montrer"],
+                "4": ["pourrait"],
+                "5": ["perdre"],
+                "6": ["sien"],
+                "7": ["enchaîner"],
+                "8": ["soit"],
+                "9": ["histoire"]
+            }
+        };
+
+        var lastFocusedInput = null;
+        var wordBanksVisible = true;
+
+        function toggleWordBanks() {
+            wordBanksVisible = !wordBanksVisible;
+            var wordBanks = document.querySelectorAll('.word-bank');
+            var toggleText = document.getElementById('toggle-text');
+            
+            for (var i = 0; i < wordBanks.length; i++) {
+                if (wordBanksVisible) {
+                    wordBanks[i].classList.remove('hidden');
+                } else {
+                    wordBanks[i].classList.add('hidden');
+                }
+            }
+            
+            if (wordBanksVisible) {
+                toggleText.textContent = '🔒 Mode Difficile (masquer les banques de mots)';
+            } else {
+                toggleText.textContent = '🔓 Mode Facile (afficher les banques de mots)';
+            }
+        }
+
+        function useWord(element) {
+            if (lastFocusedInput) {
+                lastFocusedInput.value = element.textContent;
+                element.classList.add('used');
+                lastFocusedInput.focus();
+            }
+        }
+
+        function normalizeAnswer(answer) {
+            return answer.toLowerCase().trim().replace(/'/g, "'");
+        }
+
+        function checkAnswers() {
+            var allInputs = document.querySelectorAll('.gap-input');
+            var totalGaps = allInputs.length;
+            var correctCount = 0;
+
+            // Clear previous feedback
+            var allFeedback = document.querySelectorAll('.feedback');
+            for (var i = 0; i < allFeedback.length; i++) {
+                allFeedback[i].innerHTML = '';
+                allFeedback[i].classList.remove('show');
+            }
+
+            // Group answers by question
+            var questionResults = {};
+
+            for (var i = 0; i < allInputs.length; i++) {
+                var input = allInputs[i];
+                var q = input.getAttribute('data-q');
+                var n = input.getAttribute('data-n');
+                var userAnswer = normalizeAnswer(input.value);
+                var possibleAnswers = correctAnswers[q][n];
+                var isCorrect = false;
+
+                for (var j = 0; j < possibleAnswers.length; j++) {
+                    if (normalizeAnswer(possibleAnswers[j]) === userAnswer) {
+                        isCorrect = true;
+                        break;
+                    }
+                }
+
+                if (isCorrect) {
+                    input.classList.add('correct');
+                    input.classList.remove('incorrect');
+                    correctCount++;
+                } else if (userAnswer !== '') {
+                    input.classList.add('incorrect');
+                    input.classList.remove('correct');
+                } else {
+                    input.classList.remove('correct', 'incorrect');
+                }
+
+                // Store results for this question
+                if (!questionResults[q]) {
+                    questionResults[q] = [];
+                }
+                questionResults[q].push({
+                    gap: n,
+                    userAnswer: input.value || '(vide)',
+                    correctAnswers: possibleAnswers.join(' / '),
+                    isCorrect: isCorrect
+                });
+            }
+
+            // Display feedback for each question
+            for (var q in questionResults) {
+                var feedbackDiv = document.querySelector('.feedback[data-q="' + q + '"]');
+                var html = '<h4>Résultats pour cette question:</h4>';
+                
+                for (var i = 0; i < questionResults[q].length; i++) {
+                    var result = questionResults[q][i];
+                    var className = result.isCorrect ? 'correct' : 'incorrect';
+                    var icon = result.isCorrect ? '✓' : '✗';
+                    
+                    html += '<div class="feedback-item ' + className + '">';
+                    html += '<strong>' + icon + ' Blanc ' + result.gap + ':</strong> ';
+                    html += 'Votre réponse: <em>' + result.userAnswer + '</em><br>';
+                    if (!result.isCorrect) {
+                        html += 'Réponses acceptées: <strong>' + result.correctAnswers + '</strong>';
+                    }
+                    html += '</div>';
+                }
+                
+                feedbackDiv.innerHTML = html;
+                feedbackDiv.classList.add('show');
+            }
+
+            var percentage = Math.round((correctCount / totalGaps) * 100);
+            var resultsDiv = document.getElementById('results');
+            
+            var message = '';
+            if (percentage >= 90) {
+                message = 'Excellent travail ! 🌟';
+            } else if (percentage >= 70) {
+                message = 'Très bien ! 👏';
+            } else if (percentage >= 50) {
+                message = 'Bien, mais vous pouvez améliorer 📚';
+            } else {
+                message = 'Continuez à pratiquer 💪';
+            }
+
+            resultsDiv.innerHTML = '<div class="results">' + message + '<br>Score: ' + correctCount + ' / ' + totalGaps + ' (' + percentage + '%)</div>';
+        }
+
+        function resetExercise() {
+            var allInputs = document.querySelectorAll('.gap-input');
+            for (var i = 0; i < allInputs.length; i++) {
+                allInputs[i].value = '';
+                allInputs[i].classList.remove('correct', 'incorrect');
+            }
+            
+            var allChips = document.querySelectorAll('.word-chip');
+            for (var i = 0; i < allChips.length; i++) {
+                allChips[i].classList.remove('used');
+            }
+            
+            var allFeedback = document.querySelectorAll('.feedback');
+            for (var i = 0; i < allFeedback.length; i++) {
+                allFeedback[i].innerHTML = '';
+                allFeedback[i].classList.remove('show');
+            }
+            
+            document.getElementById('results').innerHTML = '';
+        }
+
+        function downloadResults() {
+            var allInputs = document.querySelectorAll('.gap-input');
+            var content = 'LA HAINE - ANALYSE DE SCÈNES CLÉ\n';
+            content += 'Résultats de l\'exercice\n';
+            content += '==================================================\n\n';
+
+            var totalGaps = allInputs.length;
+            var correctCount = 0;
+            var currentQuestion = '';
+
+            for (var i = 0; i < allInputs.length; i++) {
+                var input = allInputs[i];
+                var q = input.getAttribute('data-q');
+                var n = input.getAttribute('data-n');
+                var userAnswer = normalizeAnswer(input.value);
+                var possibleAnswers = correctAnswers[q][n];
+                var isCorrect = false;
+
+                for (var j = 0; j < possibleAnswers.length; j++) {
+                    if (normalizeAnswer(possibleAnswers[j]) === userAnswer) {
+                        isCorrect = true;
+                        break;
+                    }
+                }
+
+                if (isCorrect) correctCount++;
+
+                if (currentQuestion !== q) {
+                    currentQuestion = q;
+                    content += '\n--- QUESTION ' + q + ' ---\n';
+                }
+
+                content += 'Blanc ' + n + ':\n';
+                content += '  Votre réponse: ' + (input.value || '(vide)') + '\n';
+                content += '  Réponses correctes: ' + possibleAnswers.join(' / ') + '\n';
+                content += '  ' + (isCorrect ? '✓ CORRECT' : '✗ INCORRECT') + '\n\n';
+            }
+
+            var percentage = Math.round((correctCount / totalGaps) * 100);
+            content += '==================================================\n';
+            content += 'SCORE FINAL: ' + correctCount + '/' + totalGaps + ' (' + percentage + '%)\n';
+
+            var blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
+            var url = URL.createObjectURL(blob);
+            var a = document.createElement('a');
+            a.href = url;
+            a.download = 'la_haine_resultats.txt';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
+        function insertChar(char) {
+            if (lastFocusedInput) {
+                var start = lastFocusedInput.selectionStart;
+                var end = lastFocusedInput.selectionEnd;
+                var value = lastFocusedInput.value;
+                lastFocusedInput.value = value.substring(0, start) + char + value.substring(end);
+                lastFocusedInput.focus();
+                lastFocusedInput.selectionStart = lastFocusedInput.selectionEnd = start + 1;
+            }
+        }
+
+        document.addEventListener('focusin', function(e) {
+            if (e.target.classList.contains('gap-input')) {
+                lastFocusedInput = e.target;
+            }
+        });
+
+        var allInputs = document.querySelectorAll('.gap-input');
+        for (var i = 0; i < allInputs.length; i++) {
+            allInputs[i].addEventListener('focus', function() {
+                lastFocusedInput = this;
+            });
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,1048 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pratique: Festivals et Traditions dans le Monde Francophone</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+        
+        .timer {
+            background: rgba(255,255,255,0.2);
+            padding: 10px 20px;
+            border-radius: 25px;
+            display: inline-block;
+            margin-top: 15px;
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+        
+        .content {
+            padding: 30px;
+        }
+        
+        .section {
+            margin-bottom: 40px;
+            padding: 25px;
+            background: #f8f9fa;
+            border-radius: 15px;
+            border-left: 5px solid #1e3c72;
+        }
+        
+        .section h2 {
+            color: #1e3c72;
+            margin-bottom: 20px;
+            font-size: 1.5em;
+        }
+        
+        .question {
+            margin-bottom: 25px;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .question-number {
+            display: inline-block;
+            background: #1e3c72;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 30px;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+        
+        .question p {
+            margin-bottom: 15px;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        input[type="text"], textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1em;
+            transition: border-color 0.3s;
+            font-family: inherit;
+        }
+        
+        input[type="text"]:focus, textarea:focus {
+            outline: none;
+            border-color: #1e3c72;
+        }
+        
+        textarea {
+            min-height: 80px;
+            resize: vertical;
+        }
+        
+        .clue {
+            background: #f8f9fa;
+            padding: 10px 15px;
+            border-radius: 8px;
+            margin-top: 10px;
+            font-size: 0.85em;
+            color: #6c757d;
+            border-left: 3px solid #e0e0e0;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .clue:hover {
+            background: #fff3cd;
+            border-left-color: #ffc107;
+            color: #856404;
+        }
+        
+        .clue::before {
+            content: "💡 ";
+            opacity: 0.5;
+        }
+        
+        .clue.revealed {
+            background: #fff3cd;
+            border-left-color: #ffc107;
+            color: #856404;
+        }
+        
+        .clue.revealed::before {
+            opacity: 1;
+        }
+        
+        .checkbox-group {
+            margin-top: 10px;
+        }
+        
+        .checkbox-item {
+            display: block;
+            padding: 10px;
+            margin: 8px 0;
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .checkbox-item:hover {
+            border-color: #1e3c72;
+            background: #f8f9ff;
+        }
+        
+        .checkbox-item input {
+            margin-right: 10px;
+        }
+        
+        .submit-btn {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.1em;
+            border-radius: 25px;
+            cursor: pointer;
+            display: block;
+            margin: 30px auto;
+            box-shadow: 0 4px 15px rgba(30, 60, 114, 0.4);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(30, 60, 114, 0.6);
+        }
+        
+        .result {
+            display: none;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+            font-weight: bold;
+            text-align: center;
+        }
+        
+        .result.show {
+            display: block;
+        }
+        
+        .result.correct {
+            background: #d4edda;
+            color: #155724;
+            border: 2px solid #c3e6cb;
+        }
+        
+        .result.partial {
+            background: #fff3cd;
+            color: #856404;
+            border: 2px solid #ffc107;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #e0e0e0;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-top: 15px;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #1e3c72 0%, #2a5298 100%);
+            width: 0%;
+            transition: width 0.5s;
+        }
+        
+        .vocab-highlight {
+            background: #e3f2fd;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: 500;
+        }
+        
+        #finalScore {
+            display: none;
+            margin-top: 20px;
+            padding: 30px;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            border-radius: 15px;
+            text-align: center;
+        }
+        
+        #finalScore h2 {
+            margin-bottom: 15px;
+            color: white;
+        }
+        
+        #scoreText {
+            font-size: 2em;
+            font-weight: bold;
+            margin: 20px 0;
+        }
+        
+        .speaking-card {
+            background: #fff;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            border-left: 4px solid #1e3c72;
+        }
+        
+        .speaking-card h3 {
+            color: #1e3c72;
+            margin-bottom: 15px;
+        }
+        
+        .speaking-card ul {
+            padding-left: 20px;
+        }
+        
+        .speaking-card li {
+            margin-bottom: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎭 Festivals et Traditions dans le Monde Francophone</h1>
+            <p>Pratique pour A-Level French Edexcel</p>
+            <div class="timer" id="timer">⏱️ 45:00</div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress"></div>
+            </div>
+        </div>
+        
+        <div class="content">
+            <!-- Speaking Card Simulation -->
+            <div class="speaking-card">
+                <h3>Carte d'Étudiant - Thème: Festivals et Traditions</h3>
+                <p><strong>Les festivals jouent un rôle primordial dans la vie des sociétés francophones.</strong></p>
+                <p>Vous devez considérer :</p>
+                <ul>
+                    <li>Le rôle des festivals dans la société</li>
+                    <li>Les festivals ayant le plus d'impact</li>
+                </ul>
+            </div>
+            
+            <!-- Section 1: Vrai ou Faux -->
+            <div class="section">
+                <h2>Section 1: Vrai ou Faux (5 minutes)</h2>
+                
+                <div class="question">
+                    <p><span class="question-number">1</span> La France compte 11 jours fériés officiels.</p>
+                    <div class="checkbox-group">
+                        <label class="checkbox-item">
+                            <input type="radio" name="q1" value="vrai"> Vrai
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="radio" name="q1" value="faux"> Faux
+                        </label>
+                    </div>
+                    <div class="result" id="result1"></div>
+                </div>
+                
+                <div class="question">
+                    <p><span class="question-number">2</span> Le Festival de Cannes est dédié principalement à la musique.</p>
+                    <div class="checkbox-group">
+                        <label class="checkbox-item">
+                            <input type="radio" name="q2" value="faux"> Faux
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="radio" name="q2" value="vrai"> Vrai
+                        </label>
+                    </div>
+                    <div class="result" id="result2"></div>
+                </div>
+                
+                <div class="question">
+                    <p><span class="question-number">3</span> La Galette des Rois est une tradition qui reste populaire chez les jeunes.</p>
+                    <div class="checkbox-group">
+                        <label class="checkbox-item">
+                            <input type="radio" name="q3" value="vrai"> Vrai
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="radio" name="q3" value="faux"> Faux
+                        </label>
+                    </div>
+                    <div class="result" id="result3"></div>
+                </div>
+            </div>
+            
+            <!-- Section 2: Remplir les blancs -->
+            <div class="section">
+                <h2>Section 2: Complétez les phrases (10 minutes)</h2>
+                
+                <div class="question">
+                    <p><span class="question-number">4</span> Le ___________ d'Avignon est un festival renommé des arts du spectacle.</p>
+                    <input type="text" id="q4" placeholder="Tapez votre réponse...">
+                    <div class="clue" onclick="revealClue(this)">Cliquez pour l'indice</div>
+                    <div class="clue-content" style="display:none;">Festival</div>
+                    <div class="result" id="result4"></div>
+                </div>
+                
+                <div class="question">
+                    <p><span class="question-number">5</span> Le 14 juillet est la ___________ nationale française.</p>
+                    <input type="text" id="q5" placeholder="Tapez votre réponse...">
+                    <div class="clue" onclick="revealClue(this)">Cliquez pour l'indice</div>
+                    <div class="clue-content" style="display:none;">fête</div>
+                    <div class="result" id="result5"></div>
+                </div>
+                
+                <div class="question">
+                    <p><span class="question-number">6</span> Les ___________ Charrues est un grand festival de musique en Bretagne.</p>
+                    <input type="text" id="q6" placeholder="Tapez votre réponse...">
+                    <div class="clue" onclick="revealClue(this)">Cliquez pour l'indice</div>
+                    <div class="clue-content" style="display:none;">Vieilles</div>
+                    <div class="result" id="result6"></div>
+                </div>
+            </div>
+            
+            <!-- Section 3: Questions à choix multiples -->
+            <div class="section">
+                <h2>Section 3: Choix Multiples (8 minutes)</h2>
+                
+                <div class="question">
+                    <p><span class="question-number">7</span> Quels sont les rôles des festivals dans les sociétés francophones? (Sélectionnez toutes les bonnes réponses)</p>
+                    <div class="checkbox-group">
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="q7" value="a"> Promouvoir le tourisme
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="q7" value="b"> Soutenir les artistes
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="q7" value="c"> Favoriser le sentiment communautaire
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="q7" value="d"> Remplacer les traditions religieuses
+                        </label>
+                    </div>
+                    <div class="result" id="result7"></div>
+                </div>
+                
+                <div class="question">
+                    <p><span class="question-number">8</span> Quelles sont les raisons pour lesquelles certaines traditions perdent de leur importance chez les jeunes? (Sélectionnez toutes les bonnes réponses)</p>
+                    <div class="checkbox-group">
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="q8" value="a"> L'urbanisation massive
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="q8" value="b"> La mondialisation culturelle
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="q8" value="c"> La laïcisation
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="q8" value="d"> L'augmentation des jours fériés
+                        </label>
+                    </div>
+                    <div class="result" id="result8"></div>
+                </div>
+            </div>
+            
+            <!-- Section 4: Vocabulaire -->
+            <div class="section">
+                <h2>Section 4: Vocabulaire Clé (7 minutes)</h2>
+                
+                <div class="question">
+                    <p><span class="question-number">9</span> Traduisez en français: "regional customs"</p>
+                    <input type="text" id="q9" placeholder="Tapez votre réponse...">
+                    <div class="clue" onclick="revealClue(this)">Cliquez pour l'indice</div>
+                    <div class="clue-content" style="display:none;">les coutumes ___________</div>
+                    <div class="result" id="result9"></div>
+                </div>
+                
+                <div class="question">
+                    <p><span class="question-number">10</span> Traduisez en français: "cultural tourism"</p>
+                    <input type="text" id="q10" placeholder="Tapez votre réponse...">
+                    <div class="clue" onclick="revealClue(this)">Cliquez pour l'indice</div>
+                    <div class="clue-content" style="display:none;">le tourisme ___________</div>
+                    <div class="result" id="result10"></div>
+                </div>
+                
+                <div class="question">
+                    <p><span class="question-number">11</span> Traduisez en français: "sense of belonging"</p>
+                    <input type="text" id="q11" placeholder="Tapez votre réponse...">
+                    <div class="clue" onclick="revealClue(this)">Cliquez pour l'indice</div>
+                    <div class="clue-content" style="display:none;">le sentiment d'___________</div>
+                    <div class="result" id="result11"></div>
+                </div>
+                
+                <div class="question">
+                    <p><span class="question-number">12</span> Que signifie "le patrimoine culturel" en anglais?</p>
+                    <input type="text" id="q12" placeholder="Tapez votre réponse...">
+                    <div class="clue" onclick="revealClue(this)">Cliquez pour l'indice</div>
+                    <div class="clue-content" style="display:none;">cultural ___________</div>
+                    <div class="result" id="result12"></div>
+                </div>
+            </div>
+            
+            <!-- Section 5: Matching -->
+            <div class="section">
+                <h2>Section 5: Associez les Concepts (5 minutes)</h2>
+                
+                <div class="question">
+                    <p><span class="question-number">13</span> Associez les festivals avec leurs caractéristiques:</p>
+                    <p style="margin: 15px 0;"><strong>A.</strong> Festival de Cannes</p>
+                    <input type="text" id="q13a" placeholder="Numéro...">
+                    
+                    <p style="margin: 15px 0;"><strong>B.</strong> Festival d'Avignon</p>
+                    <input type="text" id="q13b" placeholder="Numéro...">
+                    
+                    <p style="margin: 15px 0;"><strong>C.</strong> Les Vieilles Charrues</p>
+                    <input type="text" id="q13c" placeholder="Numéro...">
+                    
+                    <p style="margin: 15px 0;"><strong>D.</strong> Festival de la BD d'Angoulême</p>
+                    <input type="text" id="q13d" placeholder="Numéro...">
+                    
+                    <div style="margin-top: 20px; padding: 15px; background: white; border-radius: 8px;">
+                        <p><strong>Caractéristiques:</strong></p>
+                        <p>1. Festival de bande dessinée</p>
+                        <p>2. Festival de cinéma international</p>
+                        <p>3. Festival de musique bretonne</p>
+                        <p>4. Festival des arts du spectacle</p>
+                    </div>
+                    <div class="result" id="result13"></div>
+                </div>
+            </div>
+            
+            <!-- Section 6: Questions courtes -->
+            <div class="section">
+                <h2>Section 6: Réponses Courtes (15 minutes)</h2>
+                
+                <div class="question">
+                    <p><span class="question-number">14</span> Expliquez DEUX raisons pour lesquelles les traditions régionales sont importantes.</p>
+                    <textarea id="q14" placeholder="Écrivez votre réponse en français..."></textarea>
+                    <div class="clue" onclick="revealClue(this)">Cliquez pour l'indice</div>
+                    <div class="clue-content" style="display:none;">Pensez à l'identité culturelle, au tourisme</div>
+                    <div class="result" id="result14"></div>
+                </div>
+                
+                <div class="question">
+                    <p><span class="question-number">15</span> Décrivez DEUX mesures pour préserver les traditions locales en France.</p>
+                    <textarea id="q15" placeholder="Écrivez votre réponse en français..."></textarea>
+                    <div class="clue" onclick="revealClue(this)">Cliquez pour l'indice</div>
+                    <div class="clue-content" style="display:none;">Subventions, éducation, patrimoine UNESCO</div>
+                    <div class="result" id="result15"></div>
+                </div>
+                
+                <div class="question">
+                    <p><span class="question-number">16</span> Expliquez pourquoi certaines traditions religieuses perdent de leur importance chez les jeunes. (2-3 phrases)</p>
+                    <textarea id="q16" placeholder="Écrivez votre réponse en français..."></textarea>
+                    <div class="clue" onclick="revealClue(this)">Cliquez pour l'indice</div>
+                    <div class="clue-content" style="display:none;">Laïcisation, urbanisation, mondialisation</div>
+                    <div class="result" id="result16"></div>
+                </div>
+                
+                <div class="question">
+                    <p><span class="question-number">17</span> Comparez l'importance des festivals internationaux et des festivals locaux en France. (2-3 phrases)</p>
+                    <textarea id="q17" placeholder="Écrivez votre réponse en français..."></textarea>
+                    <div class="clue" onclick="revealClue(this)">Cliquez pour l'indice</div>
+                    <div class="clue-content" style="display:none;">Impact mondial vs impact local, fréquentation</div>
+                    <div class="result" id="result17"></div>
+                </div>
+            </div>
+            
+            <!-- Section 7: Analyse critique -->
+            <div class="section">
+                <h2>Section 7: Analyse Critique (10 minutes)</h2>
+                
+                <div class="question">
+                    <p><span class="question-number">18</span> Selon vous, faut-il en finir avec les traditions dans les pays francophones? Justifiez votre réponse avec TROIS arguments.</p>
+                    <textarea id="q18" placeholder="Écrivez votre réponse en français..."></textarea>
+                    <div class="clue" onclick="revealClue(this)">Cliquez pour l'indice</div>
+                    <div class="clue-content" style="display:none;">Pensez à l'identité culturelle, à l'innovation, à la modernisation</div>
+                    <div class="result" id="result18"></div>
+                </div>
+                
+                <div class="question">
+                    <p><span class="question-number">19</span> Comparez l'évolution des traditions religieuses et des festivals culturels en France. Mentionnez au moins DEUX similitudes et DEUX différences.</p>
+                    <textarea id="q19" placeholder="Écrivez votre réponse en français..."></textarea>
+                    <div class="clue" onclick="revealClue(this)">Cliquez pour l'indice</div>
+                    <div class="clue-content" style="display:none;">Popularité, adaptation, signification culturelle</div>
+                    <div class="result" id="result19"></div>
+                </div>
+                
+                <div class="question">
+                    <p><span class="question-number">20</span> Quelles stratégies proposeriez-vous pour intéresser les jeunes aux traditions francophones? (2-3 propositions concrètes)</p>
+                    <textarea id="q20" placeholder="Écrivez votre réponse en français..."></textarea>
+                    <div class="clue" onclick="revealClue(this)">Cliquez pour l'indice</div>
+                    <div class="clue-content" style="display:none;">Pensez aux réseaux sociaux, à l'éducation, à l'adaptation moderne</div>
+                    <div class="result" id="result20"></div>
+                </div>
+            </div>
+            
+            <button class="submit-btn" onclick="checkAnswers()">Vérifier mes réponses ✓</button>
+            
+            <div id="finalScore">
+                <h2>📊 Résultat Final</h2>
+                <p id="scoreText"></p>
+                <button class="submit-btn" onclick="downloadResults()" style="background: white; color: #1e3c72; margin-top: 20px;">📥 Télécharger mes résultats</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Timer functionality
+        let timeLeft = 45 * 60;
+        const timerElement = document.getElementById('timer');
+        let timeTaken = 0;
+        
+        function updateTimer() {
+            const minutes = Math.floor(timeLeft / 60);
+            const seconds = timeLeft % 60;
+            timerElement.textContent = `⏱️ ${minutes}:${seconds.toString().padStart(2, '0')}`;
+            timeTaken++;
+            
+            if (timeLeft > 0) {
+                timeLeft--;
+                setTimeout(updateTimer, 1000);
+            } else {
+                timerElement.textContent = '⏱️ Temps écoulé!';
+                timerElement.style.background = 'rgba(255,0,0,0.3)';
+            }
+        }
+        
+        updateTimer();
+        
+        // Clue reveal function
+        function revealClue(element) {
+            const clueContent = element.nextElementSibling;
+            if (clueContent && clueContent.className === 'clue-content') {
+                clueContent.style.display = 'block';
+                element.classList.add('revealed');
+                element.textContent = clueContent.textContent;
+                element.onclick = null;
+            }
+        }
+        
+        // Progress tracking
+        function updateProgress() {
+            const totalQuestions = 20;
+            let answered = 0;
+            
+            document.querySelectorAll('input[type="text"], textarea').forEach(input => {
+                if (input.value.trim() !== '') answered++;
+            });
+            
+            for (let i = 1; i <= 3; i++) {
+                if (document.querySelector(`input[name="q${i}"]:checked`)) answered++;
+            }
+            
+            if (document.querySelector('input[name="q7"]:checked')) answered++;
+            if (document.querySelector('input[name="q8"]:checked')) answered++;
+            
+            const percentage = (answered / totalQuestions) * 100;
+            document.getElementById('progress').style.width = percentage + '%';
+        }
+        
+        document.querySelectorAll('input, textarea').forEach(element => {
+            element.addEventListener('input', updateProgress);
+            element.addEventListener('change', updateProgress);
+        });
+        
+        function checkAnswers() {
+            let score = 0;
+            const total = 20;
+            let detailedResults = [];
+            
+            // Q1
+            const q1 = document.querySelector('input[name="q1"]:checked');
+            const result1 = document.getElementById('result1');
+            if (q1 && q1.value === 'vrai') {
+                result1.textContent = '✓ Correct! La France compte 11 jours fériés officiels';
+                result1.className = 'result correct show';
+                score++;
+                detailedResults.push({q: 1, correct: true, answer: 'Vrai'});
+            } else {
+                result1.textContent = '✗ Faux. La France compte effectivement 11 jours fériés officiels.';
+                result1.className = 'result partial show';
+                detailedResults.push({q: 1, correct: false, answer: q1 ? q1.value : 'Non répondu', correctAnswer: 'Vrai'});
+            }
+            
+            // Q2
+            const q2 = document.querySelector('input[name="q2"]:checked');
+            const result2 = document.getElementById('result2');
+            if (q2 && q2.value === 'faux') {
+                result2.textContent = '✓ Correct! Le Festival de Cannes est dédié au cinéma';
+                result2.className = 'result correct show';
+                score++;
+                detailedResults.push({q: 2, correct: true, answer: 'Faux'});
+            } else {
+                result2.textContent = '✗ Faux. Le Festival de Cannes est dédié au cinéma, pas à la musique.';
+                result2.className = 'result partial show';
+                detailedResults.push({q: 2, correct: false, answer: q2 ? q2.value : 'Non répondu', correctAnswer: 'Faux'});
+            }
+            
+            // Q3
+            const q3 = document.querySelector('input[name="q3"]:checked');
+            const result3 = document.getElementById('result3');
+            if (q3 && q3.value === 'vrai') {
+                result3.textContent = '✓ Correct! La Galette des Rois reste populaire grâce à ses adaptations';
+                result3.className = 'result correct show';
+                score++;
+                detailedResults.push({q: 3, correct: true, answer: 'Vrai'});
+            } else {
+                result3.textContent = '✗ Faux. La Galette des Rois reste populaire chez les jeunes grâce à ses adaptations modernes.';
+                result3.className = 'result partial show';
+                detailedResults.push({q: 3, correct: false, answer: q3 ? q3.value : 'Non répondu', correctAnswer: 'Vrai'});
+            }
+            
+            // Q4
+            const q4 = document.getElementById('q4').value.trim().toLowerCase();
+            const result4 = document.getElementById('result4');
+            if (q4.includes('festival')) {
+                result4.textContent = '✓ Correct! Festival d\'Avignon';
+                result4.className = 'result correct show';
+                score++;
+                detailedResults.push({q: 4, correct: true, answer: q4});
+            } else {
+                result4.textContent = '✗ La réponse correcte est: Festival';
+                result4.className = 'result partial show';
+                detailedResults.push({q: 4, correct: false, answer: q4 || 'Non répondu', correctAnswer: 'Festival'});
+            }
+            
+            // Q5
+            const q5 = document.getElementById('q5').value.trim().toLowerCase();
+            const result5 = document.getElementById('result5');
+            if (q5.includes('fête')) {
+                result5.textContent = '✓ Correct! fête nationale';
+                result5.className = 'result correct show';
+                score++;
+                detailedResults.push({q: 5, correct: true, answer: q5});
+            } else {
+                result5.textContent = '✗ La réponse correcte est: fête';
+                result5.className = 'result partial show';
+                detailedResults.push({q: 5, correct: false, answer: q5 || 'Non répondu', correctAnswer: 'fête'});
+            }
+            
+            // Q6
+            const q6 = document.getElementById('q6').value.trim().toLowerCase();
+            const result6 = document.getElementById('result6');
+            if (q6.includes('vieilles')) {
+                result6.textContent = '✓ Correct! Vieilles Charrues';
+                result6.className = 'result correct show';
+                score++;
+                detailedResults.push({q: 6, correct: true, answer: q6});
+            } else {
+                result6.textContent = '✗ La réponse correcte est Vieilles';
+                result6.className = 'result partial show';
+                detailedResults.push({q: 6, correct: false, answer: q6 || 'Non répondu', correctAnswer: 'Vieilles'});
+            }
+            
+            // Q7
+            const q7Checked = document.querySelectorAll('input[name="q7"]:checked');
+            const result7 = document.getElementById('result7');
+            let q7Correct = true;
+            
+            q7Checked.forEach(checkbox => {
+                if (checkbox.value === 'd') {
+                    q7Correct = false;
+                }
+            });
+            
+            if (q7Checked.length === 3 && q7Correct) {
+                result7.textContent = '✓ Correct! A, B et C sont les bonnes réponses';
+                result7.className = 'result correct show';
+                score++;
+                detailedResults.push({q: 7, correct: true, answer: 'A, B, C'});
+            } else if (q7Checked.length > 0 && q7Correct) {
+                result7.textContent = `⚠ Partiellement correct (${q7Checked.length}/3). Les réponses A, B et C sont correctes.`;
+                result7.className = 'result partial show';
+                score += q7Checked.length * 0.33;
+                detailedResults.push({q: 7, correct: false, answer: `${q7Checked.length}/3`, correctAnswer: 'A, B, C'});
+            } else {
+                result7.textContent = '✗ Les réponses A, B et C sont correctes';
+                result7.className = 'result partial show';
+                detailedResults.push({q: 7, correct: false, answer: 'Non répondu ou incorrect', correctAnswer: 'A, B, C'});
+            }
+            
+            // Q8
+            const q8Checked = document.querySelectorAll('input[name="q8"]:checked');
+            const result8 = document.getElementById('result8');
+            let q8Correct = true;
+            
+            q8Checked.forEach(checkbox => {
+                if (checkbox.value === 'd') {
+                    q8Correct = false;
+                }
+            });
+            
+            if (q8Checked.length === 3 && q8Correct) {
+                result8.textContent = '✓ Correct! A, B et C sont les bonnes réponses';
+                result8.className = 'result correct show';
+                score++;
+                detailedResults.push({q: 8, correct: true, answer: 'A, B, C'});
+            } else if (q8Checked.length > 0 && q8Correct) {
+                result8.textContent = `⚠ Partiellement correct (${q8Checked.length}/3). Les réponses A, B et C sont correctes.`;
+                result8.className = 'result partial show';
+                score += q8Checked.length * 0.33;
+                detailedResults.push({q: 8, correct: false, answer: `${q8Checked.length}/3`, correctAnswer: 'A, B, C'});
+            } else {
+                result8.textContent = '✗ Les réponses A, B et C sont correctes';
+                result8.className = 'result partial show';
+                detailedResults.push({q: 8, correct: false, answer: 'Non répondu ou incorrect', correctAnswer: 'A, B, C'});
+            }
+            
+            // Q9
+            const q9 = document.getElementById('q9').value.trim().toLowerCase();
+            const result9 = document.getElementById('result9');
+            if (q9.includes('coutumes') && q9.includes('régionales')) {
+                result9.textContent = '✓ Correct! les coutumes régionales';
+                result9.className = 'result correct show';
+                score++;
+                detailedResults.push({q: 9, correct: true, answer: q9});
+            } else {
+                result9.textContent = '✗ La réponse correcte est: les coutumes régionales';
+                result9.className = 'result partial show';
+                detailedResults.push({q: 9, correct: false, answer: q9 || 'Non répondu', correctAnswer: 'régionales'});
+            }
+            
+            // Q10
+            const q10 = document.getElementById('q10').value.trim().toLowerCase();
+            const result10 = document.getElementById('result10');
+            if (q10.includes('tourisme') && q10.includes('culturel')) {
+                result10.textContent = '✓ Correct! le tourisme culturel';
+                result10.className = 'result correct show';
+                score++;
+                detailedResults.push({q: 10, correct: true, answer: q10});
+            } else {
+                result10.textContent = '✗ La réponse correcte est: le tourisme culturel';
+                result10.className = 'result partial show';
+                detailedResults.push({q: 10, correct: false, answer: q10 || 'Non répondu', correctAnswer: 'culturel'});
+            }
+            
+            // Q11
+            const q11 = document.getElementById('q11').value.trim().toLowerCase();
+            const result11 = document.getElementById('result11');
+            if (q11.includes('sentiment') && q11.includes('appartenance')) {
+                result11.textContent = '✓ Correct! le sentiment d\'appartenance';
+                result11.className = 'result correct show';
+                score++;
+                detailedResults.push({q: 11, correct: true, answer: q11});
+            } else {
+                result11.textContent = '✗ La réponse correcte est: le sentiment d\'appartenance';
+                result11.className = 'result partial show';
+                detailedResults.push({q: 11, correct: false, answer: q11 || 'Non répondu', correctAnswer: 'appartenance'});
+            }
+            
+            // Q12
+            const q12 = document.getElementById('q12').value.trim().toLowerCase();
+            const result12 = document.getElementById('result12');
+            if (q12.includes('cultural') && q12.includes('heritage')) {
+                result12.textContent = '✓ Correct! cultural heritage';
+                result12.className = 'result correct show';
+                score++;
+                detailedResults.push({q: 12, correct: true, answer: q12});
+            } else {
+                result12.textContent = '✗ La réponse correcte est: cultural heritage';
+                result12.className = 'result partial show';
+                detailedResults.push({q: 12, correct: false, answer: q12 || 'Non répondu', correctAnswer: 'heritage'});
+            }
+            
+            // Q13 - Matching
+            const q13a = document.getElementById('q13a').value.trim();
+            const q13b = document.getElementById('q13b').value.trim();
+            const q13c = document.getElementById('q13c').value.trim();
+            const q13d = document.getElementById('q13d').value.trim();
+            const result13 = document.getElementById('result13');
+            
+            let matchScore = 0;
+            if (q13a === '2') matchScore++;
+            if (q13b === '4') matchScore++;
+            if (q13c === '3') matchScore++;
+            if (q13d === '1') matchScore++;
+            
+            if (matchScore === 4) {
+                result13.textContent = '✓ Correct! Toutes les associations sont correctes';
+                result13.className = 'result correct show';
+                score++;
+                detailedResults.push({q: 13, correct: true, answer: 'Tout correct'});
+            } else {
+                result13.textContent = `⚠ ${matchScore}/4 correct. Réponses: A=2, B=4, C=3, D=1`;
+                result13.className = 'result partial show';
+                score += matchScore * 0.25;
+                detailedResults.push({q: 13, correct: false, answer: `${matchScore}/4`, correctAnswer: 'A=2, B=4, C=3, D=1'});
+            }
+            
+            // Q14-20 - Short answers and critical analysis
+            const q14 = document.getElementById('q14').value.trim();
+            const result14 = document.getElementById('result14');
+            if (q14.length > 40) {
+                result14.textContent = '✓ Réponse enregistrée. Vérifiez que vous avez mentionné deux raisons.';
+                result14.className = 'result correct show';
+                score++;
+                detailedResults.push({q: 14, correct: true, answer: q14.substring(0, 50) + '...'});
+            } else {
+                result14.textContent = '⚠ Réponse trop courte. Deux raisons requises.';
+                result14.className = 'result partial show';
+                detailedResults.push({q: 14, correct: false, answer: q14 || 'Non répondu', correctAnswer: 'Deux raisons détaillées requises'});
+            }
+            
+            const q15 = document.getElementById('q15').value.trim();
+            const result15 = document.getElementById('result15');
+            if (q15.length > 35) {
+                result15.textContent = '✓ Réponse enregistrée. Vérifiez que vous avez mentionné deux mesures.';
+                result15.className = 'result correct show';
+                score++;
+                detailedResults.push({q: 15, correct: true, answer: q15.substring(0, 50) + '...'});
+            } else {
+                result15.textContent = '⚠ Réponse trop courte. Deux mesures requises.';
+                result15.className = 'result partial show';
+                detailedResults.push({q: 15, correct: false, answer: q15 || 'Non répondu', correctAnswer: 'Deux mesures détaillées requises'});
+            }
+            
+            const q16 = document.getElementById('q16').value.trim();
+            const result16 = document.getElementById('result16');
+            if (q16.length > 40) {
+                result16.textContent = '✓ Réponse enregistrée. Vérifiez que vous avez expliqué le déclin.';
+                result16.className = 'result correct show';
+                score++;
+                detailedResults.push({q: 16, correct: true, answer: q16.substring(0, 50) + '...'});
+            } else {
+                result16.textContent = '⚠ Réponse trop courte. Développez davantage (2-3 phrases).';
+                result16.className = 'result partial show';
+                detailedResults.push({q: 16, correct: false, answer: q16 || 'Non répondu', correctAnswer: '2-3 phrases requises'});
+            }
+            
+            const q17 = document.getElementById('q17').value.trim();
+            const result17 = document.getElementById('result17');
+            if (q17.length > 40) {
+                result17.textContent = '✓ Réponse enregistrée. Vérifiez que vous avez comparé les festivals.';
+                result17.className = 'result correct show';
+                score++;
+                detailedResults.push({q: 17, correct: true, answer: q17.substring(0, 50) + '...'});
+            } else {
+                result17.textContent = '⚠ Réponse trop courte. Développez davantage (2-3 phrases).';
+                result17.className = 'result partial show';
+                detailedResults.push({q: 17, correct: false, answer: q17 || 'Non répondu', correctAnswer: '2-3 phrases requises'});
+            }
+            
+            const q18 = document.getElementById('q18').value.trim();
+            const result18 = document.getElementById('result18');
+            if (q18.length > 50) {
+                result18.textContent = '✓ Réponse enregistrée. Vérifiez que vous avez donné trois arguments.';
+                result18.className = 'result correct show';
+                score++;
+                detailedResults.push({q: 18, correct: true, answer: q18.substring(0, 50) + '...'});
+            } else {
+                result18.textContent = '⚠ Réponse trop courte. Trois arguments requis avec justification.';
+                result18.className = 'result partial show';
+                detailedResults.push({q: 18, correct: false, answer: q18 || 'Non répondu', correctAnswer: 'Trois arguments avec justification'});
+            }
+            
+            const q19 = document.getElementById('q19').value.trim();
+            const result19 = document.getElementById('result19');
+            if (q19.length > 40) {
+                result19.textContent = '✓ Réponse enregistrée. Vérifiez que vous avez mentionné similitudes et différences.';
+                result19.className = 'result correct show';
+                score++;
+                detailedResults.push({q: 19, correct: true, answer: q19.substring(0, 50) + '...'});
+            } else {
+                result19.textContent = '⚠ Réponse trop courte. Deux similitudes et deux différences requises.';
+                result19.className = 'result partial show';
+                detailedResults.push({q: 19, correct: false, answer: q19 || 'Non répondu', correctAnswer: 'Similitudes et différences requises'});
+            }
+            
+            const q20 = document.getElementById('q20').value.trim();
+            const result20 = document.getElementById('result20');
+            if (q20.length > 50) {
+                result20.textContent = '✓ Réponse enregistrée. Vérifiez que vous avez proposé des stratégies concrètes.';
+                result20.className = 'result correct show';
+                score++;
+                detailedResults.push({q: 20, correct: true, answer: q20.substring(0, 50) + '...'});
+            } else {
+                result20.textContent = '⚠ Réponse trop courte. Stratégies concrètes requises.';
+                result20.className = 'result partial show';
+                detailedResults.push({q: 20, correct: false, answer: q20 || 'Non répondu', correctAnswer: 'Stratégies concrètes requises'});
+            }
+            
+            // Show final score
+            const percentage = ((score / total) * 100).toFixed(1);
+            const finalScore = document.getElementById('finalScore');
+            const scoreText = document.getElementById('scoreText');
+            scoreText.textContent = `${score.toFixed(1)}/${total} (${percentage}%)`;
+            finalScore.style.display = 'block';
+            
+            // Store results for download
+            window.testResults = {
+                score: score.toFixed(1),
+                total: total,
+                percentage: percentage,
+                timeTaken: Math.floor(timeTaken / 60) + ':' + (timeTaken % 60).toString().padStart(2, '0'),
+                date: new Date().toLocaleDateString('fr-FR'),
+                details: detailedResults
+            };
+            
+            // Scroll to results
+            finalScore.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+        
+        function downloadResults() {
+            const results = window.testResults;
+            let content = `RÉSULTATS - Pratique A-Level French: Festivals et Traditions dans le Monde Francophone
+====================================================================
+
+Date: ${results.date}
+Temps passé: ${results.timeTaken}
+Score: ${results.score}/${results.total} (${results.percentage}%)
+
+DÉTAIL DES RÉPONSES:
+--------------------------------------------------------------------
+
+`;
+
+            results.details.forEach((item) => {
+                content += `Question ${item.q}: ${item.correct ? '✓ CORRECT' : '✗ INCORRECT'}\n`;
+                content += `Votre réponse: ${item.answer}\n`;
+                if (!item.correct && item.correctAnswer) {
+                    content += `Réponse correcte: ${item.correctAnswer}\n`;
+                }
+                content += `\n`;
+            });
+
+            content += `
+====================================================================
+RECOMMANDATIONS:
+
+`;
+            
+            if (results.percentage >= 80) {
+                content += `Excellent travail! Vous maîtrisez bien le sujet des festivals et traditions francophones.\n`;
+            } else if (results.percentage >= 60) {
+                content += `Bon travail! Révisez les points où vous avez perdu des points.\n`;
+            } else {
+                content += `Continuez à pratiquer. Relisez le matériel sur les festivals et traditions et réessayez.\n`;
+            }
+
+            content += `
+VOCABULAIRE CLÉ À RÉVISER:
+- les coutumes régionales
+- le patrimoine culturel
+- le tourisme culturel
+- le sentiment d'appartenance
+- la laïcisation
+- la mondialisation culturelle
+- l'urbanisation massive
+- les jours fériés
+- les traditions ancestrales
+
+FESTIVALS IMPORTANTS:
+- Festival de Cannes (cinéma)
+- Festival d'Avignon (arts du spectacle)
+- Les Vieilles Charrues (musique bretonne)
+- Festival de la BD d'Angoulême (bande dessinée)
+- Francofolies (musique)
+- Festival de Carcassonne (arts divers)
+
+TRADITIONS ET FÊTES:
+- La Galette des Rois
+- Le 14 juillet (fête nationale)
+- Le 1er mai (fête du travail)
+- Les fêtes religieuses (Noël, Pâques, etc.)
+- Le Poisson d'Avril
+
+THÈMES IMPORTANTS:
+- Le rôle des festivals dans la société
+- L'importance des traditions régionales
+- L'évolution des traditions chez les jeunes
+- La préservation du patrimoine culturel
+- L'impact de la mondialisation sur les traditions
+- Les mesures de préservation des traditions
+`;
+
+            // Create download
+            const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `Resultats_Festivals_Traditions_${new Date().toISOString().slice(0,10)}.txt`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            window.URL.revokeObjectURL(url);
+        }
+    </script>
+</body>
+</html>

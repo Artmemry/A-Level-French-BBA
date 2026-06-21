@@ -1,0 +1,1048 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Municipales 2026 - Activité Interactive</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .container {
+            max-width: 1000px;
+            width: 100%;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            padding: 35px;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            color: #1e3c72;
+            text-align: center;
+            margin-bottom: 10px;
+            font-size: 2.2em;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+            font-style: italic;
+            font-size: 1.1em;
+        }
+
+        .progress-bar {
+            background: #e9ecef;
+            border-radius: 20px;
+            height: 30px;
+            margin-bottom: 30px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .progress-fill {
+            background: linear-gradient(90deg, #11998e 0%, #38ef7d 100%);
+            height: 100%;
+            width: 0%;
+            transition: width 0.5s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+
+        .name-section {
+            background: #f0f4ff;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            border-left: 5px solid #1e3c72;
+        }
+
+        .name-section label {
+            display: block;
+            font-weight: bold;
+            color: #1e3c72;
+            margin-bottom: 10px;
+        }
+
+        .name-section input {
+            width: 100%;
+            padding: 12px;
+            font-size: 16px;
+            border: 2px solid #2a5298;
+            border-radius: 8px;
+            outline: none;
+        }
+
+        .name-section.error input {
+            border-color: #dc3545;
+        }
+
+        .error-message {
+            color: #dc3545;
+            font-size: 14px;
+            margin-top: 5px;
+            display: none;
+        }
+
+        .name-section.error .error-message {
+            display: block;
+        }
+
+        .section {
+            display: none;
+            animation: fadeIn 0.5s;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .article-box {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            line-height: 1.8;
+            border: 2px solid #dee2e6;
+        }
+
+        .article-box h3 {
+            color: #1e3c72;
+            margin-bottom: 15px;
+        }
+
+        .matching-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .match-column {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+        }
+
+        .match-column h4 {
+            color: #1e3c72;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .match-item {
+            background: white;
+            padding: 12px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            border: 2px solid #dee2e6;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .match-item:hover {
+            border-color: #2a5298;
+            transform: translateX(5px);
+        }
+
+        .match-item.selected {
+            background: #d1ecf1;
+            border-color: #0c5460;
+        }
+
+        .match-item.correct {
+            background: #d4edda;
+            border-color: #28a745;
+            cursor: default;
+        }
+
+        .match-item.incorrect {
+            background: #f8d7da;
+            border-color: #dc3545;
+            animation: shake 0.5s;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
+        }
+
+        .gap-fill {
+            background: #fff9e6;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border-left: 5px solid #ffc107;
+        }
+
+        .gap-sentence {
+            margin-bottom: 20px;
+            line-height: 2;
+            font-size: 16px;
+        }
+
+        .word-options {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 10px;
+        }
+
+        .word-btn {
+            padding: 8px 16px;
+            background: white;
+            border: 2px solid #2a5298;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 15px;
+        }
+
+        .word-btn:hover {
+            background: #2a5298;
+            color: white;
+        }
+
+        .word-btn.selected {
+            background: #2a5298;
+            color: white;
+        }
+
+        .word-btn.used {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
+        .gap-blank {
+            display: inline-block;
+            min-width: 120px;
+            padding: 4px 12px;
+            border-bottom: 2px solid #333;
+            margin: 0 5px;
+            font-weight: bold;
+            color: #1e3c72;
+        }
+
+        .gap-blank.filled {
+            background: #d1ecf1;
+        }
+
+        .mcq-question {
+            background: #f0f4ff;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            border-left: 5px solid #1e3c72;
+        }
+
+        .mcq-question h4 {
+            color: #1e3c72;
+            margin-bottom: 15px;
+        }
+
+        .mcq-options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .mcq-option {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            border: 2px solid #dee2e6;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .mcq-option:hover {
+            border-color: #2a5298;
+            background: #f8f9fa;
+        }
+
+        .mcq-option input[type="radio"] {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+        }
+
+        .mcq-option.correct {
+            background: #d4edda;
+            border-color: #28a745;
+        }
+
+        .mcq-option.incorrect {
+            background: #f8d7da;
+            border-color: #dc3545;
+        }
+
+        .short-answer {
+            margin-bottom: 25px;
+        }
+
+        .short-answer h4 {
+            color: #1e3c72;
+            margin-bottom: 10px;
+        }
+
+        .short-answer textarea {
+            width: 100%;
+            min-height: 80px;
+            padding: 12px;
+            border: 2px solid #dee2e6;
+            border-radius: 8px;
+            font-size: 15px;
+            font-family: inherit;
+            resize: vertical;
+        }
+
+        .short-answer textarea:focus {
+            border-color: #2a5298;
+            outline: none;
+        }
+
+        .btn {
+            padding: 15px 30px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            transition: transform 0.2s;
+        }
+
+        .btn:hover:not(:disabled) {
+            transform: scale(1.05);
+        }
+
+        .btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            color: white;
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, #ff9a56 0%, #ff6a88 100%);
+            color: white;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin: 25px 0;
+            flex-wrap: wrap;
+        }
+
+        .score-card {
+            background: white;
+            border: 3px solid #28a745;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .score-number {
+            font-size: 3em;
+            font-weight: bold;
+            color: #28a745;
+        }
+
+        .feedback-box {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 15px 0;
+            border-left: 4px solid #2a5298;
+        }
+
+        .keyboard {
+            position: fixed;
+            bottom: -180px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: white;
+            padding: 15px;
+            border-radius: 15px 15px 0 0;
+            box-shadow: 0 -10px 30px rgba(0,0,0,0.3);
+            transition: bottom 0.3s ease;
+            z-index: 1000;
+            max-width: 500px;
+            width: 95%;
+        }
+
+        .keyboard.show {
+            bottom: 0;
+        }
+
+        .keyboard-toggle {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            border: none;
+            padding: 15px 25px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 16px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            z-index: 999;
+            transition: transform 0.2s;
+        }
+
+        .keyboard-toggle:hover {
+            transform: scale(1.05);
+        }
+
+        .keyboard-row {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-bottom: 10px;
+        }
+
+        .key {
+            background: #f0f0f0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 12px 16px;
+            min-width: 50px;
+            text-align: center;
+            cursor: pointer;
+            user-select: none;
+            transition: all 0.1s;
+            font-size: 18px;
+        }
+
+        .key:hover {
+            background: #e0e0e0;
+            transform: translateY(-2px);
+        }
+
+        .key:active {
+            background: #2a5298;
+            color: white;
+        }
+
+        @media (max-width: 768px) {
+            .matching-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .container {
+                padding: 20px;
+            }
+
+            h1 {
+                font-size: 1.6em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🗳️ Municipales 2026</h1>
+        <p class="subtitle">Activité Interactive de Compréhension</p>
+        
+        <div class="progress-bar">
+            <div class="progress-fill" id="progressBar">0%</div>
+        </div>
+
+        <div class="name-section" id="nameSection">
+            <label for="studentName">Your Name (Required):</label>
+            <input type="text" id="studentName" placeholder="Enter your full name" maxlength="100">
+            <div class="error-message">Please enter your name to begin.</div>
+        </div>
+
+        <!-- Section 1: Vocabulary Matching -->
+        <div class="section active" id="section1">
+            <div class="article-box">
+                <h3>📰 Read the text below</h3>
+                <p>Les <strong>élections municipales</strong> auront lieu les <strong>15 et 22 mars 2026</strong>. Selon les <strong>sondages</strong>, la <strong>sécurité</strong> est l'<strong>enjeu</strong> principal pour 58% des Français. À Paris, Emmanuel Grégoire (<strong>gauche</strong>) et Rachida Dati (<strong>droite</strong>) sont en tête. À Marseille, le <strong>scrutin</strong> s'annonce très serré entre Benoît Payan et le candidat du <strong>RN</strong> (Rassemblement National).</p>
+            </div>
+
+            <h3 style="color: #1e3c72; margin-bottom: 20px;">Task 1: Match the French words with their English meanings</h3>
+            <p style="margin-bottom: 15px; color: #666;">Click a French word, then click its English translation.</p>
+
+            <div class="matching-grid">
+                <div class="match-column">
+                    <h4>Français</h4>
+                    <div class="match-item" data-word="sondages">sondages</div>
+                    <div class="match-item" data-word="enjeu">enjeu</div>
+                    <div class="match-item" data-word="scrutin">scrutin</div>
+                    <div class="match-item" data-word="gauche">gauche</div>
+                    <div class="match-item" data-word="droite">droite</div>
+                </div>
+                <div class="match-column">
+                    <h4>English</h4>
+                    <div class="match-item" data-match="enjeu">issue/stake</div>
+                    <div class="match-item" data-match="sondages">polls/surveys</div>
+                    <div class="match-item" data-match="droite">right (wing)</div>
+                    <div class="match-item" data-match="scrutin">ballot/vote</div>
+                    <div class="match-item" data-match="gauche">left (wing)</div>
+                </div>
+            </div>
+
+            <div class="button-group">
+                <button class="btn btn-primary" id="nextToSection2" disabled>Next: Gap Fill ➜</button>
+            </div>
+        </div>
+
+        <!-- Section 2: Gap Fill -->
+        <div class="section" id="section2">
+            <div class="article-box">
+                <h3>📰 Same text for reference</h3>
+                <p>Les élections municipales auront lieu les 15 et 22 mars 2026. Selon les sondages, la sécurité est l'enjeu principal pour 58% des Français. À Paris, Emmanuel Grégoire (gauche) et Rachida Dati (droite) sont en tête. À Marseille, le scrutin s'annonce très serré entre Benoît Payan et le candidat du RN.</p>
+            </div>
+
+            <h3 style="color: #1e3c72; margin-bottom: 20px;">Task 2: Complete the sentences by clicking the correct words</h3>
+
+            <div class="gap-fill">
+                <div class="gap-sentence">
+                    1. Les élections municipales auront lieu les <span class="gap-blank" data-gap="1"></span> mars 2026.
+                    <div class="word-options" data-for="1">
+                        <button class="word-btn" data-answer="wrong">5 et 12</button>
+                        <button class="word-btn" data-answer="correct">15 et 22</button>
+                        <button class="word-btn" data-answer="wrong">25 et 30</button>
+                    </div>
+                </div>
+
+                <div class="gap-sentence">
+                    2. Pour <span class="gap-blank" data-gap="2"></span> % des Français, la sécurité est l'enjeu principal.
+                    <div class="word-options" data-for="2">
+                        <button class="word-btn" data-answer="wrong">47</button>
+                        <button class="word-btn" data-answer="correct">58</button>
+                        <button class="word-btn" data-answer="wrong">70</button>
+                    </div>
+                </div>
+
+                <div class="gap-sentence">
+                    3. À Paris, <span class="gap-blank" data-gap="3"></span> représente la gauche.
+                    <div class="word-options" data-for="3">
+                        <button class="word-btn" data-answer="correct">Emmanuel Grégoire</button>
+                        <button class="word-btn" data-answer="wrong">Rachida Dati</button>
+                        <button class="word-btn" data-answer="wrong">Benoît Payan</button>
+                    </div>
+                </div>
+
+                <div class="gap-sentence">
+                    4. À Marseille, Benoît Payan affronte un candidat du <span class="gap-blank" data-gap="4"></span>.
+                    <div class="word-options" data-for="4">
+                        <button class="word-btn" data-answer="wrong">PS</button>
+                        <button class="word-btn" data-answer="correct">RN</button>
+                        <button class="word-btn" data-answer="wrong">LR</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="button-group">
+                <button class="btn btn-secondary" id="backToSection1">← Back</button>
+                <button class="btn btn-primary" id="nextToSection3" disabled>Next: Multiple Choice ➜</button>
+            </div>
+        </div>
+
+        <!-- Section 3: Multiple Choice -->
+        <div class="section" id="section3">
+            <div class="article-box">
+                <h3>📰 Extended article</h3>
+                <p>À l'approche des élections municipales des 15 et 22 mars 2026, plusieurs grandes villes françaises connaissent des campagnes électorales très serrées. Selon un baromètre OpinionWay, près de 7 Français sur 10 affirment être intéressés par la campagne. La sécurité arrive en premier (58%), devant le cadre de vie et l'environnement (47%).</p>
+                <p>À Paris, Emmanuel Grégoire (gauche unie) est en tête avec 33% des intentions de vote, devant Rachida Dati (droite) avec 26%. À Lyon, Jean-Michel Aulas est largement en tête avec 44% contre 30% pour le maire écologiste sortant Grégory Doucet.</p>
+            </div>
+
+            <h3 style="color: #1e3c72; margin-bottom: 20px;">Task 3: Choose the correct answers</h3>
+
+            <div class="mcq-question">
+                <h4>1. Combien de Français sont intéressés par la campagne?</h4>
+                <div class="mcq-options">
+                    <label class="mcq-option">
+                        <input type="radio" name="q1" value="wrong">
+                        <span>La moitié (50%)</span>
+                    </label>
+                    <label class="mcq-option">
+                        <input type="radio" name="q1" value="correct">
+                        <span>Près de 7 sur 10 (environ 70%)</span>
+                    </label>
+                    <label class="mcq-option">
+                        <input type="radio" name="q1" value="wrong">
+                        <span>Tous les Français (100%)</span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="mcq-question">
+                <h4>2. Quel est le deuxième enjeu le plus important après la sécurité?</h4>
+                <div class="mcq-options">
+                    <label class="mcq-option">
+                        <input type="radio" name="q2" value="wrong">
+                        <span>Les impôts locaux</span>
+                    </label>
+                    <label class="mcq-option">
+                        <input type="radio" name="q2" value="correct">
+                        <span>Le cadre de vie et l'environnement</span>
+                    </label>
+                    <label class="mcq-option">
+                        <input type="radio" name="q2" value="wrong">
+                        <span>La propreté de la ville</span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="mcq-question">
+                <h4>3. Qui est en tête à Lyon?</h4>
+                <div class="mcq-options">
+                    <label class="mcq-option">
+                        <input type="radio" name="q3" value="wrong">
+                        <span>Grégory Doucet (écologiste)</span>
+                    </label>
+                    <label class="mcq-option">
+                        <input type="radio" name="q3" value="correct">
+                        <span>Jean-Michel Aulas (sans étiquette)</span>
+                    </label>
+                    <label class="mcq-option">
+                        <input type="radio" name="q3" value="wrong">
+                        <span>Emmanuel Grégoire (gauche)</span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="button-group">
+                <button class="btn btn-secondary" id="backToSection2">← Back</button>
+                <button class="btn btn-primary" id="checkMCQ">Check Answers</button>
+                <button class="btn btn-primary" id="nextToSection4" disabled>Next: Short Answers ➜</button>
+            </div>
+        </div>
+
+        <!-- Section 4: Short Answers -->
+        <div class="section" id="section4">
+            <div class="article-box">
+                <h3>📰 Article complet</h3>
+                <p>Les élections municipales des 15 et 22 mars 2026 s'annoncent très compétitives dans plusieurs grandes villes. La sécurité (58%) et l'environnement (47%) dominent les préoccupations des électeurs.</p>
+                <p>À Paris, Emmanuel Grégoire (33%) devance Rachida Dati (26%). À Marseille, Benoît Payan et le candidat RN sont à égalité (30-31%). À Lyon, Jean-Michel Aulas (44%) est en tête devant Grégory Doucet (30%).</p>
+            </div>
+
+            <h3 style="color: #1e3c72; margin-bottom: 20px;">Task 4: Answer in French (complete sentences)</h3>
+
+            <div class="short-answer">
+                <h4>1. Quels sont les deux enjeux principaux pour les électeurs français? (Donnez les pourcentages)</h4>
+                <textarea id="answer1" placeholder="Écrivez votre réponse en français..."></textarea>
+            </div>
+
+            <div class="short-answer">
+                <h4>2. Décrivez la situation électorale à Paris. Qui sont les deux candidats principaux et leurs pourcentages?</h4>
+                <textarea id="answer2" placeholder="Écrivez votre réponse en français..."></textarea>
+            </div>
+
+            <div class="short-answer">
+                <h4>3. Comparez les situations à Marseille et à Lyon. Quelle ville a une course plus serrée?</h4>
+                <textarea id="answer3" placeholder="Écrivez votre réponse en français..."></textarea>
+            </div>
+
+            <div class="button-group">
+                <button class="btn btn-secondary" id="backToSection3">← Back</button>
+                <button class="btn btn-success" id="submitAll">Submit & Get Results 📊</button>
+            </div>
+        </div>
+
+        <!-- Final Results Section -->
+        <div class="section" id="sectionResults">
+            <h2 style="color: #1e3c72; text-align: center; margin-bottom: 30px;">🎉 Your Results</h2>
+            
+            <div class="score-card">
+                <div class="score-number" id="finalScore">--/--</div>
+                <p style="font-size: 1.2em; color: #666; margin-top: 10px;" id="finalGrade">--</p>
+            </div>
+
+            <div id="detailedFeedback"></div>
+
+            <div class="button-group">
+                <button class="btn btn-success" id="downloadResults">📥 Download Your Work</button>
+                <button class="btn btn-secondary" id="restartActivity">🔄 Start Over</button>
+            </div>
+        </div>
+    </div>
+
+    <button class="keyboard-toggle" id="keyboardToggle">⌨️ Accents</button>
+
+    <div class="keyboard" id="keyboard">
+        <div class="keyboard-row">
+            <div class="key">à</div>
+            <div class="key">é</div>
+            <div class="key">è</div>
+            <div class="key">ê</div>
+            <div class="key">ç</div>
+        </div>
+    </div>
+
+    <script>
+        // State management
+        let studentName = '';
+        let scores = {
+            matching: 0,
+            gapFill: 0,
+            mcq: 0,
+            shortAnswer: 0
+        };
+        let matchingPairs = [];
+        let selectedFrench = null;
+        let gapAnswers = {};
+        let activeTextarea = null;
+
+        // Progress tracking
+        function updateProgress() {
+            const sections = ['section1', 'section2', 'section3', 'section4'];
+            const currentSection = sections.findIndex(s => document.getElementById(s).classList.contains('active'));
+            const progress = ((currentSection + 1) / sections.length) * 100;
+            document.getElementById('progressBar').style.width = progress + '%';
+            document.getElementById('progressBar').textContent = Math.round(progress) + '%';
+        }
+
+        // Name validation
+        document.getElementById('studentName').addEventListener('input', (e) => {
+            studentName = e.target.value.trim();
+            if (studentName) {
+                document.getElementById('nameSection').classList.remove('error');
+            }
+        });
+
+        // Section 1: Matching
+        const matchItems = document.querySelectorAll('.match-item');
+        matchItems.forEach(item => {
+            item.addEventListener('click', () => {
+                if (item.classList.contains('correct')) return;
+
+                const isFrench = item.hasAttribute('data-word');
+                
+                if (isFrench) {
+                    document.querySelectorAll('[data-word]').forEach(el => el.classList.remove('selected'));
+                    item.classList.add('selected');
+                    selectedFrench = item.getAttribute('data-word');
+                } else {
+                    if (!selectedFrench) {
+                        alert('Please select a French word first!');
+                        return;
+                    }
+
+                    const matchValue = item.getAttribute('data-match');
+                    if (selectedFrench === matchValue) {
+                        const frenchItem = document.querySelector(`[data-word="${selectedFrench}"]`);
+                        frenchItem.classList.remove('selected');
+                        frenchItem.classList.add('correct');
+                        item.classList.add('correct');
+                        matchingPairs.push(selectedFrench);
+                        scores.matching += 20;
+                        
+                        if (matchingPairs.length === 5) {
+                            document.getElementById('nextToSection2').disabled = false;
+                        }
+                    } else {
+                        item.classList.add('incorrect');
+                        setTimeout(() => item.classList.remove('incorrect'), 500);
+                    }
+                    selectedFrench = null;
+                }
+            });
+        });
+
+        // Section 2: Gap Fill
+        document.querySelectorAll('.word-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                if (this.classList.contains('used')) return;
+
+                const gapNum = this.closest('.word-options').getAttribute('data-for');
+                const isCorrect = this.getAttribute('data-answer') === 'correct';
+                const gapSpan = document.querySelector(`[data-gap="${gapNum}"]`);
+
+                // Clear previous selection for this gap
+                const optionsDiv = this.closest('.word-options');
+                optionsDiv.querySelectorAll('.word-btn').forEach(b => {
+                    b.classList.remove('selected', 'used');
+                });
+
+                this.classList.add('selected', 'used');
+                gapSpan.textContent = this.textContent;
+                gapSpan.classList.add('filled');
+                gapAnswers[gapNum] = isCorrect;
+
+                if (isCorrect) {
+                    scores.gapFill += 25;
+                }
+
+                // Check if all gaps filled
+                if (Object.keys(gapAnswers).length === 4) {
+                    document.getElementById('nextToSection3').disabled = false;
+                }
+            });
+        });
+
+        // Section 3: MCQ
+        document.getElementById('checkMCQ').addEventListener('click', () => {
+            let correct = 0;
+            const questions = ['q1', 'q2', 'q3'];
+            
+            questions.forEach(q => {
+                const selected = document.querySelector(`input[name="${q}"]:checked`);
+                if (selected) {
+                    const option = selected.closest('.mcq-option');
+                    if (selected.value === 'correct') {
+                        option.classList.add('correct');
+                        correct++;
+                    } else {
+                        option.classList.add('incorrect');
+                    }
+                    // Disable all options in this question
+                    document.querySelectorAll(`input[name="${q}"]`).forEach(input => {
+                        input.disabled = true;
+                    });
+                }
+            });
+
+            scores.mcq = (correct / 3) * 100;
+            document.getElementById('checkMCQ').disabled = true;
+            document.getElementById('nextToSection4').disabled = false;
+        });
+
+        // Navigation
+        document.getElementById('nextToSection2').addEventListener('click', () => {
+            if (!studentName) {
+                document.getElementById('nameSection').classList.add('error');
+                document.getElementById('studentName').focus();
+                return;
+            }
+            showSection('section2');
+        });
+
+        document.getElementById('backToSection1').addEventListener('click', () => showSection('section1'));
+        document.getElementById('nextToSection3').addEventListener('click', () => showSection('section3'));
+        document.getElementById('backToSection2').addEventListener('click', () => showSection('section2'));
+        document.getElementById('backToSection3').addEventListener('click', () => showSection('section3'));
+        document.getElementById('nextToSection4').addEventListener('click', () => showSection('section4'));
+
+        function showSection(sectionId) {
+            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+            document.getElementById(sectionId).classList.add('active');
+            updateProgress();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Submit all
+        document.getElementById('submitAll').addEventListener('click', () => {
+            if (!studentName) {
+                document.getElementById('nameSection').classList.add('error');
+                document.getElementById('studentName').focus();
+                return;
+            }
+
+            // Evaluate short answers
+            const answer1 = document.getElementById('answer1').value.toLowerCase();
+            const answer2 = document.getElementById('answer2').value.toLowerCase();
+            const answer3 = document.getElementById('answer3').value.toLowerCase();
+
+            let shortAnswerScore = 0;
+
+            // Answer 1: security and environment with percentages
+            if (answer1.includes('sécurité') || answer1.includes('securite')) shortAnswerScore += 10;
+            if (answer1.includes('58')) shortAnswerScore += 10;
+            if (answer1.includes('environnement')) shortAnswerScore += 10;
+            if (answer1.includes('47')) shortAnswerScore += 10;
+
+            // Answer 2: Paris candidates
+            if (answer2.includes('grégoire') || answer2.includes('gregoire')) shortAnswerScore += 10;
+            if (answer2.includes('dati')) shortAnswerScore += 10;
+            if (answer2.includes('33')) shortAnswerScore += 5;
+            if (answer2.includes('26')) shortAnswerScore += 5;
+
+            // Answer 3: Marseille vs Lyon comparison
+            if (answer3.includes('marseille')) shortAnswerScore += 10;
+            if ((answer3.includes('serré') || answer3.includes('serre') || answer3.includes('égalité') || answer3.includes('egalite'))) shortAnswerScore += 10;
+            if (answer3.includes('lyon')) shortAnswerScore += 5;
+
+            scores.shortAnswer = shortAnswerScore;
+
+            displayResults();
+        });
+
+        function displayResults() {
+            const totalScore = scores.matching + scores.gapFill + scores.mcq + scores.shortAnswer;
+            const maxScore = 100 + 100 + 100 + 75; // 375 total
+            const percentage = Math.round((totalScore / maxScore) * 100);
+
+            document.getElementById('finalScore').textContent = `${percentage}%`;
+
+            let grade, message;
+            if (percentage >= 85) {
+                grade = 'Outstanding! 🌟';
+                message = `Excellent work, ${studentName}! You've demonstrated strong B2-level comprehension.`;
+            } else if (percentage >= 70) {
+                grade = 'Very Good! 👍';
+                message = `Well done, ${studentName}! You're working at a solid B1/B2 level.`;
+            } else if (percentage >= 55) {
+                grade = 'Good Effort! 📚';
+                message = `Good progress, ${studentName}. Keep practicing to reach B2 level.`;
+            } else {
+                grade = 'Keep Practicing! 💪';
+                message = `Don't give up, ${studentName}! Review the text and try again.`;
+            }
+
+            document.getElementById('finalGrade').textContent = grade;
+
+            const feedback = `
+                <div class="feedback-box">
+                    <h4 style="color: #1e3c72; margin-bottom: 15px;">${message}</h4>
+                    <p><strong>Task 1 - Vocabulary Matching:</strong> ${scores.matching}/100 ${scores.matching === 100 ? '✓' : '⚠'}</p>
+                    <p><strong>Task 2 - Gap Fill:</strong> ${scores.gapFill}/100 ${scores.gapFill === 100 ? '✓' : '⚠'}</p>
+                    <p><strong>Task 3 - Multiple Choice:</strong> ${Math.round(scores.mcq)}/100 ${scores.mcq === 100 ? '✓' : '⚠'}</p>
+                    <p><strong>Task 4 - Short Answers:</strong> ${scores.shortAnswer}/75 ${scores.shortAnswer >= 60 ? '✓' : '⚠'}</p>
+                </div>
+
+                <div class="feedback-box">
+                    <h4 style="color: #1e3c72; margin-bottom: 15px;">💡 Tips for Improvement</h4>
+                    <ul style="margin-left: 20px; line-height: 1.8;">
+                        ${percentage < 100 ? '<li>Review political vocabulary: sondages, scrutin, enjeu</li>' : ''}
+                        ${scores.shortAnswer < 60 ? '<li>Practice writing complete sentences in French with specific details</li>' : ''}
+                        ${scores.mcq < 100 ? '<li>Read questions carefully and look for key information in the text</li>' : ''}
+                        ${percentage >= 85 ? '<li>Excellent! Challenge yourself with more complex political articles</li>' : ''}
+                    </ul>
+                </div>
+            `;
+
+            document.getElementById('detailedFeedback').innerHTML = feedback;
+            showSection('sectionResults');
+        }
+
+        // Download results
+        document.getElementById('downloadResults').addEventListener('click', () => {
+            const content = `MUNICIPALES 2026 - COMPREHENSION TEST
+Student: ${studentName}
+Date: ${new Date().toLocaleDateString('en-GB')}
+
+${'='.repeat(70)}
+
+RESULTS:
+
+Overall Score: ${Math.round(((scores.matching + scores.gapFill + scores.mcq + scores.shortAnswer) / 375) * 100)}%
+
+Task 1 - Vocabulary Matching: ${scores.matching}/100
+Task 2 - Gap Fill: ${scores.gapFill}/100
+Task 3 - Multiple Choice: ${Math.round(scores.mcq)}/100
+Task 4 - Short Answers: ${scores.shortAnswer}/75
+
+${'='.repeat(70)}
+
+SHORT ANSWER RESPONSES:
+
+Question 1: Quels sont les deux enjeux principaux pour les électeurs français?
+${document.getElementById('answer1').value}
+
+Question 2: Décrivez la situation électorale à Paris.
+${document.getElementById('answer2').value}
+
+Question 3: Comparez les situations à Marseille et à Lyon.
+${document.getElementById('answer3').value}
+
+${'='.repeat(70)}
+
+This assessment tests B1/B2 French comprehension skills including:
+- Political vocabulary recognition
+- Reading comprehension
+- Information extraction
+- Written expression in French
+`;
+
+            const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `municipales-2026_${studentName.replace(/\s+/g, '_')}_${new Date().toISOString().split('T')[0]}.txt`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        });
+
+        // Restart
+        document.getElementById('restartActivity').addEventListener('click', () => {
+            if (confirm('Are you sure you want to start over?')) {
+                location.reload();
+            }
+        });
+
+        // Keyboard
+        document.querySelectorAll('textarea').forEach(textarea => {
+            textarea.addEventListener('focus', () => {
+                activeTextarea = textarea;
+            });
+        });
+
+        document.getElementById('keyboardToggle').addEventListener('click', () => {
+            document.getElementById('keyboard').classList.toggle('show');
+            document.getElementById('keyboardToggle').textContent = 
+                document.getElementById('keyboard').classList.contains('show') ? '✕ Close' : '⌨️ Accents';
+        });
+
+        document.querySelectorAll('.key').forEach(key => {
+            key.addEventListener('click', () => {
+                if (activeTextarea) {
+                    const char = key.textContent;
+                    const start = activeTextarea.selectionStart;
+                    const end = activeTextarea.selectionEnd;
+                    const text = activeTextarea.value;
+                    activeTextarea.value = text.substring(0, start) + char + text.substring(end);
+                    activeTextarea.selectionStart = activeTextarea.selectionEnd = start + char.length;
+                    activeTextarea.focus();
+                }
+            });
+        });
+
+        document.addEventListener('click', (e) => {
+            const keyboard = document.getElementById('keyboard');
+            const toggle = document.getElementById('keyboardToggle');
+            if (!keyboard.contains(e.target) && e.target !== toggle && keyboard.classList.contains('show')) {
+                keyboard.classList.remove('show');
+                toggle.textContent = '⌨️ Accents';
+            }
+        });
+
+        updateProgress();
+    </script>
+</body>
+</html>

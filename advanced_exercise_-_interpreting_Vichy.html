@@ -1,0 +1,944 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Le Régime de Vichy - Activité de Français Niveau B2</title>
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --light-color: #ecf0f1;
+            --success-color: #27ae60;
+            --warning-color: #f39c12;
+            --shadow: 0 4px 12px rgba(0,0,0,0.08);
+        }
+        
+        * {
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--primary-color), #1a252f);
+            color: white;
+            padding: 30px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            box-shadow: var(--shadow);
+            text-align: center;
+        }
+        
+        h1 {
+            margin: 0 0 10px 0;
+            font-size: 2.2rem;
+            font-weight: 600;
+        }
+        
+        .subtitle {
+            color: #bdc3c7;
+            font-style: italic;
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+        }
+        
+        .section-title {
+            color: var(--primary-color);
+            border-bottom: 3px solid var(--secondary-color);
+            padding-bottom: 10px;
+            margin: 40px 0 25px 0;
+            font-size: 1.6rem;
+        }
+        
+        .activity-section {
+            background-color: white;
+            border-radius: 10px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: var(--shadow);
+            border-left: 5px solid var(--secondary-color);
+        }
+        
+        .comprehension-text {
+            background-color: #f8f9fa;
+            padding: 25px;
+            border-radius: 8px;
+            margin: 25px 0;
+            line-height: 1.8;
+            font-size: 1.05rem;
+            border: 1px solid #e9ecef;
+        }
+        
+        .question {
+            margin-bottom: 25px;
+        }
+        
+        .question-text {
+            font-weight: 600;
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+        }
+        
+        textarea {
+            width: 100%;
+            min-height: 120px;
+            padding: 15px;
+            border: 2px solid #ddd;
+            border-radius: 6px;
+            font-size: 16px;
+            resize: vertical;
+            transition: border-color 0.3s;
+        }
+        
+        textarea:focus {
+            outline: none;
+            border-color: var(--secondary-color);
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+        }
+        
+        /* Cloze Exercise */
+        .cloze-passage {
+            background-color: #f0f7ff;
+            padding: 25px;
+            border-radius: 8px;
+            line-height: 1.8;
+            font-size: 1.1rem;
+            margin: 20px 0;
+            position: relative;
+        }
+        
+        .gap {
+            display: inline-block;
+            width: 130px;
+            margin: 0 5px;
+        }
+        
+        .gap input {
+            width: 100%;
+            padding: 8px 10px;
+            border: 2px solid #3498db;
+            border-radius: 4px;
+            background-color: white;
+            text-align: center;
+            font-size: 1rem;
+        }
+        
+        .word-bank {
+            background-color: #e8f4fc;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+        
+        .word-bank-title {
+            font-weight: bold;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+        
+        .word-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 15px;
+        }
+        
+        .word-item {
+            background-color: white;
+            padding: 10px 18px;
+            border-radius: 25px;
+            border: 2px solid #3498db;
+            color: var(--primary-color);
+            font-weight: 500;
+            cursor: move;
+            user-select: none;
+        }
+        
+        .word-item:hover {
+            background-color: #f0f7ff;
+            transform: translateY(-2px);
+            transition: all 0.2s;
+        }
+        
+        /* Grammar Exercise */
+        .grammar-exercise {
+            margin: 30px 0;
+        }
+        
+        .grammar-sentence {
+            background-color: #f9f9f9;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border-left: 4px solid #9b59b6;
+            font-size: 1.1rem;
+        }
+        
+        .grammar-gap {
+            display: inline-block;
+            min-width: 200px;
+            margin: 0 8px;
+        }
+        
+        .grammar-gap input {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #9b59b6;
+            border-radius: 4px;
+            background-color: white;
+            font-size: 1rem;
+        }
+        
+        .grammar-hint {
+            font-style: italic;
+            color: #7f8c8d;
+            font-size: 0.9rem;
+            margin-top: 8px;
+            padding-left: 10px;
+        }
+        
+        /* Accent Keyboard */
+        #accentKeyboard {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+            padding: 15px;
+            z-index: 1000;
+            border: 1px solid #ddd;
+            width: 280px;
+        }
+        
+        .keyboard-title {
+            font-weight: bold;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+            text-align: center;
+            font-size: 0.9rem;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 10px;
+        }
+        
+        .keyboard-keys {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 8px;
+        }
+        
+        .key {
+            background-color: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 4px;
+            padding: 10px;
+            cursor: pointer;
+            font-size: 1rem;
+            text-align: center;
+            transition: all 0.2s;
+            user-select: none;
+        }
+        
+        .key:hover {
+            background-color: var(--secondary-color);
+            color: white;
+            transform: translateY(-2px);
+        }
+        
+        /* Buttons */
+        .button-container {
+            display: flex;
+            gap: 15px;
+            margin: 40px 0;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        button {
+            padding: 14px 32px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: all 0.3s;
+            min-width: 200px;
+        }
+        
+        #submitBtn {
+            background-color: var(--success-color);
+            color: white;
+        }
+        
+        #submitBtn:hover {
+            background-color: #219653;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(39, 174, 96, 0.2);
+        }
+        
+        #resetBtn {
+            background-color: var(--warning-color);
+            color: white;
+        }
+        
+        #resetBtn:hover {
+            background-color: #e67e22;
+            transform: translateY(-3px);
+        }
+        
+        #downloadBtn {
+            background-color: var(--secondary-color);
+            color: white;
+        }
+        
+        #downloadBtn:hover {
+            background-color: #2980b9;
+            transform: translateY(-3px);
+        }
+        
+        /* Results */
+        #results {
+            margin-top: 40px;
+        }
+        
+        .results-card {
+            background-color: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: var(--shadow);
+        }
+        
+        .score-display {
+            font-size: 1.8rem;
+            font-weight: bold;
+            text-align: center;
+            padding: 25px;
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            border-radius: 10px;
+            margin-bottom: 30px;
+        }
+        
+        .high-score { color: var(--success-color); }
+        .medium-score { color: var(--warning-color); }
+        .low-score { color: var(--accent-color); }
+        
+        .feedback-section {
+            margin: 30px 0;
+        }
+        
+        .feedback-title {
+            font-weight: bold;
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 10px;
+        }
+        
+        .feedback-content {
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        /* Instructions */
+        .instructions {
+            background-color: #e8f4fc;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            border-left: 4px solid var(--secondary-color);
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            #accentKeyboard {
+                position: static;
+                width: 100%;
+                margin-bottom: 20px;
+            }
+            
+            .keyboard-keys {
+                grid-template-columns: repeat(4, 1fr);
+            }
+            
+            .button-container {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            button {
+                width: 100%;
+                max-width: 300px;
+            }
+        }
+        
+        .helper {
+            font-size: 0.9rem;
+            color: #6c757d;
+            margin-top: 8px;
+            font-style: italic;
+        }
+        
+        .required {
+            color: var(--accent-color);
+        }
+        
+        .grammar-instruction {
+            background-color: #f3e8ff;
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 25px;
+            border-left: 4px solid #9b59b6;
+            font-size: 0.95rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Floating Accent Keyboard -->
+    <div id="accentKeyboard">
+        <div class="keyboard-title">Clavier des accents français</div>
+        <div class="keyboard-keys">
+            <div class="key" data-char="é">é</div>
+            <div class="key" data-char="è">è</div>
+            <div class="key" data-char="ê">ê</div>
+            <div class="key" data-char="à">à</div>
+            <div class="key" data-char="â">â</div>
+            <div class="key" data-char="î">î</div>
+            <div class="key" data-char="ï">ï</div>
+            <div class="key" data-char="ô">ô</div>
+            <div class="key" data-char="ù">ù</div>
+            <div class="key" data-char="û">û</div>
+            <div class="key" data-char="ç">ç</div>
+            <div class="key" data-char="ë">ë</div>
+            <div class="key" data-char="œ">œ</div>
+            <div class="key" data-char="«">«</div>
+            <div class="key" data-char="»">»</div>
+            <div class="key" data-char="É">É</div>
+            <div class="key" data-char="À">À</div>
+            <div class="key" data-char="Ç">Ç</div>
+        </div>
+        <div style="text-align: center; margin-top: 10px; font-size: 0.8rem; color: #666;">
+            Cliquez pour insérer
+        </div>
+    </div>
+
+    <header>
+        <h1>Le Régime de Vichy : Analyse Historique</h1>
+        <div class="subtitle">Activité de français niveau B2 (A-Level Edexcel)</div>
+        <div style="margin-top: 15px; background-color: rgba(255,255,255,0.1); padding: 10px; border-radius: 6px; display: inline-block;">
+            Thème : La France pendant la Seconde Guerre mondiale
+        </div>
+    </header>
+
+    <div class="instructions">
+        <p><strong>Instructions :</strong> Complétez toutes les parties de cette activité. Les réponses doivent être rédigées en français. Utilisez le clavier d'accents pour les caractères spéciaux. Vous pouvez glisser-déposer les mots de la banque vers les cases correspondantes.</p>
+    </div>
+
+    <!-- Part 1: Comprehension Text and Questions -->
+    <h2 class="section-title">Partie 1 : Compréhension écrite</h2>
+    
+    <div class="activity-section">
+        <p><strong>Consigne :</strong> Lisez attentivement le texte suivant, puis répondez aux questions en français.</p>
+        
+        <div class="comprehension-text">
+            <p>L'historiographie du régime de Vichy a considérablement évolué depuis les travaux fondateurs de Robert O. Paxton. Dans son ouvrage « Vichy France: Old Guard and New Order » (1972), Paxton a révolutionné la compréhension de cette période en démontrant que le régime de Vichy n'était pas simplement un gouvernement imposé par l'occupant allemand, mais qu'il poursuivait son propre projet politique réactionnaire.</p>
+            
+            <p>Contrairement au mythe du « bouclier » avancé par les défenseurs de Pétain, selon lequel le maréchal aurait protégé la France en collaborant superficiellement tout en sabotant secrètement les exigences allemandes, Paxton révèle une collaboration active et volontaire. Le régime a anticipé les demandes nazies, notamment dans le domaine de la législation antisémite, en promulguant le statut des Juifs dès octobre 1940, sans pression allemande.</p>
+            
+            <p>La « Révolution nationale » menée par Vichy visait à régénérer la France selon des valeurs traditionalistes, opposées à l'héritage républicain du « Liberté, Égalité, Fraternité ». Cette idéologie s'incarnait dans la nouvelle devise « Travail, Famille, Patrie » et dans une série de mesures autoritaires : dissolution des syndicats, suppression du droit de grève, et contrôle strict des médias.</p>
+            
+            <p>Paxton souligne également que l'administration française a activement participé à la persécution des Juifs, allant souvent au-delà des exigences allemandes. Les archives démontrent que la rafle du Vél' d'Hiv' de juillet 1942 fut principalement organisée et exécutée par la police française, avec un zèle qui surprit même les autorités d'occupation.</p>
+            
+            <p>Cette réinterprétation historique a profondément modifié la mémoire collective française, mettant fin à la thèse commode d'une France majoritairement résistante et d'un Vichy contraint à la collaboration. L'analyse de Paxton révèle la complexité morale d'une période où de nombreux Français ont soutenu ou toléré le régime, remettant en cause l'idée d'une nation unanimement opposée à l'occupant.</p>
+        </div>
+        
+        <div class="question">
+            <div class="question-text">1. Quelle est la thèse principale de Robert Paxton concernant le régime de Vichy, et en quoi diffère-t-elle de l'image traditionnelle du « bouclier » ? (Répondez en 3-4 phrases)</div>
+            <textarea id="q1" placeholder="Votre réponse en français..."></textarea>
+            <div class="helper">Conseil : Mentionnez les concepts de collaboration active et de projet politique autonome.</div>
+        </div>
+        
+        <div class="question">
+            <div class="question-text">2. Selon le texte, comment la « Révolution nationale » de Vichy s'opposait-elle aux valeurs républicaines ? Donnez deux exemples précis. (Répondez en 2-3 phrases)</div>
+            <textarea id="q2" placeholder="Votre réponse en français..."></textarea>
+        </div>
+        
+        <div class="question">
+            <div class="question-text">3. Quelle preuve le texte avance-t-il pour démontrer l'initiative autonome de Vichy dans la persécution des Juifs ? (Répondez en 2-3 phrases)</div>
+            <textarea id="q3" placeholder="Votre réponse en français..."></textarea>
+        </div>
+        
+        <div class="question">
+            <div class="question-text">4. Comment l'analyse de Paxton a-t-elle transformé la mémoire collective française de la Seconde Guerre mondiale ? (Répondez en 2-3 phrases)</div>
+            <textarea id="q4" placeholder="Votre réponse en français..."></textarea>
+        </div>
+    </div>
+
+    <!-- Part 2: Cloze Exercise -->
+    <h2 class="section-title">Partie 2 : Texte à trous</h2>
+    
+    <div class="activity-section">
+        <p><strong>Consigne :</strong> Complétez le texte avec les mots appropriés. Vous pouvez glisser-déposer les mots de la banque ou les taper directement.</p>
+        
+        <div class="cloze-passage">
+            <p>
+                Instauré en juillet 1940 après la défaite française, le régime de Vichy se caractérisait par sa nature 
+                <span class="gap"><input type="text" id="gap1"></span>. 
+                Dirigé par le maréchal Philippe Pétain, héros de la Première Guerre mondiale, le gouvernement abandonna la devise républicaine « Liberté, Égalité, Fraternité » au profit de « Travail, Famille, Patrie ». Cette nouvelle orientation idéologique, qualifiée de 
+                <span class="gap"><input type="text" id="gap2"></span>, 
+                visait à régénérer la société française par un retour aux valeurs traditionnelles et une rupture avec l'héritage de la Révolution française.
+            </p>
+            <p>
+                Contrairement à la légende d'un Vichy contraint à la 
+                <span class="gap"><input type="text" id="gap3"></span>, 
+                les recherches historiques ont démontré que le régime anticipait souvent les exigences allemandes. Dès octobre 1940, Vichy promulgua le 
+                <span class="gap"><input type="text" id="gap4"></span> 
+                sans pression extérieure, instituant une discrimination légale contre les Juifs. L'administration française participa activement aux persécutions, notamment lors de la rafle du Vélodrome d'Hiver en juillet 1942, principalement organisée par la 
+                <span class="gap"><input type="text" id="gap5"></span>.
+            </p>
+            <p>
+                Après la Libération, Pétain fut jugé pour 
+                <span class="gap"><input type="text" id="gap6"></span> 
+                et condamné à mort, peine commuée en détention à perpétuité en raison de son âge et de ses services passés. Le débat historique sur la nature de son régime continue de diviser la société française, entre ceux qui voient en lui un bouclier nécessaire et ceux qui dénoncent une 
+                <span class="gap"><input type="text" id="gap7"></span> 
+                active avec l'occupant nazi.
+            </p>
+        </div>
+        
+        <div class="word-bank">
+            <div class="word-bank-title">Banque de mots (glissez-déposez ou tapez) :</div>
+            <div class="word-list" id="wordBank">
+                <div class="word-item" draggable="true" data-word="autoritaire">autoritaire</div>
+                <div class="word-item" draggable="true" data-word="collaboration">collaboration</div>
+                <div class="word-item" draggable="true" data-word="police française">police française</div>
+                <div class="word-item" draggable="true" data-word="trahison">trahison</div>
+                <div class="word-item" draggable="true" data-word="Révolution nationale">Révolution nationale</div>
+                <div class="word-item" draggable="true" data-word="statut des Juifs">statut des Juifs</div>
+                <div class="word-item" draggable="true" data-word="résistance">résistance</div>
+                <div class="word-item" draggable="true" data-word="démocratique">démocratique</div>
+                <div class="word-item" draggable="true" data-word="libérale">libérale</div>
+                <div class="word-item" draggable="true" data-word="armistice">armistice</div>
+            </div>
+            <div class="helper">Certains mots sont des leurres et ne correspondent pas aux lacunes.</div>
+        </div>
+    </div>
+
+    <!-- Part 3: Grammar Exercise -->
+    <h2 class="section-title">Partie 3 : Grammaire - Les infinitifs dépendants et passés</h2>
+    
+    <div class="activity-section">
+        <div class="grammar-instruction">
+            <p><strong>Rappel grammatical :</strong> L'infinitif passé (avoir/être + participe passé) exprime une action antérieure. L'infinitif dépendant s'utilise après certaines prépositions (après, sans, pour) ou verbes spécifiques.</p>
+            <p><strong>Exemples :</strong> Après avoir collaboré... (infinitif passé) / Continuer à résister... (infinitif dépendant)</p>
+        </div>
+        
+        <p><strong>Consigne :</strong> Complétez les phrases avec la forme correcte de l'infinitif. Attention à la construction et aux accords.</p>
+        
+        <div class="grammar-exercise">
+            <div class="grammar-sentence">
+                1. Pétain a prétendu 
+                <span class="grammar-gap"><input type="text" id="grammar1" placeholder="Infinitif passé"></span> 
+                la population française pendant l'Occupation.
+                <div class="grammar-hint">Verbe: protéger (action antérieure à "a prétendu")</div>
+            </div>
+            
+            <div class="grammar-sentence">
+                2. Les historiens continuent 
+                <span class="grammar-gap"><input type="text" id="grammar2" placeholder="Infinitif dépendant"></span> 
+                l'héritage controversé du régime de Vichy.
+                <div class="grammar-hint">Verbe: analyser (après "continuer")</div>
+            </div>
+            
+            <div class="grammar-sentence">
+                3. Après 
+                <span class="grammar-gap"><input type="text" id="grammar3" placeholder="Infinitif passé"></span> 
+                avec les autorités allemandes, certains responsables de Vichy furent jugés.
+                <div class="grammar-hint">Verbe: collaborer (action antérieure)</div>
+            </div>
+            
+            <div class="grammar-sentence">
+                4. La législation de Vichy semble 
+                <span class="grammar-gap"><input type="text" id="grammar4" placeholder="Infinitif passé"></span> 
+                les mesures antisémites sans y être contrainte.
+                <div class="grammar-hint">Verbe: anticiper (action antérieure)</div>
+            </div>
+            
+            <div class="grammar-sentence">
+                5. Sans 
+                <span class="grammar-gap"><input type="text" id="grammar5" placeholder="Infinitif passé"></span> 
+                accès aux archives, les premières études sur Vichy étaient incomplètes.
+                <div class="grammar-hint">Verbe: avoir (après "sans")</div>
+            </div>
+            
+            <div class="grammar-sentence">
+                6. Le gouvernement a essayé 
+                <span class="grammar-gap"><input type="text" id="grammar6" placeholder="Infinitif dépendant"></span> 
+                son action par la métaphore du bouclier.
+                <div class="grammar-hint">Verbe: justifier (après "essayer de")</div>
+            </div>
+            
+            <div class="grammar-sentence">
+                7. Après 
+                <span class="grammar-gap"><input type="text" id="grammar7" placeholder="Infinitif passé"></span> 
+                sur l'île d'Yeu, Pétain y est mort en 1951.
+                <div class="grammar-hint">Verbe: être exilé (passif, action antérieure)</div>
+            </div>
+            
+            <div class="grammar-sentence">
+                8. Certains politiques risquent 
+                <span class="grammar-gap"><input type="text" id="grammar8" placeholder="Infinitif dépendant"></span> 
+                la mémoire de Vichy à des fins électorales.
+                <div class="grammar-hint">Verbe: instrumentaliser (après "risquer de")</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="button-container">
+        <button id="submitBtn">Soumettre les réponses</button>
+        <button id="resetBtn">Réinitialiser</button>
+        <button id="downloadBtn" class="hidden">Télécharger mon évaluation</button>
+    </div>
+
+    <!-- Results Section -->
+    <div id="results" class="hidden">
+        <h2 class="section-title">Résultats et Feedback</h2>
+        
+        <div class="results-card">
+            <div id="scoreDisplay" class="score-display">
+                <!-- Score will be inserted here -->
+            </div>
+            
+            <div class="feedback-section">
+                <div class="feedback-title">Feedback détaillé</div>
+                <div id="detailedFeedback" class="feedback-content">
+                    <!-- Feedback will be inserted here -->
+                </div>
+            </div>
+            
+            <div class="feedback-section">
+                <div class="feedback-title">Suggestions pour progresser</div>
+                <div id="improvementSuggestions" class="feedback-content">
+                    <!-- Suggestions will be inserted here -->
+                </div>
+            </div>
+            
+            <div style="text-align: center; margin-top: 30px;">
+                <button id="retryBtn">Refaire l'activité</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Initialize drag and drop for word bank
+        const wordItems = document.querySelectorAll('.word-item');
+        let draggedWord = null;
+
+        wordItems.forEach(item => {
+            item.addEventListener('dragstart', function(e) {
+                draggedWord = this.getAttribute('data-word');
+                this.style.opacity = '0.4';
+            });
+            
+            item.addEventListener('dragend', function() {
+                this.style.opacity = '1';
+                draggedWord = null;
+            });
+        });
+
+        // Allow dropping on gap inputs
+        const gapInputs = document.querySelectorAll('.gap input');
+        gapInputs.forEach(input => {
+            input.addEventListener('dragover', function(e) {
+                e.preventDefault();
+                this.style.backgroundColor = '#e8f4fc';
+            });
+            
+            input.addEventListener('dragleave', function() {
+                this.style.backgroundColor = 'white';
+            });
+            
+            input.addEventListener('drop', function(e) {
+                e.preventDefault();
+                if (draggedWord) {
+                    this.value = draggedWord;
+                    this.style.backgroundColor = 'white';
+                }
+            });
+        });
+
+        // Accent Keyboard Functionality
+        document.querySelectorAll('.key').forEach(key => {
+            key.addEventListener('click', function() {
+                const char = this.getAttribute('data-char');
+                const activeElement = document.activeElement;
+                
+                if (activeElement && (activeElement.tagName === 'TEXTAREA' || activeElement.tagName === 'INPUT')) {
+                    const start = activeElement.selectionStart;
+                    const end = activeElement.selectionEnd;
+                    const text = activeElement.value;
+                    
+                    activeElement.value = text.substring(0, start) + char + text.substring(end);
+                    activeElement.selectionStart = activeElement.selectionEnd = start + char.length;
+                    activeElement.focus();
+                }
+            });
+        });
+
+        // Correct Answers
+        const clozeAnswers = {
+            gap1: "autoritaire",
+            gap2: "Révolution nationale",
+            gap3: "collaboration",
+            gap4: "statut des Juifs",
+            gap5: "police française",
+            gap6: "trahison",
+            gap7: "collaboration"
+        };
+
+        const grammarAnswers = {
+            grammar1: "avoir protégé",
+            grammar2: "d'analyser",
+            grammar3: "avoir collaboré",
+            grammar4: "avoir anticipé",
+            grammar5: "avoir eu",
+            grammar6: "de justifier",
+            grammar7: "avoir été exilé",
+            grammar8: "d'instrumentaliser"
+        };
+
+        // Comprehension keywords for evaluation
+        const comprehensionKeywords = [
+            ["collaboration active", "projet politique autonome", "mythe du bouclier", "Paxton", "volontaire", "anticipait"],
+            ["Travail Famille Patrie", "valeurs traditionalistes", "rupture avec la République", "syndicats dissous", "droit de grève", "médias contrôlés"],
+            ["statut des Juifs 1940", "sans pression allemande", "rafle du Vél d'Hiv", "police française", "zèle"],
+            ["mémoire collective", "France résistante", "mythe", "complexité morale", "soutien au régime"]
+        ];
+
+        // Button Event Listeners
+        document.getElementById('submitBtn').addEventListener('click', evaluateAnswers);
+        document.getElementById('resetBtn').addEventListener('click', resetAllAnswers);
+        document.getElementById('retryBtn').addEventListener('click', () => {
+            resetAllAnswers();
+            document.getElementById('results').classList.add('hidden');
+            document.getElementById('downloadBtn').classList.add('hidden');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+        document.getElementById('downloadBtn').addEventListener('click', downloadEvaluation);
+
+        function evaluateAnswers() {
+            let score = 0;
+            let maxScore = 19; // 4 comp (4 points) + 7 cloze (7 points) + 8 grammar (8 points)
+            let feedbackHTML = "";
+            
+            // Evaluate comprehension questions
+            feedbackHTML += "<h3>Partie 1 : Compréhension</h3>";
+            for (let i = 1; i <= 4; i++) {
+                const answer = document.getElementById('q' + i).value.trim().toLowerCase();
+                let questionScore = 0;
+                let foundKeywords = [];
+                
+                comprehensionKeywords[i-1].forEach(keyword => {
+                    if (answer.includes(keyword.toLowerCase())) {
+                        questionScore += 0.25;
+                        foundKeywords.push(keyword);
+                    }
+                });
+                
+                questionScore = Math.min(1, questionScore);
+                score += questionScore;
+                
+                feedbackHTML += `<p><strong>Question ${i}:</strong> ${questionScore.toFixed(2)}/1 point`;
+                if (foundKeywords.length > 0) {
+                    feedbackHTML += `<br><small>Mots-clés identifiés: ${foundKeywords.join(', ')}</small>`;
+                }
+                if (questionScore < 0.5) {
+                    feedbackHTML += `<br><small style='color:#e74c3c'>Conseil: Relisez le paragraphe correspondant dans le texte.</small>`;
+                }
+                feedbackHTML += "</p>";
+            }
+            
+            // Evaluate cloze exercise
+            feedbackHTML += "<h3>Partie 2 : Texte à trous</h3><ul>";
+            for (let i = 1; i <= 7; i++) {
+                const gapId = 'gap' + i;
+                const userAnswer = document.getElementById(gapId).value.trim();
+                const correctAnswer = clozeAnswers[gapId];
+                
+                if (userAnswer.toLowerCase() === correctAnswer.toLowerCase()) {
+                    score += 1;
+                    feedbackHTML += `<li>Gap ${i}: <span style='color:green'>✓ Correct</span> (${correctAnswer})</li>`;
+                } else {
+                    feedbackHTML += `<li>Gap ${i}: <span style='color:red'>✗ Incorrect</span>. Réponse: "${correctAnswer}"</li>`;
+                }
+            }
+            feedbackHTML += "</ul>";
+            
+            // Evaluate grammar exercise
+            feedbackHTML += "<h3>Partie 3 : Grammaire</h3><ul>";
+            for (let i = 1; i <= 8; i++) {
+                const grammarId = 'grammar' + i;
+                const userAnswer = document.getElementById(grammarId).value.trim();
+                const correctAnswer = grammarAnswers[grammarId];
+                
+                // Normalize answers for comparison
+                const normalizedUser = userAnswer.toLowerCase().replace(/[´`'’]/g, "'");
+                const normalizedCorrect = correctAnswer.toLowerCase();
+                
+                let isCorrect = false;
+                
+                // Flexible checking for grammar variations
+                switch(i) {
+                    case 1: isCorrect = normalizedUser === "avoir protégé" || normalizedUser === "avoir proteger"; break;
+                    case 2: isCorrect = normalizedUser === "d'analyser" || normalizedUser === "de analyser"; break;
+                    case 3: isCorrect = normalizedUser === "avoir collaboré" || normalizedUser === "avoir collabore"; break;
+                    case 4: isCorrect = normalizedUser === "avoir anticipé" || normalizedUser === "avoir anticipe"; break;
+                    case 5: isCorrect = normalizedUser === "avoir eu"; break;
+                    case 6: isCorrect = normalizedUser === "de justifier" || normalizedUser === "d'justifier"; break;
+                    case 7: isCorrect = normalizedUser === "avoir été exilé" || normalizedUser === "avoir ete exile"; break;
+                    case 8: isCorrect = normalizedUser === "d'instrumentaliser" || normalizedUser === "de instrumentaliser"; break;
+                }
+                
+                if (isCorrect) {
+                    score += 1;
+                    feedbackHTML += `<li>Exercice ${i}: <span style='color:green'>✓ Correct</span></li>`;
+                } else {
+                    feedbackHTML += `<li>Exercice ${i}: <span style='color:red'>✗ Votre réponse: "${userAnswer}"<br>Forme attendue: "${correctAnswer}"</span></li>`;
+                }
+            }
+            feedbackHTML += "</ul>";
+            
+            // Calculate percentage and display results
+            const percentage = Math.round((score / maxScore) * 100);
+            const scoreDisplay = document.getElementById('scoreDisplay');
+            
+            let scoreClass = "low-score";
+            if (percentage >= 75) scoreClass = "high-score";
+            else if (percentage >= 60) scoreClass = "medium-score";
+            
+            scoreDisplay.innerHTML = `
+                <div>Score final: ${score.toFixed(1)}/${maxScore}</div>
+                <div class="${scoreClass}" style="font-size: 2.5rem; margin: 15px 0;">${percentage}%</div>
+                <div>Niveau: ${getFrenchLevel(percentage)}</div>
+            `;
+            
+            document.getElementById('detailedFeedback').innerHTML = feedbackHTML;
+            
+            // Generate improvement suggestions
+            const suggestions = document.getElementById('improvementSuggestions');
+            if (percentage < 60) {
+                suggestions.innerHTML = `
+                    <p><strong>Domaines à renforcer :</strong></p>
+                    <ul>
+                        <li><strong>Compréhension :</strong> Entraînez-vous à identifier les idées principales et les détails importants dans des textes historiques</li>
+                        <li><strong>Grammaire :</strong> Révisez la formation des infinitifs passés (avoir/être + participe passé) et leur emploi après les prépositions</li>
+                        <li><strong>Vocabulaire :</strong> Apprenez le lexique spécifique à la période de la Seconde Guerre mondiale en France</li>
+                    </ul>
+                `;
+            } else if (percentage < 85) {
+                suggestions.innerHTML = `
+                    <p><strong>Bon travail ! Pour progresser :</strong></p>
+                    <ul>
+                        <li>Approfondissez votre compréhension des nuances historiques</li>
+                        <li>Pratiquez l'emploi des prépositions avec l'infinitif (après, sans, pour, de)</li>
+                        <li>Entraînez-vous à rédiger des réponses plus précises et structurées</li>
+                        <li>Lisez des textes historiques en français pour enrichir votre vocabulaire</li>
+                    </ul>
+                `;
+            } else {
+                suggestions.innerHTML = `
+                    <p><strong>Excellent travail !</strong></p>
+                    <ul>
+                        <li>Vous maîtrisez bien les concepts historiques et les structures grammaticales</li>
+                        <li>Continuez à lire des analyses historiques en français pour approfondir votre compréhension</li>
+                        <li>Pratiquez la rédaction de synthèses et d'analyses critiques sur des sujets historiques</li>
+                        <li>Pour aller plus loin : lisez des extraits de "Vichy France" de Robert Paxton en version française</li>
+                    </ul>
+                `;
+            }
+            
+            // Show results
+            document.getElementById('results').classList.remove('hidden');
+            document.getElementById('downloadBtn').classList.remove('hidden');
+            document.getElementById('results').scrollIntoView({ behavior: 'smooth' });
+        }
+        
+        function getFrenchLevel(percentage) {
+            if (percentage >= 90) return "Excellent - Niveau C1";
+            if (percentage >= 80) return "Très bon - Niveau B2+";
+            if (percentage >= 70) return "Bon - Niveau B2";
+            if (percentage >= 60) return "Satisfaisant - Niveau B1+";
+            return "À renforcer - Niveau B1";
+        }
+        
+        function resetAllAnswers() {
+            // Clear all text areas
+            document.querySelectorAll('textarea').forEach(ta => ta.value = '');
+            
+            // Clear all inputs
+            document.querySelectorAll('input[type="text"]').forEach(input => input.value = '');
+            
+            // Reset focus
+            document.getElementById('q1').focus();
+        }
+        
+        function downloadEvaluation() {
+            const scoreText = document.getElementById('scoreDisplay').innerText;
+            const feedbackText = document.getElementById('detailedFeedback').innerText;
+            const suggestionsText = document.getElementById('improvementSuggestions').innerText;
+            
+            const evaluation = `
+ÉVALUATION - ACTIVITÉ SUR LE RÉGIME DE VICHY
+============================================
+Date: ${new Date().toLocaleDateString('fr-FR')}
+Niveau: Français B2 (A-Level Edexcel)
+
+${scoreText}
+
+DÉTAIL DES RÉSULTATS
+====================
+${feedbackText}
+
+RECOMMANDATIONS
+===============
+${suggestionsText}
+
+---
+Activité basée sur l'historiographie de Robert O. Paxton
+Compétences évaluées : compréhension écrite, vocabulaire historique, grammaire (infinitifs)
+            `;
+            
+            const blob = new Blob([evaluation], { type: 'text/plain;charset=utf-8' });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = `Evaluation_Vichy_${new Date().toISOString().slice(0,10)}.txt`;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            URL.revokeObjectURL(url);
+        }
+        
+        // Focus first question on load
+        document.getElementById('q1').focus();
+    </script>
+</body>
+</html>

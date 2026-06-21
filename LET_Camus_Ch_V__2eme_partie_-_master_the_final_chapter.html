@@ -1,0 +1,1231 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>L'Étranger - Chapitre 5 (2ème Partie) - La Prison</title>
+    <style>
+        /* All the same CSS styles as above, but with red color scheme */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Georgia', serif;
+            line-height: 1.6;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: #333;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 2.2em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.95;
+        }
+        
+        /* Toolbar */
+        .toolbar {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            z-index: 1000;
+        }
+        
+        .toolbar-btn {
+            background: #e74c3c;
+            color: white;
+            border: none;
+            padding: 15px 25px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 1em;
+            box-shadow: 0 5px 20px rgba(231, 76, 60, 0.5);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 60px;
+        }
+        
+        .toolbar-btn:hover {
+            background: #c0392b;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(231, 76, 60, 0.6);
+        }
+        
+        .toolbar-btn.secondary {
+            background: #9b59b6;
+            box-shadow: 0 5px 20px rgba(155, 89, 182, 0.5);
+        }
+        
+        .toolbar-btn.secondary:hover {
+            background: #8e44ad;
+            box-shadow: 0 8px 25px rgba(155, 89, 182, 0.6);
+        }
+        
+        .toolbar-btn.download {
+            background: #3498db;
+            box-shadow: 0 5px 20px rgba(52, 152, 219, 0.5);
+        }
+        
+        .toolbar-btn.download:hover {
+            background: #2980b9;
+            box-shadow: 0 8px 25px rgba(52, 152, 219, 0.6);
+        }
+        
+        /* French Keyboard - same as above */
+        .french-keyboard {
+            position: fixed;
+            bottom: 200px;
+            right: 30px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            padding: 15px;
+            display: none;
+            flex-direction: column;
+            gap: 8px;
+            z-index: 1001;
+            border: 2px solid #e74c3c;
+        }
+        
+        .french-keyboard.show {
+            display: flex;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        .keyboard-title {
+            font-size: 0.9em;
+            color: #e74c3c;
+            font-weight: bold;
+            margin-bottom: 5px;
+            text-align: center;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 5px;
+        }
+        
+        /* Rest of the CSS is identical to Chapter 4, just replace #3498db with #e74c3c */
+        /* Floating text, sections, questions, etc. all same structure */
+        .floating-text {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            max-width: 800px;
+            max-height: 80vh;
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+            overflow-y: auto;
+            z-index: 999;
+            display: none;
+        }
+        
+        .floating-text.show {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        .floating-text h2 {
+            color: #e74c3c;
+            margin-bottom: 20px;
+            font-size: 1.8em;
+        }
+        
+        .floating-text p {
+            margin-bottom: 15px;
+            line-height: 1.8;
+            text-align: justify;
+        }
+        
+        .close-text {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            background: #2c3e50;
+            color: white;
+            border: none;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+        
+        .close-text:hover {
+            background: #1a252f;
+        }
+        
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            z-index: 998;
+            display: none;
+        }
+        
+        .overlay.show {
+            display: block;
+        }
+        
+        .content {
+            padding: 40px;
+        }
+        
+        .section {
+            margin-bottom: 40px;
+            padding: 30px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            border-left: 5px solid #e74c3c;
+            display: none;
+        }
+        
+        .section.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .section h2 {
+            color: #e74c3c;
+            margin-bottom: 20px;
+            font-size: 1.8em;
+            border-bottom: 2px solid #e74c3c;
+            padding-bottom: 10px;
+        }
+        
+        .question {
+            background: white;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: relative;
+        }
+        
+        .question-number {
+            position: absolute;
+            top: -10px;
+            left: -10px;
+            background: #e74c3c;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 0.9em;
+        }
+        
+        .question-text {
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-size: 1.1em;
+            padding-left: 10px;
+        }
+        
+        .options {
+            margin: 15px 0;
+        }
+        
+        .option {
+            padding: 12px 15px;
+            margin: 8px 0;
+            background: #f8f9fa;
+            border: 2px solid #e9ecef;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .option:hover {
+            background: #e9ecef;
+            border-color: #e74c3c;
+            transform: translateX(5px);
+        }
+        
+        .option.selected {
+            background: #e74c3c;
+            color: white;
+            border-color: #e74c3c;
+        }
+        
+        .option.correct {
+            background: #27ae60;
+            color: white;
+            border-color: #27ae60;
+        }
+        
+        .option.incorrect {
+            background: #2c3e50;
+            color: white;
+            border-color: #2c3e50;
+        }
+        
+        textarea {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e9ecef;
+            border-radius: 6px;
+            font-family: inherit;
+            font-size: 1em;
+            resize: vertical;
+            min-height: 100px;
+        }
+        
+        textarea:focus {
+            outline: none;
+            border-color: #e74c3c;
+        }
+        
+        .btn {
+            background: #e74c3c;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: all 0.3s ease;
+            margin: 10px 5px;
+        }
+        
+        .btn:hover {
+            background: #c0392b;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(231, 76, 60, 0.4);
+        }
+        
+        .btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .feedback {
+            margin-top: 15px;
+            padding: 15px;
+            border-radius: 6px;
+            display: none;
+        }
+        
+        .feedback.show {
+            display: block;
+            animation: slideIn 0.3s ease;
+        }
+        
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .feedback.correct {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .feedback.incorrect {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        
+        .feedback.info {
+            background: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+        
+        .nav-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 2px solid #e9ecef;
+        }
+        
+        .progress {
+            background: #e9ecef;
+            height: 8px;
+            border-radius: 10px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+        
+        .progress-bar {
+            background: linear-gradient(90deg, #e74c3c 0%, #c0392b 100%);
+            height: 100%;
+            transition: width 0.3s ease;
+            border-radius: 10px;
+        }
+        
+        .quote {
+            background: #ffeaa7;
+            border-left: 4px solid #f39c12;
+            padding: 15px;
+            margin: 15px 0;
+            font-style: italic;
+            color: #856404;
+        }
+        
+        .hint {
+            background: #ffeaa7;
+            border-left: 4px solid #e74c3c;
+            padding: 12px;
+            margin: 10px 0;
+            font-size: 0.95em;
+            color: #014361;
+        }
+        
+        .score-display {
+            text-align: center;
+            font-size: 1.5em;
+            color: #e74c3c;
+            margin: 20px 0;
+            font-weight: bold;
+        }
+        
+        .theme-box {
+            background: #f7f1e3;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+            border-left: 4px solid #e74c3c;
+        }
+        
+        .theme-title {
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 8px;
+            font-size: 1.1em;
+        }
+        
+        .theme-desc {
+            color: #7f8c8d;
+        }
+        
+        .completion-info {
+            background: #d4edda;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+            text-align: center;
+            border: 2px solid #c3e6cb;
+        }
+        
+        .student-info {
+            background: #ffeaa7;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border: 2px solid #f39c12;
+        }
+        
+        .important-note {
+            background: #e7f3ff;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border: 2px solid #3498db;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <!-- Toolbar -->
+    <div class="toolbar">
+        <button class="toolbar-btn" onclick="toggleText()" title="Voir le texte intégral">
+            📖 Texte
+        </button>
+        <button class="toolbar-btn secondary" onclick="toggleKeyboard()" title="Clavier accents français">
+            ⌨️ Accents
+        </button>
+        <button class="toolbar-btn download" onclick="downloadStudentWork()" title="Télécharger mes réponses et score">
+            📥 Mes Réponses
+        </button>
+    </div>
+    
+    <!-- French Keyboard -->
+    <div class="french-keyboard" id="frenchKeyboard">
+        <div class="keyboard-title">Accents Français</div>
+        <div class="keyboard-row">
+            <button class="keyboard-key" data-char="é" onclick="insertAccent('é')">é</button>
+            <button class="keyboard-key" data-char="è" onclick="insertAccent('è')">è</button>
+            <button class="keyboard-key" data-char="ê" onclick="insertAccent('ê')">ê</button>
+            <button class="keyboard-key" data-char="ë" onclick="insertAccent('ë')">ë</button>
+        </div>
+        <div class="keyboard-row">
+            <button class="keyboard-key" data-char="à" onclick="insertAccent('à')">à</button>
+            <button class="keyboard-key" data-char="â" onclick="insertAccent('â')">â</button>
+            <button class="keyboard-key" data-char="ç" onclick="insertAccent('ç')">ç</button>
+            <button class="keyboard-key" data-char="î" onclick="insertAccent('î')">î</button>
+            <button class="keyboard-key" data-char="ï" onclick="insertAccent('ï')">ï</button>
+        </div>
+        <div class="keyboard-row">
+            <button class="keyboard-key" data-char="ô" onclick="insertAccent('ô')">ô</button>
+            <button class="keyboard-key" data-char="œ" onclick="insertAccent('œ')">œ</button>
+            <button class="keyboard-key" data-char="ù" onclick="insertAccent('ù')">ù</button>
+            <button class="keyboard-key" data-char="û" onclick="insertAccent('û')">û</button>
+            <button class="keyboard-key" data-char="ü" onclick="insertAccent('ü')">ü</button>
+        </div>
+        <button class="btn" style="margin-top: 10px; padding: 8px;" onclick="toggleKeyboard()">
+            Fermer
+        </button>
+    </div>
+    
+    <div class="overlay" id="overlay" onclick="closeAllModals()"></div>
+    
+    <div class="floating-text" id="floatingText">
+        <button class="close-text" onclick="toggleText()">×</button>
+        <h2>L'Étranger - Chapitre 5 (Deuxième Partie)</h2>
+        <p>Pour la troisième fois, j'ai refusé de recevoir l'aumônier. Je n'ai rien à lui dire, je n'ai pas envie de parler, je le verrai bien assez tôt. Ce qui m'intéresse en ce moment, c'est d'échapper à la mécanique, de savoir si l'inévitable peut avoir une issue. On m'a changé de cellule. De celle-ci, lorsque je suis allongé, je vois le ciel et je ne vois que lui. Toutes mes journées se passent à regarder sur son visage le déclin des couleurs qui conduit le jour à la nuit. Couché, je passe les mains sous ma tête et j'attends. Je ne sais combien de fois je me suis demandé s'il y avait des exemples de condamnés à mort qui eussent échappé au mécanisme implacable, disparu avant l'exécution, rompu les cordons d'agents. Je me reprochais alors de n'avoir pas prêté assez d'attention aux récits d'exécution. On devrait toujours s'intéresser à ces questions. On ne sait jamais ce qui peut arriver.</p>
+        <p>Comme tout le monde, j'avais lu des comptes rendus dans les journaux. Mais il y avait certainement des ouvrages spéciaux que je n'avais jamais eu la curiosité de consulter. Là, peut-être, j'aurais trouvé des récits d'évasion. J'aurais appris que dans un cas au moins la roue s'était arrêtée, que dans cette préméditation irrésistible, le hasard et la chance, une fois seulement, avaient changé quelque chose. Une fois ! Dans un sens, je crois que cela m'aurait suffi. Mon cœur aurait fait le reste. Les journaux parlaient souvent d'une dette qui était due à la société. Il fallait, selon eux, la payer. Mais cela ne parle pas à l'imagination. Ce qui comptait, c'était une possibilité d'évasion, un saut hors du rite implacable, une course à la folie qui offrit toutes les chances de l'espoir. Naturellement, l'espoir, c'était d'être abattu au coin d'une rue, en pleine course, et d'une balle à la volée. Mais, tout bien considéré, rien ne me permettait ce luxe, tout me l'interdisait, la mécanique me reprenait.</p>
+        <p>Malgré ma bonne volonté, je ne pouvais pas accepter cette certitude insolente. Car enfin, il y avait une disproportion ridicule entre le jugement qui l'avait fondée et son déroulement imperturbable à partir du moment où ce jugement avait été prononcé. Le fait que la sentence avait été lue à vingt heures plutôt qu'à dix-sept, le fait qu'elle aurait pu être tout autre, qu'elle avait été prise par des hommes qui changent de linge, qu'elle avait été portée au crédit d'une notion aussi imprécise que le peuple français (ou allemand, ou chinois), il me semblait bien que tout cela enlevait beaucoup de sérieux à une telle décision. Pourtant, j'étais obligé de reconnaître que dès la seconde où elle avait été prise, ses effets devenaient aussi certains, aussi sérieux, que la présence de ce mur tout le long duquel j'écrasais mon corps.</p>
+        <p>Je me suis souvenu dans ces moments d'une histoire que maman me racontait à propos de mon père. Je ne l'avais pas connu. Tout ce que je connaissais de précis sur cet homme, c'était peut-être ce que m'en disait alors maman : il était allé voir exécuter un assassin. Il était malade à l'idée d'y aller. Il l'avait fait cependant et au retour il avait vomi une partie de la matinée. Mon père me dégoûtait un peu alors. Maintenant, je comprenais, c'était si naturel. Comment n'avais-je pas vu que rien n'était plus important qu'une exécution capitale et que, en somme, c'était la seule chose vraiment intéressante pour un homme ! Si jamais je sortais de cette prison, j'irais voir toutes les exécutions capitales. J'avais tort, je crois, de penser à cette possibilité. Car à l'idée de me voir libre par un petit matin derrière un cordon d'agents, de l'autre côté en quelque sorte, à l'idée d'être le spectateur qui vient voir et qui pourra vomir après, un flot de joie empoisonnée me montait au cœur. Mais ce n'était pas raisonnable. J'avais tort de me laisser aller à ces suppositions parce que, l'instant d'après, j'avais si affreusement froid que je me recroquevillais sous ma couverture. Je claquais des dents sans pouvoir me retenir.</p>
+        <p>Mais, naturellement, on ne peut pas être toujours raisonnable. D'autres fois, par exemple, je faisais des projets de loi. Je réformais les pénalités. J'avais remarqué que l'essentiel était de donner une chance au condamné. Une seule sur mille, cela suffisait pour arranger bien des choses. Ainsi, il me semblait qu'on pouvait trouver une combinaison chimique dont l'absorption tuerait le patient (je pensais : le patient) neuf fois sur dix. Lui le saurait, c'était la condition. Car en réfléchissant bien, en considérant les choses avec calme, je constatais que ce qui était défectueux avec le couperet, c'est qu'il n'y avait aucune chance, absolument aucune. Une fois pour toutes, en somme, la mort du patient avait été décidée. C'était une affaire classée, une combinaison bien arrêtée, un accord entendu et sur lequel il n'était pas question de revenir. Si le coup ratait, par extraordinaire, on recommençait. Par suite, ce qu'il y avait d'ennuyeux, c'est qu'il fallait que le condamné souhaitât le bon fonctionnement de la machine. Je dis que c'est le côté défectueux. Cela est vrai, dans un sens. Mais, dans un autre sens, j'étais obligé de reconnaître que tout le secret d'une bonne organisation était là. En somme, le condamné était obligé de collaborer moralement. C'était son intérêt que tout marchât sans accroc.</p>
+        <p>J'étais obligé de constater aussi que jusqu'ici j'avais eu sur ces questions des idées qui n'étaient pas justes. J'ai cru longtemps - et je ne sais pas pourquoi - que pour aller à la guillotine, il fallait monter sur un échafaud, gravir des marches. Je crois que c'était à cause de la Révolution de 1789, je veux dire à cause de tout ce qu'on m'avait appris ou fait voir sur ces questions. Mais un matin, je me suis souvenu d'une photographie publiée par les journaux à l'occasion d'une exécution retentissante. En réalité, la machine était posée à même le sol, le plus simplement du monde. Elle était beaucoup plus étroite que je ne le pensais. C'était assez drôle que je ne m'en fusse pas avisé plus tôt. Cette machine sur le cliché m'avait frappé par son aspect d'ouvrage de précision, fini et étincelant. On se fait toujours des idées exagérées de ce qu'on ne connaît pas. Je devais constater au contraire que tout était simple : la machine est au même niveau que l'homme qui marche vers elle. Il la rejoint comme on marche à la rencontre d'une personne. Cela aussi était ennuyeux. La montée vers l'échafaud, l'ascension en plein ciel, l'imagination pouvait s'y raccrocher. Tandis que, là encore, la mécanique écrasait tout : on était tué discrètement, avec un peu de honte et beaucoup de précision.</p>
+        <p>Il y avait aussi deux choses à quoi je réfléchissais tout le temps : l'aube et mon pourvoi. Je me raisonnais cependant et j'essayais de n'y plus penser. Je m'étendais, je regardais le ciel, je m'efforçais de m'y intéresser. Il devenait vert, c'était le soir. Je faisais encore un effort pour détourner le cours de mes pensées. J'écoutais mon cœur. Je ne pouvais imaginer que ce bruit qui m'accompagnait depuis si longtemps put jamais cesser. Je n'ai jamais eu de véritable imagination. J'essayais pourtant de me représenter une certaine seconde où le battement de ce cœur ne se prolongerait plus dans ma tête. Mais en vain. L'aube ou mon pourvoi étaient là. Je finissais par me dire que le plus raisonnable était de ne pas me contraindre.</p>
+        <p>C'est à l'aube qu'ils venaient, je le savais. En somme, j'ai occupé mes nuits à attendre cette aube. Je n'ai jamais aimé être surpris. Quand il m'arrive quelque chose, je préfère être là. C'est pourquoi j'ai fini par ne plus dormir qu'un peu dans mes journées et, tout le long de mes nuits, j'ai attendu patiemment que la lumière naisse sur la vitre du ciel. Le plus difficile, c'était l'heure douteuse où je savais qu'ils opéraient d'habitude. Passé minuit, j'attendais et je guettais. Jamais mon oreille n'avait perçu tant de bruits, distingué de sons si tenus. Je peux dire, d'ailleurs, que d'une certaine façon j'ai eu de la chance pendant toute cette période, puisque je n'ai jamais entendu de pas. Maman disait souvent qu'on n'est jamais tout à fait malheureux. Je l'approuvais dans ma prison, quand le ciel se colorait et qu'un nouveau jour glissait dans ma cellule. Parce qu'aussi bien, j'aurais pu entendre des pas et mon cœur aurait pu éclater. Même si le moindre glissement me jetait à la porte, même si, l'oreille collée au bois, j'attendais éperdument jusqu'à ce que j'entende ma propre respiration, effrayé de la trouver rauque et si pareille au râle d'un chien, au bout du compte mon cœur n'éclatait pas et j'avais encore gagné vingt-quatre heures.</p>
+        <p>Pendant tout le jour, il y avait mon pourvoi. Je crois que j'ai tiré le meilleur parti de cette idée. Je calculais mes effets et j'obtenais de mes réflexions le meilleur rendement. Je prenais toujours la plus mauvaise supposition : mon pourvoi était rejeté. « Eh bien, je mourrai donc. » Plus tôt que d'autres, c'était évident. Mais tout le monde sait que la vie ne vaut pas la peine d'être vécue. Dans le fond, je n'ignorais pas que mourir à trente ans ou à soixante-dix ans importe peu puisque, naturellement, dans les deux cas, d'autres hommes et d'autres femmes vivront, et cela pendant des milliers d'années. Rien n'était plus clair, en somme. C'était toujours moi qui mourrais, que ce soit maintenant ou dans vingt ans. À ce moment, ce qui me gênait un peu dans mon raisonnement, c'était ce bond terrible que je sentais en moi à la pensée de vingt ans de vie à venir. Mais je n'avais qu'à l'étouffer en imaginant ce que seraient mes pensées dans vingt ans quand il me faudrait quand même en venir là. Du moment qu'on meurt, comment et quand, cela n'importe pas, c'était évident. Donc (et le difficile c'était de ne pas perdre de vue tout ce que ce « donc » représentait de raisonnements), donc, je devais accepter le rejet de mon pourvoi.</p>
+        <p>À ce moment, à ce moment seulement, j'avais pour ainsi dire le droit, je me donnais en quelque sorte la permission d'aborder la deuxième hypothèse : j'étais gracié. L'ennuyeux, c'est qu'il fallait rendre moins fougueux cet élan du sang et du corps qui me piquait les yeux d'une joie insensée. Il fallait que je m'applique à réduire ce cri, à le raisonner. Il fallait que je sois naturel même dans cette hypothèse, pour rendre plus plausible ma résignation dans la première. Quand j'avais réussi, j'avais gagné une heure de calme. Cela, tout de même, était à considérer.</p>
+        <p>C'est à un semblable moment que j'ai refusé une fois de plus de recevoir l'aumônier. J'étais étendu et je devinais l'approche du soir d'été à une certaine blondeur du ciel. Je venais de rejeter mon pourvoi et je pouvais sentir les ondes de mon sang circuler régulièrement en moi. Je n'avais pas besoin de voir l'aumônier. Pour la première fois depuis bien longtemps, j'ai pensé à Marie. Il y avait de longs jours qu'elle ne m'écrivait plus. Ce soir-là, j'ai réfléchi et je me suis dit qu'elle s'était peut-être fatiguée d'être la maîtresse d'un condamné à mort. L'idée m'est venue aussi qu'elle était peut-être malade ou morte. C'était dans l'ordre des choses. Comment l'aurais-je su puisqu'en dehors de nos deux corps maintenant séparés, rien ne nous liait et ne nous rappelait l'un à l'autre. À partir de ce moment, d'ailleurs, le souvenir de Marie m'aurait été indifférent. Morte, elle ne m'intéressait plus. Je trouvais cela normal comme je comprenais très bien que les gens m'oublient après ma mort. Ils n'avaient plus rien à faire avec moi. Je ne pouvais même pas dire que cela était dur à penser.</p>
+        <p>C'est à ce moment précis que l'aumônier est entré. Quand je l'ai vu, j'ai eu un petit tremblement. Il s'en est aperçu et m'a dit de ne pas avoir peur. Je lui ai dit qu'il venait d'habitude à un autre moment. Il m'a répondu que c'était une visite tout amicale qui n'avait rien à voir avec mon pourvoi dont il ne savait rien. Il s'est assis sur ma couchette et m'a invité à me mettre près de lui. J'ai refusé. Je lui trouvais tout de même un air très doux.</p>
+        <p>Il est resté un moment assis, les avant-bras sur les genoux, la tête baissée, à regarder ses mains. Elles étaient fines et musclées, elles me faisaient penser à deux bêtes agiles. Il les a frottées lentement l'une contre l'autre. Puis il est resté ainsi, la tête toujours baissée, pendant si longtemps que j'ai eu l'impression, un instant, que je l'avais oublié.</p>
+        <p>Mais il a relevé brusquement la tête et m'a regardé en face : « Pourquoi, m'a-t-il dit, refusez-vous mes visites ? » J'ai répondu que je ne croyais pas en Dieu. Il a voulu savoir si j'en étais bien sûr et j'ai dit que je n'avais pas à me le demander : cela me paraissait une question sans importance. Il s'est alors renversé en arrière et s'est adossé au mur, les mains à plat sur les cuisses. Presque sans avoir l'air de me parler, il a observé qu'on se croyait sûr, quelquefois, et, en réalité, on ne l'était pas. Je ne disais rien. Il m'a regardé et m'a interrogé : « Qu'en pensez-vous ? » J'ai répondu que c'était possible. En tout cas, je n'étais peut-être pas sûr de ce qui m'intéressait réellement, mais j'étais tout à fait sûr de ce qui ne m'intéressait pas. Et justement, ce dont il me parlait ne m'intéressait pas.</p>
+        <p>Il a détourné les yeux et, toujours sans changer de position, m'a demandé si je ne parlais pas ainsi par excès de désespoir. Je lui ai expliqué que je n'étais pas désespéré. J'avais seulement peur, c'était bien naturel. « Dieu vous aiderait alors, a-t-il remarqué. Tous ceux que j'ai connus dans votre cas se retournaient vers lui. » J'ai reconnu que c'était leur droit. Cela prouvait aussi qu'ils en avaient le temps. Quant à moi, je ne voulais pas qu'on m'aidât et justement le temps me manquait pour m'intéresser à ce qui ne m'intéressait pas.</p>
+        <p>À ce moment, ses mains ont eu un geste d'agacement, mais il s'est redressé et a arrangé les plis de sa robe. Quand il a eu fini, il s'est adressé à moi en m'appelant « mon ami » : s'il me parlait ainsi ce n'était pas parce que j'étais condamné à mort ; à son avis, nous étions tous condamnés à mort. Mais je l'ai interrompu en lui disant que ce n'était pas la même chose et que, d'ailleurs, ce ne pouvait être, en aucun cas, une consolation. « Certes, a-t-il approuvé. Mais vous mourrez plus tard si vous ne mourez pas aujourd'hui. La même question se posera alors. Comment aborderez-vous cette terrible épreuve ? » J'ai répondu que je l'aborderais exactement comme je l'abordais en ce moment.</p>
+        <p>Il s'est levé à ce mot et m'a regardé droit dans les yeux. C'est un jeu que je connaissais bien. Je m'en amusais souvent avec Emmanuel ou Céleste et, en général, ils détournaient leurs yeux. L'aumônier aussi connaissait bien ce jeu, je l'ai tout de suite compris : son regard ne tremblait pas. Et sa voix non plus n'a pas tremblé quand il m'a dit : « N'avez-vous donc aucun espoir et vivez-vous avec la pensée que vous allez mourir tout entier ? - Oui », ai-je répondu.</p>
+        <p>Alors, il a baissé la tête et s'est rassis. Il m'a dit qu'il me plaignait. Il jugeait cela impossible à supporter pour un homme. Moi, j'ai seulement senti qu'il commençait à m'ennuyer. Je me suis détourné à mon tour et je suis allé sous la lucarne. Je m'appuyais de l'épaule contre le mur. Sans bien le suivre, j'ai entendu qu'il recommençait à m'interroger. Il parlait d'une voix inquiète et pressante. J'ai compris qu'il était ému et je l'ai mieux écouté.</p>
+        <p>Il me disait sa certitude que mon pourvoi serait accepté, mais je portais le poids d'un péché dont il fallait me débarrasser. Selon lui, la justice des hommes n'était rien et la justice de Dieu tout. J'ai remarqué que c'était la première qui m'avait condamné. Il m'a répondu qu'elle n'avait pas, pour autant, lavé mon péché. Je lui ai dit que je ne savais pas ce qu'était un péché. On m'avait seulement appris que j'étais un coupable. J'étais coupable, je payais, on ne pouvait rien me demander de plus. À ce moment, il s'est levé à nouveau et j'ai pensé que dans cette cellule si étroite, s'il voulait remuer, il n'avait pas le choix. Il fallait s'asseoir ou se lever.</p>
+        <p>J'avais les yeux fixés au sol. Il a fait un pas vers moi et s'est arrêté, comme s'il n'osait avancer. Il regardait le ciel à travers les barreaux. « Vous vous trompez, mon fils, m'a-t-il dit, on pourrait vous demander plus. On vous le demandera peut-être. - Et quoi donc ? - On pourrait vous demander de voir. - Voir quoi ? »</p>
+        <p>Le prêtre a regardé tout autour de lui et il a répondu d'une voix que j'ai trouvée soudain très lasse : « Toutes ces pierres suent la douleur, je le sais. Je ne les ai jamais regardées sans angoisse. Mais, du fond du cœur, je sais que les plus misérables d'entre vous ont vu sortir de leur obscurité un visage divin. C'est ce visage qu'on vous demande de voir. »</p>
+        <p>Je me suis un peu animé. J'ai dit qu'il y avait des mois que je regardais ces murailles. Il n'y avait rien ni personne que je connusse mieux au monde. Peut-être, il y a bien longtemps, y avais-je cherché un visage. Mais ce visage avait la couleur du soleil et la flamme du désir : c'était celui de Marie. Je l'avais cherché en vain. Maintenant, c'était fini. Et dans tous les cas, je n'avais rien vu surgir de cette sueur de pierre.</p>
+        <p>L'aumônier m'a regardé avec une sorte de tristesse. J'étais maintenant complètement adossé à la muraille et le jour me coulait sur le front. Il a dit quelques mots que je n'ai pas entendus et m'a demandé très vite si je lui permettais de m'embrasser : « Non », ai-je répondu. Il s'est retourné et a marché vers le mur sur lequel il a passé sa main lentement : « Aimez-vous donc cette terre à ce point ? » a-t-il murmuré. Je n'ai rien répondu.</p>
+        <p>Il est resté assez longtemps détourné. Sa présence me pesait et m'agaçait. J'allais lui dire de partir, de me laisser, quand il s'est écrié tout d'un coup avec une sorte d'éclat, en se retournant vers moi : « Non, je ne peux pas vous croire. Je suis sûr qu'il vous est arrivé de souhaiter une autre vie. » Je lui ai répondu que naturellement, mais cela n'avait pas plus d'importance que de souhaiter d'être riche, de nager très vite ou d'avoir une bouche mieux faite. C'était du même ordre. Mais lui m'a arrêté et il voulait savoir comment je voyais cette autre vie. Alors, je lui ai crié : « Une vie où je pourrais me souvenir de celle-ci », et aussitôt je lui ai dit que j'en avais assez. Il voulait encore me parler de Dieu, mais je me suis avancé vers lui et j'ai tenté de lui expliquer une dernière fois qu'il me restait peu de temps. Je ne voulais pas le perdre avec Dieu. Il a essayé de changer de sujet en me demandant pourquoi je l'appelais « monsieur » et non pas « mon père ». Cela m'a énervé, je lui ai répondu qu'il n'était pas mon père : il était avec les autres.</p>
+        <p>- Non, mon fils, a-t-il dit en mettant la main sur mon épaule. Je suis avec vous. Mais vous ne pouvez pas le savoir parce que vous avez un cœur aveugle. Je prierai pour vous.</p>
+        <p>Alors, je ne sais pas pourquoi, il y a quelque chose qui a crevé en moi. Je me suis mis à crier à plein gosier et je l'ai insulté et je lui ai dit de ne pas prier. Je l'avais pris par le collet de sa soutane. Je déversais sur lui tout le fond de mon cœur avec des bondissements mêlés de joie et de colère. Il avait l'air si certain, n'est-ce pas ? Pourtant, aucune de ses certitudes ne valait un cheveu de femme. Il n'était même pas sûr d'être en vie puisqu'il vivait comme un mort. Moi, j'avais l'air d'avoir les mains vides. Mais j'étais sûr de moi, sûr de tout, plus sûr que lui, sûr de ma vie et de cette mort qui allait venir. Oui, je n'avais que cela. Mais du moins, je tenais cette vérité autant qu'elle me tenait. J'avais eu raison, j'avais encore raison, j'avais toujours raison. J'avais vécu de telle façon et j'aurais pu vivre de telle autre. J'avais fait ceci et je n'avais pas fait cela. Je n'avais pas fait telle chose alors que j'avais fait cette autre. Et après ? C'était comme si j'avait attendu pendant tout le temps cette minute et cette petite aube où je serais justifié. Rien, rien n'avait d'importance et je savais bien pourquoi. Lui aussi savait pourquoi. Du fond de mon avenir, pendant toute cette vie absurde que j'avais menée, un souffle obscur remontait vers moi à travers des années qui n'étaient pas encore venues et ce souffle égalisait sur son passage tout ce qu'on me proposait alors dans les années pas plus réelles que je vivais. Que m'importaient la mort des autres, l'amour d'une mère, que m'importaient son Dieu, les vies qu'on choisit, les destins qu'on élit, puisqu'un seul destin devait m'élire moi-même et avec moi des milliards de privilégiés qui, comme lui, se disaient mes frères. Comprenait-il, comprenait-il donc ? Tout le monde était privilégié. Il n'y avait que des privilégiés. Les autres aussi, on les condamnerait un jour. Lui aussi, on le condamnerait. Qu'importait si, accusé de meurtre, il était exécuté pour n'avoir pas pleuré à l'enterrement de sa mère ? Le chien de Salamano valait autant que sa femme. La petite femme automatique était aussi coupable que la Parisienne que Masson avait épousée ou que Marie qui avait envie que je l'épouse. Qu'importait que Raymond fût mon copain autant que Céleste qui valait mieux que lui ? Qu'importait que Marie donnât aujourd'hui sa bouche à un nouveau Meursault ? Comprenait-il donc, ce condamné, et que du fond de mon avenir... J'étouffais en criant tout ceci. Mais, déjà, on m'arrachait l'aumônier des mains et les gardiens me menaçaient. Lui, cependant, les a calmés et m'a regardé un moment en silence. Il avait les yeux pleins de larmes. Il s'est détourné et il a disparu.</p>
+        <p>Lui parti, j'ai retrouvé le calme. J'étais épuisé et je me suis jeté sur ma couchette. Je crois que j'ai dormi parce que je me suis réveillé avec des étoiles sur le visage. Des bruits de campagne montaient jusqu'à moi. Des odeurs de nuit, de terre et de sel rafraîchissaient mes tempes. La merveilleuse paix de cet été endormi entrait en moi comme une marée. À ce moment, et à la limite de la nuit, des sirènes ont hurlé. Elles annonçaient des départs pour un monde qui maintenant m'était à jamais indifférent. Pour la première fois depuis bien longtemps, j'ai pensé à maman. Il m'a semblé que je comprenais pourquoi à la fin d'une vie elle avait pris un « fiancé », pourquoi elle avait joué à recommencer. Là-bas, là-bas aussi, autour de cet asile où des vies s'éteignaient, le soir était comme une trêve mélancolique. Si près de la mort, maman devait s'y sentir libérée et prête à tout revivre. Personne, personne n'avait le droit de pleurer sur elle. Et moi aussi, je me suis senti prêt à tout revivre. Comme si cette grande colère m'avait purgé du mal, vidé d'espoir, devant cette nuit chargée de signes et d'étoiles, je m'ouvrais pour la première fois à la tendre indifférence du monde. De l'éprouver si pareil à moi, si fraternel enfin, j'ai senti que j'avais été heureux, et que je l'étais encore. Pour que tout soit consommé, pour que je me sente moins seul, il me restait à souhaiter qu'il y ait beaucoup de spectateurs le jour de mon exécution et qu'ils m'accueillent avec des cris de haine.</p>
+    </div>
+    
+    <div class="container">
+        <div class="header">
+            <h1>L'Étranger - Albert Camus</h1>
+            <p>Chapitre 5, Deuxième Partie : La Prison et la Réconciliation Finale</p>
+        </div>
+        
+        <div class="content">
+            <div class="important-note">
+                <strong>📌 Chapitre Final :</strong> Ce chapitre représente l'apogée de la philosophie de l'absurde chez Camus. Meursault, condamné à mort, atteint une réconciliation avec l'existence.
+            </div>
+            
+            <div class="student-info">
+                <h3>Informations Étudiant</h3>
+                <p><strong>Nom :</strong> <input type="text" id="studentName" placeholder="Votre nom" style="padding: 5px; margin-left: 10px;"></p>
+                <p><strong>Classe :</strong> <input type="text" id="studentClass" placeholder="Votre classe" style="padding: 5px; margin-left: 10px;"></p>
+            </div>
+            
+            <div class="progress">
+                <div class="progress-bar" id="progressBar"></div>
+            </div>
+            <div class="score-display" id="scoreDisplay">Score : 0/0</div>
+            
+            <div class="completion-info" id="completionInfo" style="display: none;">
+                <strong>📊 Progression :</strong> <span id="completionText">0% complété</span>
+            </div>
+            
+            <!-- Key Themes Overview -->
+            <div class="theme-box">
+                <div class="theme-title">Thèmes Clés de ce Chapitre Final</div>
+                <div class="theme-desc">
+                    • La révolte contre l'absurde • La réconciliation avec l'indifférence du monde • 
+                    La liberté ultime face à la mort • L'authenticité existentielle • La critique de la religion
+                </div>
+            </div>
+            
+            <!-- Section 1: L'attente en prison -->
+            <div class="section active" id="section1">
+                <h2>I. L'Attente en Prison</h2>
+                
+                <div class="quote">
+                    "Ce qui m'intéresse en ce moment, c'est d'échapper à la mécanique, de savoir si l'inévitable peut avoir une issue."
+                </div>
+                
+                <div class="question">
+                    <div class="question-number">1</div>
+                    <div class="question-text">Que fait Meursault pendant ses journées en prison ?</div>
+                    <div class="options">
+                        <div class="option" data-answer="a" data-question="1">a) Il regarde le ciel et suit le déclin des couleurs du jour à la nuit</div>
+                        <div class="option" data-answer="b" data-question="1">b) Il lit des livres</div>
+                        <div class="option" data-answer="c" data-question="1">c) Il écrit son journal</div>
+                        <div class="option" data-answer="d" data-question="1">d) Il prie</div>
+                    </div>
+                    <button class="btn" onclick="checkAnswer(this, 'a', 5)">Vérifier</button>
+                    <div class="feedback"></div>
+                </div>
+                
+                <div class="question">
+                    <div class="question-number">2</div>
+                    <div class="question-text">À quoi Meursault pense-t-il souvent concernant les condamnés à mort ?</div>
+                    <div class="options">
+                        <div class="option" data-answer="a" data-question="2">a) S'il y a des exemples de condamnés qui ont échappé à l'exécution</div>
+                        <div class="option" data-answer="b" data-question="2">b) S'ils souffrent beaucoup avant de mourir</div>
+                        <div class="option" data-answer="c" data-question="2">c) S'ils regrettent leurs crimes</div>
+                        <div class="option" data-answer="d" data-question="2">d) S'ils vont au paradis</div>
+                    </div>
+                    <button class="btn" onclick="checkAnswer(this, 'a', 5)">Vérifier</button>
+                    <div class="feedback"></div>
+                </div>
+                
+                <div class="question">
+                    <div class="question-number">3</div>
+                    <div class="question-text">Analyse : Que représente "la mécanique" dont Meursault veut échapper ? (100-150 mots)</div>
+                    <textarea id="answer3" placeholder="Écrivez votre analyse ici..."></textarea>
+                    <button class="btn" onclick="showModelAnswer(3)">Voir un exemple de réponse</button>
+                    <div class="feedback"></div>
+                </div>
+            </div>
+            
+            <!-- Section 2: Les réflexions sur la mort -->
+            <div class="section" id="section2">
+                <h2>II. Les Réflexions sur la Mort</h2>
+                
+                <div class="hint">
+                    💡 Observez comment Meursault rationalise sa condamnation et réfléchit à la nature de la mort.
+                </div>
+                
+                <div class="question">
+                    <div class="question-number">4</div>
+                    <div class="question-text">Que reproche Meursault à la guillotine ?</div>
+                    <div class="options">
+                        <div class="option" data-answer="a" data-question="4">a) Qu'elle est douloureuse</div>
+                        <div class="option" data-answer="b" data-question="4">b) Qu'elle ne laisse aucune chance au condamné</div>
+                        <div class="option" data-answer="c" data-question="4">c) Qu'elle est humiliante</div>
+                        <div class="option" data-answer="d" data-question="4">d) Qu'elle est injuste</div>
+                    </div>
+                    <button class="btn" onclick="checkAnswer(this, 'b', 5)">Vérifier</button>
+                    <div class="feedback"></div>
+                </div>
+                
+                <div class="question">
+                    <div class="question-number">5</div>
+                    <div class="question-text">Quelle conclusion Meursault tire-t-il sur le sens de la vie ?</div>
+                    <div class="options">
+                        <div class="option" data-answer="a" data-question="5">a) Que la vie vaut la peine d'être vécue</div>
+                        <div class="option" data-answer="b" data-question="5">b) Que "tout le monde sait que la vie ne vaut pas la peine d'être vécue"</div>
+                        <div class="option" data-answer="c" data-question="5">c) Que seul l'amour donne un sens à la vie</div>
+                        <div class="option" data-answer="d" data-question="5">d) Que la vie a un sens divin</div>
+                    </div>
+                    <button class="btn" onclick="checkAnswer(this, 'b', 5)">Vérifier</button>
+                    <div class="feedback"></div>
+                </div>
+                
+                <div class="question">
+                    <div class="question-number">6</div>
+                    <div class="question-text">Quelle est l'attitude de Meursault face à son pourvoi ?</div>
+                    <div class="options">
+                        <div class="option" data-answer="a" data-question="6">a) Il espère ardemment être gracié</div>
+                        <div class="option" data-answer="b" data-question="6">b) Il se prépare rationnellement aux deux possibilités (rejet ou grâce)</div>
+                        <div class="option" data-answer="c" data-question="6">c) Il est certain d'être exécuté</div>
+                        <div class="option" data-answer="d" data-question="6">d) Il refuse d'y penser</div>
+                    </div>
+                    <button class="btn" onclick="checkAnswer(this, 'b', 5)">Vérifier</button>
+                    <div class="feedback"></div>
+                </div>
+                
+                <div class="question">
+                    <div class="question-number">7</div>
+                    <div class="question-text">Analyse : Comment Meursault rationalise-t-il l'idée de sa propre mort ? Que révèle cette rationalisation sur sa conception de l'existence ? (150-200 mots)</div>
+                    <textarea id="answer7" placeholder="Développez votre analyse..."></textarea>
+                    <button class="btn" onclick="showModelAnswer(7)">Voir un exemple de réponse</button>
+                    <div class="feedback"></div>
+                </div>
+            </div>
+            
+            <!-- Section 3: La confrontation avec l'aumônier -->
+            <div class="section" id="section3">
+                <h2>III. La Confrontation avec l'Aumônier</h2>
+                
+                <div class="quote">
+                    "N'avez-vous donc aucun espoir et vivez-vous avec la pensée que vous allez mourir tout entier ? - Oui"
+                </div>
+                
+                <div class="question">
+                    <div class="question-number">8</div>
+                    <div class="question-text">Pourquoi Meursault refuse-t-il de voir l'aumônier ?</div>
+                    <div class="options">
+                        <div class="option" data-answer="a" data-question="8">a) Il ne croit pas en Dieu et ne veut pas de consolation religieuse</div>
+                        <div class="option" data-answer="b" data-question="8">b) Il a peur de lui</div>
+                        <div class="option" data-answer="c" data-question="8">c) Il est trop fatigué</div>
+                        <div class="option" data-answer="d" data-question="8">d) Il veut être seul</div>
+                    </div>
+                    <button class="btn" onclick="checkAnswer(this, 'a', 5)">Vérifier</button>
+                    <div class="feedback"></div>
+                </div>
+                
+                <div class="question">
+                    <div class="question-number">9</div>
+                    <div class="question-text">Quelle est la réponse de Meursault quand l'aumônier lui demande s'il a jamais souhaité "une autre vie" ?</div>
+                    <div class="options">
+                        <div class="option" data-answer="a" data-question="9">a) "Une vie où je pourrais me souvenir de celle-ci"</div>
+                        <div class="option" data-answer="b" data-question="9">b) "Une vie au paradis"</div>
+                        <div class="option" data-answer="c" data-question="9">c) "Une vie différente"</div>
+                        <div class="option" data-answer="d" data-question="9">d) "Je n'y ai jamais pensé"</div>
+                    </div>
+                    <button class="btn" onclick="checkAnswer(this, 'a', 5)">Vérifier</button>
+                    <div class="feedback"></div>
+                </div>
+                
+                <div class="question">
+                    <div class="question-number">10</div>
+                    <div class="question-text">Analyse : En quoi la confrontation avec l'aumônier représente-t-elle l'affrontement entre deux visions du monde opposées ? (150-200 mots)</div>
+                    <textarea id="answer10" placeholder="Analysez cette confrontation..."></textarea>
+                    <button class="btn" onclick="showModelAnswer(10)">Voir un exemple de réponse</button>
+                    <div class="feedback"></div>
+                </div>
+            </div>
+            
+            <!-- Section 4: La crise et la révolte -->
+            <div class="section" id="section4">
+                <h2>IV. La Crise et la Révolte</h2>
+                
+                <div class="hint">
+                    💡 C'est le moment culminant où Meursault explose et affirme sa vérité.
+                </div>
+                
+                <div class="question">
+                    <div class="question-number">11</div>
+                    <div class="question-text">Qu'est-ce qui provoque la crise de Meursault face à l'aumônier ?</div>
+                    <div class="options">
+                        <div class="option" data-answer="a" data-question="11">a) L'aumônier dit qu'il priera pour lui</div>
+                        <div class="option" data-answer="b" data-question="11">b) L'aumônier le touche à l'épaule en l'appelant "mon fils"</div>
+                        <div class="option" data-answer="c" data-question="11">c) L'aumônier a l'air trop sûr de ses certitudes</div>
+                        <div class="option" data-answer="d" data-question="11">d) Toutes ces réponses</div>
+                    </div>
+                    <button class="btn" onclick="checkAnswer(this, 'd', 5)">Vérifier</button>
+                    <div class="feedback"></div>
+                </div>
+                
+                <div class="question">
+                    <div class="question-number">12</div>
+                    <div class="question-text">Quelle vérité Meursault crie-t-il à l'aumônier ?</div>
+                    <div class="options">
+                        <div class="option" data-answer="a" data-question="12">a) Qu'il a eu raison de vivre comme il l'a fait</div>
+                        <div class="option" data-answer="b" data-question="12">b) Que rien n'a d'importance</div>
+                        <div class="option" data-answer="c" data-question="12">c) Qu'il est sûr de lui-même et de sa mort</div>
+                        <div class="option" data-answer="d" data-question="12">d) Toutes ces réponses</div>
+                    </div>
+                    <button class="btn" onclick="checkAnswer(this, 'd', 5)">Vérifier</button>
+                    <div class="feedback"></div>
+                </div>
+                
+                <div class="question">
+                    <div class="question-number">13</div>
+                    <div class="question-text">Quelle phrase célèbre résume l'égalisation de toutes les valeurs pour Meursault ?</div>
+                    <div class="options">
+                        <div class="option" data-answer="a" data-question="13">a) "Rien, rien n'avait d'importance"</div>
+                        <div class="option" data-answer="b" data-question="13">b) "Le chien de Salamano valait autant que sa femme"</div>
+                        <div class="option" data-answer="c" data-question="13">c) "Tout le monde était privilégié"</div>
+                        <div class="option" data-answer="d" data-question="13">d) Toutes ces réponses</div>
+                    </div>
+                    <button class="btn" onclick="checkAnswer(this, 'd', 5)">Vérifier</button>
+                    <div class="feedback"></div>
+                </div>
+                
+                <div class="question">
+                    <div class="question-number">14</div>
+                    <div class="question-text">Analyse : Pourquoi cette crise représente-t-elle une forme de libération pour Meursault ? (150-200 mots)</div>
+                    <textarea id="answer14" placeholder="Développez votre analyse..."></textarea>
+                    <button class="btn" onclick="showModelAnswer(14)">Voir un exemple de réponse</button>
+                    <div class="feedback"></div>
+                </div>
+            </div>
+            
+            <!-- Section 5: La réconciliation finale -->
+            <div class="section" id="section5">
+                <h2>V. La Réconciliation Finale</h2>
+                
+                <div class="quote">
+                    "Je m'ouvrais pour la première fois à la tendre indifférence du monde."
+                </div>
+                
+                <div class="question">
+                    <div class="question-number">15</div>
+                    <div class="question-text">Quel état d'esprit Meursault trouve-t-il après le départ de l'aumônier ?</div>
+                    <div class="options">
+                        <div class="option" data-answer="a" data-question="15">a) Le calme et la paix</div>
+                        <div class="option" data-answer="b" data-question="15">b) La colère</div>
+                        <div class="option" data-answer="c" data-question="15">c) Le désespoir</div>
+                        <div class="option" data-answer="d" data-question="15">d) La peur</div>
+                    </div>
+                    <button class="btn" onclick="checkAnswer(this, 'a', 5)">Vérifier</button>
+                    <div class="feedback"></div>
+                </div>
+                
+                <div class="question">
+                    <div class="question-number">16</div>
+                    <div class="question-text">À qui Meursault pense-t-il pour la première fois depuis longtemps ?</div>
+                    <div class="options">
+                        <div class="option" data-answer="a" data-question="16">a) À sa mère</div>
+                        <div class="option" data-answer="b" data-question="16">b) À Marie</div>
+                        <div class="option" data-answer="c" data-question="16">c) À Raymond</div>
+                        <div class="option" data-answer="d" data-question="16">d) À Céleste</div>
+                    </div>
+                    <button class="btn" onclick="checkAnswer(this, 'a', 5)">Vérifier</button>
+                    <div class="feedback"></div>
+                </div>
+                
+                <div class="question">
+                    <div class="question-number">17</div>
+                    <div class="question-text">Quelle phrase célèbre exprime la réconciliation de Meursault avec le monde ?</div>
+                    <div class="options">
+                        <div class="option" data-answer="a" data-question="17">a) "Je m'ouvrais pour la première fois à la tendre indifférence du monde"</div>
+                        <div class="option" data-answer="b" data-question="17">b) "J'ai senti que j'avais été heureux, et que je l'étais encore"</div>
+                        <div class="option" data-answer="c" data-question="17">c) "De l'éprouver si pareil à moi, si fraternel enfin"</div>
+                        <div class="option" data-answer="d" data-question="17">d) Toutes ces réponses</div>
+                    </div>
+                    <button class="btn" onclick="checkAnswer(this, 'd', 5)">Vérifier</button>
+                    <div class="feedback"></div>
+                </div>
+                
+                <div class="question">
+                    <div class="question-number">18</div>
+                    <div class="question-text">Analyse : Que signifie l'expression "tendre indifférence du monde" ? Pourquoi est-ce une notion centrale dans la philosophie de Camus ? (150-200 mots)</div>
+                    <textarea id="answer18" placeholder="Analysez cette expression..."></textarea>
+                    <button class="btn" onclick="showModelAnswer(18)">Voir un exemple de réponse</button>
+                    <div class="feedback"></div>
+                </div>
+            </div>
+            
+            <!-- Section 6: Synthèse et réflexion finale -->
+            <div class="section" id="section6">
+                <h2>VI. Synthèse et Réflexion Finale</h2>
+                
+                <div class="question">
+                    <div class="question-number">19</div>
+                    <div class="question-text">Quel est le souhait final de Meursault pour son exécution ?</div>
+                    <div class="options">
+                        <div class="option" data-answer="a" data-question="19">a) Qu'elle ait lieu en secret</div>
+                        <div class="option" data-answer="b" data-question="19">b) Qu'il y ait beaucoup de spectateurs qui l'accueillent avec des cris de haine</div>
+                        <div class="option" data-answer="c" data-question="19">c) Que Marie soit présente</div>
+                        <div class="option" data-answer="d" data-question="19">d) Qu'il meure rapidement</div>
+                    </div>
+                    <button class="btn" onclick="checkAnswer(this, 'b', 5)">Vérifier</button>
+                    <div class="feedback"></div>
+                </div>
+                
+                <div class="question">
+                    <div class="question-number">20</div>
+                    <div class="question-text">Dissertation courte : Comment ce chapitre final résume-t-il et achève-t-il la philosophie de l'absurde développée dans tout le roman ? (250-300 mots)</div>
+                    <div class="hint">💡 Structure possible : I. La prise de conscience de l'absurde / II. La révolte comme réponse / III. La réconciliation et la liberté ultime</div>
+                    <textarea id="answer20" style="min-height: 150px;" placeholder="Rédigez votre dissertation..."></textarea>
+                    <button class="btn" onclick="showModelAnswer(20)">Voir un exemple de réponse</button>
+                    <div class="feedback"></div>
+                </div>
+                
+                <div class="question">
+                    <div class="question-number">21</div>
+                    <div class="question-text">Réflexion personnelle : La conclusion de L'Étranger vous semble-t-elle pessimiste ou optimiste ? Pourquoi ?</div>
+                    <textarea id="answer21" placeholder="Réflexion personnelle..."></textarea>
+                    <div class="feedback info show">
+                        <strong>💭 Réflexion libre :</strong> Cette question divise les lecteurs. Certains y voient une affirmation tragique de l'absurde, d'autres une forme de libération et d'authenticité ultime.
+                    </div>
+                </div>
+            </div>
+            
+            <div class="nav-buttons">
+                <button class="btn" id="prevBtn" onclick="changeSection(-1)">← Précédent</button>
+                <button class="btn" id="nextBtn" onclick="changeSection(1)">Suivant →</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // SAME JAVASCRIPT AS CHAPTER 4, just with different model answers
+        
+        let currentSection = 1;
+        const totalSections = 6;
+        let scores = {};
+        let totalQuestions = 0;
+        let correctAnswers = 0;
+        let activeTextArea = null;
+        let studentAnswers = {};
+        let completionStatus = {};
+
+        // Text viewer functions
+        function toggleText() {
+            const floatingText = document.getElementById('floatingText');
+            const overlay = document.getElementById('overlay');
+            
+            if (floatingText.classList.contains('show')) {
+                floatingText.classList.remove('show');
+                overlay.classList.remove('show');
+            } else {
+                floatingText.classList.add('show');
+                overlay.classList.add('show');
+            }
+        }
+
+        // French keyboard functions
+        function toggleKeyboard() {
+            const keyboard = document.getElementById('frenchKeyboard');
+            const overlay = document.getElementById('overlay');
+            
+            if (keyboard.classList.contains('show')) {
+                keyboard.classList.remove('show');
+                overlay.classList.remove('show');
+            } else {
+                keyboard.classList.add('show');
+                overlay.classList.add('show');
+                activeTextArea = document.activeElement;
+            }
+        }
+
+        function insertAccent(accent) {
+            if (activeTextArea && activeTextArea.tagName === 'TEXTAREA') {
+                const start = activeTextArea.selectionStart;
+                const end = activeTextArea.selectionEnd;
+                const text = activeTextArea.value;
+                const newText = text.substring(0, start) + accent + text.substring(end);
+                activeTextArea.value = newText;
+                activeTextArea.focus();
+                activeTextArea.selectionStart = activeTextArea.selectionEnd = start + 1;
+                
+                const questionId = activeTextArea.id.replace('answer', '');
+                if (questionId) {
+                    studentAnswers[questionId] = newText;
+                    updateCompletionStatus();
+                }
+            }
+        }
+
+        // Track text input for essay questions
+        document.querySelectorAll('textarea').forEach(textarea => {
+            textarea.addEventListener('input', function(e) {
+                const questionId = this.id.replace('answer', '');
+                if (questionId) {
+                    studentAnswers[questionId] = this.value;
+                    updateCompletionStatus();
+                }
+            });
+        });
+
+        // Download student work function
+        function downloadStudentWork() {
+            const studentName = document.getElementById('studentName').value || 'Étudiant';
+            const studentClass = document.getElementById('studentClass').value || 'Classe non spécifiée';
+            const now = new Date();
+            const dateStr = now.toLocaleDateString('fr-FR');
+            const timeStr = now.toLocaleTimeString('fr-FR', {hour: '2-digit', minute: '2-digit'});
+            
+            let content = `RÉPONSES DE L'ÉTUDIANT - L'ÉTRANGER CHAPITRE 5 (FINAL)\n`;
+            content += `====================================================\n\n`;
+            content += `Étudiant : ${studentName}\n`;
+            content += `Classe : ${studentClass}\n`;
+            content += `Date : ${dateStr}\n`;
+            content += `Heure : ${timeStr}\n`;
+            content += `Score : ${correctAnswers}/${totalQuestions} (${totalQuestions > 0 ? Math.round((correctAnswers/totalQuestions)*100) : 0}%)\n`;
+            content += `Progression : ${calculateCompletionPercentage()}%\n\n`;
+            content += `====================================================\n`;
+            content += `RÉPONSES DÉTAILLÉES\n`;
+            content += `====================================================\n\n`;
+            
+            // Multiple choice questions
+            for (let i = 1; i <= 21; i++) {
+                if ([3, 7, 10, 14, 18, 20, 21].includes(i)) {
+                    // Essay questions
+                    if (studentAnswers[i]) {
+                        content += `Question ${i} (Réponse développée) :\n`;
+                        content += studentAnswers[i] + '\n';
+                        content += `---\n\n`;
+                    }
+                } else {
+                    // Multiple choice questions
+                    const questionElement = document.querySelector(`[data-question="${i}"]`);
+                    if (questionElement && questionElement.classList.contains('selected')) {
+                        const selectedAnswer = questionElement.dataset.answer;
+                        const isCorrect = scores[`Q${i}`];
+                        content += `Question ${i} : ${selectedAnswer} ${isCorrect ? '✓' : '✗'}\n`;
+                        content += `---\n\n`;
+                    }
+                }
+            }
+            
+            content += `====================================================\n`;
+            content += `ANALYSE DE LA PERFORMANCE\n`;
+            content += `====================================================\n\n`;
+            
+            // Calculate statistics
+            const completedQuestions = Object.keys(completionStatus).length;
+            const essayQuestions = [3, 7, 10, 14, 18, 20, 21];
+            const essayAnswers = essayQuestions.filter(q => studentAnswers[q] && studentAnswers[q].trim().length > 10).length;
+            
+            content += `Statistiques :\n`;
+            content += `- Questions totales : 21\n`;
+            content += `- Questions à choix multiples : 14\n`;
+            content += `- Questions de rédaction : 7\n`;
+            content += `- Réponses données : ${completedQuestions}/21\n`;
+            content += `- Rédactions complétées : ${essayAnswers}/7\n`;
+            content += `- Score aux QCM : ${correctAnswers}/${totalQuestions}\n\n`;
+            
+            content += `Commentaire :\n`;
+            if (correctAnswers === totalQuestions && totalQuestions > 0) {
+                content += `Excellent travail ! Vous avez parfaitement saisi la conclusion philosophique du roman.\n`;
+            } else if (correctAnswers >= totalQuestions * 0.7) {
+                content += `Bon travail ! Vous avez bien compris les enjeux philosophiques de ce chapitre final.\n`;
+            } else {
+                content += `Il serait bénéfique de relire attentivement ce chapitre crucial qui conclut la pensée de Camus.\n`;
+            }
+            
+            const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = `L_Etranger_Ch5_${studentName.replace(/\s+/g, '_')}_${dateStr.replace(/\//g, '-')}.txt`;
+            link.click();
+        }
+
+        // Calculate completion percentage
+        function calculateCompletionPercentage() {
+            const totalPossible = 21;
+            let completed = 0;
+            
+            for (let i = 1; i <= 21; i++) {
+                if ([3, 7, 10, 14, 18, 20, 21].includes(i)) {
+                    if (studentAnswers[i] && studentAnswers[i].trim().length > 10) {
+                        completed++;
+                    }
+                } else {
+                    const selectedOption = document.querySelector(`[data-question="${i}"].selected`);
+                    if (selectedOption) {
+                        completed++;
+                    }
+                }
+            }
+            
+            return Math.round((completed / totalPossible) * 100);
+        }
+
+        function updateCompletionStatus() {
+            const percentage = calculateCompletionPercentage();
+            const completionInfo = document.getElementById('completionInfo');
+            const completionText = document.getElementById('completionText');
+            
+            if (percentage > 0) {
+                completionInfo.style.display = 'block';
+                completionText.textContent = `${percentage}% complété (${Object.keys(completionStatus).length}/21 questions)`;
+            }
+        }
+
+        // Close all modals
+        function closeAllModals() {
+            document.getElementById('floatingText').classList.remove('show');
+            document.getElementById('frenchKeyboard').classList.remove('show');
+            document.getElementById('overlay').classList.remove('show');
+        }
+
+        // Track active textarea for keyboard
+        document.addEventListener('focusin', function(e) {
+            if (e.target.tagName === 'TEXTAREA') {
+                activeTextArea = e.target;
+            }
+        });
+
+        // Exercise functions
+        function updateProgress() {
+            const progress = (currentSection / totalSections) * 100;
+            document.getElementById('progressBar').style.width = progress + '%';
+        }
+
+        function updateScore() {
+            document.getElementById('scoreDisplay').textContent = 
+                `Score : ${correctAnswers}/${totalQuestions} questions correctes`;
+        }
+
+        function changeSection(direction) {
+            const sections = document.querySelectorAll('.section');
+            sections[currentSection - 1].classList.remove('active');
+            
+            currentSection += direction;
+            
+            if (currentSection < 1) currentSection = 1;
+            if (currentSection > totalSections) currentSection = totalSections;
+            
+            sections[currentSection - 1].classList.add('active');
+            
+            document.getElementById('prevBtn').disabled = currentSection === 1;
+            document.getElementById('nextBtn').disabled = currentSection === totalSections;
+            
+            updateProgress();
+            window.scrollTo({top: 0, behavior: 'smooth'});
+        }
+
+        function checkAnswer(button, correctAnswer, points) {
+            const question = button.closest('.question');
+            const options = question.querySelectorAll('.option');
+            const feedback = question.querySelector('.feedback');
+            
+            let selectedAnswer = null;
+            let selectedOption = null;
+            
+            options.forEach(option => {
+                if (option.classList.contains('selected')) {
+                    selectedAnswer = option.dataset.answer;
+                    selectedOption = option;
+                }
+            });
+            
+            if (!selectedAnswer) {
+                feedback.className = 'feedback show incorrect';
+                feedback.innerHTML = '⚠️ Veuillez sélectionner une réponse.';
+                return;
+            }
+            
+            const questionNumber = question.querySelector('.question-number').textContent;
+            const questionId = `Q${questionNumber}`;
+            
+            if (!scores[questionId]) {
+                totalQuestions++;
+            }
+            
+            // Store the student's answer
+            completionStatus[questionNumber] = true;
+            updateCompletionStatus();
+            
+            if (selectedAnswer === correctAnswer) {
+                feedback.className = 'feedback show correct';
+                feedback.innerHTML = '✓ Excellent ! Réponse correcte.';
+                options.forEach(option => {
+                    if (option.dataset.answer === correctAnswer) {
+                        option.classList.add('correct');
+                    }
+                });
+                
+                if (!scores[questionId]) {
+                    correctAnswers++;
+                    scores[questionId] = true;
+                }
+            } else {
+                feedback.className = 'feedback show incorrect';
+                feedback.innerHTML = '✗ Pas tout à fait. Relisez le texte et réfléchissez à nouveau.';
+                options.forEach(option => {
+                    if (option.dataset.answer === correctAnswer) {
+                        option.classList.add('correct');
+                    }
+                    if (option.dataset.answer === selectedAnswer) {
+                        option.classList.add('incorrect');
+                    }
+                });
+                
+                if (scores[questionId]) {
+                    correctAnswers--;
+                }
+                scores[questionId] = false;
+            }
+            
+            button.disabled = true;
+            updateScore();
+        }
+
+        function showModelAnswer(questionNum) {
+            const question = document.getElementById(`answer${questionNum}`).closest('.question');
+            const feedback = question.querySelector('.feedback');
+            
+            const modelAnswers = {
+                3: `<strong>Exemple de réponse :</strong><br><br>
+                "La mécanique" représente le système judiciaire, social et existentiel qui écrase l'individu. C'est la machine bien huilée de la justice qui condamne Meursault sans le comprendre. C'est aussi la routine de l'existence, les conventions sociales, tout ce qui fonctionne de manière automatique et impersonnelle. Meursault veut échapper à cette mécanique parce qu'elle nie son individualité, sa liberté, sa façon unique d'être au monde. Dans un sens plus large, "la mécanique" symbolise l'absurde lui-même : le fonctionnement impersonnel de l'univers qui est indifférent à l'homme.`,
+                
+                7: `<strong>Exemple de réponse :</strong><br><br>
+                Meursault rationalise sa mort en la rendant banale, en la dépouillant de tout caractère exceptionnel. Il affirme : "tout le monde sait que la vie ne vaut pas la peine d'être vécue". Cette affirmation provocatrice signifie que la vie n'a pas de sens transcendant, qu'elle est absurde. Meursault conclut que "mourir à trente ans ou à soixante-dix ans importe peu". Cette rationalisation révèle sa conception de l'existence : la vie n'a pas de valeur intrinsèque, seule compte la conscience lucide de cette absence de sens. En acceptant pleinement l'absurdité de sa mort, Meursault se libère de la peur et atteint une forme de liberté.`,
+                
+                10: `<strong>Exemple de réponse :</strong><br><br>
+                La confrontation avec l'aumônier représente l'affrontement entre deux visions du monde radicalement opposées. D'un côté, l'aumônier incarne la vision religieuse et métaphysique : il croit en Dieu, en l'âme, au péché, au salut, à une vie après la mort. De l'autre, Meursault représente l'athéisme radical et l'acceptation de l'absurde : il ne croit qu'à la vie terrestre, refuse toute consolation métaphysique, et accepte la mort comme fin définitive. Le dialogue de sourds entre les deux hommes montre l'infranchissable fossé entre ces deux conceptions. L'aumônier cherche à "sauver" l'âme de Meursault, mais ce dernier refuse catégoriquement cette "aide" qui lui semble dénuée de sens.`,
+                
+                14: `<strong>Exemple de réponse :</strong><br><br>
+                Cette crise représente une libération pour Meursault car elle lui permet d'exprimer enfin sa vérité après l'avoir longtemps refoulée. En criant à l'aumônier toutes ses certitudes, il se libère du poids des conventions et des attentes sociales. Cette explosion verbale est cathartique : "Comme si cette grande colère m'avait purgé du mal, vidé d'espoir". Meursault se débarrasse ainsi des dernières illusions, y compris l'espoir qui, pour Camus, est une forme d'aliénation. En affirmant "j'avais eu raison, j'avais encore raison, j'avais toujours raison", Meursault assume pleinement son existence et ses choix. Cette crise le conduit à la réconciliation finale avec lui-même et avec le monde.`,
+                
+                18: `<strong>Exemple de réponse :</strong><br><br>
+                L'expression "tendre indifférence du monde" est un oxymore central dans la philosophie de Camus. "Indifférence" car l'univers n'a pas de sens, pas de projet pour l'homme, pas de justice immanente. Le monde n'est ni bon ni mauvais, il est simplement autre, étranger à nos préoccupations humaines. "Tendre" car cette indifférence n'est pas hostile ou cruelle, mais simplement neutre, comme peut l'être la nature. Pour Camus, reconnaître cette "tendre indifférence" n'est pas désespérant mais libérateur : cela permet à l'homme de se sentir "frère" du monde plutôt qu'étranger. C'est l'acceptation ultime de l'absurde, qui conduit non au désespoir mais à une forme de paix et de bonheur paradoxal.`,
+                
+                20: `<strong>Exemple de dissertation :</strong><br><br>
+                <strong>Introduction :</strong> Le chapitre final de L'Étranger représente l'aboutissement de la philosophie de l'absurde développée par Albert Camus. À travers l'expérience de Meursault condamné à mort, Camus expose les trois étapes de la confrontation avec l'absurde.<br><br>
+                
+                <strong>I. La prise de conscience de l'absurde</strong><br>
+                Face à sa mort imminente, Meursault prend pleinement conscience de l'absurdité fondamentale de l'existence. Il réalise que "la vie ne vaut pas la peine d'être vécue" au sens où elle n'a pas de sens transcendant. Cette prise de conscience n'est pas intellectuelle mais existentielle, vécue dans la chair face à la mort.<br><br>
+                
+                <strong>II. La révolte comme réponse</strong><br>
+                Meursault ne sombre pas dans le désespoir mais se révolte. Cette révolte culmine dans la confrontation avec l'aumônier où il refuse toute consolation religieuse. Sa colère le "purge du mal, vide d'espoir" - l'espoir étant précisément l'illusion à rejeter selon Camus. La révolte consiste à dire "non" aux mensonges qui masquent l'absurde.<br><br>
+                
+                <strong>III. La réconciliation et la liberté ultime</strong><br>
+                Enfin, Meursault atteint une réconciliation paradoxale. En acceptant pleinement l'absurdité, il trouve la paix. La célèbre phrase "Je m'ouvrais pour la première fois à la tendre indifférence du monde" marque cette acceptation. Meursault découvre qu'il a été heureux et l'est encore. Condamné à mort, il atteint une liberté ultime : celle de celui qui n'a plus rien à perdre et qui peut enfin être totalement lui-même.<br><br>
+                
+                <strong>Conclusion :</strong> Ce chapitre montre que pour Camus, l'absurde n'est pas une condamnation au désespoir mais une invitation à vivre plus authentiquement. Meursault, en acceptant sa mort et l'absurdité de l'existence, incarne la maxime de Camus : "Il faut imaginer Sisyphe heureux".`
+            };
+            
+            feedback.className = 'feedback show info';
+            feedback.innerHTML = modelAnswers[questionNum];
+        }
+
+        // Event listeners for options
+        document.addEventListener('click', function(e) {
+            if (e.target.classList.contains('option')) {
+                const question = e.target.closest('.question');
+                const options = question.querySelectorAll('.option');
+                options.forEach(opt => opt.classList.remove('selected'));
+                e.target.classList.add('selected');
+                
+                // Store the answer
+                const questionNumber = question.querySelector('.question-number').textContent;
+                const answer = e.target.dataset.answer;
+                studentAnswers[questionNumber] = answer;
+                updateCompletionStatus();
+            }
+        });
+
+        // Initialisation
+        updateProgress();
+        updateScore();
+        document.getElementById('prevBtn').disabled = true;
+    </script>
+</body>
+</html>

@@ -1,0 +1,1082 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Activité : L'Actualité des Retraites - Niveau B1</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #333;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        
+        header {
+            background: linear-gradient(to right, #1e3c72, #2a5298);
+            color: white;
+            padding: 25px;
+            text-align: center;
+        }
+        
+        h1 {
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+        
+        .instructions {
+            background-color: #f0f4f8;
+            padding: 20px;
+            border-bottom: 2px solid #dce4ef;
+            line-height: 1.6;
+        }
+        
+        .instructions p {
+            margin-bottom: 10px;
+        }
+        
+        .content {
+            display: flex;
+            flex-wrap: wrap;
+            padding: 25px;
+        }
+        
+        .left-column {
+            flex: 1;
+            min-width: 300px;
+            padding-right: 25px;
+        }
+        
+        .right-column {
+            flex: 1;
+            min-width: 300px;
+            padding-left: 25px;
+            border-left: 2px dashed #e0e6ef;
+        }
+        
+        .text-section, .activities {
+            margin-bottom: 30px;
+        }
+        
+        h2 {
+            color: #1e3c72;
+            border-bottom: 2px solid #2a5298;
+            padding-bottom: 8px;
+            margin-bottom: 15px;
+            font-size: 1.5rem;
+        }
+        
+        .reading-text {
+            background-color: #f9fbfd;
+            border: 1px solid #dce4ef;
+            border-radius: 8px;
+            padding: 20px;
+            line-height: 1.7;
+            margin-bottom: 20px;
+        }
+        
+        .info-box {
+            background-color: #e8f4fc;
+            border-left: 4px solid #2a5298;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 0 8px 8px 0;
+        }
+        
+        .age-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+            background-color: white;
+        }
+        
+        .age-table th, .age-table td {
+            border: 1px solid #dce4ef;
+            padding: 12px;
+            text-align: left;
+        }
+        
+        .age-table th {
+            background-color: #2a5298;
+            color: white;
+        }
+        
+        .age-table tr:nth-child(even) {
+            background-color: #f9fbfd;
+        }
+        
+        .vocab-box {
+            background-color: #fff8e1;
+            border-left: 4px solid #ffd700;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 0 8px 8px 0;
+        }
+        
+        .vocab-item {
+            margin: 8px 0;
+            padding-left: 10px;
+            border-left: 3px solid #ffd700;
+        }
+        
+        .activity {
+            background-color: #f9fbfd;
+            border: 1px solid #dce4ef;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 25px;
+        }
+        
+        .question {
+            margin-bottom: 15px;
+        }
+        
+        .question h3 {
+            color: #2a5298;
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+        
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        
+        .option {
+            padding: 10px;
+            border: 1px solid #dce4ef;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .option:hover {
+            background-color: #e8f4fc;
+            border-color: #2a5298;
+        }
+        
+        .option.selected {
+            background-color: #d4e7ff;
+            border-color: #2a5298;
+            font-weight: bold;
+        }
+        
+        .option.correct {
+            background-color: #d4f7d4;
+            border-color: #2ecc71;
+        }
+        
+        .option.incorrect {
+            background-color: #ffd4d4;
+            border-color: #e74c3c;
+        }
+        
+        /* STYLE POUR EXERCICE INTERACTIF */
+        .interactive-gap-fill {
+            margin: 20px 0;
+        }
+        
+        .gap-text {
+            line-height: 2;
+            margin-bottom: 20px;
+            padding: 15px;
+            background-color: #f9fbfd;
+            border-radius: 8px;
+        }
+        
+        .gap {
+            display: inline-block;
+            min-width: 150px;
+            margin: 0 5px;
+            border-bottom: 3px solid #2a5298;
+            position: relative;
+            padding: 5px 10px;
+            background-color: white;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.2s;
+            min-height: 40px;
+            vertical-align: middle;
+            text-align: center;
+        }
+        
+        .gap:hover {
+            background-color: #e8f4fc;
+        }
+        
+        .gap.active {
+            background-color: #d4e7ff;
+            box-shadow: 0 0 0 2px #2a5298;
+        }
+        
+        .gap.filled {
+            background-color: #e8f4fc;
+            font-weight: bold;
+            color: #1e3c72;
+        }
+        
+        .word-bank {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            padding: 15px;
+            background-color: #f0f4f8;
+            border-radius: 8px;
+            margin-top: 15px;
+            border: 2px dashed #c3cfe2;
+        }
+        
+        .word-bank-item {
+            padding: 10px 15px;
+            background-color: white;
+            border: 2px solid #2a5298;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 500;
+        }
+        
+        .word-bank-item:hover {
+            background-color: #d4e7ff;
+            transform: translateY(-2px);
+        }
+        
+        .word-bank-item.used {
+            opacity: 0.4;
+            cursor: not-allowed;
+            text-decoration: line-through;
+            background-color: #e0e6ef;
+            border-color: #7f8c8d;
+        }
+        
+        .word-bank-item.highlighted {
+            background-color: #ffd700;
+            animation: pulse 1s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        .gap-feedback {
+            display: none;
+            padding: 8px 12px;
+            margin-top: 5px;
+            border-radius: 4px;
+            font-size: 0.9rem;
+        }
+        
+        .gap-feedback.correct {
+            display: block;
+            background-color: #d4f7d4;
+            color: #27ae60;
+            border-left: 3px solid #27ae60;
+        }
+        
+        .gap-feedback.incorrect {
+            display: block;
+            background-color: #ffd4d4;
+            color: #e74c3c;
+            border-left: 3px solid #e74c3c;
+        }
+        
+        .true-false {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .tf-statement {
+            padding: 12px;
+            border: 1px solid #dce4ef;
+            border-radius: 5px;
+            background-color: white;
+        }
+        
+        .tf-options {
+            display: flex;
+            gap: 15px;
+            margin-top: 8px;
+        }
+        
+        .tf-option {
+            padding: 6px 15px;
+            border: 1px solid #dce4ef;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        
+        .tf-option.selected {
+            background-color: #d4e7ff;
+            border-color: #2a5298;
+        }
+        
+        .tf-option.correct {
+            background-color: #d4f7d4;
+            border-color: #2ecc71;
+        }
+        
+        .tf-option.incorrect {
+            background-color: #ffd4d4;
+            border-color: #e74c3c;
+        }
+        
+        .short-answer {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #dce4ef;
+            border-radius: 5px;
+            font-size: 1rem;
+            margin-top: 10px;
+            resize: vertical;
+            min-height: 80px;
+        }
+        
+        /* CLAVIER ACCENTS SIMPLIFIÉ */
+        .floating-keyboard {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+            padding: 15px;
+            z-index: 1000;
+            display: none;
+            width: auto;
+            min-width: 300px;
+        }
+        
+        .keyboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .keyboard-keys {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 8px;
+        }
+        
+        .keyboard-key {
+            padding: 12px;
+            background-color: #f1f5f9;
+            border: 1px solid #dce4ef;
+            border-radius: 6px;
+            text-align: center;
+            cursor: pointer;
+            font-size: 1.1rem;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        
+        .keyboard-key:hover {
+            background-color: #e2e8f0;
+            transform: translateY(-2px);
+        }
+        
+        .keyboard-key.active {
+            background-color: #2a5298;
+            color: white;
+        }
+        
+        .keyboard-key.accent {
+            background-color: #ffd700;
+            font-weight: bold;
+        }
+        
+        .controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #e0e6ef;
+        }
+        
+        .score-display {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #1e3c72;
+        }
+        
+        .button {
+            padding: 12px 25px;
+            background-color: #2a5298;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background-color 0.3s;
+        }
+        
+        .button:hover {
+            background-color: #1e3c72;
+        }
+        
+        .button.secondary {
+            background-color: #7f8c8d;
+        }
+        
+        .button.secondary:hover {
+            background-color: #6c7b7d;
+        }
+        
+        .results {
+            margin-top: 20px;
+            padding: 20px;
+            background-color: #f0f4f8;
+            border-radius: 8px;
+            display: none;
+        }
+        
+        .results.show {
+            display: block;
+        }
+        
+        .feedback {
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 5px;
+            font-size: 0.95rem;
+        }
+        
+        .feedback.correct {
+            background-color: #d4f7d4;
+            border-left: 4px solid #2ecc71;
+        }
+        
+        .feedback.incorrect {
+            background-color: #ffd4d4;
+            border-left: 4px solid #e74c3c;
+        }
+        
+        .blob-button {
+            background-color: #27ae60;
+            margin-left: 10px;
+        }
+        
+        .blob-button:hover {
+            background-color: #219955;
+        }
+        
+        @media (max-width: 768px) {
+            .content {
+                flex-direction: column;
+                padding: 15px;
+            }
+            
+            .left-column, .right-column {
+                padding: 0;
+                border: none;
+            }
+            
+            .right-column {
+                border-top: 2px dashed #e0e6ef;
+                padding-top: 25px;
+                margin-top: 25px;
+            }
+            
+            .floating-keyboard {
+                bottom: 10px;
+                right: 10px;
+                left: 10px;
+                width: calc(100% - 20px);
+            }
+            
+            .keyboard-keys {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            
+            .word-bank {
+                flex-direction: column;
+            }
+            
+            .word-bank-item {
+                width: 100%;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>L'Actualité des Retraites en France</h1>
+            <div class="subtitle">Niveau B1 - Découvrez la situation actuelle (décembre 2025)</div>
+        </header>
+        
+        <div class="instructions">
+            <p><strong>Objectifs pédagogiques :</strong> Comprendre une actualité française récente, pratiquer la compréhension écrite et développer le vocabulaire politique.</p>
+            <p><strong>Instructions spéciales :</strong> Pour l'exercice 2, cliquez d'abord sur un espace vide (gap), puis cliquez sur un mot dans la banque de mots pour le remplir !</p>
+            <p><strong>Accents :</strong> Utilisez le bouton "Clavier accents" pour les lettres accentuées dans vos réponses.</p>
+        </div>
+        
+        <div class="content">
+            <div class="left-column">
+                <div class="text-section">
+                    <h2>Texte : La Situation Actuelle des Retraites</h2>
+                    <div class="reading-text">
+                        <p>En novembre 2025, les députés français à l'Assemblée nationale ont voté une mesure importante concernant l'âge de la retraite. Ils ont décidé de <strong>geler</strong> l'âge de la retraite à son niveau actuel de <strong>62 ans et 9 mois</strong>.</p>
+                        
+                        <p>Cette décision suspend temporairement l'augmentation progressive vers 64 ans qui était prévue par la réforme de 2023. La suspension doit durer jusqu'après la prochaine élection présidentielle en 2027.</p>
+                        
+                        <div class="info-box">
+                            <p><strong>Contexte :</strong> En 2023, le gouvernement avait voulu augmenter l'âge de la retraite de 62 à 64 ans, mais cette proposition avait provoqué des manifestations massives en France.</p>
+                        </div>
+                        
+                        <p>Cependant, la situation reste compliquée. Le Sénat français a voté plus tard pour supprimer cette suspension, créant ainsi un <strong>conflit politique</strong> entre les deux chambres du Parlement.</p>
+                        
+                        <h3>Âge actuel de la retraite (décembre 2025) :</h3>
+                        <table class="age-table">
+                            <thead>
+                                <tr>
+                                    <th>Date de naissance</th>
+                                    <th>Âge de retraite gelé</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Né entre 1 sept. 1961 et 31 déc. 1961</td>
+                                    <td>62 ans et 3 mois</td>
+                                </tr>
+                                <tr>
+                                    <td>Né en 1962</td>
+                                    <td>62 ans et 6 mois</td>
+                                </tr>
+                                <tr>
+                                    <td>Né en 1963</td>
+                                    <td><strong>62 ans et 9 mois</strong> (âge actuel)</td>
+                                </tr>
+                                <tr>
+                                    <td>Né en 1964</td>
+                                    <td>63 ans (augmentation temporairement arrêtée)</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        
+                        <div class="vocab-box">
+                            <h3>Vocabulaire clé :</h3>
+                            <div class="vocab-item"><strong>geler</strong> - to freeze (maintenir au même niveau)</div>
+                            <div class="vocab-item"><strong>une augmentation</strong> - an increase</div>
+                            <div class="vocab-item"><strong>suspendre</strong> - to suspend, to pause</div>
+                            <div class="vocab-item"><strong>un député</strong> - a member of parliament (MP)</div>
+                            <div class="vocab-item"><strong>le Sénat</strong> - the Senate</div>
+                            <div class="vocab-item"><strong>un conflit politique</strong> - a political conflict</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="activities">
+                    <h2>Activité 1 : Vrai ou Faux ?</h2>
+                    <div class="activity">
+                        <div class="true-false">
+                            <div class="tf-statement" id="tf1">
+                                <p>En novembre 2025, l'Assemblée nationale a voté pour augmenter l'âge de la retraite à 64 ans.</p>
+                                <div class="tf-options">
+                                    <div class="tf-option" data-statement="tf1" data-answer="vrai">Vrai</div>
+                                    <div class="tf-option" data-statement="tf1" data-answer="faux">Faux</div>
+                                </div>
+                            </div>
+                            
+                            <div class="tf-statement" id="tf2">
+                                <p>La suspension de l'augmentation doit durer jusqu'à l'élection présidentielle de 2027.</p>
+                                <div class="tf-options">
+                                    <div class="tf-option" data-statement="tf2" data-answer="vrai">Vrai</div>
+                                    <div class="tf-option" data-statement="tf2" data-answer="faux">Faux</div>
+                                </div>
+                            </div>
+                            
+                            <div class="tf-statement" id="tf3">
+                                <p>Le Sénat est d'accord avec la décision de l'Assemblée nationale.</p>
+                                <div class="tf-options">
+                                    <div class="tf-option" data-statement="tf3" data-answer="vrai">Vrai</div>
+                                    <div class="tf-option" data-statement="tf3" data-answer="faux">Faux</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="right-column">
+                <div class="activities">
+                    <h2>Activité 2 : Exercice Interactif</h2>
+                    <div class="activity">
+                        <div class="interactive-gap-fill">
+                            <div class="gap-text" id="interactive-text">
+                                <p>En France, le débat sur les retraites continue. L'Assemblée nationale a décidé de 
+                                    <span class="gap" id="gap1" data-correct="geler" data-used="false"></span> 
+                                    l'âge de la retraite à 62 ans et 9 mois. Cette décision 
+                                    <span class="gap" id="gap2" data-correct="suspend" data-used="false"></span> 
+                                    l'augmentation prévue vers 64 ans. Cependant, le 
+                                    <span class="gap" id="gap3" data-correct="Sénat" data-used="false"></span> 
+                                    n'est pas d'accord et a voté contre cette suspension. Pour l'instant, l'âge reste 
+                                    <span class="gap" id="gap4" data-correct="gelé" data-used="false"></span> 
+                                    mais la situation politique est 
+                                    <span class="gap" id="gap5" data-correct="compliquée" data-used="false"></span> 
+                                    entre les deux chambres du Parlement.</p>
+                            </div>
+                            
+                            <div class="word-bank" id="word-bank">
+                                <!-- Les mots seront générés aléatoirement en JavaScript -->
+                            </div>
+                            
+                            <div class="gap-feedback" id="gap-feedback"></div>
+                        </div>
+                    </div>
+                    
+                    <h2>Activité 3 : Questions de Compréhension</h2>
+                    <div class="activity">
+                        <div class="question" id="q1">
+                            <h3>1. Quel est l'âge actuel de la retraite en France (décembre 2025) ?</h3>
+                            <div class="options">
+                                <div class="option" data-question="q1" data-answer="a">62 ans</div>
+                                <div class="option" data-question="q1" data-answer="b">62 ans et 3 mois</div>
+                                <div class="option" data-question="q1" data-answer="c">62 ans et 9 mois</div>
+                                <div class="option" data-question="q1" data-answer="d">64 ans</div>
+                            </div>
+                        </div>
+                        
+                        <div class="question" id="q2">
+                            <h3>2. Jusqu'à quand la suspension de l'augmentation doit-elle durer ?</h3>
+                            <div class="options">
+                                <div class="option" data-question="q2" data-answer="a">Jusqu'en 2025</div>
+                                <div class="option" data-question="q2" data-answer="b">Jusqu'en 2026</div>
+                                <div class="option" data-question="q2" data-answer="c">Jusqu'à l'élection présidentielle de 2027</div>
+                                <div class="option" data-question="q2" data-answer="d">Pour toujours</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <h2>Activité 4 : Expression Écrite</h2>
+                    <div class="activity">
+                        <div class="question">
+                            <h3>1. Pourquoi pensez-vous que le Sénat et l'Assemblée nationale ne sont pas d'accord ? Utilisez des mots comme "politique", "débat", "conflit".</h3>
+                            <textarea class="short-answer" id="short1" placeholder="Je pense que... parce que..."></textarea>
+                        </div>
+                        
+                        <div class="question">
+                            <h3>2. À votre avis, est-ce une bonne solution de geler l'âge de la retraite ? Pourquoi ? (Utilisez "parce que" ou "car")</h3>
+                            <textarea class="short-answer" id="short2" placeholder="À mon avis... car..."></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="controls">
+            <div class="score-display">Score: <span id="score">0</span>/12</div>
+            <div>
+                <button class="button secondary" id="keyboard-toggle">Clavier accents</button>
+                <button class="button" id="check-answers">Vérifier les réponses</button>
+                <button class="button blob-button" id="download-blob">Télécharger mes résultats</button>
+            </div>
+        </div>
+        
+        <div class="results" id="results">
+            <h2>Correction et Feedback</h2>
+            <div id="feedback-container"></div>
+            <div class="info-box">
+                <p><strong>Résumé de la situation :</strong> La France vit actuellement un conflit politique entre l'Assemblée nationale (qui veut geler l'âge de la retraite) et le Sénat (qui veut continuer l'augmentation vers 64 ans). Pour l'instant, l'âge est gelé à 62 ans et 9 mois jusqu'à ce que le conflit soit résolu.</p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- CLAVIER ACCENTS SIMPLIFIÉ -->
+    <div class="floating-keyboard" id="floating-keyboard">
+        <div class="keyboard-header">
+            <h3>Accents français</h3>
+            <button class="button secondary" id="close-keyboard">× Fermer</button>
+        </div>
+        <div class="keyboard-keys" id="keyboard-keys">
+            <!-- Les touches seront générées en JavaScript -->
+        </div>
+    </div>
+
+    <script>
+        // Variables globales
+        let score = 0;
+        let totalQuestions = 10;
+        let userAnswers = {
+            tf1: null, tf2: null, tf3: null,
+            gap1: '', gap2: '', gap3: '', gap4: '', gap5: '',
+            q1: null, q2: null,
+            short1: '', short2: ''
+        };
+        
+        // Réponses correctes
+        const correctAnswers = {
+            tf1: 'faux',
+            tf2: 'vrai',
+            tf3: 'faux',
+            gap1: 'geler',
+            gap2: 'suspend',
+            gap3: 'Sénat',
+            gap4: 'gelé',
+            gap5: 'compliquée',
+            q1: 'c',
+            q2: 'c',
+            short1: { keywords: ['politique', 'débat', 'conflit', 'opinion'], minLength: 12 },
+            short2: { keywords: ['solution', 'bonne', 'mauvaise', 'parce que', 'car'], minLength: 12 }
+        };
+        
+        // Banque de mots
+        const wordBankWords = [
+            'geler', 'suspend', 'Sénat', 'gelé', 'compliquée',
+            'augmenter', 'Parlement', 'décision', 'nationale', 'politique'
+        ];
+        
+        let activeGap = null;
+        let currentActiveTextarea = null;
+        
+        // Fonction pour mélanger un tableau
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+        
+        // Initialisation
+        document.addEventListener('DOMContentLoaded', function() {
+            initWordBank();
+            initKeyboard();
+            
+            // Initialiser les événements Vrai/Faux
+            document.querySelectorAll('.tf-option').forEach(option => {
+                option.addEventListener('click', function() {
+                    const statementId = this.getAttribute('data-statement');
+                    const answerValue = this.getAttribute('data-answer');
+                    
+                    document.querySelectorAll(`.tf-option[data-statement="${statementId}"]`).forEach(opt => {
+                        opt.classList.remove('selected');
+                    });
+                    
+                    this.classList.add('selected');
+                    userAnswers[statementId] = answerValue;
+                });
+            });
+            
+            // Initialiser les questions à choix multiple
+            document.querySelectorAll('.option').forEach(option => {
+                option.addEventListener('click', function() {
+                    const questionId = this.getAttribute('data-question');
+                    const answerValue = this.getAttribute('data-answer');
+                    
+                    document.querySelectorAll(`.option[data-question="${questionId}"]`).forEach(opt => {
+                        opt.classList.remove('selected');
+                    });
+                    
+                    this.classList.add('selected');
+                    userAnswers[questionId] = answerValue;
+                });
+            });
+            
+            // Initialiser les zones de texte
+            document.querySelectorAll('.short-answer').forEach(textarea => {
+                const textareaId = textarea.id;
+                
+                textarea.addEventListener('focus', function() {
+                    currentActiveTextarea = this;
+                    document.getElementById('floating-keyboard').style.display = 'block';
+                });
+                
+                textarea.addEventListener('input', function() {
+                    userAnswers[textareaId] = this.value.trim();
+                });
+            });
+            
+            // Initialiser les gaps interactifs
+            document.querySelectorAll('.gap').forEach(gap => {
+                gap.addEventListener('click', function() {
+                    document.querySelectorAll('.gap').forEach(g => {
+                        g.classList.remove('active');
+                    });
+                    
+                    this.classList.add('active');
+                    activeGap = this.id;
+                    highlightAvailableWords();
+                    
+                    showGapHelp(`Cliquez sur un mot dans la banque pour remplir "${this.id}"`);
+                });
+            });
+            
+            // Boutons de contrôle
+            document.getElementById('keyboard-toggle').addEventListener('click', function() {
+                const keyboard = document.getElementById('floating-keyboard');
+                keyboard.style.display = keyboard.style.display === 'block' ? 'none' : 'block';
+            });
+            
+            document.getElementById('close-keyboard').addEventListener('click', function() {
+                document.getElementById('floating-keyboard').style.display = 'none';
+            });
+            
+            document.getElementById('check-answers').addEventListener('click', function() {
+                checkAllAnswers();
+            });
+            
+            document.getElementById('download-blob').addEventListener('click', function() {
+                downloadResults();
+            });
+        });
+        
+        function initWordBank() {
+            const wordBank = document.getElementById('word-bank');
+            wordBank.innerHTML = '';
+            
+            const shuffledWords = shuffleArray([...wordBankWords]);
+            
+            shuffledWords.forEach(word => {
+                const wordElement = document.createElement('div');
+                wordElement.className = 'word-bank-item';
+                wordElement.textContent = word;
+                
+                wordElement.addEventListener('click', function() {
+                    if (this.classList.contains('used')) return;
+                    if (!activeGap) {
+                        showGapHelp('Cliquez d\'abord sur un espace vide (gap) !', 'incorrect');
+                        return;
+                    }
+                    
+                    const gapElement = document.getElementById(activeGap);
+                    const selectedWord = this.textContent.trim();
+                    
+                    gapElement.textContent = selectedWord;
+                    gapElement.classList.add('filled');
+                    gapElement.classList.remove('active');
+                    this.classList.add('used');
+                    
+                    userAnswers[activeGap] = selectedWord.toLowerCase();
+                    
+                    const correctWord = gapElement.getAttribute('data-correct');
+                    const isCorrect = selectedWord.toLowerCase() === correctWord.toLowerCase();
+                    
+                    const feedback = document.getElementById('gap-feedback');
+                    if (isCorrect) {
+                        feedback.textContent = `Correct ! "${selectedWord}" est le bon mot.`;
+                        feedback.className = 'gap-feedback correct';
+                    } else {
+                        feedback.textContent = `"${selectedWord}" n'est pas correct. Le bon mot serait "${correctWord}".`;
+                        feedback.className = 'gap-feedback incorrect';
+                        
+                        setTimeout(() => {
+                            gapElement.textContent = '';
+                            gapElement.classList.remove('filled');
+                            this.classList.remove('used');
+                            userAnswers[activeGap] = '';
+                        }, 2000);
+                    }
+                    
+                    activeGap = null;
+                    document.querySelectorAll('.word-bank-item').forEach(item => {
+                        item.classList.remove('highlighted');
+                    });
+                });
+                
+                wordBank.appendChild(wordElement);
+            });
+        }
+        
+        function initKeyboard() {
+            const keyboardKeys = document.getElementById('keyboard-keys');
+            keyboardKeys.innerHTML = '';
+            
+            // Accents les plus fréquents en français
+            const commonAccents = [
+                { char: 'é', label: 'é (accent aigu)' },
+                { char: 'è', label: 'è (accent grave)' },
+                { char: 'ê', label: 'ê (circonflexe)' },
+                { char: 'à', label: 'à (accent grave)' },
+                { char: 'ç', label: 'ç (cédille)' },
+                { char: 'ù', label: 'ù (accent grave)' },
+                { char: 'ë', label: 'ë (tréma)' },
+                { char: 'ï', label: 'ï (tréma)' },
+                { char: 'ô', label: 'ô (circonflexe)' },
+                { char: 'â', label: 'â (circonflexe)' }
+            ];
+            
+            commonAccents.forEach(accent => {
+                const key = document.createElement('div');
+                key.className = 'keyboard-key accent';
+                key.textContent = accent.char;
+                key.title = accent.label;
+                
+                key.addEventListener('click', function() {
+                    insertCharacter(this.textContent);
+                });
+                
+                keyboardKeys.appendChild(key);
+            });
+        }
+        
+        function insertCharacter(char) {
+            if (currentActiveTextarea) {
+                const start = currentActiveTextarea.selectionStart;
+                const end = currentActiveTextarea.selectionEnd;
+                const text = currentActiveTextarea.value;
+                
+                currentActiveTextarea.value = text.substring(0, start) + char + text.substring(end);
+                currentActiveTextarea.selectionStart = currentActiveTextarea.selectionEnd = start + 1;
+                currentActiveTextarea.focus();
+                
+                // Mettre à jour userAnswers
+                if (currentActiveTextarea.id.startsWith('short')) {
+                    userAnswers[currentActiveTextarea.id] = currentActiveTextarea.value.trim();
+                }
+            }
+        }
+        
+        function highlightAvailableWords() {
+            document.querySelectorAll('.word-bank-item').forEach(item => {
+                item.classList.remove('highlighted');
+            });
+            
+            document.querySelectorAll('.word-bank-item:not(.used)').forEach(item => {
+                item.classList.add('highlighted');
+            });
+        }
+        
+        function showGapHelp(message, type = 'info') {
+            const feedback = document.getElementById('gap-feedback');
+            feedback.textContent = message;
+            feedback.className = 'gap-feedback';
+            if (type === 'incorrect') {
+                feedback.classList.add('incorrect');
+            }
+            
+            setTimeout(() => {
+                feedback.textContent = '';
+                feedback.className = 'gap-feedback';
+            }, 3000);
+        }
+        
+        function checkAllAnswers() {
+            score = 0;
+            const feedbackContainer = document.getElementById('feedback-container');
+            feedbackContainer.innerHTML = '';
+            
+            // Vérifier Vrai/Faux
+            for (let i = 1; i <= 3; i++) {
+                const statementId = `tf${i}`;
+                const userAnswer = userAnswers[statementId];
+                const correctAnswer = correctAnswers[statementId];
+                
+                if (userAnswer === correctAnswer) {
+                    score += 1;
+                    addFeedback(`Vrai/Faux ${i}: Correct! (+1 point)`, 'correct');
+                } else {
+                    addFeedback(`Vrai/Faux ${i}: Incorrect. La réponse était: ${correctAnswer}`, 'incorrect');
+                }
+            }
+            
+            // Vérifier gaps
+            let gapScore = 0;
+            for (let i = 1; i <= 5; i++) {
+                const gapId = `gap${i}`;
+                const userAnswer = userAnswers[gapId];
+                const correctAnswer = correctAnswers[gapId];
+                
+                if (userAnswer && userAnswer.toLowerCase() === correctAnswer.toLowerCase()) {
+                    gapScore += 1;
+                }
+            }
+            score += gapScore;
+            addFeedback(`Exercice interactif: ${gapScore}/5 corrects! (+${gapScore} points)`, gapScore >= 3 ? 'correct' : 'incorrect');
+            
+            // Vérifier QCM
+            for (let i = 1; i <= 2; i++) {
+                const questionId = `q${i}`;
+                const userAnswer = userAnswers[questionId];
+                const correctAnswer = correctAnswers[questionId];
+                
+                if (userAnswer === correctAnswer) {
+                    score += 1;
+                    addFeedback(`Question ${i}: Correct! (+1 point)`, 'correct');
+                } else {
+                    addFeedback(`Question ${i}: Incorrect. La bonne réponse était l'option ${correctAnswer.toUpperCase()}`, 'incorrect');
+                }
+            }
+            
+            // Réponses courtes
+            if (userAnswers.short1.length >= correctAnswers.short1.minLength) {
+                score += 1;
+                addFeedback('Expression écrite 1: Bonne réflexion! (+1 point)', 'correct');
+            } else {
+                addFeedback('Expression écrite 1: Essayez de développer un peu plus votre réponse', 'incorrect');
+            }
+            
+            if (userAnswers.short2.length >= correctAnswers.short2.minLength) {
+                score += 1;
+                addFeedback('Expression écrite 2: Opinion intéressante! (+1 point)', 'correct');
+            } else {
+                addFeedback('Expression écrite 2: Votre opinion est bonne, développez-la un peu', 'incorrect');
+            }
+            
+            // Mettre à jour le score et afficher les résultats
+            document.getElementById('score').textContent = score;
+            document.getElementById('results').classList.add('show');
+            document.getElementById('results').scrollIntoView({ behavior: 'smooth' });
+        }
+        
+        function addFeedback(text, type) {
+            const feedbackContainer = document.getElementById('feedback-container');
+            const feedback = document.createElement('div');
+            feedback.className = `feedback ${type}`;
+            feedback.textContent = text;
+            feedbackContainer.appendChild(feedback);
+        }
+        
+        function downloadResults() {
+            const results = {
+                date: new Date().toLocaleString(),
+                score: score,
+                total: totalQuestions,
+                percentage: Math.round((score / totalQuestions) * 100),
+                answers: userAnswers,
+                activity: 'L\'Actualité des Retraites en France',
+                level: 'B1',
+                feedback: 'Très bien! Continuez à pratiquer votre français!'
+            };
+            
+            const blob = new Blob([JSON.stringify(results, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `resultats-retraites-${new Date().toISOString().split('T')[0]}.json`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+    </script>
+</body>
+</html>

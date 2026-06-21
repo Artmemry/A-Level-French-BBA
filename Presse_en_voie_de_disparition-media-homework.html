@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>La Presse Écrite – Devoirs interactifs</title>
+<style>
+  :root{--blue:#1a56a0;--lblue:#e8f0fb;--green:#16a34a;--red:#dc2626;--grey:#f3f4f6;--dark:#1e293b;--mid:#64748b}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Segoe UI',sans-serif;background:#f0f4f8;color:var(--dark);min-height:100vh}
+  header{background:linear-gradient(135deg,var(--blue),#2563eb);color:#fff;padding:2rem;text-align:center}
+  header h1{font-size:1.6rem;margin-bottom:.4rem}
+  header p{opacity:.85;font-size:.95rem}
+  .badge{display:inline-block;background:rgba(255,255,255,.2);border-radius:20px;padding:.2rem .8rem;font-size:.8rem;margin:.3rem .2rem}
+  #nameSection{background:#fff;max-width:500px;margin:2rem auto;border-radius:12px;padding:2rem;box-shadow:0 2px 12px rgba(0,0,0,.08);text-align:center}
+  #nameSection h2{margin-bottom:1rem;color:var(--blue)}
+  #nameInput{width:100%;padding:.7rem 1rem;border:2px solid #cbd5e1;border-radius:8px;font-size:1rem;margin-bottom:1rem}
+  #nameInput:focus{outline:none;border-color:var(--blue)}
+  .btn{background:var(--blue);color:#fff;border:none;padding:.7rem 1.6rem;border-radius:8px;font-size:1rem;cursor:pointer;transition:.2s}
+  .btn:hover{background:#1d4ed8}
+  .btn-green{background:var(--green)}
+  .btn-green:hover{background:#15803d}
+  .btn-outline{background:#fff;color:var(--blue);border:2px solid var(--blue)}
+  .btn-outline:hover{background:var(--lblue)}
+  #main{display:none;max-width:860px;margin:0 auto;padding:1rem 1rem 5rem}
+  .section{background:#fff;border-radius:12px;padding:1.5rem;margin-bottom:1.5rem;box-shadow:0 2px 10px rgba(0,0,0,.06)}
+  .section h2{color:var(--blue);font-size:1.15rem;margin-bottom:.3rem;display:flex;align-items:center;gap:.5rem}
+  .section .subtitle{color:var(--mid);font-size:.85rem;margin-bottom:1rem}
+  .section-num{background:var(--blue);color:#fff;border-radius:50%;width:28px;height:28px;display:inline-flex;align-items:center;justify-content:center;font-size:.85rem;flex-shrink:0}
+  /* Reading text */
+  .reading-box{background:linear-gradient(135deg,#f8faff,#eef3fb);border:1.5px solid #c7d9f5;border-radius:10px;padding:1.2rem 1.4rem;margin-bottom:1.2rem;line-height:1.75;font-size:.96rem}
+  .reading-box h3{color:var(--blue);font-size:1rem;margin-bottom:.7rem;border-bottom:1.5px solid #c7d9f5;padding-bottom:.5rem}
+  .reading-box .stat{color:var(--blue);font-weight:700}
+  .source-tag{font-size:.75rem;color:var(--mid);margin-top:.7rem;text-align:right;font-style:italic}
+  /* MCQ */
+  .q-block{margin-bottom:1.2rem}
+  .q-text{font-weight:600;margin-bottom:.5rem;line-height:1.4}
+  .options label{display:flex;align-items:flex-start;gap:.5rem;padding:.45rem .6rem;margin:.2rem 0;border-radius:6px;cursor:pointer;border:1.5px solid #e2e8f0;transition:.15s}
+  .options label:hover{background:var(--lblue);border-color:#93c5fd}
+  .options input{margin-top:.15rem;flex-shrink:0}
+  .correct{background:#dcfce7!important;border-color:var(--green)!important}
+  .wrong{background:#fee2e2!important;border-color:var(--red)!important}
+  .feedback{font-size:.85rem;margin-top:.4rem;padding:.4rem .7rem;border-radius:6px}
+  .feedback.ok{background:#dcfce7;color:#166534}
+  .feedback.bad{background:#fee2e2;color:#991b1b}
+  /* Gap fill */
+  .gap-sentence{line-height:2.4;margin-bottom:.6rem;font-size:.97rem}
+  .gap{display:inline-block;min-width:110px;border:none;border-bottom:2px solid var(--blue);background:transparent;font-size:.97rem;font-family:inherit;padding:.1rem .3rem;color:var(--dark);outline:none;transition:.2s}
+  .gap:focus{border-bottom-color:#f59e0b;background:var(--lblue)}
+  .gap.correct-input{border-bottom-color:var(--green);background:#dcfce7}
+  .gap.wrong-input{border-bottom-color:var(--red);background:#fee2e2}
+  /* Vocab / Synonym match */
+  .syn-row{display:flex;align-items:center;gap:.5rem;margin-bottom:.5rem;flex-wrap:wrap}
+  .syn-word{font-weight:700;width:190px;flex-shrink:0;color:var(--blue)}
+  .syn-select{flex:1;padding:.4rem;border:1.5px solid #cbd5e1;border-radius:6px;font-size:.9rem}
+  .syn-select:focus{outline:none;border-color:var(--blue)}
+  /* Negative forms */
+  .neg-row{margin-bottom:.8rem}
+  .neg-row .sentence{margin-bottom:.3rem;color:var(--mid);font-size:.9rem}
+  .neg-input{width:100%;padding:.5rem .8rem;border:1.5px solid #cbd5e1;border-radius:6px;font-size:.93rem}
+  .neg-input:focus{outline:none;border-color:var(--blue)}
+  /* Score bar */
+  #scoreBar{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:2px solid #e2e8f0;padding:.7rem 1.2rem;display:none;align-items:center;justify-content:space-between;gap:.8rem;z-index:90;box-shadow:0 -4px 12px rgba(0,0,0,.08)}
+  #scoreText{font-weight:700;font-size:1rem;color:var(--blue)}
+  .btn-row{display:flex;gap:.5rem;flex-wrap:wrap}
+  /* Accent keyboard */
+  #accentKb{position:fixed;bottom:66px;right:16px;background:#1e293b;border-radius:12px;padding:.5rem .6rem;display:none;gap:.4rem;z-index:100;box-shadow:0 4px 20px rgba(0,0,0,.3);flex-direction:column;align-items:center}
+  #accentKb .kb-row{display:flex;gap:.4rem}
+  .kb-btn{background:#334155;color:#fff;border:none;border-radius:6px;width:36px;height:36px;font-size:1.1rem;cursor:pointer;transition:.15s}
+  .kb-btn:hover{background:#3b82f6}
+  #kbToggle{position:fixed;bottom:62px;right:16px;background:var(--blue);color:#fff;border:none;border-radius:50%;width:44px;height:44px;font-size:1.2rem;cursor:pointer;z-index:101;box-shadow:0 2px 10px rgba(0,0,0,.2);display:none}
+  /* Progress */
+  .progress-wrap{background:#e2e8f0;border-radius:99px;height:8px;margin-bottom:1.2rem;overflow:hidden}
+  .progress-fill{height:100%;background:linear-gradient(90deg,var(--blue),#06b6d4);border-radius:99px;transition:.5s}
+  /* Vrai/Faux */
+  .vf-row{margin-bottom:1rem;padding:.8rem;border:1.5px solid #e2e8f0;border-radius:8px}
+  .vf-row .vf-stmt{font-weight:600;margin-bottom:.5rem}
+  .vf-btns{display:flex;gap:.5rem;margin-bottom:.4rem}
+  .vf-btn{padding:.35rem 1rem;border-radius:6px;border:1.5px solid #cbd5e1;cursor:pointer;font-size:.9rem;background:#fff;transition:.15s}
+  .vf-btn.selected-v{background:#dcfce7;border-color:var(--green);font-weight:700}
+  .vf-btn.selected-f{background:#fee2e2;border-color:var(--red);font-weight:700}
+  .vf-just{width:100%;padding:.4rem .7rem;border:1.5px solid #cbd5e1;border-radius:6px;font-size:.88rem;margin-top:.3rem}
+  .vf-just:focus{outline:none;border-color:var(--blue)}
+  @media(max-width:600px){.syn-word{min-width:130px}}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>📰 La Presse Écrite en Voie de Disparition ?</h1>
+  <p>Devoirs interactifs – Préparez-vous pour le cours</p>
+  <div>
+    <span class="badge">A-Level French</span>
+    <span class="badge">Edexcel B1–B2</span>
+    <span class="badge">Médias &amp; Société</span>
+  </div>
+</header>
+
+<div id="nameSection">
+  <h2>👋 Bienvenue !</h2>
+  <p style="margin-bottom:1rem;color:var(--mid)">Entrez votre prénom et nom pour commencer. Vos résultats seront téléchargés à la fin.</p>
+  <input type="text" id="nameInput" placeholder="Prénom et nom…" />
+  <br>
+  <button class="btn" onclick="startActivities()">Commencer les activités →</button>
+</div>
+
+<div id="main">
+  <div class="progress-wrap"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+
+  <!-- READING TEXT -->
+  <div class="section">
+    <h2><span class="section-num">📖</span> Texte de référence – Lisez attentivement avant de commencer</h2>
+    <p class="subtitle">Ce texte est basé sur les données les plus récentes. Utilisez-le pour répondre aux questions de compréhension.</p>
+    <div class="reading-box">
+      <h3>Les médias français face à la crise de confiance : bilan 2025–2026</h3>
+      <p>La 39<sup>e</sup> édition du baromètre La Croix–Verian–La Poste, publiée en janvier 2026 et fondée sur une enquête menée auprès de <span class="stat">1 500 personnes</span> en novembre 2025, dresse un portrait inquiétant du rapport des Français à l'information.</p>
+      <br>
+      <p>Premier constat : l'intérêt pour l'actualité recule. Seulement <span class="stat">71 %</span> des Français déclarent suivre l'actualité avec intérêt, soit une baisse de <span class="stat">5 points</span> par rapport à 2024. Plus frappant encore, ceux qui s'y intéressent « avec un très grand intérêt » ne représentent plus que <span class="stat">24 %</span>, une chute de 9 points en un an.</p>
+      <br>
+      <p>La défiance envers les médias reste profonde : <span class="stat">61 %</span> des Français estiment qu'il faut se méfier de ce que disent les médias sur les grands sujets d'actualité. Paradoxalement, <span class="stat">65 %</span> les considèrent néanmoins comme un contre-pouvoir essentiel à la démocratie, et <span class="stat">74 %</span> accordent leur confiance à l'information des médias professionnels.</p>
+      <br>
+      <p>La désinformation demeure une préoccupation majeure : <span class="stat">53 %</span> des sondés déclarent être confrontés plusieurs fois par semaine à des informations fausses sur les réseaux sociaux, et <span class="stat">91 %</span> estiment que les fausses informations en ligne sont de plus en plus nombreuses. Pour lutter contre ce phénomène, <span class="stat">59 %</span> souhaitent un meilleur contrôle des réseaux sociaux.</p>
+      <br>
+      <p>Enfin, de nouveaux usages émergent : <span class="stat">42 %</span> des Français s'appuient désormais sur des influenceurs pour suivre l'actualité — en hausse de 5 points — et <span class="stat">41 %</span> utilisent l'intelligence artificielle pour s'informer. Ces chiffres traduisent une transformation profonde du paysage médiatique, qui pose la question de la survie de la presse écrite traditionnelle.</p>
+      <div class="source-tag">Source : Baromètre La Croix–Verian–La Poste, 39<sup>e</sup> édition, janvier 2026 (enquête nov. 2025, n=1 500)</div>
+    </div>
+  </div>
+
+  <!-- SECTION 1: Compréhension MCQ -->
+  <div class="section" id="sec1">
+    <h2><span class="section-num">1</span> Compréhension – Questions à choix multiples</h2>
+    <p class="subtitle">Basé sur le texte ci-dessus. Relisez-le avant de répondre !</p>
+    <div id="mcqContainer"></div>
+    <button class="btn" onclick="checkMCQ()">Vérifier mes réponses ✓</button>
+  </div>
+
+  <!-- SECTION 2: Vrai ou Faux -->
+  <div class="section" id="sec2">
+    <h2><span class="section-num">2</span> Vrai ou Faux ? Justifiez !</h2>
+    <p class="subtitle">Cochez Vrai ou Faux, puis écrivez une justification courte en français.</p>
+    <div id="vfContainer"></div>
+    <button class="btn" onclick="checkVF()">Vérifier ✓</button>
+  </div>
+
+  <!-- SECTION 3: Gap fill -->
+  <div class="section" id="sec3">
+    <h2><span class="section-num">3</span> Remplissez les trous</h2>
+    <p class="subtitle">Complétez ce texte sur les recettes publicitaires avec les mots de la banque.</p>
+    <div style="background:var(--lblue);border-radius:8px;padding:.7rem 1rem;margin-bottom:1rem;font-size:.88rem">
+      <strong>Banque de mots :</strong> Internet | presse | baisse | capter | augmenté | traditionnels | plateformes numériques | stables | TV | tombées | deux tiers
+    </div>
+    <div id="gapContainer"></div>
+    <button class="btn" style="margin-top:.8rem" onclick="checkGaps()">Vérifier ✓</button>
+  </div>
+
+  <!-- SECTION 4: Synonym match -->
+  <div class="section" id="sec4">
+    <h2><span class="section-num">4</span> Synonymes – Reliez les mots</h2>
+    <p class="subtitle">Trouvez le synonyme du mot donné tel qu'il est utilisé dans les textes du cours.</p>
+    <div id="synContainer"></div>
+    <button class="btn" style="margin-top:.8rem" onclick="checkSyns()">Vérifier ✓</button>
+  </div>
+
+  <!-- SECTION 5: Vocab match -->
+  <div class="section" id="sec5">
+    <h2><span class="section-num">5</span> Vocabulaire – Anglais → Français</h2>
+    <p class="subtitle">Associez chaque terme anglais à sa traduction française principale.</p>
+    <div id="vocabContainer"></div>
+    <button class="btn" style="margin-top:.8rem" onclick="checkVocab()">Vérifier ✓</button>
+  </div>
+
+  <!-- SECTION 6: Negative forms -->
+  <div class="section" id="sec6">
+    <h2><span class="section-num">6</span> Les formes négatives</h2>
+    <p class="subtitle">Réécrivez chaque phrase en utilisant la forme négative indiquée entre parenthèses.</p>
+    <div id="negContainer"></div>
+    <button class="btn" style="margin-top:.8rem" onclick="checkNeg()">Vérifier ✓</button>
+  </div>
+
+  <!-- SECTION 7: Translation -->
+  <div class="section" id="sec7">
+    <h2><span class="section-num">7</span> Traduction – Complétez en français</h2>
+    <p class="subtitle">Complétez la traduction française. Les indices entre crochets vous guident.</p>
+    <div id="transContainer"></div>
+    <button class="btn" style="margin-top:.8rem" onclick="checkTrans()">Vérifier ✓</button>
+  </div>
+
+</div>
+
+<!-- Score bar -->
+<div id="scoreBar">
+  <span id="scoreText">Score: 0/0</span>
+  <div class="btn-row">
+    <button class="btn btn-outline" onclick="window.scrollTo({top:0,behavior:'smooth'})">⬆ Revoir</button>
+    <button class="btn btn-green" onclick="downloadResults()">📥 Télécharger mes résultats</button>
+  </div>
+</div>
+
+<!-- Accent keyboard -->
+<button id="kbToggle" onclick="toggleKb()" title="Clavier avec accents">à</button>
+<div id="accentKb">
+  <div style="color:#94a3b8;font-size:.7rem;margin-bottom:.3rem">ACCENTS</div>
+  <div class="kb-row">
+    <button class="kb-btn" onclick="ins('à')">à</button>
+    <button class="kb-btn" onclick="ins('â')">â</button>
+    <button class="kb-btn" onclick="ins('é')">é</button>
+    <button class="kb-btn" onclick="ins('è')">è</button>
+    <button class="kb-btn" onclick="ins('ê')">ê</button>
+  </div>
+  <div class="kb-row">
+    <button class="kb-btn" onclick="ins('ë')">ë</button>
+    <button class="kb-btn" onclick="ins('î')">î</button>
+    <button class="kb-btn" onclick="ins('ï')">ï</button>
+    <button class="kb-btn" onclick="ins('ô')">ô</button>
+    <button class="kb-btn" onclick="ins('ù')">ù</button>
+  </div>
+  <div class="kb-row">
+    <button class="kb-btn" onclick="ins('û')">û</button>
+    <button class="kb-btn" onclick="ins('ü')">ü</button>
+    <button class="kb-btn" onclick="ins('ç')">ç</button>
+    <button class="kb-btn" onclick="ins('œ')">œ</button>
+    <button class="kb-btn" onclick="ins('æ')">æ</button>
+  </div>
+</div>
+
+<script>
+let studentName='', lastFocused=null, scores={};
+
+document.addEventListener('focusin',e=>{
+  if((e.target.tagName==='INPUT'&&e.target.type==='text')||e.target.tagName==='TEXTAREA') lastFocused=e.target;
+});
+
+function toggleKb(){
+  const kb=document.getElementById('accentKb');
+  const show=kb.style.display!=='flex';
+  kb.style.display=show?'flex':'none';
+  if(show) kb.style.flexDirection='column';
+}
+function ins(ch){
+  if(!lastFocused) return;
+  const el=lastFocused, s=el.selectionStart, e2=el.selectionEnd;
+  el.value=el.value.slice(0,s)+ch+el.value.slice(e2);
+  el.selectionStart=el.selectionEnd=s+1; el.focus();
+}
+
+// ── DATA ──────────────────────────────────────────────────────────────────────
+
+const mcqData=[
+  {
+    q:"Combien de personnes ont participé à l'enquête du baromètre 2026 (39e édition) ?",
+    opts:["1 000 personnes","1 200 personnes","1 500 personnes","2 000 personnes"],
+    ans:2,
+    expl:"L'enquête a été réalisée auprès d'un échantillon de 1 500 personnes."
+  },
+  {
+    q:"Quel pourcentage de Français déclarent suivre l'actualité avec intérêt en 2025–2026 ?",
+    opts:["76 %","71 %","65 %","61 %"],
+    ans:1,
+    expl:"71 % déclarent suivre l'actualité avec intérêt, soit une baisse de 5 points."
+  },
+  {
+    q:"De combien de points la proportion de Français « très intéressés » par l'actualité a-t-elle chuté en un an ?",
+    opts:["3 points","5 points","7 points","9 points"],
+    ans:3,
+    expl:"Ceux qui s'y intéressent « avec un très grand intérêt » sont à 24 %, une chute de 9 points en un an."
+  },
+  {
+    q:"Quel pourcentage des Français considèrent les médias comme un contre-pouvoir essentiel ?",
+    opts:["51 %","61 %","65 %","74 %"],
+    ans:2,
+    expl:"65 % les considèrent comme un contre-pouvoir essentiel à la démocratie."
+  },
+  {
+    q:"Quelle proportion des sondés font confiance à l'information des médias professionnels ?",
+    opts:["61 %","65 %","70 %","74 %"],
+    ans:3,
+    expl:"74 % accordent leur confiance à l'information des médias professionnels."
+  },
+  {
+    q:"À quelle fréquence 53 % des sondés sont-ils confrontés à des informations fausses sur les réseaux sociaux ?",
+    opts:["Une fois par mois","Une fois par semaine","Plusieurs fois par semaine","Chaque jour"],
+    ans:2,
+    expl:"53 % déclarent y être confrontés plusieurs fois par semaine sur les réseaux sociaux."
+  },
+  {
+    q:"Quel pourcentage des Français utilisent l'intelligence artificielle pour s'informer ?",
+    opts:["28 %","35 %","41 %","47 %"],
+    ans:2,
+    expl:"41 % utilisent l'intelligence artificielle (ChatGPT, Perplexity…) pour s'informer."
+  },
+  {
+    q:"Pour lutter contre la désinformation, que souhaitent 59 % des Français ?",
+    opts:["Plus d'éducation aux médias","Un meilleur contrôle des réseaux sociaux","Plus de fact-checking","Une plus grande transparence des médias"],
+    ans:1,
+    expl:"59 % souhaitent un meilleur contrôle des réseaux sociaux pour lutter contre la désinformation."
+  }
+];
+
+const vfData=[
+  {stmt:"L'intérêt des Français pour l'actualité est en hausse depuis 2024.", ans:false, just:"71 % déclarent suivre l'actualité avec intérêt, soit une baisse de 5 points par rapport à 2024."},
+  {stmt:"Une majorité de Français se méfient de ce que disent les médias sur les grands sujets d'actualité.", ans:true, just:"61 % des Français estiment qu'il faut se méfier de ce que disent les médias."},
+  {stmt:"Les Français pensent que les médias ne jouent aucun rôle dans la démocratie.", ans:false, just:"65 % les considèrent comme un contre-pouvoir essentiel à la démocratie."},
+  {stmt:"La majorité des sondés font confiance aux médias professionnels.", ans:true, just:"74 % accordent leur confiance à l'information des médias professionnels."},
+  {stmt:"Moins de la moitié des Français estiment que les fausses informations en ligne sont de plus en plus nombreuses.", ans:false, just:"91 % estiment que les fausses informations en ligne sont de plus en plus nombreuses."},
+  {stmt:"L'usage des influenceurs comme source d'information est en progression.", ans:true, just:"42 % s'appuient sur des influenceurs pour suivre l'actualité — en hausse de 5 points."},
+  {stmt:"Aucun Français n'utilise l'intelligence artificielle pour s'informer.", ans:false, just:"41 % utilisent l'intelligence artificielle pour s'informer."},
+  {stmt:"Le baromètre est une enquête annuelle qui existe depuis près de quarante ans.", ans:true, just:"Depuis 1987, le baromètre constitue l'enquête de référence sur le sujet (39e édition en 2026)."}
+];
+
+const gapData=[
+  {before:"Entre 2006 et 2021, les recettes publicitaires d'",ans:"Internet",after:" ont considérablement"},
+  {before:"",ans:"augmenté",after:", atteignant 7 583 millions d'euros en 2021."},
+  {before:"Au contraire, les médias ",ans:"traditionnels",after:" ont tous connu une"},
+  {before:"",ans:"baisse",after:". La"},
+  {before:"",ans:"presse",after:" est le média le plus touché, avec des recettes"},
+  {before:"",ans:"tombées",after:" à seulement 1 679 millions d'euros en 2021. La"},
+  {before:"",ans:"TV",after:" reste la deuxième force dans le monde des médias français et maintient des revenus relativement"},
+  {before:"",ans:"stables",after:" autour de 3 500 millions d'euros. Cette évolution montre comment les"},
+  {before:"",ans:"plateformes numériques",after:" ont réussi à"},
+  {before:"",ans:"capter",after:" près des"},
+  {before:"",ans:"deux tiers",after:" de l'argent publicitaire en seulement une quinzaine d'années."},
+];
+
+const synData=[
+  {word:"désengagement",opts:["détachement","déclin","désinformation","diminution"],ans:"détachement"},
+  {word:"nouvelles",opts:["annonces","actualités","archives","analyses"],ans:"actualités"},
+  {word:"traités",opts:["transmis","abordés","traduits","trouvés"],ans:"abordés"},
+  {word:"devant",opts:["face à","grâce à","loin de","auprès de"],ans:"face à"},
+  {word:"entre (dans un groupe)",opts:["pour","chez","avec","vers"],ans:"chez"},
+  {word:"utilisés",opts:["exploités","consultent","diffusés","achetés"],ans:"consultent"},
+  {word:"montre",opts:["prouve","indique","révèle","démontre"],ans:"révèle"},
+  {word:"concernant",opts:["quant à","malgré","selon","grâce à"],ans:"quant à"},
+  {word:"relayées",opts:["répandues","relatées","renforcées","retransmises"],ans:"relatées"},
+];
+
+const vocabData=[
+  {en:"to compete with",opts:["diffuser","rivaliser avec","s'informer","survivre"],ans:"rivaliser avec"},
+  {en:"an internet user (un/une…)",opts:["un annonceur","un éditeur","un internaute","un créateur"],ans:"un internaute"},
+  {en:"immediacy",opts:["l'imprimerie","l'immédiateté","l'instantanéité","l'impartialité"],ans:"l'immédiateté"},
+  {en:"to broadcast",opts:["consulter","rivaliser","diffuser","informer"],ans:"diffuser"},
+  {en:"a bookshop",opts:["une librairie","une imprimerie","une bibliothèque","une rédaction"],ans:"une librairie"},
+  {en:"shiny / gleaming",opts:["souillé","reluisant","numérique","pertinent"],ans:"reluisant"},
+  {en:"to inform oneself",opts:["se tourner","s'améliorer","s'informer","se perdre"],ans:"s'informer"},
+  {en:"dirty / soiled",opts:["numérique","reluisant","souillé","menacé"],ans:"souillé"},
+];
+
+const negData=[
+  {en:"I have never seen anyone like that! (jamais)",fr:"J'ai vu quelqu'un comme ça !",hint:"ne … jamais",ans:"Je n'ai jamais vu quelqu'un comme ça !"},
+  {en:"He has hardly tried recently. (guère)",fr:"Il a essayé récemment.",hint:"ne … guère",ans:"Il n'a guère essayé récemment."},
+  {en:"She paid nothing. (rien)",fr:"Elle a payé.",hint:"ne … rien",ans:"Elle n'a rien payé."},
+  {en:"They no longer come. (plus)",fr:"Elles viennent.",hint:"ne … plus",ans:"Elles ne viennent plus."},
+  {en:"I don't know you at all. (point)",fr:"Je vous connais.",hint:"ne … point",ans:"Je ne vous connais point."},
+  {en:"There are only three. (que)",fr:"Il y en a.",hint:"ne … que",ans:"Il n'y en a que trois."},
+  {en:"Recently, I saw no one. (personne)",fr:"Récemment, j'ai vu quelqu'un.",hint:"ne … personne",ans:"Récemment, je n'ai vu personne."},
+];
+
+const transData=[
+  {en:"15 years ago, nobody would ever have believed that the written press could be in danger.",partial:"Il y a quinze ans, ___ n'___ jamais ___ que la presse écrite ___ être en danger.",hints:"[personne / aurait / cru / puisse]",ans:"Il y a quinze ans, personne n'aurait jamais cru que la presse écrite puisse être en danger."},
+  {en:"Reading or consulting a blog online is no longer just reserved for adolescents.",partial:"Lire ou ___ un blog en ligne n'est ___ seulement réservé aux adolescents.",hints:"[consulter / plus]",ans:"Lire ou consulter un blog en ligne n'est plus seulement réservé aux adolescents."},
+  {en:"The number of internet surfers doesn't stop going up.",partial:"Le nombre d'internautes ne ___ pas d'___.",hints:"[cesse / augmenter]",ans:"Le nombre d'internautes ne cesse pas d'augmenter."},
+  {en:"Let us not forget either that publishing online involves no printing costs.",partial:"N'___ pas non plus que publier en ligne n'___ aucun frais d'___.",hints:"[oublions / entraîne / impression]",ans:"N'oublions pas non plus que publier en ligne n'entraîne aucun frais d'impression."},
+  {en:"Wouldn't we prefer the simplicity of a book to a tablet?",partial:"Ne ___-nous pas la simplicité d'un livre à une ___ ?",hints:"[préférerions / tablette]",ans:"Ne préférerions-nous pas la simplicité d'un livre à une tablette ?"},
+];
+
+// ── BUILD ─────────────────────────────────────────────────────────────────────
+
+function startActivities(){
+  studentName=document.getElementById('nameInput').value.trim();
+  if(!studentName){alert('Veuillez entrer votre prénom !');return;}
+  document.getElementById('nameSection').style.display='none';
+  document.getElementById('main').style.display='block';
+  document.getElementById('scoreBar').style.display='flex';
+  document.getElementById('kbToggle').style.display='block';
+  buildMCQ(); buildVF(); buildGaps(); buildSyns(); buildVocab(); buildNeg(); buildTrans();
+}
+
+function buildMCQ(){
+  const c=document.getElementById('mcqContainer');
+  mcqData.forEach((q,i)=>{
+    const d=document.createElement('div'); d.className='q-block';
+    d.innerHTML=`<div class="q-text">${i+1}. ${q.q}</div><div class="options" id="opts${i}">`
+      +q.opts.map((o,j)=>`<label id="lbl${i}_${j}"><input type="radio" name="mcq${i}" value="${j}"> ${o}</label>`).join('')
+      +`</div><div class="feedback" id="fb${i}" style="display:none"></div>`;
+    c.appendChild(d);
+  });
+}
+
+function buildVF(){
+  const c=document.getElementById('vfContainer');
+  vfData.forEach((v,i)=>{
+    const d=document.createElement('div'); d.className='vf-row';
+    d.innerHTML=`<div class="vf-stmt">${i+1}. ${v.stmt}</div>
+      <div class="vf-btns">
+        <button class="vf-btn" id="vfV${i}" onclick="selectVF(${i},'v')">✅ Vrai</button>
+        <button class="vf-btn" id="vfF${i}" onclick="selectVF(${i},'f')">❌ Faux</button>
+      </div>
+      <input type="text" class="vf-just" id="vfJ${i}" placeholder="Justification en français…">
+      <div id="vfFb${i}" style="display:none" class="feedback"></div>`;
+    c.appendChild(d);
+  });
+}
+
+const vfSel={};
+function selectVF(i,v){
+  vfSel[i]=v;
+  document.getElementById(`vfV${i}`).className='vf-btn'+(v==='v'?' selected-v':'');
+  document.getElementById(`vfF${i}`).className='vf-btn'+(v==='f'?' selected-f':'');
+}
+
+function buildGaps(){
+  const c=document.getElementById('gapContainer');
+  let html='<p class="gap-sentence">';
+  gapData.forEach((g,i)=>{
+    html+=g.before+`<input type="text" class="gap" id="gap${i}" placeholder="…" autocomplete="off">`+g.after+' ';
+  });
+  c.innerHTML=html+'</p>';
+}
+
+function buildSyns(){
+  const c=document.getElementById('synContainer');
+  synData.forEach((s,i)=>{
+    const d=document.createElement('div'); d.className='syn-row';
+    const sh=[...s.opts].sort(()=>Math.random()-.5);
+    d.innerHTML=`<span class="syn-word">${s.word}</span>
+      <select class="syn-select" id="syn${i}"><option value="">-- choisir --</option>
+      ${sh.map(o=>`<option value="${o}">${o}</option>`).join('')}</select>
+      <span id="synFb${i}" style="font-size:1.1rem"></span>`;
+    c.appendChild(d);
+  });
+}
+
+function buildVocab(){
+  const c=document.getElementById('vocabContainer');
+  vocabData.forEach((v,i)=>{
+    const d=document.createElement('div'); d.className='syn-row';
+    const sh=[...v.opts].sort(()=>Math.random()-.5);
+    d.innerHTML=`<span class="syn-word" style="color:var(--dark)">${v.en}</span>
+      <select class="syn-select" id="voc${i}"><option value="">-- choisir --</option>
+      ${sh.map(o=>`<option value="${o}">${o}</option>`).join('')}</select>
+      <span id="vocFb${i}" style="font-size:1.1rem"></span>`;
+    c.appendChild(d);
+  });
+}
+
+function buildNeg(){
+  const c=document.getElementById('negContainer');
+  negData.forEach((n,i)=>{
+    const d=document.createElement('div'); d.className='neg-row';
+    d.innerHTML=`<div class="sentence"><strong>${i+1}.</strong> Original : <em>${n.fr}</em> <span style="color:var(--blue)">(→ ${n.en})</span></div>
+      <div style="font-size:.82rem;color:var(--mid);margin-bottom:.3rem">Forme négative : <strong>${n.hint}</strong></div>
+      <input type="text" class="neg-input" id="neg${i}" placeholder="Réécrivez la phrase en négatif…" autocomplete="off">
+      <div id="negFb${i}" style="display:none;margin-top:.3rem" class="feedback"></div>`;
+    c.appendChild(d);
+  });
+}
+
+function buildTrans(){
+  const c=document.getElementById('transContainer');
+  transData.forEach((t,i)=>{
+    const d=document.createElement('div'); d.className='neg-row';
+    d.innerHTML=`<div class="sentence"><strong>${i+1}.</strong> 🇬🇧 <em>${t.en}</em></div>
+      <div style="font-size:.82rem;color:var(--mid);margin-bottom:.3rem">Indices : <strong>${t.hints}</strong></div>
+      <div style="font-size:.88rem;margin-bottom:.3rem;color:var(--mid)">${t.partial}</div>
+      <input type="text" class="neg-input" id="trans${i}" placeholder="Écrivez la traduction complète…" autocomplete="off">
+      <div id="transFb${i}" style="display:none;margin-top:.3rem" class="feedback"></div>`;
+    c.appendChild(d);
+  });
+}
+
+// ── CHECK ─────────────────────────────────────────────────────────────────────
+
+function norm(s){return s.toLowerCase().trim().replace(/['']/g,"'");}
+
+function checkMCQ(){
+  let ok=0;
+  mcqData.forEach((q,i)=>{
+    const sel=document.querySelector(`input[name="mcq${i}"]:checked`);
+    const fb=document.getElementById(`fb${i}`);
+    for(let j=0;j<q.opts.length;j++) document.getElementById(`lbl${i}_${j}`).classList.remove('correct','wrong');
+    if(!sel){fb.style.display='block';fb.className='feedback bad';fb.textContent='⚠️ Aucune réponse sélectionnée.';return;}
+    const v=parseInt(sel.value);
+    if(v===q.ans){document.getElementById(`lbl${i}_${v}`).classList.add('correct');fb.style.display='block';fb.className='feedback ok';fb.innerHTML=`✅ Correct ! ${q.expl}`;ok++;}
+    else{document.getElementById(`lbl${i}_${v}`).classList.add('wrong');document.getElementById(`lbl${i}_${q.ans}`).classList.add('correct');fb.style.display='block';fb.className='feedback bad';fb.innerHTML=`❌ La bonne réponse : <strong>${q.opts[q.ans]}</strong>. ${q.expl}`;}
+  });
+  scores.mcq={got:ok,total:mcqData.length}; updateScore();
+}
+
+function checkVF(){
+  let ok=0;
+  vfData.forEach((v,i)=>{
+    const sel=vfSel[i]; const fb=document.getElementById(`vfFb${i}`);
+    if(!sel){fb.style.display='block';fb.className='feedback bad';fb.textContent='⚠️ Choisissez Vrai ou Faux.';return;}
+    const correct=(sel==='v')===v.ans;
+    fb.style.display='block';
+    if(correct){fb.className='feedback ok';fb.innerHTML=`✅ Correct ! Justification suggérée : <em>${v.just}</em>`;ok++;}
+    else{fb.className='feedback bad';fb.innerHTML=`❌ ${v.ans?'Vrai':'Faux'}. Justification suggérée : <em>${v.just}</em>`;}
+  });
+  scores.vf={got:ok,total:vfData.length}; updateScore();
+}
+
+function checkGaps(){
+  let ok=0;
+  gapData.forEach((g,i)=>{
+    const el=document.getElementById(`gap${i}`);
+    el.classList.remove('correct-input','wrong-input');
+    if(norm(el.value)===norm(g.ans)){el.classList.add('correct-input');ok++;}
+    else{el.classList.add('wrong-input');el.title=`Réponse : ${g.ans}`;}
+  });
+  scores.gaps={got:ok,total:gapData.length}; updateScore();
+  alert(`Texte à trous : ${ok}/${gapData.length} correct(s). Survolez les cases rouges pour voir la bonne réponse.`);
+}
+
+function checkSyns(){
+  let ok=0;
+  synData.forEach((s,i)=>{
+    const v=document.getElementById(`syn${i}`).value, fb=document.getElementById(`synFb${i}`);
+    if(v===s.ans){fb.textContent='✅';ok++;}else{fb.innerHTML=`❌ <small style="color:var(--red)">${s.ans}</small>`;}
+  });
+  scores.syns={got:ok,total:synData.length}; updateScore();
+}
+
+function checkVocab(){
+  let ok=0;
+  vocabData.forEach((v,i)=>{
+    const val=document.getElementById(`voc${i}`).value, fb=document.getElementById(`vocFb${i}`);
+    if(val===v.ans){fb.textContent='✅';ok++;}else{fb.innerHTML=`❌ <small style="color:var(--red)">${v.ans}</small>`;}
+  });
+  scores.vocab={got:ok,total:vocabData.length}; updateScore();
+}
+
+function checkNeg(){
+  let ok=0;
+  negData.forEach((n,i)=>{
+    const val=document.getElementById(`neg${i}`).value.trim(), fb=document.getElementById(`negFb${i}`);
+    fb.style.display='block';
+    if(norm(val)===norm(n.ans)){fb.className='feedback ok';fb.textContent='✅ Parfait !';ok++;}
+    else{fb.className='feedback bad';fb.innerHTML=`❌ Réponse attendue : <em>${n.ans}</em>`;}
+  });
+  scores.neg={got:ok,total:negData.length}; updateScore();
+}
+
+function checkTrans(){
+  let ok=0;
+  transData.forEach((t,i)=>{
+    const val=document.getElementById(`trans${i}`).value.trim(), fb=document.getElementById(`transFb${i}`);
+    fb.style.display='block';
+    if(norm(val)===norm(t.ans)){fb.className='feedback ok';fb.textContent='✅ Excellent !';ok++;}
+    else{fb.className='feedback bad';fb.innerHTML=`❌ Réponse suggérée : <em>${t.ans}</em>`;}
+  });
+  scores.trans={got:ok,total:transData.length}; updateScore();
+}
+
+function updateScore(){
+  let got=0,total=0;
+  Object.values(scores).forEach(s=>{got+=s.got;total+=s.total;});
+  document.getElementById('scoreText').textContent=`${studentName} – Score : ${got}/${total}`;
+  document.getElementById('progressFill').style.width=(total>0?Math.round(got/total*100):0)+'%';
+}
+
+function downloadResults(){
+  const now=new Date().toLocaleString('fr-FR');
+  const labels={mcq:'Compréhension MCQ',vf:'Vrai ou Faux',gaps:'Texte à trous',syns:'Synonymes',vocab:'Vocabulaire',neg:'Formes négatives',trans:'Traduction'};
+  let got=0,total=0;
+  let lines=[`DEVOIRS – La Presse Écrite en Voie de Disparition ?`,`Étudiant(e) : ${studentName}`,`Date : ${now}`,``,`=== SCORES PAR SECTION ===`];
+  Object.entries(scores).forEach(([k,v])=>{lines.push(`${labels[k]||k}: ${v.got}/${v.total}`);got+=v.got;total+=v.total;});
+  lines.push(``,`TOTAL : ${got}/${total} (${total>0?Math.round(got/total*100):0}%)`,``,'=== RÉPONSES DÉTAILLÉES ===','','-- MCQ --');
+  mcqData.forEach((q,i)=>{
+    const sel=document.querySelector(`input[name="mcq${i}"]:checked`);
+    lines.push(`${i+1}. ${q.q}`);
+    lines.push(`   Votre réponse : ${sel?q.opts[parseInt(sel.value)]:'(sans réponse)'}`);
+    lines.push(`   Réponse correcte : ${q.opts[q.ans]}`);
+  });
+  lines.push('','-- Formes négatives --');
+  negData.forEach((n,i)=>{
+    lines.push(`${i+1}. Original : ${n.fr}`);
+    lines.push(`   Votre réponse : ${document.getElementById(`neg${i}`)?.value||''}`);
+    lines.push(`   Réponse correcte : ${n.ans}`);
+  });
+  lines.push('','-- Traduction --');
+  transData.forEach((t,i)=>{
+    lines.push(`${i+1}. ${t.en}`);
+    lines.push(`   Votre réponse : ${document.getElementById(`trans${i}`)?.value||''}`);
+    lines.push(`   Réponse correcte : ${t.ans}`);
+  });
+  const blob=new Blob([lines.join('\n')],{type:'text/plain;charset=utf-8'});
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);
+  a.download=`devoirs_presse_${studentName.replace(/\s+/g,'_')}.txt`;
+  a.click();
+}
+</script>
+</body>
+</html>

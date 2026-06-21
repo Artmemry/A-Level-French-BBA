@@ -1,0 +1,848 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Exercice B2 - Le déclin démographique en France</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #2563eb 0%, #7c3aed 100%);
+      padding: 20px;
+      min-height: 100vh;
+    }
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      background: white;
+      border-radius: 16px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+      overflow: hidden;
+    }
+    .header {
+      background: linear-gradient(135deg, #1e40af 0%, #6d28d9 100%);
+      color: white;
+      padding: 24px;
+    }
+    .header h1 {
+      font-size: 26px;
+      margin-bottom: 8px;
+    }
+    .header p {
+      font-size: 14px;
+      opacity: 0.95;
+    }
+    .content { padding: 30px; }
+    .section {
+      margin-bottom: 30px;
+      padding: 20px;
+      background: #f9fafb;
+      border-radius: 12px;
+      border: 2px solid #e5e7eb;
+    }
+    .section-title {
+      font-size: 20px;
+      color: #1e40af;
+      margin-bottom: 16px;
+      padding-bottom: 8px;
+      border-bottom: 3px solid #dbeafe;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .text-box {
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      border-left: 4px solid #3b82f6;
+      line-height: 1.8;
+      font-size: 15px;
+      margin-bottom: 20px;
+    }
+    .question {
+      margin-bottom: 20px;
+      padding: 16px;
+      background: white;
+      border-radius: 8px;
+      border: 1px solid #e5e7eb;
+    }
+    .question-number {
+      font-weight: 600;
+      color: #1e40af;
+      margin-bottom: 8px;
+    }
+    .question-text { margin-bottom: 12px; font-size: 15px; }
+    .options { display: flex; flex-direction: column; gap: 8px; }
+    .option {
+      padding: 10px 12px;
+      background: #f3f4f6;
+      border: 2px solid #d1d5db;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .option:hover { background: #e5e7eb; border-color: #3b82f6; }
+    .option input[type="radio"] { margin-right: 8px; }
+    .option.correct { background: #d1fae5; border-color: #10b981; }
+    .option.incorrect { background: #fee2e2; border-color: #ef4444; }
+    .vocab-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+    .vocab-item { display: flex; align-items: center; gap: 10px; }
+    .vocab-term {
+      font-weight: 600;
+      color: #1e40af;
+      min-width: 140px;
+    }
+    select {
+      flex: 1;
+      padding: 8px;
+      border: 2px solid #d1d5db;
+      border-radius: 6px;
+      font-size: 14px;
+      cursor: pointer;
+    }
+    select:focus { outline: none; border-color: #3b82f6; }
+    select.correct { border-color: #10b981; background: #d1fae5; }
+    select.incorrect { border-color: #ef4444; background: #fee2e2; }
+    .fill-blank { margin-bottom: 16px; }
+    .fill-text { line-height: 2; font-size: 15px; }
+    .blank-input {
+      padding: 6px 10px;
+      border: none;
+      border-bottom: 2px solid #3b82f6;
+      font-size: 15px;
+      min-width: 150px;
+      background: #f0f9ff;
+      font-family: inherit;
+    }
+    .blank-input:focus { outline: none; background: #dbeafe; }
+    .blank-input.correct {
+      border-bottom-color: #10b981;
+      background: #d1fae5;
+    }
+    .blank-input.incorrect {
+      border-bottom-color: #ef4444;
+      background: #fee2e2;
+    }
+    .btn {
+      padding: 12px 24px;
+      border: none;
+      border-radius: 8px;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      margin-right: 10px;
+      margin-bottom: 10px;
+    }
+    .btn-primary {
+      background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+      color: white;
+    }
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(59,130,246,0.4);
+    }
+    .btn-secondary {
+      background: #f3f4f6;
+      color: #374151;
+      border: 2px solid #d1d5db;
+    }
+    .btn-secondary:hover { background: #e5e7eb; }
+    .btn-success {
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      color: white;
+    }
+    .score-box {
+      background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+      border: 3px solid #f59e0b;
+      border-radius: 12px;
+      padding: 20px;
+      margin: 20px 0;
+      text-align: center;
+    }
+    .score-title { font-size: 18px; color: #92400e; margin-bottom: 8px; }
+    .score-value { font-size: 36px; font-weight: 700; color: #78350f; }
+    .score-detail { font-size: 14px; color: #92400e; margin-top: 8px; }
+    .floating-keyboard {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: white;
+      border-radius: 12px;
+      padding: 12px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+      z-index: 1000;
+    }
+    .keyboard-title {
+      font-size: 12px;
+      font-weight: 600;
+      color: #374151;
+      margin-bottom: 8px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .keyboard-toggle {
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 16px;
+      color: #6b7280;
+      padding: 0;
+    }
+    .keyboard-keys {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 4px;
+    }
+    .accent-key {
+      padding: 8px;
+      background: #f3f4f6;
+      border: 1px solid #d1d5db;
+      border-radius: 6px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-align: center;
+    }
+    .accent-key:hover {
+      background: #3b82f6;
+      color: white;
+      transform: scale(1.1);
+    }
+    .hidden { display: none; }
+    @media (max-width: 768px) {
+      .vocab-grid { grid-template-columns: 1fr; }
+      .floating-keyboard {
+        bottom: 10px;
+        right: 10px;
+        left: 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>📚 Exercice de français B2</h1>
+      <p>Le déclin démographique en France - Compréhension, vocabulaire et grammaire</p>
+    </div>
+
+    <div class="content">
+      <!-- Info élève -->
+      <div class="section">
+        <div class="section-title">
+          👤 Informations de l'élève
+        </div>
+        <div style="display:flex; gap:12px; align-items:center; flex-wrap:wrap;">
+          <label for="student-name" style="font-weight:600; color:#1f2937;">Nom et prénom :</label>
+          <input id="student-name" type="text" placeholder="Ex. : Dupont Léa"
+                 style="flex:1; min-width:220px; padding:8px 10px; border-radius:6px; border:2px solid #d1d5db; font-size:14px;">
+        </div>
+      </div>
+
+      <!-- Text Section -->
+      <div class="section">
+        <div class="section-title">
+          📖 Texte : Le déclin démographique français
+        </div>
+        <div class="text-box">
+          <p>En 2025, la France a franchi un cap historique : pour la première fois, le pays enregistre plus de décès que de naissances. Ce solde naturel négatif marque la fin du modèle démographique français traditionnel. Selon Pauline Rossi, économiste à l'École polytechnique, cette baisse de la natalité découle de notre société fondée sur la prospérité économique et les libertés individuelles.</p>
+          <p>Plutôt que de chercher à inverser cette tendance, l'économiste suggère de s'y adapter. Les politiques natalistes coûtent cher pour des résultats limités. La révolution technologique offre une opportunité pour compenser les effets du vieillissement démographique en augmentant la productivité. Cependant, cette transition pose des défis majeurs pour les finances publiques, notamment le financement de la Sécurité sociale et de la dépendance des personnes âgées.</p>
+        </div>
+      </div>
+
+      <!-- Comprehension Section -->
+      <div class="section">
+        <div class="section-title">
+          ✅ Section A : Compréhension (5 questions × 2 points = 10 points)
+        </div>
+        
+        <div class="question">
+          <div class="question-number">Question 1</div>
+          <div class="question-text">Qu'est-ce qui caractérise la situation démographique de la France en 2025 ?</div>
+          <div class="options">
+            <label class="option">
+              <input type="radio" name="q1" value="a">
+              <span>a) Une augmentation importante de la natalité</span>
+            </label>
+            <label class="option">
+              <input type="radio" name="q1" value="b">
+              <span>b) Plus de décès que de naissances</span>
+            </label>
+            <label class="option">
+              <input type="radio" name="q1" value="c">
+              <span>c) Une stabilisation de la population</span>
+            </label>
+            <label class="option">
+              <input type="radio" name="q1" value="d">
+              <span>d) Une immigration massive</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="question">
+          <div class="question-number">Question 2</div>
+          <div class="question-text">Selon Pauline Rossi, pourquoi la natalité baisse-t-elle ?</div>
+          <div class="options">
+            <label class="option">
+              <input type="radio" name="q2" value="a">
+              <span>a) À cause d'une crise économique</span>
+            </label>
+            <label class="option">
+              <input type="radio" name="q2" value="b">
+              <span>b) En raison du manque de politiques familiales</span>
+            </label>
+            <label class="option">
+              <input type="radio" name="q2" value="c">
+              <span>c) C'est la conséquence de notre modèle de société</span>
+            </label>
+            <label class="option">
+              <input type="radio" name="q2" value="d">
+              <span>d) À cause du changement climatique</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="question">
+          <div class="question-number">Question 3</div>
+          <div class="question-text">Quelle est l'efficacité des politiques natalistes selon le texte ?</div>
+          <div class="options">
+            <label class="option">
+              <input type="radio" name="q3" value="a">
+              <span>a) Très efficaces et rentables</span>
+            </label>
+            <label class="option">
+              <input type="radio" name="q3" value="b">
+              <span>b) Coûteuses avec des résultats limités</span>
+            </label>
+            <label class="option">
+              <input type="radio" name="q3" value="c">
+              <span>c) Efficaces à long terme</span>
+            </label>
+            <label class="option">
+              <input type="radio" name="q3" value="d">
+              <span>d) Inutiles et dangereuses</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="question">
+          <div class="question-number">Question 4</div>
+          <div class="question-text">Quelle solution propose Pauline Rossi face au déclin démographique ?</div>
+          <div class="options">
+            <label class="option">
+              <input type="radio" name="q4" value="a">
+              <span>a) Augmenter massivement les aides familiales</span>
+            </label>
+            <label class="option">
+              <input type="radio" name="q4" value="b">
+              <span>b) Exploiter la révolution technologique pour augmenter la productivité</span>
+            </label>
+            <label class="option">
+              <input type="radio" name="q4" value="c">
+              <span>c) Fermer les frontières à l'immigration</span>
+            </label>
+            <label class="option">
+              <input type="radio" name="q4" value="d">
+              <span>d) Réduire les dépenses de santé</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="question">
+          <div class="question-number">Question 5</div>
+          <div class="question-text">Quels défis majeurs sont mentionnés pour les finances publiques ?</div>
+          <div class="options">
+            <label class="option">
+              <input type="radio" name="q5" value="a">
+              <span>a) Le financement de l'éducation uniquement</span>
+            </label>
+            <label class="option">
+              <input type="radio" name="q5" value="b">
+              <span>b) La dette nationale et l'inflation</span>
+            </label>
+            <label class="option">
+              <input type="radio" name="q5" value="c">
+              <span>c) La Sécurité sociale et la dépendance des personnes âgées</span>
+            </label>
+            <label class="option">
+              <input type="radio" name="q5" value="d">
+              <span>d) Les dépenses militaires</span>
+            </label>
+          </div>
+        </div>
+
+        <button class="btn btn-primary" onclick="checkComprehension()">Vérifier les réponses</button>
+      </div>
+
+      <!-- Vocabulary Section -->
+      <div class="section">
+        <div class="section-title">
+          📚 Section B : Vocabulaire (8 associations × 1 point = 8 points)
+        </div>
+        <p style="margin-bottom: 16px; font-size: 14px; color: #6b7280;">
+          Associez chaque terme à sa définition correcte :
+        </p>
+        
+        <div class="vocab-grid">
+          <div class="vocab-item">
+            <span class="vocab-term">1. Solde naturel</span>
+            <select id="vocab1">
+              <option value="">-- Choisir --</option>
+              <option value="a">a) Ensemble des valeurs morales d'une société</option>
+              <option value="b">b) Différence entre naissances et décès</option>
+              <option value="c">c) Mouvement de population entre pays</option>
+              <option value="d">d) Capacité à produire plus</option>
+            </select>
+          </div>
+
+          <div class="vocab-item">
+            <span class="vocab-term">2. Natalité</span>
+            <select id="vocab2">
+              <option value="">-- Choisir --</option>
+              <option value="a">a) Taux de naissances</option>
+              <option value="b">b) Taux de mortalité</option>
+              <option value="c">c) Âge moyen de la population</option>
+              <option value="d">d) Nombre d'habitants</option>
+            </select>
+          </div>
+
+          <div class="vocab-item">
+            <span class="vocab-term">3. Prospérité</span>
+            <select id="vocab3">
+              <option value="">-- Choisir --</option>
+              <option value="a">a) Pauvreté généralisée</option>
+              <option value="b">b) État de richesse et de réussite</option>
+              <option value="c">c) Crise économique</option>
+              <option value="d">d) Stagnation</option>
+            </select>
+          </div>
+
+          <div class="vocab-item">
+            <span class="vocab-term">4. Inverser</span>
+            <select id="vocab4">
+              <option value="">-- Choisir --</option>
+              <option value="a">a) Continuer dans la même direction</option>
+              <option value="b">b) Accélérer un processus</option>
+              <option value="c">c) Changer dans le sens opposé</option>
+              <option value="d">d) Ralentir progressivement</option>
+            </select>
+          </div>
+
+          <div class="vocab-item">
+            <span class="vocab-term">5. Productivité</span>
+            <select id="vocab5">
+              <option value="">-- Choisir --</option>
+              <option value="a">a) Nombre de travailleurs</option>
+              <option value="b">b) Efficacité dans la production</option>
+              <option value="c">c) Quantité de ressources naturelles</option>
+              <option value="d">d) Niveau de consommation</option>
+            </select>
+          </div>
+
+          <div class="vocab-item">
+            <span class="vocab-term">6. Vieillissement</span>
+            <select id="vocab6">
+              <option value="">-- Choisir --</option>
+              <option value="a">a) Rajeunissement de la population</option>
+              <option value="b">b) Augmentation de l'âge moyen</option>
+              <option value="c">c) Croissance économique</option>
+              <option value="d">d) Développement technologique</option>
+            </select>
+          </div>
+
+          <div class="vocab-item">
+            <span class="vocab-term">7. Dépendance</span>
+            <select id="vocab7">
+              <option value="">-- Choisir --</option>
+              <option value="a">a) Autonomie totale</option>
+              <option value="b">b) État nécessitant une aide extérieure</option>
+              <option value="c">c) Force physique</option>
+              <option value="d">d) Richesse matérielle</option>
+            </select>
+          </div>
+
+          <div class="vocab-item">
+            <span class="vocab-term">8. Franchir un cap</span>
+            <select id="vocab8">
+              <option value="">-- Choisir --</option>
+              <option value="a">a) Rester stable</option>
+              <option value="b">b) Passer un seuil important</option>
+              <option value="c">c) Reculer</option>
+              <option value="d">d) Hésiter</option>
+            </select>
+          </div>
+        </div>
+
+        <button class="btn btn-primary" onclick="checkVocabulary()" style="margin-top: 16px;">Vérifier le vocabulaire</button>
+      </div>
+
+      <!-- Grammar Section -->
+      <div class="section">
+        <div class="section-title">
+          ✏️ Section C : Grammaire - Temps verbaux (12 points)
+        </div>
+        <p style="margin-bottom: 16px; font-size: 14px; color: #6b7280;">
+          Complétez les phrases avec la forme correcte du verbe entre parenthèses :
+        </p>
+
+        <div class="fill-blank">
+          <div class="fill-text">
+            1. En 2025, la France <input type="text" class="blank-input" id="verb1" placeholder="(franchir - passé composé)"> un cap historique.
+          </div>
+        </div>
+
+        <div class="fill-blank">
+          <div class="fill-text">
+            2. Le pays <input type="text" class="blank-input" id="verb2" placeholder="(enregistrer - présent)"> plus de décès que de naissances.
+          </div>
+        </div>
+
+        <div class="fill-blank">
+          <div class="fill-text">
+            3. Cette baisse de la natalité <input type="text" class="blank-input" id="verb3" placeholder="(découler - présent)"> de notre modèle de société.
+          </div>
+        </div>
+
+        <div class="fill-blank">
+          <div class="fill-text">
+            4. L'économiste <input type="text" class="blank-input" id="verb4" placeholder="(suggérer - présent)"> de s'adapter à cette tendance.
+          </div>
+        </div>
+
+        <div class="fill-blank">
+          <div class="fill-text">
+            5. Les politiques natalistes <input type="text" class="blank-input" id="verb5" placeholder="(coûter - présent)"> cher pour des résultats limités.
+          </div>
+        </div>
+
+        <div class="fill-blank">
+          <div class="fill-text">
+            6. La révolution technologique <input type="text" class="blank-input" id="verb6" placeholder="(offrir - présent)"> une opportunité intéressante.
+          </div>
+        </div>
+
+        <div class="fill-blank">
+          <div class="fill-text">
+            7. Cette transition <input type="text" class="blank-input" id="verb7" placeholder="(poser - présent)"> des défis majeurs pour les finances.
+          </div>
+        </div>
+
+        <div class="fill-blank">
+          <div class="fill-text">
+            8. Il <input type="text" class="blank-input" id="verb8" placeholder="(falloir - futur simple)"> augmenter la productivité du travail.
+          </div>
+        </div>
+
+        <div class="fill-blank">
+          <div class="fill-text">
+            9. Si nous <input type="text" class="blank-input" id="verb9" placeholder="(investir - imparfait)"> davantage, nous pourrions compenser les effets.
+          </div>
+        </div>
+
+        <div class="fill-blank">
+          <div class="fill-text">
+            10. Les experts <input type="text" class="blank-input" id="verb10" placeholder="(prévoir - présent)"> que la tendance va continuer.
+          </div>
+        </div>
+
+        <div class="fill-blank">
+          <div class="fill-text">
+            11. Nous <input type="text" class="blank-input" id="verb11" placeholder="(devoir - conditionnel présent)"> réformer le système de retraites.
+          </div>
+        </div>
+
+        <div class="fill-blank">
+          <div class="fill-text">
+            12. La population <input type="text" class="blank-input" id="verb12" placeholder="(vieillir - présent)"> rapidement depuis plusieurs années.
+          </div>
+        </div>
+
+        <button class="btn btn-primary" onclick="checkGrammar()">Vérifier la grammaire</button>
+      </div>
+
+      <!-- Score Section -->
+      <div class="score-box" id="score-box" style="display: none;">
+        <div class="score-title">🎯 Votre score total</div>
+        <div class="score-value" id="total-score">0/30</div>
+        <div class="score-detail" id="score-detail"></div>
+      </div>
+
+      <!-- Action Buttons -->
+      <div style="text-align: center; margin-top: 20px;">
+        <button class="btn btn-primary" onclick="calculateTotalScore()">📊 Calculer le score total</button>
+        <button class="btn btn-success" onclick="downloadPDF()">📄 Télécharger en PDF</button>
+        <button class="btn btn-secondary" onclick="resetExercise()">🔄 Recommencer</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Floating Accent Keyboard -->
+  <div class="floating-keyboard" id="floating-keyboard">
+    <div class="keyboard-title">
+      <span>Accents</span>
+      <button class="keyboard-toggle" onclick="toggleKeyboard()">
+        <span id="keyboard-icon">▼</span>
+      </button>
+    </div>
+    <div class="keyboard-keys" id="keyboard-keys">
+      <button class="accent-key" onclick="insertAccent('é')">é</button>
+      <button class="accent-key" onclick="insertAccent('è')">è</button>
+      <button class="accent-key" onclick="insertAccent('ê')">ê</button>
+      <button class="accent-key" onclick="insertAccent('à')">à</button>
+      <button class="accent-key" onclick="insertAccent('â')">â</button>
+      <button class="accent-key" onclick="insertAccent('ô')">ô</button>
+      <button class="accent-key" onclick="insertAccent('û')">û</button>
+      <button class="accent-key" onclick="insertAccent('ù')">ù</button>
+      <button class="accent-key" onclick="insertAccent('ï')">ï</button>
+      <button class="accent-key" onclick="insertAccent('î')">î</button>
+      <button class="accent-key" onclick="insertAccent('ç')">ç</button>
+      <button class="accent-key" onclick="insertAccent('œ')">œ</button>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script>
+    const ANSWERS = {
+      comprehension: { q1:'b', q2:'c', q3:'b', q4:'b', q5:'c' },
+      vocabulary: {
+        vocab1:'b', vocab2:'a', vocab3:'b', vocab4:'c',
+        vocab5:'b', vocab6:'b', vocab7:'b', vocab8:'b'
+      },
+      grammar: {
+        verb1:['a franchi','a franchit'],
+        verb2:['enregistre'],
+        verb3:['découle'],
+        verb4:['suggère'],
+        verb5:['coûtent'],
+        verb6:['offre'],
+        verb7:['pose'],
+        verb8:['faudra'],
+        verb9:['investissions'],
+        verb10:['prévoient'],
+        verb11:['devrions'],
+        verb12:['vieillit']
+      }
+    };
+
+    let scores = { comprehension:0, vocabulary:0, grammar:0 };
+    let lastFocusedInput = null;
+
+    document.addEventListener('focusin', e => {
+      if (e.target.classList && e.target.classList.contains('blank-input')) {
+        lastFocusedInput = e.target;
+      }
+    });
+
+    function normalize(str){
+      return str
+        .toLowerCase()
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g,"")
+        .replace(/\s+/g," ")
+        .trim();
+    }
+
+    function checkComprehension() {
+      let correct = 0;
+      for (let i=1;i<=5;i++){
+        const qName = `q${i}`;
+        const selected = document.querySelector(`input[name="${qName}"]:checked`);
+        const options = document.querySelectorAll(`input[name="${qName}"]`);
+        options.forEach(opt => opt.parentElement.classList.remove('correct','incorrect'));
+        if (selected){
+          if (selected.value === ANSWERS.comprehension[qName]){
+            selected.parentElement.classList.add('correct');
+            correct += 2;
+          } else {
+            selected.parentElement.classList.add('incorrect');
+            options.forEach(opt=>{
+              if (opt.value === ANSWERS.comprehension[qName]){
+                opt.parentElement.classList.add('correct');
+              }
+            });
+          }
+        }
+      }
+      scores.comprehension = correct;
+      alert(`Score compréhension : ${correct}/10`);
+    }
+
+    function checkVocabulary(){
+      let correct = 0;
+      for (let i=1;i<=8;i++){
+        const id = `vocab${i}`;
+        const sel = document.getElementById(id);
+        sel.classList.remove('correct','incorrect');
+        if (sel.value === ANSWERS.vocabulary[id]){
+          sel.classList.add('correct');
+          correct += 1;
+        } else if (sel.value !== ""){
+          sel.classList.add('incorrect');
+        }
+      }
+      scores.vocabulary = correct;
+      alert(`Score vocabulaire : ${correct}/8`);
+    }
+
+    function checkGrammar(){
+      let correct = 0;
+      for (let i=1;i<=12;i++){
+        const id = `verb${i}`;
+        const input = document.getElementById(id);
+        input.classList.remove('correct','incorrect');
+        const user = normalize(input.value);
+        const solutions = ANSWERS.grammar[id].map(normalize);
+        if (user && solutions.includes(user)){
+          input.classList.add('correct');
+          correct += 1;
+        } else if (user){
+          input.classList.add('incorrect');
+        }
+      }
+      scores.grammar = correct;
+      alert(`Score grammaire : ${correct}/12`);
+    }
+
+    function calculateTotalScore(){
+      const total = scores.comprehension + scores.vocabulary + scores.grammar;
+      const box = document.getElementById('score-box');
+      box.style.display = 'block';
+      document.getElementById('total-score').textContent = `${total}/30`;
+      document.getElementById('score-detail').textContent =
+        `Compréhension : ${scores.comprehension}/10 | Vocabulaire : ${scores.vocabulary}/8 | Grammaire : ${scores.grammar}/12`;
+    }
+
+    function insertAccent(char){
+      if (!lastFocusedInput) return;
+      const start = lastFocusedInput.selectionStart || 0;
+      const end = lastFocusedInput.selectionEnd || 0;
+      const val = lastFocusedInput.value;
+      lastFocusedInput.value = val.slice(0,start)+char+val.slice(end);
+      const pos = start + char.length;
+      lastFocusedInput.focus();
+      lastFocusedInput.setSelectionRange(pos,pos);
+    }
+
+    function toggleKeyboard(){
+      const keys = document.getElementById('keyboard-keys');
+      const icon = document.getElementById('keyboard-icon');
+      if (keys.classList.contains('hidden')){
+        keys.classList.remove('hidden');
+        icon.textContent = '▼';
+      } else {
+        keys.classList.add('hidden');
+        icon.textContent = '▲';
+      }
+    }
+
+    function resetExercise(){
+      for (let i=1;i<=5;i++){
+        const opts = document.querySelectorAll(`input[name="q${i}"]`);
+        opts.forEach(o=>{
+          o.checked = false;
+          o.parentElement.classList.remove('correct','incorrect');
+        });
+      }
+      for (let i=1;i<=8;i++){
+        const sel = document.getElementById(`vocab${i}`);
+        sel.value = "";
+        sel.classList.remove('correct','incorrect');
+      }
+      for (let i=1;i<=12;i++){
+        const input = document.getElementById(`verb${i}`);
+        input.value = "";
+        input.classList.remove('correct','incorrect');
+      }
+      document.getElementById('student-name').value = "";
+      scores = { comprehension:0, vocabulary:0, grammar:0 };
+      document.getElementById('score-box').style.display = 'none';
+    }
+
+    async function downloadPDF(){
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF({ unit:"pt", format:"a4" });
+      const marginLeft = 40;
+      let y = 40;
+      const lineHeight = 14;
+      const maxWidth = 515;
+
+      function addWrapped(text){
+        const lines = doc.splitTextToSize(text,maxWidth);
+        lines.forEach(line=>{
+          if (y > 780){ doc.addPage(); y = 40; }
+          doc.text(line,marginLeft,y);
+          y += lineHeight;
+        });
+      }
+
+      const nameField = document.getElementById('student-name');
+      const studentName = (nameField.value || "Nom non indiqué").trim();
+
+      doc.setFont("Times","Normal");
+      doc.setFontSize(14);
+      addWrapped("Exercice B2 – Le déclin démographique en France : résultats");
+      y += lineHeight;
+      addWrapped("Élève : " + studentName);
+
+      y += 6;
+      doc.setFontSize(11);
+
+      const total = scores.comprehension + scores.vocabulary + scores.grammar;
+      addWrapped(`Score total : ${total}/30`);
+      addWrapped(`Compréhension : ${scores.comprehension}/10 | Vocabulaire : ${scores.vocabulary}/8 | Grammaire : ${scores.grammar}/12`);
+      y += lineHeight;
+
+      addWrapped("\nSection A : Compréhension\n(Choix de l'élève / réponse correcte)\n");
+      for (let i=1;i<=5;i++){
+        const qName = `q${i}`;
+        const selected = document.querySelector(`input[name="${qName}"]:checked`);
+        const studentVal = selected ? selected.value : "(aucun)";
+        const correctVal = ANSWERS.comprehension[qName];
+        addWrapped(`Q${i} : ${studentVal} / ${correctVal}`);
+      }
+
+      addWrapped("\nSection B : Vocabulaire\n(Choix de l'élève / réponse correcte)\n");
+      for (let i=1;i<=8;i++){
+        const id = `vocab${i}`;
+        const sel = document.getElementById(id);
+        const studentVal = sel.value || "(aucun)";
+        const correctVal = ANSWERS.vocabulary[id];
+        addWrapped(`V${i} : ${studentVal} / ${correctVal}`);
+      }
+
+      addWrapped("\nSection C : Grammaire\n(Réponse de l'élève / formes attendues)\n");
+      for (let i=1;i<=12;i++){
+        const id = `verb${i}`;
+        const input = document.getElementById(id);
+        const studentVal = input.value || "(vide)";
+        const correctVals = ANSWERS.grammar[id].join(" / ");
+        addWrapped(`Phrase ${i} : ${studentVal} / ${correctVals}`);
+      }
+
+      const safeName = studentName.toLowerCase()
+        .normalize("NFD").replace(/[\u0300-\u036f]/g,"")
+        .replace(/[^a-z0-9]+/g,"-").replace(/^-+|-+$/g,"");
+      const filename = safeName
+        ? `B2-declin-demographique-${safeName}.pdf`
+        : "B2-declin-demographique-resultats.pdf";
+
+      const blob = doc.output("blob");
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    }
+  </script>
+</body>
+</html>

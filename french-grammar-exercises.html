@@ -1,0 +1,936 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A-Level French Grammar Practice</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        
+        header {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        h1 {
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            opacity: 0.9;
+            font-size: 1.1em;
+        }
+        
+        .main-content {
+            padding: 30px;
+        }
+        
+        .section {
+            margin-bottom: 40px;
+            display: none;
+        }
+        
+        .section.active {
+            display: block;
+        }
+        
+        .section-title {
+            font-size: 1.6em;
+            color: #1e3c72;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #667eea;
+        }
+        
+        .exercise {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .question {
+            font-size: 1.1em;
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+        
+        .input-group {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        input[type="text"] {
+            flex: 1;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 6px;
+            font-size: 1em;
+            transition: border-color 0.3s;
+        }
+        
+        input[type="text"]:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        
+        input[type="text"].correct {
+            border-color: #28a745;
+            background: #d4edda;
+        }
+        
+        input[type="text"].incorrect {
+            border-color: #dc3545;
+            background: #f8d7da;
+        }
+        
+        .feedback {
+            margin-top: 10px;
+            padding: 10px;
+            border-radius: 6px;
+            font-size: 0.95em;
+            display: none;
+        }
+        
+        .feedback.show {
+            display: block;
+        }
+        
+        .feedback.correct {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .feedback.incorrect {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        
+        .accent-keyboard {
+            position: fixed;
+            display: none;
+            flex-wrap: wrap;
+            gap: 8px;
+            padding: 12px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+            z-index: 1000;
+            max-width: 400px;
+            border: 2px solid #667eea;
+        }
+        
+        .accent-keyboard.show {
+            display: flex;
+        }
+        
+        .accent-btn {
+            padding: 8px 12px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: background 0.3s;
+        }
+        
+        .accent-btn:hover {
+            background: #5568d3;
+        }
+        
+        .accent-btn:active {
+            transform: scale(0.95);
+        }
+        
+        .nav-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin: 30px 0;
+        }
+        
+        .btn {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 6px;
+            font-size: 1em;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 600;
+        }
+        
+        .btn-primary {
+            background: #667eea;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: #5568d3;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102,126,234,0.4);
+        }
+        
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+        }
+        
+        .btn-secondary:hover {
+            background: #5a6268;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #e9ecef;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            transition: width 0.5s ease;
+        }
+        
+        .score-display {
+            text-align: center;
+            font-size: 1.3em;
+            color: #1e3c72;
+            margin: 20px 0;
+        }
+        
+        #menu {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .menu-item {
+            padding: 25px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+            text-align: center;
+        }
+        
+        .menu-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+        }
+        
+        .menu-item h3 {
+            font-size: 1.3em;
+            margin-bottom: 10px;
+        }
+        
+        .name-input-section {
+            background: #f8f9fa;
+            padding: 30px;
+            border-radius: 8px;
+            margin: 20px 0;
+            display: none;
+        }
+        
+        .name-input-section.show {
+            display: block;
+        }
+        
+        #studentName {
+            width: 100%;
+            max-width: 400px;
+            margin: 0 auto;
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Pratique de Grammaire Française</h1>
+            <p class="subtitle">A-Level Edexcel Grammar Exercises</p>
+        </header>
+        
+        <div class="main-content">
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill" style="width: 0%"></div>
+            </div>
+            <div class="score-display" id="scoreDisplay"></div>
+            
+            <!-- Main Menu -->
+            <div id="menu" class="section active">
+                <div class="menu-item" onclick="startSection('subjunctive')">
+                    <h3>Le Subjonctif</h3>
+                    <p>Subjunctive Mood</p>
+                </div>
+                <div class="menu-item" onclick="startSection('conditional')">
+                    <h3>Le Conditionnel</h3>
+                    <p>Conditional Tense</p>
+                </div>
+                <div class="menu-item" onclick="startSection('pronouns')">
+                    <h3>Les Pronoms</h3>
+                    <p>Object Pronouns</p>
+                </div>
+                <div class="menu-item" onclick="startSection('agreement')">
+                    <h3>L'Accord</h3>
+                    <p>Past Participle Agreement</p>
+                </div>
+            </div>
+            
+
+            
+            <!-- Subjunctive Section -->
+            <div id="subjunctive" class="section">
+                <h2 class="section-title">Le Subjonctif Présent</h2>
+                
+                <div class="exercise" data-exercise="1">
+                    <p class="question">Il faut que tu <input type="text" id="subj1" data-answer="sois"> (être) plus attentif en classe.</p>
+                    <div class="feedback" id="feedback-subj1"></div>
+                </div>
+                
+                <div class="exercise" data-exercise="2">
+                    <p class="question">Je doute qu'elle <input type="text" id="subj2" data-answer="puisse"> (pouvoir) venir demain.</p>
+                    <div class="feedback" id="feedback-subj2"></div>
+                </div>
+                
+                <div class="exercise" data-exercise="3">
+                    <p class="question">Il est important que nous <input type="text" id="subj3" data-answer="finissions"> (finir) ce projet avant vendredi.</p>
+                    <div class="feedback" id="feedback-subj3"></div>
+                </div>
+                
+                <div class="exercise" data-exercise="4">
+                    <p class="question">J'aimerais que vous <input type="text" id="subj4" data-answer="fassiez"> (faire) plus d'efforts.</p>
+                    <div class="feedback" id="feedback-subj4"></div>
+                </div>
+                
+                <div class="exercise" data-exercise="5">
+                    <p class="question">Il est possible qu'ils <input type="text" id="subj5" data-answer="aient"> (avoir) déjà quitté la maison.</p>
+                    <div class="feedback" id="feedback-subj5"></div>
+                </div>
+                
+                <div class="exercise" data-exercise="6">
+                    <p class="question">Bien qu'il <input type="text" id="subj6" data-answer="pleuve"> (pleuvoir), nous irons nous promener.</p>
+                    <div class="feedback" id="feedback-subj6"></div>
+                </div>
+                
+                <div class="exercise" data-exercise="7">
+                    <p class="question">Je ne crois pas qu'elle <input type="text" id="subj7" data-answer="veuille"> (vouloir) participer au concours.</p>
+                    <div class="feedback" id="feedback-subj7"></div>
+                </div>
+                
+                <div class="exercise" data-exercise="8">
+                    <p class="question">Il faut que tu <input type="text" id="subj8" data-answer="ailles"> (aller) voir le médecin.</p>
+                    <div class="feedback" id="feedback-subj8"></div>
+                </div>
+                
+                <div class="nav-buttons">
+                    <button class="btn btn-secondary" onclick="showMenu()">Menu</button>
+                    <button class="btn btn-primary" onclick="finishSection('subjunctive')">Terminer</button>
+                </div>
+            </div>
+            
+            <!-- Conditional Section -->
+            <div id="conditional" class="section">
+                <h2 class="section-title">Le Conditionnel Présent</h2>
+                
+                <div class="exercise" data-exercise="1">
+                    <p class="question">Si j'avais de l'argent, je <input type="text" id="cond1" data-answer="voyagerais"> (voyager) autour du monde.</p>
+                    <div class="feedback" id="feedback-cond1"></div>
+                </div>
+                
+                <div class="exercise" data-exercise="2">
+                    <p class="question">Tu <input type="text" id="cond2" data-answer="pourrais"> (pouvoir) m'aider avec mes devoirs ?</p>
+                    <div class="feedback" id="feedback-cond2"></div>
+                </div>
+                
+                <div class="exercise" data-exercise="3">
+                    <p class="question">Nous <input type="text" id="cond3" data-answer="aimerions"> (aimer) visiter le château de Versailles.</p>
+                    <div class="feedback" id="feedback-cond3"></div>
+                </div>
+                
+                <div class="exercise" data-exercise="4">
+                    <p class="question">Ils <input type="text" id="cond4" data-answer="seraient"> (être) ravis de vous rencontrer.</p>
+                    <div class="feedback" id="feedback-cond4"></div>
+                </div>
+                
+                <div class="exercise" data-exercise="5">
+                    <p class="question">Elle a dit qu'elle <input type="text" id="cond5" data-answer="viendrait"> (venir) à la fête.</p>
+                    <div class="feedback" id="feedback-cond5"></div>
+                </div>
+                
+                <div class="exercise" data-exercise="6">
+                    <p class="question">Si tu étudiais plus, tu <input type="text" id="cond6" data-answer="réussirais"> (réussir) tes examens.</p>
+                    <div class="feedback" id="feedback-cond6"></div>
+                </div>
+                
+                <div class="exercise" data-exercise="7">
+                    <p class="question">Vous <input type="text" id="cond7" data-answer="devriez"> (devoir) consulter un spécialiste.</p>
+                    <div class="feedback" id="feedback-cond7"></div>
+                </div>
+                
+                <div class="exercise" data-exercise="8">
+                    <p class="question">À ta place, je <input type="text" id="cond8" data-answer="ferais"> (faire) plus attention.</p>
+                    <div class="feedback" id="feedback-cond8"></div>
+                </div>
+                
+                <div class="nav-buttons">
+                    <button class="btn btn-secondary" onclick="showMenu()">Menu</button>
+                    <button class="btn btn-primary" onclick="finishSection('conditional')">Terminer</button>
+                </div>
+            </div>
+            
+            <!-- Pronouns Section -->
+            <div id="pronouns" class="section">
+                <h2 class="section-title">Les Pronoms Objets</h2>
+                
+                <div class="exercise" data-exercise="1">
+                    <p class="question">Je donne le livre à Marie. → Je <input type="text" id="pron1" data-answer="le lui"> donne.</p>
+                    <div class="feedback" id="feedback-pron1"></div>
+                </div>
+                
+                <div class="exercise" data-exercise="2">
+                    <p class="question">Elle parle à ses parents. → Elle <input type="text" id="pron2" data-answer="leur"> parle.</p>
+                    <div class="feedback" id="feedback-pron2"></div>
+                </div>
+                
+                <div class="exercise" data-exercise="3">
+                    <p class="question">Nous avons vu tes amis hier. → Nous <input type="text" id="pron3" data-answer="les"> avons vus hier.</p>
+                    <div class="feedback" id="feedback-pron3"></div>
+                </div>
+                
+                <div class="exercise" data-exercise="4">
+                    <p class="question">Tu penses à ta famille ? → Tu <input type="text" id="pron4" data-answer="y"> penses ?</p>
+                    <div class="feedback" id="feedback-pron4"></div>
+                </div>
+                
+                <div class="exercise" data-exercise="5">
+                    <p class="question">Il a besoin de ses clés. → Il <input type="text" id="pron5" data-answer="en"> a besoin.</p>
+                    <div class="feedback" id="feedback-pron5"></div>
+                </div>
+                
+                <div class="exercise" data-exercise="6">
+                    <p class="question">Donne les bonbons aux enfants ! → <input type="text" id="pron6" data-answer="Donne-leur-en"> !</p>
+                    <div class="feedback" id="feedback-pron6"></div>
+                </div>
+                
+                <div class="exercise" data-exercise="7">
+                    <p class="question">Ne montre pas ces photos à Paul ! → Ne <input type="text" id="pron7" data-answer="les lui"> montre pas !</p>
+                    <div class="feedback" id="feedback-pron7"></div>
+                </div>
+                
+                <div class="exercise" data-exercise="8">
+                    <p class="question">Vous m'offrez ce cadeau ? → Vous <input type="text" id="pron8" data-answer="me l'"> offrez ?</p>
+                    <div class="feedback" id="feedback-pron8"></div>
+                </div>
+                
+                <div class="nav-buttons">
+                    <button class="btn btn-secondary" onclick="showMenu()">Menu</button>
+                    <button class="btn btn-primary" onclick="finishSection('pronouns')">Terminer</button>
+                </div>
+            </div>
+            
+            <!-- Agreement Section -->
+            <div id="agreement" class="section">
+                <h2 class="section-title">L'Accord du Participe Passé</h2>
+                
+                <div class="exercise" data-exercise="1">
+                    <p class="question">Les filles que j'ai <input type="text" id="agr1" data-answer="vues"> (voir) étaient très sympas.</p>
+                    <div class="feedback" id="feedback-agr1"></div>
+                </div>
+                
+                <div class="exercise" data-exercise="2">
+                    <p class="question">Marie s'est <input type="text" id="agr2" data-answer="levée"> (lever) tôt ce matin.</p>
+                    <div class="feedback" id="feedback-agr2"></div>
+                </div>
+                
+                <div class="exercise" data-exercise="3">
+                    <p class="question">Les lettres qu'il a <input type="text" id="agr3" data-answer="écrites"> (écrire) sont sur la table.</p>
+                    <div class="feedback" id="feedback-agr3"></div>
+                </div>
+                
+                <div class="exercise" data-exercise="4">
+                    <p class="question">Elles se sont <input type="text" id="agr4" data-answer="parlé"> (parler) pendant des heures.</p>
+                    <div class="feedback" id="feedback-agr4"></div>
+                </div>
+                
+                <div class="exercise" data-exercise="5">
+                    <p class="question">Les pommes que nous avons <input type="text" id="agr5" data-answer="achetées"> (acheter) sont délicieuses.</p>
+                    <div class="feedback" id="feedback-agr5"></div>
+                </div>
+                
+                <div class="exercise" data-exercise="6">
+                    <p class="question">Mes sœurs sont <input type="text" id="agr6" data-answer="parties"> (partir) en vacances.</p>
+                    <div class="feedback" id="feedback-agr6"></div>
+                </div>
+                
+                <div class="exercise" data-exercise="7">
+                    <p class="question">La voiture qu'ils ont <input type="text" id="agr7" data-answer="vendue"> (vendre) était très vieille.</p>
+                    <div class="feedback" id="feedback-agr7"></div>
+                </div>
+                
+                <div class="exercise" data-exercise="8">
+                    <p class="question">Nous nous sommes <input type="text" id="agr8" data-answer="amusés"> (amuser) à la fête. (sujet: nous - masculin pluriel)</p>
+                    <div class="feedback" id="feedback-agr8"></div>
+                </div>
+                
+                <div class="nav-buttons">
+                    <button class="btn btn-secondary" onclick="showMenu()">Menu</button>
+                    <button class="btn btn-primary" onclick="finishSection('agreement')">Terminer</button>
+                </div>
+            </div>
+            
+            <!-- Name Input Section -->
+            <div class="name-input-section" id="nameInputSection">
+                <h2 class="section-title">Télécharger vos résultats</h2>
+                <p style="margin-bottom: 20px; text-align: center;">Entrez votre nom pour recevoir votre rapport de progression :</p>
+                <input type="text" id="studentName" placeholder="Votre nom complet">
+                <div class="nav-buttons">
+                    <button class="btn btn-primary" onclick="downloadResults()">Télécharger le rapport</button>
+                    <button class="btn btn-secondary" onclick="showMenu()">Retour au menu</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Floating Accent Keyboard -->
+    <div class="accent-keyboard" id="accentKeyboard">
+        <button class="accent-btn" onclick="insertAccent('à')">à</button>
+        <button class="accent-btn" onclick="insertAccent('â')">â</button>
+        <button class="accent-btn" onclick="insertAccent('é')">é</button>
+        <button class="accent-btn" onclick="insertAccent('è')">è</button>
+        <button class="accent-btn" onclick="insertAccent('ê')">ê</button>
+        <button class="accent-btn" onclick="insertAccent('ë')">ë</button>
+        <button class="accent-btn" onclick="insertAccent('î')">î</button>
+        <button class="accent-btn" onclick="insertAccent('ï')">ï</button>
+        <button class="accent-btn" onclick="insertAccent('ô')">ô</button>
+        <button class="accent-btn" onclick="insertAccent('ù')">ù</button>
+        <button class="accent-btn" onclick="insertAccent('û')">û</button>
+        <button class="accent-btn" onclick="insertAccent('ü')">ü</button>
+        <button class="accent-btn" onclick="insertAccent('ç')">ç</button>
+        <button class="accent-btn" onclick="insertAccent('œ')">œ</button>
+    </div>
+
+    <script>
+        let currentInput = null;
+        const results = {
+            subjunctive: [],
+            conditional: [],
+            pronouns: [],
+            agreement: []
+        };
+        
+        function startSection(sectionId) {
+            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+            document.getElementById(sectionId).classList.add('active');
+            updateProgress();
+        }
+        
+        function showMenu() {
+            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+            document.getElementById('menu').classList.add('active');
+            document.getElementById('accentKeyboard').classList.remove('show');
+            document.getElementById('nameInputSection').classList.remove('show');
+            updateProgress();
+        }
+        
+        function positionKeyboard(input) {
+            const keyboard = document.getElementById('accentKeyboard');
+            const rect = input.getBoundingClientRect();
+            
+            // Position below the input (fixed positioning, no need for scroll offset)
+            let top = rect.bottom + 10;
+            let left = rect.left;
+            
+            // Adjust if it goes off screen
+            const keyboardWidth = 400;
+            const keyboardHeight = 100; // Approximate height
+            const viewportWidth = window.innerWidth;
+            const viewportHeight = window.innerHeight;
+            
+            // Adjust horizontal position if off-screen
+            if (left + keyboardWidth > viewportWidth) {
+                left = viewportWidth - keyboardWidth - 20;
+            }
+            
+            if (left < 10) {
+                left = 10;
+            }
+            
+            // If keyboard would go below viewport, position above input instead
+            if (top + keyboardHeight > viewportHeight) {
+                top = rect.top - keyboardHeight - 10;
+                // If still off-screen, just position at bottom of viewport
+                if (top < 10) {
+                    top = viewportHeight - keyboardHeight - 10;
+                }
+            }
+            
+            keyboard.style.top = top + 'px';
+            keyboard.style.left = left + 'px';
+            keyboard.classList.add('show');
+        }
+        
+        function insertAccent(char) {
+            if (currentInput) {
+                const start = currentInput.selectionStart;
+                const end = currentInput.selectionEnd;
+                const text = currentInput.value;
+                currentInput.value = text.substring(0, start) + char + text.substring(end);
+                currentInput.selectionStart = currentInput.selectionEnd = start + 1;
+                currentInput.focus();
+                
+                // Re-position keyboard after focus (in case it moved)
+                positionKeyboard(currentInput);
+            }
+        }
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            const inputs = document.querySelectorAll('input[type="text"]');
+            
+            inputs.forEach(input => {
+                if (input.id === 'studentName') return;
+                
+                input.addEventListener('focus', function() {
+                    currentInput = this;
+                    positionKeyboard(this);
+                });
+                
+                input.addEventListener('blur', function(e) {
+                    // Delay hiding to allow clicking keyboard buttons or moving to next input
+                    setTimeout(() => {
+                        const keyboard = document.getElementById('accentKeyboard');
+                        const activeEl = document.activeElement;
+                        
+                        // Don't hide if clicking keyboard or focusing another text input
+                        if (activeEl.closest('.accent-keyboard') || 
+                            (activeEl.tagName === 'INPUT' && activeEl.type === 'text' && activeEl.id !== 'studentName')) {
+                            return;
+                        }
+                        keyboard.classList.remove('show');
+                    }, 100);
+                });
+                
+                input.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        checkAnswer(this);
+                    }
+                });
+            });
+            
+            // Re-position keyboard on scroll
+            window.addEventListener('scroll', function() {
+                if (currentInput && document.getElementById('accentKeyboard').classList.contains('show')) {
+                    positionKeyboard(currentInput);
+                }
+            });
+            
+            // Re-position keyboard on window resize
+            window.addEventListener('resize', function() {
+                if (currentInput && document.getElementById('accentKeyboard').classList.contains('show')) {
+                    positionKeyboard(currentInput);
+                }
+            });
+        });
+        
+        function normalize(str) {
+            return str.toLowerCase().trim().replace(/\s+/g, ' ');
+        }
+        
+        function checkAnswer(input) {
+            const correctAnswer = normalize(input.dataset.answer);
+            const userAnswer = normalize(input.value);
+            const feedbackId = 'feedback-' + input.id;
+            const feedbackEl = document.getElementById(feedbackId);
+            
+            const section = input.closest('.section').id;
+            const exerciseNum = parseInt(input.closest('.exercise').dataset.exercise);
+            
+            if (userAnswer === correctAnswer) {
+                input.classList.remove('incorrect');
+                input.classList.add('correct');
+                feedbackEl.className = 'feedback correct show';
+                feedbackEl.textContent = '✓ Correct ! Bien joué !';
+                
+                if (!results[section].find(r => r.exercise === exerciseNum)) {
+                    results[section].push({
+                        exercise: exerciseNum,
+                        correct: true,
+                        userAnswer: input.value,
+                        correctAnswer: input.dataset.answer
+                    });
+                }
+            } else {
+                input.classList.remove('correct');
+                input.classList.add('incorrect');
+                feedbackEl.className = 'feedback incorrect show';
+                feedbackEl.innerHTML = `✗ Incorrect. La bonne réponse est : <strong>${input.dataset.answer}</strong><br>${getFeedback(section, input.id)}`;
+                
+                const existing = results[section].find(r => r.exercise === exerciseNum);
+                if (!existing) {
+                    results[section].push({
+                        exercise: exerciseNum,
+                        correct: false,
+                        userAnswer: input.value,
+                        correctAnswer: input.dataset.answer
+                    });
+                } else {
+                    existing.correct = false;
+                    existing.userAnswer = input.value;
+                }
+            }
+            
+            updateProgress();
+        }
+        
+        function getFeedback(section, inputId) {
+            const feedback = {
+                subjunctive: {
+                    subj1: "Le subjonctif de 'être' : je sois, tu sois, il/elle soit",
+                    subj2: "Le subjonctif de 'pouvoir' : je puisse, tu puisses, il/elle puisse",
+                    subj3: "Pour les verbes en -ir : nous finissions, vous finissiez",
+                    subj4: "Le subjonctif de 'faire' : je fasse, tu fasses, vous fassiez",
+                    subj5: "Le subjonctif de 'avoir' : j'aie, tu aies, il/elle ait, ils/elles aient",
+                    subj6: "Le subjonctif de 'pleuvoir' : qu'il pleuve",
+                    subj7: "Le subjonctif de 'vouloir' : je veuille, tu veuilles, il/elle veuille",
+                    subj8: "Le subjonctif de 'aller' : j'aille, tu ailles, il/elle aille"
+                },
+                conditional: {
+                    cond1: "Conditionnel présent : infinitif + ais, ais, ait, ions, iez, aient",
+                    cond2: "Pouvoir au conditionnel : je pourrais, tu pourrais, il/elle pourrait",
+                    cond3: "Aimer au conditionnel : nous aimerions, vous aimeriez",
+                    cond4: "Être au conditionnel : je serais, tu serais, ils/elles seraient",
+                    cond5: "Venir au conditionnel : je viendrais, tu viendrais, il/elle viendrait",
+                    cond6: "Réussir au conditionnel : je réussirais, tu réussirais",
+                    cond7: "Devoir au conditionnel : vous devriez, ils/elles devraient",
+                    cond8: "Faire au conditionnel : je ferais, tu ferais"
+                },
+                pronouns: {
+                    pron1: "COD avant COI : le/la/les + lui/leur",
+                    pron2: "Pour les personnes : lui (sing.) / leur (plur.)",
+                    pron3: "COD pluriel : les (attention à l'accord du participe passé !)",
+                    pron4: "Pour les lieux et choses abstraites : y",
+                    pron5: "Pour une quantité ou 'de + quelque chose' : en",
+                    pron6: "À l'impératif affirmatif : verbe-COI-en (avec traits d'union)",
+                    pron7: "À l'impératif négatif : ne + COD + COI + verbe + pas",
+                    pron8: "me/te + le/la = me le, te le, me la, te la (contraction : me l', te l')"
+                },
+                agreement: {
+                    agr1: "Accord avec COD placé avant (que = les filles) : vues",
+                    agr2: "Verbe pronominal réfléchi s'accorde avec le sujet féminin : levée",
+                    agr3: "COD placé avant (que = les lettres) : écrites",
+                    agr4: "Verbe pronominal réciproque : pas d'accord (COI = à qui ?)",
+                    agr5: "COD placé avant (que = les pommes) : achetées",
+                    agr6: "Verbe de mouvement avec 'être' s'accorde avec le sujet : parties",
+                    agr7: "COD placé avant (que = la voiture) : vendue",
+                    agr8: "Verbe pronominal réfléchi s'accorde avec le sujet : amusés"
+                }
+            };
+            
+            return feedback[section]?.[inputId] || "Révisez les règles de cette structure grammaticale.";
+        }
+        
+        function updateProgress() {
+            const totalSections = 4;
+            const completedSections = Object.values(results).filter(r => r.length > 0).length;
+            const percentage = (completedSections / totalSections) * 100;
+            document.getElementById('progressFill').style.width = percentage + '%';
+            
+            const totalCorrect = Object.values(results).reduce((sum, section) => {
+                return sum + section.filter(r => r.correct).length;
+            }, 0);
+            const totalAnswered = Object.values(results).reduce((sum, section) => sum + section.length, 0);
+            
+            if (totalAnswered > 0) {
+                document.getElementById('scoreDisplay').textContent = 
+                    `Score: ${totalCorrect}/${totalAnswered} (${Math.round((totalCorrect/totalAnswered)*100)}%)`;
+            }
+        }
+        
+        function finishSection(sectionId) {
+            const sectionInputs = document.querySelectorAll(`#${sectionId} input[type="text"]`);
+            let allAnswered = true;
+            
+            sectionInputs.forEach(input => {
+                if (!input.value.trim()) {
+                    allAnswered = false;
+                }
+            });
+            
+            if (!allAnswered) {
+                alert('Veuillez répondre à toutes les questions avant de terminer.');
+                return;
+            }
+            
+            document.getElementById('accentKeyboard').classList.remove('show');
+            document.getElementById('nameInputSection').classList.add('show');
+            document.getElementById(sectionId).classList.remove('active');
+        }
+        
+        function downloadResults() {
+            const studentName = document.getElementById('studentName').value.trim();
+            
+            if (!studentName) {
+                alert('Veuillez entrer votre nom.');
+                return;
+            }
+            
+            const report = generateReport(studentName);
+            const blob = new Blob([report], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `French_Grammar_Report_${studentName.replace(/\s+/g, '_')}.txt`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            
+            alert('Votre rapport a été téléchargé avec succès !');
+            showMenu();
+        }
+        
+        function generateReport(studentName) {
+            const date = new Date().toLocaleDateString('fr-FR');
+            let report = `═══════════════════════════════════════════════════════════
+RAPPORT DE PRATIQUE DE GRAMMAIRE FRANÇAISE
+A-Level Edexcel Grammar Exercises
+═══════════════════════════════════════════════════════════
+
+Étudiant(e) : ${studentName}
+Date : ${date}
+
+`;
+            
+            const sections = {
+                subjunctive: 'LE SUBJONCTIF PRÉSENT',
+                conditional: 'LE CONDITIONNEL PRÉSENT',
+                pronouns: 'LES PRONOMS OBJETS',
+                agreement: "L'ACCORD DU PARTICIPE PASSÉ"
+            };
+            
+            let totalCorrect = 0;
+            let totalQuestions = 0;
+            
+            for (const [key, title] of Object.entries(sections)) {
+                if (results[key].length > 0) {
+                    const correct = results[key].filter(r => r.correct).length;
+                    const total = results[key].length;
+                    totalCorrect += correct;
+                    totalQuestions += total;
+                    
+                    report += `\n${title}\n`;
+                    report += `${'─'.repeat(50)}\n`;
+                    report += `Score : ${correct}/${total} (${Math.round((correct/total)*100)}%)\n\n`;
+                    
+                    results[key].forEach((r, index) => {
+                        report += `Question ${r.exercise} : ${r.correct ? '✓ CORRECT' : '✗ INCORRECT'}\n`;
+                        if (!r.correct) {
+                            report += `  Votre réponse : ${r.userAnswer}\n`;
+                            report += `  Correction : ${r.correctAnswer}\n`;
+                            report += `  Conseil : ${getFeedback(key, getInputId(key, r.exercise))}\n`;
+                        }
+                        report += '\n';
+                    });
+                }
+            }
+            
+            report += `\n${'═'.repeat(60)}\n`;
+            report += `SCORE TOTAL : ${totalCorrect}/${totalQuestions} (${Math.round((totalCorrect/totalQuestions)*100)}%)\n`;
+            report += `${'═'.repeat(60)}\n\n`;
+            
+            report += `RECOMMANDATIONS POUR AMÉLIORER :\n`;
+            report += `${'─'.repeat(50)}\n\n`;
+            
+            for (const [key, title] of Object.entries(sections)) {
+                if (results[key].length > 0) {
+                    const correct = results[key].filter(r => r.correct).length;
+                    const total = results[key].length;
+                    const percentage = (correct / total) * 100;
+                    
+                    if (percentage < 100) {
+                        report += `${title} :\n`;
+                        report += getRecommendations(key, percentage);
+                        report += '\n';
+                    }
+                }
+            }
+            
+            report += `\nContinuez à pratiquer régulièrement pour améliorer vos compétences !\n`;
+            report += `Bonne chance pour vos examens A-Level !\n\n`;
+            report += `${'═'.repeat(60)}\n`;
+            
+            return report;
+        }
+        
+        function getInputId(section, exerciseNum) {
+            const prefixes = {
+                subjunctive: 'subj',
+                conditional: 'cond',
+                pronouns: 'pron',
+                agreement: 'agr'
+            };
+            return prefixes[section] + exerciseNum;
+        }
+        
+        function getRecommendations(section, percentage) {
+            const recommendations = {
+                subjunctive: `  • Révisez les verbes irréguliers au subjonctif (être, avoir, aller, faire)
+  • Pratiquez les terminaisons : -e, -es, -e, -ions, -iez, -ent
+  • Mémorisez les expressions qui déclenchent le subjonctif
+  • Ressources : conjugaison.nouvelobs.com, lepointdufle.net
+`,
+                conditional: `  • Révisez la formation : infinitif + terminaisons de l'imparfait
+  • Pratiquez les verbes irréguliers (être, avoir, faire, aller, pouvoir)
+  • Travaillez les structures avec 'si' + imparfait
+  • Ressources : bonjourdefrance.com, francaisfacile.com
+`,
+                pronouns: `  • Révisez l'ordre des pronoms : me/te/nous/vous > le/la/les > lui/leur > y > en
+  • Pratiquez les pronoms à l'impératif (affirmatif et négatif)
+  • Attention à l'élision (le/la deviennent l' devant voyelle)
+  • Ressources : thoughtco.com/french, laits.utexas.edu/tex/
+`,
+                agreement: `  • Révisez l'accord avec 'avoir' (COD placé avant)
+  • Pratiquez l'accord avec 'être' (verbes de mouvement et pronominaux)
+  • Attention aux verbes pronominaux réciproques (pas d'accord)
+  • Ressources : bonjourdefrance.com, francaisfacile.com
+`
+            };
+            
+            return recommendations[section] || '';
+        }
+    </script>
+</body>
+</html>

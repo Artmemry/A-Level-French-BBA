@@ -1,0 +1,1018 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Qu’est-ce que les JO 2024 nous disent sur les musiques considérées comme françaises ?</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    :root {
+      --bg: #0f172a;
+      --card-bg: #020617;
+      --accent: #38bdf8;
+      --accent-soft: rgba(56,189,248,0.12);
+      --text-main: #e5e7eb;
+      --text-muted: #9ca3af;
+      --border-subtle: rgba(148,163,184,0.3);
+      --danger: #fb7185;
+      --success: #4ade80;
+      --shadow-soft: 0 18px 45px rgba(15,23,42,0.85);
+      --radius-lg: 18px;
+      --radius-md: 12px;
+      --radius-pill: 999px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif;
+      background: radial-gradient(circle at top, #1e293b 0, #020617 50%, #000 100%);
+      color: var(--text-main);
+      display: flex;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .app-shell {
+      width: 100%;
+      max-width: 1100px;
+      background: linear-gradient(145deg, rgba(15,23,42,0.96), rgba(2,6,23,0.98));
+      border-radius: 28px;
+      border: 1px solid rgba(148,163,184,0.35);
+      box-shadow: 0 22px 65px rgba(0,0,0,0.9);
+      padding: 22px 22px 80px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .app-shell::before {
+      content: "";
+      position: absolute;
+      inset: -120px;
+      background:
+        radial-gradient(circle at 0 0, rgba(56,189,248,0.22), transparent 52%),
+        radial-gradient(circle at 100% 0, rgba(34,197,94,0.16), transparent 55%),
+        radial-gradient(circle at 100% 100%, rgba(248,250,252,0.04), transparent 55%);
+      opacity: 0.8;
+      z-index: -1;
+    }
+
+    header {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      margin-bottom: 18px;
+    }
+
+    .title-block {
+      max-width: 640px;
+    }
+
+    h1 {
+      margin: 0 0 6px;
+      font-size: clamp(1.3rem, 2.1vw, 1.6rem);
+      letter-spacing: 0.03em;
+    }
+
+    .subtitle {
+      margin: 0;
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
+
+    .badge-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 6px;
+    }
+
+    .pill {
+      padding: 4px 10px;
+      border-radius: var(--radius-pill);
+      border: 1px solid rgba(148,163,184,0.45);
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.13em;
+      color: var(--text-muted);
+    }
+
+    .pill-accent {
+      border-color: rgba(56,189,248,0.7);
+      color: #e0f2fe;
+      background: linear-gradient(120deg, rgba(56,189,248,0.18), rgba(15,23,42,0.6));
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1.4fr) minmax(0, 1.3fr);
+      gap: 16px;
+      margin-bottom: 18px;
+    }
+
+    @media (max-width: 860px) {
+      .layout {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .card {
+      background: linear-gradient(145deg, rgba(15,23,42,0.96), rgba(15,23,42,0.86));
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border-subtle);
+      padding: 14px 14px 12px;
+      box-shadow: 0 14px 40px rgba(15,23,42,0.9);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at top left, rgba(56,189,248,0.16), transparent 55%);
+      opacity: 0.55;
+      pointer-events: none;
+    }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 8px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .card-title {
+      font-size: 0.95rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: #e5e7eb;
+    }
+
+    .card-tag {
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      border-radius: var(--radius-pill);
+      border: 1px solid rgba(148,163,184,0.5);
+      padding: 2px 8px;
+    }
+
+    .card-body {
+      position: relative;
+      z-index: 1;
+      font-size: 0.87rem;
+      color: var(--text-main);
+    }
+
+    p {
+      margin: 0 0 8px;
+      line-height: 1.5;
+    }
+
+    .small-label {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--text-muted);
+      margin-bottom: 4px;
+    }
+
+    .accent-box {
+      background: linear-gradient(135deg, rgba(15,23,42,0.9), rgba(8,47,73,0.95));
+      border-radius: var(--radius-md);
+      border: 1px solid rgba(56,189,248,0.45);
+      padding: 8px 9px;
+      margin-bottom: 8px;
+      font-size: 0.8rem;
+      color: #e0f2fe;
+    }
+
+    ul {
+      padding-left: 18px;
+      margin: 0 0 6px;
+      font-size: 0.85rem;
+    }
+
+    li {
+      margin-bottom: 3px;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 6px;
+      margin-top: 6px;
+    }
+
+    @media (max-width: 720px) {
+      .grid-2 {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .chip-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 4px;
+      margin-bottom: 4px;
+    }
+
+    .chip {
+      font-size: 0.75rem;
+      padding: 3px 8px;
+      border-radius: 999px;
+      border: 1px solid rgba(148,163,184,0.5);
+      background: rgba(15,23,42,0.95);
+      color: var(--text-muted);
+    }
+
+    .chip-genre {
+      border-color: rgba(56,189,248,0.7);
+      color: #e0f2fe;
+      background: rgba(8,47,73,0.7);
+    }
+
+    .question-block {
+      margin-bottom: 8px;
+      padding-bottom: 6px;
+      border-bottom: 1px dashed rgba(148,163,184,0.4);
+    }
+
+    .question-text {
+      font-size: 0.86rem;
+      margin-bottom: 4px;
+    }
+
+    textarea {
+      width: 100%;
+      min-height: 70px;
+      resize: vertical;
+      border-radius: 10px;
+      border: 1px solid rgba(148,163,184,0.65);
+      background: rgba(15,23,42,0.9);
+      color: var(--text-main);
+      padding: 6px 8px;
+      font-size: 0.85rem;
+      font-family: inherit;
+      outline: none;
+      box-shadow: 0 0 0 0 rgba(56,189,248,0);
+      transition: box-shadow 0.18s ease, border-color 0.18s ease, background 0.18s ease;
+    }
+
+    textarea:focus {
+      border-color: rgba(56,189,248,0.95);
+      box-shadow: 0 0 0 1px rgba(56,189,248,0.85);
+      background: radial-gradient(circle at top, rgba(15,23,42,1), rgba(15,23,42,0.92));
+    }
+
+    .flex-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 10px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 6px 12px;
+      border-radius: var(--radius-pill);
+      border: 1px solid rgba(148,163,184,0.7);
+      background: rgba(15,23,42,0.9);
+      color: var(--text-main);
+      font-size: 0.8rem;
+      cursor: pointer;
+      transition: background 0.18s ease, border-color 0.18s ease, transform 0.1s ease, box-shadow 0.15s ease;
+    }
+
+    .btn-primary {
+      border-color: rgba(56,189,248,0.95);
+      background: radial-gradient(circle at top left, rgba(56,189,248,0.22), rgba(8,47,73,0.95));
+      color: #e0f2fe;
+      box-shadow: 0 10px 28px rgba(8,47,73,0.85);
+    }
+
+    .btn-danger {
+      border-color: rgba(248,113,113,0.9);
+      background: radial-gradient(circle at top left, rgba(248,113,113,0.22), rgba(127,29,29,0.95));
+      color: #fee2e2;
+      box-shadow: 0 10px 26px rgba(127,29,29,0.85);
+    }
+
+    .btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 12px 32px rgba(15,23,42,0.9);
+    }
+
+    .btn:active {
+      transform: translateY(0);
+      box-shadow: 0 6px 16px rgba(15,23,42,0.9);
+    }
+
+    .btn-icon {
+      font-size: 0.95rem;
+    }
+
+    .helper-text {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+
+    /* Accent keyboard */
+    .floating-keyboard {
+      position: fixed;
+      right: 18px;
+      bottom: 16px;
+      z-index: 999;
+      background: rgba(15,23,42,0.96);
+      border-radius: 999px;
+      padding: 4px 8px;
+      border: 1px solid rgba(148,163,184,0.7);
+      box-shadow: 0 18px 40px rgba(0,0,0,0.9);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      backdrop-filter: blur(18px);
+    }
+
+    .kb-toggle {
+      width: 26px;
+      height: 26px;
+      border-radius: 999px;
+      border: 1px solid rgba(56,189,248,0.9);
+      background: radial-gradient(circle at top, rgba(56,189,248,0.35), rgba(8,47,73,0.95));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #e0f2fe;
+      font-size: 0.9rem;
+      cursor: pointer;
+      box-shadow: 0 10px 26px rgba(8,47,73,0.9);
+    }
+
+    .kb-keys {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .kb-key {
+      min-width: 22px;
+      height: 22px;
+      border-radius: 7px;
+      border: 1px solid rgba(148,163,184,0.7);
+      background: rgba(15,23,42,0.98);
+      color: #e5e7eb;
+      font-size: 0.8rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      padding: 0 4px;
+      transition: background 0.12s ease, transform 0.1s ease, box-shadow 0.12s ease;
+    }
+
+    .kb-key:hover {
+      background: rgba(30,64,175,0.9);
+      box-shadow: 0 4px 10px rgba(15,23,42,0.8);
+      transform: translateY(-1px);
+    }
+
+    .kb-key:active {
+      transform: translateY(0);
+      box-shadow: 0 2px 6px rgba(15,23,42,0.8);
+    }
+
+    .kb-label {
+      font-size: 0.68rem;
+      color: var(--text-muted);
+      margin-left: 4px;
+      margin-right: 3px;
+    }
+  /* AJOUT: Styles pour la navigation par filtre */
+.filter-active {
+  border-color: rgba(56,189,248,0.9) !important;
+  background: linear-gradient(120deg, rgba(56,189,248,0.25), rgba(8,47,73,0.8)) !important;
+  color: #e0f2fe !important;
+  box-shadow: 0 4px 15px rgba(56,189,248,0.3) !important;
+}
+
+.filter-hidden {
+  display: none !important;
+}
+
+.section-highlight {
+  animation: pulse-highlight 1.2s ease;
+}
+
+@keyframes pulse-highlight {
+  0% { box-shadow: 0 0 0 0 rgba(56,189,248,0.7); }
+  70% { box-shadow: 0 0 0 10px rgba(56,189,248,0); }
+  100% { box-shadow: 0 0 0 0 rgba(56,189,248,0); }
+}
+
+.badge-row .pill {
+  cursor: pointer;
+  transition: all 0.25s ease;
+  user-select: none;
+}
+
+.badge-row .pill:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+}
+
+.filter-counter {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  background: var(--accent);
+  color: white;
+  font-size: 0.6rem;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid var(--card-bg);
+}
+
+.badge-row {
+  position: relative;
+}
+
+.filter-indicator {
+  font-size: 0.75rem;
+  color: var(--accent);
+  margin-top: 6px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.filter-indicator.visible {
+  opacity: 1;
+}
+
+.filter-reset {
+  margin-left: auto;
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.filter-reset:hover {
+  color: var(--accent);
+}
+</style>
+</head>
+<body>
+<div class="app-shell">
+  <header>
+    <div class="title-block">
+      <h1>Qu’est-ce que les JO 2024 nous disent sur les musiques considérées comme « françaises » ?</h1>
+      <p class="subtitle">Activité de préparation à l’oral (Edexcel A-Level French) : compréhension, vocabulaire, analyse de tendances et réflexion personnelle à partir de la musique des cérémonies de Paris 2024.</p>
+      <div class="badge-row">
+  <span class="pill pill-accent" data-filter="all">JO Paris 2024</span>
+  <span class="pill" data-filter="identite">Musique &amp; Identité</span>
+  <span class="pill" data-filter="genres">Analyse de genres</span>
+  <span class="pill" data-filter="oral">Préparation orale</span>
+  <span class="filter-counter" id="filterCounter">4</span>
+</div>
+<div class="filter-indicator" id="filterIndicator">
+  <span id="activeFilterText">Filtre actif : Aucun</span>
+  <span class="filter-reset" id="resetFilter">Réinitialiser</span>
+</div>
+  </header>
+
+  <div class="layout">
+    <!-- LEFT: Info & comprehension -->
+    <section class="card" id="card-info" data-filter="identite">
+      <div class="card-header">
+        <div class="card-title">1. Compréhension guidée</div>
+        <div class="card-tag">Cérémonie d’ouverture &amp; playlist</div>
+      </div>
+      <div class="card-body">
+        <p class="small-label">Texte A – Aperçu général</p>
+        <div class="accent-box">
+          <p>
+            Lors de la cérémonie d’ouverture des JO de Paris 2024, environ <strong>45 genres et sous-genres musicaux</strong> ont été utilisés au cours de la soirée, avec une forte présence d’artistes et de morceaux français, mais aussi des influences mondiales (pop internationale, rock, metal, electro, afro‑trap, etc.).[web:16][web:21]
+          </p>
+          <p>
+            Les analyses des playlists officielles montrent que des genres comme la <strong>musique classique</strong>, la <strong>French pop</strong>, la <strong>French house</strong> et le <strong>disco/Eurodance</strong> figurent parmi les plus représentés, tout en coexistant avec des styles plus récents comme le rap et les sons afro.[web:16][web:21]
+          </p>
+        </div>
+
+        <p class="small-label">Texte B – Quelques artistes français mis en avant</p>
+        <div class="accent-box">
+          <p>
+            La cérémonie a mis en scène plusieurs artistes associés à la scène française actuelle : par exemple, <strong>Aya Nakamura</strong>, qui mélange pop urbaine, afro‑beat et R&amp;B francophone, ou encore le groupe de metal <strong>Gojira</strong>, premier groupe de metal à jouer lors d’une cérémonie olympique.[web:17][web:21]
+          </p>
+          <p>
+            Le programme incluait aussi des références plus « classiques » et patrimoniales, comme des airs d’opéra ou des chansons emblématiques du répertoire français, aux côtés de sonorités électroniques proches de la « French Touch ».[web:17][web:21]
+          </p>
+        </div>
+
+        <div class="question-block">
+          <div class="question-text"><strong>1.1</strong> En français, résume en 2–3 phrases ce que tu apprends sur la variété des musiques utilisées pendant la cérémonie d’ouverture.</div>
+          <textarea id="q1_1" placeholder="Ta réponse en français…"></textarea>
+        </div>
+
+        <div class="question-block">
+          <div class="question-text"><strong>1.2</strong> D’après les textes, quels genres semblent « dominants » et quels genres semblent plus « nouveaux » ou surprenants pour des JO ? Donne au moins deux exemples de chaque catégorie.</div>
+          <textarea id="q1_2" placeholder="Genres dominants / nouveaux…"></textarea>
+        </div>
+
+        <div class="question-block">
+          <div class="question-text"><strong>1.3</strong> Pourquoi penses‑tu que les organisateurs ont choisi de mélanger des classiques français avec des artistes comme Aya Nakamura ou Gojira ?</div>
+          <textarea id="q1_3" placeholder="Interprétation personnelle…"></textarea>
+        </div>
+      </div>
+    </section>
+
+    <!-- RIGHT: Genres & trends -->
+    <section class="card" id="card-genres" data-filter="genres">
+      <div class="card-header">
+        <div class="card-title">2. Genres, parts et mélanges</div>
+        <div class="card-tag">Analyse de tendances</div>
+      </div>
+      <div class="card-body">
+        <p class="small-label">2.1 Répartition approximative des genres (JO 2024 – cérémonie d’ouverture)</p>
+        <p style="margin-bottom:4px;font-size:0.8rem;" class="helper-text">
+          Les chiffres ci‑dessous sont une estimation simplifiée pour aider à discuter : il ne s’agit pas de statistiques « officielles » mais d’un outil pédagogique.
+        </p>
+
+        <div class="grid-2">
+          <div>
+            <ul>
+              <li><strong>Classique / orchestral</strong> ≈ 25&nbsp;%</li>
+              <li><strong>French pop / variété</strong> ≈ 20&nbsp;%</li>
+              <li><strong>French house / electro</strong> ≈ 15&nbsp;%</li>
+            </ul>
+          </div>
+          <div>
+            <ul>
+              <li><strong>Disco / Eurodance</strong> ≈ 15&nbsp;%</li>
+              <li><strong>Rap / hip‑hop / afro‑trap</strong> ≈ 15&nbsp;%</li>
+              <li><strong>Rock / metal</strong> ≈ 10&nbsp;%</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="question-block" style="margin-top:6px;">
+          <div class="question-text"><strong>2.2</strong> Quel(s) genre(s) te semblent le plus étroitement associés à l’idée traditionnelle de « musique française » ? Le graphique ci‑dessus confirme‑t‑il cette intuition ou la remet‑il en question ? Explique.</div>
+          <textarea id="q2_2" placeholder="Analyse en français…"></textarea>
+        </div>
+
+        <p class="small-label">2.3 Genres hybrides et artistes « inclassables »</p>
+        <p>
+          Certains artistes des JO 2024 mélangent plusieurs genres : par exemple, Aya Nakamura combine pop urbaine, afro‑beat et R&amp;B, tandis que Gojira associe metal progressif et références historiques françaises dans sa performance.[web:17][web:21]
+        </p>
+        <div class="chip-row">
+          <span class="chip chip-genre">Aya Nakamura – pop urbaine / afro‑beat / R&amp;B</span>
+          <span class="chip chip-genre">Gojira – metal / rock / références historiques</span>
+          <span class="chip chip-genre">French house – electro / disco / funk</span>
+        </div>
+
+        <div class="question-block">
+          <div class="question-text"><strong>2.4</strong> Choisis un artiste ou un genre hybride ci‑dessus et explique en quoi il montre une vision <em>moderne</em> ou <em>évolutive</em> de la « musique française ».</div>
+          <textarea id="q2_4" placeholder="Exemple de mélange de genres…"></textarea>
+        </div>
+
+        <div class="question-block">
+          <div class="question-text"><strong>2.5</strong> Si tu devais réorganiser la cérémonie pour mieux représenter la diversité musicale en France aujourd’hui (rap, raï, musiques ultramarines, etc.), que changerais‑tu dans ces pourcentages ?</div>
+          <textarea id="q2_5" placeholder="Proposition de nouvelle répartition…"></textarea>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- SECOND ROW: Vocab & speaking prep -->
+  <div class="layout">
+   <section class="card" id="card-vocab" data-filter="identite">
+      <div class="card-header">
+        <div class="card-title">3. Vocabulaire et notions-clés</div>
+        <div class="card-tag">Lexique pour l’oral</div>
+      </div>
+      <div class="card-body">
+        <p class="small-label">3.1 Vocabulaire utile pour parler des JO et de la musique</p>
+        <div class="grid-2">
+          <div>
+            <ul>
+              <li>mettre en valeur la diversité culturelle</li>
+              <li>représenter l’identité nationale</li>
+              <li>une vision plus inclusive de la « francité »</li>
+              <li>mélanger les générations / les publics</li>
+              <li>casser les stéréotypes sur la musique française</li>
+            </ul>
+          </div>
+          <div>
+            <ul>
+              <li>un mélange de genres (un « mash‑up »)</li>
+              <li>la scène urbaine / la scène alternative</li>
+              <li>l’héritage musical / le patrimoine</li>
+              <li>la mondialisation des goûts musicaux</li>
+              <li>une identité musicale en évolution</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="question-block" style="margin-top:4px;">
+          <div class="question-text"><strong>3.2</strong> Note ici 4–6 expressions que tu veux absolument réutiliser pendant ton oral, avec une traduction ou une explication rapide en anglais si nécessaire.</div>
+          <textarea id="q3_2" placeholder="Ta mini-liste de vocabulaire actif…"></textarea>
+        </div>
+
+        <div class="question-block">
+          <div class="question-text"><strong>3.3</strong> En une phrase, explique la différence entre « patrimoine musical » et « scènes émergentes » en France aujourd’hui.</div>
+          <textarea id="q3_3" placeholder="Phrase en français…"></textarea>
+        </div>
+      </div>
+    </section>
+
+  <section class="card" id="card-speaking" data-filter="oral">
+      <div class="card-header">
+        <div class="card-title">4. Préparation à l’exposé oral</div>
+        <div class="card-tag">Mini-plan Edexcel</div>
+      </div>
+      <div class="card-body">
+        <p class="small-label">4.1 Construis un mini-plan (1–2 minutes) à partir de la question</p>
+        <p style="margin-bottom:6px;">
+          <strong>Question :</strong> Qu’est‑ce que les JO 2024 nous disent sur les musiques considérées comme « françaises » ?
+        </p>
+        <p class="helper-text" style="margin-bottom:4px;">
+          Suggestion : 2–3 idées principales, chacune avec un exemple précis (artiste, genre, moment de la cérémonie) + ton opinion.
+        </p>
+        <div class="question-block">
+          <div class="question-text"><strong>4.1.a</strong> Idée 1 + exemple (par ex. un genre dominant ou un classique français).</div>
+          <textarea id="q4_1a" placeholder="Idée 1…"></textarea>
+        </div>
+        <div class="question-block">
+          <div class="question-text"><strong>4.1.b</strong> Idée 2 + exemple (par ex. un artiste hybride comme Aya Nakamura, Gojira, French house…).</div>
+          <textarea id="q4_1b" placeholder="Idée 2…"></textarea>
+        </div>
+        <div class="question-block">
+          <div class="question-text"><strong>4.1.c</strong> Idée 3 + ton opinion personnelle sur ce que « musique française » veut dire aujourd’hui.</div>
+          <textarea id="q4_1c" placeholder="Idée 3 / opinion…"></textarea>
+        </div>
+
+        <p class="small-label">4.2 Phrase d’ouverture pour ton oral</p>
+        <p class="helper-text">Rédige une phrase d’introduction claire et naturelle en français pour lancer ton exposé.</p>
+        <textarea id="q4_2" placeholder="Ex: Aux JO de Paris 2024, la musique montre que…"></textarea>
+      </div>
+    </section>
+  </div>
+
+  <!-- Footer controls -->
+  <div class="flex-row">
+    <div>
+      <button class="btn btn-primary" onclick="downloadAnswers()">
+        <span class="btn-icon">⬇️</span>
+        <span>Télécharger toutes mes réponses (.txt)</span>
+      </button>
+    </div>
+    <div>
+      <button class="btn btn-danger" onclick="clearAll()">
+        <span class="btn-icon">🧹</span>
+        <span>Effacer toutes les réponses</span>
+      </button>
+      <p class="helper-text">Les réponses restent seulement dans ce navigateur tant que tu ne les effaces pas.</p>
+    </div>
+  </div>
+</div>
+
+<!-- Floating minimalist French accent keyboard -->
+<div class="floating-keyboard" id="floatingKeyboard">
+  <button class="kb-toggle" id="kbToggle" title="Clavier accents français">æ</button>
+  <div class="kb-keys" id="kbKeys">
+    <span class="kb-label">Accents :</span>
+    <button class="kb-key" data-char="à">à</button>
+    <button class="kb-key" data-char="â">â</button>
+    <button class="kb-key" data-char="ä">ä</button>
+    <button class="kb-key" data-char="é">é</button>
+    <button class="kb-key" data-char="è">è</button>
+    <button class="kb-key" data-char="ê">ê</button>
+    <button class="kb-key" data-char="ë">ë</button>
+    <button class="kb-key" data-char="î">î</button>
+    <button class="kb-key" data-char="ï">ï</button>
+    <button class="kb-key" data-char="ô">ô</button>
+    <button class="kb-key" data-char="ö">ö</button>
+    <button class="kb-key" data-char="ù">ù</button>
+    <button class="kb-key" data-char="û">û</button>
+    <button class="kb-key" data-char="ü">ü</button>
+    <button class="kb-key" data-char="ç">ç</button>
+    <span class="kb-label">Ponct. :</span>
+    <button class="kb-key" data-char="«">«</button>
+    <button class="kb-key" data-char="»">»</button>
+    <button class="kb-key" data-char="…">…</button>
+  </div>
+</div>
+
+<script>
+  // Track the currently focused textarea
+  let currentTarget = null;
+
+  document.addEventListener('focusin', (e) => {
+    if (e.target && e.target.tagName === 'TEXTAREA') {
+      currentTarget = e.target;
+    }
+  });
+
+  // Accent keyboard behaviour
+  const kbToggle = document.getElementById('kbToggle');
+  const kbKeys = document.getElementById('kbKeys');
+  let kbVisible = true;
+
+  kbToggle.addEventListener('click', () => {
+    kbVisible = !kbVisible;
+    kbKeys.style.display = kbVisible ? 'flex' : 'none';
+  });
+
+  kbKeys.addEventListener('click', (e) => {
+    const key = e.target.closest('.kb-key');
+    if (!key) return;
+    const char = key.getAttribute('data-char');
+    if (!char) return;
+    if (!currentTarget) return;
+
+    const el = currentTarget;
+    const start = el.selectionStart ?? el.value.length;
+    const end = el.selectionEnd ?? el.value.length;
+    const before = el.value.slice(0, start);
+    const after = el.value.slice(end);
+    el.value = before + char + after;
+    const pos = start + char.length;
+    el.focus();
+    el.setSelectionRange(pos, pos);
+  });
+
+  // Save & restore to localStorage (simple persistence)
+  const textareaIds = [
+    'q1_1','q1_2','q1_3',
+    'q2_2','q2_4','q2_5',
+    'q3_2','q3_3',
+    'q4_1a','q4_1b','q4_1c','q4_2'
+  ];
+
+  function saveAll() {
+    const data = {};
+    textareaIds.forEach(id => {
+      const el = document.getElementById(id);
+      if (el) data[id] = el.value;
+    });
+    try {
+      localStorage.setItem('jo2024_musique_answers', JSON.stringify(data));
+    } catch (e) {
+      // ignore storage errors (e.g. private mode)
+    }
+  }
+
+  function loadAll() {
+    try {
+      const raw = localStorage.getItem('jo2024_musique_answers');
+      if (!raw) return;
+      const data = JSON.parse(raw);
+      textareaIds.forEach(id => {
+        const el = document.getElementById(id);
+        if (el && Object.prototype.hasOwnProperty.call(data, id)) {
+          el.value = data[id];
+        }
+      });
+    } catch (e) {
+      // ignore
+    }
+  }
+
+  textareaIds.forEach(id => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.addEventListener('input', () => {
+      saveAll();
+    });
+  });
+
+  loadAll();
+
+  // Download answers as TXT
+  function downloadAnswers() {
+    const lines = [];
+    lines.push('Qu\'est-ce que les JO 2024 nous disent sur les musiques considérées comme françaises ?');
+    lines.push('Fiche de préparation orale – élève');
+    lines.push('');
+
+    function addBlock(label, id) {
+      const el = document.getElementById(id);
+      lines.push(label);
+      lines.push((el && el.value.trim()) ? el.value.trim() : '[vide]');
+      lines.push('');
+    }
+
+    addBlock('1.1 Résumé de la variété des musiques :', 'q1_1');
+    addBlock('1.2 Genres dominants / nouveaux :', 'q1_2');
+    addBlock('1.3 Justification des choix des organisateurs :', 'q1_3');
+
+    addBlock('2.2 Analyse des genres considérés comme « français » :', 'q2_2');
+    addBlock('2.4 Exemple de genre hybride et signification :', 'q2_4');
+    addBlock('2.5 Nouvelle répartition proposée :', 'q2_5');
+
+    addBlock('3.2 Vocabulaire actif choisi :', 'q3_2');
+    addBlock('3.3 Différence patrimoine / scènes émergentes :', 'q3_3');
+
+    addBlock('4.1.a Idée 1 + exemple :', 'q4_1a');
+    addBlock('4.1.b Idée 2 + exemple :', 'q4_1b');
+    addBlock('4.1.c Idée 3 + opinion :', 'q4_1c');
+
+    addBlock('4.2 Phrase d\'ouverture pour l\'oral :', 'q4_2');
+
+    const blob = new Blob([lines.join('\n')], { type: 'text/plain;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    const now = new Date();
+    const stamp = now.toISOString().slice(0,10);
+    a.href = url;
+    a.download = `JO2024_musique_francaise_reponses_${stamp}.txt`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  }
+
+  function clearAll() {
+    if (!confirm('Effacer toutes les réponses ?')) return;
+    textareaIds.forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.value = '';
+    });
+    try {
+      localStorage.removeItem('jo2024_musique_answers');
+    } catch (e) {}
+  }
+// AJOUT: Fonctionnalité de filtrage par badges
+document.addEventListener('DOMContentLoaded', function() {
+  const filterPills = document.querySelectorAll('.badge-row .pill');
+  const sections = document.querySelectorAll('.card');
+  const filterCounter = document.getElementById('filterCounter');
+  const filterIndicator = document.getElementById('filterIndicator');
+  const activeFilterText = document.getElementById('activeFilterText');
+  const resetFilterBtn = document.getElementById('resetFilter');
+  
+  let activeFilter = 'all';
+  let activeSections = Array.from(sections).map(s => s.id);
+  
+  // Initialiser l'état des filtres
+  updateFilterDisplay();
+  
+  // Ajouter les événements de clic aux badges
+  filterPills.forEach(pill => {
+    pill.addEventListener('click', function() {
+      const filterType = this.getAttribute('data-filter');
+      
+      if (filterType === activeFilter) {
+        // Si on clique sur le filtre déjà actif, on le désactive
+        activeFilter = 'all';
+        this.classList.remove('filter-active');
+      } else {
+        // Sinon, on active le nouveau filtre
+        activeFilter = filterType;
+        
+        // Retirer la classe active de tous les badges
+        filterPills.forEach(p => p.classList.remove('filter-active'));
+        // Ajouter la classe active au badge cliqué
+        this.classList.add('filter-active');
+      }
+      
+      applyFilter(activeFilter);
+      updateFilterDisplay();
+    });
+  });
+  
+  // Bouton de réinitialisation
+  resetFilterBtn.addEventListener('click', function() {
+    activeFilter = 'all';
+    filterPills.forEach(p => p.classList.remove('filter-active'));
+    applyFilter('all');
+    updateFilterDisplay();
+  });
+  
+  function applyFilter(filterType) {
+    let visibleCount = 0;
+    
+    sections.forEach(section => {
+      const sectionFilter = section.getAttribute('data-filter');
+      
+      if (filterType === 'all' || sectionFilter === filterType) {
+        section.classList.remove('filter-hidden');
+        visibleCount++;
+        
+        // Ajouter une animation de mise en avant
+        if (filterType !== 'all' && sectionFilter === filterType) {
+          section.classList.add('section-highlight');
+          setTimeout(() => {
+            section.classList.remove('section-highlight');
+          }, 1200);
+        }
+      } else {
+        section.classList.add('filter-hidden');
+      }
+    });
+    
+    // Mettre à jour le compteur
+    filterCounter.textContent = visibleCount;
+    
+    // Mettre à jour la disposition du layout si nécessaire
+    updateLayout(visibleCount);
+  }
+  
+  function updateLayout(visibleCount) {
+    const layoutContainers = document.querySelectorAll('.layout');
+    
+    layoutContainers.forEach(container => {
+      const visibleCards = Array.from(container.querySelectorAll('.card'))
+        .filter(card => !card.classList.contains('filter-hidden'));
+      
+      if (visibleCount === 1) {
+        // Si une seule carte visible, la centrer
+        container.style.gridTemplateColumns = '1fr';
+        container.style.justifyItems = 'center';
+      } else {
+        // Sinon, layout normal
+        container.style.gridTemplateColumns = 'minmax(0, 1.4fr) minmax(0, 1.3fr)';
+        container.style.justifyItems = 'stretch';
+      }
+    });
+  }
+  
+  function updateFilterDisplay() {
+    const filterNames = {
+      'all': 'Toutes les sections',
+      'identite': 'Musique & Identité',
+      'genres': 'Analyse de genres',
+      'oral': 'Préparation orale'
+    };
+    
+    activeFilterText.textContent = `Filtre actif : ${filterNames[activeFilter]}`;
+    
+    if (activeFilter === 'all') {
+      filterIndicator.classList.remove('visible');
+    } else {
+      filterIndicator.classList.add('visible');
+    }
+  }
+  
+  // Sauvegarder/restaurer l'état du filtre
+  function saveFilterState() {
+    try {
+      localStorage.setItem('jo2024_activeFilter', activeFilter);
+    } catch (e) {
+      // Ignorer les erreurs de stockage
+    }
+  }
+  
+  function loadFilterState() {
+    try {
+      const savedFilter = localStorage.getItem('jo2024_activeFilter');
+      if (savedFilter && savedFilter !== 'all') {
+        activeFilter = savedFilter;
+        const activePill = document.querySelector(`.pill[data-filter="${savedFilter}"]`);
+        if (activePill) {
+          filterPills.forEach(p => p.classList.remove('filter-active'));
+          activePill.classList.add('filter-active');
+          applyFilter(savedFilter);
+          updateFilterDisplay();
+        }
+      }
+    } catch (e) {
+      // Ignorer
+    }
+  }
+  
+  // Sauvegarder l'état du filtre quand il change
+  const originalApplyFilter = applyFilter;
+  applyFilter = function(filterType) {
+    originalApplyFilter(filterType);
+    saveFilterState();
+  };
+  
+  // Charger l'état du filtre au démarrage
+  loadFilterState();
+});
+</script>
+</body>
+</html>

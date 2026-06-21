@@ -1,0 +1,965 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Luc Ferry - Laïcité à l'École</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            padding: 20px;
+            color: #333;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+        }
+        
+        h1 {
+            color: #1e3c72;
+            text-align: center;
+            margin-bottom: 15px;
+            font-size: 2em;
+            border-bottom: 3px solid #2a5298;
+            padding-bottom: 15px;
+        }
+        
+        .context {
+            background: #e8f4f8;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            border-left: 4px solid #2a5298;
+            font-size: 0.95em;
+        }
+        
+        h2 {
+            color: #1e3c72;
+            margin-top: 35px;
+            margin-bottom: 20px;
+            font-size: 1.5em;
+            padding-left: 10px;
+            border-left: 4px solid #2a5298;
+        }
+        
+        .speech-text {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            border: 2px solid #dee2e6;
+            font-size: 1.05em;
+            line-height: 1.8;
+            max-height: 500px;
+            overflow-y: auto;
+        }
+        
+        .speech-text p {
+            margin-bottom: 15px;
+            text-align: justify;
+        }
+        
+        .activity-section {
+            margin-bottom: 40px;
+            padding: 25px;
+            background: #ffffff;
+            border-radius: 10px;
+            border: 2px solid #e9ecef;
+        }
+        
+        .question {
+            margin-bottom: 25px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+        
+        .question-text {
+            font-weight: bold;
+            margin-bottom: 12px;
+            color: #1e3c72;
+            font-size: 1.05em;
+        }
+        
+        input[type="text"], textarea {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            font-size: 1em;
+            transition: border-color 0.3s;
+            font-family: inherit;
+        }
+        
+        textarea {
+            min-height: 80px;
+            resize: vertical;
+        }
+        
+        input[type="text"]:focus, textarea:focus {
+            outline: none;
+            border-color: #2a5298;
+        }
+        
+        .matching-pair {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 15px;
+            align-items: center;
+        }
+        
+        .matching-left {
+            background: #e8f4f8;
+            padding: 12px;
+            border-radius: 5px;
+            font-weight: 500;
+        }
+        
+        select {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            font-size: 1em;
+            background: white;
+            cursor: pointer;
+        }
+        
+        .btn-container {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+            flex-wrap: wrap;
+        }
+        
+        button {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        
+        .btn-check {
+            background: #2a5298;
+            color: white;
+        }
+        
+        .btn-check:hover {
+            background: #1e3c72;
+            transform: translateY(-2px);
+        }
+        
+        .btn-hint {
+            background: #ffc107;
+            color: #333;
+        }
+        
+        .btn-download {
+            background: #28a745;
+            color: white;
+        }
+        
+        .btn-reset {
+            background: #dc3545;
+            color: white;
+        }
+        
+        .feedback {
+            margin-top: 10px;
+            padding: 12px;
+            border-radius: 5px;
+            font-weight: 500;
+            display: none;
+        }
+        
+        .feedback.correct {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+            display: block;
+        }
+        
+        .feedback.incorrect {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+            display: block;
+        }
+        
+        .feedback.hint {
+            background: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffeaa7;
+            display: block;
+        }
+        
+        .accent-keyboard {
+            position: sticky;
+            top: 10px;
+            background: white;
+            padding: 12px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            z-index: 1000;
+            border: 2px solid #2a5298;
+            margin-bottom: 20px;
+        }
+        
+        .accent-keyboard h3 {
+            font-size: 0.85em;
+            margin-bottom: 8px;
+            color: #555;
+            text-align: center;
+        }
+        
+        .accent-btn {
+            padding: 8px 12px;
+            margin: 3px;
+            background: #2a5298;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1.1em;
+            transition: all 0.2s;
+            font-family: Arial, sans-serif;
+        }
+        
+        .accent-btn:hover {
+            background: #1e3c72;
+            transform: scale(1.1);
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 30px;
+            background: #e9ecef;
+            border-radius: 15px;
+            overflow: hidden;
+            margin: 20px 0;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #2a5298, #1e3c72);
+            width: 0%;
+            transition: width 0.5s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+        
+        .cloze-input {
+            display: inline-block;
+            width: 180px;
+            margin: 0 5px;
+            padding: 5px 8px;
+        }
+        
+        .badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 0.85em;
+            font-weight: 600;
+            margin-left: 10px;
+        }
+        
+        .badge-vocab {
+            background: #d1ecf1;
+            color: #0c5460;
+        }
+        
+        .badge-cloze {
+            background: #fff3cd;
+            color: #856404;
+        }
+        
+        .badge-summary {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+            
+            h1 {
+                font-size: 1.5em;
+            }
+            
+            .matching-pair {
+                grid-template-columns: 1fr;
+            }
+            
+            .cloze-input {
+                width: 140px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Luc Ferry : Discours sur la Laïcité (2003)</h1>
+        
+        <div class="context">
+            <strong>Contexte :</strong> Déclaration de M. Luc Ferry, ministre de la jeunesse, de l'éducation nationale et de la recherche, devant la commission Stasi sur la laïcité, le port de signes religieux, les montées des communautarismes et l'enseignement des religions à l'école, Paris le 16 septembre 2003.
+        </div>
+        
+        <div style="background: #e8f4f8; padding: 15px; border-radius: 8px; margin-bottom: 20px; border-left: 4px solid #2a5298;">
+            <label for="studentName" style="font-weight: bold; display: block; margin-bottom: 8px;">Student Name:</label>
+            <input type="text" id="studentName" placeholder="Enter your full name...">
+        </div>
+        
+        <div class="accent-keyboard" id="accentKeyboard">
+            <h3>Clavier des accents (cliquez dans un champ de texte d'abord) :</h3>
+            <button type="button" class="accent-btn" data-char="é">é</button>
+            <button type="button" class="accent-btn" data-char="è">è</button>
+            <button type="button" class="accent-btn" data-char="ê">ê</button>
+            <button type="button" class="accent-btn" data-char="à">à</button>
+            <button type="button" class="accent-btn" data-char="â">â</button>
+            <button type="button" class="accent-btn" data-char="ù">ù</button>
+            <button type="button" class="accent-btn" data-char="û">û</button>
+            <button type="button" class="accent-btn" data-char="ô">ô</button>
+            <button type="button" class="accent-btn" data-char="î">î</button>
+            <button type="button" class="accent-btn" data-char="ï">ï</button>
+            <button type="button" class="accent-btn" data-char="ç">ç</button>
+            <button type="button" class="accent-btn" data-char="œ">œ</button>
+        </div>
+        
+        <div class="progress-bar">
+            <div class="progress-fill" id="progressBar">0%</div>
+        </div>
+        
+        <h2>📄 Texte intégral du discours</h2>
+        <div class="speech-text">
+            <p>Tout d'abord, je souscris totalement à ce qui vient d'être dit par Xavier et j'irai d'ailleurs, dans le sens de sa conclusion en rappelant quand même, que le nombre de contentieux qu'on a, portant sur la question du voile se réduit à 10 par an. Donc il ne faut pas exagérer l'ampleur du phénomène. Cela dit, on parle des principes ; il y a une vraie exaspération de la part d'une majorité d'enseignants et probablement pas seulement d'enseignants et je crois qu'il faut donc reprendre le problème à la racine.</p>
+
+            <p>Je sais que l'exercice qui consiste à donner une définition de la laïcité est un exercice auquel chacun se livre rituellement ; chacun a sa définition et chacun se plait à la donner.</p>
+
+            <p>Je voudrai quand même rappeler une chose, sans entrer dans les détails: que si on prend le niveau européen, et pas simplement le niveau français, la laïcité a reposé historiquement sur 2 principes fondamentaux qui n'ont aucun rapport direct avec la question des insignes religieux et notamment des insignes religieux à l'école.</p>
+
+            <p>Le premier principe c'était l'idée que la source de la loi était humaine, que la loi se décidait dans des parlements; c'est ce qu'on a appelé la fin du théologicopolitique; la loi n'est plus enracinée dans un univers religieux.</p>
+
+            <p>Le deuxième principe, c'est le principe qui est au cœur de la déclaration française des Droits de l'Homme, c'est qu'un être est respectable indépendamment de toute espèce d'appartenance communautaire.</p>
+
+            <p>Ce sont les deux principes fondamentaux de la laïcité et nul ne peut en déduire à priori aucune conséquence particulière sur le port des insignes religieux à l'école ou ailleurs.</p>
+
+            <p>Si on veut faire des déductions, il faut rajouter des intermédiaires très nombreux et, je crois, toujours assez problématiques. Ce qu'on peut, peut-être, apporter, Xavier et moi, d'utile à votre commission, c'est une réflexion plus pragmatique sur ce qui s'est passé depuis la première décision du Conseil d'État dont je rappelle d'ailleurs qu'elle permet aux chefs d'établissement d'interdire le port de tout insigne religieux lorsqu'il y a risque d'affrontement communautaire. On oublie parfois, mais cet arrêt permet, tout de même, d'avoir une position très ferme en cas de difficulté.</p>
+
+            <p>Mais qu'est ce qui s'est passé depuis ? A mon avis 2 choses importantes :</p>
+            <p>- une certaine exacerbation des communautarismes, notamment dans un contexte relations internationales postérieur aux évènements du 11 septembre,</p>
+            <p>- mais aussi ce qui est plus important et qui a été moins souvent souligné, bien que certains, devant cette commission même, se soient exprimés sur le sujet: on a vu apparaître, je ne dirai pas un nouvel antisémitisme, car à la vérité il n'est pas nouveau, mais une croissance d'un antisémitisme qui n'est pas l'antisémitisme classique de l'extrême-droite et qui est à certains égards un objet mal identifié par un certain nombre de collègues parfois, quand je dis collègues je pense à certains enseignants parce que d'abord ce n'est pas l'antisémitisme de l'extrême droite mais un antisémitisme qui est d'origine, je pèse mes mots, évidemment pas musulmane mais islamiste fondamentaliste et du coup qui est un objet moins facile à saisir que l'antisémitisme d'extrême droite sur lequel chacun aujourd'hui, pratiquement, s'accorde pour une condamnation totale et sans appel, parce que ce n'est pas un antisémitisme d'extrême droite et c'est un antisémitisme qui s'alimente à un discours que certains identifient, pour aller vite, au discours des victimes; et on a là, par conséquent, je ne dirai pas une complaisance, ce serait insultant et ce serait excessif, mais une difficulté à résister aussi fortement qu'on le devrait face à ce nouvel antisémitisme, en tout cas à cette figure relativement inédite dans nos établissements de l'antisémitisme.</p>
+
+            <p>Alors qu'est ce qui paraît souhaitable par rapport à ça ?</p>
+
+            <p>Je ne reviens pas sur ce qu'a dit Xavier de réaffirmer les principes fondamentaux mais il est clair qu'on peut s'accorder sur 2 points.</p>
+
+            <p>D'abord les personnels de l'Education Nationale ne doivent porter aucun signe religieux; ça c'est clair, la loi le dit clairement.</p>
+
+            <p>Deuxième point, on a parfaitement le droit d'exclure un élève lorsqu'il refuse certains programmes ou qu'il refuse certains cours; cela va de soi mais enfin il faut le rappeler: on a la possibilité d'exclure et là la loi est parfaitement claire; on n'a pas besoin d'une législation nouvelle sur ce sujet, s'agissant du cours de biologie, d'histoire, de gymnastique, etc</p>
+
+            <p>J'irai plus loin; ce qui me paraîtrait souhaitable, je le formulerai de la façon suivante, il faudrait peut-être longtemps pour argumenter cette idée, mais je crois qu'elle est plaidable. Je pense qu'un professeur et même les élèves dans une classe ne devraient pas savoir à priori, du premier coup d'œil qui est juif, qui est musulman, qui est catholique; ce serait très souhaitable; je pense qu'on peut le faire comprendre aux jeunes, aux élèves parce qu'on peut leur dire: la croyance religieuse, elle n'est absolument pas interdite par la République, l'expression de cette croyance religieuse n'est pas interdite non plus, j'irai même plus loin, l'expression de cette croyance religieuse dans le cadre de l'école n'est pas non plus interdite dans le cadre d'un devoir de philosophie ou d'un cours de CJS; on peut dire qu'on est croyant, ça n'est pas interdit mais il n'y a pas de raison pour qu'on le sache à priori; c'est une expression individuelle; prenez vos risques, dites le individuellement si vous avez à le dire et même publiquement, même dans le cadre de la classe; mais nous n'avons pas à savoir, les uns et les autres à priori qui est juif, qui est musulman, qui est chrétien parce que c'est catégoriser les gens et dans un contexte qui est celui d'affrontements communautaires qui s'exacerbent, nous n'avons pas dans le cadre de l'école de la République à tolérer cela.</p>
+
+            <p>Maintenant, la vraie question qui n'est pas résolue: faut-il une loi pour parvenir à cela ?</p>
+
+            <p>On peut avoir 3 réponses :</p>
+            <p>- Il ne faut pas de loi et on peut l'expliquer.</p>
+            <p>- Il faut une loi spécifique; je reviendrai sur les difficultés que ça paraît poser, une loi spécifique qui prohibe, qui interdise, qui prenne la chose négativement et qui dise tous les signes religieux sont interdits à l'école; c'est clair, c'est net, ça a un gros avantage c'est que c'est clair et net et ça fera plaisir à beaucoup de gens.</p>
+            <p>- On peut avoir une troisième solution, dans le cadre d'une loi d'orientation comme celle sur laquelle nous travaillons cette année; d'avoir, non pas un article de loi négatif qui prohibe mais un article de loi qui réaffirme de façon positive les principes de la laïcité et notamment l'argumentation que je viens très rapidement d'évoquer.</p>
+
+            <p>Quelles sont les difficultés d'une loi spécifique prohibitive ?</p>
+            <p>Les avantages y sont clairs: on règle le problème.</p>
+            <p>Quelles sont les difficultés ?</p>
+
+            <p>Premièrement: C'est qu'elle risque d'être contraire aux principes généraux du Droit français qui, encore une fois, n'interdit pas l'appartenance religieuse ni même son expression; la question de savoir si cette expression est interdite à l'école sur le plan juridique, n'est pas claire et notamment quand on considère au delà du droit français les traités européens que nous allons ratifier.</p>
+
+            <p>Deuxième point: La tendance générale des démocraties, c'est la sécularisation du monde. C'est le mouvement de sécularisation et laïcisation du monde. Est-il indispensable de faire des martyrs ? Question qu'on peut se poser</p>
+
+            <p>Troisième point: Si on fait des martyrs, on augmentera inévitablement le nombre d'écoles coraniques. Est ce que c'est souhaitable ? Je pose la question.</p>
+
+            <p>Quatrième point: Est ce qu'on pourra résister à des stratégies de contournement ? On aura interdit le bandeau, très bien, parce que c'est de lui qu'il s'agit. Mais ensuite on dira il y a les croix, les kippa; la vérité c'est que nous avons tous en tête la question du bandeau, bien plus que celle des croix ou des kippa. C'est pour ça qu'on en parle, il faut avoir l'honnêteté de le dire, sinon on n'en parlerait pas. Est ce qu'on pourra éviter des stratégies de contournement dans lesquelles on verra arriver, non plus seulement les filles mais aussi les garçons; par exemple, on met un tee-short vert, qu'est ce qu'on fera? Donc le vrai problème et c'est par là que je conclurai.</p>
+
+            <p>Je souhaiterai 2 choses:</p>
+
+            <p>Dans une loi d'orientation, qu'on rappelle très fortement les principes anticommunautaristes mais qu'on le rappelle de façon positive; qu'on explique aux jeunes gens, aux élèves et ils le comprennent parfaitement, j'ai eu l'occasion de tester devant plusieurs groupes de jeunes très différents les uns des autres que l'expression d'une appartenance religieuse doit être individuelle et non pas catégorielle à priori; on n'a pas à les enfermer à priori dans des catégories; c'est mauvais pour la République, mauvais pour les rapports entre les élèves dans les établissements; ce n'est souhaitable pour personne et surtout pas pour eux.</p>
+
+            <p>Deuxième point que je souhaiterai, et je rejoins ce que disait Xavier, tout à l'heure, c'est qu'on réfléchisse vraiment davantage; et c'est pourquoi je me rendrai à l'invitation de notre ami Régis Debray très prochainement, à la fonction de l'enseignement de l'histoire des religions, qui n'est pas simplement une fonction culturelle mais aussi une fonction éthique et politique. Je crois que ce qui fait aujourd'hui que des jeunes se traitent couramment de bougnoules, de sales feujs, c'est ce qu'on entend dans les établissements ; ils disent ton stylo, il est feuj ou on va jouer à feuj perché, c'est d'abord un manque dramatique de culture et du sens historique du poids des mots ; c'est ça qui est dramatique; ils ne sont pas plus antisémites ou plus racistes que l'étaient les élèves, il y a 50 ans mais ils n'ont plus le sens du poids des mots ; pour eux, c'est comme de dire sale crétin; c'est pas plus que ça, ça n'a pas plus de sens, de valeur; les mots sont devenus légers alors que ce sont des mots lourds. Il faut remettre cette lourdeur derrière les mots; et ça seule la culture historique peut le faire et je dirai aussi une culture religieuse. Une deuxième fonction, me semble-t-il sur le plan politique et moral d'un enseignement de l'histoire des religions, c'est que ça permet à chacun de comprendre qu'il appartient à une histoire qui est celle du monde, pour parler comme Hegel ; pardon d'avoir une référence philosophique, ça m'arrive de plus en plus rarement mais je ne peux pas encore m'en empêcher tout à fait, et qu'on n'est pas dans une particularité locale ; je veux dire par là, combien de jeunes musulmans dans nos établissements savent que sans Averroès, il n'y aurait pas Saint Thomas et que sans St Thomas, il n'y aurait pas Jean-Paul II et qu'ils participent d'une civilisation s'ils pensent qu'ils appartiennent à cette civilisation par un biais ou un autre qui a construit l'histoire du monde et qui est parfaitement représentée en France. Sans la découverte d'Aristote par Averroès et par Avicenne un peu avant et surtout par Averroès, jamais l'Eglise depuis 2 siècles ne serait thomiste, ce qu'elle est aujourd'hui et non pas augustinienne. Pardon de faire un peu d'histoire de la théologie mais c'est très important quand on peut le dire autrement, quand on a en face de soi des enfants de 13 ou 14 ans. Si on leur explique qu'ils appartiennent à une culture qui a produit l'algèbre et que dans tous les pays du monde, le mot algèbre se dit algèbre et que le monde arabo-musulman a apporté quelque chose à l'histoire du monde mais que aussi sur le plan de l'histoire de la culture et de la théologie, ce monde a apporté quelque chose qui a façonné jusqu'aux paysages de la France, paysages intellectuels, religieux, culturels, historiques, et bien il se sentirait peut-être appartenir en effet à une culture commune qui le reconnaît davantage; c'est cela l'enjeu de l'histoire des religions même si ça n'est pas seulement cela; j'ai bien conscience qu'il y a beaucoup d'autres intérêts à enseigner l'histoire des religions. Je pense vraiment que c'est cela la vraie solution: de redonner le poids des mots et de redonner le sens de l'histoire. Je crois que c'est cela la vraie solution et que pour régler 10 cas de contentieux par an, c'est peut-être très lourd de faire une loi spécifique.</p>
+        </div>
+        
+        <!-- Activity 1: Vocabulary -->
+        <div class="activity-section">
+            <h2>Activité 1 : Vocabulaire clé <span class="badge badge-vocab">Vocabulaire</span></h2>
+            
+            <div class="matching-pair">
+                <div class="matching-left">1. La laïcité</div>
+                <select id="vocab1">
+                    <option value="">Choisissez...</option>
+                    <option value="a">a) Separation of religion and state</option>
+                    <option value="b">b) Religious education</option>
+                    <option value="c">c) State religion</option>
+                </select>
+            </div>
+            
+            <div class="matching-pair">
+                <div class="matching-left">2. Les insignes religieux</div>
+                <select id="vocab2">
+                    <option value="">Choisissez...</option>
+                    <option value="a">a) Religious buildings</option>
+                    <option value="b">b) Religious symbols/signs</option>
+                    <option value="c">c) Religious texts</option>
+                </select>
+            </div>
+            
+            <div class="matching-pair">
+                <div class="matching-left">3. Le communautarisme</div>
+                <select id="vocab3">
+                    <option value="">Choisissez...</option>
+                    <option value="a">a) Community spirit</option>
+                    <option value="b">b) Communitarianism (excessive community identity)</option>
+                    <option value="c">c) Communism</option>
+                </select>
+            </div>
+            
+            <div class="matching-pair">
+                <div class="matching-left">4. Un contentieux</div>
+                <select id="vocab4">
+                    <option value="">Choisissez...</option>
+                    <option value="a">a) A happy student</option>
+                    <option value="b">b) A legal dispute/conflict</option>
+                    <option value="c">c) A textbook</option>
+                </select>
+            </div>
+            
+            <div class="matching-pair">
+                <div class="matching-left">5. Exacerbation</div>
+                <select id="vocab5">
+                    <option value="">Choisissez...</option>
+                    <option value="a">a) Worsening/intensification</option>
+                    <option value="b">b) Improvement</option>
+                    <option value="c">c) Celebration</option>
+                </select>
+            </div>
+            
+            <div class="matching-pair">
+                <div class="matching-left">6. Prohiber</div>
+                <select id="vocab6">
+                    <option value="">Choisissez...</option>
+                    <option value="a">a) To promote</option>
+                    <option value="b">b) To prohibit/forbid</option>
+                    <option value="c">c) To test</option>
+                </select>
+            </div>
+            
+            <div class="matching-pair">
+                <div class="matching-left">7. Le théologicopolitique</div>
+                <select id="vocab7">
+                    <option value="">Choisissez...</option>
+                    <option value="a">a) Study of politics</option>
+                    <option value="b">b) Mixing of theology and politics</option>
+                    <option value="c">c) Political party</option>
+                </select>
+            </div>
+            
+            <div class="matching-pair">
+                <div class="matching-left">8. Sécularisation</div>
+                <select id="vocab8">
+                    <option value="">Choisissez...</option>
+                    <option value="a">a) Secularization (reducing religious influence)</option>
+                    <option value="b">b) Security measures</option>
+                    <option value="c">c) Social security</option>
+                </select>
+            </div>
+            
+            <div class="btn-container">
+                <button class="btn-check" onclick="checkVocab()">Vérifier tout</button>
+                <button class="btn-hint" onclick="showVocabHint()">Indice</button>
+            </div>
+            <div class="feedback" id="vocabFeedback"></div>
+        </div>
+        
+        <!-- Activity 2: Gap Fill -->
+        <div class="activity-section">
+            <h2>Activité 2 : Texte à trous <span class="badge badge-cloze">Cloze</span></h2>
+            
+            <p style="line-height: 2.2; font-size: 1.05em;">
+                Selon Luc Ferry, la laïcité repose sur deux <input type="text" class="cloze-input" id="cloze1" placeholder="..."> fondamentaux. 
+                Le premier est que la source de la <input type="text" class="cloze-input" id="cloze2" placeholder="..."> est humaine, 
+                marquant la fin du <input type="text" class="cloze-input" id="cloze3" placeholder="...">. 
+                Le deuxième principe affirme qu'un être est <input type="text" class="cloze-input" id="cloze4" placeholder="..."> 
+                indépendamment de toute appartenance communautaire. Ferry critique l'<input type="text" class="cloze-input" id="cloze5" placeholder="..."> 
+                des communautarismes dans les écoles. Il propose que l'expression religieuse soit 
+                <input type="text" class="cloze-input" id="cloze6" placeholder="..."> et non pas catégorielle. 
+                Pour lui, l'enseignement de l'histoire des <input type="text" class="cloze-input" id="cloze7" placeholder="..."> 
+                est essentiel pour redonner le <input type="text" class="cloze-input" id="cloze8" placeholder="..."> des mots.
+            </p>
+            
+            <div class="btn-container">
+                <button class="btn-check" onclick="checkCloze()">Vérifier</button>
+                <button class="btn-hint" onclick="showClozeHint()">Indice</button>
+            </div>
+            <div class="feedback" id="clozeFeedback"></div>
+        </div>
+        
+        <!-- Activity 3: Summary Questions in English -->
+        <div class="activity-section">
+            <h2>Activité 3 : Questions de synthèse (en anglais) <span class="badge badge-summary">Synthèse</span></h2>
+            
+            <div class="question">
+                <div class="question-text">1. According to Ferry, what are the two fundamental principles of laïcité? (Write in English)</div>
+                <textarea id="summary1" placeholder="Write your answer in English..."></textarea>
+                <div class="btn-container">
+                    <button class="btn-check" onclick="checkSummary(1)">Vérifier</button>
+                    <button class="btn-hint" onclick="showSummaryHint(1)">Indice</button>
+                </div>
+                <div class="feedback" id="summaryFeedback1"></div>
+            </div>
+            
+            <div class="question">
+                <div class="question-text">2. What new form of antisemitism does Ferry identify in French schools? (Write in English)</div>
+                <textarea id="summary2" placeholder="Write your answer in English..."></textarea>
+                <div class="btn-container">
+                    <button class="btn-check" onclick="checkSummary(2)">Vérifier</button>
+                    <button class="btn-hint" onclick="showSummaryHint(2)">Indice</button>
+                </div>
+                <div class="feedback" id="summaryFeedback2"></div>
+            </div>
+            
+            <div class="question">
+                <div class="question-text">3. What are Ferry's main concerns about passing a specific law to prohibit religious signs in schools? (Write in English)</div>
+                <textarea id="summary3" placeholder="Write your answer in English..."></textarea>
+                <div class="btn-container">
+                    <button class="btn-check" onclick="checkSummary(3)">Vérifier</button>
+                    <button class="btn-hint" onclick="showSummaryHint(3)">Indice</button>
+                </div>
+                <div class="feedback" id="summaryFeedback3"></div>
+            </div>
+            
+            <div class="question">
+                <div class="question-text">4. Why does Ferry advocate for teaching the history of religions in schools? (Write in English)</div>
+                <textarea id="summary4" placeholder="Write your answer in English..."></textarea>
+                <div class="btn-container">
+                    <button class="btn-check" onclick="checkSummary(4)">Vérifier</button>
+                    <button class="btn-hint" onclick="showSummaryHint(4)">Indice</button>
+                </div>
+                <div class="feedback" id="summaryFeedback4"></div>
+            </div>
+            
+            <div class="question">
+                <div class="question-text">5. What examples does Ferry give of the contribution of Arab-Muslim culture to world civilization? (Write in English)</div>
+                <textarea id="summary5" placeholder="Write your answer in English..."></textarea>
+                <div class="btn-container">
+                    <button class="btn-check" onclick="checkSummary(5)">Vérifier</button>
+                    <button class="btn-hint" onclick="showSummaryHint(5)">Indice</button>
+                </div>
+                <div class="feedback" id="summaryFeedback5"></div>
+            </div>
+        </div>
+        
+        <!-- Download Button -->
+        <div style="text-align: center; margin-top: 40px;">
+            <button class="btn-download" onclick="downloadResults()">📥 Download Results</button>
+            <button class="btn-reset" onclick="resetAll()">🔄 Reset All</button>
+        </div>
+    </div>
+
+    <script>
+        // Global variables
+        let lastFocusedInput = null;
+        let studentData = {
+            vocab: {},
+            cloze: {},
+            summary: {},
+            attempts: {},
+            hintsUsed: []
+        };
+        
+        // Vocabulary answers
+        const vocabAnswers = {
+            1: 'a', 2: 'b', 3: 'b', 4: 'b', 5: 'a', 6: 'b', 7: 'b', 8: 'a'
+        };
+        
+        // Cloze answers
+        const clozeAnswers = {
+            1: ['principes'],
+            2: ['loi'],
+            3: ['théologicopolitique', 'theologicopolitique'],
+            4: ['respectable'],
+            5: ['exacerbation'],
+            6: ['individuelle'],
+            7: ['religions', 'religion'],
+            8: ['poids', 'sens']
+        };
+        
+        // Summary answer keywords
+        const summaryAnswers = {
+            1: {
+                keywords: ['law', 'human', 'parliament', 'respect', 'community', 'individual', 'theological'],
+                model: 'The two principles are: (1) that the source of law is human and decided in parliaments (end of theologico-political), and (2) that a person is respectable independently of any community belonging.',
+                hint: 'Think about the relationship between law and religion, and about individual vs. community identity.'
+            },
+            2: {
+                keywords: ['islamist', 'fundamentalist', 'victim', 'not extreme right', 'difficult'],
+                model: 'Ferry identifies an antisemitism that is not from the extreme right but has Islamist fundamentalist origins. It feeds on a "victim discourse" which makes it harder for some teachers to resist it strongly.',
+                hint: 'Consider what makes this form different from traditional far-right antisemitism.'
+            },
+            3: {
+                keywords: ['french law', 'martyrs', 'koranic schools', 'european treaties', 'strategies', 'circumvention'],
+                model: 'Ferry worries that a prohibitive law might: contradict French legal principles and European treaties, create martyrs, increase Koranic schools, and be circumvented through strategies (like wearing green t-shirts instead of headscarves).',
+                hint: 'Ferry mentions four specific difficulties with a prohibitive law.'
+            },
+            4: {
+                keywords: ['weight', 'words', 'history', 'culture', 'common', 'civilization', 'racist terms'],
+                model: 'Ferry believes teaching religious history would help students understand the weight and historical significance of words (especially racist/antisemitic terms), and help them see they belong to a shared world civilization rather than isolated communities.',
+                hint: 'Think about why students use offensive terms casually and how historical knowledge could change this.'
+            },
+            5: {
+                keywords: ['algebra', 'averroes', 'avicenna', 'aristotle', 'thomas aquinas', 'thomist'],
+                model: 'Ferry mentions that the Arab-Muslim world created algebra (a word used globally), and that Averroes and Avicenna\'s discovery of Aristotle led to the Church becoming Thomist (based on St. Thomas Aquinas) rather than Augustinian.',
+                hint: 'Ferry gives specific examples from mathematics and theology/philosophy.'
+            }
+        };
+        
+        // Track focused input for accent keyboard
+        document.addEventListener('DOMContentLoaded', function() {
+            const inputs = document.querySelectorAll('input[type="text"], textarea');
+            
+            inputs.forEach(input => {
+                input.addEventListener('focus', function() {
+                    lastFocusedInput = this;
+                });
+                
+                input.addEventListener('click', function() {
+                    lastFocusedInput = this;
+                });
+            });
+            
+            // Setup accent keyboard buttons
+            const accentBtns = document.querySelectorAll('.accent-btn');
+            accentBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const char = this.getAttribute('data-char');
+                    
+                    if (!lastFocusedInput) {
+                        alert('Veuillez d\'abord cliquer dans un champ de texte');
+                        return;
+                    }
+                    
+                    const start = lastFocusedInput.selectionStart || 0;
+                    const end = lastFocusedInput.selectionEnd || 0;
+                    const text = lastFocusedInput.value || '';
+                    
+                    lastFocusedInput.value = text.substring(0, start) + char + text.substring(end);
+                    lastFocusedInput.selectionStart = lastFocusedInput.selectionEnd = start + 1;
+                    lastFocusedInput.focus();
+                });
+            });
+        });
+        
+        function checkVocab() {
+            let correct = 0;
+            const total = 8;
+            
+            for (let i = 1; i <= 8; i++) {
+                const select = document.getElementById('vocab' + i);
+                const value = select.value;
+                studentData.vocab[i] = { answer: value, correct: value === vocabAnswers[i] };
+                
+                if (value === vocabAnswers[i]) {
+                    correct++;
+                    select.style.borderColor = '#28a745';
+                } else if (value !== '') {
+                    select.style.borderColor = '#dc3545';
+                } else {
+                    select.style.borderColor = '#ddd';
+                }
+            }
+            
+            const feedback = document.getElementById('vocabFeedback');
+            feedback.className = correct === total ? 'feedback correct' : 'feedback incorrect';
+            feedback.textContent = `You have ${correct} correct answer(s) out of ${total}.`;
+            
+            updateProgress();
+        }
+        
+        function showVocabHint() {
+            const feedback = document.getElementById('vocabFeedback');
+            feedback.className = 'feedback hint';
+            feedback.textContent = '💡 Hint: Look for cognates (similar words) in English and pay attention to the context in the speech.';
+            if (!studentData.hintsUsed.includes('vocab')) {
+                studentData.hintsUsed.push('vocab');
+            }
+        }
+        
+        function checkCloze() {
+            let correct = 0;
+            const total = 8;
+            
+            for (let i = 1; i <= 8; i++) {
+                const input = document.getElementById('cloze' + i);
+                const answer = input.value.toLowerCase().trim();
+                const isCorrect = clozeAnswers[i].some(correctAnswer => 
+                    answer === correctAnswer.toLowerCase()
+                );
+                
+                studentData.cloze[i] = { answer: answer, correct: isCorrect };
+                
+                if (isCorrect) {
+                    correct++;
+                    input.style.borderColor = '#28a745';
+                    input.style.background = '#d4edda';
+                } else if (answer !== '') {
+                    input.style.borderColor = '#dc3545';
+                    input.style.background = '#f8d7da';
+                } else {
+                    input.style.borderColor = '#ddd';
+                    input.style.background = 'white';
+                }
+            }
+            
+            const feedback = document.getElementById('clozeFeedback');
+            feedback.className = correct === total ? 'feedback correct' : 'feedback incorrect';
+            feedback.textContent = `Vous avez ${correct} réponse(s) correcte(s) sur ${total}.`;
+            
+            if (correct < total) {
+                feedback.textContent += ' Bonnes réponses : ' + 
+                    Object.values(clozeAnswers).map(arr => arr[0]).join(', ');
+            }
+            
+            updateProgress();
+        }
+        
+        function showClozeHint() {
+            const feedback = document.getElementById('clozeFeedback');
+            feedback.className = 'feedback hint';
+            feedback.textContent = '💡 Indice : Relisez les premiers paragraphes du discours. Les mots manquants sont des termes clés utilisés par Ferry.';
+            if (!studentData.hintsUsed.includes('cloze')) {
+                studentData.hintsUsed.push('cloze');
+            }
+        }
+        
+        function checkSummary(num) {
+            const textarea = document.getElementById('summary' + num);
+            const answer = textarea.value.toLowerCase().trim();
+            const feedback = document.getElementById('summaryFeedback' + num);
+            const correct = summaryAnswers[num];
+            
+            if (!studentData.attempts['summary' + num]) {
+                studentData.attempts['summary' + num] = 0;
+            }
+            studentData.attempts['summary' + num]++;
+            
+            const keywordCount = correct.keywords.filter(keyword => 
+                answer.includes(keyword.toLowerCase())
+            ).length;
+            
+            const isGood = keywordCount >= Math.ceil(correct.keywords.length * 0.4) && answer.length > 30;
+            
+            if (isGood) {
+                feedback.className = 'feedback correct';
+                feedback.textContent = '✓ Good answer! Key points identified. Model answer: ' + correct.model;
+                studentData.summary[num] = { answer: answer, correct: true };
+                updateProgress();
+            } else if (answer.length > 20) {
+                feedback.className = 'feedback incorrect';
+                feedback.textContent = '✗ Your answer needs more key points. Model answer: ' + correct.model;
+                studentData.summary[num] = { answer: answer, correct: false };
+            } else {
+                feedback.className = 'feedback incorrect';
+                feedback.textContent = '✗ Answer too brief. Try to develop your response with specific details from the speech.';
+            }
+        }
+        
+        function showSummaryHint(num) {
+            const feedback = document.getElementById('summaryFeedback' + num);
+            feedback.className = 'feedback hint';
+            feedback.textContent = '💡 ' + summaryAnswers[num].hint;
+            if (!studentData.hintsUsed.includes('summary' + num)) {
+                studentData.hintsUsed.push('summary' + num);
+            }
+        }
+        
+        function updateProgress() {
+            let totalCorrect = 0;
+            let totalQuestions = 0;
+            
+            Object.values(studentData.vocab).forEach(item => {
+                totalQuestions++;
+                if (item.correct) totalCorrect++;
+            });
+            
+            Object.values(studentData.cloze).forEach(item => {
+                totalQuestions++;
+                if (item.correct) totalCorrect++;
+            });
+            
+            Object.values(studentData.summary).forEach(item => {
+                totalQuestions++;
+                if (item.correct) totalCorrect++;
+            });
+            
+            const percentage = totalQuestions > 0 ? Math.round((totalCorrect / totalQuestions) * 100) : 0;
+            const progressBar = document.getElementById('progressBar');
+            progressBar.style.width = percentage + '%';
+            progressBar.textContent = percentage + '%';
+        }
+        
+        function downloadResults() {
+            const studentName = document.getElementById('studentName').value.trim() || 'Anonymous_Student';
+            const timestamp = new Date().toLocaleString('en-GB');
+            let report = `LEARNING REPORT - LUC FERRY SPEECH ON LAÏCITÉ
+Student Name: ${studentName}
+Date: ${timestamp}
+
+═══════════════════════════════════════════════════════
+
+RESULTS SUMMARY
+
+`;
+            
+            let vocabScore = Object.values(studentData.vocab).filter(item => item.correct).length;
+            let vocabTotal = Object.keys(studentData.vocab).length;
+            
+            let clozeScore = Object.values(studentData.cloze).filter(item => item.correct).length;
+            let clozeTotal = Object.keys(studentData.cloze).length;
+            
+            let summaryScore = Object.values(studentData.summary).filter(item => item.correct).length;
+            let summaryTotal = Object.keys(studentData.summary).length;
+            
+            let total = vocabScore + clozeScore + summaryScore;
+            let totalPossible = vocabTotal + clozeTotal + summaryTotal;
+            let percentage = totalPossible > 0 ? Math.round((total / totalPossible) * 100) : 0;
+            
+            report += `Overall Score: ${total}/${totalPossible} (${percentage}%)\n\n`;
+            
+            report += `Activity 1 - Vocabulary: ${vocabScore}/${vocabTotal}\n`;
+            report += `Activity 2 - Gap Fill: ${clozeScore}/${clozeTotal}\n`;
+            report += `Activity 3 - Summary Questions: ${summaryScore}/${summaryTotal}\n\n`;
+            
+            report += `═══════════════════════════════════════════════════════\n\n`;
+            
+            report += `DETAILED RESPONSES\n\n`;
+            
+            report += `--- VOCABULARY ---\n\n`;
+            const vocabTerms = {
+                1: "La laïcité",
+                2: "Les insignes religieux",
+                3: "Le communautarisme",
+                4: "Un contentieux",
+                5: "Exacerbation",
+                6: "Prohiber",
+                7: "Le théologicopolitique",
+                8: "Sécularisation"
+            };
+            for (let i = 1; i <= 8; i++) {
+                if (studentData.vocab[i]) {
+                    report += `${vocabTerms[i]}: ${studentData.vocab[i].correct ? '✓' : '✗'}\n`;
+                }
+            }
+            report += `\n`;
+            
+            report += `--- GAP FILL ---\n\n`;
+            for (let i = 1; i <= 8; i++) {
+                if (studentData.cloze[i]) {
+                    report += `Word ${i}: ${studentData.cloze[i].correct ? '✓' : '✗'}\n`;
+                    report += `Your answer: ${studentData.cloze[i].answer}\n`;
+                    report += `Correct answer: ${clozeAnswers[i][0]}\n\n`;
+                }
+            }
+            
+            report += `--- SUMMARY QUESTIONS (English) ---\n\n`;
+            for (let i = 1; i <= 5; i++) {
+                if (studentData.summary[i]) {
+                    report += `Question ${i}: ${studentData.summary[i].correct ? '✓' : '✗'}\n`;
+                    report += `Your answer: ${studentData.summary[i].answer}\n`;
+                    report += `Model answer: ${summaryAnswers[i].model}\n\n`;
+                }
+            }
+            
+            report += `═══════════════════════════════════════════════════════\n\n`;
+            
+            report += `FEEDBACK AND RECOMMENDATIONS\n\n`;
+            
+            if (percentage >= 90) {
+                report += `Excellent work! You have demonstrated strong comprehension of this complex political speech.\n\n`;
+            } else if (percentage >= 70) {
+                report += `Good work! You understand the main ideas. Review the sections where you had difficulties.\n\n`;
+            } else if (percentage >= 50) {
+                report += `Satisfactory performance. Re-read the speech and focus on key vocabulary and concepts.\n\n`;
+            } else {
+                report += `You need to work more on this material. Read the speech multiple times and use the hints.\n\n`;
+            }
+            
+            if (vocabScore < 8) {
+                report += `• Vocabulary: Create flashcards for the key terms related to laïcité and politics.\n`;
+            }
+            if (clozeScore < 8) {
+                report += `• Gap Fill: Pay attention to context clues and re-read the relevant paragraphs.\n`;
+            }
+            if (summaryScore < 5) {
+                report += `• Summary Skills: Practice identifying main ideas and key arguments in complex texts.\n`;
+            }
+            
+            report += `\n═══════════════════════════════════════════════════════\n\n`;
+            
+            report += `KEY CONCEPTS TO REMEMBER\n\n`;
+            report += `1. Laïcité has two fundamental principles:\n`;
+            report += `   - Law is human in origin (end of theologico-political)\n`;
+            report += `   - Individuals are respectable independently of community\n\n`;
+            report += `2. Ferry identifies challenges:\n`;
+            report += `   - Rise of communitarianism\n`;
+            report += `   - New forms of antisemitism\n`;
+            report += `   - Question of religious signs in schools\n\n`;
+            report += `3. Ferry's solution:\n`;
+            report += `   - Teaching history of religions\n`;
+            report += `   - Emphasizing shared civilization\n`;
+            report += `   - Individual rather than categorical religious expression\n\n`;
+            
+            report += `═══════════════════════════════════════════════════════\n\n`;
+            
+            report += `Hints used: ${studentData.hintsUsed.length}\n`;
+            report += `Total attempts: ${Object.values(studentData.attempts).reduce((a, b) => a + b, 0)}\n\n`;
+            
+            report += `Keep practicing your French comprehension skills!\n`;
+            
+            const blob = new Blob([report], { type: 'text/plain;charset=utf-8' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            const sanitizedName = studentName.replace(/[^a-zA-Z0-9_-]/g, '_');
+            const dateStr = new Date().toISOString().split('T')[0];
+            a.download = `LucFerry_${sanitizedName}_${dateStr}.txt`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+        
+        function resetAll() {
+            if (confirm('Are you sure you want to reset all answers? Your responses will be cleared.')) {
+                location.reload();
+            }
+        }
+    </script>
+</body>
+</html>

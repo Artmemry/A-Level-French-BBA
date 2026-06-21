@@ -1,0 +1,1609 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cahier de Grammaire Française</title>
+    <style>
+        :root {
+            --primary-color: #3498db;
+            --secondary-color: #2c3e50;
+            --accent-color: #e74c3c;
+            --light-color: #ecf0f1;
+            --success-color: #2ecc71;
+            --warning-color: #f39c12;
+            --dark-color: #34495e;
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f9f9f9;
+            padding-bottom: 60px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            background-color: var(--secondary-color);
+            color: white;
+            padding: 20px 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        h1, h2, h3 {
+            color: var(--secondary-color);
+        }
+        
+        h1 {
+            text-align: center;
+            border-bottom: 2px solid var(--primary-color);
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+        
+        h2 {
+            border-left: 5px solid var(--primary-color);
+            padding-left: 10px;
+            margin-top: 30px;
+            margin-bottom: 15px;
+        }
+        
+        h3 {
+            color: var(--primary-color);
+            margin: 15px 0 10px;
+        }
+        
+        .section {
+            background-color: white;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 25px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+        }
+        
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: center;
+        }
+        
+        th {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        
+        .exercise {
+            background-color: var(--light-color);
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+        }
+        
+        input[type="text"] {
+            padding: 8px;
+            margin: 0 5px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            width: 150px;
+        }
+        
+        button {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+            transition: background-color 0.3s;
+        }
+        
+        button:hover {
+            background-color: var(--secondary-color);
+        }
+        
+        .correct {
+            color: var(--success-color);
+            font-weight: bold;
+        }
+        
+        .incorrect {
+            color: var(--accent-color);
+        }
+        
+        .answer {
+            display: none;
+            margin-top: 10px;
+            padding: 10px;
+            background-color: #f0f8f0;
+            border-left: 4px solid var(--success-color);
+        }
+        
+        .nav {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .nav button {
+            background-color: var(--secondary-color);
+            flex: 1;
+            margin: 5px;
+            min-width: 120px;
+        }
+        
+        .example {
+            font-style: italic;
+            background-color: #f8f9fa;
+            padding: 10px;
+            border-left: 3px solid var(--primary-color);
+            margin: 10px 0;
+        }
+        
+        .underline {
+            text-decoration: underline;
+        }
+        
+        .accent-keyboard {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background-color: var(--dark-color);
+            padding: 10px;
+            display: flex;
+            justify-content: center;
+            z-index: 1000;
+            box-shadow: 0 -2px 5px rgba(0,0,0,0.2);
+        }
+        
+        .accent-keyboard button {
+            background-color: var(--light-color);
+            color: var(--dark-color);
+            margin: 0 5px;
+            font-size: 18px;
+            width: 40px;
+            height: 40px;
+        }
+        
+        .score-display {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background-color: var(--primary-color);
+            color: white;
+            padding: 10px 15px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            z-index: 100;
+        }
+        
+        .download-btn {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background-color: var(--success-color);
+            z-index: 100;
+        }
+        
+        .verb-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 10px;
+            margin: 15px 0;
+        }
+        
+        .verb-item {
+            padding: 8px;
+            background-color: #f5f5f5;
+            border-radius: 4px;
+            text-align: center;
+        }
+        
+        .exercise-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+            margin: 15px 0;
+        }
+        
+        .exercise-item {
+            padding: 10px;
+            background-color: #f9f9f9;
+            border-radius: 5px;
+            border-left: 3px solid var(--primary-color);
+        }
+        
+        @media (max-width: 768px) {
+            .nav {
+                flex-direction: column;
+            }
+            
+            .nav button {
+                width: 100%;
+            }
+            
+            .score-display {
+                position: static;
+                margin-bottom: 15px;
+                text-align: center;
+            }
+            
+            .download-btn {
+                position: static;
+                margin-bottom: 15px;
+            }
+            
+            .exercise-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Cahier de Grammaire Française</h1>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="score-display">
+            Score: <span id="score">0</span>/<span id="total">0</span>
+        </div>
+        
+        <button class="download-btn" onclick="downloadResults()">Télécharger les Résultats</button>
+        
+        <div class="nav">
+            <button onclick="showSection('present')">Le Présent</button>
+            <button onclick="showSection('passe-compose')">Passé Composé</button>
+            <button onclick="showSection('imparfait')">L'Imparfait</button>
+            <button onclick="showSection('futur')">Le Futur</button>
+            <button onclick="showSection('conditionnel')">Le Conditionnel</button>
+            <button onclick="showSection('subjonctif')">Le Subjonctif</button>
+        </div>
+
+        <!-- LE PRÉSENT SECTION -->
+        <div id="present" class="section">
+            <h2>Le Présent de l'Indicatif</h2>
+            <p><strong>Situation:</strong> Actions qui se passent maintenant ou habitudes.</p>
+            
+            <h3>A - Verbes Réguliers</h3>
+            <p><strong>Formation:</strong></p>
+            
+            <table>
+                <tr>
+                    <th>Pronoms</th>
+                    <th>-ER (parler)</th>
+                    <th>-IR (finir)</th>
+                    <th>-RE (vendre)</th>
+                </tr>
+                <tr>
+                    <td>Je/J'</td>
+                    <td>parl<strong>e</strong></td>
+                    <td>fin<strong>is</strong></td>
+                    <td>vend<strong>s</strong></td>
+                </tr>
+                <tr>
+                    <td>Tu</td>
+                    <td>parl<strong>es</strong></td>
+                    <td>fin<strong>is</strong></td>
+                    <td>vend<strong>s</strong></td>
+                </tr>
+                <tr>
+                    <td>Il/Elle/On</td>
+                    <td>parl<strong>e</strong></td>
+                    <td>fin<strong>it</strong></td>
+                    <td>vend</td>
+                </tr>
+                <tr>
+                    <td>Nous</td>
+                    <td>parl<strong>ons</strong></td>
+                    <td>fin<strong>issons</strong></td>
+                    <td>vend<strong>ons</strong></td>
+                </tr>
+                <tr>
+                    <td>Vous</td>
+                    <td>parl<strong>ez</strong></td>
+                    <td>fin<strong>issez</strong></td>
+                    <td>vend<strong>ez</strong></td>
+                </tr>
+                <tr>
+                    <td>Ils/Elles</td>
+                    <td>parl<strong>ent</strong></td>
+                    <td>fin<strong>issent</strong></td>
+                    <td>vend<strong>ent</strong></td>
+                </tr>
+            </table>
+            
+            <div class="example">
+                <p><strong>Exemples:</strong></p>
+                <ul>
+                    <li>Je <strong>parle</strong> français. (I speak French)</li>
+                    <li>J'<strong>aime</strong> le chocolat. (I like chocolate)</li>
+                    <li>Nous <strong>finissons</strong> nos devoirs. (We finish our homework)</li>
+                    <li>Elles <strong>vendent</strong> leur maison. (They sell their house)</li>
+                </ul>
+            </div>
+            
+            <h3>B - Verbes Irréguliers Courants</h3>
+            <div class="verb-list">
+                <div class="verb-item">être → suis, es, est, sommes, êtes, sont</div>
+                <div class="verb-item">avoir → ai, as, a, avons, avez, ont</div>
+                <div class="verb-item">aller → vais, vas, va, allons, allez, vont</div>
+                <div class="verb-item">faire → fais, fais, fait, faisons, faites, font</div>
+                <div class="verb-item">pouvoir → peux, peux, peut, pouvons, pouvez, peuvent</div>
+                <div class="verb-item">vouloir → veux, veux, veut, voulons, voulez, veulent</div>
+                <div class="verb-item">devoir → dois, dois, doit, devons, devez, doivent</div>
+                <div class="verb-item">savoir → sais, sais, sait, savons, savez, savent</div>
+                <div class="verb-item">venir → viens, viens, vient, venons, venez, viennent</div>
+                <div class="verb-item">voir → vois, vois, voit, voyons, voyez, voient</div>
+            </div>
+            
+            <h3>À pratiquer !</h3>
+            
+            <div class="exercise">
+                <p><strong>Complétez avec la forme correcte du présent:</strong></p>
+                <p>Exemple: Je <span class="correct">parle</span> français. (parler)</p>
+                
+                <div class="exercise-grid">
+                    <div class="exercise-item">
+                        <p><strong>Verbes en -ER (avec voyelle):</strong></p>
+                        <ol>
+                            <li>J'<input type="text" id="pr1"> le français. (aimer)</li>
+                            <li>Tu <input type="text" id="pr2"> souvent au cinéma. (aller)</li>
+                            <li>Elle <input type="text" id="pr3"> ses devoirs. (oublier)</li>
+                            <li>Nous <input type="text" id="pr4"> l'ordinateur. (utiliser)</li>
+                            <li>Ils <input type="text" id="pr5"> leurs amis. (inviter)</li>
+                        </ol>
+                    </div>
+                    
+                    <div class="exercise-item">
+                        <p><strong>Verbes en -ER (avec consonne):</strong></p>
+                        <ol>
+                            <li>Nous <input type="text" id="pr6"> à Paris. (habiter)</li>
+                            <li>Tu <input type="text" id="pr7"> du chocolat. (manger)</li>
+                            <li>Elle <input type="text" id="pr8"> la porte. (fermer)</li>
+                            <li>Ils <input type="text" id="pr9"> souvent. (travailler)</li>
+                            <li>Je <input type="text" id="pr10"> la question. (poser)</li>
+                        </ol>
+                    </div>
+                    
+                    <div class="exercise-item">
+                        <p><strong>Verbes en -IR:</strong></p>
+                        <ol>
+                            <li>Ils <input type="text" id="pr11"> leurs devoirs. (finir)</li>
+                            <li>Nous <input type="text" id="pr12"> à minuit. (dormir)</li>
+                            <li>Tu <input type="text" id="pr13"> tes vêtements. (choisir)</li>
+                            <li>Elle <input type="text" id="pr14"> la vérité. (réfléchir)</li>
+                            <li>Je <input type="text" id="pr15"> mon sac. (remplir)</li>
+                        </ol>
+                    </div>
+                    
+                    <div class="exercise-item">
+                        <p><strong>Verbes en -RE:</strong></p>
+                        <ol>
+                            <li>Vous <input type="text" id="pr16"> votre réponse. (attendre)</li>
+                            <li>Il <input type="text" id="pr17"> la leçon. (comprendre)</li>
+                            <li>Nous <input type="text" id="pr18"> des cadeaux. (vendre)</li>
+                            <li>Tu <input type="text" id="pr19"> tes devoirs. (rendre)</li>
+                            <li>Elles <input type="text" id="pr20"> à la question. (répondre)</li>
+                        </ol>
+                    </div>
+                    
+                    <div class="exercise-item">
+                        <p><strong>Verbes irréguliers:</strong></p>
+                        <ol>
+                            <li>Vous <input type="text" id="pr21"> au marché. (aller)</li>
+                            <li>Elle <input type="text" id="pr22"> un livre. (lire)</li>
+                            <li>Nous <input type="text" id="pr23"> faim. (avoir)</li>
+                            <li>Tu <input type="text" id="pr24"> français. (savoir)</li>
+                            <li>Ils <input type="text" id="pr25"> de Paris. (venir)</li>
+                        </ol>
+                    </div>
+                </div>
+                
+                <button onclick="checkExercise('present')">Vérifier les réponses</button>
+                <button onclick="showAnswers('presentAnswers')">Voir les réponses</button>
+                
+                <div id="presentAnswers" class="answer">
+                    <p><strong>Réponses correctes:</strong></p>
+                    <div class="exercise-grid">
+                        <div>
+                            <p><strong>Verbes en -ER (voyelle):</strong></p>
+                            <ol>
+                                <li>aime</li>
+                                <li>vas</li>
+                                <li>oublie</li>
+                                <li>utilisons</li>
+                                <li>invitent</li>
+                            </ol>
+                        </div>
+                        <div>
+                            <p><strong>Verbes en -ER (consonne):</strong></p>
+                            <ol>
+                                <li>habitons</li>
+                                <li>manges</li>
+                                <li>ferme</li>
+                                <li>travaillent</li>
+                                <li>pose</li>
+                            </ol>
+                        </div>
+                        <div>
+                            <p><strong>Verbes en -IR:</strong></p>
+                            <ol>
+                                <li>finissent</li>
+                                <li>dormons</li>
+                                <li>choisis</li>
+                                <li>réfléchit</li>
+                                <li>remplis</li>
+                            </ol>
+                        </div>
+                        <div>
+                            <p><strong>Verbes en -RE:</strong></p>
+                            <ol>
+                                <li>attendez</li>
+                                <li>comprend</li>
+                                <li>vendons</li>
+                                <li>rends</li>
+                                <li>répondent</li>
+                            </ol>
+                        </div>
+                        <div>
+                            <p><strong>Verbes irréguliers:</strong></p>
+                            <ol>
+                                <li>allez</li>
+                                <li>lit</li>
+                                <li>avons</li>
+                                <li>sais</li>
+                                <li>viennent</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- PASSÉ COMPOSÉ SECTION -->
+        <div id="passe-compose" class="section" style="display:none;">
+            <h2>Le Passé Composé</h2>
+            <p><strong>Situation:</strong> Actions passées complétées, équivalent au present perfect ou simple past en anglais.</p>
+            
+            <h3>Formation</h3>
+            <p><strong>AUXILIAIRE (avoir/être) + PARTICIPE PASSÉ</strong></p>
+            
+            <table>
+                <tr>
+                    <th>Pronoms</th>
+                    <th>Avoir</th>
+                    <th>Être</th>
+                </tr>
+                <tr>
+                    <td>Je/J'</td>
+                    <td>ai</td>
+                    <td>suis</td>
+                </tr>
+                <tr>
+                    <td>Tu</td>
+                    <td>as</td>
+                    <td>es</td>
+                </tr>
+                <tr>
+                    <td>Il/Elle/On</td>
+                    <td>a</td>
+                    <td>est</td>
+                </tr>
+                <tr>
+                    <td>Nous</td>
+                    <td>avons</td>
+                    <td>sommes</td>
+                </tr>
+                <tr>
+                    <td>Vous</td>
+                    <td>avez</td>
+                    <td>êtes</td>
+                </tr>
+                <tr>
+                    <td>Ils/Elles</td>
+                    <td>ont</td>
+                    <td>sont</td>
+                </tr>
+            </table>
+            
+            <h3>Participe Passé - Formation</h3>
+            <table>
+                <tr>
+                    <th>Groupe</th>
+                    <th>Terminaison</th>
+                    <th>Exemple</th>
+                </tr>
+                <tr>
+                    <td>-ER</td>
+                    <td>-é</td>
+                    <td>parlé</td>
+                </tr>
+                <tr>
+                    <td>-IR</td>
+                    <td>-i</td>
+                    <td>fini</td>
+                </tr>
+                <tr>
+                    <td>-RE</td>
+                    <td>-u</td>
+                    <td>vendu</td>
+                </tr>
+            </table>
+            
+            <h3>Verbes avec Être (DR MRS VANDERTRAMP)</h3>
+            <div class="verb-list">
+                <div class="verb-item">Devenir → devenu</div>
+                <div class="verb-item">Revenir → revenu</div>
+                <div class="verb-item">Monter → monté</div>
+                <div class="verb-item">Rester → resté</div>
+                <div class="verb-item">Sortir → sorti</div>
+                <div class="verb-item">Venir → venu</div>
+                <div class="verb-item">Aller → allé</div>
+                <div class="verb-item">Naître → né</div>
+                <div class="verb-item">Descendre → descendu</div>
+                <div class="verb-item">Entrer → entré</div>
+                <div class="verb-item">Rentrer → rentré</div>
+                <div class="verb-item">Tomber → tombé</div>
+                <div class="verb-item">Retourner → retourné</div>
+                <div class="verb-item">Arriver → arrivé</div>
+                <div class="verb-item">Mourir → mort</div>
+                <div class="verb-item">Partir → parti</div>
+            </div>
+            
+            <h3>Accord du participe passé</h3>
+            <p>Avec <strong>être</strong>, le participe passé s'accorde en genre et en nombre avec le sujet.</p>
+            <p>Avec <strong>avoir</strong>, le participe passé s'accorde avec le COD si celui-ci est placé avant le verbe.</p>
+            
+            <div class="exercise">
+                <p><strong>Complétez avec la forme correcte du passé composé:</strong></p>
+                
+                <div class="exercise-grid">
+                    <div class="exercise-item">
+                        <p><strong>Avec avoir (verbes réguliers):</strong></p>
+                        <ol>
+                            <li>Hier, j'<input type="text" id="pc1"> un livre. (lire)</li>
+                            <li>Tu <input type="text" id="pc2"> ton devoir. (finir)</li>
+                            <li>Elle <input type="text" id="pc3"> une nouvelle voiture. (acheter)</li>
+                            <li>Nous <input type="text" id="pc4"> le film. (regarder)</li>
+                            <li>Ils <input type="text" id="pc5"> la porte. (fermer)</li>
+                        </ol>
+                    </div>
+                    
+                    <div class="exercise-item">
+                        <p><strong>Avec avoir (verbes irréguliers):</strong></p>
+                        <ol>
+                            <li>J'<input type="text" id="pc6"> un gâteau. (faire)</li>
+                            <li>Tu <input type="text" id="pc7"> la réponse. (savoir)</li>
+                            <li>Il <input type="text" id="pc8"> un cadeau. (recevoir)</li>
+                            <li>Nous <input type="text" id="pc9"> de l'eau. (boire)</li>
+                            <li>Vous <input type="text" id="pc10"> la lettre. (écrire)</li>
+                        </ol>
+                    </div>
+                    
+                    <div class="exercise-item">
+                        <p><strong>Avec être (mouvement):</strong></p>
+                        <ol>
+                            <li>Nous <input type="text" id="pc11"> à Paris la semaine dernière. (aller)</li>
+                            <li>Ils <input type="text" id="pc12"> à la maison. (rester)</li>
+                            <li>Elle <input type="text" id="pc13"> hier. (arriver)</li>
+                            <li>Tu <input type="text" id="pc14"> à 8 heures. (partir)</li>
+                            <li>Je <input type="text" id="pc15"> par la fenêtre. (sortir)</li>
+                        </ol>
+                    </div>
+                    
+                    <div class="exercise-item">
+                        <p><strong>Accords (COD avant le verbe):</strong></p>
+                        <ol>
+                            <li>La pomme que j'<input type="text" id="pc16">. (manger)</li>
+                            <li>Les livres que tu <input type="text" id="pc17">. (lire)</li>
+                            <li>La lettre qu'elle <input type="text" id="pc18">. (écrire)</li>
+                            <li>Les fleurs que nous <input type="text" id="pc19">. (cueillir)</li>
+                            <li>La chanson que vous <input type="text" id="pc20">. (entendre)</li>
+                        </ol>
+                    </div>
+                </div>
+                
+                <button onclick="checkExercise('passe-compose')">Vérifier les réponses</button>
+                <button onclick="showAnswers('pcAnswers')">Voir les réponses</button>
+                
+                <div id="pcAnswers" class="answer">
+                    <p><strong>Réponses correctes:</strong></p>
+                    <div class="exercise-grid">
+                        <div>
+                            <p><strong>Avec avoir (réguliers):</strong></p>
+                            <ol>
+                                <li>ai lu</li>
+                                <li>as fini</li>
+                                <li>a acheté</li>
+                                <li>avons regardé</li>
+                                <li>ont fermé</li>
+                            </ol>
+                        </div>
+                        <div>
+                            <p><strong>Avec avoir (irréguliers):</strong></p>
+                            <ol>
+                                <li>ai fait</li>
+                                <li>as su</li>
+                                <li>a reçu</li>
+                                <li>avons bu</li>
+                                <li>avez écrit</li>
+                            </ol>
+                        </div>
+                        <div>
+                            <p><strong>Avec être:</strong></p>
+                            <ol>
+                                <li>sommes allés</li>
+                                <li>sont restés</li>
+                                <li>est arrivée</li>
+                                <li>es parti(e)</li>
+                                <li>suis sorti(e)</li>
+                            </ol>
+                        </div>
+                        <div>
+                            <p><strong>Accords:</strong></p>
+                            <ol>
+                                <li>ai mangée</li>
+                                <li>as lus</li>
+                                <li>a écrite</li>
+                                <li>avons cueillies</li>
+                                <li>avez entendue</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- IMPARFAIT SECTION -->
+        <div id="imparfait" class="section" style="display:none;">
+            <h2>L'Imparfait</h2>
+            <p><strong>Situation:</strong> Actions habituelles dans le passé, descriptions, actions en cours dans le passé.</p>
+            
+            <h3>Formation</h3>
+            <p>Nous-forme du présent, enlever -ons, ajouter:</p>
+            
+            <table>
+                <tr>
+                    <th>Pronoms</th>
+                    <th>Terminaison</th>
+                    <th>Exemple (parler)</th>
+                </tr>
+                <tr>
+                    <td>Je/J'</td>
+                    <td>-ais</td>
+                    <td>parl<strong>ais</strong></td>
+                </tr>
+                <tr>
+                    <td>Tu</td>
+                    <td>-ais</td>
+                    <td>parl<strong>ais</strong></td>
+                </tr>
+                <tr>
+                    <td>Il/Elle/On</td>
+                    <td>-ait</td>
+                    <td>parl<strong>ait</strong></td>
+                </tr>
+                <tr>
+                    <td>Nous</td>
+                    <td>-ions</td>
+                    <td>parl<strong>ions</strong></td>
+                </tr>
+                <tr>
+                    <td>Vous</td>
+                    <td>-iez</td>
+                    <td>parl<strong>iez</strong></td>
+                </tr>
+                <tr>
+                    <td>Ils/Elles</td>
+                    <td>-aient</td>
+                    <td>parl<strong>aient</strong></td>
+                </tr>
+            </table>
+            
+            <div class="example">
+                <p><strong>Exemples:</strong></p>
+                <ul>
+                    <li>Quand j'<strong>étais</strong> jeune, je <strong>jouais</strong> au football.</li>
+                    <li>Il <strong>faisait</strong> beau et le soleil <strong>brillait</strong>.</li>
+                    <li>Nous <strong>allions</strong> souvent à la plage.</li>
+                </ul>
+            </div>
+            
+            <h3>Exceptions à la formation</h3>
+            <div class="verb-list">
+                <div class="verb-item">être → j'étais, tu étais, il était, nous étions, vous étiez, ils étaient</div>
+            </div>
+            
+            <div class="exercise">
+                <p><strong>Complétez avec la forme correcte de l'imparfait:</strong></p>
+                
+                <div class="exercise-grid">
+                    <div class="exercise-item">
+                        <p><strong>Actions habituelles:</strong></p>
+                        <ol>
+                            <li>Quand j'<input type="text" id="im1"> enfant, je <input type="text" id="im2"> beaucoup. (être, jouer)</li>
+                            <li>Nous <input type="text" id="im3"> toujours à la même école. (aller)</li>
+                            <li>Tu <input type="text" id="im4"> souvent chez ta grand-mère. (passer)</li>
+                            <li>Elles <input type="text" id="im5"> dans la même rue. (habiter)</li>
+                            <li>Vous <input type="text" id="im6"> toujours des bonnes notes. (avoir)</li>
+                        </ol>
+                    </div>
+                    
+                    <div class="exercise-item">
+                        <p><strong>Description:</strong></p>
+                        <ol>
+                            <li>Il <input type="text" id="im7"> souvent à la campagne. (voyager)</li>
+                            <li>Le ciel <input type="text" id="im8"> bleu. (être)</li>
+                            <li>Les oiseaux <input type="text" id="im9">. (chanter)</li>
+                            <li>Nous <input type="text" id="im10"> heureux. (être)</li>
+                            <li>Tu <input type="text" id="im11"> toujours souriant. (être)</li>
+                        </ol>
+                    </div>
+                    
+                    <div class="exercise-item">
+                        <p><strong>Actions en cours:</strong></p>
+                        <ol>
+                            <li>Quand il est entré, je <input type="text" id="im12">. (lire)</li>
+                            <li>Pendant qu'elle <input type="text" id="im13">, il a téléphoné. (cuisiner)</li>
+                            <li>Nous <input type="text" id="im14"> quand le tremblement de terre a commencé. (dormir)</li>
+                            <li>Tu <input type="text" id="im15"> quand je t'ai appelé. (étudier)</li>
+                            <li>Ils <input type="text" id="im16"> au parc quand il a commencé à pleuvoir. (jouer)</li>
+                        </ol>
+                    </div>
+                    
+                    <div class="exercise-item">
+                        <p><strong>Verbes irréguliers:</strong></p>
+                        <ol>
+                            <li>Je <input type="text" id="im17"> faire mes devoirs. (devoir)</li>
+                            <li>Nous <input type="text" id="im18"> partir en vacances. (vouloir)</li>
+                            <li>Tu <input type="text" id="im19"> nager. (pouvoir)</li>
+                            <li>Il <input type="text" id="im20"> la vérité. (savoir)</li>
+                            <li>Vous <input type="text" id="im21"> souvent au cinéma. (aller)</li>
+                        </ol>
+                    </div>
+                </div>
+                
+                <button onclick="checkExercise('imparfait')">Vérifier les réponses</button>
+                <button onclick="showAnswers('imAnswers')">Voir les réponses</button>
+                
+                <div id="imAnswers" class="answer">
+                    <p><strong>Réponses correctes:</strong></p>
+                    <div class="exercise-grid">
+                        <div>
+                            <p><strong>Actions habituelles:</strong></p>
+                            <ol>
+                                <li>étais, jouais</li>
+                                <li>allions</li>
+                                <li>passais</li>
+                                <li>habitaient</li>
+                                <li>aviez</li>
+                            </ol>
+                        </div>
+                        <div>
+                            <p><strong>Description:</strong></p>
+                            <ol>
+                                <li>voyageait</li>
+                                <li>était</li>
+                                <li>chantaient</li>
+                                <li>étions</li>
+                                <li>étais</li>
+                            </ol>
+                        </div>
+                        <div>
+                            <p><strong>Actions en cours:</strong></p>
+                            <ol>
+                                <li>lisais</li>
+                                <li>cuisinait</li>
+                                <li>dormions</li>
+                                <li>étudiais</li>
+                                <li>jouaient</li>
+                            </ol>
+                        </div>
+                        <div>
+                            <p><strong>Verbes irréguliers:</strong></p>
+                            <ol>
+                                <li>devais</li>
+                                <li>voulions</li>
+                                <li>pouvais</li>
+                                <li>savait</li>
+                                <li>alliez</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- FUTUR SECTION -->
+        <div id="futur" class="section" style="display:none;">
+            <h2>Le Futur Simple</h2>
+            <p><strong>Situation:</strong> Actions qui auront lieu dans le futur.</p>
+            
+            <h3>Formation - Verbes Réguliers</h3>
+            <p>Infinitif complet + terminaisons:</p>
+            
+            <table>
+                <tr>
+                    <th>Pronoms</th>
+                    <th>Terminaison</th>
+                    <th>Exemple (parler)</th>
+                </tr>
+                <tr>
+                    <td>Je/J'</td>
+                    <td>-ai</td>
+                    <td>parler<strong>ai</strong></td>
+                </tr>
+                <tr>
+                    <td>Tu</td>
+                    <td>-as</td>
+                    <td>parler<strong>as</strong></td>
+                </tr>
+                <tr>
+                    <td>Il/Elle/On</td>
+                    <td>-a</td>
+                    <td>parler<strong>a</strong></td>
+                </tr>
+                <tr>
+                    <td>Nous</td>
+                    <td>-ons</td>
+                    <td>parler<strong>ons</strong></td>
+                </tr>
+                <tr>
+                    <td>Vous</td>
+                    <td>-ez</td>
+                    <td>parler<strong>ez</strong></td>
+                </tr>
+                <tr>
+                    <td>Ils/Elles</td>
+                    <td>-ont</td>
+                    <td>parler<strong>ont</strong></td>
+                </tr>
+            </table>
+            
+            <h3>Verbes Irréguliers Courants</h3>
+            <div class="verb-list">
+                <div class="verb-item">être → serai, seras, sera, serons, serez, seront</div>
+                <div class="verb-item">avoir → aurai, auras, aura, aurons, aurez, auront</div>
+                <div class="verb-item">aller → irai, iras, ira, irons, irez, iront</div>
+                <div class="verb-item">faire → ferai, feras, fera, ferons, ferez, feront</div>
+                <div class="verb-item">pouvoir → pourrai, pourras, pourra, pourrons, pourrez, pourront</div>
+                <div class="verb-item">venir → viendrai, viendras, viendra, viendrons, viendrez, viendront</div>
+                <div class="verb-item">voir → verrai, verras, verra, verrons, verrez, verront</div>
+                <div class="verb-item">vouloir → voudrai, voudras, voudra, voudrons, voudrez, voudront</div>
+                <div class="verb-item">savoir → saurai, sauras, saura, saurons, saurez, sauront</div>
+                <div class="verb-item">devoir → devrai, devras, devra, devrons, devrez, devront</div>
+            </div>
+            
+            <div class="exercise">
+                <p><strong>Complétez avec la forme correcte du futur:</strong></p>
+                
+                <div class="exercise-grid">
+                    <div class="exercise-item">
+                        <p><strong>Verbes réguliers:</strong></p>
+                        <ol>
+                            <li>Demain, je <input type="text" id="f1"> à Paris. (aller)</li>
+                            <li>Nous <input type="text" id="f2"> nos devoirs ce soir. (finir)</li>
+                            <li>Tu <input type="text" id="f3"> bientôt français. (parler)</li>
+                            <li>Ils <input type="text" id="f4"> dans une grande maison. (habiter)</li>
+                            <li>Vous <input type="text" id="f5"> la réponse demain. (savoir)</li>
+                        </ol>
+                    </div>
+                    
+                    <div class="exercise-item">
+                        <p><strong>Verbes irréguliers:</strong></p>
+                        <ol>
+                            <li>Elle <input type="text" id="f6"> médecin plus tard. (être)</li>
+                            <li>Nous <input type="text" id="f7"> à la fête. (venir)</li>
+                            <li>Tu <input type="text" id="f8"> ton examen. (pouvoir)</li>
+                            <li>Ils <input type="text" id="f9"> un gâteau. (faire)</li>
+                            <li>Je <input type="text" id="f10"> de l'argent. (avoir)</li>
+                        </ol>
+                    </div>
+                    
+                    <div class="exercise-item">
+                        <p><strong>Pronostics et prédictions:</strong></p>
+                        <ol>
+                            <li>Un jour, tu <input type="text" id="f11"> célèbre. (devenir)</li>
+                            <li>Je pense qu'il <input type="text" id="f12"> demain. (pleuvoir)</li>
+                            <li>Nous <input type="text" id="f13"> bientôt nos vacances. (prendre)</li>
+                            <li>Tu <input type="text" id="f14"> tes études l'année prochaine. (terminer)</li>
+                            <li>Ils <input type="text" id="f15"> mariés en juin. (se marier)</li>
+                        </ol>
+                    </div>
+                    
+                    <div class="exercise-item">
+                        <p><strong>Engagements et promesses:</strong></p>
+                        <ol>
+                            <li>Je te <input type="text" id="f16"> dès que j'arrive. (téléphoner)</li>
+                            <li>Nous vous <input type="text" id="f17"> la vérité. (dire)</li>
+                            <li>Tu <input type="text" id="f18"> attention la prochaine fois. (faire)</li>
+                            <li>Elle <input type="text" id="f19"> son meilleur. (donner)</li>
+                            <li>Vous ne <input type="text" id="f20"> plus jamais. (recommencer)</li>
+                        </ol>
+                    </div>
+                </div>
+                
+                <button onclick="checkExercise('futur')">Vérifier les réponses</button>
+                <button onclick="showAnswers('futurAnswers')">Voir les réponses</button>
+                
+                <div id="futurAnswers" class="answer">
+                    <p><strong>Réponses correctes:</strong></p>
+                    <div class="exercise-grid">
+                        <div>
+                            <p><strong>Verbes réguliers:</strong></p>
+                            <ol>
+                                <li>irai</li>
+                                <li>finirons</li>
+                                <li>parleras</li>
+                                <li>habiteront</li>
+                                <li>saurez</li>
+                            </ol>
+                        </div>
+                        <div>
+                            <p><strong>Verbes irréguliers:</strong></p>
+                            <ol>
+                                <li>sera</li>
+                                <li>viendrons</li>
+                                <li>pourras</li>
+                                <li>feront</li>
+                                <li>aurai</li>
+                            </ol>
+                        </div>
+                        <div>
+                            <p><strong>Pronostics:</strong></p>
+                            <ol>
+                                <li>deviendras</li>
+                                <li>pleuvra</li>
+                                <li>prendrons</li>
+                                <li>termineras</li>
+                                <li>se marieront</li>
+                            </ol>
+                        </div>
+                        <div>
+                            <p><strong>Engagements:</strong></p>
+                            <ol>
+                                <li>téléphonerai</li>
+                                <li>dirons</li>
+                                <li>feras</li>
+                                <li>donnera</li>
+                                <li>recommencerez</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- CONDITIONNEL SECTION -->
+        <div id="conditionnel" class="section" style="display:none;">
+            <h2>Le Conditionnel Présent</h2>
+            <p><strong>Situation:</strong> Exprime une action qui aurait lieu sous certaines conditions (équivalent à "would" en anglais).</p>
+            
+            <h3>Formation</h3>
+            <p>Radical du futur + terminaisons de l'imparfait:</p>
+            
+            <table>
+                <tr>
+                    <th>Pronoms</th>
+                    <th>Terminaison</th>
+                    <th>Exemple (parler)</th>
+                </tr>
+                <tr>
+                    <td>Je/J'</td>
+                    <td>-ais</td>
+                    <td>parler<strong>ais</strong></td>
+                </tr>
+                <tr>
+                    <td>Tu</td>
+                    <td>-ais</td>
+                    <td>parler<strong>ais</strong></td>
+                </tr>
+                <tr>
+                    <td>Il/Elle/On</td>
+                    <td>-ait</td>
+                    <td>parler<strong>ait</strong></td>
+                </tr>
+                <tr>
+                    <td>Nous</td>
+                    <td>-ions</td>
+                    <td>parler<strong>ions</strong></td>
+                </tr>
+                <tr>
+                    <td>Vous</td>
+                    <td>-iez</td>
+                    <td>parler<strong>iez</strong></td>
+                </tr>
+                <tr>
+                    <td>Ils/Elles</td>
+                    <td>-aient</td>
+                    <td>parler<strong>aient</strong></td>
+                </tr>
+            </table>
+            
+            <div class="example">
+                <p><strong>Exemples:</strong></p>
+                <ul>
+                    <li>Je <strong>voyagerais</strong> si j'avais de l'argent.</li>
+                    <li>Nous <strong>achèterions</strong> une maison plus grande.</li>
+                    <li>Tu <strong>devrais</strong> étudier davantage.</li>
+                </ul>
+            </div>
+            
+            <div class="exercise">
+                <p><strong>Complétez avec la forme correcte du conditionnel:</strong></p>
+                
+                <div class="exercise-grid">
+                    <div class="exercise-item">
+                        <p><strong>Hypothèses:</strong></p>
+                        <ol>
+                            <li>Si j'avais le temps, je <input type="text" id="c1"> plus. (voyager)</li>
+                            <li>Nous <input type="text" id="c2"> heureux de vous aider. (être)</li>
+                            <li>Tu <input type="text" id="c3"> à l'université. (aller)</li>
+                            <li>Ils <input type="text" id="c4"> un meilleur travail. (trouver)</li>
+                            <li>Elle <input type="text" id="c5"> une nouvelle voiture. (acheter)</li>
+                        </ol>
+                    </div>
+                    
+                    <div class="exercise-item">
+                        <p><strong>Conseils:</strong></p>
+                        <ol>
+                            <li>Tu <input type="text" id="c6"> plus attention. (faire)</li>
+                            <li>Nous <input type="text" id="c7"> plus tôt. (partir)</li>
+                            <li>Vous <input type="text" id="c8"> votre médecin. (consulter)</li>
+                            <li>Il <input type="text" id="c9"> ses leçons. (réviser)</li>
+                            <li>Je <input type="text" id="c10"> au lieu de parler. (écouter)</li>
+                        </ol>
+                    </div>
+                    
+                    <div class="exercise-item">
+                        <p><strong>Souhaits:</strong></p>
+                        <ol>
+                            <li>J'<input type="text" id="c11"> visiter le Japon. (aimer)</li>
+                            <li>Nous <input type="text" id="c12"> rencontrer le président. (vouloir)</li>
+                            <li>Tu <input type="text" id="c13"> venir avec nous. (pouvoir)</li>
+                            <li>Ils <input type="text" id="c14"> rester plus longtemps. (devoir)</li>
+                            <li>Elle <input type="text" id="c15"> savoir la vérité. (préférer)</li>
+                        </ol>
+                    </div>
+                    
+                    <div class="exercise-item">
+                        <p><strong>Politesse:</strong></p>
+                        <ol>
+                            <li>Je <input type="text" id="c16"> un café, s'il vous plaît. (vouloir)</li>
+                            <li>Nous <input type="text" id="c17"> vous parler. (aimer)</li>
+                            <li>Vous <input type="text" id="c18"> nous aider? (pouvoir)</li>
+                            <li>Tu <input type="text" id="c19"> fermer la porte? (vouloir)</li>
+                            <li>Il <input type="text" id="c20"> savoir l'heure. (devoir)</li>
+                        </ol>
+                    </div>
+                </div>
+                
+                <button onclick="checkExercise('conditionnel')">Vérifier les réponses</button>
+                <button onclick="showAnswers('conditionnelAnswers')">Voir les réponses</button>
+                
+                <div id="conditionnelAnswers" class="answer">
+                    <p><strong>Réponses correctes:</strong></p>
+                    <div class="exercise-grid">
+                        <div>
+                            <p><strong>Hypothèses:</strong></p>
+                            <ol>
+                                <li>voyagerais</li>
+                                <li>serions</li>
+                                <li>irais</li>
+                                <li>trouveraient</li>
+                                <li>achèterait</li>
+                            </ol>
+                        </div>
+                        <div>
+                            <p><strong>Conseils:</strong></p>
+                            <ol>
+                                <li>devrais</li>
+                                <li>devrions</li>
+                                <li>devriez</li>
+                                <li>devrait</li>
+                                <li>devrais</li>
+                            </ol>
+                        </div>
+                        <div>
+                            <p><strong>Souhaits:</strong></p>
+                            <ol>
+                                <li>aimerais</li>
+                                <li>voudrions</li>
+                                <li>pourrais</li>
+                                <li>devraient</li>
+                                <li>préférerait</li>
+                            </ol>
+                        </div>
+                        <div>
+                            <p><strong>Politesse:</strong></p>
+                            <ol>
+                                <li>voudrais</li>
+                                <li>aimerions</li>
+                                <li>pourriez</li>
+                                <li>voudrais</li>
+                                <li>devrait</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SUBJONCTIF SECTION -->
+        <div id="subjonctif" class="section" style="display:none;">
+            <h2>Le Subjonctif Présent</h2>
+            <p><strong>Situation:</strong> Exprime le doute, l'émotion, la volonté, le souhait, l'obligation.</p>
+            
+            <h3>Formation</h3>
+            <p>Ils/elles-forme du présent, enlever -ent, ajouter:</p>
+            
+            <table>
+                <tr>
+                    <th>Pronoms</th>
+                    <th>Terminaison</th>
+                    <th>Exemple (parler)</th>
+                </tr>
+                <tr>
+                    <td>Que je</td>
+                    <td>-e</td>
+                    <td>parl<strong>e</strong></td>
+                </tr>
+                <tr>
+                    <td>Que tu</td>
+                    <td>-es</td>
+                    <td>parl<strong>es</strong></td>
+                </tr>
+                <tr>
+                    <td>Qu'il/elle/on</td>
+                    <td>-e</td>
+                    <td>parl<strong>e</strong></td>
+                </tr>
+                <tr>
+                    <td>Que nous</td>
+                    <td>-ions</td>
+                    <td>parl<strong>ions</strong></td>
+                </tr>
+                <tr>
+                    <td>Que vous</td>
+                    <td>-iez</td>
+                    <td>parl<strong>iez</strong></td>
+                </tr>
+                <tr>
+                    <td>Qu'ils/elles</td>
+                    <td>-ent</td>
+                    <td>parl<strong>ent</strong></td>
+                </tr>
+            </table>
+            
+            <h3>Verbes Irréguliers Courants</h3>
+            <div class="verb-list">
+                <div class="verb-item">être → sois, sois, soit, soyons, soyez, soient</div>
+                <div class="verb-item">avoir → aie, aies, ait, ayons, ayez, aient</div>
+                <div class="verb-item">aller → aille, ailles, aille, allions, alliez, aillent</div>
+                <div class="verb-item">faire → fasse, fasses, fasse, fassions, fassiez, fassent</div>
+                <div class="verb-item">pouvoir → puisse, puisses, puisse, puissions, puissiez, puissent</div>
+                <div class="verb-item">savoir → sache, saches, sache, sachions, sachiez, sachent</div>
+                <div class="verb-item">vouloir → veuille, veuilles, veuille, voulions, vouliez, veuillent</div>
+                <div class="verb-item">venir → vienne, viennes, vienne, venions, veniez, viennent</div>
+            </div>
+            
+            <div class="exercise">
+                <p><strong>Complétez avec la forme correcte du subjonctif:</strong></p>
+                
+                <div class="exercise-grid">
+                    <div class="exercise-item">
+                        <p><strong>Obligation:</strong></p>
+                        <ol>
+                            <li>Il faut que je <input type="text" id="s1"> mes devoirs. (faire)</li>
+                            <li>Il est nécessaire que tu <input type="text" id="s2"> à l'heure. (être)</li>
+                            <li>Il faut qu'elle <input type="text" id="s3"> plus. (étudier)</li>
+                            <li>Il est important que nous <input type="text" id="s4">. (réussir)</li>
+                            <li>Il faut qu'ils <input type="text" id="s5"> leur passeport. (avoir)</li>
+                        </ol>
+                    </div>
+                    
+                    <div class="exercise-item">
+                        <p><strong>Souhait:</strong></p>
+                        <ol>
+                            <li>Je veux que nous <input type="text" id="s6"> à la fête. (aller)</li>
+                            <li>Elle souhaite que tu <input type="text" id="s7">. (venir)</li>
+                            <li>Nous préférons que vous <input type="text" id="s8"> la vérité. (savoir)</li>
+                            <li>Je désire qu'il <input type="text" id="s9"> heureux. (être)</li>
+                            <li>Ils aimeraient que je <input type="text" id="s10">. (rester)</li>
+                        </ol>
+                    </div>
+                    
+                    <div class="exercise-item">
+                        <p><strong>Doute:</strong></p>
+                        <ol>
+                            <li>Je doute qu'elle <input type="text" id="s11"> la réponse. (savoir)</li>
+                            <li>Il est possible qu'il <input type="text" id="s12"> demain. (pleuvoir)</li>
+                            <li>Je ne crois pas que nous <input type="text" id="s13"> à temps. (arriver)</li>
+                            <li>Il est peu probable qu'ils <input type="text" id="s14">. (gagner)</li>
+                            <li>Je ne pense pas que tu <input type="text" id="s15">. (comprendre)</li>
+                        </ol>
+                    </div>
+                    
+                    <div class="exercise-item">
+                        <p><strong>Émotion:</strong></p>
+                        <ol>
+                            <li>Je suis content que vous <input type="text" id="s16">. (venir)</li>
+                            <li>Elle est triste qu'il <input type="text" id="s17">. (partir)</li>
+                            <li>Nous sommes heureux que tu <input type="text" id="s18"> mieux. (aller)</li>
+                            <li>Je regrette qu'ils ne <input type="text" id="s19"> pas. (pouvoir)</li>
+                            <li>Il est furieux que nous <input type="text" id="s20"> en retard. (être)</li>
+                        </ol>
+                    </div>
+                </div>
+                
+                <button onclick="checkExercise('subjonctif')">Vérifier les réponses</button>
+                <button onclick="showAnswers('subjonctifAnswers')">Voir les réponses</button>
+                
+                <div id="subjonctifAnswers" class="answer">
+                    <p><strong>Réponses correctes:</strong></p>
+                    <div class="exercise-grid">
+                        <div>
+                            <p><strong>Obligation:</strong></p>
+                            <ol>
+                                <li>fasse</li>
+                                <li>sois</li>
+                                <li>étudie</li>
+                                <li>réussissions</li>
+                                <li>aient</li>
+                            </ol>
+                        </div>
+                        <div>
+                            <p><strong>Souhait:</strong></p>
+                            <ol>
+                                <li>allions</li>
+                                <li>viennes</li>
+                                <li>sachiez</li>
+                                <li>soit</li>
+                                <li>reste</li>
+                            </ol>
+                        </div>
+                        <div>
+                            <p><strong>Doute:</strong></p>
+                            <ol>
+                                <li>sache</li>
+                                <li>pleuve</li>
+                                <li>arrivions</li>
+                                <li>gagnent</li>
+                                <li>comprennes</li>
+                            </ol>
+                        </div>
+                        <div>
+                            <p><strong>Émotion:</strong></p>
+                            <ol>
+                                <li>veniez</li>
+                                <li>parte</li>
+                                <li>ailles</li>
+                                <li>puissent</li>
+                                <li>soyons</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ACCENT KEYBOARD -->
+    <div class="accent-keyboard">
+        <button onclick="insertAccent('à')">à</button>
+        <button onclick="insertAccent('â')">â</button>
+        <button onclick="insertAccent('é')">é</button>
+        <button onclick="insertAccent('è')">è</button>
+        <button onclick="insertAccent('ê')">ê</button>
+        <button onclick="insertAccent('ë')">ë</button>
+        <button onclick="insertAccent('î')">î</button>
+        <button onclick="insertAccent('ï')">ï</button>
+        <button onclick="insertAccent('ô')">ô</button>
+        <button onclick="insertAccent('ù')">ù</button>
+        <button onclick="insertAccent('û')">û</button>
+        <button onclick="insertAccent('ü')">ü</button>
+        <button onclick="insertAccent('ç')">ç</button>
+    </div>
+
+    <script>
+        // Store user progress
+        const userProgress = {
+            score: 0,
+            total: 0,
+            sections: {}
+        };
+        
+        // Navigation functions
+        function showSection(section) {
+            // Hide all sections
+            const sections = document.querySelectorAll('.section');
+            sections.forEach(sec => {
+                sec.style.display = 'none';
+            });
+            
+            // Show selected section
+            document.getElementById(section).style.display = 'block';
+        }
+        
+        // Show/hide answer keys
+        function showAnswers(id) {
+            const answerDiv = document.getElementById(id);
+            if (answerDiv.style.display === 'block') {
+                answerDiv.style.display = 'none';
+            } else {
+                answerDiv.style.display = 'block';
+            }
+        }
+        
+        // Insert accent characters
+        function insertAccent(char) {
+            const activeElement = document.activeElement;
+            if (activeElement && activeElement.tagName === 'INPUT') {
+                const start = activeElement.selectionStart;
+                const end = activeElement.selectionEnd;
+                const value = activeElement.value;
+                
+                activeElement.value = value.substring(0, start) + char + value.substring(end);
+                activeElement.selectionStart = activeElement.selectionEnd = start + char.length;
+                activeElement.focus();
+            }
+        }
+        
+        // Check answers for exercises
+        function checkExercise(section) {
+            const answers = {
+                'present': {
+                    pr1: 'aime',
+                    pr2: 'vas',
+                    pr3: 'oublie',
+                    pr4: 'utilisons',
+                    pr5: 'invitent',
+                    pr6: 'habitons',
+                    pr7: 'manges',
+                    pr8: 'ferme',
+                    pr9: 'travaillent',
+                    pr10: 'pose',
+                    pr11: 'finissent',
+                    pr12: 'dormons',
+                    pr13: 'choisis',
+                    pr14: 'réfléchit',
+                    pr15: 'remplis',
+                    pr16: 'attendez',
+                    pr17: 'comprend',
+                    pr18: 'vendons',
+                    pr19: 'rends',
+                    pr20: 'répondent',
+                    pr21: 'allez',
+                    pr22: 'lit',
+                    pr23: 'avons',
+                    pr24: 'sais',
+                    pr25: 'viennent'
+                },
+                'passe-compose': {
+                    pc1: 'ai lu',
+                    pc2: 'as fini',
+                    pc3: 'a acheté',
+                    pc4: 'avons regardé',
+                    pc5: 'ont fermé',
+                    pc6: 'ai fait',
+                    pc7: 'as su',
+                    pc8: 'a reçu',
+                    pc9: 'avons bu',
+                    pc10: 'avez écrit',
+                    pc11: 'sommes allés',
+                    pc12: 'sont restés',
+                    pc13: 'est arrivée',
+                    pc14: 'es parti(e)',
+                    pc15: 'suis sorti(e)',
+                    pc16: 'ai mangée',
+                    pc17: 'as lus',
+                    pc18: 'a écrite',
+                    pc19: 'avons cueillies',
+                    pc20: 'avez entendue'
+                },
+                'imparfait': {
+                    im1: 'étais',
+                    im2: 'jouais',
+                    im3: 'allions',
+                    im4: 'passais',
+                    im5: 'habitaient',
+                    im6: 'aviez',
+                    im7: 'voyageait',
+                    im8: 'était',
+                    im9: 'chantaient',
+                    im10: 'étions',
+                    im11: 'étais',
+                    im12: 'lisais',
+                    im13: 'cuisinait',
+                    im14: 'dormions',
+                    im15: 'étudiais',
+                    im16: 'jouaient',
+                    im17: 'devais',
+                    im18: 'voulions',
+                    im19: 'pouvais',
+                    im20: 'savait',
+                    im21: 'alliez'
+                },
+                'futur': {
+                    f1: 'irai',
+                    f2: 'finirons',
+                    f3: 'parleras',
+                    f4: 'habiteront',
+                    f5: 'saurez',
+                    f6: 'sera',
+                    f7: 'viendrons',
+                    f8: 'pourras',
+                    f9: 'feront',
+                    f10: 'aurai',
+                    f11: 'deviendras',
+                    f12: 'pleuvra',
+                    f13: 'prendrons',
+                    f14: 'termineras',
+                    f15: 'se marieront',
+                    f16: 'téléphonerai',
+                    f17: 'dirons',
+                    f18: 'feras',
+                    f19: 'donnera',
+                    f20: 'recommencerez'
+                },
+                'conditionnel': {
+                    c1: 'voyagerais',
+                    c2: 'serions',
+                    c3: 'irais',
+                    c4: 'trouveraient',
+                    c5: 'achèterait',
+                    c6: 'devrais',
+                    c7: 'devrions',
+                    c8: 'devriez',
+                    c9: 'devrait',
+                    c10: 'devrais',
+                    c11: 'aimerais',
+                    c12: 'voudrions',
+                    c13: 'pourrais',
+                    c14: 'devraient',
+                    c15: 'préférerait',
+                    c16: 'voudrais',
+                    c17: 'aimerions',
+                    c18: 'pourriez',
+                    c19: 'voudrais',
+                    c20: 'devrait'
+                },
+                'subjonctif': {
+                    s1: 'fasse',
+                    s2: 'sois',
+                    s3: 'étudie',
+                    s4: 'réussissions',
+                    s5: 'aient',
+                    s6: 'allions',
+                    s7: 'viennes',
+                    s8: 'sachiez',
+                    s9: 'soit',
+                    s10: 'reste',
+                    s11: 'sache',
+                    s12: 'pleuve',
+                    s13: 'arrivions',
+                    s14: 'gagnent',
+                    s15: 'comprennes',
+                    s16: 'veniez',
+                    s17: 'parte',
+                    s18: 'ailles',
+                    s19: 'puissent',
+                    s20: 'soyons'
+                }
+            };
+            
+            let correctCount = 0;
+            const sectionAnswers = answers[section];
+            
+            for (let key in sectionAnswers) {
+                const input = document.getElementById(key);
+                const userAnswer = input.value.toLowerCase().trim();
+                const correctAnswer = sectionAnswers[key].toLowerCase();
+                
+                // For answers with optional gender agreement
+                let isCorrect = false;
+                if (correctAnswer.includes('(e)')) {
+                    const baseAnswer = correctAnswer.replace('(e)', '');
+                    isCorrect = userAnswer === baseAnswer + 'e' || userAnswer === baseAnswer;
+                } else {
+                    isCorrect = userAnswer === correctAnswer;
+                }
+                
+                if (isCorrect) {
+                    input.style.borderColor = 'green';
+                    input.style.backgroundColor = '#e8f5e8';
+                    correctCount++;
+                } else {
+                    input.style.borderColor = 'red';
+                    input.style.backgroundColor = '#fde8e8';
+                }
+            }
+            
+            // Update score
+            if (!userProgress.sections[section]) {
+                userProgress.sections[section] = { attempted: true };
+                userProgress.total += Object.keys(sectionAnswers).length;
+            }
+            
+            userProgress.score += correctCount - (userProgress.sections[section].lastCorrect || 0);
+            userProgress.sections[section].lastCorrect = correctCount;
+            
+            updateScoreDisplay();
+        }
+        
+        // Update score display
+        function updateScoreDisplay() {
+            document.getElementById('score').textContent = userProgress.score;
+            document.getElementById('total').textContent = userProgress.total;
+        }
+        
+        // Download results
+        function downloadResults() {
+            let content = "RÉSULTATS - CAHIER DE GRAMMAIRE FRANÇAISE\n";
+            content += "===========================================\n\n";
+            content += `Score total: ${userProgress.score}/${userProgress.total}\n\n`;
+            
+            content += "Sections complétées:\n";
+            for (let section in userProgress.sections) {
+                content += `- ${getSectionName(section)}\n`;
+            }
+            
+            content += "\nContinuez à pratiquer !\n";
+            
+            const blob = new Blob([content], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'resultats_grammaire.txt';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+        
+        // Get section name for download
+        function getSectionName(section) {
+            const names = {
+                'present': 'Le Présent',
+                'passe-compose': 'Passé Composé',
+                'imparfait': 'L\'Imparfait',
+                'futur': 'Le Futur',
+                'conditionnel': 'Le Conditionnel',
+                'subjonctif': 'Le Subjonctif'
+            };
+            
+            return names[section] || section;
+        }
+        
+        // Initialize
+        updateScoreDisplay();
+    </script>
+</body>
+</html>

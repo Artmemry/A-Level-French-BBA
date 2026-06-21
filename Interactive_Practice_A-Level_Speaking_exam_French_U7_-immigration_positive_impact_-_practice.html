@@ -1,0 +1,913 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Practice: L'Immigration en France</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+        
+        .timer {
+            background: rgba(255,255,255,0.2);
+            padding: 10px 20px;
+            border-radius: 25px;
+            display: inline-block;
+            margin-top: 15px;
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+        
+        .content {
+            padding: 30px;
+        }
+        
+        .section {
+            margin-bottom: 40px;
+            padding: 25px;
+            background: #f8f9fa;
+            border-radius: 15px;
+            border-left: 5px solid #667eea;
+        }
+        
+        .section h2 {
+            color: #1e3c72;
+            margin-bottom: 20px;
+            font-size: 1.5em;
+        }
+        
+        .question {
+            margin-bottom: 25px;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .question-number {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 30px;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+        
+        .question p {
+            margin-bottom: 15px;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        input[type="text"], textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1em;
+            transition: border-color 0.3s;
+            font-family: inherit;
+        }
+        
+        input[type="text"]:focus, textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        
+        textarea {
+            min-height: 80px;
+            resize: vertical;
+        }
+        
+        .clue {
+            background: #fff3cd;
+            padding: 10px 15px;
+            border-radius: 8px;
+            margin-top: 10px;
+            font-size: 0.9em;
+            color: #856404;
+            border-left: 4px solid #ffc107;
+        }
+        
+        .checkbox-group {
+            margin-top: 10px;
+        }
+        
+        .checkbox-item {
+            display: block;
+            padding: 10px;
+            margin: 8px 0;
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .checkbox-item:hover {
+            border-color: #667eea;
+            background: #f8f9ff;
+        }
+        
+        .checkbox-item input {
+            margin-right: 10px;
+        }
+        
+        .submit-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.1em;
+            border-radius: 25px;
+            cursor: pointer;
+            display: block;
+            margin: 30px auto;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+        }
+        
+        .result {
+            display: none;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+            font-weight: bold;
+            text-align: center;
+        }
+        
+        .result.show {
+            display: block;
+        }
+        
+        .result.correct {
+            background: #d4edda;
+            color: #155724;
+            border: 2px solid #c3e6cb;
+        }
+        
+        .result.partial {
+            background: #fff3cd;
+            color: #856404;
+            border: 2px solid #ffc107;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #e0e0e0;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-top: 15px;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            width: 0%;
+            transition: width 0.5s;
+        }
+        
+        .vocab-highlight {
+            background: #e3f2fd;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🇫🇷 L'Impact Positif de l'Immigration</h1>
+            <p>Pratique pour A-Level French Edexcel</p>
+            <div class="timer" id="timer">⏱️ 45:00</div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress"></div>
+            </div>
+        </div>
+        
+        <div class="content">
+            <!-- Section 1: Vrai ou Faux -->
+            <div class="section">
+                <h2>Section 1: Vrai ou Faux (5 minutes)</h2>
+                
+                <div class="question">
+                    <p><span class="question-number">1</span> La France compte environ 7,5 millions d'immigrés, représentant 10,8% de la population.</p>
+                    <div class="checkbox-group">
+                        <label class="checkbox-item">
+                            <input type="radio" name="q1" value="vrai"> Vrai
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="radio" name="q1" value="faux"> Faux
+                        </label>
+                    </div>
+                    <div class="result" id="result1"></div>
+                </div>
+                
+                <div class="question">
+                    <p><span class="question-number">2</span> Les immigrés dirigent 8% des entreprises employant 10 personnes ou plus.</p>
+                    <div class="checkbox-group">
+                        <label class="checkbox-item">
+                            <input type="radio" name="q2" value="vrai"> Vrai
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="radio" name="q2" value="faux"> Faux
+                        </label>
+                    </div>
+                    <div class="result" id="result2"></div>
+                </div>
+                
+                <div class="question">
+                    <p><span class="question-number">3</span> 65% des patrons français disent qu'ils ne pourraient pas fonctionner sans immigrés.</p>
+                    <div class="checkbox-group">
+                        <label class="checkbox-item">
+                            <input type="radio" name="q3" value="vrai"> Vrai
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="radio" name="q3" value="faux"> Faux
+                        </label>
+                    </div>
+                    <div class="result" id="result3"></div>
+                </div>
+            </div>
+            
+            <!-- Section 2: Remplir les blancs -->
+            <div class="section">
+                <h2>Section 2: Complétez les phrases (10 minutes)</h2>
+                
+                <div class="question">
+                    <p><span class="question-number">4</span> Les immigrés constituent environ ___% de la main-d'œuvre française.</p>
+                    <input type="text" id="q4" placeholder="Tapez votre réponse...">
+                    <div class="clue">💡 Indice: Un chiffre entre 8 et 9</div>
+                    <div class="result" id="result4"></div>
+                </div>
+                
+                <div class="question">
+                    <p><span class="question-number">5</span> Les villes comme ___________ et Lyon sont devenues des centres multiculturels vibrants.</p>
+                    <input type="text" id="q5" placeholder="Tapez votre réponse...">
+                    <div class="clue">💡 Indice: Une grande ville portuaire du sud de la France</div>
+                    <div class="result" id="result5"></div>
+                </div>
+                
+                <div class="question">
+                    <p><span class="question-number">6</span> Il y a environ _______ chefs d'entreprise d'origine immigrée en France.</p>
+                    <input type="text" id="q6" placeholder="Tapez votre réponse...">
+                    <div class="clue">💡 Indice: 25 000</div>
+                    <div class="result" id="result6"></div>
+                </div>
+            </div>
+            
+            <!-- Section 3: Questions à choix multiples -->
+            <div class="section">
+                <h2>Section 3: Choix Multiples (8 minutes)</h2>
+                
+                <div class="question">
+                    <p><span class="question-number">7</span> Dans quels secteurs trouve-t-on le plus d'immigrés?</p>
+                    <div class="checkbox-group">
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="q7" value="a"> Les travaux manuels
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="q7" value="b"> Le commerce et les emplois de bureau
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="q7" value="c"> La haute direction
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="q7" value="d"> Tous les secteurs mentionnés ci-dessus
+                        </label>
+                    </div>
+                    <div class="result" id="result7"></div>
+                </div>
+                
+                <div class="question">
+                    <p><span class="question-number">8</span> Quelles contributions culturelles les immigrés ont-ils apportées? (Sélectionnez toutes les bonnes réponses)</p>
+                    <div class="checkbox-group">
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="q8" value="a"> La musique sénégalaise et malienne
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="q8" value="b"> Les restaurants vietnamiens
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="q8" value="c"> Le Nouvel An chinois
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="q8" value="d"> L'influence dans la mode
+                        </label>
+                    </div>
+                    <div class="result" id="result8"></div>
+                </div>
+            </div>
+            
+            <!-- Section 4: Vocabulaire -->
+            <div class="section">
+                <h2>Section 4: Vocabulaire Clé (7 minutes)</h2>
+                
+                <div class="question">
+                    <p><span class="question-number">9</span> Traduisez en français: "to fill skills gaps"</p>
+                    <input type="text" id="q9" placeholder="Tapez votre réponse...">
+                    <div class="clue">💡 Indice: combler les _____ de compétences</div>
+                    <div class="result" id="result9"></div>
+                </div>
+                
+                <div class="question">
+                    <p><span class="question-number">10</span> Traduisez en français: "immigrant workforce"</p>
+                    <input type="text" id="q10" placeholder="Tapez votre réponse...">
+                    <div class="clue">💡 Indice: la main-d'œuvre ___________</div>
+                    <div class="result" id="result10"></div>
+                </div>
+                
+                <div class="question">
+                    <p><span class="question-number">11</span> Traduisez en français: "cultural diversity"</p>
+                    <input type="text" id="q11" placeholder="Tapez votre réponse...">
+                    <div class="clue">💡 Indice: la diversité ___________</div>
+                    <div class="result" id="result11"></div>
+                </div>
+            </div>
+            
+            <!-- Section 5: Questions courtes -->
+            <div class="section">
+                <h2>Section 5: Réponses Courtes (15 minutes)</h2>
+                
+                <div class="question">
+                    <p><span class="question-number">12</span> Donnez TROIS exemples de secteurs où les travailleurs immigrés comblent des lacunes critiques.</p>
+                    <textarea id="q12" placeholder="Écrivez votre réponse en français..."></textarea>
+                    <div class="clue">💡 Indice: Pensez aux secteurs mentionnés dans le texte (santé, construction...)</div>
+                    <div class="result" id="result12"></div>
+                </div>
+                
+                <div class="question">
+                    <p><span class="question-number">13</span> Expliquez comment l'immigration enrichit culturellement la vie quotidienne en France. (2-3 phrases)</p>
+                    <textarea id="q13" placeholder="Écrivez votre réponse en français..."></textarea>
+                    <div class="clue">💡 Indice: Mentionnez la cuisine, la musique, les festivals</div>
+                    <div class="result" id="result13"></div>
+                </div>
+                
+                <div class="question">
+                    <p><span class="question-number">14</span> Pourquoi les immigrés sont-ils essentiels pour l'économie française face au vieillissement de la population? (2-3 phrases)</p>
+                    <textarea id="q14" placeholder="Écrivez votre réponse en français..."></textarea>
+                    <div class="clue">💡 Indice: Pensez aux pensions, à la main-d'œuvre, aux cotisations fiscales</div>
+                    <div class="result" id="result14"></div>
+                </div>
+            </div>
+            
+            <!-- Section 6: Matching Vocabulary -->
+            <div class="section">
+                <h2>Section 6: Associez le Vocabulaire (5 minutes)</h2>
+                
+                <div class="question">
+                    <p><span class="question-number">15</span> Associez les expressions françaises avec leur traduction anglaise:</p>
+                    <p style="margin: 15px 0;"><strong>A.</strong> le vieillissement de la population</p>
+                    <input type="text" id="q15a" placeholder="Numéro...">
+                    
+                    <p style="margin: 15px 0;"><strong>B.</strong> la réticence des locaux</p>
+                    <input type="text" id="q15b" placeholder="Numéro...">
+                    
+                    <p style="margin: 15px 0;"><strong>C.</strong> enrichir culturellement</p>
+                    <input type="text" id="q15c" placeholder="Numéro...">
+                    
+                    <p style="margin: 15px 0;"><strong>D.</strong> cotiser au système fiscal</p>
+                    <input type="text" id="q15d" placeholder="Numéro...">
+                    
+                    <div style="margin-top: 20px; padding: 15px; background: white; border-radius: 8px;">
+                        <p><strong>Options:</strong></p>
+                        <p>1. to contribute to the tax system</p>
+                        <p>2. the reluctance of locals</p>
+                        <p>3. to culturally enrich</p>
+                        <p>4. the ageing population</p>
+                    </div>
+                    <div class="result" id="result15"></div>
+                </div>
+            </div>
+            
+            <!-- Section 7: Sentence Construction -->
+            <div class="section">
+                <h2>Section 7: Construction de Phrases (8 minutes)</h2>
+                
+                <div class="question">
+                    <p><span class="question-number">16</span> Utilisez les mots suivants pour créer une phrase complète:<br>
+                    <span class="vocab-highlight">immigrés / contribuer / succès économique / France / cotiser</span></p>
+                    <textarea id="q16" placeholder="Écrivez votre phrase en français..."></textarea>
+                    <div class="clue">💡 Indice: Commencez par "Les immigrés..."</div>
+                    <div class="result" id="result16"></div>
+                </div>
+                
+                <div class="question">
+                    <p><span class="question-number">17</span> Utilisez les mots suivants pour créer une phrase complète:<br>
+                    <span class="vocab-highlight">diversité culturelle / enrichir / vie quotidienne / festivals</span></p>
+                    <textarea id="q17" placeholder="Écrivez votre phrase en français..."></textarea>
+                    <div class="clue">💡 Indice: Pensez à comment relier ces concepts</div>
+                    <div class="result" id="result17"></div>
+                </div>
+            </div>
+            
+            <!-- Section 8: Compréhension détaillée -->
+            <div class="section">
+                <h2>Section 8: Compréhension Détaillée (7 minutes)</h2>
+                
+                <div class="question">
+                    <p><span class="question-number">18</span> Donnez DEUX raisons pour lesquelles la France a besoin de travailleurs immigrés dans certains secteurs.</p>
+                    <textarea id="q18" placeholder="Écrivez votre réponse en français..."></textarea>
+                    <div class="clue">💡 Indice: Vieillissement de la population, réticence des locaux, pénuries de compétences</div>
+                    <div class="result" id="result18"></div>
+                </div>
+                
+                <div class="question">
+                    <p><span class="question-number">19</span> Expliquez comment les immigrés contribuent au système de sécurité sociale français.</p>
+                    <textarea id="q19" placeholder="Écrivez votre réponse en français..."></textarea>
+                    <div class="clue">💡 Indice: Pensez aux cotisations fiscales et au soutien des pensions</div>
+                    <div class="result" id="result19"></div>
+                </div>
+                
+                <div class="question">
+                    <p><span class="question-number">20</span> Nommez TROIS influences culturelles spécifiques mentionnées dans le texte (cuisine, musique, etc.).</p>
+                    <textarea id="q20" placeholder="Écrivez votre réponse en français..."></textarea>
+                    <div class="clue">💡 Indice: Musique, gastronomie, festivals, mode...</div>
+                    <div class="result" id="result20"></div>
+                </div>
+            </div>
+            
+            <button class="submit-btn" onclick="checkAnswers()">Vérifier mes réponses ✓</button>
+            
+            <div id="finalScore" style="display: none; margin-top: 20px; padding: 30px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border-radius: 15px; text-align: center;">
+                <h2 style="margin-bottom: 15px;">📊 Résultat Final</h2>
+                <p id="scoreText" style="font-size: 2em; font-weight: bold; margin: 20px 0;"></p>
+                <button class="submit-btn" onclick="downloadResults()" style="background: white; color: #667eea; margin-top: 20px;">📥 Télécharger mes résultats</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Timer functionality
+        let timeLeft = 45 * 60; // 45 minutes in seconds
+        const timerElement = document.getElementById('timer');
+        let timeTaken = 0;
+        
+        function updateTimer() {
+            const minutes = Math.floor(timeLeft / 60);
+            const seconds = timeLeft % 60;
+            timerElement.textContent = `⏱️ ${minutes}:${seconds.toString().padStart(2, '0')}`;
+            timeTaken++;
+            
+            if (timeLeft > 0) {
+                timeLeft--;
+                setTimeout(updateTimer, 1000);
+            } else {
+                timerElement.textContent = '⏱️ Temps écoulé!';
+                timerElement.style.background = 'rgba(255,0,0,0.3)';
+            }
+        }
+        
+        updateTimer();
+        
+        // Progress tracking
+        function updateProgress() {
+            const inputs = document.querySelectorAll('input[type="text"], textarea, input[type="radio"]:checked, input[type="checkbox"]:checked');
+            const totalQuestions = 20;
+            let answered = 0;
+            
+            // Check text inputs and textareas
+            document.querySelectorAll('input[type="text"], textarea').forEach(input => {
+                if (input.value.trim() !== '') answered++;
+            });
+            
+            // Check radio buttons
+            for (let i = 1; i <= 3; i++) {
+                if (document.querySelector(`input[name="q${i}"]:checked`)) answered++;
+            }
+            
+            // Check Q7 and Q8
+            if (document.querySelector('input[name="q7"]:checked')) answered++;
+            if (document.querySelector('input[name="q8"]:checked')) answered++;
+            
+            const percentage = (answered / totalQuestions) * 100;
+            document.getElementById('progress').style.width = percentage + '%';
+        }
+        
+        // Add event listeners to track progress
+        document.querySelectorAll('input, textarea').forEach(element => {
+            element.addEventListener('input', updateProgress);
+            element.addEventListener('change', updateProgress);
+        });
+        
+        function checkAnswers() {
+            let score = 0;
+            const total = 20;
+            let detailedResults = [];
+            
+            // Q1
+            const q1 = document.querySelector('input[name="q1"]:checked');
+            const result1 = document.getElementById('result1');
+            if (q1 && q1.value === 'vrai') {
+                result1.textContent = '✓ Correct!';
+                result1.className = 'result correct show';
+                score++;
+                detailedResults.push({q: 1, correct: true, answer: 'Vrai'});
+            } else {
+                result1.textContent = '✗ Faux. La réponse est Vrai.';
+                result1.className = 'result partial show';
+                detailedResults.push({q: 1, correct: false, answer: q1 ? q1.value : 'Non répondu', correctAnswer: 'Vrai'});
+            }
+            
+            // Q2
+            const q2 = document.querySelector('input[name="q2"]:checked');
+            const result2 = document.getElementById('result2');
+            if (q2 && q2.value === 'vrai') {
+                result2.textContent = '✓ Correct!';
+                result2.className = 'result correct show';
+                score++;
+                detailedResults.push({q: 2, correct: true, answer: 'Vrai'});
+            } else {
+                result2.textContent = '✗ Faux. La réponse est Vrai.';
+                result2.className = 'result partial show';
+                detailedResults.push({q: 2, correct: false, answer: q2 ? q2.value : 'Non répondu', correctAnswer: 'Vrai'});
+            }
+            
+            // Q3
+            const q3 = document.querySelector('input[name="q3"]:checked');
+            const result3 = document.getElementById('result3');
+            if (q3 && q3.value === 'vrai') {
+                result3.textContent = '✓ Correct!';
+                result3.className = 'result correct show';
+                score++;
+                detailedResults.push({q: 3, correct: true, answer: 'Vrai'});
+            } else {
+                result3.textContent = '✗ Faux. La réponse est Vrai.';
+                result3.className = 'result partial show';
+                detailedResults.push({q: 3, correct: false, answer: q3 ? q3.value : 'Non répondu', correctAnswer: 'Vrai'});
+            }
+            
+            // Q4
+            const q4 = document.getElementById('q4').value.trim();
+            const result4 = document.getElementById('result4');
+            if (q4 === '8.5' || q4 === '8,5') {
+                result4.textContent = '✓ Correct! 8,5%';
+                result4.className = 'result correct show';
+                score++;
+                detailedResults.push({q: 4, correct: true, answer: q4});
+            } else {
+                result4.textContent = '✗ La réponse correcte est 8,5%';
+                result4.className = 'result partial show';
+                detailedResults.push({q: 4, correct: false, answer: q4 || 'Non répondu', correctAnswer: '8,5%'});
+            }
+            
+            // Q5
+            const q5 = document.getElementById('q5').value.trim().toLowerCase();
+            const result5 = document.getElementById('result5');
+            if (q5 === 'marseille') {
+                result5.textContent = '✓ Correct! Marseille';
+                result5.className = 'result correct show';
+                score++;
+                detailedResults.push({q: 5, correct: true, answer: 'Marseille'});
+            } else {
+                result5.textContent = '✗ La réponse correcte est Marseille';
+                result5.className = 'result partial show';
+                detailedResults.push({q: 5, correct: false, answer: q5 || 'Non répondu', correctAnswer: 'Marseille'});
+            }
+            
+            // Q6
+            const q6 = document.getElementById('q6').value.trim();
+            const result6 = document.getElementById('result6');
+            if (q6.includes('25') && q6.includes('000')) {
+                result6.textContent = '✓ Correct! 25 000';
+                result6.className = 'result correct show';
+                score++;
+                detailedResults.push({q: 6, correct: true, answer: q6});
+            } else {
+                result6.textContent = '✗ La réponse correcte est 25 000';
+                result6.className = 'result partial show';
+                detailedResults.push({q: 6, correct: false, answer: q6 || 'Non répondu', correctAnswer: '25 000'});
+            }
+            
+            // Q7
+            const q7 = document.querySelector('input[name="q7"][value="d"]:checked');
+            const result7 = document.getElementById('result7');
+            if (q7) {
+                result7.textContent = '✓ Correct! Tous les secteurs mentionnés';
+                result7.className = 'result correct show';
+                score++;
+                detailedResults.push({q: 7, correct: true, answer: 'Tous les secteurs'});
+            } else {
+                result7.textContent = '✗ La réponse correcte est: Tous les secteurs mentionnés ci-dessus';
+                result7.className = 'result partial show';
+                detailedResults.push({q: 7, correct: false, answer: 'Non répondu', correctAnswer: 'Tous les secteurs'});
+            }
+            
+            // Q8
+            const q8Checked = document.querySelectorAll('input[name="q8"]:checked');
+            const result8 = document.getElementById('result8');
+            if (q8Checked.length === 4) {
+                result8.textContent = '✓ Correct! Toutes les réponses sont correctes';
+                result8.className = 'result correct show';
+                score++;
+                detailedResults.push({q: 8, correct: true, answer: 'Toutes les options'});
+            } else if (q8Checked.length > 0) {
+                result8.textContent = '⚠ Partiellement correct. Toutes les options sont correctes!';
+                result8.className = 'result partial show';
+                score += 0.5;
+                detailedResults.push({q: 8, correct: false, answer: 'Partiellement', correctAnswer: 'Toutes les options'});
+            } else {
+                result8.textContent = '✗ Toutes les options sont correctes';
+                result8.className = 'result partial show';
+                detailedResults.push({q: 8, correct: false, answer: 'Non répondu', correctAnswer: 'Toutes les options'});
+            }
+            
+            // Q9
+            const q9 = document.getElementById('q9').value.trim().toLowerCase();
+            const result9 = document.getElementById('result9');
+            if (q9.includes('combler') && q9.includes('lacune')) {
+                result9.textContent = '✓ Correct! combler les lacunes de compétences';
+                result9.className = 'result correct show';
+                score++;
+                detailedResults.push({q: 9, correct: true, answer: q9});
+            } else {
+                result9.textContent = '✗ La réponse correcte est: combler les lacunes de compétences';
+                result9.className = 'result partial show';
+                detailedResults.push({q: 9, correct: false, answer: q9 || 'Non répondu', correctAnswer: 'combler les lacunes de compétences'});
+            }
+            
+            // Q10
+            const q10 = document.getElementById('q10').value.trim().toLowerCase();
+            const result10 = document.getElementById('result10');
+            if (q10.includes('main') && q10.includes('immigr')) {
+                result10.textContent = '✓ Correct! la main-d\'œuvre immigrée';
+                result10.className = 'result correct show';
+                score++;
+                detailedResults.push({q: 10, correct: true, answer: q10});
+            } else {
+                result10.textContent = '✗ La réponse correcte est: la main-d\'œuvre immigrée';
+                result10.className = 'result partial show';
+                detailedResults.push({q: 10, correct: false, answer: q10 || 'Non répondu', correctAnswer: 'la main-d\'œuvre immigrée'});
+            }
+            
+            // Q11
+            const q11 = document.getElementById('q11').value.trim().toLowerCase();
+            const result11 = document.getElementById('result11');
+            if (q11.includes('diversit') && q11.includes('cultur')) {
+                result11.textContent = '✓ Correct! la diversité culturelle';
+                result11.className = 'result correct show';
+                score++;
+                detailedResults.push({q: 11, correct: true, answer: q11});
+            } else {
+                result11.textContent = '✗ La réponse correcte est: la diversité culturelle';
+                result11.className = 'result partial show';
+                detailedResults.push({q: 11, correct: false, answer: q11 || 'Non répondu', correctAnswer: 'la diversité culturelle'});
+            }
+            
+            // Q12-14 (Open-ended - just check if answered)
+            const q12 = document.getElementById('q12').value.trim();
+            const result12 = document.getElementById('result12');
+            if (q12.length > 20) {
+                result12.textContent = '✓ Réponse enregistrée. Exemples: la santé, la construction, l\'éducation';
+                result12.className = 'result correct show';
+                score++;
+                detailedResults.push({q: 12, correct: true, answer: q12.substring(0, 50) + '...'});
+            } else {
+                result12.textContent = '⚠ Réponse trop courte. Exemples attendus: la santé, la construction, l\'éducation';
+                result12.className = 'result partial show';
+                detailedResults.push({q: 12, correct: false, answer: q12 || 'Non répondu', correctAnswer: 'Exemples requis'});
+            }
+            
+            const q13 = document.getElementById('q13').value.trim();
+            const result13 = document.getElementById('result13');
+            if (q13.length > 30) {
+                result13.textContent = '✓ Réponse enregistrée. Vérifiez que vous avez mentionné la cuisine, la musique, ou les festivals.';
+                result13.className = 'result correct show';
+                score++;
+                detailedResults.push({q: 13, correct: true, answer: q13.substring(0, 50) + '...'});
+            } else {
+                result13.textContent = '⚠ Réponse trop courte. Développez davantage (2-3 phrases).';
+                result13.className = 'result partial show';
+                detailedResults.push({q: 13, correct: false, answer: q13 || 'Non répondu', correctAnswer: '2-3 phrases requises'});
+            }
+            
+            const q14 = document.getElementById('q14').value.trim();
+            const result14 = document.getElementById('result14');
+            if (q14.length > 30) {
+                result14.textContent = '✓ Réponse enregistrée. Vérifiez que vous avez mentionné les pensions, cotisations, main-d\'œuvre.';
+                result14.className = 'result correct show';
+                score++;
+                detailedResults.push({q: 14, correct: true, answer: q14.substring(0, 50) + '...'});
+            } else {
+                result14.textContent = '⚠ Réponse trop courte. Développez davantage (2-3 phrases).';
+                result14.className = 'result partial show';
+                detailedResults.push({q: 14, correct: false, answer: q14 || 'Non répondu', correctAnswer: '2-3 phrases requises'});
+            }
+            
+            // Q15 - Matching
+            const q15a = document.getElementById('q15a').value.trim();
+            const q15b = document.getElementById('q15b').value.trim();
+            const q15c = document.getElementById('q15c').value.trim();
+            const q15d = document.getElementById('q15d').value.trim();
+            const result15 = document.getElementById('result15');
+            
+            let matchScore = 0;
+            if (q15a === '4') matchScore++;
+            if (q15b === '2') matchScore++;
+            if (q15c === '3') matchScore++;
+            if (q15d === '1') matchScore++;
+            
+            if (matchScore === 4) {
+                result15.textContent = '✓ Correct! Toutes les associations sont correctes';
+                result15.className = 'result correct show';
+                score++;
+                detailedResults.push({q: 15, correct: true, answer: 'Tout correct'});
+            } else {
+                result15.textContent = `⚠ ${matchScore}/4 correct. Réponses: A=4, B=2, C=3, D=1`;
+                result15.className = 'result partial show';
+                score += matchScore * 0.25;
+                detailedResults.push({q: 15, correct: false, answer: `${matchScore}/4`, correctAnswer: 'A=4, B=2, C=3, D=1'});
+            }
+            
+            // Q16-17 - Sentence construction
+            const q16 = document.getElementById('q16').value.trim();
+            const result16 = document.getElementById('result16');
+            if (q16.length > 15) {
+                result16.textContent = '✓ Phrase créée. Vérifiez la grammaire et le vocabulaire utilisé.';
+                result16.className = 'result correct show';
+                score++;
+                detailedResults.push({q: 16, correct: true, answer: q16.substring(0, 50) + '...'});
+            } else {
+                result16.textContent = '⚠ Réponse trop courte pour une phrase complète.';
+                result16.className = 'result partial show';
+                detailedResults.push({q: 16, correct: false, answer: q16 || 'Non répondu', correctAnswer: 'Phrase complète requise'});
+            }
+            
+            const q17 = document.getElementById('q17').value.trim();
+            const result17 = document.getElementById('result17');
+            if (q17.length > 15) {
+                result17.textContent = '✓ Phrase créée. Vérifiez la grammaire et le vocabulaire utilisé.';
+                result17.className = 'result correct show';
+                score++;
+                detailedResults.push({q: 17, correct: true, answer: q17.substring(0, 50) + '...'});
+            } else {
+                result17.textContent = '⚠ Réponse trop courte pour une phrase complète.';
+                result17.className = 'result partial show';
+                detailedResults.push({q: 17, correct: false, answer: q17 || 'Non répondu', correctAnswer: 'Phrase complète requise'});
+            }
+            
+            // Q18-20 - Detailed comprehension
+            const q18 = document.getElementById('q18').value.trim();
+            const result18 = document.getElementById('result18');
+            if (q18.length > 30) {
+                result18.textContent = '✓ Réponse enregistrée. Vérifiez que vous avez donné deux raisons distinctes.';
+                result18.className = 'result correct show';
+                score++;
+                detailedResults.push({q: 18, correct: true, answer: q18.substring(0, 50) + '...'});
+            } else {
+                result18.textContent = '⚠ Réponse trop courte. Deux raisons requises.';
+                result18.className = 'result partial show';
+                detailedResults.push({q: 18, correct: false, answer: q18 || 'Non répondu', correctAnswer: 'Deux raisons requises'});
+            }
+            
+            const q19 = document.getElementById('q19').value.trim();
+            const result19 = document.getElementById('result19');
+            if (q19.length > 25) {
+                result19.textContent = '✓ Réponse enregistrée. Vérifiez la mention des cotisations et pensions.';
+                result19.className = 'result correct show';
+                score++;
+                detailedResults.push({q: 19, correct: true, answer: q19.substring(0, 50) + '...'});
+            } else {
+                result19.textContent = '⚠ Réponse trop courte. Développez davantage.';
+                result19.className = 'result partial show';
+                detailedResults.push({q: 19, correct: false, answer: q19 || 'Non répondu', correctAnswer: 'Explication détaillée requise'});
+            }
+            
+            const q20 = document.getElementById('q20').value.trim();
+            const result20 = document.getElementById('result20');
+            if (q20.length > 20) {
+                result20.textContent = '✓ Réponse enregistrée. Exemples attendus: musique, gastronomie, festivals, mode.';
+                result20.className = 'result correct show';
+                score++;
+                detailedResults.push({q: 20, correct: true, answer: q20.substring(0, 50) + '...'});
+            } else {
+                result20.textContent = '⚠ Réponse trop courte. Trois exemples requis.';
+                result20.className = 'result partial show';
+                detailedResults.push({q: 20, correct: false, answer: q20 || 'Non répondu', correctAnswer: 'Trois exemples requis'});
+            }
+            
+            // Show final score
+            const percentage = ((score / total) * 100).toFixed(1);
+            const finalScore = document.getElementById('finalScore');
+            const scoreText = document.getElementById('scoreText');
+            scoreText.textContent = `${score.toFixed(1)}/${total} (${percentage}%)`;
+            finalScore.style.display = 'block';
+            
+            // Store results for download
+            window.testResults = {
+                score: score.toFixed(1),
+                total: total,
+                percentage: percentage,
+                timeTaken: Math.floor(timeTaken / 60) + ':' + (timeTaken % 60).toString().padStart(2, '0'),
+                date: new Date().toLocaleDateString('fr-FR'),
+                details: detailedResults
+            };
+            
+            // Scroll to results
+            finalScore.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+        
+        function downloadResults() {
+            const results = window.testResults;
+            let content = `RÉSULTATS - Pratique A-Level French: L'Immigration en France
+====================================================================
+
+Date: ${results.date}
+Temps passé: ${results.timeTaken}
+Score: ${results.score}/${results.total} (${results.percentage}%)
+
+DÉTAIL DES RÉPONSES:
+--------------------------------------------------------------------
+
+`;
+
+            results.details.forEach((item, index) => {
+                content += `Question ${item.q}: ${item.correct ? '✓ CORRECT' : '✗ INCORRECT'}\n`;
+                content += `Votre réponse: ${item.answer}\n`;
+                if (!item.correct && item.correctAnswer) {
+                    content += `Réponse correcte: ${item.correctAnswer}\n`;
+                }
+                content += `\n`;
+            });
+
+            content += `
+====================================================================
+RECOMMANDATIONS:
+
+`;
+            
+            if (results.percentage >= 80) {
+                content += `Excellent travail! Vous maîtrisez bien le sujet.\n`;
+            } else if (results.percentage >= 60) {
+                content += `Bon travail! Révisez les points où vous avez perdu des points.\n`;
+            } else {
+                content += `Continuez à pratiquer. Relisez le matériel et réessayez.\n`;
+            }
+
+            content += `
+VOCABULAIRE CLÉ À RÉVISER:
+- enrichir la vie quotidienne
+- la diversité culturelle
+- combler les lacunes de compétences
+- la main-d'œuvre immigrée
+- le vieillissement de la population
+- cotiser au système fiscal
+- le dialogue interculturel
+`;
+
+            // Create download
+            const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `Resultats_French_Immigration_${new Date().toISOString().slice(0,10)}.txt`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            window.URL.revokeObjectURL(url);
+        }
+    </script>
+</body>
+</html>

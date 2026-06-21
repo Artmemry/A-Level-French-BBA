@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Subjonctif – L'Étranger & La Haine</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; line-height: 1.6; }
+    .exercise { margin-bottom: 25px; padding-bottom: 10px; border-bottom: 1px solid #ddd; }
+    .prompt { margin-bottom: 8px; display: block; font-weight: bold; }
+    .inputs, .controls { margin-top: 6px; }
+    .correct { color: green; font-weight: bold; }
+    .incorrect { color: red; font-weight: bold; }
+    input[type="text"] { width: 160px; margin-right: 5px; margin-bottom: 5px; }
+    button { margin-top: 5px; display: inline-block; }
+    .hint { color: #555; font-style: italic; display: block; margin-top: 6px; }
+    .feedback { display: block; margin-top: 6px; }
+    #summary { margin-top: 40px; border-top: 2px solid #000; padding-top: 20px; }
+    .challenging { margin-top: 10px; }
+    .print-btn { margin-top: 10px; }
+  </style>
+</head>
+<body>
+
+<h1>Pratique du subjonctif – L'Étranger et La Haine</h1>
+<p>Complétez les phrases avec la bonne forme du subjonctif. Cliquez sur "Vérifier" pour chaque phrase, puis sur "Voir le score et les erreurs" à la fin.</p>
+
+<div id="exercises"></div>
+
+<button onclick="showSummary()">Voir le score et les erreurs</button>
+
+<div id="summary" style="display:none;">
+  <h2>Résumé</h2>
+  <p id="score"></p>
+  <div id="challenging-answers" class="challenging"></div>
+  <button class="print-btn" onclick="window.print()">Imprimer</button>
+</div>
+
+<script>
+const phrases = [
+  { template: "Il est essentiel que Meursault [verbe] ses émotions.", type: "verb", answer: "comprenne", hint: "verbe : comprendre" },
+  { template: "Bien que Meursault [verbe] calme, il choque les autres.", type: "verb", answer: "soit", hint: "verbe : être" },
+  { template: "Il semble que la société [verbe] l’absurde.", type: "verb", answer: "rejette", hint: "verbe : rejeter" },
+  { template: "Il faut que l’avocat [verbe] Meursault correctement.", type: "verb", answer: "défende", hint: "verbe : défendre" },
+  { template: "Il est regrettable que la haine [verbe] autant.", type: "verb", answer: "grandisse", hint: "verbe : grandir" },
+  { template: "Il est normal que les autres [verbe] ses choix.", type: "verb", answer: "jugent", hint: "verbe : juger" },
+  { template: "Il est temps que Meursault [verbe] sa peine.", type: "verb", answer: "accepte", hint: "verbe : accepter" },
+  { template: "Il est peu probable que la prison [verbe] son comportement.", type: "verb", answer: "change", hint: "verbe : changer" },
+  { template: "Il est possible que Meursault [verbe] la mer.", type: "verb", answer: "regarde", hint: "verbe : regarder" },
+  { template: "Il est nécessaire que la société [verbe] plus humaine.", type: "verb", answer: "soit", hint: "verbe : être" },
+
+  { template: "[déclencheur] Meursault [verbe] la réalité de la mort.", type: "both", answer: ["Il faut que", "accepte"], hint: "verbe : accepter, déclencheur : obligation" },
+  { template: "[déclencheur] la police [verbe] avec justice.", type: "both", answer: ["Il est important que", "agisse"], hint: "verbe : agir, déclencheur : importance" },
+  { template: "[déclencheur] Vinz [verbe] en arrière.", type: "both", answer: ["Il est peu probable que", "revienne"], hint: "verbe : revenir, déclencheur : doute" },
+  { template: "[déclencheur] les jeunes [verbe] un avenir.", type: "both", answer: ["Pour que", "aient"], hint: "verbe : avoir, déclencheur : but" },
+  { template: "[déclencheur] la société [verbe] de regard.", type: "both", answer: ["Il est nécessaire que", "change"], hint: "verbe : changer, déclencheur : nécessité" },
+  { template: "[déclencheur] Meursault [verbe] ses sentiments.", type: "both", answer: ["Il est rare que", "exprime"], hint: "verbe : exprimer, déclencheur : rareté" },
+  { template: "[déclencheur] le juge [verbe] ses propres valeurs.", type: "both", answer: ["Avant que", "impose"], hint: "verbe : imposer, déclencheur : temps" },
+  { template: "[déclencheur] la banlieue [verbe] écoutée.", type: "both", answer: ["Il faut que", "soit"], hint: "verbe : être, déclencheur : obligation" },
+  { template: "[déclencheur] les jeunes [verbe] leur colère.", type: "both", answer: ["Il est nécessaire que", "expliquent"], hint: "verbe : expliquer, déclencheur : nécessité" },
+  { template: "[déclencheur] les autorités [verbe] un vrai dialogue.", type: "both", answer: ["Il est temps que", "créent"], hint: "verbe : créer, déclencheur : temps" },
+];
+
+const container = document.getElementById("exercises");
+const userAnswers = [];
+
+phrases.forEach((item, i) => {
+  const exDiv = document.createElement("div");
+  exDiv.className = "exercise";
+
+  const prompt = document.createElement("span");
+  prompt.className = "prompt";
+  prompt.innerHTML = `${i + 1}. ${item.template}`;
+
+  const inputsDiv = document.createElement("div");
+  inputsDiv.className = "inputs";
+
+  const triggerInput = document.createElement("input");
+  triggerInput.type = "text";
+  triggerInput.placeholder = "Déclencheur";
+  triggerInput.className = "trigger";
+
+  const verbInput = document.createElement("input");
+  verbInput.type = "text";
+  verbInput.placeholder = "Verbe";
+  verbInput.className = "verb";
+
+  if (item.type === "both") {
+    inputsDiv.appendChild(triggerInput);
+  }
+  inputsDiv.appendChild(verbInput);
+
+  const button = document.createElement("button");
+  button.textContent = "Vérifier";
+
+  const feedback = document.createElement("span");
+  feedback.className = "feedback";
+
+  const hint = document.createElement("span");
+  hint.className = "hint";
+  hint.textContent = item.hint;
+
+  button.onclick = () => {
+    const givenTrigger = triggerInput?.value.trim().toLowerCase();
+    const givenVerb = verbInput.value.trim().toLowerCase();
+
+    let correct = false;
+    let correctText = "";
+
+    if (item.type === "verb") {
+      correct = givenVerb === item.answer.toLowerCase();
+      correctText = item.answer;
+    } else {
+      const [expectedTrigger, expectedVerb] = item.answer.map(s => s.toLowerCase());
+      correct = givenTrigger === expectedTrigger && givenVerb === expectedVerb;
+      correctText = item.answer.join(" + ");
+    }
+
+    userAnswers[i] = {
+      correct,
+      user: item.type === "verb" ? givenVerb : [givenTrigger, givenVerb],
+      expected: correctText,
+      prompt: item.template
+    };
+
+    feedback.textContent = correct ? "✔️ Correct" : `❌ Faux – réponse : ${correctText}`;
+    feedback.className = correct ? "feedback correct" : "feedback incorrect";
+  };
+
+  exDiv.appendChild(prompt);
+  exDiv.appendChild(inputsDiv);
+  exDiv.appendChild(button);
+  exDiv.appendChild(feedback);
+  exDiv.appendChild(hint);
+  container.appendChild(exDiv);
+});
+
+function showSummary() {
+  let correctCount = 0;
+  const summaryDiv = document.getElementById("summary");
+  const scoreDisplay = document.getElementById("score");
+  const challengesDiv = document.getElementById("challenging-answers");
+  challengesDiv.innerHTML = "";
+
+  userAnswers.forEach((entry, i) => {
+    if (entry?.correct) {
+      correctCount++;
+    } else if (entry) {
+      const div = document.createElement("div");
+      div.innerHTML = `<strong>${i + 1}. ${entry.prompt}</strong><br>
+        Votre réponse : ${Array.isArray(entry.user) ? entry.user.join(" + ") : entry.user}<br>
+        Réponse correcte : ${entry.expected}<br><br>`;
+      challengesDiv.appendChild(div);
+    }
+  });
+
+  scoreDisplay.textContent = `Score : ${correctCount} / ${phrases.length}`;
+  summaryDiv.style.display = "block";
+}
+</script>
+
+</body>
+</html>

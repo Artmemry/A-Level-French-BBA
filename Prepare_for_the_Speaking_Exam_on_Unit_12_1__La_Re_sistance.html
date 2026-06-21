@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>La Résistance – Task 1</title>
+<style>
+:root{--navy:#1e3a5f;--gold:#c9a227;--lgold:#fdf8ec;--red:#b91c1c;--green:#15803d;--mid:#5a6a7a;--light:#f4f7fa;--white:#fff;--border:#e2e8f0;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Segoe UI',sans-serif;background:var(--light);color:#1a1a2e;min-height:100vh;font-size:.95rem;}
+header{background:linear-gradient(135deg,var(--navy),#2d5986);color:var(--white);padding:2rem 1.5rem;text-align:center;}
+header h1{font-size:1.5rem;margin-bottom:.3rem;}
+header p{opacity:.85;font-size:.88rem;}
+.badge{display:inline-block;background:rgba(255,255,255,.15);border-radius:20px;padding:.2rem .8rem;font-size:.75rem;margin:.3rem .2rem;}
+nav{display:flex;justify-content:center;flex-wrap:wrap;gap:.4rem;padding:.8rem 1rem;background:var(--white);border-bottom:2px solid var(--border);position:sticky;top:0;z-index:50;}
+.tab{padding:.45rem 1rem;border:2px solid var(--border);border-radius:20px;cursor:pointer;font-size:.82rem;background:var(--white);transition:.2s;color:var(--navy);font-weight:500;}
+.tab.active{background:var(--navy);color:var(--white);border-color:var(--navy);}
+.tab:hover:not(.active){background:var(--lgold);border-color:var(--gold);}
+.page{display:none;max-width:900px;margin:0 auto;padding:1.5rem 1rem 5rem;}
+.page.active{display:block;}
+.card{background:var(--white);border-radius:12px;padding:1.4rem;margin-bottom:1.2rem;box-shadow:0 2px 10px rgba(0,0,0,.06);}
+.card-title{color:var(--navy);font-size:1rem;font-weight:700;margin-bottom:.8rem;display:flex;align-items:center;gap:.5rem;}
+.sn{background:var(--navy);color:var(--white);border-radius:50%;width:26px;height:26px;display:inline-flex;align-items:center;justify-content:center;font-size:.78rem;flex-shrink:0;}
+.subtitle{color:var(--mid);font-size:.83rem;margin-bottom:.9rem;}
+.stim{border-left:5px solid var(--gold);background:var(--lgold);border-radius:0 10px 10px 0;padding:1.1rem 1.3rem;margin-bottom:1rem;}
+.stim h3{color:var(--navy);font-size:.97rem;margin-bottom:.5rem;}
+.stim ul{padding-left:1.2rem;margin-top:.4rem;line-height:1.85;}
+.stim li{margin-bottom:.2rem;font-size:.9rem;}
+.ic{border-left:5px solid #94a3b8;background:#f8fafc;border-radius:0 10px 10px 0;padding:.95rem 1.2rem;margin-bottom:.8rem;}
+.ic-title{font-size:.75rem;font-weight:700;color:var(--mid);text-transform:uppercase;letter-spacing:.05em;margin-bottom:.5rem;}
+.ic ul{padding-left:1.2rem;line-height:1.9;}
+.ic li{margin-bottom:.3rem;font-size:.91rem;}
+.ic li strong{color:var(--navy);}
+.q-lbl{font-weight:700;color:var(--navy);font-size:.9rem;margin:.75rem 0 .35rem;}
+.ab-toggle{display:flex;gap:.5rem;margin-bottom:1rem;}
+.ab-btn{padding:.4rem 1.2rem;border:2px solid var(--navy);border-radius:20px;cursor:pointer;font-size:.88rem;background:var(--white);color:var(--navy);font-weight:600;transition:.2s;}
+.ab-btn.active{background:var(--navy);color:var(--white);}
+.ab-panel{display:none;}
+.ab-panel.active{display:block;}
+.q-block{margin-bottom:1rem;}
+.q-text{font-weight:600;margin-bottom:.4rem;line-height:1.4;font-size:.93rem;}
+.options label{display:flex;align-items:flex-start;gap:.5rem;padding:.38rem .6rem;margin:.18rem 0;border-radius:6px;cursor:pointer;border:1.5px solid var(--border);transition:.15s;font-size:.9rem;}
+.options label:hover{background:var(--lgold);border-color:var(--gold);}
+.options input{margin-top:.14rem;flex-shrink:0;}
+.correct{background:#dcfce7!important;border-color:var(--green)!important;}
+.wrong{background:#fee2e2!important;border-color:var(--red)!important;}
+.feedback{font-size:.83rem;margin-top:.35rem;padding:.35rem .6rem;border-radius:6px;}
+.feedback.ok{background:#dcfce7;color:#166534;}
+.feedback.bad{background:#fee2e2;color:#991b1b;}
+.gap-p{line-height:2.9;font-size:.93rem;}
+.gap{border:none;border-bottom:2px solid var(--gold);background:transparent;font-size:.93rem;font-family:inherit;padding:.1rem .25rem;color:#1a1a2e;outline:none;min-width:90px;transition:.2s;}
+.gap:focus{border-bottom-color:var(--navy);background:#eef2ff;}
+.gap.ci{border-bottom-color:var(--green);background:#dcfce7;}
+.gap.wi{border-bottom-color:var(--red);background:#fee2e2;}
+.word-bank{background:var(--lgold);border:1.5px solid #f0d980;border-radius:8px;padding:.65rem 1rem;margin-bottom:.9rem;font-size:.85rem;line-height:2.1;}
+.wb-tag{display:inline-block;background:var(--white);border:1.5px solid #f0d980;border-radius:6px;padding:.12rem .5rem;margin:.18rem;font-size:.84rem;}
+.vmatch-row{display:flex;align-items:center;gap:.6rem;margin-bottom:.5rem;flex-wrap:wrap;}
+.vm-fr{font-weight:700;color:var(--navy);min-width:210px;font-size:.9rem;}
+.vm-sel{flex:1;padding:.35rem;border:1.5px solid #fde68a;border-radius:6px;font-size:.86rem;min-width:150px;}
+.vm-sel:focus{outline:none;border-color:var(--navy);}
+.vm-fb{font-size:.95rem;}
+.women-table{width:100%;border-collapse:collapse;font-size:.83rem;}
+.women-table th{background:var(--navy);color:var(--white);padding:.5rem .6rem;text-align:left;}
+.women-table td{padding:.45rem .6rem;border-bottom:1px solid var(--border);vertical-align:top;line-height:1.5;}
+.women-table tr:nth-child(even) td{background:#f8fafc;}
+.women-table tr:hover td{background:var(--lgold);}
+.disc-area{width:100%;padding:.6rem .8rem;border:1.5px solid #fde68a;border-radius:8px;font-size:.9rem;resize:vertical;font-family:inherit;margin-top:.3rem;}
+.disc-area:focus{outline:none;border-color:var(--navy);}
+.phrase-bank{background:#f0f4ff;border:1.5px solid #c7d7f7;border-radius:8px;padding:.7rem 1rem;margin-bottom:.8rem;font-size:.85rem;line-height:2.1;}
+.phrase-tag{display:inline-block;background:var(--white);border:1.5px solid #c7d7f7;border-radius:6px;padding:.1rem .5rem;margin:.15rem;font-size:.83rem;cursor:pointer;transition:.15s;}
+.phrase-tag:hover{background:#dbeafe;border-color:#93c5fd;}
+#nameSection{background:var(--white);max-width:480px;margin:2rem auto;border-radius:12px;padding:2rem;box-shadow:0 2px 12px rgba(0,0,0,.08);text-align:center;}
+#nameSection h2{color:var(--navy);margin-bottom:.8rem;}
+#nameInput{width:100%;padding:.65rem 1rem;border:2px solid #fde68a;border-radius:8px;font-size:1rem;margin-bottom:1rem;}
+#nameInput:focus{outline:none;border-color:var(--gold);}
+#scoreBar{position:fixed;bottom:0;left:0;right:0;background:var(--white);border-top:2px solid var(--gold);padding:.55rem 1.2rem;display:none;align-items:center;justify-content:space-between;z-index:90;box-shadow:0 -3px 10px rgba(0,0,0,.07);}
+#scoreText{font-weight:700;font-size:.9rem;color:var(--navy);}
+.btn-row{display:flex;gap:.5rem;flex-wrap:wrap;}
+.btn{background:var(--navy);color:var(--white);border:none;padding:.5rem 1.2rem;border-radius:8px;font-size:.87rem;cursor:pointer;transition:.2s;}
+.btn:hover{background:#2d5986;}
+.btn-gold{background:var(--gold);color:var(--navy);font-weight:700;}
+.btn-gold:hover{background:#b8911f;}
+.btn-green{background:var(--green);color:var(--white);}
+.btn-green:hover{background:#166534;}
+#accentKb{position:fixed;bottom:52px;right:12px;background:#1e293b;border-radius:10px;padding:.5rem .6rem;display:none;flex-direction:column;gap:.35rem;z-index:100;box-shadow:0 4px 16px rgba(0,0,0,.3);}
+.kb-row{display:flex;gap:.3rem;}
+.kb-btn{background:#334155;color:#fff;border:none;border-radius:5px;width:34px;height:34px;font-size:1rem;cursor:pointer;}
+.kb-btn:hover{background:var(--gold);color:var(--navy);}
+#kbToggle{position:fixed;bottom:48px;right:12px;background:var(--gold);color:var(--navy);border:none;border-radius:50%;width:40px;height:40px;font-size:1rem;cursor:pointer;z-index:101;box-shadow:0 2px 8px rgba(0,0,0,.2);display:none;}
+.prog-wrap{background:var(--border);border-radius:99px;height:5px;margin-bottom:1rem;overflow:hidden;}
+.prog-fill{height:100%;background:linear-gradient(90deg,var(--navy),var(--gold));border-radius:99px;transition:.5s;width:0%;}
+.tip{background:#fff8e1;border:1.5px solid var(--gold);border-radius:8px;padding:.6rem .9rem;font-size:.83rem;margin-bottom:.8rem;color:#78550a;}
+</style>
+</head>
+<body>
+
+<!-- NAME GATE -->
+<div id="nameSection">
+  <h2>🇫🇷 La Résistance — Task 1</h2>
+  <p style="color:var(--mid);margin-bottom:1rem;font-size:.9rem">Entrez votre nom pour commencer. Vos résultats pourront être téléchargés à la fin.</p>
+  <input type="text" id="nameInput" placeholder="Prénom et nom…">
+  <button class="btn btn-gold" onclick="startApp()">Commencer →</button>
+</div>
+
+<header id="appHeader" style="display:none">
+  <h1>🇫🇷 La Résistance — Préparation Task 1</h1>
+  <p>L'Occupation et la Résistance · Stimulus FR12</p>
+  <div>
+    <span class="badge">A-Level French</span>
+    <span class="badge">Paper 3 Task 1</span>
+    <span class="badge">B2–C1</span>
+  </div>
+</header>
+
+<nav id="appNav" style="display:none">
+  <button class="tab active" onclick="show('stimuli')">📋 Stimuli</button>
+  <button class="tab" onclick="show('femmes')">👩 Femmes</button>
+  <button class="tab" onclick="show('mcq')">1 · Compréhension</button>
+  <button class="tab" onclick="show('gaps')">2 · Texte à trous</button>
+  <button class="tab" onclick="show('vocab')">3 · Vocabulaire</button>
+  <button class="tab" onclick="show('disc')">4 · Discussion</button>
+</nav>
+
+<!-- ═══ STIMULI ═══ -->
+<div class="page" id="stimuli">
+  <div class="prog-wrap"><div class="prog-fill" id="progFill"></div></div>
+  <div class="tip">💡 Choisissez <strong>A</strong> ou <strong>B</strong> pour chaque stimulus. Le contenu indicatif (en gris) propose des idées à <em>développer et nuancer</em> — pas à réciter.</div>
+
+  <div class="card">
+    <div class="card-title">📌 Stimulus 1 — Le sabotage et les personnages clés</div>
+    <div class="ab-toggle">
+      <button class="ab-btn active" onclick="toggleAB(this,'s1a','s1b')">A</button>
+      <button class="ab-btn" onclick="toggleAB(this,'s1b','s1a')">B</button>
+    </div>
+    <div class="ab-panel active" id="s1a">
+      <div class="stim"><h3>A · Les actes de sabotage des résistants français pendant la guerre ont été soutenus par la population.</h3>
+        <ul><li>Si les saboteurs auraient pu réussir sans le soutien de la population.</li><li>Comment les femmes ont contribué à la réussite des actes de sabotage.</li></ul>
+      </div>
+      <div class="q-lbl">❓ Q1 : Est-ce que les actes de sabotage auraient réussi sans le soutien de la population ?</div>
+      <div class="ic"><div class="ic-title">Contenu indicatif</div><ul>
+        <li><strong>Popular support was structurally indispensable.</strong> Sabotage operations depended on a web of civilian contributions — passing messages, concealing equipment, creating diversions at checkpoints. Without this the exposure risk for active resisters would have been prohibitive.</li>
+        <li><strong>Local knowledge was a strategic asset.</strong> Civilians planned escape routes, identified safe houses and warned of German movements — intelligence that could not have been improvised by outsiders.</li>
+        <li><strong>Support was not unconditional.</strong> The ever-present threat of German collective reprisals meant that civilians constantly weighed the personal cost. Where reprisals were severe — as at Oradour-sur-Glane — local opinion could turn against the Resistance, illustrating the limits of popular support.</li>
+      </ul></div>
+      <div class="q-lbl">❓ Q2 : Comment est-ce que les femmes ont aidé les saboteurs ?</div>
+      <div class="ic"><div class="ic-title">Contenu indicatif</div><ul>
+        <li><strong>A practical advantage at checkpoints.</strong> Women of all ages were far less likely to be stopped and searched by German soldiers than men of fighting age. This made them highly effective at transporting weapons, explosives and documents — the logistical lifeblood of sabotage networks.</li>
+        <li><strong>Cover and concealment.</strong> Women provided civilian clothes and forged papers for Allied airmen who had parachuted into France, enabling them to move freely. They also acted as guides along escape routes. Jeanne Bohec's sabotage operations in Brittany — earning her the nickname <em>la plastiqueuse à bicyclette</em> — are a striking example of direct female involvement.</li>
+        <li><strong>Broaden carefully.</strong> Once you have addressed the specific sabotage angle, develop your answer to cover women's wider roles — liaison work, clandestine press, shelter networks — as evidence of a contribution that went well beyond support functions.</li>
+      </ul></div>
+    </div>
+    <div class="ab-panel" id="s1b">
+      <div class="stim"><h3>B · Le succès de la Résistance a surtout dépendu de quelques personnages clés.</h3>
+        <ul><li>Le rôle important de certains personnages clés.</li><li>La contribution des journaux clandestins au succès de la Résistance.</li></ul>
+      </div>
+      <div class="q-lbl">❓ Q1 : Que pensez-vous de l'action menée par certains personnages clés ?</div>
+      <div class="ic"><div class="ic-title">Contenu indicatif</div><ul>
+        <li><strong>De Gaulle provided legitimacy and external resources.</strong> His broadcast from London on 18 June 1940 gave scattered resisters a symbolic rallying point and ensured that the Free French could operate with Allied recognition and material support — something no internal group could have secured alone.</li>
+        <li><strong>Jean Moulin's achievement was structural and irreplaceable.</strong> Parachuted back into France in 1942, his mission was to unify the fragmented resistance movements. By May 1943 he had created the <strong>Conseil National de la Résistance (CNR)</strong> — a unified council incorporating all major movements including the Communists, alongside political parties and trade unions. His arrest and death under Gestapo torture in June 1943 underlines both his centrality and the brutality of the occupation.</li>
+        <li><strong>Challenge the stimulus.</strong> While key figures were essential, the Resistance ultimately depended on thousands of anonymous participants. The risk is overstating individual agency at the expense of the broader social mobilisation that sustained the movement.</li>
+      </ul></div>
+      <div class="q-lbl">❓ Q2 : Comment les journaux clandestins ont-ils aidé la Résistance ?</div>
+      <div class="ic"><div class="ic-title">Contenu indicatif</div><ul>
+        <li><strong>Countering German-controlled information.</strong> The occupied press suppressed all news of Allied advances and resistance activity. Underground newspapers — produced by the Socialist Party, Emmanuel d'Astier and others — gave readers a counter-narrative, keeping alive awareness that the occupation could end and that resistance was widespread.</li>
+        <li><strong>Recruitment and morale.</strong> The clandestine press was also an organisational tool: it recruited new members, co-ordinated action and sustained morale across regions. Distribution networks were themselves a form of active resistance.</li>
+        <li><strong>Women's central role.</strong> Women were disproportionately involved in printing and distributing clandestine materials, exploiting the relative freedom of movement that German checkpoints afforded them compared to men.</li>
+      </ul></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📌 Stimulus 2 — Unité et souffrance</div>
+    <div class="ab-toggle">
+      <button class="ab-btn active" onclick="toggleAB(this,'s2a','s2b')">A</button>
+      <button class="ab-btn" onclick="toggleAB(this,'s2b','s2a')">B</button>
+    </div>
+    <div class="ab-panel active" id="s2a">
+      <div class="stim"><h3>A · La Résistance n'était pas une force unifiée.</h3>
+        <ul><li>Votre opinion sur la déclaration.</li><li>Le rôle de Jean Moulin.</li></ul>
+      </div>
+      <div class="q-lbl">❓ Q1 : Est-il vrai de dire qu'il n'y avait pas une Résistance unifiée ?</div>
+      <div class="ic"><div class="ic-title">Contenu indicatif</div><ul>
+        <li><strong>Initially, the statement is accurate.</strong> Resistance groups emerged independently, each driven by its own political ideology — Communist, Socialist, Christian, Jewish, trade unionist — with no shared command and little co-ordination.</li>
+        <li><strong>Personal rivalries compounded the structural problem.</strong> Henri Frenay (Combat) and Emmanuel d'Astier (Libération) had a bitter personal and ideological rivalry that actively obstructed collaboration — illustrating how fragmented the movement was at its origins.</li>
+        <li><strong>A structural divide also existed</strong> between the Free French forces around De Gaulle in London and the clandestine movements inside occupied France, with different resources, different risks and sometimes conflicting strategic priorities.</li>
+        <li><strong>The statement needs nuancing after 1943.</strong> Moulin's creation of the CNR transformed the picture: the Resistance became, if not fully unified, at least co-ordinated enough to act as a coherent force in the final phase of the occupation.</li>
+      </ul></div>
+      <div class="q-lbl">❓ Q2 : Quel a été le rôle de Jean Moulin ?</div>
+      <div class="ic"><div class="ic-title">Contenu indicatif</div><ul>
+        <li><strong>A mission of unification.</strong> Parachuted back into France in January 1942 as De Gaulle's personal representative, Moulin's task was to persuade competing resistance groups — with deep ideological differences — to accept a shared command structure and recognise De Gaulle's authority.</li>
+        <li><strong>The Conseil National de la Résistance (CNR).</strong> In May 1943 he created the CNR, bringing together all major resistance movements — including the French Communist Party, which had previously held back — alongside political parties and trade unions. This was a remarkable achievement given the scale of the divisions involved.</li>
+        <li><strong>His death and legacy.</strong> Arrested by the Gestapo and tortured to death in June 1943, Moulin became the symbolic martyr of the Resistance. The CNR survived him and gave the Resistance the political coherence it needed to play a role in post-liberation France.</li>
+      </ul></div>
+    </div>
+    <div class="ab-panel" id="s2b">
+      <div class="stim"><h3>B · La population française a beaucoup souffert à cause des actions des résistants pendant l'Occupation.</h3>
+        <ul><li>La part de responsabilité des résistants dans la souffrance de la population.</li><li>Le soutien de la population française envers la Résistance.</li></ul>
+      </div>
+      <div class="q-lbl">❓ Q1 : Comment les actions de la Résistance ont-elles contribué à la souffrance de la population ?</div>
+      <div class="ic"><div class="ic-title">Contenu indicatif</div><ul>
+        <li><strong>German reprisals were systematic and deliberately brutal.</strong> Acts of sabotage or assassination triggered collective punishment: executions of hostages, mass deportations, confiscation of property. The logic was to make the civilian cost of sheltering the Resistance unbearable.</li>
+        <li><strong>Oradour-sur-Glane as a defining case.</strong> On 10 June 1944, an SS unit massacred 642 men, women and children in reprisal for resistance activity in the region. The village was never rebuilt and stands as a memorial today. This shows how the violence of occupation, triggered in part by resistance activity, fell disproportionately on those with no direct involvement.</li>
+        <li><strong>A genuine moral complexity.</strong> This does not mean the Resistance was wrong to act — but it raises a legitimate question about who bore the cost of resistance, and whether that suffering should be attributed to the resisters or to the occupiers who chose to respond with terror against civilians.</li>
+      </ul></div>
+      <div class="q-lbl">❓ Q2 : Comment la population a-t-elle aidé la Résistance ?</div>
+      <div class="ic"><div class="ic-title">Contenu indicatif</div><ul>
+        <li><strong>Active engagement was a minority activity.</strong> Historians estimate only 1.5–3% of the French population were actively involved in organised resistance in 1942. But measuring support by formal membership alone is misleading.</li>
+        <li><strong>Informal and passive support was far more widespread.</strong> Hiding a resistance fighter, providing food, running an errand, passing on overheard information — these acts required real courage even without armed combat. Collectively they sustained the Resistance's operational capacity.</li>
+        <li><strong>Workplace resistance.</strong> Workers in German-controlled factories could slow production, sabotage machinery or refuse overtime. This form of everyday resistance was low-profile but significant in aggregate, particularly in industries vital to the German war effort.</li>
+      </ul></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📌 Stimulus 3 — Soutien populaire et efficacité</div>
+    <div class="ab-toggle">
+      <button class="ab-btn active" onclick="toggleAB(this,'s3a','s3b')">A</button>
+      <button class="ab-btn" onclick="toggleAB(this,'s3b','s3a')">B</button>
+    </div>
+    <div class="ab-panel active" id="s3a">
+      <div class="stim"><h3>A · Les actions de la Résistance ne plaisaient pas à tous les Français.</h3></div>
+      <div class="q-lbl">❓ Q1 : Jusqu'à quel point est-ce que tous les Français approuvaient les activités de la Résistance ?</div>
+      <div class="ic"><div class="ic-title">Contenu indicatif</div><ul>
+        <li><strong>Active support was limited but meaningful.</strong> With at most 3% directly engaged, the majority of French people did not participate — though this figure tells us little about the much larger proportion who offered informal support or quiet sympathy.</li>
+        <li><strong>Significant sections were hostile or indifferent.</strong> Those who supported the Vichy regime, hoped for a German victory, or simply prioritised family safety had every reason to distance themselves. French collaborators — including members of the Vichy Milice paramilitary police — actively informed on resistance members.</li>
+        <li><strong>Reprisals created a local backlash.</strong> When collective punishment fell on villages that had sheltered resisters, opinion could turn sharply against the Resistance — particularly where those killed had no connection to resistance activity.</li>
+        <li><strong>Unarmed resistance commanded broader sympathy.</strong> Producing false papers, organising strikes, distributing underground newspapers — these forms of civil disobedience engaged a far wider cross-section of society and were more broadly approved than armed operations.</li>
+      </ul></div>
+      <div class="q-lbl">❓ Q2 : Quelles actions la Résistance a-t-elle organisées pendant l'Occupation ?</div>
+      <div class="ic"><div class="ic-title">Contenu indicatif</div><ul>
+        <li><strong>Armed and military operations.</strong> Targeted assassinations, sabotage of railways, bridges and factories, guerrilla attacks on German troop movements — particularly significant in the weeks around the Normandy landings.</li>
+        <li><strong>Civil and clandestine operations.</strong> Production of underground newspapers, forging of identity documents, organising strikes and demonstrations, creating escape networks for Allied prisoners of war and airmen.</li>
+        <li><strong>The two dimensions were complementary.</strong> Armed operations demonstrated that France had not surrendered its dignity; civil operations built the organisational infrastructure and popular legitimacy on which the armed Resistance depended.</li>
+      </ul></div>
+    </div>
+    <div class="ab-panel" id="s3b">
+      <div class="stim"><h3>B · Sans Jean Moulin, la Résistance n'aurait pas été si efficace.</h3></div>
+      <div class="q-lbl">❓ Q1 : Pourquoi la Résistance était-elle dans un si mauvais état avant l'arrivée de Jean Moulin ?</div>
+      <div class="ic"><div class="ic-title">Contenu indicatif</div><ul>
+        <li><strong>Deep political fragmentation.</strong> Each movement had its own political culture and objectives. The French Communist Party (PCF) is a key case: because of the Nazi-Soviet non-aggression pact signed in 1939, Stalin directed European Communist parties not to resist the German occupation. The PCF therefore held back in the early years, causing a damaging split on the French left.</li>
+        <li><strong>Lack of co-ordination wasted effort.</strong> Without a shared command structure, operations were sporadic and uncoordinated. Groups duplicated work, competed for resources and — at worst — treated each other with suspicion. The collective impact was far less than the sum of its parts.</li>
+        <li><strong>Personal conflicts among leaders.</strong> The rivalry between figures such as Frenay and d'Astier was not merely ideological but personal, and it actively impeded the collaboration that effective resistance required.</li>
+      </ul></div>
+      <div class="q-lbl">❓ Q2 : Comment la Résistance a-t-elle contribué à la victoire des Alliés ?</div>
+      <div class="ic"><div class="ic-title">Contenu indicatif</div><ul>
+        <li><strong>Moulin's unifying legacy.</strong> The CNR (May 1943) gave the Resistance political coherence it had previously lacked. For the first time all major movements — including the PCF, which joined the anti-German struggle after Germany invaded the Soviet Union in June 1941 — operated under a shared framework.</li>
+        <li><strong>A real but limited military contribution.</strong> The Resistance's military contribution to Allied victory was significant in specific operations — notably in slowing German reinforcements after D-Day (for example through <em>Opération Tortue</em>) — but historians generally conclude it was not decisive in purely military terms.</li>
+        <li><strong>Intelligence, morale and political legacy.</strong> Communication networks provided vital pre-D-Day intelligence. Perhaps equally important was the symbolic dimension: the Resistance kept alive French agency and national dignity during four years of occupation, and gave post-war France a political identity — and a myth of collective heroism — it could not otherwise have claimed.</li>
+      </ul></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📌 Stimulus 4 — Le Parti communiste français (PCF)</div>
+    <div class="stim"><h3>B · Le Parti communiste français n'a pas joué un grand rôle dans la Résistance.</h3></div>
+    <div class="q-lbl">❓ Q1 : Quelle attitude le PCF avait-il envers la Résistance au début de la guerre ?</div>
+    <div class="ic"><div class="ic-title">Contenu indicatif</div><ul>
+      <li><strong>The Nazi-Soviet Pact placed the PCF in an impossible position.</strong> After Germany and the Soviet Union signed their non-aggression pact in August 1939, Stalin directed Communist parties across Europe to avoid provoking Germany. The PCF adopted an ambivalent stance and initially refused to support armed resistance against either the Germans or Vichy.</li>
+      <li><strong>This created a damaging internal split.</strong> Many rank-and-file Communists found this position untenable and left to join resistance groups independently — a fracture between official party policy and the instincts of individual members.</li>
+      <li><strong>A serious blow to the party's credibility.</strong> At a moment of national occupation, the largest party of the French left was urging restraint. This fundamentally compromised both its moral authority and its claim to represent the French working class.</li>
+    </ul></div>
+    <div class="q-lbl">❓ Q2 : Pourquoi le PCF a-t-il changé de politique plus tard ?</div>
+    <div class="ic"><div class="ic-title">Contenu indicatif</div><ul>
+      <li><strong>Germany's invasion of the Soviet Union transformed everything.</strong> On 22 June 1941, Hitler launched Operation Barbarossa against the USSR, breaking the pact. Stalin immediately reversed course, calling on Communists everywhere to fight fascism. The PCF threw itself into the Resistance with remarkable energy, rapidly building some of the most effective clandestine networks and armed groups.</li>
+      <li><strong>The PCF became a major force in the unified Resistance</strong>, joining the CNR in 1943 and contributing significantly to operations in the final phase of the occupation — particularly in urban areas and among industrial workers.</li>
+      <li><strong>Post-war mythology and historical revision.</strong> After liberation, the PCF claimed the title of <em>parti des 75 000 fusillés</em> — presenting itself as the backbone of the Resistance. Historians have established that the real figure of all Resistants executed was around 4,500, amongst them Communist Party members, and that the claim was a post-war electoral strategy rather far from historical accuracy. The episode illustrates how the memory of the Resistance was actively manipulated post war.</li>
+    </ul></div>
+  </div>
+</div>
+
+<!-- ═══ FEMMES ═══ -->
+<div class="page" id="femmes">
+  <div class="card">
+    <div class="card-title">👩 Les femmes de la Résistance — tableau récapitulatif</div>
+    <p class="subtitle">Utilise ce tableau pour illustrer tes réponses. Passe la souris sur une ligne pour la mettre en évidence.</p>
+    <div style="overflow-x:auto"><table class="women-table">
+      <thead><tr><th>Nom</th><th>Rôle principal</th><th>Actions notables</th><th>Sort / Reconnaissance</th></tr></thead>
+      <tbody id="womenBody"></tbody>
+    </table></div>
+  </div>
+</div>
+
+<!-- ═══ MCQ ═══ -->
+<div class="page" id="mcq">
+  <div class="card">
+    <div class="card-title"><span class="sn">1</span> Compréhension — Choix multiple</div>
+    <p class="subtitle">Choisis la meilleure réponse pour chaque question.</p>
+    <div id="mcqBox"></div>
+    <button class="btn btn-gold" onclick="checkMCQ()">Vérifier ✓</button>
+  </div>
+</div>
+
+<!-- ═══ GAPS ═══ -->
+<div class="page" id="gaps">
+  <div class="card">
+    <div class="card-title"><span class="sn">2</span> Texte à trous</div>
+    <p class="subtitle">Complète les phrases avec le bon mot. Deux mots sont en trop !</p>
+    <div class="word-bank" id="wordBank"><strong>Mots :</strong> </div>
+    <div id="gapBox"></div>
+    <button class="btn btn-gold" style="margin-top:.7rem" onclick="checkGaps()">Vérifier ✓</button>
+  </div>
+</div>
+
+<!-- ═══ VOCAB ═══ -->
+<div class="page" id="vocab">
+  <div class="card">
+    <div class="card-title"><span class="sn">3</span> Vocabulaire — Relie</div>
+    <p class="subtitle">Associe chaque terme à sa définition ou traduction anglaise.</p>
+    <div id="vocabBox"></div>
+    <button class="btn btn-gold" style="margin-top:.8rem" onclick="checkVocab()">Vérifier ✓</button>
+  </div>
+</div>
+
+<!-- ═══ DISCUSSION ═══ -->
+<div class="page" id="disc">
+  <div class="card">
+    <div class="card-title"><span class="sn">4</span> Préparation — Banque de phrases</div>
+    <p class="subtitle">Clique sur une phrase pour l'insérer dans la zone de notes ci-dessous.</p>
+    <div class="phrase-bank" id="phraseBank"></div>
+  </div>
+  <div id="discQs"></div>
+</div>
+
+<!-- SCORE BAR -->
+<div id="scoreBar">
+  <span id="scoreText">Score : 0 / 0</span>
+  <div class="btn-row">
+    <button class="btn" onclick="window.scrollTo({top:0,behavior:'smooth'})">⬆ Haut</button>
+    <button class="btn btn-green" onclick="downloadResults()">📥 Télécharger résultats</button>
+  </div>
+</div>
+
+<button id="kbToggle" onclick="toggleKb()">é</button>
+<div id="accentKb">
+  <div style="color:#94a3b8;font-size:.66rem;text-align:center;margin-bottom:.2rem">ACCENTS</div>
+  <div class="kb-row">
+    <button class="kb-btn" onclick="ins('à')">à</button><button class="kb-btn" onclick="ins('â')">â</button>
+    <button class="kb-btn" onclick="ins('é')">é</button><button class="kb-btn" onclick="ins('è')">è</button>
+    <button class="kb-btn" onclick="ins('ê')">ê</button>
+  </div>
+  <div class="kb-row">
+    <button class="kb-btn" onclick="ins('î')">î</button><button class="kb-btn" onclick="ins('ï')">ï</button>
+    <button class="kb-btn" onclick="ins('ô')">ô</button><button class="kb-btn" onclick="ins('ù')">ù</button>
+    <button class="kb-btn" onclick="ins('û')">û</button>
+  </div>
+  <div class="kb-row">
+    <button class="kb-btn" onclick="ins('ç')">ç</button><button class="kb-btn" onclick="ins('œ')">œ</button>
+    <button class="kb-btn" onclick="ins('«')">«</button><button class="kb-btn" onclick="ins('»')">»</button>
+  </div>
+</div>
+
+<script>
+let sName='', lastF=null, scores={};
+document.addEventListener('focusin',e=>{const t=e.target;if((t.tagName==='INPUT'&&t.type==='text')||t.tagName==='TEXTAREA')lastF=t;});
+function toggleKb(){const k=document.getElementById('accentKb');k.style.display=k.style.display!=='flex'?'flex':'none';}
+function ins(ch){if(!lastF)return;const el=lastF,s=el.selectionStart,e2=el.selectionEnd;el.value=el.value.slice(0,s)+ch+el.value.slice(e2);el.selectionStart=el.selectionEnd=s+ch.length;el.focus();}
+function shuffle(a){return[...a].sort(()=>Math.random()-.5);}
+function norm(s){return s.toLowerCase().trim().replace(/\s+/g,' ');}
+
+function startApp(){
+  sName=document.getElementById('nameInput').value.trim();
+  if(!sName){alert('Veuillez entrer votre nom.');return;}
+  document.getElementById('nameSection').style.display='none';
+  document.getElementById('appHeader').style.display='block';
+  document.getElementById('appNav').style.display='flex';
+  document.getElementById('scoreBar').style.display='flex';
+  document.getElementById('kbToggle').style.display='block';
+  document.querySelectorAll('.page').forEach(p=>p.style.display='');
+  show('stimuli');
+  buildAll();
+}
+
+function show(id){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  const tabs=['stimuli','femmes','mcq','gaps','vocab','disc'];
+  document.querySelectorAll('.tab')[tabs.indexOf(id)].classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function toggleAB(btn,showId,hideId){
+  btn.parentElement.querySelectorAll('.ab-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById(showId).classList.add('active');
+  document.getElementById(hideId).classList.remove('active');
+}
+
+// ── DATA ────────────────────────────────────────────────────────────────────
+
+const womenData=[
+  {name:"Berty Albrecht",role:"Co-founder, Combat movement",ops:"Built one of the first major resistance networks inside France",fate:"Arrested; died in Gestapo custody, 1943"},
+  {name:"Germaine Tillion",role:"Intelligence; advocacy for deportees",ops:"Survived Ravensbrück; identified and pursued Nazi war criminals post-liberation",fate:"Elected to the Académie française"},
+  {name:"Lucie Aubrac",role:"Rescue and escape operations",ops:"Repeatedly organised her husband Raymond's escape from German detention, including an armed ambush of a prison van",fate:"Prominent post-war spokesperson for the Resistance"},
+  {name:"Danielle Casanova",role:"Political organiser",ops:"Founded the Union des Jeunes Filles de France; ran underground patriotic committees",fate:"Deported; died in Auschwitz, 1943"},
+  {name:"Jeanne Bohec (1919–)",role:"Sabotage specialist",ops:"Explosives operations across Brittany; nicknamed 'la plastiqueuse à bicyclette'",fate:"Survived the Liberation"},
+  {name:"Agnès Humbert",role:"Intelligence and clandestine press",ops:"Central figure in the Musée de l'Homme network — one of Paris's first organised resistance groups",fate:"Deported; wrote a celebrated memoir"},
+  {name:"Andrée de Jonghe",role:"Escape network leader",ops:"Created the 'Ligne Comète', which evacuated 600+ Allied airmen through occupied Europe to Spain",fate:"Survived; honoured by Belgium, France and Britain"},
+  {name:"Génia Deschamps/Gémähling",role:"Liaison officer",ops:"Organised meetings between resistance leaders; maintained Paris–maquis communication links",fate:"Arrested 1944; freed at Liberation"},
+  {name:"Cécile Tanguy (~20)",role:"Courier / liaison agent",ops:"Transported weapons and explosives, exploiting the relative freedom of movement afforded to women",fate:"—"},
+  {name:"Nicole Lambert (17)",role:"Courier / liaison agent",ops:"One of the youngest documented resistance couriers",fate:"—"},
+  {name:"Jacqueline Nearne",role:"SOE wireless operator",ops:"British-trained agent parachuted into France; maintained radio links between the Resistance and London",fate:"Captured; survived deportation"},
+  {name:"Madeleine Riffaud (1926–)",role:"Armed combatant and officer",ops:"Participated in armed operations including the assassination of a German officer; helped capture a Wehrmacht train",fate:"Kept silent about her role until 1994"},
+  {name:"Marguerite Gonnet",role:"Military commander",ops:"Led Libération-Sud in the Isère: 'I took up arms because men had dropped them'",fate:"—"},
+  {name:"Joséphine Baker",role:"Entertainer and intelligence agent",ops:"Used celebrity status and freedom of movement as a performer to gather intelligence for the Free French",fate:"Légion d'honneur; Croix de guerre"},
+];
+
+const mcqData=[
+  {q:"Quel événement a conduit le PCF à rejoindre activement la Résistance en 1941 ?",
+   opts:["L'appel du 18 juin de De Gaulle depuis Londres","L'invasion de l'URSS par l'Allemagne le 22 juin 1941","La création du CNR par Jean Moulin","Le débarquement allié en Normandie"],
+   ans:1,expl:"Le pacte nazi-soviétique de 1939 avait contraint le PCF à l'inaction. L'invasion de l'URSS brisait ce pacte et obligeait les communistes à rejoindre la lutte antifasciste."},
+  {q:"Qu'est-ce que le Conseil National de la Résistance (CNR), créé par Jean Moulin en mai 1943 ?",
+   opts:["Un journal clandestin publié par les socialistes","Un conseil unifiant tous les grands mouvements de résistance, partis politiques et syndicats sous l'autorité de De Gaulle","Une unité militaire spécialisée dans le sabotage","Un réseau d'évasion pour les soldats alliés"],
+   ans:1,expl:"Le CNR rassemblait pour la première fois tous les grands mouvements — y compris le PCF — ainsi que les partis politiques et les syndicats, sous l'autorité de De Gaulle."},
+  {q:"Quel pourcentage de la population française était activement engagé dans la Résistance en 1942 ?",
+   opts:["Environ 10 %","Entre 1,5 % et 3 %","Moins de 0,5 %","Environ 20 %"],
+   ans:1,expl:"Les historiens estiment 1,5 à 3 % — mais un nombre bien plus élevé apportait un soutien informel essentiel."},
+  {q:"Pourquoi le massacre d'Oradour-sur-Glane est-il pertinent dans ce contexte ?",
+   opts:["Il illustre l'efficacité militaire de la Résistance","Il montre comment les représailles allemandes pouvaient retourner l'opinion civile contre la Résistance","Il prouve que la population soutenait massivement les résistants","Il démontre la brutalité des milices de Vichy"],
+   ans:1,expl:"Le massacre de 642 civils le 10 juin 1944 illustre la logique des représailles collectives : punir des innocents pour décourager le soutien populaire à la Résistance."},
+  {q:"Pourquoi les femmes étaient-elles particulièrement efficaces comme courriers et agents de liaison ?",
+   opts:["Elles avaient reçu une formation militaire spéciale","Elles étaient moins susceptibles d'être arrêtées et fouillées aux checkpoints allemands que les hommes en âge de combattre","Elles occupaient des postes officiels dans l'administration de Vichy","Elles bénéficiaient d'une protection juridique particulière"],
+   ans:1,expl:"Les soldats allemands ciblaient avant tout les hommes en âge de combattre. Les femmes pouvaient transporter messages, armes et documents avec un risque moindre d'être détectées."},
+  {q:"Quelle affirmation du PCF sur son rôle a été remise en question par les historiens ?",
+   opts:["Qu'il avait créé le CNR en 1943","Qu'il avait été le 'parti des 75 000 fusillés' — les historiens estiment le chiffre réel à environ 4 500","Qu'il avait refusé de rejoindre la Résistance jusqu'en 1944","Que De Gaulle avait interdit aux communistes de rejoindre la Résistance"],
+   ans:1,expl:"Le chiffre de 75 000 était une construction politique post-guerre pour rehausser l'image du PCF. Les historiens estiment le nombre réel à environ 4 500 membres exécutés."},
+  {q:"Qu'est-ce qui a empêché une collaboration efficace entre les groupes de résistance avant l'arrivée de Jean Moulin ?",
+   opts:["Un manque de financement de la part des Alliés","Des différences idéologiques profondes, des rivalités personnelles entre chefs, et l'absence de structure de commandement partagée","L'interdiction formelle de De Gaulle de co-opérer","Le fait que la Gestapo avait infiltré tous les réseaux"],
+   ans:1,expl:"La fragmentation politique (communistes, socialistes, chrétiens, etc.), les rivalités personnelles (Frenay vs d'Astier) et l'absence de commandement unifié empêchaient toute action co-ordonnée efficace."},
+];
+
+const gapData=[
+  {before:"Jean Moulin a créé le Conseil National de la Résistance, connu sous le nom de ",ans:"CNR",after:", en mai 1943."},
+  {before:"Le pacte germano-soviétique de 1939 a conduit le PCF à adopter une position ",ans:"ambivalente",after:" envers la Résistance au début de la guerre."},
+  {before:"Le massacre d'",ans:"Oradour",after:"-sur-Glane le 10 juin 1944 illustre la brutalité des représailles allemandes contre les civils."},
+  {before:"Seulement 1,5 à 3 % de la population était activement ",ans:"engagée",after:" dans la Résistance en 1942, mais un soutien informel plus large était essentiel."},
+  {before:"Jeanne Bohec était surnommée 'la ",ans:"plastiqueuse",after:" à bicyclette' pour ses opérations de sabotage en Bretagne."},
+  {before:"Les journaux ",ans:"clandestins",after:" diffusaient des informations que la presse contrôlée par les Allemands supprimait, soutenant ainsi le moral et le recrutement."},
+  {before:"La Résistance était profondément ",ans:"fragmentée",after:" à ses débuts, chaque groupe suivant son propre agenda politique."},
+  {before:"Andrée de Jonghe a dirigé la 'Ligne ",ans:"Comète",after:"', un réseau d'évasion qui a permis à plus de 600 soldats alliés de fuir l'Europe occupée."},
+];
+const gapDistractors=["déportée","armistice"];
+
+const vocabData=[
+  {fr:"le sabotage",opts:["deliberate destruction of enemy infrastructure or supply lines","an underground newspaper","a safe house","an escape route"],ans:"deliberate destruction of enemy infrastructure or supply lines"},
+  {fr:"clandestin(e)",opts:["secret / underground / operating outside the law","armed","foreign","civilian"],ans:"secret / underground / operating outside the law"},
+  {fr:"les représailles",opts:["reprisals — collective punishment in response to resistance activity","rewards for informers","ceasefire negotiations","reinforcements"],ans:"reprisals — collective punishment in response to resistance activity"},
+  {fr:"unifier",opts:["to unite / bring competing factions under a shared structure","to arm","to infiltrate","to publish"],ans:"to unite / bring competing factions under a shared structure"},
+  {fr:"un réseau",opts:["a network — an organised group of resistance cells","a newspaper","a border crossing","a weapons cache"],ans:"a network — an organised group of resistance cells"},
+  {fr:"un agent de liaison",opts:["a courier / go-between who carries messages between resistance cells","a saboteur","a spy","a forger"],ans:"a courier / go-between who carries messages between resistance cells"},
+  {fr:"la Milice",opts:["Vichy's paramilitary police force, which actively persecuted the Resistance","the French army","a Communist resistance cell","the Free French forces"],ans:"Vichy's paramilitary police force, which actively persecuted the Resistance"},
+  {fr:"fragmenté",opts:["fragmented / divided into competing groups with no shared command","united","armed","clandestine"],ans:"fragmented / divided into competing groups with no shared command"},
+  {fr:"la France Libre",opts:["De Gaulle's government-in-exile and Free French forces, based in London","the French Communist Party","the Socialist resistance network","the post-liberation government"],ans:"De Gaulle's government-in-exile and Free French forces, based in London"},
+  {fr:"les représailles collectives",opts:["collective punishment of civilians in reprisal for resistance activity","individual trials of resistance members","negotiations between resisters and occupiers","mass arrests of Communist party members"],ans:"collective punishment of civilians in reprisal for resistance activity"},
+];
+
+const phrases=[
+  "À mon avis, cette affirmation mérite d'être nuancée car…",
+  "Il est indéniable que…",
+  "On pourrait arguer que… mais il faut aussi considérer que…",
+  "D'une part… d'autre part…",
+  "Les chiffres montrent que…",
+  "Un exemple particulièrement frappant est celui de…",
+  "Sans Jean Moulin, il est probable que…",
+  "Les femmes ont joué un rôle crucial en ce qu'elles…",
+  "La Résistance était loin d'être homogène car…",
+  "Les représailles allemandes ont eu pour effet de…",
+  "Le PCF a changé de position parce que…",
+  "On ne saurait ignorer le fait que…",
+  "Cela dit, il convient de reconnaître que…",
+  "Cette affirmation est partiellement vraie, dans la mesure où…",
+  "En définitive, je dirais que…",
+  "Il faut distinguer entre… et…",
+];
+
+const discQs=[
+  {q:"Est-ce que les actes de sabotage auraient réussi sans le soutien de la population ? Justifiez votre réponse."},
+  {q:"Comment les femmes ont-elles contribué aux opérations de la Résistance, y compris le sabotage ?"},
+  {q:"La Résistance était-elle vraiment une force unifiée ? Dans quelle mesure la situation a-t-elle évolué ?"},
+  {q:"Quel a été le rôle décisif de Jean Moulin dans l'unification de la Résistance ?"},
+  {q:"Dans quelle mesure peut-on dire que les actions de la Résistance ont contribué à la souffrance de la population française ?"},
+  {q:"Pourquoi le PCF n'a-t-il pas participé à la Résistance dès le début, et qu'est-ce qui a provoqué son revirement ?"},
+];
+
+// ── BUILD ────────────────────────────────────────────────────────────────────
+
+function buildAll(){buildWomen();buildMCQ();buildGaps();buildVocab();buildDisc();}
+
+function buildWomen(){
+  const tb=document.getElementById('womenBody');
+  womenData.forEach(w=>{
+    const tr=document.createElement('tr');
+    tr.innerHTML=`<td><strong>${w.name}</strong></td><td>${w.role}</td><td>${w.ops}</td><td>${w.fate}</td>`;
+    tb.appendChild(tr);
+  });
+}
+
+function buildMCQ(){
+  const c=document.getElementById('mcqBox');
+  mcqData.forEach((q,i)=>{
+    const d=document.createElement('div');d.className='q-block';
+    d.innerHTML=`<div class="q-text">${i+1}. ${q.q}</div><div class="options" id="mopts${i}">`
+      +q.opts.map((o,j)=>`<label id="mlbl${i}_${j}"><input type="radio" name="mcq${i}" value="${j}"> ${o}</label>`).join('')
+      +`</div><div class="feedback" id="mfb${i}" style="display:none"></div>`;
+    c.appendChild(d);
+  });
+}
+
+function buildGaps(){
+  const all=shuffle([...gapData.map(g=>g.ans),...gapDistractors]);
+  const wb=document.getElementById('wordBank');
+  all.forEach(w=>{const s=document.createElement('span');s.className='wb-tag';s.textContent=w;wb.appendChild(s);});
+  const c=document.getElementById('gapBox');
+  let html='<p class="gap-p">';
+  gapData.forEach((g,i)=>{html+=`<strong>${i+1}.</strong> `+g.before+`<input type="text" class="gap" id="gap${i}" placeholder="…" autocomplete="off">`+g.after+'<br><br>';});
+  c.innerHTML=html+'</p>';
+}
+
+function buildVocab(){
+  const c=document.getElementById('vocabBox');
+  vocabData.forEach((v,i)=>{
+    const d=document.createElement('div');d.className='vmatch-row';
+    const sh=shuffle(v.opts);
+    d.innerHTML=`<span class="vm-fr">${v.fr}</span>
+      <select class="vm-sel" id="vm${i}"><option value="">— choisir —</option>
+      ${sh.map(o=>`<option value="${o}">${o}</option>`).join('')}</select>
+      <span class="vm-fb" id="vmfb${i}"></span>`;
+    c.appendChild(d);
+  });
+}
+
+function buildDisc(){
+  const pb=document.getElementById('phraseBank');
+  phrases.forEach(p=>{
+    const s=document.createElement('span');s.className='phrase-tag';s.textContent=p;
+    s.onclick=()=>{if(lastF){const el=lastF,pos=el.selectionStart;el.value=el.value.slice(0,pos)+p+el.value.slice(pos);el.focus();}};
+    pb.appendChild(s);
+  });
+  const c=document.getElementById('discQs');
+  discQs.forEach((q,i)=>{
+    const d=document.createElement('div');d.className='card';
+    d.innerHTML=`<div class="card-title"><span class="sn">${i+1}</span> ${q.q}</div>
+      <textarea class="disc-area" id="discA${i}" rows="4" placeholder="Prépare ta réponse ici…"></textarea>`;
+    c.appendChild(d);
+  });
+}
+
+// ── CHECK ────────────────────────────────────────────────────────────────────
+
+function checkMCQ(){
+  let ok=0;
+  mcqData.forEach((q,i)=>{
+    const sel=document.querySelector(`input[name="mcq${i}"]:checked`);
+    const fb=document.getElementById(`mfb${i}`);
+    for(let j=0;j<q.opts.length;j++)document.getElementById(`mlbl${i}_${j}`).classList.remove('correct','wrong');
+    if(!sel){fb.style.display='block';fb.className='feedback bad';fb.textContent='⚠️ Pas de réponse.';return;}
+    const v=parseInt(sel.value);
+    if(v===q.ans){document.getElementById(`mlbl${i}_${v}`).classList.add('correct');fb.style.display='block';fb.className='feedback ok';fb.innerHTML=`✅ Correct ! ${q.expl}`;ok++;}
+    else{document.getElementById(`mlbl${i}_${v}`).classList.add('wrong');document.getElementById(`mlbl${i}_${q.ans}`).classList.add('correct');fb.style.display='block';fb.className='feedback bad';fb.innerHTML=`❌ Bonne réponse : <strong>${q.opts[q.ans]}</strong>. ${q.expl}`;}
+  });
+  scores.mcq={got:ok,total:mcqData.length};upScore();
+}
+
+function checkGaps(){
+  let ok=0;
+  gapData.forEach((g,i)=>{
+    const el=document.getElementById(`gap${i}`);el.classList.remove('ci','wi');
+    if(norm(el.value)===norm(g.ans)){el.classList.add('ci');ok++;}
+    else{el.classList.add('wi');el.title=`Réponse : ${g.ans}`;}
+  });
+  scores.gaps={got:ok,total:gapData.length};upScore();
+  alert(`Texte à trous : ${ok}/${gapData.length}. Passe la souris sur les cases rouges pour voir la réponse correcte.`);
+}
+
+function checkVocab(){
+  let ok=0;
+  vocabData.forEach((v,i)=>{
+    const val=document.getElementById(`vm${i}`).value;
+    const fb=document.getElementById(`vmfb${i}`);
+    if(val===v.ans){fb.textContent='✅';ok++;}
+    else{fb.innerHTML=`❌ <small style="color:var(--red)">${v.ans}</small>`;}
+  });
+  scores.vocab={got:ok,total:vocabData.length};upScore();
+}
+
+function upScore(){
+  let g=0,t=0;
+  Object.values(scores).forEach(s=>{g+=s.got;t+=s.total;});
+  document.getElementById('scoreText').textContent=`${sName} — Score : ${g} / ${t}`;
+  document.getElementById('progFill').style.width=(t>0?Math.round(g/t*100):0)+'%';
+}
+
+// ── DOWNLOAD ─────────────────────────────────────────────────────────────────
+
+function downloadResults(){
+  const now=new Date().toLocaleString('fr-FR');
+  const labels={mcq:'Compréhension (QCM)',gaps:'Texte à trous',vocab:'Vocabulaire'};
+  let g=0,t=0;
+  const lines=[
+    `RÉSULTATS — La Résistance (Paper 3 Task 1)`,
+    `Élève : ${sName}`,
+    `Date : ${now}`,
+    ``,`=== SCORES ===`
+  ];
+  Object.entries(scores).forEach(([k,v])=>{lines.push(`${labels[k]||k} : ${v.got} / ${v.total}`);g+=v.got;t+=v.total;});
+  lines.push(``,`TOTAL : ${g} / ${t} (${t>0?Math.round(g/t*100):0} %)`,``);
+
+  lines.push(`=== DÉTAILS : QCM ===`);
+  mcqData.forEach((q,i)=>{
+    const sel=document.querySelector(`input[name="mcq${i}"]:checked`);
+    lines.push(`Q${i+1} : ${q.q}`);
+    lines.push(`  Réponse : ${sel?q.opts[parseInt(sel.value)]:'(sans réponse)'}`);
+    lines.push(`  Correcte : ${q.opts[q.ans]}`);
+  });
+
+  lines.push(``,`=== DÉTAILS : TEXTE À TROUS ===`);
+  gapData.forEach((g2,i)=>{
+    const val=document.getElementById(`gap${i}`)?.value||'';
+    lines.push(`${i+1}. ${g2.before}[${val}]${g2.after}`);
+    lines.push(`   Correcte : ${g2.ans}`);
+  });
+
+  lines.push(``,`=== NOTES DE DISCUSSION ===`);
+  discQs.forEach((q,i)=>{
+    const val=document.getElementById(`discA${i}`)?.value||'(vide)';
+    lines.push(`Q${i+1} : ${q.q}`);
+    lines.push(`  Notes : ${val}`);
+    lines.push('');
+  });
+
+  const blob=new Blob([lines.join('\n')],{type:'text/plain;charset=utf-8'});
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);
+  a.download=`resistance_task1_${sName.replace(/\s+/g,'_')}.txt`;
+  a.click();
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,1969 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>La Haine - Complete Quotes Study Tool</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #0a0a14;
+            color: #f0f0f0;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            text-align: center;
+            padding: 30px 0;
+            border-bottom: 3px solid #d9232d;
+            margin-bottom: 30px;
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.9));
+            border-radius: 10px;
+        }
+        
+        h1 {
+            font-size: 3.2rem;
+            margin-bottom: 10px;
+            color: #d9232d;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+        }
+        
+        .subtitle {
+            font-size: 1.3rem;
+            color: #c0c0c0;
+            margin-bottom: 20px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .tab-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 30px 0;
+            background-color: #1a1a2e;
+            padding: 15px;
+            border-radius: 10px;
+        }
+        
+        .tab-btn {
+            padding: 12px 24px;
+            background-color: #16213e;
+            border: 2px solid #0f3460;
+            color: white;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            flex: 1;
+            min-width: 120px;
+            text-align: center;
+        }
+        
+        .tab-btn:hover {
+            background-color: #0f3460;
+            transform: translateY(-3px);
+        }
+        
+        .tab-btn.active {
+            background-color: #d9232d;
+            border-color: #d9232d;
+        }
+        
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+        
+        @media (max-width: 1024px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .activity-panel {
+            background-color: #16213e;
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+            border: 1px solid #0f3460;
+        }
+        
+        .panel-title {
+            color: #d9232d;
+            font-size: 1.6rem;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #0f3460;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .panel-title i {
+            font-size: 1.4rem;
+        }
+        
+        .quote-list-container {
+            max-height: 500px;
+            overflow-y: auto;
+            margin-bottom: 20px;
+            border: 1px solid #0f3460;
+            border-radius: 8px;
+            padding: 10px;
+        }
+        
+        .quote-item {
+            background-color: #0f3460;
+            padding: 18px;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            border-left: 5px solid #1a1a2e;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .quote-item:hover {
+            transform: translateX(5px);
+            border-left-color: #d9232d;
+        }
+        
+        .quote-item.mastered {
+            border-left-color: #4CAF50;
+        }
+        
+        .quote-item.active {
+            background-color: #1a3a6e;
+            border-left-color: #ff4757;
+            box-shadow: 0 0 10px rgba(217, 35, 45, 0.5);
+        }
+        
+        .quote-french {
+            font-style: italic;
+            margin-bottom: 10px;
+            font-size: 1.15rem;
+            line-height: 1.5;
+        }
+        
+        .quote-english {
+            color: #a9a9b8;
+            font-size: 1rem;
+            margin-bottom: 8px;
+            line-height: 1.4;
+        }
+        
+        .quote-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 10px;
+        }
+        
+        .quote-theme {
+            background-color: #1a1a2e;
+            color: #d9232d;
+            font-size: 0.85rem;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-weight: bold;
+        }
+        
+        .quote-id {
+            color: #a9a9b8;
+            font-size: 0.9rem;
+            font-weight: bold;
+        }
+        
+        .practice-area {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        .quote-display {
+            background-color: #0f3460;
+            padding: 25px;
+            border-radius: 8px;
+            min-height: 200px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            border: 1px solid #1a1a2e;
+        }
+        
+        #current-quote {
+            font-size: 1.4rem;
+            font-style: italic;
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+        
+        #current-theme {
+            color: #d9232d;
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+        
+        #current-context {
+            color: #a9a9b8;
+            font-size: 0.95rem;
+            margin-top: 10px;
+            font-style: italic;
+        }
+        
+        .input-area {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        #quote-input {
+            background-color: #0f3460;
+            border: 2px solid #1a1a2e;
+            color: white;
+            padding: 18px;
+            border-radius: 8px;
+            font-size: 1.15rem;
+            resize: vertical;
+            min-height: 150px;
+            line-height: 1.5;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        #quote-input:focus {
+            outline: none;
+            border-color: #d9232d;
+        }
+        
+        .input-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        .action-btn {
+            padding: 14px 28px;
+            background-color: #d9232d;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 1rem;
+        }
+        
+        .action-btn:hover {
+            background-color: #b51e26;
+            transform: translateY(-2px);
+        }
+        
+        .theme-btn {
+            background-color: #0f3460;
+        }
+        
+        .theme-btn:hover {
+            background-color: #16213e;
+        }
+        
+        .theme-btn.active {
+            background-color: #d9232d;
+        }
+        
+        .hint-btn {
+            background-color: #0f3460;
+        }
+        
+        .hint-btn:hover {
+            background-color: #16213e;
+        }
+        
+        .accent-keyboard {
+            background-color: #0f3460;
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 15px;
+            border: 1px solid #1a1a2e;
+        }
+        
+        .keyboard-title {
+            color: #a9a9b8;
+            font-size: 1rem;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .accent-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        .accent-btn {
+            padding: 10px 15px;
+            background-color: #16213e;
+            border: 1px solid #1a1a2e;
+            color: white;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: all 0.2s;
+            min-width: 50px;
+            text-align: center;
+        }
+        
+        .accent-btn:hover {
+            background-color: #1a1a2e;
+            transform: translateY(-2px);
+        }
+        
+        .download-section {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 30px;
+            border-top: 1px solid #0f3460;
+        }
+        
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .stat-card {
+            background-color: #16213e;
+            padding: 25px;
+            border-radius: 10px;
+            text-align: center;
+            border: 1px solid #0f3460;
+            transition: transform 0.3s;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .stat-value {
+            font-size: 2.5rem;
+            color: #d9232d;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .stat-label {
+            font-size: 1rem;
+            color: #a9a9b8;
+        }
+        
+        .progress-container {
+            background-color: #16213e;
+            padding: 25px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            border: 1px solid #0f3460;
+        }
+        
+        .progress-bar {
+            height: 12px;
+            background-color: #0f3460;
+            border-radius: 6px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #d9232d, #ff4757);
+            width: 0%;
+            transition: width 0.8s cubic-bezier(0.22, 0.61, 0.36, 1);
+            border-radius: 6px;
+        }
+        
+        .progress-info {
+            display: flex;
+            justify-content: space-between;
+            color: #a9a9b8;
+            font-size: 0.95rem;
+        }
+        
+        .instructions {
+            background-color: #16213e;
+            padding: 25px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            border: 1px solid #0f3460;
+        }
+        
+        .instructions h3 {
+            color: #d9232d;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .instructions-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .instruction-item {
+            background-color: #0f3460;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #d9232d;
+        }
+        
+        .instruction-item i {
+            color: #d9232d;
+            margin-right: 10px;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 25px;
+            color: #a9a9b8;
+            font-size: 0.95rem;
+            margin-top: 40px;
+            border-top: 1px solid #0f3460;
+            background-color: #1a1a2e;
+            border-radius: 10px;
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        .correct-feedback {
+            color: #4CAF50;
+            font-weight: bold;
+            margin-top: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .incorrect-feedback {
+            color: #d9232d;
+            font-weight: bold;
+            margin-top: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .theme-analysis {
+            background-color: #16213e;
+            padding: 25px;
+            border-radius: 10px;
+            margin-top: 30px;
+            border: 1px solid #0f3460;
+        }
+        
+        .theme-analysis h3 {
+            color: #d9232d;
+            margin-bottom: 15px;
+        }
+        
+        .theme-content {
+            display: none;
+        }
+        
+        .theme-content.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .analysis-point {
+            background-color: #0f3460;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            border-left: 4px solid #d9232d;
+        }
+        
+        .analysis-point h4 {
+            color: #d9232d;
+            margin-bottom: 8px;
+        }
+        
+        .search-box {
+            margin-bottom: 20px;
+        }
+        
+        #quote-search, #all-quotes-search {
+            width: 100%;
+            padding: 15px;
+            background-color: #0f3460;
+            border: 2px solid #1a1a2e;
+            color: white;
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+        
+        #quote-search:focus, #all-quotes-search:focus {
+            outline: none;
+            border-color: #d9232d;
+        }
+        
+        .mastery-badge {
+            display: inline-block;
+            background-color: #4CAF50;
+            color: white;
+            font-size: 0.8rem;
+            padding: 3px 10px;
+            border-radius: 20px;
+            margin-left: 10px;
+        }
+        
+        .scene-highlight {
+            background-color: rgba(217, 35, 45, 0.1);
+            border: 1px dashed #d9232d;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .theme-filter-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .brutality-scene-details {
+            background-color: #0f3460;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+            border-left: 5px solid #d9232d;
+        }
+        
+        .timestamp {
+            color: #4CAF50;
+            font-family: monospace;
+            font-size: 0.9rem;
+            margin-bottom: 5px;
+        }
+        
+        .dialogue-line {
+            margin-bottom: 10px;
+            padding-left: 15px;
+            border-left: 2px solid #d9232d;
+        }
+        
+        .dialogue-french {
+            font-style: italic;
+        }
+        
+        .dialogue-english {
+            color: #a9a9b8;
+            font-size: 0.95rem;
+        }
+        
+        .no-quotes {
+            text-align: center;
+            padding: 40px;
+            color: #a9a9b8;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-film"></i> La Haine</h1>
+            <div class="subtitle">Complete Interactive Study Tool for Quotes, Themes, and Analysis</div>
+            <p>Master all essential quotes from Mathieu Kassovitz's landmark film for essays and exams</p>
+        </header>
+        
+        <div class="instructions">
+            <h3><i class="fas fa-graduation-cap"></i> How to Master La Haine Quotes</h3>
+            <div class="instructions-list">
+                <div class="instruction-item">
+                    <i class="fas fa-filter"></i> <strong>Filter by Theme:</strong> Select specific themes to focus your study
+                </div>
+                <div class="instruction-item">
+                    <i class="fas fa-keyboard"></i> <strong>Practice Recall:</strong> Type quotes from memory using the French accent keyboard
+                </div>
+                <div class="instruction-item">
+                    <i class="fas fa-chart-line"></i> <strong>Track Progress:</strong> Monitor your mastery with detailed statistics
+                </div>
+                <div class="instruction-item">
+                    <i class="fas fa-download"></i> <strong>Download Notes:</strong> Export mastered quotes for essay preparation
+                </div>
+            </div>
+        </div>
+        
+        <div class="tab-container">
+            <button class="tab-btn active" data-tab="practice"><i class="fas fa-dumbbell"></i> Quote Practice</button>
+            <button class="tab-btn" data-tab="commissariat"><i class="fas fa-gavel"></i> Commissariat & Violence</button>
+            <button class="tab-btn" data-tab="themes"><i class="fas fa-tags"></i> Thematic Analysis</button>
+            <button class="tab-btn" data-tab="all-quotes"><i class="fas fa-list"></i> All Quotes</button>
+        </div>
+        
+        <!-- PRACTICE TAB -->
+        <div class="tab-content active" id="practice-tab">
+            <div class="stats-container">
+                <div class="stat-card">
+                    <div class="stat-value" id="total-quotes">0</div>
+                    <div class="stat-label">Total Quotes</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="mastered-quotes">0</div>
+                    <div class="stat-label">Mastered</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="practice-count">0</div>
+                    <div class="stat-label">Practiced</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="accuracy">0%</div>
+                    <div class="stat-label">Accuracy</div>
+                </div>
+            </div>
+            
+            <div class="progress-container">
+                <div class="progress-info">
+                    <span>Mastery Progress</span>
+                    <span id="progress-percent">0%</span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="mastery-progress"></div>
+                </div>
+            </div>
+            
+            <div class="theme-filter-buttons">
+                <button class="action-btn theme-btn active" data-theme="all">
+                    <i class="fas fa-globe"></i> All Themes
+                </button>
+                <button class="action-btn theme-btn" data-theme="violence">
+                    <i class="fas fa-fist-raised"></i> Violence
+                </button>
+                <button class="action-btn theme-btn" data-theme="police">
+                    <i class="fas fa-gavel"></i> Police Brutality
+                </button>
+                <button class="action-btn theme-btn" data-theme="racism">
+                    <i class="fas fa-user-slash"></i> Racism
+                </button>
+                <button class="action-btn theme-btn" data-theme="identity">
+                    <i class="fas fa-user"></i> Identity
+                </button>
+                <button class="action-btn theme-btn" data-theme="metaphor">
+                    <i class="fas fa-balance-scale"></i> Metaphor
+                </button>
+            </div>
+            
+            <div class="main-content">
+                <div class="activity-panel">
+                    <h2 class="panel-title"><i class="fas fa-quote-right"></i> Quotes by Theme</h2>
+                    <div class="search-box">
+                        <input type="text" id="quote-search" placeholder="Search quotes...">
+                    </div>
+                    <div class="quote-list-container" id="quote-list">
+                        <!-- Quotes will be dynamically inserted here -->
+                    </div>
+                    <div class="input-controls">
+                        <button class="action-btn" id="new-quote-btn">
+                            <i class="fas fa-random"></i> New Practice Quote
+                        </button>
+                        <button class="action-btn" id="reset-progress-btn">
+                            <i class="fas fa-redo"></i> Reset Progress
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="activity-panel">
+                    <h2 class="panel-title"><i class="fas fa-pen"></i> Practice Recall</h2>
+                    <div class="practice-area">
+                        <div class="quote-display">
+                            <div id="current-quote">Select a quote from the list or click "New Practice Quote" to begin</div>
+                            <div id="current-theme">Theme: </div>
+                            <div id="current-context">Context: </div>
+                            <div id="feedback" class="hidden"></div>
+                        </div>
+                        
+                        <div class="input-area">
+                            <textarea id="quote-input" placeholder="Type the French quote from memory here..."></textarea>
+                            
+                            <div class="input-controls">
+                                <button class="action-btn hint-btn" id="hint-btn">
+                                    <i class="fas fa-lightbulb"></i> Show Hint
+                                </button>
+                                <button class="action-btn" id="check-btn">
+                                    <i class="fas fa-check-circle"></i> Check Answer
+                                </button>
+                                <button class="action-btn" id="reveal-btn">
+                                    <i class="fas fa-eye"></i> Reveal Answer
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="accent-keyboard">
+                            <div class="keyboard-title"><i class="fas fa-keyboard"></i> French Accent Keyboard (Click to Insert)</div>
+                            <div class="accent-buttons">
+                                <button class="accent-btn" data-char="é">é</button>
+                                <button class="accent-btn" data-char="è">è</button>
+                                <button class="accent-btn" data-char="ê">ê</button>
+                                <button class="accent-btn" data-char="ë">ë</button>
+                                <button class="accent-btn" data-char="à">à</button>
+                                <button class="accent-btn" data-char="â">â</button>
+                                <button class="accent-btn" data-char="ç">ç</button>
+                                <button class="accent-btn" data-char="î">î</button>
+                                <button class="accent-btn" data-char="ï">ï</button>
+                                <button class="accent-btn" data-char="ô">ô</button>
+                                <button class="accent-btn" data-char="ù">ù</button>
+                                <button class="accent-btn" data-char="û">û</button>
+                                <button class="accent-btn" data-char="œ">œ</button>
+                                <button class="accent-btn" data-char="«">«</button>
+                                <button class="accent-btn" data-char="»">»</button>
+                                <button class="accent-btn" data-char="…">…</button>
+                                <button class="accent-btn" data-char="—">—</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- COMMISSARIAT & VIOLENCE TAB -->
+        <div class="tab-content" id="commissariat-tab">
+            <div class="activity-panel">
+                <h2 class="panel-title"><i class="fas fa-gavel"></i> Commissariat Scene & Institutional Violence</h2>
+                <div class="theme-analysis">
+                    <h3>Key Quotes & Analysis from Police Station Scenes</h3>
+                    
+                    <div class="analysis-point">
+                        <h4>Systemic Racism & Brutality</h4>
+                        <p>The commissariat scenes reveal the institutional racism and violence embedded in French policing. These quotes demonstrate how the police station becomes a space of humiliation and dehumanization.</p>
+                    </div>
+                    
+                    <div id="commissariat-quotes" class="quote-list-container">
+                        <!-- Commissariat quotes will be dynamically inserted here -->
+                    </div>
+                    
+                    <div class="brutality-scene-details">
+                        <h4><i class="fas fa-video"></i> Detailed Breakdown: Police Station Brutality Scene (01:04:59 - 01:08:49)</h4>
+                        <p><strong>Context:</strong> Hubert and Saïd are taken to a Paris police station after a confrontation. This scene is a raw depiction of institutional racism, dehumanization, and psychological torture.</p>
+                        
+                        <div class="dialogue-line">
+                            <div class="timestamp">01:05:02 - 01:05:06</div>
+                            <div class="dialogue-french">On n'est pas dans ta cité avec tes potes les casseurs.</div>
+                            <div class="dialogue-english">We're not in your projects with your looter friends.</div>
+                        </div>
+                        
+                        <div class="dialogue-line">
+                            <div class="timestamp">01:05:06 - 01:05:08</div>
+                            <div class="dialogue-french">Ramasse avec tes pieds !</div>
+                            <div class="dialogue-english">Pick it up with your feet!</div>
+                        </div>
+                        
+                        <div class="dialogue-line">
+                            <div class="timestamp">01:05:08 - 01:05:12</div>
+                            <div class="dialogue-french">Dans ton pays, on ramasse avec les pieds !</div>
+                            <div class="dialogue-english">In your country, you pick up with your feet!</div>
+                        </div>
+                        
+                        <div class="dialogue-line">
+                            <div class="timestamp">01:07:49 - 01:07:55</div>
+                            <div class="dialogue-french">Le plus dur, c'est de s'arrêter à temps. Il faut savoir se calmer.</div>
+                            <div class="dialogue-english">The hardest part is stopping in time. You gotta know how to calm down.</div>
+                        </div>
+                        
+                        <div class="dialogue-line">
+                            <div class="timestamp">01:07:55 - 01:08:01</div>
+                            <div class="dialogue-french">Le plus dur, c'est d'éviter la bavure.</div>
+                            <div class="dialogue-english">The hardest part is avoiding a police slip-up (brutality).</div>
+                        </div>
+                        
+                        <p><strong>Analysis:</strong> This scene demonstrates how racist stereotypes are weaponized by police. The demand to "pick it up with your feet" references the racist trope that Arabs/Muslims use their feet instead of hands. The officers' casual conversation about "control" and "method" reveals how brutality is institutionalized and normalized within police culture.</p>
+                    </div>
+                    
+                    <div class="analysis-point">
+                        <h4>Analysis: The Commissariat as Microcosm</h4>
+                        <p>The police station represents state power and its abusive implementation in marginalized communities. The scenes highlight:</p>
+                        <ul style="margin-left: 20px; margin-top: 10px;">
+                            <li>Dehumanization through racial slurs and physical violence</li>
+                            <li>The normalization of police brutality as "method"</li>
+                            <li>The psychological torture of interrogation techniques</li>
+                            <li>The contrast between police rhetoric ("protection") and reality ("violence")</li>
+                            <li>How racism is embedded in everyday police practice</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- THEMATIC ANALYSIS TAB -->
+        <div class="tab-content" id="themes-tab">
+            <div class="activity-panel">
+                <h2 class="panel-title"><i class="fas fa-tags"></i> Thematic Analysis for Essays</h2>
+                
+                <div class="theme-analysis">
+                    <div class="analysis-point">
+                        <h4>1. The Cycle of Violence & Hate</h4>
+                        <p>Central to the film is the exploration of how violence begets violence. Key quotes demonstrate this cyclical nature and the characters' different responses to it.</p>
+                        <div class="input-controls" style="margin-top: 10px;">
+                            <button class="action-btn theme-btn" data-theme="violence">View Violence Quotes</button>
+                        </div>
+                    </div>
+                    
+                    <div class="analysis-point">
+                        <h4>2. Police Brutality & Systemic Racism</h4>
+                        <p>The film exposes institutional racism within French policing and the justice system. These quotes reveal the dehumanizing treatment of marginalized communities.</p>
+                        <div class="input-controls" style="margin-top: 10px;">
+                            <button class="action-btn theme-btn" data-theme="police">View Police Quotes</button>
+                            <button class="action-btn theme-btn" data-theme="racism">View Racism Quotes</button>
+                        </div>
+                    </div>
+                    
+                    <div class="analysis-point">
+                        <h4>3. Identity & Alienation in the Banlieue</h4>
+                        <p>Characters struggle with their identity in a society that marginalizes them. The quotes explore themes of belonging, otherness, and resistance.</p>
+                        <div class="input-controls" style="margin-top: 10px;">
+                            <button class="action-btn theme-btn" data-theme="identity">View Identity Quotes</button>
+                        </div>
+                    </div>
+                    
+                    <div class="analysis-point">
+                        <h4>4. The Fall Metaphor & Social Commentary</h4>
+                        <p>The recurring metaphor of falling represents both individual and societal decline, questioning whether a "landing" (solution) is possible.</p>
+                        <div class="input-controls" style="margin-top: 10px;">
+                            <button class="action-btn theme-btn" data-theme="metaphor">View Metaphor Quotes</button>
+                        </div>
+                    </div>
+                    
+                    <div class="analysis-point">
+                        <h4>5. Language & Verbal Violence</h4>
+                        <p>The film explores how language reflects power dynamics, with vulgarity serving as both authentic expression and psychological weapon.</p>
+                        <div class="input-controls" style="margin-top: 10px;">
+                            <button class="action-btn theme-btn" data-theme="language">View Language Quotes</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- ALL QUOTES TAB -->
+        <div class="tab-content" id="all-quotes-tab">
+            <div class="activity-panel">
+                <h2 class="panel-title"><i class="fas fa-list"></i> All Quotes - Complete Reference</h2>
+                <div class="search-box">
+                    <input type="text" id="all-quotes-search" placeholder="Search all quotes...">
+                </div>
+                <div class="quote-list-container" id="all-quotes-list" style="max-height: 600px;">
+                    <!-- All quotes will be dynamically inserted here -->
+                </div>
+            </div>
+        </div>
+        
+        <div class="download-section">
+            <h2 class="panel-title"><i class="fas fa-download"></i> Download Your Study Materials</h2>
+            <p>Export your mastered quotes and analysis for essay preparation and revision.</p>
+            <div class="input-controls" style="justify-content: center; margin-top: 20px;">
+                <button class="action-btn" id="download-mastered-btn">
+                    <i class="fas fa-file-export"></i> Download Mastered Quotes
+                </button>
+                <button class="action-btn" id="download-all-btn">
+                    <i class="fas fa-file-download"></i> Download All Quotes
+                </button>
+                <button class="action-btn" id="download-analysis-btn">
+                    <i class="fas fa-chart-bar"></i> Download Thematic Analysis
+                </button>
+            </div>
+        </div>
+        
+        <footer>
+            <p>La Haine Complete Study Tool • Designed for A-Level, IB, and University Film Studies • All quotes from Mathieu Kassovitz's "La Haine" (1995)</p>
+            <p style="margin-top: 10px; font-size: 0.85rem;">Tool includes analysis of institutional violence, racism, and the commissariat scenes</p>
+        </footer>
+    </div>
+
+    <script>
+        // Complete quotes database
+        const quotes = [
+            {
+                id: 1,
+                french: "Assassins ! Nous n'avons pas d'armes !",
+                english: "Murderers! We don't have weapons!",
+                theme: "violence",
+                context: "Opening riot scene. Sets the tone of police brutality vs. unarmed youth.",
+                analysis: "Establishes the power imbalance between armed police and unarmed youth from the outset."
+            },
+            {
+                id: 2,
+                french: "C'est l'histoire d'un homme qui tombe d'un immeuble de 50 étages... Mais l'important, c'est pas la chute. C'est l'atterrissage.",
+                english: "This is the story of a man who falls from a 50-story building... But the important thing isn't the fall. It's the landing.",
+                theme: "metaphor",
+                context: "The film's central, recurring metaphor. Narrator.",
+                analysis: "Represents society's precarious state and foreshadows the film's ambiguous ending."
+            },
+            {
+                id: 3,
+                french: "Jusqu'ici, tout va bien.",
+                english: "So far, everything's fine.",
+                theme: "metaphor",
+                context: "The man's mantra as he falls. Represents the characters' and society's precarious state.",
+                analysis: "The characters' denial of their deteriorating situation until it's too late."
+            },
+            {
+                id: 4,
+                french: "Tu joues les petites filles ? Imbécile !",
+                english: "You playing little girl? Idiot!",
+                theme: "identity",
+                context: "Vinz's sister. Aggressive familial interaction.",
+                analysis: "Shows the hyper-masculine environment and the pressure to appear tough."
+            },
+            {
+                id: 5,
+                french: "C'est à moi que tu parles ? C'est à moi que tu parles ?",
+                english: "You talking to me? You talking to me?",
+                theme: "identity",
+                context: "Vinz practicing in the mirror, imitating Robert De Niro in Taxi Driver. Shows his fantasy of power.",
+                analysis: "Vinz's appropriation of American gangster culture as a model for his own identity."
+            },
+            {
+                id: 6,
+                french: "Nique sa mère !",
+                english: "Fuck his mother!",
+                theme: "language",
+                context: "Common vulgar expression of anger/frustration. Raises questions about sexist language.",
+                analysis: "Reflects the raw, unfiltered vernacular of the banlieue and its complex gender dynamics."
+            },
+            {
+                id: 7,
+                french: "Ça fait deux ans qu'il se bat pour avoir la salle !",
+                english: "He's been fighting for two years to get the gym!",
+                theme: "resistance",
+                context: "Hubert's destroyed boxing gym. Represents lost hope and effort.",
+                analysis: "Symbolizes the futility of trying to build something positive in an environment of destruction."
+            },
+            {
+                id: 8,
+                french: "Prendre une lacrymo dans la gueule, passer 48h au poste... je vois pas le kif !",
+                english: "Get teargassed in the face, spend 48 hours at the station... I don't see the appeal!",
+                theme: "violence",
+                context: "Hubert's pragmatic view vs. the excitement of rioting.",
+                analysis: "Highlights the different responses to oppression: pragmatic survival vs. violent resistance."
+            },
+            {
+                id: 9,
+                french: "Moi, quand un frère se fait buter, je bouge.",
+                english: "Me, when a brother gets killed, I move.",
+                theme: "violence",
+                context: "Vinz's code of honour and justification for violence.",
+                analysis: "The gang/community code that demands violent retribution for wrongs."
+            },
+            {
+                id: 10,
+                french: "Moi, je cours pas plus vite que les balles !",
+                english: "Me, I don't run faster than bullets!",
+                theme: "violence",
+                context: "Hubert's survival instinct.",
+                analysis: "Pragmatic understanding of the lethal reality of confrontations with police."
+            },
+            {
+                id: 11,
+                french: "C'est 5F pour tout le monde ! Sauf pour Hubert. On est sur son immeuble.",
+                english: "It's 5 francs for everyone! Except for Hubert. We're on his building.",
+                theme: "community",
+                context: "Scene on the roof. Sense of community and petty negotiations.",
+                analysis: "Shows the micro-economies and social rules within the cité."
+            },
+            {
+                id: 12,
+                french: "Travaux d'intérêt général ? C'est de la de-mer !",
+                english: "Community service? That's bullshit!",
+                theme: "police",
+                context: "Attitude towards the judicial system.",
+                analysis: "Reflects the cynicism toward state-mandated rehabilitation programs."
+            },
+            {
+                id: 13,
+                french: "Ici, je suis le seul à pas en avoir fait. [de prison]",
+                english: "Here, I'm the only one who hasn't done any [time in prison].",
+                theme: "police",
+                context: "Vinz, showing how incarceration is a perverse rite of passage.",
+                analysis: "Incarceration as a normalized experience in marginalized communities."
+            },
+            {
+                id: 14,
+                french: "J'ai jamais fait de placard ! Tu t'es jamais fait goaler.",
+                english: "I've never done time! You've never been locked up.",
+                theme: "police",
+                context: "Vinz challenging Hubert's credibility.",
+                analysis: "Prison experience as street credibility in the hierarchy of the banlieue."
+            },
+            {
+                id: 15,
+                french: "Hé ! Le maire ! Nique sa mère ! Fils de pute !",
+                english: "Hey! Mayor! Fuck his mother! Son of a bitch!",
+                theme: "resistance",
+                context: "Confrontation with authority figures on the roof.",
+                analysis: "Direct challenge to political authority from those who feel abandoned by the state."
+            },
+            {
+                id: 16,
+                french: "C'est interdit de monter sur les toits.",
+                english: "It's forbidden to go on the roofs.",
+                theme: "police",
+                context: "Authority stating rules without dialogue.",
+                analysis: "The imposition of rules without explanation or consideration of context."
+            },
+            {
+                id: 17,
+                french: "C'est la seule phrase qu'on t'a apprise à l'école ?",
+                english: "Is that the only phrase they taught you in school?",
+                theme: "education",
+                context: "Saïd's sarcastic retort to authority.",
+                analysis: "Critique of an education system that fails to provide critical thinking skills."
+            },
+            {
+                id: 18,
+                french: "C'est pas à Thoiry, ici.",
+                english: "This isn't Thoiry, here.",
+                theme: "media",
+                context: "Response to a TV journalist. Contrasts the cité with a safari park.",
+                analysis: "Rejects the media's exoticization and zoo-like observation of marginalized communities."
+            },
+            {
+                id: 19,
+                french: "Une histoire pour foutre la merde ?",
+                english: "A story to mess things up?",
+                theme: "media",
+                context: "Accusation against the media's exploitative role.",
+                analysis: "Highlights suspicion of media narratives that sensationalize rather than explain."
+            },
+            {
+                id: 20,
+                french: "Hé ! Parle français !",
+                english: "Hey! Speak French!",
+                theme: "racism",
+                context: "Racist demand from a neighbour, highlighting xenophobia.",
+                analysis: "The pressure to assimilate and erase cultural/linguistic differences."
+            },
+            {
+                id: 21,
+                french: "Un des nôtres est à l'hôpital et tu nous parles de ta bagnole !",
+                english: "One of ours is in the hospital and you're talking about your car!",
+                theme: "community",
+                context: "Hubert prioritising human life over material property.",
+                analysis: "Clash of values between community solidarity and individual materialism."
+            },
+            {
+                id: 22,
+                french: "Vous devez être contents. Un flic a perdu son flingue !",
+                english: "You must be happy. A cop lost his gun!",
+                theme: "violence",
+                context: "Darty sowing discord, aware of the gun's symbolic power.",
+                analysis: "The gun as a symbol of inverted power dynamics in the cité."
+            },
+            {
+                id: 23,
+                french: "La vengeance est un plat qui se mange froid.",
+                english: "Revenge is a dish best served cold.",
+                theme: "violence",
+                context: "Abdel's brother. Announces the theme of cyclical vengeance.",
+                analysis: "Establishes the logic of retaliatory violence that structures the film's narrative."
+            },
+            {
+                id: 24,
+                french: "Tu vas en faire quoi ?",
+                english: "What are you gonna do with it?",
+                theme: "violence",
+                context: "Hubert immediately questioning the gun's purpose.",
+                analysis: "Moral questioning of violence even when the means are available."
+            },
+            {
+                id: 25,
+                french: "Faut bien se faire respecter. Tu crois que c'est le bon moyen ?",
+                english: "Gotta earn respect. You think that's the right way?",
+                theme: "violence",
+                context: "Debate on violence as a tool for respect.",
+                analysis: "The central ethical debate of the film: can respect be earned through violence?"
+            },
+            {
+                id: 26,
+                french: "Ça rétablira la balance.",
+                english: "It'll restore the balance.",
+                theme: "violence",
+                context: "Vinz's view of the gun as an equalizer.",
+                analysis: "Violence as a means to achieve justice in an unjust system."
+            },
+            {
+                id: 27,
+                french: "Tu te crois en mission ?",
+                english: "You think you're on a mission?",
+                theme: "identity",
+                context: "Hubert criticising Vinz's self-aggrandizing fantasy.",
+                analysis: "Critique of the romanticization of violence as heroic mission."
+            },
+            {
+                id: 28,
+                french: "Et qui nous protège de vous ?",
+                english: "And who protects us from you?",
+                theme: "police",
+                context: "Hubert to a police officer. The film's pivotal question.",
+                analysis: "The fundamental question about police legitimacy in marginalized communities."
+            },
+            {
+                id: 29,
+                french: "Les flics sont pas là pour vous taper. Ils sont là pour vous protéger.",
+                english: "The cops aren't here to beat you up. They're here to protect you.",
+                theme: "police",
+                context: "Samir's idealised, disconnected view of his role.",
+                analysis: "The gap between official police rhetoric and lived reality in the banlieues."
+            },
+            {
+                id: 30,
+                french: "Un arabe ne tient pas une heure dans un commissariat.",
+                english: "An Arab wouldn't last an hour in a police station.",
+                theme: "racism",
+                context: "Commentary on systemic racism within the police.",
+                analysis: "Direct acknowledgment of institutional racism in law enforcement."
+            },
+            {
+                id: 31,
+                french: "Essaie de garder la tête froide.",
+                english: "Try to keep a cool head.",
+                theme: "violence",
+                context: "Officer 'Notre Dame's advice, which becomes crucial later.",
+                analysis: "The tension between emotional response and rational control in confrontations."
+            },
+            {
+                id: 32,
+                french: "Tire-lui une balle ! Moi, je lui serre la main. T'es re-lou !",
+                english: "Shoot him! Me, I shake his hand. You're uncool!",
+                theme: "identity",
+                context: "Vinz criticising Hubert for shaking a cop's hand.",
+                analysis: "Conflict between revolutionary posturing and pragmatic engagement."
+            },
+            {
+                id: 33,
+                french: "Tu joues les chauds avec ton calibre ? Je vais te niquer !",
+                english: "You playing tough with your piece? I'm gonna fuck you up!",
+                theme: "violence",
+                context: "Hubert physically confronting Vinz over the gun.",
+                analysis: "The gun as a destructive force even within the community."
+            },
+            {
+                id: 34,
+                french: "J'en ai marre de la cité. Je vais partir.",
+                english: "I'm fed up with the projects. I'm leaving.",
+                theme: "identity",
+                context: "Hubert expressing his desire to escape.",
+                analysis: "The dream of escape from the cyclical violence of the banlieue."
+            },
+            {
+                id: 35,
+                french: "Si tu donnes ta joue, tu te fais niquer ta mère !",
+                english: "If you turn the other cheek, you get your mother fucked!",
+                theme: "violence",
+                context: "Vinz's philosophy of retaliatory violence.",
+                analysis: "Rejection of Christian/pacifist ethics in favor of retaliatory justice."
+            },
+            {
+                id: 36,
+                french: "La haine attire la haine !",
+                english: "Hate breeds hate!",
+                theme: "violence",
+                context: "Hubert's philosophy, the film's core message.",
+                analysis: "The central thesis of the film about the cyclical nature of violence."
+            },
+            {
+                id: 37,
+                french: "On vit dans des trous à rats. Mais vous bougez pas votre cul !",
+                english: "We live in rat holes. But you don't move your ass!",
+                theme: "resistance",
+                context: "Vinz's frustration with perceived passivity.",
+                analysis: "The tension between revolutionary rhetoric and practical inaction."
+            },
+            {
+                id: 38,
+                french: "Je m'appelle pas Malik Oussekine !",
+                english: "My name isn't Malik Oussekine!",
+                theme: "violence",
+                context: "Vinz referencing a real victim of police violence.",
+                analysis: "Recognition of the real-life consequences of police brutality."
+            },
+            {
+                id: 39,
+                french: "Si Abdel y passe, je tue un keuf.",
+                english: "If Abdel dies, I kill a cop.",
+                theme: "violence",
+                context: "Vinz's fatal vow.",
+                analysis: "The conditional logic that justifies retaliatory violence."
+            },
+            {
+                id: 40,
+                french: "Ils comprendront qu'on tend pas l'autre joue.",
+                english: "They'll understand we don't turn the other cheek.",
+                theme: "violence",
+                context: "Vinz's justification for his vow as a message.",
+                analysis: "Violence as communication to those in power."
+            },
+            {
+                id: 41,
+                french: "Si tu étais allé à l'école, tu saurais que la haine... la haine attire la haine !",
+                english: "If you'd gone to school, you'd know that hate... hate attracts hate!",
+                theme: "education",
+                context: "Hubert's full delivery of the film's thesis.",
+                analysis: "Education as source of ethical understanding vs. street knowledge."
+            },
+            {
+                id: 42,
+                french: "Tu viens de braquer un flic ! T'aurais pu te faire tuer !",
+                english: "You just held up a cop! You could've gotten killed!",
+                theme: "violence",
+                context: "Hubert after Vinz points the gun at a police van.",
+                analysis: "The real, immediate danger of confrontations with police."
+            },
+            {
+                id: 43,
+                french: "Grunwalski est mort de froid.",
+                english: "Grunwalski died of cold.",
+                theme: "metaphor",
+                context: "Conclusion of the old man's story about dignity and absurd death.",
+                analysis: "The absurdity of death and the preservation of dignity in impossible situations."
+            },
+            {
+                id: 44,
+                french: "Dans mon quartier, tu te fais égorger, ils arrivent la semaine d'après !",
+                english: "In my neighbourhood, you get your throat cut, they show up the next week!",
+                theme: "police",
+                context: "Contrasting police response times in rich vs. poor areas.",
+                analysis: "Differential policing based on socioeconomic status and geography."
+            },
+            {
+                id: 45,
+                french: "La honte ! Devant tout le monde !",
+                english: "Shame! In front of everyone!",
+                theme: "community",
+                context: "Saïd after Hubert and Vinz deny knowing him to police.",
+                analysis: "The importance of public face and solidarity in community ethics."
+            },
+            {
+                id: 46,
+                french: "Il faut savoir se calmer. Le plus dur, c'est de s'arrêter à temps.",
+                english: "You have to know how to calm down. The hardest part is stopping in time.",
+                theme: "police",
+                context: "A police officer talking about interrogation 'technique'.",
+                analysis: "The institutionalization and normalization of police violence."
+            },
+            {
+                id: 47,
+                french: "Un bon skin, c'est un skin mort !",
+                english: "A good skinhead is a dead skinhead!",
+                theme: "racism",
+                context: "A skinhead taunting Vinz, escalating the final confrontation.",
+                analysis: "The escalation of racial tensions and the normalization of extremist rhetoric."
+            },
+            {
+                id: 48,
+                french: "Abdel est mort. Venge-le !",
+                english: "Abdel is dead. Avenge him!",
+                theme: "violence",
+                context: "The skinhead provoking Vinz to fulfill his vow.",
+                analysis: "The external pressure to enact violent codes of honor."
+            },
+            {
+                id: 49,
+                french: "Barre-toi.",
+                english: "Get out of here.",
+                theme: "violence",
+                context: "Vinz sparing the skinhead, breaking the cycle.",
+                analysis: "The moment of moral choice that breaks the cycle of violence."
+            },
+            {
+                id: 50,
+                french: "C'est l'histoire d'une société qui tombe... L'important, c'est pas la chute... C'est l'atterrissage.",
+                english: "This is the story of a society that falls... The important thing isn't the fall... It's the landing.",
+                theme: "metaphor",
+                context: "The final, adapted metaphor. The focus shifts from individual to society.",
+                analysis: "The film's final statement on societal, not just individual, responsibility."
+            },
+            {
+                id: 51,
+                french: "Bruit de coup de feu",
+                english: "Sound of a gunshot",
+                theme: "violence",
+                context: "The final, ambiguous landing.",
+                analysis: "The unresolved, cyclical nature of violence that leaves the audience questioning."
+            },
+            // Police station scene quotes
+            {
+                id: 52,
+                french: "Ramasse avec tes pieds !",
+                english: "Pick it up with your feet!",
+                theme: "racism",
+                context: "Police humiliating Saïd in the commissariat (01:05:06).",
+                analysis: "Dehumanizing treatment using racist stereotypes about Arab culture."
+            },
+            {
+                id: 53,
+                french: "Dans ton pays, on ramasse avec les pieds !",
+                english: "In your country, you pick up with your feet!",
+                theme: "racism",
+                context: "Racist comment during police station humiliation (01:05:08).",
+                analysis: "Xenophobic stereotyping and cultural humiliation as interrogation technique."
+            },
+            {
+                id: 54,
+                french: "Le plus dur, c'est d'éviter la bavure.",
+                english: "The hardest part is avoiding a police slip-up (brutality).",
+                theme: "police",
+                context: "Police officer discussing interrogation techniques (01:07:55).",
+                analysis: "Reveals how police violence is systematic and calculated, not just emotional."
+            },
+            {
+                id: 55,
+                french: "On n'est pas dans ta cité avec tes potes les casseurs.",
+                english: "We're not in your projects with your looter friends.",
+                theme: "police",
+                context: "Police establishing dominance in the station (01:05:02).",
+                analysis: "Emphasizes the power imbalance and territorial control by police."
+            }
+        ];
+
+        // User progress tracking
+        let userProgress = {
+            mastered: [],
+            attempted: 0,
+            correct: 0,
+            currentQuote: null,
+            currentTheme: 'all'
+        };
+
+        // DOM elements
+        const quoteListEl = document.getElementById('quote-list');
+        const allQuotesListEl = document.getElementById('all-quotes-list');
+        const commissariatQuotesEl = document.getElementById('commissariat-quotes');
+        const currentQuoteEl = document.getElementById('current-quote');
+        const currentThemeEl = document.getElementById('current-theme');
+        const currentContextEl = document.getElementById('current-context');
+        const quoteInputEl = document.getElementById('quote-input');
+        const newQuoteBtn = document.getElementById('new-quote-btn');
+        const checkBtn = document.getElementById('check-btn');
+        const hintBtn = document.getElementById('hint-btn');
+        const revealBtn = document.getElementById('reveal-btn');
+        const downloadMasteredBtn = document.getElementById('download-mastered-btn');
+        const downloadAllBtn = document.getElementById('download-all-btn');
+        const downloadAnalysisBtn = document.getElementById('download-analysis-btn');
+        const resetProgressBtn = document.getElementById('reset-progress-btn');
+        const accentButtons = document.querySelectorAll('.accent-btn');
+        const totalQuotesEl = document.getElementById('total-quotes');
+        const masteredQuotesEl = document.getElementById('mastered-quotes');
+        const practiceCountEl = document.getElementById('practice-count');
+        const accuracyEl = document.getElementById('accuracy');
+        const progressFillEl = document.getElementById('mastery-progress');
+        const progressPercentEl = document.getElementById('progress-percent');
+        const quoteSearchEl = document.getElementById('quote-search');
+        const allQuotesSearchEl = document.getElementById('all-quotes-search');
+        const themeButtons = document.querySelectorAll('.theme-btn');
+        const tabButtons = document.querySelectorAll('.tab-btn');
+        const tabContents = document.querySelectorAll('.tab-content');
+
+        // Initialize
+        function init() {
+            totalQuotesEl.textContent = quotes.length;
+            updateStats();
+            renderQuoteList('all');
+            renderAllQuotesList();
+            renderCommissariatQuotes();
+            setupEventListeners();
+            
+            // Load saved progress from localStorage
+            const savedProgress = localStorage.getItem('laHaineProgress');
+            if (savedProgress) {
+                userProgress = JSON.parse(savedProgress);
+                updateStats();
+            }
+        }
+
+        // Set up event listeners
+        function setupEventListeners() {
+            // Tab switching
+            tabButtons.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    // Remove active class from all tabs
+                    tabButtons.forEach(b => b.classList.remove('active'));
+                    tabContents.forEach(c => c.classList.remove('active'));
+                    
+                    // Add active class to clicked tab
+                    this.classList.add('active');
+                    const tabId = this.dataset.tab + '-tab';
+                    document.getElementById(tabId).classList.add('active');
+                });
+            });
+            
+            // Theme filter buttons
+            themeButtons.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    // Remove active class from all theme buttons
+                    themeButtons.forEach(b => b.classList.remove('active'));
+                    
+                    // Add active class to clicked button
+                    this.classList.add('active');
+                    
+                    const theme = this.dataset.theme;
+                    userProgress.currentTheme = theme;
+                    
+                    // Clear search when changing theme
+                    quoteSearchEl.value = '';
+                    
+                    renderQuoteList(theme);
+                });
+            });
+            
+            // New quote button
+            newQuoteBtn.addEventListener('click', getRandomQuote);
+            
+            // Check answer button
+            checkBtn.addEventListener('click', checkAnswer);
+            
+            // Hint button
+            hintBtn.addEventListener('click', showHint);
+            
+            // Reveal answer button
+            revealBtn.addEventListener('click', revealAnswer);
+            
+            // Download buttons
+            downloadMasteredBtn.addEventListener('click', downloadMasteredQuotes);
+            downloadAllBtn.addEventListener('click', downloadAllQuotes);
+            downloadAnalysisBtn.addEventListener('click', downloadThematicAnalysis);
+            
+            // Reset progress button
+            resetProgressBtn.addEventListener('click', resetProgress);
+            
+            // Accent keyboard buttons
+            accentButtons.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const char = this.dataset.char;
+                    insertTextAtCursor(quoteInputEl, char);
+                });
+            });
+            
+            // Search functionality
+            quoteSearchEl.addEventListener('input', function() {
+                filterQuotes(this.value.toLowerCase(), 'quote-list');
+            });
+            
+            allQuotesSearchEl.addEventListener('input', function() {
+                filterQuotes(this.value.toLowerCase(), 'all-quotes-list');
+            });
+            
+            // Enter key to check answer
+            quoteInputEl.addEventListener('keydown', (e) => {
+                if (e.ctrlKey && e.key === 'Enter') {
+                    checkAnswer();
+                }
+            });
+        }
+
+        // Filter quotes based on search term
+        function filterQuotes(searchTerm, listId) {
+            const container = document.getElementById(listId);
+            const items = container.querySelectorAll('.quote-item');
+            
+            if (searchTerm === '') {
+                items.forEach(item => {
+                    item.style.display = 'block';
+                });
+                return;
+            }
+            
+            items.forEach(item => {
+                const french = item.querySelector('.quote-french').textContent.toLowerCase();
+                const english = item.querySelector('.quote-english').textContent.toLowerCase();
+                const theme = item.querySelector('.quote-theme').textContent.toLowerCase();
+                
+                if (french.includes(searchTerm) || english.includes(searchTerm) || theme.includes(searchTerm)) {
+                    item.style.display = 'block';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        }
+
+        // Render quote list based on selected theme
+        function renderQuoteList(theme) {
+            quoteListEl.innerHTML = '';
+            
+            const filteredQuotes = theme === 'all' 
+                ? quotes 
+                : quotes.filter(q => q.theme === theme);
+            
+            if (filteredQuotes.length === 0) {
+                quoteListEl.innerHTML = '<div class="no-quotes">No quotes found for this theme.</div>';
+                return;
+            }
+            
+            filteredQuotes.forEach(quote => {
+                const isMastered = userProgress.mastered.includes(quote.id);
+                const quoteEl = createQuoteElement(quote, isMastered);
+                
+                quoteEl.addEventListener('click', () => {
+                    setCurrentQuote(quote);
+                });
+                
+                quoteListEl.appendChild(quoteEl);
+            });
+        }
+
+        // Render all quotes list
+        function renderAllQuotesList() {
+            allQuotesListEl.innerHTML = '';
+            
+            quotes.forEach(quote => {
+                const isMastered = userProgress.mastered.includes(quote.id);
+                const quoteEl = createQuoteElement(quote, isMastered);
+                
+                quoteEl.addEventListener('click', () => {
+                    setCurrentQuote(quote);
+                    // Switch to practice tab
+                    tabButtons.forEach(b => b.classList.remove('active'));
+                    tabContents.forEach(c => c.classList.remove('active'));
+                    document.querySelector('[data-tab="practice"]').classList.add('active');
+                    document.getElementById('practice-tab').classList.add('active');
+                });
+                
+                allQuotesListEl.appendChild(quoteEl);
+            });
+        }
+
+        // Render commissariat quotes
+        function renderCommissariatQuotes() {
+            commissariatQuotesEl.innerHTML = '';
+            
+            const commissariatQuotes = quotes.filter(q => 
+                q.theme === 'police' || q.theme === 'racism' || 
+                q.id >= 52 // Police station scene quotes
+            );
+            
+            commissariatQuotes.forEach(quote => {
+                const isMastered = userProgress.mastered.includes(quote.id);
+                const quoteEl = createQuoteElement(quote, isMastered);
+                
+                if (quote.id >= 52) {
+                    quoteEl.classList.add('scene-highlight');
+                }
+                
+                quoteEl.addEventListener('click', () => {
+                    setCurrentQuote(quote);
+                    // Switch to practice tab
+                    tabButtons.forEach(b => b.classList.remove('active'));
+                    tabContents.forEach(c => c.classList.remove('active'));
+                    document.querySelector('[data-tab="practice"]').classList.add('active');
+                    document.getElementById('practice-tab').classList.add('active');
+                });
+                
+                commissariatQuotesEl.appendChild(quoteEl);
+            });
+        }
+
+        // Create a quote element
+        function createQuoteElement(quote, isMastered) {
+            const quoteEl = document.createElement('div');
+            quoteEl.className = `quote-item ${isMastered ? 'mastered' : ''}`;
+            quoteEl.dataset.id = quote.id;
+            quoteEl.innerHTML = `
+                <div class="quote-french">${quote.french}</div>
+                <div class="quote-english">${quote.english}</div>
+                <div class="quote-meta">
+                    <span class="quote-theme">${quote.theme.toUpperCase()}</span>
+                    <span class="quote-id">#${quote.id}</span>
+                </div>
+                ${isMastered ? '<div class="mastery-badge"><i class="fas fa-check"></i> Mastered</div>' : ''}
+            `;
+            return quoteEl;
+        }
+
+        // Get a random quote based on current theme
+        function getRandomQuote() {
+            const filteredQuotes = userProgress.currentTheme === 'all' 
+                ? quotes 
+                : quotes.filter(q => q.theme === userProgress.currentTheme);
+            
+            if (filteredQuotes.length === 0) {
+                alert('No quotes available for the selected theme. Try "All Themes".');
+                return;
+            }
+            
+            const randomIndex = Math.floor(Math.random() * filteredQuotes.length);
+            const quote = filteredQuotes[randomIndex];
+            setCurrentQuote(quote);
+        }
+
+        // Set the current quote for practice
+        function setCurrentQuote(quote) {
+            userProgress.currentQuote = quote;
+            currentQuoteEl.textContent = quote.english;
+            currentThemeEl.textContent = `Theme: ${quote.theme.toUpperCase()}`;
+            currentContextEl.textContent = `Context: ${quote.context}`;
+            quoteInputEl.value = '';
+            quoteInputEl.focus();
+            
+            // Clear any previous feedback
+            const feedbackEl = document.getElementById('feedback');
+            if (feedbackEl) {
+                feedbackEl.className = 'hidden';
+                feedbackEl.innerHTML = '';
+            }
+            
+            // Highlight the quote in all lists
+            document.querySelectorAll('.quote-item').forEach(item => {
+                item.classList.remove('active');
+                if (parseInt(item.dataset.id) === quote.id) {
+                    item.classList.add('active');
+                    // Scroll into view
+                    setTimeout(() => {
+                        item.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }, 100);
+                }
+            });
+        }
+
+        // Check the user's answer
+        function checkAnswer() {
+            if (!userProgress.currentQuote) {
+                alert('Please select a quote first!');
+                return;
+            }
+            
+            const userAnswer = quoteInputEl.value.trim();
+            const correctAnswer = userProgress.currentQuote.french;
+            
+            if (userAnswer === '') {
+                alert('Please type your answer before checking!');
+                return;
+            }
+            
+            userProgress.attempted++;
+            
+            // Calculate similarity
+            const similarity = calculateSimilarity(userAnswer, correctAnswer);
+            const isCorrect = similarity >= 0.85; // 85% similarity threshold
+            
+            const feedbackEl = document.getElementById('feedback');
+            feedbackEl.className = isCorrect ? 'correct-feedback' : 'incorrect-feedback';
+            feedbackEl.classList.remove('hidden');
+            
+            if (isCorrect) {
+                userProgress.correct++;
+                if (!userProgress.mastered.includes(userProgress.currentQuote.id)) {
+                    userProgress.mastered.push(userProgress.currentQuote.id);
+                }
+                
+                feedbackEl.innerHTML = `<i class="fas fa-check-circle"></i> Correct! ${Math.round(similarity * 100)}% accuracy.`;
+                
+                // Update mastery badge in all lists
+                document.querySelectorAll(`.quote-item[data-id="${userProgress.currentQuote.id}"]`).forEach(item => {
+                    item.classList.add('mastered');
+                    if (!item.querySelector('.mastery-badge')) {
+                        const badge = document.createElement('div');
+                        badge.className = 'mastery-badge';
+                        badge.innerHTML = '<i class="fas fa-check"></i> Mastered';
+                        item.appendChild(badge);
+                    }
+                });
+            } else {
+                feedbackEl.innerHTML = `<i class="fas fa-times-circle"></i> Not quite. ${Math.round(similarity * 100)}% accuracy. Try again or click "Reveal Answer".`;
+            }
+            
+            updateStats();
+            saveProgress();
+        }
+
+        // Calculate similarity between two strings
+        function calculateSimilarity(str1, str2) {
+            // Remove punctuation and normalize whitespace
+            const normalize = (s) => s.toLowerCase().replace(/[.,;!?'"()]/g, '').replace(/\s+/g, ' ').trim();
+            
+            const s1 = normalize(str1);
+            const s2 = normalize(str2);
+            
+            if (s1 === s2) return 1.0;
+            
+            // Calculate Levenshtein distance
+            const distance = levenshteinDistance(s1, s2);
+            const maxLength = Math.max(s1.length, s2.length);
+            
+            return 1.0 - (distance / maxLength);
+        }
+
+        // Levenshtein distance for approximate string matching
+        function levenshteinDistance(a, b) {
+            const matrix = [];
+            
+            for (let i = 0; i <= b.length; i++) {
+                matrix[i] = [i];
+            }
+            
+            for (let j = 0; j <= a.length; j++) {
+                matrix[0][j] = j;
+            }
+            
+            for (let i = 1; i <= b.length; i++) {
+                for (let j = 1; j <= a.length; j++) {
+                    if (b.charAt(i - 1) === a.charAt(j - 1)) {
+                        matrix[i][j] = matrix[i - 1][j - 1];
+                    } else {
+                        matrix[i][j] = Math.min(
+                            matrix[i - 1][j - 1] + 1,
+                            matrix[i][j - 1] + 1,
+                            matrix[i - 1][j] + 1
+                        );
+                    }
+                }
+            }
+            
+            return matrix[b.length][a.length];
+        }
+
+        // Show a hint for the current quote
+        function showHint() {
+            if (!userProgress.currentQuote) {
+                alert('Please select a quote first!');
+                return;
+            }
+            
+            const hint = userProgress.currentQuote.analysis || userProgress.currentQuote.context;
+            alert(`Analysis Hint:\n\n${hint}`);
+        }
+
+        // Reveal the full answer
+        function revealAnswer() {
+            if (!userProgress.currentQuote) {
+                alert('Please select a quote first!');
+                return;
+            }
+            
+            const correctAnswer = userProgress.currentQuote.french;
+            const analysis = userProgress.currentQuote.analysis;
+            
+            quoteInputEl.value = correctAnswer;
+            
+            const feedbackEl = document.getElementById('feedback');
+            feedbackEl.className = 'correct-feedback';
+            feedbackEl.classList.remove('hidden');
+            feedbackEl.innerHTML = `<i class="fas fa-eye"></i> Answer revealed. Analysis: ${analysis}`;
+        }
+
+        // Insert text at cursor position
+        function insertTextAtCursor(textarea, text) {
+            const start = textarea.selectionStart;
+            const end = textarea.selectionEnd;
+            const value = textarea.value;
+            
+            textarea.value = value.substring(0, start) + text + value.substring(end);
+            textarea.selectionStart = textarea.selectionEnd = start + text.length;
+            textarea.focus();
+        }
+
+        // Update statistics display
+        function updateStats() {
+            masteredQuotesEl.textContent = userProgress.mastered.length;
+            practiceCountEl.textContent = userProgress.attempted;
+            
+            const accuracy = userProgress.attempted > 0 
+                ? Math.round((userProgress.correct / userProgress.attempted) * 100) 
+                : 0;
+            accuracyEl.textContent = `${accuracy}%`;
+            
+            const mastery = Math.round((userProgress.mastered.length / quotes.length) * 100);
+            progressFillEl.style.width = `${mastery}%`;
+            progressPercentEl.textContent = `${mastery}%`;
+        }
+
+        // Save progress to localStorage
+        function saveProgress() {
+            localStorage.setItem('laHaineProgress', JSON.stringify(userProgress));
+        }
+
+        // Reset all progress
+        function resetProgress() {
+            if (confirm('Are you sure you want to reset all progress? This cannot be undone.')) {
+                userProgress = {
+                    mastered: [],
+                    attempted: 0,
+                    correct: 0,
+                    currentQuote: null,
+                    currentTheme: 'all'
+                };
+                localStorage.removeItem('laHaineProgress');
+                updateStats();
+                
+                // Reset theme buttons
+                themeButtons.forEach(btn => {
+                    if (btn.dataset.theme === 'all') {
+                        btn.classList.add('active');
+                    } else {
+                        btn.classList.remove('active');
+                    }
+                });
+                
+                renderQuoteList('all');
+                renderAllQuotesList();
+                renderCommissariatQuotes();
+                
+                // Clear current quote display
+                currentQuoteEl.textContent = 'Select a quote from the list or click "New Practice Quote" to begin';
+                currentThemeEl.textContent = 'Theme: ';
+                currentContextEl.textContent = 'Context: ';
+                quoteInputEl.value = '';
+                
+                const feedbackEl = document.getElementById('feedback');
+                if (feedbackEl) {
+                    feedbackEl.className = 'hidden';
+                    feedbackEl.innerHTML = '';
+                }
+                
+                alert('Progress has been reset.');
+            }
+        }
+
+        // Download mastered quotes as a text file
+        function downloadMasteredQuotes() {
+            const mastered = quotes.filter(q => userProgress.mastered.includes(q.id));
+            
+            if (mastered.length === 0) {
+                alert("You haven't mastered any quotes yet. Practice some quotes first!");
+                return;
+            }
+            
+            let content = "LA HAINE - MASTERED QUOTES FOR ESSAYS\n";
+            content += "========================================\n\n";
+            content += `Mastered: ${userProgress.mastered.length}/${quotes.length}\n`;
+            content += `Accuracy: ${userProgress.attempted > 0 ? Math.round((userProgress.correct / userProgress.attempted) * 100) : 0}%\n`;
+            content += `Date: ${new Date().toLocaleDateString()}\n\n`;
+            
+            // Group by theme
+            const themes = [...new Set(quotes.map(q => q.theme))];
+            
+            themes.forEach(theme => {
+                const themeQuotes = mastered.filter(q => q.theme === theme);
+                if (themeQuotes.length > 0) {
+                    content += `\n${theme.toUpperCase()} (${themeQuotes.length} quotes):\n`;
+                    content += '='.repeat(theme.length + 10) + '\n\n';
+                    
+                    themeQuotes.forEach((quote, index) => {
+                        content += `${index + 1}. ${quote.french}\n`;
+                        content += `   English: ${quote.english}\n`;
+                        content += `   Context: ${quote.context}\n`;
+                        content += `   Analysis: ${quote.analysis}\n\n`;
+                    });
+                }
+            });
+            
+            downloadFile(content, `la_haine_mastered_quotes_${new Date().toISOString().slice(0,10)}.txt`);
+        }
+
+        // Download all quotes
+        function downloadAllQuotes() {
+            let content = "LA HAINE - ALL QUOTES - COMPLETE REFERENCE\n";
+            content += "==============================================\n\n";
+            content += `Compiled: ${new Date().toLocaleDateString()}\n\n`;
+            
+            quotes.forEach(quote => {
+                content += `${quote.id}. ${quote.french}\n`;
+                content += `   English: ${quote.english}\n`;
+                content += `   Theme: ${quote.theme.toUpperCase()}\n`;
+                content += `   Context: ${quote.context}\n`;
+                content += `   Analysis: ${quote.analysis}\n\n`;
+            });
+            
+            downloadFile(content, `la_haine_all_quotes_reference.txt`);
+        }
+
+        // Download thematic analysis
+        function downloadThematicAnalysis() {
+            let content = "LA HAINE - THEMATIC ANALYSIS FOR ESSAYS\n";
+            content += "==========================================\n\n";
+            
+            content += "1. THE CYCLE OF VIOLENCE & HATE\n";
+            content += "=".repeat(30) + "\n\n";
+            content += "The film's central thesis explores how violence begets violence in a relentless cycle.\n\n";
+            
+            content += "Key Quotes:\n";
+            quotes.filter(q => q.theme === 'violence').slice(0, 5).forEach(quote => {
+                content += `- "${quote.french}" (${quote.english})\n`;
+            });
+            
+            content += "\n2. POLICE BRUTALITY & SYSTEMIC RACISM\n";
+            content += "=".repeat(35) + "\n\n";
+            content += "The film exposes institutional racism within French policing and the justice system.\n\n";
+            
+            content += "Key Quotes:\n";
+            quotes.filter(q => q.theme === 'police' || q.theme === 'racism').slice(0, 6).forEach(quote => {
+                content += `- "${quote.french}" (${quote.english})\n`;
+            });
+            
+            content += "\n3. THE COMMISSARIAT SCENE: INSTITUTIONAL RACISM\n";
+            content += "=".repeat(45) + "\n\n";
+            content += "The police station scene (01:04:59 - 01:08:49) reveals dehumanizing interrogation techniques.\n\n";
+            
+            content += "Key Dialogue:\n";
+            content += `- "Ramasse avec tes pieds!" (Pick it up with your feet!)\n`;
+            content += `- "Dans ton pays, on ramasse avec les pieds!" (In your country, you pick up with your feet!)\n`;
+            content += `- "Le plus dur, c'est d'éviter la bavure." (The hardest part is avoiding police brutality.)\n`;
+            
+            downloadFile(content, `la_haine_thematic_analysis.txt`);
+        }
+
+        // Generic download function
+        function downloadFile(content, filename) {
+            const blob = new Blob([content], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = filename;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
+        // Initialize the application
+        document.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>

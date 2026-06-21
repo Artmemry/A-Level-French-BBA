@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>L'Étranger — Quiz interactif | A-Level French</title>
+<style>
+  /* ---- Palette inspired by L'Étranger : soleil algérien + alienation ---- */
+  :root {
+    --navy:      #1B2845;
+    --navy-dark: #101A30;
+    --sand:      #D9A86C;
+    --sand-dark: #B8884C;
+    --cream:     #F5EDD8;
+    --terra:     #B5482E;
+    --terra-lt:  #D87055;
+    --ink:       #1A1A1A;
+    --grey:      #555;
+    --white:     #FFFFFF;
+    --shadow:    0 4px 14px rgba(27,40,69,0.12);
+    --shadow-lg: 0 10px 30px rgba(27,40,69,0.18);
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    font-family: Calibri, "Segoe UI", system-ui, -apple-system, sans-serif;
+    font-size: 18px;
+    color: var(--ink);
+    background: var(--cream);
+    line-height: 1.55;
+    min-height: 100vh;
+  }
+
+  /* ---- Top bar ---- */
+  header.topbar {
+    background: var(--navy);
+    color: var(--cream);
+    padding: 18px 32px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: var(--shadow);
+    position: sticky; top: 0; z-index: 10;
+  }
+  .brand {
+    display: flex; flex-direction: column; gap: 2px;
+  }
+  .brand .eyebrow {
+    color: var(--sand);
+    font-size: 14px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    font-weight: 700;
+  }
+  .brand h1 {
+    margin: 0; font-size: 26px; font-weight: 700; color: var(--cream);
+  }
+  .brand h1 em {
+    color: var(--sand); font-style: normal;
+  }
+  .progress-wrap {
+    flex: 1; min-width: 200px; max-width: 420px;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .progress-track {
+    flex: 1; height: 12px; background: rgba(245,237,216,0.18);
+    border-radius: 999px; overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%; background: linear-gradient(90deg, var(--sand), var(--terra-lt));
+    width: 0%; transition: width 320ms ease;
+  }
+  .progress-label {
+    font-size: 14px; color: var(--cream); white-space: nowrap;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .toolbar {
+    display: flex; gap: 8px; flex-wrap: wrap;
+  }
+  .btn {
+    background: var(--cream); color: var(--navy); border: none;
+    padding: 10px 16px; border-radius: 8px;
+    font-family: inherit; font-size: 15px; font-weight: 600;
+    cursor: pointer; transition: transform 120ms ease, box-shadow 120ms ease, background 120ms ease;
+    box-shadow: 0 2px 0 rgba(0,0,0,0.12);
+  }
+  .btn:hover { transform: translateY(-1px); box-shadow: 0 4px 0 rgba(0,0,0,0.12); }
+  .btn:active { transform: translateY(0); }
+  .btn.primary { background: var(--terra); color: var(--cream); }
+  .btn.primary:hover { background: var(--terra-lt); }
+  .btn.ghost { background: transparent; color: var(--cream); border: 1px solid rgba(245,237,216,0.45); }
+  .btn.ghost:hover { background: rgba(245,237,216,0.08); }
+  .btn.small { padding: 6px 12px; font-size: 14px; }
+
+  /* ---- Main ---- */
+  main {
+    max-width: 1100px; margin: 0 auto; padding: 28px 24px 80px;
+  }
+
+  .intro {
+    background: var(--white);
+    padding: 22px 26px;
+    border-radius: 14px;
+    border-left: 6px solid var(--terra);
+    box-shadow: var(--shadow);
+    margin-bottom: 24px;
+  }
+  .intro h2 {
+    margin: 0 0 8px; font-size: 22px; color: var(--navy);
+  }
+  .intro p { margin: 6px 0; color: var(--grey); font-size: 16px; }
+  .intro kbd {
+    background: var(--cream); border: 1px solid var(--sand-dark);
+    border-radius: 4px; padding: 1px 6px; font-family: Consolas, monospace;
+    font-size: 13px;
+  }
+
+  /* ---- Card ---- */
+  .card {
+    background: var(--white);
+    border-radius: 16px;
+    box-shadow: var(--shadow-lg);
+    overflow: hidden;
+    margin-bottom: 22px;
+  }
+  .card-header {
+    background: var(--navy);
+    color: var(--cream);
+    padding: 16px 26px;
+    display: flex; justify-content: space-between; align-items: center;
+    flex-wrap: wrap; gap: 10px;
+  }
+  .card-num {
+    background: var(--sand); color: var(--navy-dark);
+    border-radius: 999px; padding: 4px 14px;
+    font-size: 14px; font-weight: 700;
+    letter-spacing: 0.05em; text-transform: uppercase;
+  }
+  .card-meta {
+    font-size: 14px; color: var(--sand);
+    text-transform: uppercase; letter-spacing: 0.1em; font-weight: 600;
+  }
+  .card-body { padding: 26px; }
+
+  .question {
+    color: var(--terra);
+    font-size: 22px;
+    font-weight: 700;
+    margin: 0 0 18px;
+    line-height: 1.4;
+  }
+  .question::before {
+    content: "❓"; margin-right: 10px; font-size: 20px;
+  }
+
+  .field-label {
+    font-size: 14px; font-weight: 700; color: var(--navy);
+    text-transform: uppercase; letter-spacing: 0.1em;
+    margin: 18px 0 6px;
+  }
+  textarea.user-answer {
+    width: 100%;
+    min-height: 100px;
+    padding: 12px 14px;
+    border: 2px solid var(--sand);
+    border-radius: 8px;
+    font-family: inherit; font-size: 16px; line-height: 1.5;
+    color: var(--ink); background: #FFFEF9;
+    resize: vertical;
+    transition: border-color 160ms ease;
+  }
+  textarea.user-answer:focus {
+    outline: none; border-color: var(--terra);
+  }
+
+  /* Reveal */
+  .reveal-wrap {
+    margin-top: 16px;
+  }
+  .answer {
+    background: var(--cream);
+    border-left: 5px solid var(--sand-dark);
+    padding: 16px 20px;
+    border-radius: 0 8px 8px 0;
+    color: var(--ink);
+    font-size: 17px;
+    line-height: 1.6;
+    display: none;
+  }
+  .answer.visible { display: block; animation: slide-in 280ms ease; }
+  @keyframes slide-in {
+    from { opacity: 0; transform: translateY(-6px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .answer-label {
+    font-size: 13px; font-weight: 700; color: var(--terra);
+    text-transform: uppercase; letter-spacing: 0.12em; margin-bottom: 6px;
+  }
+
+  /* Rating */
+  .rate-row {
+    display: flex; flex-wrap: wrap; gap: 10px; margin-top: 18px;
+    align-items: center;
+  }
+  .rate-row .rate-label {
+    font-size: 14px; font-weight: 700; color: var(--navy); margin-right: 4px;
+  }
+  .rate-btn {
+    border: 2px solid transparent;
+    border-radius: 999px;
+    padding: 8px 16px;
+    font-family: inherit; font-size: 14px; font-weight: 700;
+    cursor: pointer;
+    transition: transform 120ms ease, background 120ms ease;
+  }
+  .rate-btn:hover { transform: translateY(-1px); }
+  .rate-btn[data-rate="again"]    { background: #fde8e1; color: #8a2a13; }
+  .rate-btn[data-rate="medium"]   { background: #fdf2d6; color: #7a5a14; }
+  .rate-btn[data-rate="mastered"] { background: #d6efd9; color: #1e5a2c; }
+  .rate-btn.selected {
+    border-color: var(--navy); transform: translateY(-1px);
+    box-shadow: 0 3px 0 var(--navy);
+  }
+
+  /* Notes */
+  .notes-wrap textarea {
+    width: 100%; min-height: 70px; padding: 10px 12px;
+    border: 1px dashed var(--sand-dark); border-radius: 8px;
+    font-family: inherit; font-size: 15px; color: var(--ink);
+    background: #FFFAEC; resize: vertical;
+  }
+  .notes-wrap textarea:focus { outline: none; border-color: var(--terra); }
+
+  /* Nav */
+  .nav-row {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-top: 18px; gap: 12px; flex-wrap: wrap;
+  }
+  .nav-pos {
+    color: var(--grey); font-size: 14px; font-variant-numeric: tabular-nums;
+  }
+
+  /* Stats */
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin-bottom: 22px;
+  }
+  .stat {
+    background: var(--white); padding: 14px 16px;
+    border-radius: 10px; box-shadow: var(--shadow);
+    border-top: 4px solid var(--navy);
+  }
+  .stat .v { font-size: 28px; font-weight: 700; color: var(--navy); }
+  .stat .l { font-size: 13px; color: var(--grey); text-transform: uppercase; letter-spacing: 0.08em; }
+  .stat.again    { border-top-color: var(--terra); }
+  .stat.medium   { border-top-color: var(--sand-dark); }
+  .stat.mastered { border-top-color: #2d8541; }
+  .stat.again    .v { color: var(--terra); }
+  .stat.medium   .v { color: var(--sand-dark); }
+  .stat.mastered .v { color: #2d8541; }
+  @media (max-width: 700px) {
+    .stats { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  /* Footer */
+  footer {
+    text-align: center; color: var(--grey); font-size: 13px;
+    padding: 18px;
+  }
+  footer a { color: var(--navy); text-decoration: none; }
+
+  /* Toast */
+  .toast {
+    position: fixed; bottom: 24px; left: 50%;
+    transform: translateX(-50%) translateY(100px);
+    background: var(--navy); color: var(--cream);
+    padding: 12px 22px; border-radius: 999px;
+    box-shadow: var(--shadow-lg);
+    font-size: 15px; font-weight: 600;
+    transition: transform 280ms ease;
+    z-index: 50;
+  }
+  .toast.show { transform: translateX(-50%) translateY(0); }
+
+  /* Hide on print */
+  @media print {
+    header.topbar, .toolbar, .nav-row, .rate-row,
+    .stats, .reveal-wrap .btn { display: none !important; }
+    body { background: white; }
+    .card { break-inside: avoid; box-shadow: none; border: 1px solid #ccc; }
+    .answer { display: block !important; }
+  }
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="brand">
+    <span class="eyebrow">A-Level French · Edexcel</span>
+    <h1>L'<em>Étranger</em> — Quiz interactif</h1>
+  </div>
+  <div class="progress-wrap">
+    <div class="progress-track"><div class="progress-fill" id="progress-fill"></div></div>
+    <span class="progress-label" id="progress-label">0 / 9</span>
+  </div>
+  <div class="toolbar">
+    <button class="btn ghost small" id="btn-shuffle" title="Mélanger les cartes">🔀 Mélanger</button>
+    <button class="btn ghost small" id="btn-print"   title="Imprimer">🖨️ Imprimer</button>
+    <button class="btn ghost small" id="btn-reset"   title="Tout réinitialiser">↺ Reset</button>
+    <button class="btn primary small" id="btn-export">⬇ Exporter mes réponses</button>
+  </div>
+</header>
+
+<main>
+
+  <section class="intro">
+    <h2>Bienvenue dans cette activité</h2>
+    <p>9 questions clés sur <em>L'Étranger</em> d'Albert Camus. Pour chaque carte :
+       écrivez d'abord <strong>votre propre réponse</strong>, révélez la réponse modèle,
+       comparez, puis évaluez votre maîtrise.</p>
+    <p>Vos notes restent privées dans le navigateur. Cliquez sur
+       <kbd>⬇ Exporter</kbd> pour télécharger un fichier HTML imprimable de tout votre travail.</p>
+  </section>
+
+  <section class="stats" id="stats">
+    <div class="stat"><div class="v" id="stat-total">0</div><div class="l">Cartes</div></div>
+    <div class="stat again"><div class="v" id="stat-again">0</div><div class="l">À revoir</div></div>
+    <div class="stat medium"><div class="v" id="stat-medium">0</div><div class="l">Bof</div></div>
+    <div class="stat mastered"><div class="v" id="stat-mastered">0</div><div class="l">Maîtrisées</div></div>
+  </section>
+
+  <div id="card-container"></div>
+
+</main>
+
+<footer>
+  Quiz généré pour l'étude de <em>L'Étranger</em> (Camus, 1942) — A-Level French · Edexcel.
+  Activité interactive, hors-ligne, sans cookies.
+</footer>
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* ===========================================================
+   Données — 9 Q-R sur L'Étranger
+=========================================================== */
+const QUESTIONS = [
+  {
+    q: "Quel est le sujet principal de L'Étranger d'Albert Camus ?",
+    a: "Le sujet principal du roman tourne autour du personnage de Meursault — de sa personnalité, de sa vision de la vie et de la mort, et de l'interprétation de ses actions par la société. Le roman explore aussi les thèmes de l'absurde, de l'indifférence, de la justice et de la condition humaine."
+  },
+  {
+    q: "Comment Meursault est-il dépeint dans la première partie du roman ?",
+    a: "Dans la première partie, Meursault est dépeint comme un homme détaché, indifférent aux conventions sociales et vivant au jour le jour. Il a une sorte d'innocence enfantine : il suit ses impulsions immédiates et semble incapable de comprendre les attentes des autres ou de mesurer les conséquences de ses actes."
+  },
+  {
+    q: "Quelle est la signification de la mort de la mère de Meursault dans le roman ?",
+    a: "La mort de sa mère est l'événement central qui révèle le caractère de Meursault. Son apparente indifférence à l'enterrement choque le lecteur et sert de catalyseur à son jugement par la société. Malgré son détachement apparent, certains indices suggèrent qu'il aimait sa mère, même s'il réprime ses émotions."
+  },
+  {
+    q: "Quel rôle joue l'état physique de Meursault dans ses actions ?",
+    a: "L'état physique de Meursault — notamment sa sensibilité au soleil et à la chaleur — influence fortement ses émotions et ses actions. À l'enterrement de sa mère et sur la plage, le soleil devient un élément accablant qui affecte sa capacité à ressentir et à réagir de manière appropriée."
+  },
+  {
+    q: "Comment Meursault évolue-t-il dans la deuxième partie du roman ?",
+    a: "Dans la deuxième partie, emprisonné, Meursault est forcé de réfléchir à sa vie et à ses actions. Il développe une conscience de soi plus profonde, comprend les mécanismes de la société et devient capable d'analyser et de critiquer. Son style de narration change : il devient plus sélectif dans les détails qu'il choisit de rapporter."
+  },
+  {
+    q: "Quelle est l'intention de l'auteur, Albert Camus, à travers L'Étranger ?",
+    a: "Camus utilise L'Étranger pour critiquer la société et explorer la notion de l'absurde. Il dénonce la tendance de la société à juger les individus sur leur conformité aux normes sociales plutôt que sur leurs actes réels. Il explore aussi le sentiment de non-sens inhérent à la condition humaine dans un monde sans Dieu ni ordre supérieur."
+  },
+  {
+    q: "Comment Camus décrit-il l'absurde dans le contexte du roman ?",
+    a: "L'absurde est la contradiction entre le désir humain de trouver un sens à la vie et l'impossibilité de le trouver. Meursault, d'abord, vit inconsciemment cette absurdité, cherchant des expériences sensuelles pour combler le vide. Plus tard, confronté à la mort, il accepte l'absurdité de l'existence et trouve une forme de réconciliation avec le monde."
+  },
+  {
+    q: "Pourquoi Meursault tue-t-il l'Arabe ?",
+    a: "Le meurtre est la conséquence d'une combinaison de facteurs : la sensibilité physique de Meursault au soleil, l'accumulation de tensions et une situation incontrôlable. Le soleil devient un élément accablant qui le prive de sa capacité à penser et à agir rationnellement, le poussant à commettre l'acte de manière presque involontaire."
+  },
+  {
+    q: "Quels sont les moyens littéraires utilisés dans le chapitre 6 de la première partie pour décrire la scène du meurtre ?",
+    a: "Le chapitre 6 utilise de nombreux procédés pour créer une atmosphère de tension et de menace : métaphores, symboles et langage sensoriel intense décrivent la nature et son impact sur Meursault. La scène est surchargée d'images, soulignant la perte de contrôle de Meursault et sa soumission aux forces de la nature. Des répétitions et des parallélismes accentuent l'immobilité de la scène et la sensation d'inéluctabilité."
+  }
+];
+
+/* ===========================================================
+   État
+=========================================================== */
+const state = {
+  order: QUESTIONS.map((_, i) => i),
+  data: QUESTIONS.map(() => ({
+    userAnswer: "",
+    notes: "",
+    rating: null,         // "again" | "medium" | "mastered" | null
+    revealed: false
+  }))
+};
+
+/* ===========================================================
+   Rendu
+=========================================================== */
+const container = document.getElementById("card-container");
+const toast = document.getElementById("toast");
+
+function showToast(msg) {
+  toast.textContent = msg;
+  toast.classList.add("show");
+  clearTimeout(showToast._t);
+  showToast._t = setTimeout(() => toast.classList.remove("show"), 1800);
+}
+
+function renderAll() {
+  container.innerHTML = "";
+  state.order.forEach((origIdx, displayIdx) => {
+    const q = QUESTIONS[origIdx];
+    const d = state.data[origIdx];
+    const card = document.createElement("section");
+    card.className = "card";
+    card.dataset.origIdx = origIdx;
+    card.innerHTML = `
+      <div class="card-header">
+        <span class="card-num">Carte ${displayIdx + 1} / ${state.order.length}</span>
+        <span class="card-meta">L'Étranger · A-Level</span>
+      </div>
+      <div class="card-body">
+        <p class="question">${escapeHtml(q.q)}</p>
+
+        <div class="field-label">Votre réponse</div>
+        <textarea class="user-answer" data-field="userAnswer"
+          placeholder="Écrivez votre réponse en français…">${escapeHtml(d.userAnswer)}</textarea>
+
+        <div class="reveal-wrap">
+          <button class="btn primary" data-action="reveal">
+            ${d.revealed ? "🙈 Masquer la réponse modèle" : "👁 Révéler la réponse modèle"}
+          </button>
+          <div class="answer ${d.revealed ? "visible" : ""}">
+            <div class="answer-label">Réponse modèle</div>
+            <div>${escapeHtml(q.a)}</div>
+          </div>
+        </div>
+
+        <div class="rate-row">
+          <span class="rate-label">Auto-évaluation :</span>
+          <button class="rate-btn ${d.rating === "again"    ? "selected" : ""}" data-rate="again">À revoir</button>
+          <button class="rate-btn ${d.rating === "medium"   ? "selected" : ""}" data-rate="medium">Bof</button>
+          <button class="rate-btn ${d.rating === "mastered" ? "selected" : ""}" data-rate="mastered">Maîtrisé</button>
+        </div>
+
+        <div class="notes-wrap">
+          <div class="field-label">Mes notes (vocabulaire, idées, citations…)</div>
+          <textarea data-field="notes"
+            placeholder="Notez ici vocabulaire, citations clés, liens avec Sartre…">${escapeHtml(d.notes)}</textarea>
+        </div>
+      </div>
+    `;
+    container.appendChild(card);
+  });
+  refreshStats();
+}
+
+function refreshStats() {
+  const counts = { again: 0, medium: 0, mastered: 0 };
+  state.data.forEach(d => { if (d.rating) counts[d.rating]++; });
+  document.getElementById("stat-total").textContent    = QUESTIONS.length;
+  document.getElementById("stat-again").textContent    = counts.again;
+  document.getElementById("stat-medium").textContent   = counts.medium;
+  document.getElementById("stat-mastered").textContent = counts.mastered;
+
+  const done = counts.again + counts.medium + counts.mastered;
+  const pct = (done / QUESTIONS.length) * 100;
+  document.getElementById("progress-fill").style.width = pct + "%";
+  document.getElementById("progress-label").textContent = `${done} / ${QUESTIONS.length}`;
+}
+
+function escapeHtml(s) {
+  return String(s)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+}
+
+/* ===========================================================
+   Interactions (event delegation)
+=========================================================== */
+container.addEventListener("click", (e) => {
+  const card = e.target.closest(".card");
+  if (!card) return;
+  const origIdx = parseInt(card.dataset.origIdx, 10);
+  const d = state.data[origIdx];
+
+  // Reveal toggle
+  if (e.target.matches('[data-action="reveal"]')) {
+    d.revealed = !d.revealed;
+    const btn = e.target;
+    const ans = card.querySelector(".answer");
+    btn.textContent = d.revealed ? "🙈 Masquer la réponse modèle" : "👁 Révéler la réponse modèle";
+    ans.classList.toggle("visible", d.revealed);
+  }
+
+  // Rating
+  if (e.target.matches(".rate-btn")) {
+    const rate = e.target.dataset.rate;
+    d.rating = (d.rating === rate) ? null : rate;
+    card.querySelectorAll(".rate-btn").forEach(b => b.classList.remove("selected"));
+    if (d.rating) e.target.classList.add("selected");
+    refreshStats();
+  }
+});
+
+// Capture text into state on input
+container.addEventListener("input", (e) => {
+  if (!(e.target.matches("textarea[data-field]"))) return;
+  const card = e.target.closest(".card");
+  const origIdx = parseInt(card.dataset.origIdx, 10);
+  const field = e.target.dataset.field;
+  state.data[origIdx][field] = e.target.value;
+});
+
+/* ===========================================================
+   Toolbar : shuffle / print / reset / export
+=========================================================== */
+document.getElementById("btn-shuffle").addEventListener("click", () => {
+  for (let i = state.order.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [state.order[i], state.order[j]] = [state.order[j], state.order[i]];
+  }
+  renderAll();
+  showToast("Cartes mélangées !");
+});
+
+document.getElementById("btn-print").addEventListener("click", () => {
+  // Reveal all answers for printing
+  state.data.forEach(d => d.revealed = true);
+  renderAll();
+  setTimeout(() => window.print(), 120);
+});
+
+document.getElementById("btn-reset").addEventListener("click", () => {
+  if (!confirm("Effacer toutes vos réponses, notes et évaluations ?")) return;
+  state.order = QUESTIONS.map((_, i) => i);
+  state.data = QUESTIONS.map(() => ({ userAnswer: "", notes: "", rating: null, revealed: false }));
+  renderAll();
+  showToast("Réinitialisé.");
+});
+
+/* ----- Export : génère un blob HTML téléchargeable ----- */
+document.getElementById("btn-export").addEventListener("click", () => {
+  const dateStr = new Date().toLocaleDateString("fr-FR", {
+    year: "numeric", month: "long", day: "numeric"
+  });
+  const counts = { again: 0, medium: 0, mastered: 0 };
+  state.data.forEach(d => { if (d.rating) counts[d.rating]++; });
+
+  const cards = state.data.map((d, i) => {
+    const q = QUESTIONS[i];
+    const ratingFr = { again: "À revoir", medium: "Bof", mastered: "Maîtrisé", null: "—" }[d.rating];
+    return `
+      <article class="export-card">
+        <h2>Q${i + 1}. ${escapeHtml(q.q)}</h2>
+        <h3>Ma réponse</h3>
+        <p class="user-text">${escapeHtml(d.userAnswer) || "<em>(non renseignée)</em>"}</p>
+        <h3>Réponse modèle</h3>
+        <p>${escapeHtml(q.a)}</p>
+        ${d.notes ? `<h3>Mes notes</h3><p class="notes-text">${escapeHtml(d.notes)}</p>` : ""}
+        <p class="rating">Auto-évaluation : <strong>${ratingFr || "—"}</strong></p>
+      </article>
+    `;
+  }).join("\n");
+
+  const html = `<!DOCTYPE html>
+<html lang="fr"><head><meta charset="UTF-8">
+<title>L'Étranger — Mes réponses (${dateStr})</title>
+<style>
+  body { font-family: Calibri, "Segoe UI", sans-serif; max-width: 800px;
+         margin: 32px auto; padding: 0 24px; color: #1A1A1A; line-height: 1.55; }
+  h1 { color: #1B2845; border-bottom: 3px solid #B5482E; padding-bottom: 8px; }
+  .export-card { border: 1px solid #ddd; padding: 18px 22px; border-radius: 8px;
+                 margin-bottom: 18px; background: #FFFEF9; }
+  .export-card h2 { color: #B5482E; font-size: 18px; margin: 0 0 10px; }
+  .export-card h3 { color: #1B2845; font-size: 14px; text-transform: uppercase;
+                    letter-spacing: 0.08em; margin: 14px 0 4px; }
+  .user-text { background: #F5EDD8; padding: 10px 14px; border-radius: 6px; }
+  .notes-text { background: #FFFAEC; padding: 10px 14px; border-radius: 6px;
+                border-left: 3px solid #D9A86C; }
+  .rating { font-size: 14px; color: #555; margin-top: 12px; }
+  .summary { background: #1B2845; color: #F5EDD8; padding: 14px 20px;
+             border-radius: 8px; margin: 18px 0; }
+  .summary span { display: inline-block; margin-right: 22px; }
+  .summary strong { color: #D9A86C; }
+  @media print { .export-card { break-inside: avoid; } }
+</style></head>
+<body>
+<h1>L'Étranger — Mes réponses</h1>
+<p><em>Exporté le ${dateStr} · A-Level French · Edexcel</em></p>
+<div class="summary">
+  <span><strong>${counts.again}</strong> à revoir</span>
+  <span><strong>${counts.medium}</strong> bof</span>
+  <span><strong>${counts.mastered}</strong> maîtrisées</span>
+  <span>sur <strong>${QUESTIONS.length}</strong> cartes</span>
+</div>
+${cards}
+</body></html>`;
+
+  const blob = new Blob([html], { type: "text/html;charset=utf-8" });
+  const url  = URL.createObjectURL(blob);
+  const a    = document.createElement("a");
+  a.href     = url;
+  const stamp = new Date().toISOString().slice(0, 10);
+  a.download = `LEtranger_mes_reponses_${stamp}.html`;
+  document.body.appendChild(a); a.click();
+  document.body.removeChild(a);
+  setTimeout(() => URL.revokeObjectURL(url), 0);
+  showToast("Téléchargement lancé !");
+});
+
+/* ===========================================================
+   Init
+=========================================================== */
+renderAll();
+</script>
+</body>
+</html>

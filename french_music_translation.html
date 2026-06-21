@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>La Chanson Française - Translation Exercise</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .container {
+            max-width: 900px;
+            width: 100%;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            padding: 30px;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 10px;
+            font-size: 2em;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 25px;
+            font-style: italic;
+        }
+
+        .name-section {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            border-left: 4px solid #667eea;
+        }
+
+        .name-section label {
+            display: block;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .name-section input {
+            width: 100%;
+            padding: 12px;
+            font-size: 16px;
+            border: 2px solid #667eea;
+            border-radius: 8px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        .name-section input:focus {
+            border-color: #764ba2;
+        }
+
+        .name-section.error input {
+            border-color: #dc3545;
+        }
+
+        .error-message {
+            color: #dc3545;
+            font-size: 14px;
+            margin-top: 5px;
+            display: none;
+        }
+
+        .name-section.error .error-message {
+            display: block;
+        }
+
+        .french-text {
+            background: #fff3cd;
+            padding: 25px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            border: 2px solid #ffc107;
+            line-height: 1.8;
+            font-size: 16px;
+        }
+
+        .french-text h3 {
+            color: #856404;
+            margin-bottom: 15px;
+        }
+
+        .sentence {
+            margin-bottom: 15px;
+            padding: 10px;
+            background: white;
+            border-radius: 5px;
+        }
+
+        .sentence-number {
+            font-weight: bold;
+            color: #667eea;
+            margin-right: 10px;
+        }
+
+        .translation-area {
+            margin-bottom: 25px;
+        }
+
+        .translation-area h3 {
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .translation-input {
+            margin-bottom: 15px;
+        }
+
+        .translation-input label {
+            display: block;
+            font-weight: bold;
+            color: #555;
+            margin-bottom: 5px;
+            font-size: 14px;
+        }
+
+        .translation-input textarea {
+            width: 100%;
+            min-height: 60px;
+            padding: 10px;
+            font-size: 15px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            resize: vertical;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        .translation-input textarea:focus {
+            border-color: #667eea;
+        }
+
+        .translation-input.correct textarea {
+            border-color: #28a745;
+            background: #d4edda;
+        }
+
+        .translation-input.partial textarea {
+            border-color: #ffc107;
+            background: #fff3cd;
+        }
+
+        .translation-input.incorrect textarea {
+            border-color: #dc3545;
+            background: #f8d7da;
+        }
+
+        .keyboard {
+            position: fixed;
+            bottom: -250px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: white;
+            padding: 20px;
+            border-radius: 15px 15px 0 0;
+            box-shadow: 0 -10px 30px rgba(0,0,0,0.3);
+            transition: bottom 0.3s ease;
+            z-index: 1000;
+            max-width: 600px;
+            width: 95%;
+        }
+
+        .keyboard.show {
+            bottom: 0;
+        }
+
+        .keyboard-toggle {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 25px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 16px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            z-index: 999;
+            transition: transform 0.2s;
+        }
+
+        .keyboard-toggle:hover {
+            transform: scale(1.05);
+        }
+
+        .keyboard-row {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-bottom: 10px;
+        }
+
+        .key {
+            background: #f0f0f0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 12px 15px;
+            min-width: 50px;
+            text-align: center;
+            cursor: pointer;
+            user-select: none;
+            transition: all 0.1s;
+            font-size: 18px;
+        }
+
+        .key:hover {
+            background: #e0e0e0;
+            transform: translateY(-2px);
+        }
+
+        .key:active {
+            background: #667eea;
+            color: white;
+            transform: translateY(0);
+        }
+
+        .button-group {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin: 25px 0;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 15px 30px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            transition: transform 0.2s;
+        }
+
+        .btn:hover {
+            transform: scale(1.05);
+        }
+
+        .btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .check-btn {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+        }
+
+        .download-btn {
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            color: white;
+        }
+
+        .reset-btn {
+            background: linear-gradient(135deg, #ff9a56 0%, #ff6a88 100%);
+            color: white;
+        }
+
+        .feedback {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 25px;
+            display: none;
+        }
+
+        .feedback.show {
+            display: block;
+        }
+
+        .feedback h3 {
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .score {
+            font-size: 24px;
+            font-weight: bold;
+            text-align: center;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+        }
+
+        .score.excellent {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .score.good {
+            background: #d1ecf1;
+            color: #0c5460;
+        }
+
+        .score.fair {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .score.needs-improvement {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .feedback-text {
+            line-height: 1.8;
+            color: #555;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+
+            h1 {
+                font-size: 1.5em;
+            }
+
+            .keyboard {
+                padding: 10px;
+            }
+
+            .key {
+                min-width: 40px;
+                padding: 10px;
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎵 La Chanson Française</h1>
+        <p class="subtitle">Translation Exercise - Unité 4</p>
+        
+        <div class="name-section" id="nameSection">
+            <label for="studentName">Student Name (Required):</label>
+            <input type="text" id="studentName" placeholder="Enter your full name" maxlength="100">
+            <div class="error-message">Please enter your name before proceeding.</div>
+        </div>
+
+        <div class="french-text">
+            <h3>📖 French Text to Translate:</h3>
+            <div class="sentence"><span class="sentence-number">1.</span>Dans les années soixante, la musique anglo-américaine</div>
+            <div class="sentence"><span class="sentence-number">2.</span>est arrivée en France et les jeunes ont aimé ses rythmes.</div>
+            <div class="sentence"><span class="sentence-number">3.</span>Le mouvement yé-yé est né à cette période.</div>
+            <div class="sentence"><span class="sentence-number">4.</span>Cependant, les chanteurs français</div>
+            <div class="sentence"><span class="sentence-number">5.</span>ont continué à chanter en français</div>
+            <div class="sentence"><span class="sentence-number">6.</span>pour exprimer des idées et des points de vue.</div>
+            <div class="sentence"><span class="sentence-number">7.</span>On pensait qu'il y avait trop de chansons anglo-américaines à la radio,</div>
+            <div class="sentence"><span class="sentence-number">8.</span>donc on a imposé un quota de 40% de chansons françaises à toutes les chaînes.</div>
+            <div class="sentence"><span class="sentence-number">9.</span>Ceci a aidé à découvrir beaucoup d'artistes francophones</div>
+            <div class="sentence"><span class="sentence-number">10.</span>qui sont devenus célèbres.</div>
+        </div>
+
+        <div class="translation-area">
+            <h3>✍️ Your Translation:</h3>
+            
+            <div class="translation-input" data-section="1">
+                <label>1. Dans les années soixante, la musique anglo-américaine</label>
+                <textarea placeholder="Your translation..."></textarea>
+            </div>
+
+            <div class="translation-input" data-section="2">
+                <label>2. est arrivée en France et les jeunes ont aimé ses rythmes.</label>
+                <textarea placeholder="Your translation..."></textarea>
+            </div>
+
+            <div class="translation-input" data-section="3">
+                <label>3. Le mouvement yé-yé est né à cette période.</label>
+                <textarea placeholder="Your translation..."></textarea>
+            </div>
+
+            <div class="translation-input" data-section="4">
+                <label>4. Cependant, les chanteurs français</label>
+                <textarea placeholder="Your translation..."></textarea>
+            </div>
+
+            <div class="translation-input" data-section="5">
+                <label>5. ont continué à chanter en français</label>
+                <textarea placeholder="Your translation..."></textarea>
+            </div>
+
+            <div class="translation-input" data-section="6">
+                <label>6. pour exprimer des idées et des points de vue.</label>
+                <textarea placeholder="Your translation..."></textarea>
+            </div>
+
+            <div class="translation-input" data-section="7">
+                <label>7. On pensait qu'il y avait trop de chansons anglo-américaines à la radio,</label>
+                <textarea placeholder="Your translation..."></textarea>
+            </div>
+
+            <div class="translation-input" data-section="8">
+                <label>8. donc on a imposé un quota de 40% de chansons françaises à toutes les chaînes.</label>
+                <textarea placeholder="Your translation..."></textarea>
+            </div>
+
+            <div class="translation-input" data-section="9">
+                <label>9. Ceci a aidé à découvrir beaucoup d'artistes francophones</label>
+                <textarea placeholder="Your translation..."></textarea>
+            </div>
+
+            <div class="translation-input" data-section="10">
+                <label>10. qui sont devenus célèbres.</label>
+                <textarea placeholder="Your translation..."></textarea>
+            </div>
+        </div>
+
+        <div class="button-group">
+            <button class="btn check-btn" id="checkBtn">✓ Check My Answers</button>
+            <button class="btn download-btn" id="downloadBtn">📥 Download My Work</button>
+            <button class="btn reset-btn" id="resetBtn">🔄 Start Over</button>
+        </div>
+
+        <div class="feedback" id="feedback">
+            <h3>📊 Your Results</h3>
+            <div class="score" id="score"></div>
+            <div class="feedback-text" id="feedbackText"></div>
+        </div>
+    </div>
+
+    <button class="keyboard-toggle" id="keyboardToggle">⌨️ Accents</button>
+
+    <div class="keyboard" id="keyboard">
+        <div class="keyboard-row">
+            <div class="key">é</div>
+            <div class="key">è</div>
+            <div class="key">ê</div>
+            <div class="key">à</div>
+            <div class="key">ç</div>
+        </div>
+    </div>
+
+    <script>
+        let activeTextarea = null;
+        const nameSection = document.getElementById('nameSection');
+        const studentNameInput = document.getElementById('studentName');
+        const keyboardToggle = document.getElementById('keyboardToggle');
+        const keyboard = document.getElementById('keyboard');
+        const checkBtn = document.getElementById('checkBtn');
+        const downloadBtn = document.getElementById('downloadBtn');
+        const resetBtn = document.getElementById('resetBtn');
+        const feedback = document.getElementById('feedback');
+        const scoreDiv = document.getElementById('score');
+        const feedbackText = document.getElementById('feedbackText');
+
+        // Marking scheme
+        const acceptableAnswers = {
+            1: ['in the sixties, anglo-american music', 'in the 60s, anglo-american music', 'in the 1960s, anglo-american music'],
+            2: ['arrived in france and the youth liked its rhythms', 'arrived in france and young people liked its rhythms', 'arrived in france and the youth liked its rythms', 'arrived in france and young people liked its rythms'],
+            3: ['the yé-yé movement was born at that time', 'the ye-ye movement was born at that time', 'the yé-yé movement was born at this time', 'the ye-ye movement was born at this time', 'the yé-yé movement was born during this period', 'the ye-ye movement was born during this period'],
+            4: ['however, french singers', 'however french singers'],
+            5: ['continued to sing in french'],
+            6: ['to express ideas and points of view'],
+            7: ['it was thought that there were too many anglo-american songs on the radio', 'we thought that there were too many anglo-american songs on the radio', 'people thought that there were too many anglo-american songs on the radio'],
+            8: ['so a 40% quota of french songs was imposed to all stations', 'so a 40% quota of french songs was imposed on all stations', 'so a quota of 40% of french songs was imposed to all stations', 'so a quota of 40% of french songs was imposed on all stations'],
+            9: ['this helped to discover many french speaking artists', 'this helped discover many french speaking artists', 'this helped to discover many french-speaking artists', 'this helped discover many french-speaking artists'],
+            10: ['who became famous']
+        };
+
+        // Track active textarea
+        document.querySelectorAll('textarea').forEach(textarea => {
+            textarea.addEventListener('focus', () => {
+                activeTextarea = textarea;
+            });
+        });
+
+        // Virtual keyboard
+        keyboardToggle.addEventListener('click', () => {
+            keyboard.classList.toggle('show');
+            keyboardToggle.textContent = keyboard.classList.contains('show') ? '✕ Close' : '⌨️ Accents';
+        });
+
+        document.querySelectorAll('.key').forEach(key => {
+            key.addEventListener('click', () => {
+                if (activeTextarea) {
+                    const char = key.textContent;
+                    const start = activeTextarea.selectionStart;
+                    const end = activeTextarea.selectionEnd;
+                    const text = activeTextarea.value;
+                    
+                    activeTextarea.value = text.substring(0, start) + char + text.substring(end);
+                    activeTextarea.selectionStart = activeTextarea.selectionEnd = start + char.length;
+                    activeTextarea.focus();
+                }
+            });
+        });
+
+        // Close keyboard when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!keyboard.contains(e.target) && e.target !== keyboardToggle && keyboard.classList.contains('show')) {
+                keyboard.classList.remove('show');
+                keyboardToggle.textContent = '⌨️ Accents';
+            }
+        });
+
+        // Check answers
+        checkBtn.addEventListener('click', () => {
+            const name = studentNameInput.value.trim();
+            if (!name) {
+                nameSection.classList.add('error');
+                studentNameInput.focus();
+                return;
+            }
+            nameSection.classList.remove('error');
+
+            let correctCount = 0;
+            const inputs = document.querySelectorAll('.translation-input');
+            
+            inputs.forEach(input => {
+                const section = input.dataset.section;
+                const textarea = input.querySelector('textarea');
+                const answer = textarea.value.trim().toLowerCase();
+                const acceptable = acceptableAnswers[section];
+                
+                // Reset classes
+                input.classList.remove('correct', 'partial', 'incorrect');
+                
+                if (!answer) {
+                    return;
+                }
+                
+                // Check if answer matches any acceptable answer
+                const isCorrect = acceptable.some(acc => {
+                    const normalized = answer.replace(/[.,!?;]/g, '').replace(/\s+/g, ' ');
+                    const accNormalized = acc.replace(/[.,!?;]/g, '').replace(/\s+/g, ' ');
+                    return normalized === accNormalized;
+                });
+                
+                if (isCorrect) {
+                    input.classList.add('correct');
+                    correctCount++;
+                } else {
+                    // Check for partial credit (contains key words)
+                    const hasKeyWords = acceptable.some(acc => {
+                        const keywords = acc.split(' ').filter(w => w.length > 3);
+                        const matchCount = keywords.filter(kw => answer.includes(kw)).length;
+                        return matchCount >= keywords.length * 0.5;
+                    });
+                    
+                    if (hasKeyWords) {
+                        input.classList.add('partial');
+                        correctCount += 0.5;
+                    } else {
+                        input.classList.add('incorrect');
+                    }
+                }
+            });
+
+            const finalScore = Math.round(correctCount / 2 * 10) / 10;
+            displayFeedback(finalScore, name);
+        });
+
+        function displayFeedback(score, name) {
+            feedback.classList.add('show');
+            scoreDiv.textContent = `${score} / 5`;
+            
+            let feedbackMessage = '';
+            let scoreClass = '';
+            
+            if (score >= 4.5) {
+                scoreClass = 'excellent';
+                feedbackMessage = `Outstanding work, ${name}! Your translation skills are excellent. You've demonstrated a strong understanding of French vocabulary and grammar structures.`;
+            } else if (score >= 3.5) {
+                scoreClass = 'good';
+                feedbackMessage = `Well done, ${name}! You have a good grasp of translation. Review the sections marked in yellow to improve further. Pay attention to verb tenses and vocabulary choices.`;
+            } else if (score >= 2.5) {
+                scoreClass = 'fair';
+                feedbackMessage = `Fair effort, ${name}. You understand the basics but need more practice with French structures and vocabulary. Focus on the sections marked in red and yellow. Consider reviewing: verb conjugations (arrived/arriva), time expressions (in the sixties), and passive voice (was imposed/on imposa).`;
+            } else {
+                scoreClass = 'needs-improvement';
+                feedbackMessage = `Keep working, ${name}. Translation requires practice. Review the French text carefully and compare with acceptable answers. Key areas to work on: verb tenses, vocabulary recognition, and sentence structure. Don't hesitate to use a dictionary and grammar resources.`;
+            }
+            
+            scoreDiv.className = `score ${scoreClass}`;
+            feedbackText.innerHTML = `
+                <p><strong>${feedbackMessage}</strong></p>
+                <p style="margin-top: 15px;"><strong>Key Translation Tips:</strong></p>
+                <ul style="margin-left: 20px; margin-top: 10px;">
+                    <li>✓ Green boxes = Correct translation</li>
+                    <li>⚠ Yellow boxes = Partially correct (right idea, but check wording)</li>
+                    <li>✗ Red boxes = Needs revision (check verb tenses and vocabulary)</li>
+                </ul>
+            `;
+            
+            scoreDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+
+        // Download work
+        downloadBtn.addEventListener('click', () => {
+            const name = studentNameInput.value.trim();
+            if (!name) {
+                nameSection.classList.add('error');
+                studentNameInput.focus();
+                return;
+            }
+            nameSection.classList.remove('error');
+
+            let content = `La Chanson Française - Translation Exercise
+Student: ${name}
+Date: ${new Date().toLocaleDateString('en-GB')}
+Unité 4: La musique
+
+${'='.repeat(70)}
+
+`;
+
+            const inputs = document.querySelectorAll('.translation-input');
+            inputs.forEach((input, index) => {
+                const label = input.querySelector('label').textContent;
+                const answer = input.querySelector('textarea').value.trim() || '[No answer provided]';
+                content += `${label}\nTranslation: ${answer}\n\n`;
+            });
+
+            const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `chanson-francaise_${name.replace(/\s+/g, '_')}_${new Date().toISOString().split('T')[0]}.txt`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        });
+
+        // Reset
+        resetBtn.addEventListener('click', () => {
+            if (confirm('Are you sure you want to start over? This will clear all your answers.')) {
+                document.querySelectorAll('textarea').forEach(textarea => {
+                    textarea.value = '';
+                });
+                document.querySelectorAll('.translation-input').forEach(input => {
+                    input.classList.remove('correct', 'partial', 'incorrect');
+                });
+                feedback.classList.remove('show');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        });
+
+        // Remove name error on input
+        studentNameInput.addEventListener('input', () => {
+            if (studentNameInput.value.trim()) {
+                nameSection.classList.remove('error');
+            }
+        });
+    </script>
+</body>
+</html>

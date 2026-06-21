@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Expressions arabes dans le langage des jeunes - Activité enrichie</title>
+<style>
+  body { font-family: Arial, sans-serif; max-width: 900px; margin: 20px auto; padding: 0 15px; background: #fafafa; color: #222; }
+  h1, h2 { color: #2b4a6f; }
+  .article-box { background: #eef3f7; border: 1px solid #ccc; padding: 20px; margin-bottom: 25px; max-height: 350px; overflow-y: auto; font-size: 0.95em; line-height: 1.5; }
+  .exercise { border: 1px solid #ccc; background: #fff; padding: 15px; margin-bottom: 20px; border-radius: 4px; position: relative; }
+  label { display: block; margin-top: 8px; cursor: pointer; }
+  input[type="text"], select, textarea { width: 100%; padding: 8px 10px; margin-top: 5px; box-sizing: border-box; font-size: 1em; border-radius: 3px; border: 1px solid #aaa; }
+  textarea { resize: vertical; }
+  button { background-color: #2b4a6f; color: white; border: none; padding: 12px 20px; font-size: 1em; cursor: pointer; border-radius: 4px; }
+  button:hover { background-color: #1e3551; }
+  .annotation { margin-top: 8px; font-style: italic; font-size: 0.95em; }
+  .correct { color: green; }
+  .incorrect { color: #b22222; }
+  .gap-fill { background-color: #f9f9f9; padding: 10px; border-radius: 5px; margin: 10px 0; }
+  .gap-word { display: inline-block; width: 150px; margin: 0 5px; }
+  .translation-box { background-color: #f0f8ff; padding: 15px; border-left: 4px solid #2b4a6f; margin: 15px 0; }
+  .word-bank { 
+    background-color: #f5f5f5; 
+    border: 1px dashed #aaa; 
+    padding: 10px; 
+    margin: 10px 0; 
+    border-radius: 4px; 
+    display: flex; 
+    flex-wrap: wrap; 
+    gap: 8px; 
+  }
+  .word-bank span { 
+    background-color: #e9ecef; 
+    padding: 5px 10px; 
+    border-radius: 15px; 
+    font-size: 0.9em; 
+    border: 1px solid #ced4da; 
+  }
+  .hint-button { 
+    background-color: #6c757d; 
+    color: white; 
+    border: none; 
+    padding: 5px 10px; 
+    font-size: 0.8em; 
+    cursor: pointer; 
+    border-radius: 3px; 
+    margin-top: 5px; 
+  }
+  .hint-button:hover { background-color: #5a6268; }
+  .hint-box { 
+    background-color: #fff3cd; 
+    border: 1px solid #ffeaa7; 
+    padding: 10px; 
+    margin-top: 10px; 
+    border-radius: 4px; 
+    font-size: 0.9em; 
+    display: none; 
+  }
+</style>
+</head>
+<body>
+
+<h1>Expressions arabes dans le langage des jeunes</h1>
+
+<div class="article-box" aria-label="Extrait étendu de l'article">
+  <h2>Document de référence :</h2>
+  <p><strong>Plus d'éléments sur l'influence de l'arabe dans le langage des jeunes</strong></p>
+  <p>Dans la société française contemporaine, beaucoup de mots et expressions issus de l'arabe, surtout dialectal ou familier, se sont intégrés dans le vocabulaire courant. Ces expressions sont largement popularisées par la musique, notamment le rap, mais aussi par Internet et les réseaux sociaux. Elles servent aux jeunes à marquer leur identité, afficher leur appartenance culturelle, ou simplement rendre leur langage plus moderne et "cool".</p>
+  <p>Parmi ces mots, on trouve : <strong>wesh</strong> (salutation ou réaction), <strong>kiffer</strong> (aimer), <strong>seum</strong> (ressentiment), <strong>miskine</strong> (pitié ou compassion), <strong>caoua</strong> (café), <strong>beur</strong> (personne d'origine maghrébine). La culture rap, qui mêle souvent ces expressions, joue un rôle clé dans leur diffusion. Les artistes comme <strong>Naps, Jul</strong>, et même certains groupes dans la banlieue parisienne popularisent ces mots dans leurs chansons, rendant leur usage socialement valorisé ou tendance.</p>
+  <p>Le phénomène s'inscrit dans une histoire longue : des mots arabes qui sont entrés dans la langue à travers le commerce, la colonisation, ou la culture populaire. Aujourd'hui, leur usage est <strong>omniprésent</strong> dans la parole des jeunes, notamment dans les médias, la mode et la musique.<p>
+
+<p>Ce sont majoritairement des mots du quotidien, parfois du religieux ou des insultes. Ce sont des mots de jeunes, transmis par des jeunes dans le rap, à destination des jeunes.</p>
+<p>Pour le comprendre, il suffit d'écouter attentivement <strong>les derniers tubes de rap</strong>. «Cet été j'vends d'la "moula". Le guetteur (lookout) qui crie "a khah", "halbat" au quartier.» Ainsi chante Gambino dans «Alicante». «A khah», qui signifie «Oh frère!», est une alerte pour prévenir du danger. «Halbat» signifie «détaler=se sauver, s’enfuir.».<p>
+Le rap est un élément clé de cette diffusion. Après le grand succès de l’album collectif « Bande Organisée », le rappeur JUL a rassemblé plus de 150 artistes marseillais et parisiens, mettant en lumière la scène rap locale et renforçant son influence culturelle.».</p>
+<p>On retrouve ici le vocabulaire religieux : «Al-ḥamdu lillāh» est un chant de louange divin. Mots comme «Wallah» (Par Dieu !), «Bismillah» (Au nom de Dieu), «Inshallah» (Si Dieu le veut) et «Mashallah» (Ce qu'Allah a voulu) fleurissent aussi dans les textes de rap.<p>
+Les rappeurs <strong>issus de l'immigration</strong> nord-africaine jouent ainsi un rôle décisif dans la transmission et la diffusion de ce vocabulaire arabe dans la société française actuelle.</p>
+</div>
+
+<form id="activityForm" aria-label="Activités">
+
+  <div class="exercise" id="exercise1">
+    <strong>1. Complétez la phrase :</strong><br />
+    "Wallah, c'est la <input type="text" id="answer1" aria-label="Réponse 1" />" (signifiant "être dans la merde").<br />
+    <span class="annotation">Indice : un mot arabe utilisé pour exprimer la précarité ou une situation difficile.</span>
+    <button type="button" class="hint-button" onclick="toggleHint('hint1')">Donne-moi une piste</button>
+    <div class="hint-box" id="hint1">Ce mot rime avec "bless" et commence par un "h".</div>
+    <div class="annotation" id="annotation1"></div>
+  </div>
+
+  <div class="exercise" id="exercise2">
+    <strong>2. Que signifie "khapta" dans le vocabulaire des jeunes ?</strong><br />
+    <label><input type="radio" name="answer2" value="la fête" /> la fête</label>
+    <label><input type="radio" name="answer2" value="être dans la merde" /> être dans la merde</label>
+    <label><input type="radio" name="answer2" value="payer" /> payer</label>
+    <label><input type="radio" name="answer2" value="la famille" /> la famille</label>
+    <button type="button" class="hint-button" onclick="toggleHint('hint2')">Donne-moi une piste</button>
+    <div class="hint-box" id="hint2">Dans le texte, "khapta" est associé à la Canebière, une célèbre avenue de Marseille connue pour son animation.</div>
+    <div class="annotation" id="annotation2"></div>
+  </div>
+
+  <div class="exercise" id="exercise3">
+    <strong>3. Associez les expressions suivantes à leur usage ou signification :</strong><br />
+    <select id="match1" aria-label="wesh">
+      <option value="">wesh - ?</option>
+      <option value="salutation">salutation</option>
+      <option value="rejet">rejet</option>
+      <option value="insulte">insulte</option>
+    </select>
+    <br /><br />
+    <select id="match2" aria-label="seum">
+      <option value="">seum - ?</option>
+      <option value="la rage">la rage</option>
+      <option value="le bonheur">le bonheur</option>
+      <option value="l'indifférence">l'indifférence</option>
+    </select>
+    <br /><br />
+    <select id="match3" aria-label="miskine">
+      <option value="">miskine - ?</option>
+      <option value="la pitié">la pitié</option>
+      <option value="la haine">la haine</option>
+      <option value="la joie">la joie</option>
+    </select>
+    <button type="button" class="hint-button" onclick="toggleHint('hint3')">Donne-moi une piste</button>
+    <div class="hint-box" id="hint3">Regardez le début du texte où les significations de ces mots sont explicitement données.</div>
+    <div class="annotation" id="annotation3"></div>
+  </div>
+
+  <div class="exercise" id="exercise4">
+    <strong>4. Expliquez en quelques phrases : pourquoi ces mots arabes se sont-ils répandus dans le langage des jeunes ?</strong><br />
+    <textarea id="answer4" rows="4" cols="50" placeholder="Votre réponse..." aria-label="Réponse 4"></textarea>
+    <button type="button" class="hint-button" onclick="toggleHint('hint4')">Donne-moi une piste</button>
+    <div class="hint-box" id="hint4">Pensez aux canaux de diffusion mentionnés dans le texte : musique, médias, réseaux sociaux...</div>
+    <div class="annotation" id="annotation4"></div>
+  </div>
+
+  <div class="exercise" id="exercise5">
+    <strong>5. Parmi ces mots, lesquels proviennent directement de l'arabe ? (Cochez)</strong><br />
+    <label><input type="checkbox" id="word1" aria-label="wesh" /> Wesh</label>
+    <label><input type="checkbox" id="word2" aria-label="kiffer" /> Kiffer</label>
+    <label><input type="checkbox" id="word3" aria-label="caoua" /> Caoua</label>
+    <label><input type="checkbox" id="word4" aria-label="flouze" /> Flouze</label>
+    <label><input type="checkbox" id="word5" aria-label="fissa" /> Fissa</label>
+    <button type="button" class="hint-button" onclick="toggleHint('hint5')">Donne-moi une piste</button>
+    <div class="hint-box" id="hint5">Tous ces mots sont d'origine arabe, mais certains sont mentionnés explicitement dans le texte.</div>
+    <div class="annotation" id="annotation5"></div>
+  </div>
+
+  <!-- Question supplémentaire : influence du rap -->
+  <div class="exercise" id="exercise6">
+    <strong>6. Comment le rap participe-t-il à la diffusion de ces expressions arabes ?</strong><br />
+    <textarea id="answer6" rows="4" cols="50" placeholder="Votre réponse..." aria-label="Réponse 6"></textarea>
+    <button type="button" class="hint-button" onclick="toggleHint('hint6')">Donne-moi une piste</button>
+    <div class="hint-box" id="hint6">Le texte mentionne des exemples concrets de rappeurs et de chansons qui utilisent ces expressions.</div>
+    <div class="annotation" id="annotation6"></div>
+  </div>
+
+  <!-- Nouvelle question : Qu'est-ce qu'un tube ? -->
+  <div class="exercise" id="exercise7">
+    <strong>7. D'après le texte, qu'est-ce qu'un "tube" dans le contexte musical ?</strong><br />
+    <label><input type="radio" name="answer7" value="un instrument de musique" /> un instrument de musique</label>
+    <label><input type="radio" name="answer7" value="une chanson à succès" /> une chanson à succès</label>
+    <label><input type="radio" name="answer7" value="un studio d'enregistrement" /> un studio d'enregistrement</label>
+    <label><input type="radio" name="answer7" value="un concert" /> un concert</label>
+    <button type="button" class="hint-button" onclick="toggleHint('hint7')">Donne-moi une piste</button>
+    <div class="hint-box" id="hint7">Le texte parle des "derniers tubes de rap" - ce sont des chansons qu'on entend souvent.</div>
+    <div class="annotation" id="annotation7"></div>
+  </div>
+
+  <!-- Nouvelle question : Liste des rappeurs -->
+  <div class="exercise" id="exercise8">
+    <strong>8. Faites une liste des rappeurs mentionnés dans le texte :</strong><br />
+    <textarea id="answer8" rows="4" cols="50" placeholder="Listez les rappeurs mentionnés..." aria-label="Réponse 8"></textarea>
+    <button type="button" class="hint-button" onclick="toggleHint('hint8')">Donne-moi une piste</button>
+    <div class="hint-box" id="hint8">Cherchez les noms propres dans le texte. Il y a trois rappeurs mentionnés explicitement.</div>
+    <div class="annotation" id="annotation8"></div>
+  </div>
+
+  <!-- Nouvelle question : Traduction -->
+  <div class="exercise" id="exercise9">
+    <strong>9. Traduisez en anglais le paragraphe suivant :</strong><br />
+    <div class="translation-box">
+      "Dans la société française contemporaine, beaucoup de mots et expressions issus de l'arabe, surtout dialectal ou familier, se sont intégrés dans le vocabulaire courant. Ces expressions sont largement popularisées par la musique, notamment le rap, mais aussi par Internet et les réseaux sociaux."
+    </div>
+    <textarea id="answer9" rows="4" cols="50" placeholder="Votre traduction..." aria-label="Réponse 9"></textarea>
+    <button type="button" class="hint-button" onclick="toggleHint('hint9')">Donne-moi une piste</button>
+    <div class="hint-box" id="hint9">Concentrez-vous sur les mots-clés : société française contemporaine, mots arabes, intégrés, popularisés, rap, Internet, réseaux sociaux.</div>
+    <div class="annotation" id="annotation9"></div>
+  </div>
+
+  <!-- Nouvelle question : Texte à trous -->
+  <div class="exercise" id="exercise10">
+    <strong>10. Complétez le texte à trous :</strong><br />
+    <div class="word-bank" id="wordBank">
+      <!-- Word bank will be populated by JavaScript -->
+    </div>
+    <div class="gap-fill">
+      <p>Les expressions arabes se sont <input type="text" id="gap1" class="gap-word" placeholder="..." /> dans le vocabulaire des jeunes français. Ces mots sont souvent <input type="text" id="gap2" class="gap-word" placeholder="..." /> par la musique rap. Des artistes comme <input type="text" id="gap3" class="gap-word" placeholder="..." /> et <input type="text" id="gap4" class="gap-word" placeholder="..." /> utilisent ces expressions dans leurs chansons. Le mot <input type="text" id="gap5" class="gap-word" placeholder="..." /> signifie "salutation" tandis que <input type="text" id="gap6" class="gap-word" placeholder="..." /> exprime la colère ou la frustration.</p>
+    </div>
+    <button type="button" class="hint-button" onclick="toggleHint('hint10')">Donne-moi une piste</button>
+    <div class="hint-box" id="hint10">Utilisez les mots de la banque de mots ci-dessus. Chaque mot ne peut être utilisé qu'une seule fois.</div>
+    <div class="annotation" id="annotation10"></div>
+  </div>
+
+  <button type="button" onclick="checkAnswers()">Vérifier et télécharger mes résultats</button>
+</form>
+
+<script>
+// Function to shuffle an array (Fisher-Yates algorithm)
+function shuffleArray(array) {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+  return array;
+}
+
+// Word bank for gap-fill exercise
+const gapWords = ['intégrées', 'popularisées', 'Naps', 'Jul', 'wesh', 'seum'];
+
+// Shuffle the word bank and populate it
+const shuffledWords = shuffleArray([...gapWords]);
+const wordBankElement = document.getElementById('wordBank');
+shuffledWords.forEach(word => {
+  const wordElement = document.createElement('span');
+  wordElement.textContent = word;
+  wordBankElement.appendChild(wordElement);
+});
+
+const correctAnswers = {
+  answer1: 'hess',
+  answer2: 'la fête',
+  match1: 'salutation',
+  match2: 'la rage',
+  match3: 'la pitié',
+  answer4: 'Les mots arabes sont devenus populaires chez les jeunes grâce à la musique rap, les réseaux sociaux et la culture urbaine, qui diffusent ces expressions à travers leurs chansons et vidéos.',
+  // Vocabulaire supplémentaire
+  vocabulaire: ["wesh", "kiffer", "caoua", "flouze", "fissa"],
+  answer7: 'une chanson à succès',
+  answer8: ['Naps', 'Jul', 'Gambino'],
+  answer9: 'In contemporary French society, many words and expressions from Arabic, especially dialectal or informal ones, have integrated into everyday vocabulary. These expressions are widely popularized by music, particularly rap, but also by the Internet and social media.',
+  gaps: {
+    gap1: 'intégrées',
+    gap2: 'popularisées',
+    gap3: 'Naps',
+    gap4: 'Jul',
+    gap5: 'wesh',
+    gap6: 'seum'
+  }
+};
+
+// Function to toggle hint visibility
+function toggleHint(hintId) {
+  const hintBox = document.getElementById(hintId);
+  hintBox.style.display = hintBox.style.display === 'block' ? 'none' : 'block';
+}
+
+function checkAnswers() {
+  let results = { title: "Résultats de l'activité", exercises: [] };
+  let allCorrect = true;
+
+  // Vérification question 1
+  const ans1 = document.getElementById('answer1').value.trim().toLowerCase();
+  const ann1 = document.getElementById('annotation1');
+  if (ans1 === correctAnswers.answer1) {
+    ann1.textContent = "Correct !";
+    ann1.className = "annotation correct";
+  } else {
+    ann1.textContent = "Erreur : la réponse est 'hess'.";
+    ann1.className = "annotation incorrect";
+    allCorrect = false;
+  }
+  results.exercises.push({question: "Complétez : «Wallah, c'est la _____»", donné: ans1, correct: correctAnswers.answer1, annotation: ann1.textContent});
+
+  // Vérification question 2
+  const ans2 = document.querySelector('input[name="answer2"]:checked');
+  const ann2 = document.getElementById('annotation2');
+  if (ans2 && ans2.value === correctAnswers.answer2) {
+    ann2.textContent = "Correct !";
+    ann2.className = "annotation correct";
+  } else {
+    ann2.textContent = "Erreur : la bonne réponse est 'la fête'.";
+    ann2.className = "annotation incorrect";
+    allCorrect = false;
+  }
+  results.exercises.push({question: "Signification de «khapta» ?", donné: ans2 ? ans2.value : "Non répondu", correct: correctAnswers.answer2, annotation: ann2.textContent});
+
+  // Vérification match
+  let matchResults = [];
+  ['match1','match2','match3'].forEach(id => {
+    const sel = document.getElementById(id);
+    const val = sel.value;
+    const isCorrect = val === correctAnswers[id];
+    matchResults.push({expression: sel.getAttribute('aria-label'), réponse: val, correct: isCorrect});
+  });
+  const ann3 = document.getElementById('annotation3');
+  if (matchResults.every(r => r.correct)) {
+    ann3.textContent = "Toutes correctes !";
+    ann3.className = "annotation correct";
+  } else {
+    ann3.textContent = "Certains choix sont incorrects, vérifiez.";
+    ann3.className = "annotation incorrect";
+    allCorrect = false;
+  }
+  results.exercises.push({question: "Associez ces expressions à leur usage", réponses: matchResults});
+
+  // Question 4
+  const ans4 = document.getElementById('answer4').value.trim();
+  const ann4 = document.getElementById('annotation4');
+  if (ans4.toLowerCase().includes("musique") || ans4.toLowerCase().includes("réseaux") || ans4.toLowerCase().includes("diffuser")) {
+    ann4.textContent = "Bonne réponse!";
+    ann4.className = "annotation correct";
+  } else {
+    ann4.textContent = "Résumé : le rap permet de diffuser ces expressions rapidement et massivement.";
+    ann4.className = "annotation incorrect";
+    allCorrect = false;
+  }
+  results.exercises.push({question: "Comment le rap participe-t-il à la diffusion ?", réponse: ans4, correct: "Grâce à la musique et aux réseaux sociaux", annotation: ann4.textContent});
+
+  // Question 5
+  const checkboxes = ['word1','word2','word3','word4','word5'];
+  let vocabSelection = checkboxes.map(id => document.getElementById(id).checked ? document.getElementById(id).getAttribute('aria-label') : null).filter(v=>v);
+  let vocabCorrect = correctAnswers.vocabulaire.every(w => vocabSelection.includes(w));
+  const ann5 = document.getElementById('annotation5');
+  if (vocabCorrect) {
+    ann5.textContent = "Correct!";
+    ann5.className = "annotation correct";
+  } else {
+    ann5.textContent = "Vérifiez la liste des mots arabes évoqués.";
+    ann5.className = "annotation incorrect";
+    allCorrect = false;
+  }
+  results.exercises.push({question: "Mots arabes présents dans les chansons ou le langage des jeunes", sélection: vocabSelection, réponse: correctAnswers.vocabulaire, annotation: ann5.textContent});
+
+  // Question 7 - Qu'est-ce qu'un tube ?
+  const ans7 = document.querySelector('input[name="answer7"]:checked');
+  const ann7 = document.getElementById('annotation7');
+  if (ans7 && ans7.value === correctAnswers.answer7) {
+    ann7.textContent = "Correct ! Un tube est une chanson à succès.";
+    ann7.className = "annotation correct";
+  } else {
+    ann7.textContent = "Erreur : un tube est une chanson à succès.";
+    ann7.className = "annotation incorrect";
+    allCorrect = false;
+  }
+  results.exercises.push({question: "Qu'est-ce qu'un tube ?", donné: ans7 ? ans7.value : "Non répondu", correct: correctAnswers.answer7, annotation: ann7.textContent});
+
+  // Question 8 - Liste des rappeurs
+  const ans8 = document.getElementById('answer8').value.trim();
+  const ann8 = document.getElementById('annotation8');
+  let rappeursTrouvés = [];
+  correctAnswers.answer8.forEach(rappeur => {
+    if (ans8.toLowerCase().includes(rappeur.toLowerCase())) {
+      rappeursTrouvés.push(rappeur);
+    }
+  });
+  if (rappeursTrouvés.length === correctAnswers.answer8.length) {
+    ann8.textContent = "Correct ! Tous les rappeurs mentionnés ont été trouvés.";
+    ann8.className = "annotation correct";
+  } else {
+    ann8.textContent = "Rappeurs manquants : " + correctAnswers.answer8.filter(r => !rappeursTrouvés.includes(r)).join(", ");
+    ann8.className = "annotation incorrect";
+    allCorrect = false;
+  }
+  results.exercises.push({question: "Liste des rappeurs mentionnés", donné: ans8, correct: correctAnswers.answer8.join(", "), annotation: ann8.textContent});
+
+  // Question 9 - Traduction
+  const ans9 = document.getElementById('answer9').value.trim();
+  const ann9 = document.getElementById('annotation9');
+  // Vérification basique de la traduction
+  let scoreTraduction = 0;
+  const motsClés = ['contemporary', 'French society', 'Arabic', 'expressions', 'integrated', 'vocabulary', 'popularized', 'music', 'rap', 'Internet', 'social media'];
+  motsClés.forEach(mot => {
+    if (ans9.toLowerCase().includes(mot.toLowerCase())) {
+      scoreTraduction++;
+    }
+  });
+  if (scoreTraduction >= 8) {
+    ann9.textContent = "Bonne traduction !";
+    ann9.className = "annotation correct";
+  } else {
+    ann9.textContent = "Traduction incomplète. Vérifiez les mots-clés importants.";
+    ann9.className = "annotation incorrect";
+    allCorrect = false;
+  }
+  results.exercises.push({question: "Traduction du paragraphe", donné: ans9, correct: correctAnswers.answer9, annotation: ann9.textContent});
+
+  // Question 10 - Texte à trous
+  let gapResults = [];
+  let gapScore = 0;
+  for (let i = 1; i <= 6; i++) {
+    const gapId = 'gap' + i;
+    const gapValue = document.getElementById(gapId).value.trim().toLowerCase();
+    const correctGap = correctAnswers.gaps[gapId].toLowerCase();
+    gapResults.push({gap: gapId, réponse: gapValue, correct: correctGap});
+    if (gapValue === correctGap) {
+      gapScore++;
+    }
+  }
+  const ann10 = document.getElementById('annotation10');
+  if (gapScore === 6) {
+    ann10.textContent = "Excellent ! Tous les mots sont corrects.";
+    ann10.className = "annotation correct";
+  } else {
+    ann10.textContent = `${gapScore}/6 corrects. Vérifiez les réponses.`;
+    ann10.className = "annotation incorrect";
+    allCorrect = false;
+  }
+  results.exercises.push({question: "Texte à trous", réponses: gapResults, annotation: ann10.textContent});
+
+  // Générer le JSON à télécharger
+  const jsonStr = JSON.stringify(results, null, 2);
+  const blob = new Blob([jsonStr], { type: "application/json" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = "resultats_activity_arabe_et_rap.json";
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Scrooge : Le Défi des 30 Verbes</title>
+    <style>
+        :root {
+            --ghost-blue: #a8dadc;
+            --victorian-gold: #d4af37;
+            --scrooge-dark: #1b263b;
+            --snow-white: #f1faee;
+        }
+
+        body {
+            background: radial-gradient(circle, #2c3e50 0%, #000000 100%);
+            color: var(--snow-white);
+            font-family: 'Georgia', serif;
+            display: flex;
+            justify-content: center;
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 850px;
+            width: 100%;
+            background: rgba(27, 38, 59, 0.95);
+            border: 3px solid var(--victorian-gold);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 0 40px rgba(0,0,0,0.8);
+        }
+
+        header { text-align: center; border-bottom: 2px solid var(--victorian-gold); margin-bottom: 20px; }
+
+        .spirit-meter {
+            height: 20px;
+            background: #333;
+            border-radius: 10px;
+            margin: 20px 0;
+            border: 1px solid var(--snow-white);
+            overflow: hidden;
+        }
+
+        .spirit-fill {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #3498db, #e74c3c);
+            transition: width 0.5s;
+        }
+
+        .chapter-box {
+            background: rgba(255,255,255,0.05);
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        .sentence { font-size: 1.15rem; line-height: 2.2; margin-bottom: 20px; }
+
+        input {
+            background: rgba(0,0,0,0.3);
+            border: none;
+            border-bottom: 2px solid var(--ghost-blue);
+            color: var(--ghost-blue);
+            font-size: 1.1rem;
+            width: 150px;
+            text-align: center;
+            outline: none;
+        }
+
+        input.correct { border-bottom-color: #2ecc71; color: #2ecc71; }
+        input.wrong { border-bottom-color: #e74c3c; color: #e74c3c; }
+
+        .accent-bar { display: flex; justify-content: center; gap: 10px; margin: 20px 0; }
+        .accent-btn {
+            width: 40px; height: 40px;
+            background: var(--scrooge-dark);
+            border: 1px solid var(--victorian-gold);
+            color: white;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        .btn-check, .btn-download {
+            width: 100%;
+            padding: 15px;
+            background: var(--victorian-gold);
+            border: none;
+            font-weight: bold;
+            font-size: 1.1rem;
+            cursor: pointer;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+
+        .btn-download { background: #3498db; color: white; margin-top: 20px; }
+
+        .ghost-hint {
+            margin-top: 15px; padding: 15px;
+            background: rgba(168, 218, 220, 0.1);
+            border-left: 4px solid var(--ghost-blue);
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1 id="mainTitle">L'ÂME DE SCROOGE</h1>
+        <p id="subTitle">Étape par étape vers la lumière</p>
+    </header>
+
+    <div class="spirit-meter"><div class="spirit-fill" id="progress"></div></div>
+
+    <div class="chapter-box" id="gameArea">
+        <h2 id="chapterTitle" style="color: var(--ghost-blue); text-align: center;"></h2>
+        <div class="sentence" id="displayArea"></div>
+        
+        <div class="accent-bar" id="accentBar">
+            <button class="accent-btn" onclick="addChar('é')">é</button>
+            <button class="accent-btn" onclick="addChar('è')">è</button>
+            <button class="accent-btn" onclick="addChar('ê')">ê</button>
+            <button class="accent-btn" onclick="addChar('à')">à</button>
+            <button class="accent-btn" onclick="addChar('ç')">ç</button>
+        </div>
+
+        <button class="btn-check" id="checkBtn" onclick="verify()">VÉRIFIER MES RÉPONSES</button>
+        <div id="status" style="text-align:center; margin-top:10px;"></div>
+        <div class="ghost-hint" id="hint"></div>
+    </div>
+</div>
+
+<script>
+    let lastFocus = null;
+    let errorsPerTense = { "Imparfait": 0, "Présent": 0, "Futur": 0, "Mixte": 0 };
+    let totalAttempts = 0;
+    let current = 0;
+
+    document.addEventListener('focusin', (e) => { if(e.target.tagName === 'INPUT') lastFocus = e.target; });
+
+    function addChar(c) {
+        if(!lastFocus) return;
+        let val = lastFocus.value;
+        let start = lastFocus.selectionStart;
+        lastFocus.value = val.slice(0, start) + c + val.slice(lastFocus.selectionEnd);
+        lastFocus.setSelectionRange(start+1, start+1);
+        lastFocus.focus();
+    }
+
+    const levels = [
+        {
+            title: "I : L'Avarice Glaciale (Imparfait)",
+            tense: "Imparfait",
+            text: "Scrooge 1.<input id='i0'> (être) un patron cruel. Il 2.<input id='i1'> (manger) une soupe triste. Les gens 3.<input id='i2'> (avoir) peur de lui. Le givre 4.<input id='i3'> (couvrir) sa fenêtre. Il ne 5.<input id='i4'> (donner) jamais rien.",
+            ans: ["était", "mangeait", "avaient", "couvrait", "donnait"],
+            hint: "Imparfait : -ais, -ais, -ait, -ions, -iez, -aient. Attention à 'mangeait' (le e) !"
+        },
+        {
+            title: "II : Souvenirs de Jeunesse (Imparfait)",
+            tense: "Imparfait",
+            text: "Autrefois, il 6.<input id='i0'> (chanter) avec sa sœur. Ils 7.<input id='i1'> (rire) beaucoup. Le vieux Fezziwig 8.<input id='i2'> (finir) toujours la fête par un bal. Scrooge 9.<input id='i3'> (croire) encore au bonheur. Il 10.<input id='i4'> (pouvoir) aimer.",
+            ans: ["chantait", "riaient", "finissait", "croyait", "pouvait"],
+            hint: "L'imparfait décrit le passé lointain et les habitudes."
+        },
+        {
+            title: "III : Chez Bob Cratchit (Présent)",
+            tense: "Présent",
+            text: "Bob 11.<input id='i0'> (boire) à la santé de Scrooge. Sa femme 12.<input id='i1'> (dire) qu'il est un monstre. Les enfants 13.<input id='i2'> (mettre) la table. Tiny Tim 14.<input id='i3'> (vouloir) une plus grande dinde. Ils 15.<input id='i4'> (faire) de leur mieux.",
+            ans: ["boit", "dit", "mettent", "veut", "font"],
+            hint: "Présent : Attention aux verbes irréguliers du 3ème groupe (boire, dire, faire)."
+        },
+        {
+            title: "IV : Les Ombres du Futur (Futur Simple)",
+            tense: "Futur",
+            text: "Tu 16.<input id='i0'> (rester) seul dans le noir. Les corbeaux 17.<input id='i1'> (voler) au-dessus de toi. Ton nom 18.<input id='i2'> (disparaître) de la ville. Tu 19.<input id='i3'> (devoir) porter des chaînes. Les ombres 20.<input id='i4'> (venir) te chercher.",
+            ans: ["resteras", "voleront", "disparaîtra", "devras", "viendront"],
+            hint: "Futur : Infinitif + ai, as, a, ons, ez, ont. (venir -> viendr-)"
+        },
+        {
+            title: "V : La Joie Retrouvée (Présent)",
+            tense: "Présent",
+            text: "Scrooge 21.<input id='i0'> (courir) dans les rues. Il 22.<input id='i1'> (voir) le petit garçon. Il 23.<input id='i2'> (envoyer) un cadeau énorme. Bob 24.<input id='i3'> (prendre) son congé. Tout le monde 25.<input id='i4'> (applaudir).",
+            ans: ["court", "voit", "envoie", "prend", "applaudit"],
+            hint: "Présent : Conjuguez les verbes d'action de ce matin de Noël !"
+        },
+        {
+            title: "VI : NIVEAU BOSS - Le Bilan (Mixte)",
+            tense: "Mixte",
+            text: "Si Scrooge n'avait pas changé, il 26.<input id='i0'> (être - conditionnel) malheureux. Mais il 27.<input id='i1'> (comprendre - passé composé) son erreur. Demain, il 28.<input id='i2'> (aller - futur) chez son neveu. 'Je 29.<input id='i3'> (avoir - présent) un cœur neuf !', dit-il. Le passé 30.<input id='i4'> (finir - passé composé).",
+            ans: ["serait", "a compris", "ira", "ai", "a fini"],
+            hint: "Attention ! Mélange de Conditionnel, Passé Composé, Futur et Présent. C'est le test final !"
+        }
+    ];
+
+    function load() {
+        const l = levels[current];
+        document.getElementById('chapterTitle').innerText = l.title;
+        document.getElementById('displayArea').innerHTML = l.text;
+        document.getElementById('progress').style.width = (current * 16.6) + "%";
+        document.getElementById('hint').style.display = "none";
+        document.getElementById('status').innerText = "";
+    }
+
+    function verify() {
+        const l = levels[current];
+        let mistakesInStep = 0;
+        for(let i=0; i<5; i++) {
+            let inp = document.getElementById('i'+i);
+            if(inp.value.trim().toLowerCase() !== l.ans[i]) {
+                mistakesInStep++;
+                inp.className = "wrong";
+                errorsPerTense[l.tense]++;
+            } else {
+                inp.className = "correct";
+            }
+        }
+
+        if(mistakesInStep === 0) {
+            document.getElementById('status').innerHTML = "✨ PARFAIT !";
+            current++;
+            if(current < levels.length) setTimeout(load, 1500);
+            else finish();
+        } else {
+            document.getElementById('status').innerHTML = "❄️ " + mistakesInStep + " erreur(s). Le brouillard se lève...";
+            document.getElementById('hint').style.display = "block";
+            document.getElementById('hint').innerHTML = "<b>Le Fantôme chuchote :</b> " + l.hint;
+        }
+    }
+
+    function finish() {
+        document.getElementById('progress').style.width = "100%";
+        document.getElementById('gameArea').innerHTML = `
+            <h2 style="color:var(--victorian-gold); text-align:center;">SCROOGE EST SAUVÉ !</h2>
+            <p style="text-align:center;">Vous avez triomphé des 30 verbes. Tiny Tim est en bonne santé et Scrooge est l'homme le plus généreux de Londres.</p>
+            <button class="btn-download" onclick="download()">TÉLÉCHARGER MON BILAN DE RECHERCHE</button>
+            <button class="btn-check" onclick="location.reload()" style="background:#555; color:white;">RECOMMENCER</button>
+        `;
+    }
+
+    function download() {
+        let advice = "CONSEILS DE RÉVISION :\n";
+        if(errorsPerTense["Imparfait"] > 2) advice += "- Revoir les terminaisons de l'Imparfait (-ais, -ait...).\n";
+        if(errorsPerTense["Présent"] > 2) advice += "- Pratiquer les verbes irréguliers du 3ème groupe au présent.\n";
+        if(errorsPerTense["Futur"] > 2) advice += "- Attention aux radicaux irréguliers du futur (viendr-, ir-).\n";
+        if(Object.values(errorsPerTense).reduce((a, b) => a + b) === 0) advice += "- Excellence parfaite ! Vous maîtrisez les temps comme Dickens lui-même.";
+
+        const report = `BILAN : UN CHANT DE NOËL (VERBES)
+---------------------------------------
+Total des erreurs par catégorie :
+Imparfait : ${errorsPerTense["Imparfait"]}
+Présent   : ${errorsPerTense["Présent"]}
+Futur     : ${errorsPerTense["Futur"]}
+Mixte     : ${errorsPerTense["Mixte"]}
+
+${advice}
+---------------------------------------
+Félicitations, l'esprit de Noël est en vous !`;
+
+        const blob = new Blob([report], { type: "text/plain" });
+        const link = document.createElement("a");
+        link.href = URL.createObjectURL(blob);
+        link.download = "Bilan_Verbes_Scrooge.txt";
+        link.click();
+    }
+
+    load();
+</script>
+</body>
+</html>

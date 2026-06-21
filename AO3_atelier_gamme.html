@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Atelier AO3 — Gamme</title>
+<style>
+:root{--navy:#1f3a5f;--terra:#b04520;--green:#1e6b2e;--line:#c9b89a;--soft:#eef1f5;--cream:#fbf4e8;--ink:#222;}
+*{box-sizing:border-box}
+body{font-family:Arial,Helvetica,sans-serif;color:var(--ink);margin:0;background:#f6f7f9;line-height:1.4}
+.wrap{max-width:860px;margin:0 auto;padding:18px 16px 120px}
+header{background:var(--navy);color:#fff;border-radius:10px;padding:16px 18px;margin-bottom:14px}
+header h1{margin:0 0 4px;font-size:22px}
+header .t{font-size:13px;color:#cfdbea;font-style:italic}
+.bar{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0 18px}
+button.act{background:var(--terra);color:#fff;border:0;border-radius:8px;padding:9px 14px;font-size:14px;cursor:pointer}
+button.act.alt{background:var(--navy)}
+button.act:hover{filter:brightness(1.08)}
+section.block{background:#fff;border:1px solid var(--line);border-radius:10px;padding:14px 16px;margin-bottom:14px}
+section.block h2{margin:0 0 2px;color:var(--navy);font-size:16px}
+section.block .instr{color:#555;font-size:13px;margin:0 0 10px}
+.item{border-top:1px dashed #ddd;padding:10px 0}
+.item:first-of-type{border-top:0}
+.q{font-size:14px;margin-bottom:6px}
+.q b{color:var(--terra)}
+.row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+input.ans{flex:1;min-width:220px;font-size:15px;padding:8px 10px;border:1.5px solid #bcc6d2;border-radius:7px;font-family:inherit}
+textarea.ans{width:100%;font-size:15px;padding:8px 10px;border:1.5px solid #bcc6d2;border-radius:7px;font-family:inherit;min-height:54px}
+.opts label{display:inline-block;margin:2px 12px 2px 0;font-size:15px;cursor:pointer}
+button.mini{background:#e7ecf2;color:var(--navy);border:0;border-radius:6px;padding:7px 11px;font-size:13px;cursor:pointer}
+button.mini:hover{background:#dbe4ef}
+.fb{font-size:13px;margin-top:5px;min-height:16px;font-weight:bold}
+.fb.ok{color:var(--green)} .fb.no{color:#b00020} .fb.near{color:#b8651b}
+.model{display:none;margin-top:6px;background:var(--cream);border-left:4px solid var(--terra);padding:7px 10px;border-radius:0 6px 6px 0;font-size:13.5px}
+.model b{color:var(--green)} .model .e{color:#555;display:block;margin-top:3px;font-style:italic}
+/* accent pad */
+#pad{position:fixed;right:16px;bottom:16px;background:var(--navy);border-radius:12px;box-shadow:0 6px 22px rgba(0,0,0,.25);padding:8px;z-index:50;max-width:260px}
+#pad .h{display:flex;justify-content:space-between;align-items:center;color:#cfdbea;font-size:11px;margin-bottom:6px;cursor:move;user-select:none}
+#pad .keys{display:flex;flex-wrap:wrap;gap:5px;max-width:240px}
+#pad .keys button{width:34px;height:34px;border:0;border-radius:7px;background:#2c4a72;color:#fff;font-size:16px;cursor:pointer}
+#pad .keys button:hover{background:var(--terra)}
+#pad.min .keys{display:none}
+.toggle{background:#2c4a72;color:#fff;border:0;border-radius:6px;font-size:11px;padding:2px 7px;cursor:pointer}
+.note{font-size:12px;color:#777;margin-top:10px}
+</style></head>
+<body>
+<div class="wrap">
+<header><h1>Atelier AO3 — Gamme</h1><div class="t">Monter en gamme : subordination, pronom « dont », « présenter comme », tournures idiomatiques et phrases enrichies. L'objectif est une langue plus complexe mais maîtrisée.</div></header>
+<div class="bar">
+  <button class="act" onclick="checkAll()">Tout vérifier</button>
+  <button class="act alt" onclick="revealAll()">Afficher toutes les réponses</button>
+  <button class="act" onclick="download_()">⬇ Télécharger mes réponses</button>
+</div>
+<div id="content"></div>
+<p class="note">Astuce : sers-toi du clavier d'accents flottant (en bas à droite). Clique dans une réponse, puis sur l'accent voulu.</p>
+</div>
+
+<div id="pad">
+  <div class="h" id="padh"><span>Accents</span><button class="toggle" onclick="togglePad()">–</button></div>
+  <div class="keys" id="padkeys"></div>
+</div>
+
+<script>
+const DATA = {"title": "Atelier AO3 — Gamme", "sub": "Monter en gamme : subordination, pronom « dont », « présenter comme », tournures idiomatiques et phrases enrichies. L'objectif est une langue plus complexe mais maîtrisée.", "code": "AO3_GAMME", "blocks": [{"title": "1 · Subordination (bien que / quoique + subjonctif)", "instr": "Réécris avec la conjonction indiquée + subjonctif.", "items": [{"t": "enrich", "q": "Avec « bien que » : « Hubert veut partir mais il ne peut pas. »", "m": "Bien qu'Hubert veuille partir, il ne peut pas quitter la banlieue.", "e": "« bien que » + subjonctif = langue complexe (AO3 gamme)."}, {"t": "enrich", "q": "Avec « quoique » : « Meursault est calme mais il choque la cour. »", "m": "Quoique Meursault soit calme, il choque la cour par son indifférence.", "e": "« quoique » + subjonctif ; varie la subordination."}]}, {"title": "2 · Le pronom « dont »", "instr": "Choisis le bon relatif.", "items": [{"t": "qcm", "q": "le danger ___ les jeunes sont inconscients", "opts": ["que", "dont", "où"], "c": 1, "m": "dont", "e": "« être inconscient DE » → relatif « dont »."}, {"t": "qcm", "q": "le réalisateur ___ le film dénonce la violence", "opts": ["que", "dont", "qui"], "c": 1, "m": "dont", "e": "« le film DE qui » → dont."}, {"t": "qcm", "q": "la cité ___ ils ne peuvent pas sortir", "opts": ["que", "dont", "d'où"], "c": 2, "m": "d'où", "e": "« sortir DE » + lieu → d'où."}]}, {"title": "3 · « présenter qqn comme + participe »", "instr": "Corrige la construction.", "items": [{"t": "corrige", "q": "Kassovitz présente Hubert <b>d'avoir</b> une possibilité de partir.", "a": ["Kassovitz présente Hubert comme ayant une possibilité de partir.", "comme ayant une possibilité de partir"], "m": "Kassovitz présente Hubert comme ayant une possibilité de partir.", "e": "« présenter qqn COMME + participe », pas « d'avoir »."}, {"t": "corrige", "q": "Kassovitz le présente <b>d'être</b> intelligent.", "a": ["Kassovitz le présente comme étant intelligent.", "comme étant intelligent"], "m": "comme étant intelligent", "e": "« présenter comme étant + adjectif »."}]}, {"title": "4 · Tournure passive → « on »", "instr": "Traduis en français idiomatique.", "items": [{"t": "corrige", "q": "« I was not asked » →", "a": ["on ne m'a pas demandé"], "m": "on ne m'a pas demandé", "e": "Le passif anglais devient souvent « on » en français."}]}, {"title": "5 · Enrichir la phrase", "instr": "Réécris en une phrase plus complexe et mieux contrôlée (structures valorisées en AO3).", "items": [{"t": "enrich", "q": "Avec « bien que » + subjonctif : « Hubert veut partir mais il ne peut pas. »", "m": "Bien qu'Hubert veuille partir, il ne peut pas quitter la banlieue.", "e": "« bien que » + subjonctif = langue complexe (AO3)."}, {"t": "enrich", "q": "Avec un pronom relatif : « Kassovitz utilise Hubert. Hubert veut briser le cycle. »", "m": "Kassovitz utilise Hubert, qui veut briser le cycle de la violence.", "e": "Les relatives lient les idées et enrichissent la phrase."}, {"t": "enrich", "q": "« Au début, on voit Hubert dans une salle de boxe. »", "m": "Dès l'ouverture, un gros plan sur Hubert dans la salle de boxe révèle son ambition, ce qui…", "e": "Nommer la technique (gros plan, plan d'ensemble) = AO3 (terminologie) + AO4."}, {"t": "enrich", "q": "« Saïd est un symbol contre le racism. »", "m": "Saïd incarne un symbole de résistance face au racisme.", "e": "« incarner », « face à » = registre plus riche (AO3 gamme)."}, {"t": "enrich", "q": "« Kassovitz présente Hubert d'avoir une possibilité de quitter la banlieue mais la société détruit ces possibilités. »", "m": "Kassovitz présente Hubert comme ayant une possibilité de quitter la banlieue. Mais la société détruit cette possibilité.", "e": "Des phrases courtes = grammaire maîtrisée (l'ambition reste, le contrôle revient)."}, {"t": "enrich", "q": "« Saïd est un blagueur. Saïd est aussi un médiateur. »", "m": "Non seulement Saïd est un blagueur, mais il joue aussi le rôle de médiateur.", "e": "« Non seulement… mais aussi » varie la structure (AO3 gamme)."}]}, {"title": "6 · Varier l'ouverture de la phrase", "instr": "Réécris en variant la structure (procédé valorisé).", "items": [{"t": "enrich", "q": "Avec « Non seulement… mais aussi » : « Saïd est un blagueur. Saïd est un médiateur. »", "m": "Non seulement Saïd est un blagueur, mais il joue aussi le rôle de médiateur.", "e": "Inverser/varier l'ouverture enrichit la gamme."}, {"t": "enrich", "q": "Avec une relative : « Kassovitz utilise Hubert. Hubert veut briser le cycle. »", "m": "Kassovitz utilise Hubert, qui veut briser le cycle de la violence.", "e": "Les relatives lient les idées et complexifient la phrase."}]}]};
+let last=null;
+const norm=s=>(s||'').trim().toLowerCase().replace(/\s+/g,' ').replace(/[’‘]/g,"'").replace(/[«»"]/g,'').replace(/\s*([.,;:!?])/g,'$1');
+const noacc=s=>norm(s).normalize('NFD').replace(/[̀-ͯ]/g,'');
+function el(tag,cls,html){const e=document.createElement(tag);if(cls)e.className=cls;if(html!=null)e.innerHTML=html;return e;}
+
+const root=document.getElementById('content');
+DATA.blocks.forEach((bl,bi)=>{
+  const sec=el('section','block');
+  sec.appendChild(el('h2',null,bl.title));
+  if(bl.instr) sec.appendChild(el('p','instr',bl.instr));
+  bl.items.forEach((it,ii)=>{
+    const id='i'+bi+'_'+ii;
+    const div=el('div','item'); div.dataset.id=id; div.dataset.type=it.t;
+    div.appendChild(el('div','q',it.q));
+    if(it.t==='qcm'){
+      const op=el('div','opts');
+      it.opts.forEach((o,oi)=>{
+        const lab=el('label'); lab.innerHTML=`<input type="radio" name="${id}" value="${oi}"> ${o}`;
+        op.appendChild(lab);
+      });
+      div.appendChild(op);
+    } else if(it.t==='enrich'){
+      const ta=el('textarea','ans'); ta.id=id; div.appendChild(ta);
+    } else {
+      const r=el('div','row'); const inp=el('input','ans'); inp.id=id; inp.type='text'; r.appendChild(inp); div.appendChild(r);
+    }
+    const ctr=el('div','row');
+    if(it.t!=='enrich'){const cb=el('button','mini','Vérifier'); cb.onclick=()=>checkOne(div,it); ctr.appendChild(cb);}
+    const rb=el('button','mini','Voir la réponse'); rb.onclick=()=>reveal(div); ctr.appendChild(rb);
+    div.appendChild(ctr);
+    div.appendChild(el('div','fb'));
+    const m=el('div','model'); m.innerHTML=(it.m?('<b>Réponse :</b> '+it.m):'')+(it.e?('<span class="e">'+it.e+'</span>'):''); div.appendChild(m);
+    sec.appendChild(div);
+  });
+  root.appendChild(sec);
+});
+
+function getItem(div){const [bi,ii]=div.dataset.id.replace('i','').split('_').map(Number);return DATA.blocks[bi].items[ii];}
+function checkOne(div,it){
+  const fb=div.querySelector('.fb');
+  if(it.t==='qcm'){
+    const sel=div.querySelector('input[type=radio]:checked');
+    if(!sel){fb.className='fb no';fb.textContent='Choisis une option.';return;}
+    if(Number(sel.value)===it.c){fb.className='fb ok';fb.textContent='✓ Correct !';}
+    else{fb.className='fb no';fb.textContent='✗ Pas encore — réessaie.';}
+    return;
+  }
+  const v=(div.querySelector('.ans')||{}).value||'';
+  const acc=(it.a||[]).map(norm);
+  if(acc.includes(norm(v))){fb.className='fb ok';fb.textContent='✓ Correct !';}
+  else if((it.a||[]).map(noacc).includes(noacc(v))){fb.className='fb near';fb.textContent='≈ Presque — vérifie les accents.';}
+  else{fb.className='fb no';fb.textContent='✗ Pas encore — réessaie ou « Voir la réponse ».';}
+}
+function reveal(div){div.querySelector('.model').style.display='block';}
+function checkAll(){document.querySelectorAll('.item').forEach(d=>{const it=getItem(d); if(it.t!=='enrich')checkOne(d,it);});}
+function revealAll(){document.querySelectorAll('.model').forEach(m=>m.style.display='block');}
+
+function download_(){
+  let out='ATELIER AO3 — '+DATA.title+'\n'+DATA.sub+'\n\n';
+  DATA.blocks.forEach(bl=>{
+    out+='== '+bl.title+' ==\n';
+    bl.items.forEach((it,ii)=>{
+      const id='i'+DATA.blocks.indexOf(bl)+'_'+ii;
+      let ua='';
+      if(it.t==='qcm'){const s=document.querySelector('input[name="'+id+'"]:checked'); ua=s?it.opts[Number(s.value)]:'(non répondu)';}
+      else{const e=document.getElementById(id); ua=e&&e.value?e.value:'(non répondu)';}
+      out+='• '+it.q.replace(/<[^>]+>/g,'')+'\n   Ta réponse : '+ua+'\n';
+      if(it.m) out+='   Réponse attendue : '+it.m.replace(/<[^>]+>/g,'')+'\n';
+      out+='\n';
+    });
+  });
+  const blob=new Blob([out],{type:'text/plain;charset=utf-8'});
+  const a=document.createElement('a'); a.href=URL.createObjectURL(blob);
+  a.download='atelier_'+DATA.code+'_AO3.txt'; document.body.appendChild(a); a.click();
+  setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove();},800);
+}
+
+// accent pad
+const ACC=['é','è','ê','ë','à','â','ä','ç','î','ï','ô','ö','ù','û','ü','œ','«','»','’','—'];
+const keys=document.getElementById('padkeys');
+ACC.forEach(ch=>{const b=document.createElement('button');b.textContent=ch;b.onmousedown=e=>{e.preventDefault();insert(ch);};keys.appendChild(b);});
+document.addEventListener('focusin',e=>{if(e.target.classList&&e.target.classList.contains('ans'))last=e.target;});
+function insert(ch){if(!last)return;const s=last.selectionStart,en=last.selectionEnd,v=last.value;last.value=v.slice(0,s)+ch+v.slice(en);last.selectionStart=last.selectionEnd=s+ch.length;last.focus();}
+function togglePad(){const p=document.getElementById('pad');p.classList.toggle('min');p.querySelector('.toggle').textContent=p.classList.contains('min')?'+':'–';}
+// drag
+(function(){const p=document.getElementById('pad'),h=document.getElementById('padh');let dx,dy,drag=false;
+ h.addEventListener('mousedown',e=>{drag=true;dx=e.clientX-p.offsetLeft;dy=e.clientY-p.offsetTop;p.style.right='auto';});
+ document.addEventListener('mousemove',e=>{if(!drag)return;p.style.left=(e.clientX-dx)+'px';p.style.top=(e.clientY-dy)+'px';p.style.bottom='auto';});
+ document.addEventListener('mouseup',()=>drag=false);})();
+</script>
+</body></html>

@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A-Level French · BBA</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bleu:#1c3a5e; --bleu-2:#264f7d; --bleu-ink:#14283f;
+    --rouge:#9c2b1e; --rouge-2:#bb3a2a;
+    --blanc:#fbfaf6; --blanc-2:#f3f1e8;
+    --gold:#a8842c;
+    --ink:#1b1f24; --ink-soft:#5d6670;
+    --rule:#d9d5c6; --rule-strong:#c2bca9;
+    --card:#ffffff;
+    --shadow:0 1px 2px rgba(20,40,63,0.05), 0 4px 14px rgba(20,40,63,0.06);
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0;background:var(--blanc);color:var(--ink);font-family:'Inter',sans-serif;line-height:1.55;-webkit-font-smoothing:antialiased;}
+  @media (prefers-reduced-motion: reduce){*{animation-duration:0.001ms !important; transition-duration:0.001ms !important;}}
+  a{color:inherit;}
+
+  .masthead{background:linear-gradient(180deg, var(--bleu) 0%, var(--bleu-ink) 100%);color:var(--blanc);position:relative;overflow:hidden;}
+  .masthead::before{content:"";position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg, var(--bleu-2) 0 33.33%, var(--blanc) 33.33% 66.66%, var(--rouge-2) 66.66% 100%);}
+  .masthead-inner{max-width:1080px;margin:0 auto;padding:34px 28px 30px;display:flex;align-items:flex-start;justify-content:space-between;gap:24px;flex-wrap:wrap;}
+  .crest{display:flex;gap:18px;align-items:center;}
+  .crest .mark{width:54px;height:54px;border:1.5px solid rgba(255,255,255,0.5);border-radius:3px;display:flex;align-items:center;justify-content:center;font-family:'Fraunces',serif;font-weight:600;font-size:22px;color:var(--blanc);flex-shrink:0;letter-spacing:0.02em;}
+  .crest .titles .school{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.22em;text-transform:uppercase;color:#a8bdd6;margin:0 0 5px;}
+  .crest .titles h1{font-family:'Fraunces',serif;font-weight:600;font-size:clamp(1.7rem, 3.4vw, 2.45rem);margin:0;line-height:1.08;letter-spacing:0.005em;}
+  .crest .titles .board{font-size:13px;color:#cdd9e6;margin-top:5px;}
+  .exam-tag{font-family:'IBM Plex Mono',monospace;font-size:11px;color:#a8bdd6;border:1px solid rgba(255,255,255,0.25);border-radius:3px;padding:8px 12px;text-align:right;line-height:1.7;white-space:nowrap;}
+  .exam-tag b{color:var(--blanc);font-weight:600;}
+
+  .intro{max-width:1080px;margin:0 auto;padding:30px 28px 8px;}
+  .intro p{max-width:640px;font-size:1.02rem;color:var(--ink-soft);margin:0 0 22px;}
+  .intro p strong{color:var(--ink);font-weight:600;}
+
+  .secnav{display:flex;flex-wrap:wrap;gap:6px;border-top:1px solid var(--rule);border-bottom:1px solid var(--rule);padding:14px 0;margin-bottom:8px;position:sticky;top:0;z-index:20;background:var(--blanc);}
+  .secnav a{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.05em;text-transform:uppercase;text-decoration:none;color:var(--ink-soft);padding:6px 10px;border-radius:3px;transition:background 0.18s ease,color 0.18s ease;white-space:nowrap;}
+  .secnav a:hover{background:var(--blanc-2);color:var(--bleu);}
+
+  main{max-width:1080px;margin:0 auto;padding:8px 28px 80px;}
+  .section{padding-top:40px;scroll-margin-top:60px;}
+  .section-head{display:flex;align-items:baseline;gap:14px;border-bottom:2px solid var(--bleu);padding-bottom:9px;margin-bottom:4px;}
+  .section-head .num{font-family:'IBM Plex Mono',monospace;font-size:13px;font-weight:600;color:var(--rouge);}
+  .section-head h2{font-family:'Fraunces',serif;font-weight:600;font-size:1.5rem;margin:0;color:var(--bleu-ink);flex:1;}
+  .section-head .tally{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--ink-soft);}
+  .section-blurb{font-size:0.92rem;color:var(--ink-soft);margin:12px 0 18px;max-width:680px;}
+  .subhead{font-family:'Fraunces',serif;color:var(--rouge);font-weight:600;font-size:1.02rem;margin:22px 0 10px;}
+
+  .grid{display:grid;grid-template-columns:repeat(auto-fill, minmax(248px, 1fr));gap:14px;}
+  .card{display:flex;flex-direction:column;background:var(--card);border:1px solid var(--rule);border-radius:5px;padding:16px 16px 15px;text-decoration:none;color:var(--ink);box-shadow:var(--shadow);transition:transform 0.16s ease,border-color 0.16s ease,box-shadow 0.16s ease;position:relative;min-height:116px;}
+  .card:hover{transform:translateY(-3px);border-color:var(--bleu-2);box-shadow:0 2px 4px rgba(20,40,63,0.07),0 10px 24px rgba(20,40,63,0.1);}
+  .card:focus-visible{outline:2px solid var(--bleu);outline-offset:2px;}
+  .card .kind{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:var(--rouge);margin-bottom:9px;font-weight:500;}
+  .card h3{font-family:'Fraunces',serif;font-weight:500;font-size:1.06rem;line-height:1.2;margin:0 0 7px;color:var(--bleu-ink);}
+  .card p{font-size:0.83rem;color:var(--ink-soft);margin:0;flex:1;}
+  .card .go{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--bleu-2);margin-top:12px;display:flex;align-items:center;gap:5px;}
+  .card .go .arr{transition:transform 0.16s ease;}
+  .card:hover .go .arr{transform:translateX(3px);}
+  .card.feat{border-color:var(--gold);background:linear-gradient(180deg,#fffdf6,#fff);}
+  .card.feat .kind{color:var(--gold);}
+  .star{position:absolute;top:13px;right:14px;color:var(--gold);font-size:13px;}
+
+  footer{border-top:1px solid var(--rule);background:var(--blanc-2);}
+  .footer-inner{max-width:1080px;margin:0 auto;padding:26px 28px 40px;display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;font-size:0.82rem;color:var(--ink-soft);}
+  .footer-inner .note{max-width:560px;}
+  .footer-inner .stamp{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:var(--rule-strong);}
+
+  @media (max-width:560px){.crest{gap:13px;}.crest .mark{width:46px;height:46px;font-size:18px;}.exam-tag{text-align:left;}.grid{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+
+<header class="masthead">
+  <div class="masthead-inner">
+    <div class="crest">
+      <div class="mark">F</div>
+      <div class="titles">
+        <p class="school">BBA · Sixth Form</p>
+        <h1>A-Level French</h1>
+        <p class="board">Edexcel · Revision &amp; exam-skills dossier</p>
+      </div>
+    </div>
+    <div class="exam-tag"><b>Papers 1 · 2 · 3</b><br>Set texts · Grammar · Speaking</div>
+  </div>
+</header>
+
+<section class="intro">
+  <p>Everything for the course in one place — speaking practice, set-text analysis, grammar clinics and translation. Each tile opens a self-contained activity that <strong>marks itself and gives feedback as you work</strong>. Start anywhere; nothing needs logging in.</p>
+</section>
+
+<nav class="secnav" aria-label="Jump to section">
+  <a href="#speaking">Speaking</a>
+  <a href="#set-texts">Set texts</a>
+  <a href="#themes">Themes 3 &amp; 4</a>
+  <a href="#vichy">Vichy &amp; Résistance</a>
+  <a href="#grammar">Grammar &amp; AO3</a>
+  <a href="#vocab">Vocabulary</a>
+  <a href="#translation">Translation</a>
+</nav>
+
+<main>
+
+  <section class="section" id="speaking">
+    <div class="section-head"><span class="num">01</span><h2>Speaking exam practice</h2><span class="tally">10 activities</span></div>
+    <p class="section-blurb">Interactive practice for the oral exam, one per sub-theme — spontaneous-response drills, vocabulary and structures for talking fluently around each topic.</p>
+    <div class="grid">
+      <a class="card" href="Interactive_Practice_A-Level_Speaking_exam_French_U1_Familles.html"><span class="kind">Unit 1 · Speaking</span><h3>Les structures familiales</h3><p>Changing family structures in France.</p><span class="go"><span class="arr">→</span> Open</span></a>
+      <a class="card" href="Interactive_Practice_A-Level_Speaking_exam_French_U2_Education.html"><span class="kind">Unit 2 · Speaking</span><h3>L'éducation en France</h3><p>The French education system.</p><span class="go"><span class="arr">→</span> Open</span></a>
+      <a class="card" href="Interactive_Practice_A-Level_Speaking_exam_French_U3_Monde_du_travail.html"><span class="kind">Unit 3 · Speaking</span><h3>Le monde du travail</h3><p>Work and employment in France.</p><span class="go"><span class="arr">→</span> Open</span></a>
+      <a class="card" href="Interactive_Practice_A-Level_Speaking_exam_French_U4_La_musique.html"><span class="kind">Unit 4 · Speaking</span><h3>La musique francophone</h3><p>Music in the French-speaking world.</p><span class="go"><span class="arr">→</span> Open</span></a>
+      <a class="card" href="Interactive_Practice_A-Level_Speaking_exam_French_U5_Les_medias.html"><span class="kind">Unit 5 · Speaking</span><h3>Les médias</h3><p>Media across the francophone world.</p><span class="go"><span class="arr">→</span> Open</span></a>
+      <a class="card" href="Interactive_Practice_A-Level_Speaking_exam_French_U6_festivals_traditions.html"><span class="kind">Unit 6 · Speaking</span><h3>Festivals &amp; traditions</h3><p>Customs and celebrations.</p><span class="go"><span class="arr">→</span> Open</span></a>
+      <a class="card" href="Interactive_Practice_A-Level_Speaking_exam_French_U7_-immigration_positive_impact_-_practice.html"><span class="kind">Unit 7 · Speaking</span><h3>L'immigration en France</h3><p>Immigration and its positive impact.</p><span class="go"><span class="arr">→</span> Open</span></a>
+      <a class="card" href="Interactive_Practice_A-Level_Speaking_exam_French-U9_immigration_challenges.html"><span class="kind">Unit 9 · Speaking</span><h3>Les défis de l'immigration</h3><p>The challenges of immigration.</p><span class="go"><span class="arr">→</span> Open</span></a>
+      <a class="card" href="Prepare_for_the_Speaking_Exam_on_Unit_12_1__La_Re_sistance.html"><span class="kind">Unit 12 · Speaking</span><h3>La Résistance — Task 1</h3><p>Speaking prep on the Resistance.</p><span class="go"><span class="arr">→</span> Open</span></a>
+      <a class="card" href="monde_du_travail_tricky_questions.html"><span class="kind">Speaking · tricky Qs</span><h3>Monde du travail — 15 questions</h3><p>Trickier exam-style questions on work.</p><span class="go"><span class="arr">→</span> Open</span></a>
+    </div>
+  </section>
+
+  <section class="section" id="set-texts">
+    <div class="section-head"><span class="num">02</span><h2>Set texts</h2><span class="tally">17 activities</span></div>
+    <p class="section-blurb"><em>La Haine</em> (Kassovitz) and <em>L'Étranger</em> (Camus) — scene analysis, quotation banks, essay-paragraph building and self-assessment against the mark scheme.</p>
+
+    <h3 class="subhead">La Haine</h3>
+    <div class="grid">
+      <a class="card" href="La_Haine_Themes_and_Quotes.html"><span class="kind">Quote bank</span><h3>Complete Quotes Study Tool</h3><p>Every key quotation, sorted by theme and character.</p><span class="go"><span class="arr">→</span> Open</span></a>
+      <a class="card" href="la_haine_gapfill_2_modes_easy_and_hard.html"><span class="kind">Gap-fill · 2 modes</span><h3>Analyse de Scènes Clé</h3><p>Fill the gaps on key scenes — easy and hard.</p><span class="go"><span class="arr">→</span> Open</span></a>
+      <a class="card" href="La_Haine_Paragraph_Builder.html"><span class="kind">Essay skills</span><h3>Essay Paragraph Builder</h3><p>Construct analytical paragraphs step by step.</p><span class="go"><span class="arr">→</span> Open</span></a>
+      <a class="card" href="La_Haine_Essay_Phrases_Quiz.html"><span class="kind">Quiz</span><h3>Essay Phrases Quiz</h3><p>Drill the high-value phrases for written analysis.</p><span class="go"><span class="arr">→</span> Open</span></a>
+      <a class="card" href="La_Haine_Essay_Self-Assessment.html"><span class="kind">Mark scheme</span><h3>Essay Self-Assessment</h3><p>Grade your own essay against the criteria.</p><span class="go"><span class="arr">→</span> Open</span></a>
+      <a class="card" href="Writing_about_La_Haine__Jan_26__Unit_3_Assessment.html"><span class="kind">Assessment</span><h3>Prologue &amp; JT — passé composé</h3><p>Past tense and agreement on the opening.</p><span class="go"><span class="arr">→</span> Open</span></a>
+    </div>
+
+    <h3 class="subhead">L'Étranger</h3>
+    <div class="grid">
+      <a class="card" href="camus_analysis_learning-2.html"><span class="kind">Analysis</span><h3>Analyse A-Level</h3><p>Guided close analysis of central episodes.</p><span class="go"><span class="arr">→</span> Open</span></a>
+      <a class="card" href="LET_Camus-_Ch_IV__2eme_partie_master_the_chapter.html"><span class="kind">Chapter study</span><h3>Ch. 4 (2<sup>e</sup> partie) — Le Procès</h3><p>Master the trial chapter scene by scene.</p><span class="go"><span class="arr">→</span> Open</span></a>
+      <a class="card" href="LET_Camus_Ch_V__2eme_partie_-_master_the_final_chapter.html"><span class="kind">Chapter study</span><h3>Ch. 5 (2<sup>e</sup> partie) — La Prison</h3><p>Work through the final chapter.</p><span class="go"><span class="arr">→</span> Open</span></a>
+      <a class="card" href="phrases_de_re_daction_LET.html"><span class="kind">Essay skills</span><h3>Pratique d'essai littéraire</h3><p>Build literary-essay sentences and connectives.</p><span class="go"><span class="arr">→</span> Open</span></a>
+      <a class="card" href="L_Etranger_essay_practice.html"><span class="kind">Exercises</span><h3>Exercices A-Level</h3><p>Mixed comprehension and analysis.</p><span class="go"><span class="arr">→</span> Open</span></a>
+      <a class="card" href="LEtranger_Quiz_Interactif.html"><span class="kind">Quiz</span><h3>Quiz interactif</h3><p>Quick recall on plot, character and theme.</p><span class="go"><span class="arr">→</span> Open</span></a>
+      <a class="card" href="camus-french-activity.html"><span class="kind">Activity</span><h3>Activité — L'Étranger</h3><p>Introductory activity on the novel.</p><span class="go"><span class="arr">→</span> Open</span></a>
+      <a class="card" href="etranger_AO3_workout.html"><span class="kind">AO3 · range</span><h3>Range of Language Workout</h3><p>Stretch grammatical range for top AO3.</p><span class="go"><span class="arr">→</span> Open</span></a>
+      <a class="card" href="LEtranger_get_at_least_an_A_practice.html"><span class="kind">Atelier A*</span><h3>Atelier A*</h3><p>Higher-tier essay practice for the A* band.</p><span class="go"><span class="arr">→</span> Open</span></a>
+    </div>
+
+    <h3 class="subhead">Both texts</h3>
+    <div class="grid">
+      <a class="card" href="Pratique_du_subjonctif_La_Haine__L_Etranger.html"><span class="kind">Grammar · subjonctif</span><h3>Subjonctif — both texts</h3><p>Subjunctive triggers with examples from both.</p><span class="go"><span class="arr">→</span> Open</span></a>
+    </div>
+  </section>
+
+  <section class="section" id="themes">
+    <div class="section-head"><span class="num">03</span><h2>Themes 3 &amp; 4 — Culture &amp; society</h2><span class="tally">24 activities</span></div>
+    <p class="section-blurb">The sub-themes for Papers 1 and 3 — identity and immigration, French politics, work and society, music and culture, media and free expression.</p>
+
+    <h3 class="subhead">Identity &amp; immigration</h3>
+    <div class="grid">
+      <a class="card" href="consolidating_Unit_7_Le_positif_de_immigration.html"><span class="kind">Immigration</span><h3>Le positif de l'immigration</h3><p>Consolidation exercises on immigration.</p><span class="go"><span class="arr">→</span> Open</span></a>
+      <a class="card" href="Macron_joue_les_durs_sur_l_immigration.html"><span class="kind">Reading · politics</span><h3>Macron « joue les durs »</h3><p>Immigration policy and the RN.</p><span class="go"><span class="arr">→</span> Open</span></a>
+      <a class="card" href="les_mots_arabes_utilise_s_par_les_ados_franc_ais.html"><span class="kind">Language &amp; identity</span><h3>Mots arabes chez les ados</h3><p>Arabic expressions in youth slang.</p><span class="go"><span class="arr">→</span> Open</span></a>
+      <a class="card" href="luc_ferry_laicite_2003.html"><span class="kind">Société · laïcité</span><h3>Luc Ferry — la laïcité</h3><p>Secularism in schools (2003).</p><span class="go"><span class="arr">→</span> Open</span></a>
+      <a class="card" href="Natalite_-_La_France_a_franchi_un_cap_historique_.html"><span class="kind">Démographie · B2</span><h3>Le déclin démographique</h3><p>France's falling birth rate.</p><span class="go"><span class="arr">→</span> Open</span></a>
+    </div>
+
+    <h3 class="subhead">French politics</h3>
+    <div class="grid">
+      <a class="card" href="U9_-_Changement_du_vote_pour_le_fn.html"><span class="kind">Politics · RN</span><h3>Le système politique français</h3><p>The RN 2002–2024, with electoral mind-map.</p><span class="go"><span class="arr">→</span> Open</span></a>
+      <a class="card" href="Front_National-lesson_preparation-activity.html"><span class="kind">Politics</span><h3>Le Front National — préparation</h3><p>Background and lesson prep on the FN.</p><span class="go"><span class="arr">→</span> Open</span></a>
+      <a class="card" href="Crise_politique_en_France_-_peut-e_tre_une_chance_pour_le_RN.html"><span class="kind">Advanced</span><h3>RN &amp; la crise de la Ve République</h3><p>Advanced activity on the political crisis.</p><span class="go"><span class="arr">→</span> Open</span></a>
+      <a class="card" href="RN_re_ussit_a__bloquer_les_gouvernements_de_la_Macronie.html"><span class="kind">Exercise</span><h3>La crise politique en France</h3><p>The RN and parliamentary deadlock.</p><span class="go"><span class="arr">→</span> Open</span></a>
+      <a class="card" href="french_elections_comprehension.html"><span class="kind">Comprehension</span><h3>Municipales 2026</h3><p>Reading on the 2026 local elections.</p><span class="go"><span class="arr">→</span> Open</span></a>
+      <a class="card" href="french_elections_2027.html"><span class="kind">Activity</span><h3>La présidentielle 2027</h3><p>Looking ahead to the 2027 election.</p><span class="go"><span class="arr">→</span> Open</span></a>
+    </div>
+
+    <h3 class="subhead">Work &amp; society</h3>
+    <div class="grid">
+      <a class="card" href="trickier_Monde_du_Travail_Paper_3_ALevel_French.html"><span class="kind">Paper 3 · work</span><h3>Le monde du travail</h3><p>Trickier Paper 3 preparation on work.</p><span class="go"><span class="arr">→</span> Open</span></a>
+      <a class="card" href="La_situation_complique_e_en_France_concernant_l_age_de_retraite.html"><span class="kind">Actualité · B1</span><h3>L'actualité des retraites</h3><p>The pension-age debate.</p><span class="go"><span class="arr">→</span> Open</span></a>
+      <a class="card" href="gender_pay_gap_France.html"><span class="kind">Société · B2</span><h3>Les inégalités salariales</h3><p>The gender pay gap in France.</p><span class="go"><span class="arr">→</span> Open</span></a>
+      <a class="card" href="loi_rixain_activity.html"><span class="kind">Société · law</span><h3>La Loi Rixain</h3><p>Women, work and the Rixain law.</p><span class="go"><span class="arr">→</span> Open</span></a>
+      <a class="card" href="French_Homework_for_9_October_2025.html"><span class="kind">Devoir · timer</span><h3>Éducation &amp; harcèlement</h3><p>Homework with a built-in timer.</p><span class="go"><span class="arr">→</span> Open</span></a>
+    </div>
+
+    <h3 class="subhead">Music &amp; culture</h3>
+    <div class="grid">
+      <a class="card" href="4_2_tendances_musicales-3.html"><span class="kind">Musique · 4.2</span><h3>Les tendances musicales</h3><p>Complete interactive lesson on music trends.</p><span class="go"><span class="arr">→</span> Open</span></a>
+      <a class="card" href="jo_et_musique_c_est_quoi_la_musique_franciase.html"><span class="kind">Musique · identité</span><h3>Les JO 2024 &amp; la musique française</h3><p>What the Olympics say about French music.</p><span class="go"><span class="arr">→</span> Open</span></a>
+    </div>
+
+    <h3 class="subhead">Media &amp; free expression</h3>
+    <div class="grid">
+      <a class="card" href="Presse_en_voie_de_disparition-media-homework.html"><span class="kind">Media · devoirs</span><h3>La presse écrite</h3><p>Is the printed press disappearing?</p><span class="go"><span class="arr">→</span> Open</span></a>
+      <a class="card" href="French_media_-_practice_the_grammar_of_negation.html"><span class="kind">Media · grammar</span><h3>Négation — les médias</h3><p>Negative structures in a media context.</p><span class="go"><span class="arr">→</span> Open</span></a>
+      <a class="card" href="freedom_expression_activity.html"><span class="kind">Translation</span><h3>Liberté d'expression</h3><p>Translation activity on free speech.</p><span class="go"><span class="arr">→</span> Open</span></a>
+    </div>
+  </section>
+
+  <section class="section" id="vichy">
+    <div class="section-head"><span class="num">04</span><h2>Vichy &amp; the Resistance</h2><span class="tally">7 activities</span></div>
+    <p class="section-blurb">The Occupation, the Vichy regime, collaboration and the French Resistance — reading, interpretation and dictation.</p>
+    <div class="grid">
+      <a class="card" href="advanced_exercise_-_interpreting_Vichy.html"><span class="kind">History · B2</span><h3>Le Régime de Vichy — B2</h3><p>Interpret and analyse the Vichy period.</p><span class="go"><span class="arr">→</span> Open</span></a>
+      <a class="card" href="deep_Vichy_.html"><span class="kind">History · deep</span><h3>Le Régime de Vichy — interactive</h3><p>A fuller interactive study of Vichy.</p><span class="go"><span class="arr">→</span> Open</span></a>
+      <a class="card" href="vichy_regime_activity_top_notch.html"><span class="kind">History</span><h3>Le Régime de Vichy — activité</h3><p>Further interactive Vichy activity.</p><span class="go"><span class="arr">→</span> Open</span></a>
+      <a class="card" href="Petain_s_desperate_attempt_to_justify_his_role.html"><span class="kind">Reading</span><h3>Ultime message de Pétain</h3><p>Close reading of Pétain's final address.</p><span class="go"><span class="arr">→</span> Open</span></a>
+      <a class="card" href="vichy_cinema_dictation.html"><span class="kind">Dictée</span><h3>Le Cinéma de Vichy</h3><p>Dictation on wartime cinema.</p><span class="go"><span class="arr">→</span> Open</span></a>
+      <a class="card" href="A-Level_French_Unit_12-Lesson_1-_resistance-lesson_preparation.html"><span class="kind">Devoirs</span><h3>La Résistance française</h3><p>Interactive prep on the Resistance.</p><span class="go"><span class="arr">→</span> Open</span></a>
+      <a class="card" href="french-resistance-women.html"><span class="kind">History</span><h3>Les femmes dans la Résistance</h3><p>Women's role in the Resistance.</p><span class="go"><span class="arr">→</span> Open</span></a>
+    </div>
+  </section>
+
+  <section class="section" id="grammar">
+    <div class="section-head"><span class="num">05</span><h2>Grammar &amp; AO3 skills</h2><span class="tally">12 activities</span></div>
+    <p class="section-blurb">Targeted drills on the structures that decide AO3 marks. The two clinics at the top are composites covering the accuracy and range issues that come up most across the cohort.</p>
+    <div class="grid">
+      <a class="card feat" href="AO3_clinique_exactitude.html"><span class="star">◆</span><span class="kind">AO3 · accuracy clinic</span><h3>Clinique AO3 — Exactitude</h3><p>53 fixes across gender, agreement, verbs, subjonctif, si-clauses, prepositions, negation and anglicisms.</p><span class="go"><span class="arr">→</span> Open</span></a>
+      <a class="card feat" href="AO3_atelier_gamme.html"><span class="star">◆</span><span class="kind">AO3 · range builder</span><h3>Atelier AO3 — Gamme</h3><p>Subordination, « dont », « présenter comme » and sentence-enrichment for higher range.</p><span class="go"><span class="arr">→</span> Open</span></a>
+      <a class="card" href="Pratique_les_verbes_franc_ais_version_octobre_2025.html"><span class="kind">Workbook</span><h3>Cahier de Grammaire</h3><p>Comprehensive verb and grammar workbook.</p><span class="go"><span class="arr">→</span> Open</span></a>
+      <a class="card" href="french_grammar_practice-3.html"><span class="kind">Drill</span><h3>Recurrent Grammar Issues</h3><p>Practice on the errors students make most.</p><span class="go"><span class="arr">→</span> Open</span></a>
+      <a class="card" href="french-grammar-exercises.html"><span class="kind">Exercises</span><h3>Grammar Practice</h3><p>General A-Level grammar exercise set.</p><span class="go"><span class="arr">→</span> Open</span></a>
+      <a class="card" href="participle_practice_present_past.html"><span class="kind">Verbs</span><h3>Participles &amp; Passé Composé</h3><p>Participle agreement drills.</p><span class="go"><span class="arr">→</span> Open</span></a>
+      <a class="card" href="French_Accuracy_Bootcamp.html"><span class="kind">Bootcamp · 60</span><h3>Writing Accuracy Bootcamp</h3><p>Sixty quick accuracy fixes, self-marking.</p><span class="go"><span class="arr">→</span> Open</span></a>
+      <a class="card" href="french_cognate_corrected.html"><span class="kind">Patterns</span><h3>Cognate Pattern Practice</h3><p>Use cognate patterns to widen range.</p><span class="go"><span class="arr">→</span> Open</span></a>
+      <a class="card" href="connecteurs_atelier.html"><span class="kind">Atelier · 25 min</span><h3>Connecteurs Logiques</h3><p>Build a bank of logical connectives.</p><span class="go"><span class="arr">→</span> Open</span></a>
+      <a class="card" href="a_christmas_chanc_on__1_.html"><span class="kind">Game · verbs</span><h3>Scrooge — 30 Verbes</h3><p>A Dickensian tense-conjugation challenge.</p><span class="go"><span class="arr">→</span> Open</span></a>
+      <a class="card" href="French_Grammar_Practice_Sites.html"><span class="kind">Resources</span><h3>Centre de Ressources B2</h3><p>Curated links and reference for self-study.</p><span class="go"><span class="arr">→</span> Open</span></a>
+      <a class="card" href="french_revision_U7-U10.html"><span class="kind">Revision pack</span><h3>Révision — Thèmes 3 &amp; 4</h3><p>Mixed revision across units 7–10.</p><span class="go"><span class="arr">→</span> Open</span></a>
+    </div>
+  </section>
+
+  <section class="section" id="vocab">
+    <div class="section-head"><span class="num">06</span><h2>Vocabulary</h2><span class="tally">2 activities</span></div>
+    <p class="section-blurb">High-frequency word-building for Paper 3 and beyond.</p>
+    <div class="grid">
+      <a class="card" href="french_vocab_trainer_all_units_Paper_3.html"><span class="kind">Trainer · Paper 3</span><h3>Vocabulary Trainer — All Units</h3><p>Drill the core vocabulary across every unit.</p><span class="go"><span class="arr">→</span> Open</span></a>
+      <a class="card" href="practice_high_Frequency_French_nouns.html"><span class="kind">Nouns · top 200</span><h3>200 Most Common French Nouns</h3><p>Lock in the highest-frequency nouns.</p><span class="go"><span class="arr">→</span> Open</span></a>
+    </div>
+  </section>
+
+  <section class="section" id="translation">
+    <div class="section-head"><span class="num">07</span><h2>Translation</h2><span class="tally">3 activities</span></div>
+    <p class="section-blurb">Into-French translation against the kind of material that appears on the paper.</p>
+    <div class="grid">
+      <a class="card" href="3_Translations_into_French_History_Front_National.html"><span class="kind">Complete set</span><h3>Translation Exercises</h3><p>Three into-French passages, history &amp; politics.</p><span class="go"><span class="arr">→</span> Open</span></a>
+      <a class="card" href="makome_mbowole_translation.html"><span class="kind">Assessment</span><h3>Translation Assessment</h3><p>Timed translation with self-marking.</p><span class="go"><span class="arr">→</span> Open</span></a>
+      <a class="card" href="french_music_translation.html"><span class="kind">Music</span><h3>La Chanson Française</h3><p>Translate around French song and music.</p><span class="go"><span class="arr">→</span> Open</span></a>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="footer-inner">
+    <div class="note">A revision collection for BBA A-Level French (Edexcel). Activities run entirely in the browser and mark themselves — there's no sign-in and nothing is sent anywhere. Best opened on a laptop or tablet.</div>
+    <div class="stamp">Dossier · 71 activities</div>
+  </div>
+</footer>
+
+</body>
+</html>

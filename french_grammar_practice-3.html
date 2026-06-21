@@ -1,0 +1,1441 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Practice: Recurrent Grammar Issues</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            padding: 30px;
+        }
+        
+        h1 {
+            color: #667eea;
+            text-align: center;
+            margin-bottom: 10px;
+            font-size: 28px;
+        }
+        
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 25px;
+            font-size: 14px;
+        }
+        
+        .timer {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            margin-bottom: 25px;
+            border: 2px solid #667eea;
+        }
+        
+        .timer-display {
+            font-size: 36px;
+            font-weight: bold;
+            color: #667eea;
+            font-family: 'Courier New', monospace;
+        }
+        
+        .timer-buttons {
+            margin-top: 10px;
+        }
+        
+        .timer-buttons button {
+            margin: 0 5px;
+            padding: 8px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+        
+        .start-btn {
+            background: #48bb78;
+            color: white;
+        }
+        
+        .start-btn:hover {
+            background: #38a169;
+        }
+        
+        .pause-btn {
+            background: #ed8936;
+            color: white;
+        }
+        
+        .pause-btn:hover {
+            background: #dd6b20;
+        }
+        
+        .reset-btn {
+            background: #e53e3e;
+            color: white;
+        }
+        
+        .reset-btn:hover {
+            background: #c53030;
+        }
+        
+        .section {
+            margin-bottom: 30px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .section-title {
+            color: #667eea;
+            font-size: 20px;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+        
+        .exercise {
+            background: white;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
+        }
+        
+        .exercise-number {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            padding: 3px 10px;
+            border-radius: 15px;
+            font-size: 12px;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+        
+        .incorrect-sentence {
+            color: #e53e3e;
+            font-style: italic;
+            margin: 10px 0;
+            padding: 10px;
+            background: #fff5f5;
+            border-radius: 5px;
+            font-size: 15px;
+        }
+        
+        .error-type {
+            display: inline-block;
+            background: #fed7d7;
+            color: #c53030;
+            padding: 2px 8px;
+            border-radius: 3px;
+            font-size: 11px;
+            margin-right: 8px;
+            font-weight: bold;
+        }
+        
+        input[type="text"], textarea {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #e2e8f0;
+            border-radius: 5px;
+            font-size: 14px;
+            margin-top: 8px;
+            font-family: inherit;
+            transition: border-color 0.3s;
+        }
+        
+        input[type="text"]:focus, textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        
+        textarea {
+            min-height: 60px;
+            resize: vertical;
+        }
+        
+        .check-btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            margin-top: 20px;
+            display: block;
+            width: 100%;
+            transition: all 0.3s;
+        }
+        
+        .check-btn:hover {
+            background: #5568d3;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+        }
+        
+        .feedback {
+            margin-top: 10px;
+            padding: 12px;
+            border-radius: 5px;
+            font-weight: 500;
+            display: none;
+        }
+        
+        .correct {
+            background: #c6f6d5;
+            color: #22543d;
+            border: 1px solid #9ae6b4;
+        }
+        
+        .incorrect {
+            background: #fed7d7;
+            color: #742a2a;
+            border: 1px solid #fc8181;
+        }
+        
+        .hint {
+            background: #bee3f8;
+            color: #2c5282;
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 10px;
+            font-size: 13px;
+            border-left: 3px solid #4299e1;
+        }
+        
+        .progress-bar {
+            background: #e2e8f0;
+            height: 25px;
+            border-radius: 15px;
+            overflow: hidden;
+            margin-bottom: 25px;
+        }
+        
+        .progress-fill {
+            background: linear-gradient(90deg, #48bb78, #38a169);
+            height: 100%;
+            width: 0%;
+            transition: width 0.5s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 12px;
+        }
+        
+        .score-display {
+            text-align: center;
+            font-size: 18px;
+            color: #667eea;
+            font-weight: 600;
+            margin-top: 20px;
+        }
+        
+        .example {
+            background: #edf2f7;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+            font-size: 13px;
+            border-left: 3px solid #718096;
+        }
+        
+        .vocab-box {
+            background: #fffaf0;
+            border: 2px solid #f6ad55;
+            padding: 12px;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+        
+        .vocab-title {
+            color: #c05621;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        
+        .synonym-list {
+            color: #744210;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .rule-box {
+            background: #e6fffa;
+            border: 2px solid #38b2ac;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+
+        .rule-title {
+            color: #234e52;
+            font-weight: 700;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+
+        .rule-content {
+            color: #2c7a7b;
+            line-height: 1.8;
+            font-size: 14px;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 20px;
+            }
+            
+            h1 {
+                font-size: 24px;
+            }
+            
+            .timer-display {
+                font-size: 28px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🇫🇷 Practice: L'Étranger Essay Grammar</h1>
+        <div class="subtitle">Extended Drill: 30+ minutes focused practice on CORE errors</div>
+        
+        <div class="timer">
+            <div class="timer-display" id="timerDisplay">30:00</div>
+            <div class="timer-buttons">
+                <button class="start-btn" onclick="startTimer()">Start</button>
+                <button class="pause-btn" onclick="pauseTimer()">Pause</button>
+                <button class="reset-btn" onclick="resetTimer()">Reset</button>
+            </div>
+        </div>
+        
+        <div class="progress-bar">
+            <div class="progress-fill" id="progressBar">0%</div>
+        </div>
+        
+        <!-- Section 1: est vs et - EXTENDED -->
+        <div class="section">
+            <div class="section-title">Section 1: est vs et (is vs and) - 12 DRILLS</div>
+            
+            <div class="rule-box">
+                <div class="rule-title">⚠️ CRITICAL RULE:</div>
+                <div class="rule-content">
+                    <strong>EST</strong> = verb "to be" (3rd person) = is/am<br>
+                    <strong>ET</strong> = conjunction = and<br><br>
+                    <strong>Test:</strong> Try replacing with "is" or "and" in English. Which makes sense?
+                </div>
+            </div>
+            
+            <div class="exercise">
+                <span class="exercise-number">1</span>
+                <div class="incorrect-sentence">
+                    <span class="error-type">est/et</span>
+                    "Il ne se conforme pas aux règles de la société <strong>est</strong> cela finit par le condamner."
+                </div>
+                <input type="text" id="q1" placeholder="Rewrite correctly...">
+                <div class="feedback" id="f1"></div>
+            </div>
+            
+            <div class="exercise">
+                <span class="exercise-number">2</span>
+                <div class="incorrect-sentence">
+                    <span class="error-type">est/et</span>
+                    "Il ne correspond pas à l'image du 'bon citoyen' <strong>est</strong> c'est pour ça qu'il est condamné."
+                </div>
+                <input type="text" id="q2" placeholder="Rewrite correctly...">
+                <div class="feedback" id="f2"></div>
+            </div>
+            
+            <div class="exercise">
+                <span class="exercise-number">3</span>
+                <div class="incorrect-sentence">
+                    <span class="error-type">est/et</span>
+                    "Meursault <strong>et</strong> condamné pour son indifférence."
+                </div>
+                <input type="text" id="q3" placeholder="Rewrite correctly...">
+                <div class="hint">💡 "Meursault IS condemned" needs the verb "est"</div>
+                <div class="feedback" id="f3"></div>
+            </div>
+
+            <div class="exercise">
+                <span class="exercise-number">4</span>
+                <div class="incorrect-sentence">
+                    <span class="error-type">est/et</span>
+                    "Le roman <strong>et</strong> écrit en 1942 <strong>est</strong> raconte l'histoire de Meursault."
+                </div>
+                <input type="text" id="q4" placeholder="Fix BOTH errors...">
+                <div class="hint">💡 First blank: "IS written" = est écrit; Second: "AND tells" = et raconte</div>
+                <div class="feedback" id="f4"></div>
+            </div>
+
+            <div class="exercise">
+                <span class="exercise-number">5</span>
+                <div class="incorrect-sentence">
+                    <span class="error-type">est/et</span>
+                    "Son attitude <strong>et</strong> froide <strong>est</strong> détachée."
+                </div>
+                <input type="text" id="q5" placeholder="Rewrite correctly...">
+                <div class="hint">💡 "His attitude IS cold AND detached"</div>
+                <div class="feedback" id="f5"></div>
+            </div>
+
+            <div class="exercise">
+                <span class="exercise-number">6</span>
+                <div class="incorrect-sentence">
+                    <span class="error-type">est/et</span>
+                    "Camus <strong>et</strong> un écrivain célèbre <strong>est</strong> il a gagné le Prix Nobel."
+                </div>
+                <input type="text" id="q6" placeholder="Rewrite correctly...">
+                <div class="feedback" id="f6"></div>
+            </div>
+
+            <div class="exercise">
+                <span class="exercise-number">7</span>
+                <div class="incorrect-sentence">
+                    <span class="error-type">est/et</span>
+                    "La société <strong>et</strong> injuste <strong>est</strong> elle rejette Meursault."
+                </div>
+                <input type="text" id="q7" placeholder="Rewrite correctly...">
+                <div class="feedback" id="f7"></div>
+            </div>
+
+            <div class="exercise">
+                <span class="exercise-number">8</span>
+                <div class="incorrect-sentence">
+                    <span class="error-type">est/et</span>
+                    "Il refuse de mentir <strong>est</strong> de feindre les émotions."
+                </div>
+                <input type="text" id="q8" placeholder="Rewrite correctly...">
+                <div class="hint">💡 "to lie AND to fake" = de mentir ET de feindre</div>
+                <div class="feedback" id="f8"></div>
+            </div>
+
+            <div class="exercise">
+                <span class="exercise-number">9</span>
+                <div class="incorrect-sentence">
+                    <span class="error-type">est/et</span>
+                    "Le procès <strong>et</strong> absurde <strong>est</strong> il condamne un innocent."
+                </div>
+                <input type="text" id="q9" placeholder="Rewrite correctly...">
+                <div class="feedback" id="f9"></div>
+            </div>
+
+            <div class="exercise">
+                <span class="exercise-number">10</span>
+                <div class="incorrect-sentence">
+                    <span class="error-type">est/et</span>
+                    "Marie <strong>et</strong> amoureuse de lui <strong>est</strong> Meursault reste indifférent."
+                </div>
+                <input type="text" id="q10" placeholder="Rewrite correctly...">
+                <div class="feedback" id="f10"></div>
+            </div>
+
+            <div class="exercise">
+                <span class="exercise-number">11</span>
+                <div class="incorrect-sentence">
+                    <span class="error-type">est/et</span>
+                    "L'avocat <strong>et</strong> incompétent <strong>est</strong> le procureur <strong>et</strong> cruel."
+                </div>
+                <input type="text" id="q11" placeholder="Fix ALL THREE errors...">
+                <div class="feedback" id="f11"></div>
+            </div>
+
+            <div class="exercise">
+                <span class="exercise-number">12</span>
+                <div class="incorrect-sentence">
+                    <span class="error-type">est/et</span>
+                    "Le personnage <strong>et</strong> sincère, lucide <strong>est</strong> authentique."
+                </div>
+                <input type="text" id="q12" placeholder="Rewrite correctly...">
+                <div class="hint">💡 "The character IS sincere, lucid AND authentic"</div>
+                <div class="feedback" id="f12"></div>
+            </div>
+        </div>
+        
+        <!-- Section 2: Infinitives vs Past Participles - EXTENDED -->
+        <div class="section">
+            <div class="section-title">Section 2: Infinitive vs Past Participle - 15 DRILLS</div>
+            
+            <div class="rule-box">
+                <div class="rule-title">⚠️ CRITICAL RULE:</div>
+                <div class="rule-content">
+                    <strong>INFINITIVE</strong> (to do): ends in -er, -ir, -re → juger, finir, être<br>
+                    Use after: pour, sans, de, à, modal verbs (peut, doit, va)<br><br>
+                    <strong>PAST PARTICIPLE</strong> (done): ends in -é, -i, -u → jugé, fini, été<br>
+                    Use after: être, avoir, passive constructions<br><br>
+                    <strong>Test:</strong> Can you say "to ___" in English? → Use infinitive<br>
+                    Does it mean "has been ___"? → Use past participle
+                </div>
+            </div>
+            
+            <div class="exercise">
+                <span class="exercise-number">13</span>
+                <div class="incorrect-sentence">
+                    <span class="error-type">Vbe</span>
+                    "Mais sans nous <strong>montré</strong> qu'il est un homme sincère..."
+                </div>
+                <textarea id="q13" placeholder="Rewrite the entire phrase coherently..."></textarea>
+                <div class="hint">💡 Options: "Camus nous montre..." OR "Tout en nous montrant..." OR "Sans nous montrer..."</div>
+                <div class="feedback" id="f13"></div>
+            </div>
+            
+            <div class="exercise">
+                <span class="exercise-number">14</span>
+                <div class="incorrect-sentence">
+                    <span class="error-type">Vbe</span>
+                    "Il est condamné au lieu d'être <strong>juger</strong> pour son crime."
+                </div>
+                <input type="text" id="q14" placeholder="Rewrite correctly...">
+                <div class="hint">💡 After "être" = past participle needed</div>
+                <div class="feedback" id="f14"></div>
+            </div>
+            
+            <div class="exercise">
+                <span class="exercise-number">15</span>
+                <div class="incorrect-sentence">
+                    <span class="error-type">Vbe</span>
+                    "Meursault est <strong>condamner</strong> pour son attitude."
+                </div>
+                <input type="text" id="q15" placeholder="Rewrite correctly...">
+                <div class="feedback" id="f15"></div>
+            </div>
+
+            <div class="exercise">
+                <span class="exercise-number">16</span>
+                <div class="incorrect-sentence">
+                    <span class="error-type">Vbe</span>
+                    "Il refuse de <strong>pleuré</strong> à l'enterrement."
+                </div>
+                <input type="text" id="q16" placeholder="Rewrite correctly...">
+                <div class="hint">💡 After "de" = infinitive (pleurer)</div>
+                <div class="feedback" id="f16"></div>
+            </div>
+
+            <div class="exercise">
+                <span class="exercise-number">17</span>
+                <div class="incorrect-sentence">
+                    <span class="error-type">Vbe</span>
+                    "La société est <strong>rejeter</strong> ceux qui sont différents."
+                </div>
+                <input type="text" id="q17" placeholder="Rewrite correctly...">
+                <div class="hint">💡 Think: Does society "reject" (active) or "is rejected" (passive)?</div>
+                <div class="feedback" id="f17"></div>
+            </div>
+
+            <div class="exercise">
+                <span class="exercise-number">18</span>
+                <div class="incorrect-sentence">
+                    <span class="error-type">Vbe</span>
+                    "Pour <strong>protégé</strong> sa vie, il doit <strong>mentir</strong>."
+                </div>
+                <input type="text" id="q18" placeholder="Fix the first verb...">
+                <div class="hint">💡 After "pour" = infinitive; after "doit" = infinitive (this one is correct)</div>
+                <div class="feedback" id="f18"></div>
+            </div>
+
+            <div class="exercise">
+                <span class="exercise-number">19</span>
+                <div class="incorrect-sentence">
+                    <span class="error-type">Vbe</span>
+                    "Il est <strong>arrêter</strong> par la police après le meurtre."
+                </div>
+                <input type="text" id="q19" placeholder="Rewrite correctly...">
+                <div class="feedback" id="f19"></div>
+            </div>
+
+            <div class="exercise">
+                <span class="exercise-number">20</span>
+                <div class="incorrect-sentence">
+                    <span class="error-type">Vbe</span>
+                    "Sans <strong>compris</strong> les règles sociales, il ne peut pas <strong>survécu</strong>."
+                </div>
+                <input type="text" id="q20" placeholder="Fix BOTH verbs...">
+                <div class="hint">💡 After "sans" = infinitive; after "peut" = infinitive</div>
+                <div class="feedback" id="f20"></div>
+            </div>
+
+            <div class="exercise">
+                <span class="exercise-number">21</span>
+                <div class="incorrect-sentence">
+                    <span class="error-type">Vbe</span>
+                    "Le roman a été <strong>écrire</strong> en 1942."
+                </div>
+                <input type="text" id="q21" placeholder="Rewrite correctly...">
+                <div class="hint">💡 "has been written" = a été écrit (past participle)</div>
+                <div class="feedback" id="f21"></div>
+            </div>
+
+            <div class="exercise">
+                <span class="exercise-number">22</span>
+                <div class="incorrect-sentence">
+                    <span class="error-type">Vbe</span>
+                    "Il va <strong>tué</strong> l'Arabe sur la plage."
+                </div>
+                <input type="text" id="q22" placeholder="Rewrite correctly...">
+                <div class="hint">💡 After "va" (going to) = infinitive</div>
+                <div class="feedback" id="f22"></div>
+            </div>
+
+            <div class="exercise">
+                <span class="exercise-number">23</span>
+                <div class="incorrect-sentence">
+                    <span class="error-type">Vbe</span>
+                    "Les endroits sont <strong>maltraiter</strong> et <strong>abandonné</strong>."
+                </div>
+                <input type="text" id="q23" placeholder="Fix BOTH verbs...">
+                <div class="hint">💡 After "sont" (passive) = both need past participles</div>
+                <div class="feedback" id="f23"></div>
+            </div>
+
+            <div class="exercise">
+                <span class="exercise-number">24</span>
+                <div class="incorrect-sentence">
+                    <span class="error-type">Vbe</span>
+                    "Il doit <strong>accepté</strong> son destin avant de <strong>mort</strong>."
+                </div>
+                <input type="text" id="q24" placeholder="Fix BOTH errors...">
+                <div class="hint">💡 After "doit" = infinitive (accepter); "mort" is a noun, you need the verb "mourir"</div>
+                <div class="feedback" id="f24"></div>
+            </div>
+
+            <div class="exercise">
+                <span class="exercise-number">25</span>
+                <div class="incorrect-sentence">
+                    <span class="error-type">Vbe</span>
+                    "Pour lui <strong>facilite</strong> la vie, il devrait <strong>feint</strong> des émotions."
+                </div>
+                <input type="text" id="q25" placeholder="Fix BOTH verbs...">
+                <div class="hint">💡 "pour lui faciliter" (infinitive); "devrait feindre" (infinitive)</div>
+                <div class="feedback" id="f25"></div>
+            </div>
+
+            <div class="exercise">
+                <span class="exercise-number">26</span>
+                <div class="incorrect-sentence">
+                    <span class="error-type">Vbe</span>
+                    "Après avoir <strong>commis</strong> le crime, il est <strong>juger</strong>."
+                </div>
+                <input type="text" id="q26" placeholder="Fix the second verb only (first is correct)...">
+                <div class="feedback" id="f26"></div>
+            </div>
+
+            <div class="exercise">
+                <span class="exercise-number">27</span>
+                <div class="incorrect-sentence">
+                    <span class="error-type">Vbe</span>
+                    "Il peut <strong>comprend</strong> la vérité maintenant qu'il est <strong>condamner</strong>."
+                </div>
+                <input type="text" id="q27" placeholder="Fix BOTH verbs...">
+                <div class="feedback" id="f27"></div>
+            </div>
+        </div>
+        
+        <!-- Section 3: Accents - EXTENDED -->
+        <div class="section">
+            <div class="section-title">Section 3: Missing Accents (à, ça, où) - 12 DRILLS</div>
+            
+            <div class="rule-box">
+                <div class="rule-title">⚠️ CRITICAL RULE:</div>
+                <div class="rule-content">
+                    <strong>à</strong> (with accent) = to, at, in → Je vais à Paris<br>
+                    <strong>a</strong> (no accent) = he/she has → Il a un livre<br><br>
+                    <strong>ça</strong> (with cedilla) = that → C'est pour ça<br>
+                    <strong>sa</strong> (no cedilla) = his/her → Sa mère<br><br>
+                    <strong>où</strong> (with accent) = where → Où es-tu?<br>
+                    <strong>ou</strong> (no accent) = or → Café ou thé?<br><br>
+                    <strong>là</strong> (with accent) = there → Il est là<br>
+                    <strong>la</strong> (no accent) = the/her → La maison / Il la voit
+                </div>
+            </div>
+            
+            <div class="exercise">
+                <span class="exercise-number">28</span>
+                <div class="incorrect-sentence">
+                    <span class="error-type">Accent</span>
+                    "Il ne pleure pas <strong>a</strong> son enterrement."
+                </div>
+                <input type="text" id="q28" placeholder="Add the accent...">
+                <div class="feedback" id="f28"></div>
+            </div>
+            
+            <div class="exercise">
+                <span class="exercise-number">29</span>
+                <div class="incorrect-sentence">
+                    <span class="error-type">Accent</span>
+                    "C'est pour <strong>sa</strong> qu'il est rejeté de la société."
+                </div>
+                <input type="text" id="q29" placeholder="Fix the word...">
+                <div class="feedback" id="f29"></div>
+            </div>
+            
+            <div class="exercise">
+                <span class="exercise-number">30</span>
+                <div class="incorrect-sentence">
+                    <span class="error-type">Accent</span>
+                    "Il ne se rappelle pas <strong>ou</strong> c'était."
+                </div>
+                <input type="text" id="q30" placeholder="Add the accent...">
+                <div class="feedback" id="f30"></div>
+            </div>
+
+            <div class="exercise">
+                <span class="exercise-number">31</span>
+                <div class="incorrect-sentence">
+                    <span class="error-type">Accent</span>
+                    "Il <strong>a</strong> une indifférence <strong>a</strong> propos de tout."
+                </div>
+                <input type="text" id="q31" placeholder="Fix the SECOND 'a' only (first is correct)...">
+                <div class="hint">💡 First 'a' = he has (correct); second = about (needs accent)</div>
+                <div class="feedback" id="f31"></div>
+            </div>
+
+            <div class="exercise">
+                <span class="exercise-number">32</span>
+                <div class="incorrect-sentence">
+                    <span class="error-type">Accent</span>
+                    "Il pense <strong>a</strong> <strong>sa</strong> mère <strong>ou</strong> <strong>a</strong> Marie."
+                </div>
+                <input type="text" id="q32" placeholder="Rewrite with correct accents (2 errors)...">
+                <div class="hint">💡 "à sa mère ou à Marie" - "sa" is correct (his mother)</div>
+                <div class="feedback" id="f32"></div>
+            </div>
+
+            <div class="exercise">
+                <span class="exercise-number">33</span>
+                <div class="incorrect-sentence">
+                    <span class="error-type">Accent</span>
+                    "Il est condamné <strong>a</strong> mort <strong>a</strong> cause de <strong>sa</strong> attitude."
+                </div>
+                <input type="text" id="q33" placeholder="Rewrite correctly (fix 2 errors, 1 is correct)...">
+                <div class="hint">💡 "à mort" (to death), "à cause" (because of), "sa" is WRONG → should be "ça" (that)</div>
+                <div class="feedback" id="f33"></div>
+            </div>
+
+            <div class="exercise">
+                <span class="exercise-number">34</span>
+                <div class="incorrect-sentence">
+                    <span class="error-type">Accent</span>
+                    "Je ne sais pas <strong>ou</strong> il habite <strong>ou</strong> <strong>ou</strong> il travaille."
+                </div>
+                <input type="text" id="q34" placeholder="Rewrite with correct accents...">
+                <div class="hint">💡 First où = where; second ou = or; third où = where</div>
+                <div class="feedback" id="f34"></div>
+            </div>
+
+            <div class="exercise">
+                <span class="exercise-number">35</span>
+                <div class="incorrect-sentence">
+                    <span class="error-type">Accent</span>
+                    "Il va <strong>a</strong> la plage <strong>ou</strong> il tue l'Arabe."
+                </div>
+                <input type="text" id="q35" placeholder="Rewrite correctly...">
+                <div class="hint">💡 "à la plage" (to the beach); "où" (where)</div>
+                <div class="feedback" id="f35"></div>
+            </div>
+
+            <div class="exercise">
+                <span class="exercise-number">36</span>
+                <div class="incorrect-sentence">
+                    <span class="error-type">Accent</span>
+                    "<strong>La</strong>-bas, <strong>a</strong> la prison, il pense <strong>a</strong> <strong>sa</strong> vie."
+                </div>
+                <input type="text" id="q36" placeholder="Rewrite correctly (3 errors)...">
+                <div class="hint">💡 "Là-bas" (over there); "à la prison"; "à sa vie" BUT "sa" = his (correct)</div>
+                <div class="feedback" id="f36"></div>
+            </div>
+
+            <div class="exercise">
+                <span class="exercise-number">37</span>
+                <div class="incorrect-sentence">
+                    <span class="error-type">Accent</span>
+                    "Il <strong>a</strong> besoin de comprendre <strong>sa</strong>, mais il ne sait pas <strong>ou</strong> commencer."
+                </div>
+                <input type="text" id="q37" placeholder="Rewrite correctly (2 errors)...">
+                <div class="hint">💡 First "a" is correct (has); "sa" should be "ça" (that); "ou" should be "où" (where)</div>
+                <div class="feedback" id="f37"></div>
+            </div>
+
+            <div class="exercise">
+                <span class="exercise-number">38</span>
+                <div class="incorrect-sentence">
+                    <span class="error-type">Accent</span>
+                    "Il est <strong>la</strong>, <strong>a</strong> coté de <strong>sa</strong> mère, mais il ne pleure pas."
+                </div>
+                <input type="text" id="q38" placeholder="Rewrite correctly (2 errors)...">
+                <div class="hint">💡 "là" (there); "à côté" (next to); "sa mère" is correct</div>
+                <div class="feedback" id="f38"></div>
+            </div>
+
+            <div class="exercise">
+                <span class="exercise-number">39</span>
+                <div class="incorrect-sentence">
+                    <span class="error-type">Accent</span>
+                    "Aujourd'hui maman est morte, <strong>ou</strong> peut-être hier, je ne sais pas."
+                </div>
+                <input type="text" id="q39" placeholder="Rewrite correctly...">
+                <div class="hint">💡 "ou" vs "où" - which means "or"?</div>
+                <div class="feedback" id="f39"></div>
+            </div>
+        </div>
+        
+        <!-- Section 4: Agreement - EXTENDED -->
+        <div class="section">
+            <div class="section-title">Section 4: Agreement (Gender & Number) - 10 DRILLS</div>
+            
+            <div class="rule-box">
+                <div class="rule-title">⚠️ CRITICAL RULE:</div>
+                <div class="rule-content">
+                    <strong>Adjectives must agree with nouns:</strong><br>
+                    • Masculine singular: grand, petit, naturel<br>
+                    • Feminine singular: grande, petite, naturelle (add -e)<br>
+                    • Masculine plural: grands, petits, naturels (add -s)<br>
+                    • Feminine plural: grandes, petites, naturelles (add -es)<br><br>
+                    <strong>Verbs must agree with subjects:</strong><br>
+                    • Singular subject → singular verb: Il fait, Elle est<br>
+                    • Plural subject → plural verb: Ils font, Elles sont<br>
+                    • Multiple subjects = plural: Marie et Jean sont...
+                </div>
+            </div>
+            
+            <div class="exercise">
+                <span class="exercise-number">40</span>
+                <div class="incorrect-sentence">
+                    <span class="error-type">Agr</span>
+                    "Il a une authenticité <strong>naturel</strong> et radicale."
+                </div>
+                <input type="text" id="q40" placeholder="Fix the adjective agreement...">
+                <div class="hint">💡 authenticité is feminine → naturelle</div>
+                <div class="feedback" id="f40"></div>
+            </div>
+            
+            <div class="exercise">
+                <span class="exercise-number">41</span>
+                <div class="incorrect-sentence">
+                    <span class="error-type">Agr</span>
+                    "La vie, la nature, et l'amour <strong>fait</strong> partie de notre vie."
+                </div>
+                <input type="text" id="q41" placeholder="Fix the verb agreement...">
+                <div class="hint">💡 Three subjects = plural verb needed</div>
+                <div class="feedback" id="f41"></div>
+            </div>
+            
+            <div class="exercise">
+                <span class="exercise-number">42</span>
+                <div class="incorrect-sentence">
+                    <span class="error-type">Agr</span>
+                    "Il est <strong>sensée</strong> avoir de la tristesse."
+                </div>
+                <input type="text" id="q42" placeholder="Fix agreement AND spelling...">
+                <div class="hint">💡 "il" is masculine → censé (also: sensé/censé spelling!)</div>
+                <div class="feedback" id="f42"></div>
+            </div>
+
+            <div class="exercise">
+                <span class="exercise-number">43</span>
+                <div class="incorrect-sentence">
+                    <span class="error-type">Agr</span>
+                    "La société <strong>français</strong> est <strong>hypocrite</strong> et <strong>cruel</strong>."
+                </div>
+                <input type="text" id="q43" placeholder="Fix ALL adjective agreements...">
+                <div class="hint">💡 société is feminine → française, hypocrite (already ends in -e), cruelle</div>
+                <div class="feedback" id="f43"></div>
+            </div>
+
+            <div class="exercise">
+                <span class="exercise-number">44</span>
+                <div class="incorrect-sentence">
+                    <span class="error-type">Agr</span>
+                    "Les personnages <strong>principal</strong> est Meursault, Marie et Raymond."
+                </div>
+                <input type="text" id="q44" placeholder="Fix BOTH errors...">
+                <div class="hint">💡 "personnages" is plural → principaux; multiple people = sont (plural verb)</div>
+                <div class="feedback" id="f44"></div>
+            </div>
+
+            <div class="exercise">
+                <span class="exercise-number">45</span>
+                <div class="incorrect-sentence">
+                    <span class="error-type">Agr</span>
+                    "Une attitude <strong>sincère</strong> et <strong>honnête</strong> est <strong>dangereux</strong> dans cette société."
+                </div>
+                <input type="text" id="q45" placeholder="Fix the last adjective...">
+                <div class="hint">💡 "attitude" is feminine → dangereuse</div>
+                <div class="feedback" id="f45"></div>
+            </div>
+
+            <div class="exercise">
+                <span class="exercise-number">46</span>
+                <div class="incorrect-sentence">
+                    <span class="error-type">Agr</span>
+                    "Meursault et Hubert <strong>refuse</strong> les normes <strong>social</strong>."
+                </div>
+                <input type="text" id="q46" placeholder="Fix BOTH errors...">
+                <div class="hint">💡 Two people = refusent; normes (plural, feminine) → sociales</div>
+                <div class="feedback" id="f46"></div>
+            </div>
+
+            <div class="exercise">
+                <span class="exercise-number">47</span>
+                <div class="incorrect-sentence">
+                    <span class="error-type">Agr</span>
+                    "La vérité et l'authenticité <strong>est important</strong> pour lui."
+                </div>
+                <input type="text" id="q47" placeholder="Fix the verb and adjective...">
+                <div class="hint">💡 Two subjects = sont; both nouns feminine = importantes</div>
+                <div class="feedback" id="f47"></div>
+            </div>
+
+            <div class="exercise">
+                <span class="exercise-number">48</span>
+                <div class="incorrect-sentence">
+                    <span class="error-type">Agr</span>
+                    "Des émotions <strong>faux</strong> et <strong>artificiel</strong> ne l'intéresse pas."
+                </div>
+                <input type="text" id="q48" placeholder="Fix adjective agreements...">
+                <div class="hint">💡 émotions (plural, feminine) → fausses, artificielles</div>
+                <div class="feedback" id="f48"></div>
+            </div>
+
+            <div class="exercise">
+                <span class="exercise-number">49</span>
+                <div class="incorrect-sentence">
+                    <span class="error-type">Agr</span>
+                    "La conclusion du roman est <strong>tragique</strong> mais aussi <strong>libérateur</strong>."
+                </div>
+                <input type="text" id="q49" placeholder="Fix the second adjective...">
+                <div class="hint">💡 "conclusion" is feminine → libératrice</div>
+                <div class="feedback" id="f49"></div>
+            </div>
+        </div>
+
+        <!-- Section 5: Reflexive Pronouns -->
+        <div class="section">
+            <div class="section-title">Section 5: Reflexive Pronouns (se vs le/la) - 8 DRILLS</div>
+            
+            <div class="rule-box">
+                <div class="rule-title">⚠️ CRITICAL RULE:</div>
+                <div class="rule-content">
+                    <strong>Reflexive (action on oneself):</strong> se protéger, se défendre, se rappeler<br>
+                    → pour SE protéger (to protect himself/oneself)<br><br>
+                    <strong>Direct object (action on someone/something else):</strong><br>
+                    → pour LE protéger (to protect him)<br>
+                    → pour LA protéger (to protect her/it-feminine)<br><br>
+                    <strong>Test:</strong> Is the action done to oneself? → Use SE
+                </div>
+            </div>
+
+            <div class="exercise">
+                <span class="exercise-number">50</span>
+                <div class="incorrect-sentence">
+                    <span class="error-type">Pronoun</span>
+                    "Il doit mentir pour <strong>lui</strong> protéger et <strong>lui</strong> faciliter la vie."
+                </div>
+                <input type="text" id="q50" placeholder="Fix both pronouns...">
+                <div class="hint">💡 To protect HIMSELF and facilitate HIMSELF = se protéger et se faciliter</div>
+                <div class="feedback" id="f50"></div>
+            </div>
+
+            <div class="exercise">
+                <span class="exercise-number">51</span>
+                <div class="incorrect-sentence">
+                    <span class="error-type">Pronoun</span>
+                    "Meursault ne veut pas <strong>lui</strong> défendre au procès."
+                </div>
+                <input type="text" id="q51" placeholder="Rewrite correctly...">
+                <div class="hint">💡 Defend HIMSELF = se défendre</div>
+                <div class="feedback" id="f51"></div>
+            </div>
+
+            <div class="exercise">
+                <span class="exercise-number">52</span>
+                <div class="incorrect-sentence">
+                    <span class="error-type">Pronoun</span>
+                    "Il refuse de <strong>lui</strong> conformer aux règles."
+                </div>
+                <input type="text" id="q52" placeholder="Rewrite correctly...">
+                <div class="hint">💡 Conform HIMSELF = se conformer</div>
+                <div class="feedback" id="f52"></div>
+            </div>
+
+            <div class="exercise">
+                <span class="exercise-number">53</span>
+                <div class="incorrect-sentence">
+                    <span class="error-type">Pronoun</span>
+                    "Marie veut <strong>se</strong> aider mais il <strong>se</strong> rejette."
+                </div>
+                <input type="text" id="q53" placeholder="Fix the first pronoun...">
+                <div class="hint">💡 Marie wants to help HIM (not herself) = l'aider</div>
+                <div class="feedback" id="f53"></div>
+            </div>
+
+            <div class="exercise">
+                <span class="exercise-number">54</span>
+                <div class="incorrect-sentence">
+                    <span class="error-type">Pronoun</span>
+                    "L'avocat essaie de <strong>lui</strong> sauver pendant le procès."
+                </div>
+                <input type="text" id="q54" placeholder="Rewrite correctly...">
+                <div class="hint">💡 The lawyer tries to save HIM (not himself) = le sauver</div>
+                <div class="feedback" id="f54"></div>
+            </div>
+
+            <div class="exercise">
+                <span class="exercise-number">55</span>
+                <div class="incorrect-sentence">
+                    <span class="error-type">Pronoun</span>
+                    "Il peut <strong>lui</strong> voir comme un étranger maintenant."
+                </div>
+                <input type="text" id="q55" placeholder">Rewrite correctly...">
+                <div class="hint">💡 See HIMSELF = se voir</div>
+                <div class="feedback" id="f55"></div>
+            </div>
+
+            <div class="exercise">
+                <span class="exercise-number">56</span>
+                <div class="incorrect-sentence">
+                    <span class="error-type">Pronoun</span>
+                    "Le procureur veut <strong>se</strong> condamner Meursault."
+                </div>
+                <input type="text" id="q56" placeholder="Rewrite correctly...">
+                <div class="hint">💡 The prosecutor wants to condemn HIM (Meursault) = le condamner</div>
+                <div class="feedback" id="f56"></div>
+            </div>
+
+            <div class="exercise">
+                <span class="exercise-number">57</span>
+                <div class="incorrect-sentence">
+                    <span class="error-type">Pronoun</span>
+                    "Il ne peut pas <strong>lui</strong> comprendre ni <strong>lui</strong> accepter."
+                </div>
+                <input type="text" id="q57" placeholder="Rewrite correctly...">
+                <div class="hint">💡 Understand HIMSELF and accept HIMSELF = se comprendre, s'accepter</div>
+                <div class="feedback" id="f57"></div>
+            </div>
+        </div>
+
+        <!-- Section 6: Vocabulary Repetition Challenge -->
+        <div class="section">
+            <div class="section-title">Section 6: Avoiding Repetition - 5 EXTENDED DRILLS</div>
+            
+            <div class="vocab-box">
+                <div class="vocab-title">Synonyms Arsenal:</div>
+                <div class="synonym-list">
+                    <strong>For "indifférent":</strong> détaché, impassible, apathique, désengagé, insensible, froid, distant<br>
+                    <strong>For "montrer":</strong> révéler, démontrer, illustrer, mettre en évidence, souligner, manifester, exposer<br>
+                    <strong>For "société":</strong> le monde social, la collectivité, l'ordre établi, le corps social, la communauté<br>
+                    <strong>For "condamner":</strong> punir, sanctionner, réprouver, blâmer, juger coupable
+                </div>
+            </div>
+            
+            <div class="exercise">
+                <span class="exercise-number">58</span>
+                <label>Rewrite avoiding "indifférent/indifférence" (use 3 different synonyms):</label>
+                <div class="incorrect-sentence">
+                    <span class="error-type">Repetition</span>
+                    "Meursault est <strong>indifférent</strong> à tout. Son <strong>indifférence</strong> choque la société. Cette <strong>indifférence</strong> le condamne."
+                </div>
+                <textarea id="q58" placeholder="Rewrite these three sentences with variety..."></textarea>
+                <div class="feedback" id="f58"></div>
+            </div>
+            
+            <div class="exercise">
+                <span class="exercise-number">59</span>
+                <label>Rewrite avoiding repetition of "montrer/montre":</label>
+                <div class="incorrect-sentence">
+                    <span class="error-type">Repetition</span>
+                    "Camus <strong>montre</strong> l'absurdité du procès. Le roman <strong>montre</strong> aussi l'hypocrisie sociale. Cette scène <strong>montre</strong> la cruauté des juges."
+                </div>
+                <textarea id="q59" placeholder="Use révéler, démontrer, illustrer, etc."></textarea>
+                <div class="feedback" id="f59"></div>
+            </div>
+
+            <div class="exercise">
+                <span class="exercise-number">60</span>
+                <label>Rewrite this paragraph eliminating ALL repetitions:</label>
+                <div class="incorrect-sentence">
+                    <span class="error-type">Multiple Repetitions</span>
+                    "La société rejette Meursault. La société ne comprend pas son attitude. La société est hypocrite et la société condamne ceux qui sont différents."
+                </div>
+                <textarea id="q60" placeholder="Use pronouns, synonyms, and varied structures..."></textarea>
+                <div class="hint">💡 Try: La société rejette Meursault car elle ne comprend pas... Le monde social est hypocrite et condamne...</div>
+                <div class="feedback" id="f60"></div>
+            </div>
+
+            <div class="exercise">
+                <span class="exercise-number">61</span>
+                <label>Combine these choppy sentences into sophisticated prose (avoid starting every sentence with "Il"):</label>
+                <div class="incorrect-sentence">
+                    "Il ne pleure pas. Il ne montre pas d'émotions. Il refuse de mentir. Il est condamné. Il accepte son destin."
+                </div>
+                <textarea id="q61" placeholder="Create 2-3 complex sentences using conjunctions and relative pronouns..."></textarea>
+                <div class="feedback" id="f61"></div>
+            </div>
+
+            <div class="exercise">
+                <span class="exercise-number">62</span>
+                <label>Rewrite this essay excerpt improving vocabulary sophistication:</label>
+                <div class="incorrect-sentence">
+                    "Meursault est un homme qui ne fait pas comme les autres. Il ne fait pas semblant d'être triste. Il ne fait pas les choses que la société veut. Il fait seulement ce qui est vrai pour lui."
+                </div>
+                <textarea id="q62" placeholder="Use: ne se conforme pas, feindre, les convenances sociales, authenticité..."></textarea>
+                <div class="feedback" id="f62"></div>
+            </div>
+        </div>
+        
+        <button class="check-btn" onclick="checkAllAnswers()">Check All Answers</button>
+        <div class="score-display" id="scoreDisplay"></div>
+        
+        <button class="check-btn" onclick="downloadResults()" style="background: #38a169; margin-top: 10px;">
+            📥 Download My Results
+        </button>
+    </div>
+
+    <script>
+        let timerInterval;
+        let timeLeft = 1800;
+        let isRunning = false;
+        
+        const answers = {
+            // Section 1: est vs et
+            q1: ["et cela"],
+            q2: ["et c'est"],
+            q3: ["est condamné"],
+            q4: ["est écrit", "et raconte"],
+            q5: ["est froide et détachée"],
+            q6: ["est un écrivain", "et il a gagné"],
+            q7: ["est injuste", "et elle rejette"],
+            q8: ["et de feindre"],
+            q9: ["est absurde", "et il condamne"],
+            q10: ["est amoureuse", "et meursault"],
+            q11: ["est incompétent", "et le procureur est cruel"],
+            q12: ["est sincère", "et authentique"],
+            
+            // Section 2: Infinitive vs Past Participle
+            q13: ["camus nous montre", "tout en nous montrant", "sans nous montrer"],
+            q14: ["être jugé"],
+            q15: ["est condamné"],
+            q16: ["de pleurer"],
+            q17: ["rejette ceux", "la société rejette"],
+            q18: ["pour protéger"],
+            q19: ["est arrêté"],
+            q20: ["sans comprendre", "ne peut pas survivre"],
+            q21: ["a été écrit"],
+            q22: ["va tuer"],
+            q23: ["sont maltraités et abandonnés"],
+            q24: ["doit accepter", "avant de mourir"],
+            q25: ["pour lui faciliter", "devrait feindre"],
+            q26: ["est jugé"],
+            q27: ["peut comprendre", "est condamné"],
+            
+            // Section 3: Accents
+            q28: ["à son"],
+            q29: ["pour ça"],
+            q30: ["où c'était"],
+            q31: ["à propos"],
+            q32: ["à sa mère ou à marie"],
+            q33: ["à mort à cause de ça"],
+            q34: ["où il habite ou où il travaille"],
+            q35: ["à la plage où"],
+            q36: ["là-bas, à la prison, à sa vie"],
+            q37: ["comprendre ça", "où commencer"],
+            q38: ["il est là, à côté"],
+            q39: ["ou peut-être"],
+            
+            // Section 4: Agreement
+            q40: ["naturelle"],
+            q41: ["font partie"],
+            q42: ["censé"],
+            q43: ["française", "cruelle"],
+            q44: ["principaux", "sont meursault"],
+            q45: ["dangereuse"],
+            q46: ["refusent", "sociales"],
+            q47: ["sont importantes"],
+            q48: ["fausses", "artificielles"],
+            q49: ["libératrice"],
+            
+            // Section 5: Reflexive pronouns
+            q50: ["se protéger", "se faciliter"],
+            q51: ["se défendre"],
+            q52: ["se conformer"],
+            q53: ["l'aider"],
+            q54: ["le sauver"],
+            q55: ["se voir"],
+            q56: ["le condamner"],
+            q57: ["se comprendre", "s'accepter"],
+            
+            // Section 6: Repetition (more lenient checking)
+            q58: ["détaché", "apathique", "désengagé", "impassible"],
+            q59: ["révèle", "démontre", "illustre", "souligne"],
+            q60: ["elle", "le monde social", "collectivité"],
+            q61: ["qui", "parce que", "bien que", "tandis que"],
+            q62: ["ne se conforme pas", "feindre", "convenances"]
+        };
+        
+        function startTimer() {
+            if (!isRunning) {
+                isRunning = true;
+                timerInterval = setInterval(() => {
+                    if (timeLeft > 0) {
+                        timeLeft--;
+                        updateTimerDisplay();
+                    } else {
+                        clearInterval(timerInterval);
+                        alert("⏰ Time's up! Excellent work completing the extended drills!");
+                    }
+                }, 1000);
+            }
+        }
+        
+        function pauseTimer() {
+            isRunning = false;
+            clearInterval(timerInterval);
+        }
+        
+        function resetTimer() {
+            isRunning = false;
+            clearInterval(timerInterval);
+            timeLeft = 1800;
+            updateTimerDisplay();
+        }
+        
+        function updateTimerDisplay() {
+            const minutes = Math.floor(timeLeft / 60);
+            const seconds = timeLeft % 60;
+            document.getElementById('timerDisplay').textContent = 
+                `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        }
+        
+        function checkAllAnswers() {
+            let correct = 0;
+            let total = 62;
+            
+            for (let i = 1; i <= total; i++) {
+                const input = document.getElementById(`q${i}`);
+                const feedback = document.getElementById(`f${i}`);
+                
+                if (!input || !feedback) continue;
+                
+                const userAnswer = input.value.toLowerCase().trim();
+                
+                if (userAnswer === "") {
+                    feedback.className = "feedback incorrect";
+                    feedback.textContent = "⚠️ Please provide an answer before checking.";
+                    feedback.style.display = "block";
+                    continue;
+                }
+                
+                const correctAnswers = answers[`q${i}`];
+                const isCorrect = correctAnswers.some(ans => 
+                    userAnswer.includes(ans.toLowerCase())
+                );
+                
+                if (isCorrect) {
+                    feedback.className = "feedback correct";
+                    feedback.textContent = "✓ Correct! Well done!";
+                    correct++;
+                } else {
+                    feedback.className = "feedback incorrect";
+                    feedback.textContent = `✗ Not quite. Look for: ${correctAnswers[0]}`;
+                }
+                feedback.style.display = "block";
+            }
+            
+            const percentage = Math.round((correct / total) * 100);
+            const progressBar = document.getElementById('progressBar');
+            progressBar.style.width = percentage + '%';
+            progressBar.textContent = percentage + '%';
+            
+            const scoreDisplay = document.getElementById('scoreDisplay');
+            scoreDisplay.textContent = `Score: ${correct}/${total} (${percentage}%)`;
+            
+            if (percentage >= 85) {
+                scoreDisplay.style.color = "#38a169";
+                setTimeout(() => alert("🎉 Outstanding! You've mastered these grammar points! You're ready for high-quality essay writing."), 100);
+            } else if (percentage >= 70) {
+                scoreDisplay.style.color = "#48bb78";
+                setTimeout(() => alert("👏 Excellent progress! Review incorrect answers and you'll be ready for the exam."), 100);
+            } else if (percentage >= 55) {
+                scoreDisplay.style.color = "#ed8936";
+                setTimeout(() => alert("👍 Good effort! Focus on the sections where you made errors and practice more."), 100);
+            } else {
+                scoreDisplay.style.color = "#e53e3e";
+                setTimeout(() => alert("📚 Keep practicing! These are foundational skills. Review the rules carefully and try again."), 100);
+            }
+            
+            window.scrollTo({top: 0, behavior: 'smooth'});
+        }
+        
+        function downloadResults() {
+            const date = new Date().toLocaleDateString('en-GB');
+            const time = new Date().toLocaleTimeString('en-GB');
+            
+            let content = `L'ÉTRANGER GRAMMAR PRACTICE - RESULTS REPORT\n`;
+            content += `================================================\n`;
+            content += `Date: ${date} at ${time}\n`;
+            content += `Student: BOB\n\n`;
+            
+            let correct = 0;
+            let total = 62;
+            let detailedResults = '';
+            
+            // Section headers
+            const sections = {
+                1: {start: 1, end: 12, title: "Section 1: est vs et"},
+                2: {start: 13, end: 27, title: "Section 2: Infinitive vs Past Participle"},
+                3: {start: 28, end: 39, title: "Section 3: Missing Accents"},
+                4: {start: 40, end: 49, title: "Section 4: Agreement (Gender & Number)"},
+                5: {start: 50, end: 57, title: "Section 5: Reflexive Pronouns"},
+                6: {start: 58, end: 62, title: "Section 6: Avoiding Repetition"}
+            };
+            
+            for (let section in sections) {
+                const {start, end, title} = sections[section];
+                let sectionCorrect = 0;
+                let sectionTotal = end - start + 1;
+                
+                detailedResults += `\n${title}\n`;
+                detailedResults += `${'='.repeat(title.length)}\n\n`;
+                
+                for (let i = start; i <= end; i++) {
+                    const input = document.getElementById(`q${i}`);
+                    const userAnswer = input ? input.value.trim() : '';
+                    const correctAnswers = answers[`q${i}`];
+                    
+                    const isCorrect = userAnswer !== "" && correctAnswers.some(ans => 
+                        userAnswer.toLowerCase().includes(ans.toLowerCase())
+                    );
+                    
+                    if (isCorrect) {
+                        correct++;
+                        sectionCorrect++;
+                    }
+                    
+                    detailedResults += `Exercise ${i}: ${isCorrect ? '✓ CORRECT' : '✗ INCORRECT'}\n`;
+                    detailedResults += `Your answer: ${userAnswer || '(no answer provided)'}\n`;
+                    if (!isCorrect && userAnswer !== "") {
+                        detailedResults += `Tip: Look for "${correctAnswers[0]}"\n`;
+                    }
+                    detailedResults += `\n`;
+                }
+                
+                const sectionPercentage = Math.round((sectionCorrect / sectionTotal) * 100);
+                detailedResults += `Section Score: ${sectionCorrect}/${sectionTotal} (${sectionPercentage}%)\n`;
+                detailedResults += `\n`;
+            }
+            
+            const percentage = Math.round((correct / total) * 100);
+            
+            content += `OVERALL SUMMARY\n`;
+            content += `===============\n`;
+            content += `Total Score: ${correct}/${total} (${percentage}%)\n`;
+            content += `Time spent: Check timer above\n\n`;
+            
+            if (percentage >= 85) {
+                content += `Assessment: OUTSTANDING! You've mastered these grammar points.\n`;
+                content += `Next steps: Focus on essay structure and literary analysis vocabulary.\n\n`;
+            } else if (percentage >= 70) {
+                content += `Assessment: EXCELLENT PROGRESS! You're on the right track.\n`;
+                content += `Next steps: Review sections where you scored below 80% and practice those specific points.\n\n`;
+            } else if (percentage >= 55) {
+                content += `Assessment: GOOD EFFORT! Keep practicing.\n`;
+                content += `Next steps: Focus heavily on sections where you scored below 70%. Redo those exercises.\n\n`;
+            } else {
+                content += `Assessment: MORE PRACTICE NEEDED.\n`;
+                content += `Next steps: Review the grammar rules carefully. Work through exercises again slowly.\n\n`;
+            }
+            
+            content += detailedResults;
+            
+            content += `\n\nRECOMMENDATIONS FOR IMPROVEMENT\n`;
+            content += `================================\n\n`;
+            
+            // Analyze weakest sections
+            let weakestSections = [];
+            for (let section in sections) {
+                const {start, end, title} = sections[section];
+                let sectionCorrect = 0;
+                let sectionTotal = end - start + 1;
+                
+                for (let i = start; i <= end; i++) {
+                    const input = document.getElementById(`q${i}`);
+                    const userAnswer = input ? input.value.trim() : '';
+                    const correctAnswers = answers[`q${i}`];
+                    
+                    if (userAnswer !== "" && correctAnswers.some(ans => 
+                        userAnswer.toLowerCase().includes(ans.toLowerCase())
+                    )) {
+                        sectionCorrect++;
+                    }
+                }
+                
+                const sectionPercentage = Math.round((sectionCorrect / sectionTotal) * 100);
+                if (sectionPercentage < 70) {
+                    weakestSections.push({title, percentage: sectionPercentage});
+                }
+            }
+            
+            if (weakestSections.length > 0) {
+                content += `Priority Areas for Review:\n\n`;
+                weakestSections.forEach(section => {
+                    content += `• ${section.title} (${section.percentage}%)\n`;
+                });
+                content += `\n`;
+            } else {
+                content += `Great work! All sections scored 70% or above.\n`;
+                content += `Continue practicing to maintain this level.\n\n`;
+            }
+            
+            content += `\nSTUDY RECOMMENDATIONS:\n`;
+            content += `1. Complete the Grammar Practice Book exercises on your weakest areas\n`;
+            content += `2. Engage with Education Perfect activities (especially verb conjugation)\n`;
+            content += `3. Write 3-4 practice paragraphs using L'Étranger themes\n`;
+            content += `4. Have each paragraph checked for these specific grammar points\n`;
+            content += `5. Redo this exercise in 1 week to track improvement\n\n`;
+            
+            content += `Teacher Notes:\n`;
+            content += `This practice session focused on BOB's most recurrent errors from the essay assessment.\n`;
+            content += `The student should review incorrect answers and understand WHY each correction is needed.\n\n`;
+            
+            content += `================================================\n`;
+            content += `Generated by L'Étranger Grammar Practice Tool\n`;
+            
+            // Create blob and download
+            const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = `BOB_Grammar_Practice_Results_${date.replace(/\//g, '-')}.txt`;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            URL.revokeObjectURL(url);
+            
+            alert('📥 Results downloaded! Share this file with your teacher or keep it for your records.');
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,1107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Practice 200 Most Common French Nouns</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f9ff;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            position: relative;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #eaeaea;
+            padding-bottom: 20px;
+        }
+        
+        h1 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            color: #7f8c8d;
+            font-size: 1.1rem;
+        }
+        
+        .instructions {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            border-left: 4px solid #3498db;
+        }
+        
+        .practice-area {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+        
+        .noun-display {
+            background-color: #f8f9fa;
+            padding: 25px;
+            border-radius: 10px;
+            text-align: center;
+            border: 2px dashed #d1d8e0;
+        }
+        
+        .noun-english {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+        
+        .article-type {
+            font-size: 1.2rem;
+            color: #e74c3c;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        
+        .hint {
+            font-size: 0.9rem;
+            color: #7f8c8d;
+            margin-bottom: 20px;
+        }
+        
+        .input-area {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .input-container {
+            display: flex;
+            width: 100%;
+            max-width: 500px;
+            gap: 10px;
+        }
+        
+        .article-select {
+            padding: 12px;
+            font-size: 1.1rem;
+            border: 2px solid #bdc3c7;
+            border-radius: 6px;
+            background-color: white;
+            width: 120px;
+        }
+        
+        .noun-input {
+            flex: 1;
+            padding: 12px;
+            font-size: 1.1rem;
+            border: 2px solid #bdc3c7;
+            border-radius: 6px;
+            transition: border-color 0.3s;
+        }
+        
+        .noun-input:focus {
+            border-color: #3498db;
+            outline: none;
+        }
+        
+        .accent-keyboard {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 10px;
+            flex-wrap: wrap;
+            max-width: 500px;
+        }
+        
+        .accent-btn {
+            padding: 8px 15px;
+            background-color: #ecf0f1;
+            border: 1px solid #bdc3c7;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            transition: all 0.2s;
+        }
+        
+        .accent-btn:hover {
+            background-color: #d5dbdb;
+        }
+        
+        .buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .btn {
+            padding: 12px 25px;
+            font-size: 1rem;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 600;
+        }
+        
+        .btn-primary {
+            background-color: #3498db;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background-color: #2980b9;
+        }
+        
+        .btn-secondary {
+            background-color: #2ecc71;
+            color: white;
+        }
+        
+        .btn-secondary:hover {
+            background-color: #27ae60;
+        }
+        
+        .btn-ghost {
+            background-color: transparent;
+            color: #7f8c8d;
+            border: 1px solid #bdc3c7;
+        }
+        
+        .btn-ghost:hover {
+            background-color: #f8f9fa;
+        }
+        
+        .result {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 1.1rem;
+            min-height: 30px;
+            padding: 10px;
+            border-radius: 6px;
+        }
+        
+        .correct {
+            background-color: #d5f4e6;
+            color: #27ae60;
+        }
+        
+        .almost {
+            background-color: #fff3cd;
+            color: #856404;
+        }
+        
+        .incorrect {
+            background-color: #fde8e8;
+            color: #e74c3c;
+        }
+        
+        .stats {
+            display: flex;
+            justify-content: space-between;
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 25px;
+            flex-wrap: wrap;
+        }
+        
+        .stat-box {
+            text-align: center;
+            flex: 1;
+            min-width: 120px;
+        }
+        
+        .stat-value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+        
+        .stat-label {
+            font-size: 0.9rem;
+            color: #7f8c8d;
+        }
+        
+        .progress-bar {
+            height: 10px;
+            background-color: #ecf0f1;
+            border-radius: 5px;
+            margin-top: 10px;
+            overflow: hidden;
+        }
+        
+        .progress {
+            height: 100%;
+            background-color: #3498db;
+            width: 0%;
+            transition: width 0.5s;
+        }
+        
+        .download-area {
+            margin-top: 30px;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            text-align: center;
+        }
+        
+        footer {
+            margin-top: 30px;
+            text-align: center;
+            color: #7f8c8d;
+            font-size: 0.9rem;
+            border-top: 1px solid #eaeaea;
+            padding-top: 20px;
+        }
+        
+        .settings {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+        }
+        
+        .setting-item {
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .setting-item label {
+            font-size: 0.95rem;
+        }
+        
+        .tolerance-display {
+            font-weight: bold;
+            color: #3498db;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+            
+            .input-container {
+                flex-direction: column;
+            }
+            
+            .article-select {
+                width: 100%;
+            }
+            
+            .stat-box {
+                min-width: 100px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Practice 200 Most Common French Nouns</h1>
+            <p class="subtitle">Practice with definite (le, la, l', les) and indefinite (un, une, des) articles</p>
+        </header>
+        
+        <div class="instructions">
+            <p><strong>Instructions:</strong> For each English noun shown, <strong>select the correct French article</strong> (based on the English article shown) and type the French noun. Use the accent keyboard for special characters. <strong>Small typing errors are allowed and accents are optional</strong> (Levenshtein distance system). Your score will be tracked and you can download your results at the end.</p>
+            <p><strong>Note:</strong> Use <strong>l'</strong> for nouns starting with a vowel or silent h. The system will automatically check if l' is required based on the noun's spelling.</p>
+        </div>
+        
+        <div class="practice-area">
+            <div class="noun-display">
+                <div class="article-type" id="article-type">Indefinite</div>
+                <div class="noun-english" id="english-noun">Loading...</div>
+                <div class="hint" id="hint">Gender: -- | Plurality: --</div>
+                <div class="progress-bar">
+                    <div class="progress" id="progress"></div>
+                </div>
+            </div>
+            
+            <div class="input-area">
+                <div class="input-container">
+                    <select class="article-select" id="article-select">
+                        <option value="">Select article</option>
+                        <option value="le">le</option>
+                        <option value="la">la</option>
+                        <option value="l'">l'</option>
+                        <option value="les">les</option>
+                        <option value="un">un</option>
+                        <option value="une">une</option>
+                        <option value="des">des</option>
+                    </select>
+                    <input type="text" class="noun-input" id="noun-input" placeholder="Type the French noun..." autocomplete="off">
+                </div>
+                
+                <div class="accent-keyboard" id="accent-keyboard">
+                    <!-- Accent buttons will be added by JavaScript -->
+                </div>
+                
+                <div class="buttons">
+                    <button class="btn btn-primary" id="check-btn">Check Answer</button>
+                    <button class="btn btn-ghost" id="hint-btn">Show Hint</button>
+                    <button class="btn btn-secondary" id="next-btn">Next Noun</button>
+                </div>
+                
+                <div class="result" id="result"></div>
+            </div>
+        </div>
+        
+        <div class="settings">
+            <h3>Settings</h3>
+            <div class="setting-item">
+                <input type="range" id="tolerance-slider" min="0" max="3" value="1" step="1">
+                <label for="tolerance-slider">Typing tolerance: <span class="tolerance-display" id="tolerance-display">Low</span></label>
+                <div style="font-size: 0.8rem; color: #666; margin-top: 5px;">Higher tolerance allows more typing errors (Levenshtein distance ignores accents)</div>
+            </div>
+        </div>
+        
+        <div class="stats">
+            <div class="stat-box">
+                <div class="stat-value" id="score">0</div>
+                <div class="stat-label">Score</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-value" id="correct-count">0</div>
+                <div class="stat-label">Correct</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-value" id="almost-count">0</div>
+                <div class="stat-label">Almost</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-value" id="incorrect-count">0</div>
+                <div class="stat-label">Incorrect</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-value" id="remaining">200</div>
+                <div class="stat-label">Remaining</div>
+            </div>
+        </div>
+        
+        <div class="download-area">
+            <h3>Download Your Results</h3>
+            <p>Save your practice results as a CSV file to track your progress over time.</p>
+            <button class="btn btn-primary" id="download-btn">Download Results CSV</button>
+        </div>
+        
+        <footer>
+            <p>Practice tool for the 200 most frequent French nouns (France) | Includes definite (le, la, l', les) and indefinite (un, une, des) articles | Levenshtein distance ignores accents</p>
+        </footer>
+    </div>
+
+    <script>
+        // Remove accents for Levenshtein comparison
+        function removeAccents(str) {
+            return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+        }
+
+        // Levenshtein distance function for string similarity (ignores accents)
+        function levenshteinDistanceIgnoreAccents(a, b) {
+            const normalizedA = removeAccents(a.toLowerCase());
+            const normalizedB = removeAccents(b.toLowerCase());
+            
+            const matrix = [];
+            
+            // Increment along the first column of each row
+            for (let i = 0; i <= normalizedB.length; i++) {
+                matrix[i] = [i];
+            }
+            
+            // Increment each column in the first row
+            for (let j = 0; j <= normalizedA.length; j++) {
+                matrix[0][j] = j;
+            }
+            
+            // Fill in the rest of the matrix
+            for (let i = 1; i <= normalizedB.length; i++) {
+                for (let j = 1; j <= normalizedA.length; j++) {
+                    if (normalizedB.charAt(i - 1) === normalizedA.charAt(j - 1)) {
+                        matrix[i][j] = matrix[i - 1][j - 1];
+                    } else {
+                        matrix[i][j] = Math.min(
+                            matrix[i - 1][j - 1] + 1, // substitution
+                            matrix[i][j - 1] + 1,     // insertion
+                            matrix[i - 1][j] + 1      // deletion
+                        );
+                    }
+                }
+            }
+            
+            return matrix[normalizedB.length][normalizedA.length];
+        }
+        
+        // Check similarity between strings with Levenshtein (ignores accents)
+        function isSimilarEnough(userInput, correctAnswer, tolerance) {
+            const distance = levenshteinDistanceIgnoreAccents(userInput, correctAnswer);
+            const maxLength = Math.max(userInput.length, correctAnswer.length);
+            
+            // Allow more tolerance for longer words
+            const allowedDistance = tolerance === 0 ? 0 : 
+                                  tolerance === 1 ? Math.min(1, Math.floor(maxLength * 0.1)) :
+                                  tolerance === 2 ? Math.min(2, Math.floor(maxLength * 0.15)) :
+                                  Math.min(3, Math.floor(maxLength * 0.2));
+            
+            return distance <= allowedDistance;
+        }
+
+        // French nouns data - 200 most common nouns in French (France)
+        const frenchNouns = [
+            { english: "time", french: ["temps"], gender: "masculine", plurality: "singular" },
+            { english: "year", french: ["année"], gender: "feminine", plurality: "singular" },
+            { english: "person", french: ["personne"], gender: "feminine", plurality: "singular" },
+            { english: "day", french: ["jour"], gender: "masculine", plurality: "singular" },
+            { english: "thing", french: ["chose"], gender: "feminine", plurality: "singular" },
+            { english: "man", french: ["homme"], gender: "masculine", plurality: "singular" },
+            { english: "world", french: ["monde"], gender: "masculine", plurality: "singular" },
+            { english: "life", french: ["vie"], gender: "feminine", plurality: "singular" },
+            { english: "hand", french: ["main"], gender: "feminine", plurality: "singular" },
+            { english: "part", french: ["partie"], gender: "feminine", plurality: "singular" },
+            { english: "child", french: ["enfant"], gender: "masculine", plurality: "singular" },
+            { english: "eye", french: ["œil"], gender: "masculine", plurality: "singular" },
+            { english: "woman", french: ["femme"], gender: "feminine", plurality: "singular" },
+            { english: "place", french: ["lieu"], gender: "masculine", plurality: "singular" },
+            { english: "work", french: ["travail"], gender: "masculine", plurality: "singular" },
+            { english: "week", french: ["semaine"], gender: "feminine", plurality: "singular" },
+            { english: "case", french: ["cas"], gender: "masculine", plurality: "singular" },
+            { english: "point", french: ["point"], gender: "masculine", plurality: "singular" },
+            { english: "government", french: ["gouvernement"], gender: "masculine", plurality: "singular" },
+            { english: "company", french: ["entreprise"], gender: "feminine", plurality: "singular" },
+            { english: "number", french: ["nombre"], gender: "masculine", plurality: "singular" },
+            { english: "group", french: ["groupe"], gender: "masculine", plurality: "singular" },
+            { english: "problem", french: ["problème"], gender: "masculine", plurality: "singular" },
+            { english: "fact", french: ["fait"], gender: "masculine", plurality: "singular" },
+            { english: "water", french: ["eau"], gender: "feminine", plurality: "singular" },
+            { english: "money", french: ["argent"], gender: "masculine", plurality: "singular" },
+            { english: "month", french: ["mois"], gender: "masculine", plurality: "singular" },
+            { english: "right", french: ["droit"], gender: "masculine", plurality: "singular" },
+            { english: "study", french: ["étude"], gender: "feminine", plurality: "singular" },
+            { english: "book", french: ["livre"], gender: "masculine", plurality: "singular" },
+            { english: "word", french: ["mot"], gender: "masculine", plurality: "singular" },
+            { english: "business", french: ["affaire"], gender: "feminine", plurality: "singular" },
+            { english: "issue", french: ["question"], gender: "feminine", plurality: "singular" },
+            { english: "side", french: ["côté"], gender: "masculine", plurality: "singular" },
+            { english: "kind", french: ["genre"], gender: "masculine", plurality: "singular" },
+            { english: "head", french: ["tête"], gender: "feminine", plurality: "singular" },
+            { english: "house", french: ["maison"], gender: "feminine", plurality: "singular" },
+            { english: "service", french: ["service"], gender: "masculine", plurality: "singular" },
+            { english: "father", french: ["père"], gender: "masculine", plurality: "singular" },
+            { english: "power", french: ["pouvoir"], gender: "masculine", plurality: "singular" },
+            { english: "hour", french: ["heure"], gender: "feminine", plurality: "singular" },
+            { english: "game", french: ["jeu"], gender: "masculine", plurality: "singular" },
+            { english: "line", french: ["ligne"], gender: "feminine", plurality: "singular" },
+            { english: "end", french: ["fin"], gender: "feminine", plurality: "singular" },
+            { english: "member", french: ["membre"], gender: "masculine", plurality: "singular" },
+            { english: "law", french: ["loi"], gender: "feminine", plurality: "singular" },
+            { english: "car", french: ["voiture"], gender: "feminine", plurality: "singular" },
+            { english: "city", french: ["ville"], gender: "feminine", plurality: "singular" },
+            { english: "community", french: ["communauté"], gender: "feminine", plurality: "singular" },
+            { english: "name", french: ["nom"], gender: "masculine", plurality: "singular" },
+            { english: "president", french: ["président"], gender: "masculine", plurality: "singular" },
+            { english: "team", french: ["équipe"], gender: "feminine", plurality: "singular" },
+            { english: "minute", french: ["minute"], gender: "feminine", plurality: "singular" },
+            { english: "idea", french: ["idée"], gender: "feminine", plurality: "singular" },
+            { english: "kid", french: ["enfant"], gender: "masculine", plurality: "singular" },
+            { english: "body", french: ["corps"], gender: "masculine", plurality: "singular" },
+            { english: "information", french: ["information"], gender: "feminine", plurality: "singular" },
+            { english: "back", french: ["dos"], gender: "masculine", plurality: "singular" },
+            { english: "face", french: ["visage"], gender: "masculine", plurality: "singular" },
+            { english: "others", french: ["autres"], gender: "masculine", plurality: "plural" },
+            { english: "level", french: ["niveau"], gender: "masculine", plurality: "singular" },
+            { english: "office", french: ["bureau"], gender: "masculine", plurality: "singular" },
+            { english: "door", french: ["porte"], gender: "feminine", plurality: "singular" },
+            { english: "health", french: ["santé"], gender: "feminine", plurality: "singular" },
+            { english: "art", french: ["art"], gender: "masculine", plurality: "singular" },
+            { english: "war", french: ["guerre"], gender: "feminine", plurality: "singular" },
+            { english: "history", french: ["histoire"], gender: "feminine", plurality: "singular" },
+            { english: "party", french: ["fête"], gender: "feminine", plurality: "singular" },
+            { english: "result", french: ["résultat"], gender: "masculine", plurality: "singular" },
+            { english: "change", french: ["changement"], gender: "masculine", plurality: "singular" },
+            { english: "morning", french: ["matin"], gender: "masculine", plurality: "singular" },
+            { english: "reason", french: ["raison"], gender: "feminine", plurality: "singular" },
+            { english: "research", french: ["recherche"], gender: "feminine", plurality: "singular" },
+            { english: "girl", french: ["fille"], gender: "feminine", plurality: "singular" },
+            { english: "guy", french: ["gars"], gender: "masculine", plurality: "singular" },
+            { english: "moment", french: ["moment"], gender: "masculine", plurality: "singular" },
+            { english: "air", french: ["air"], gender: "masculine", plurality: "singular" },
+            { english: "teacher", french: ["professeur"], gender: "masculine", plurality: "singular" },
+            { english: "force", french: ["force"], gender: "feminine", plurality: "singular" },
+            { english: "education", french: ["éducation"], gender: "feminine", plurality: "singular" },
+            { english: "foot", french: ["pied"], gender: "masculine", plurality: "singular" },
+            { english: "boy", french: ["garçon"], gender: "masculine", plurality: "singular" },
+            { english: "age", french: ["âge"], gender: "masculine", plurality: "singular" },
+            { english: "policy", french: ["politique"], gender: "feminine", plurality: "singular" },
+            { english: "music", french: ["musique"], gender: "feminine", plurality: "singular" },
+            { english: "reading", french: ["lecture"], gender: "feminine", plurality: "singular" },
+            { english: "method", french: ["méthode"], gender: "feminine", plurality: "singular" },
+            { english: "data", french: ["données"], gender: "feminine", plurality: "plural" },
+            { english: "food", french: ["nourriture"], gender: "feminine", plurality: "singular" },
+            { english: "understanding", french: ["compréhension"], gender: "feminine", plurality: "singular" },
+            { english: "theory", french: ["théorie"], gender: "feminine", plurality: "singular" },
+            { english: "bird", french: ["oiseau"], gender: "masculine", plurality: "singular" },
+            { english: "literature", french: ["littérature"], gender: "feminine", plurality: "singular" },
+            { english: "software", french: ["logiciel"], gender: "masculine", plurality: "singular" },
+            { english: "control", french: ["contrôle"], gender: "masculine", plurality: "singular" },
+            { english: "knowledge", french: ["connaissance"], gender: "feminine", plurality: "singular" },
+            { english: "system", french: ["système"], gender: "masculine", plurality: "singular" },
+            { english: "room", french: ["pièce"], gender: "feminine", plurality: "singular" },
+            { english: "friend", french: ["ami"], gender: "masculine", plurality: "singular" },
+            { english: "country", french: ["pays"], gender: "masculine", plurality: "singular" },
+            { english: "question", french: ["question"], gender: "feminine", plurality: "singular" },
+            { english: "way", french: ["façon"], gender: "feminine", plurality: "singular" },
+            { english: "night", french: ["nuit"], gender: "feminine", plurality: "singular" },
+            { english: "state", french: ["état"], gender: "masculine", plurality: "singular" },
+            { english: "school", french: ["école"], gender: "feminine", plurality: "singular" },
+            { english: "family", french: ["famille"], gender: "feminine", plurality: "singular" },
+            { english: "student", french: ["étudiant"], gender: "masculine", plurality: "singular" },
+            { english: "program", french: ["programme"], gender: "masculine", plurality: "singular" },
+            { english: "market", french: ["marché"], gender: "masculine", plurality: "singular" },
+            { english: "interest", french: ["intérêt"], gender: "masculine", plurality: "singular" },
+            { english: "development", french: ["développement"], gender: "masculine", plurality: "singular" },
+            { english: "process", french: ["processus"], gender: "masculine", plurality: "singular" },
+            { english: "experience", french: ["expérience"], gender: "feminine", plurality: "singular" },
+            { english: "sense", french: ["sens"], gender: "masculine", plurality: "singular" },
+            { english: "mother", french: ["mère"], gender: "feminine", plurality: "singular" },
+            { english: "death", french: ["mort"], gender: "feminine", plurality: "singular" },
+            { english: "action", french: ["action"], gender: "feminine", plurality: "singular" },
+            { english: "job", french: ["emploi"], gender: "masculine", plurality: "singular" },
+            { english: "court", french: ["tribunal"], gender: "masculine", plurality: "singular" },
+            { english: "effect", french: ["effet"], gender: "masculine", plurality: "singular" },
+            { english: "project", french: ["projet"], gender: "masculine", plurality: "singular" },
+            { english: "area", french: ["région"], gender: "feminine", plurality: "singular" },
+            { english: "society", french: ["société"], gender: "feminine", plurality: "singular" },
+            { english: "need", french: ["besoin"], gender: "masculine", plurality: "singular" },
+            { english: "form", french: ["forme"], gender: "feminine", plurality: "singular" },
+            { english: "condition", french: ["condition"], gender: "feminine", plurality: "singular" },
+            { english: "period", french: ["période"], gender: "feminine", plurality: "singular" },
+            { english: "situation", french: ["situation"], gender: "feminine", plurality: "singular" },
+            { english: "industry", french: ["industrie"], gender: "feminine", plurality: "singular" },
+            { english: "position", french: ["position"], gender: "feminine", plurality: "singular" },
+            { english: "light", french: ["lumière"], gender: "feminine", plurality: "singular" },
+            { english: "voice", french: ["voix"], gender: "feminine", plurality: "singular" },
+            { english: "relationship", french: ["relation"], gender: "feminine", plurality: "singular" },
+            { english: "love", french: ["amour"], gender: "masculine", plurality: "singular" },
+            { english: "field", french: ["champ"], gender: "masculine", plurality: "singular" },
+            { english: "language", french: ["langue"], gender: "feminine", plurality: "singular" },
+            { english: "truth", french: ["vérité"], gender: "feminine", plurality: "singular" },
+            { english: "quality", french: ["qualité"], gender: "feminine", plurality: "singular" },
+            { english: "decision", french: ["décision"], gender: "feminine", plurality: "singular" },
+            { english: "energy", french: ["énergie"], gender: "feminine", plurality: "singular" },
+            { english: "economy", french: ["économie"], gender: "feminine", plurality: "singular" },
+            { english: "peace", french: ["paix"], gender: "feminine", plurality: "singular" },
+            { english: "material", french: ["matériau"], gender: "masculine", plurality: "singular" },
+            { english: "product", french: ["produit"], gender: "masculine", plurality: "singular" },
+            { english: "color", french: ["couleur"], gender: "feminine", plurality: "singular" },
+            { english: "story", french: ["histoire"], gender: "feminine", plurality: "singular" },
+            { english: "heart", french: ["cœur"], gender: "masculine", plurality: "singular" },
+            { english: "mind", french: ["esprit"], gender: "masculine", plurality: "singular" },
+            { english: "window", french: ["fenêtre"], gender: "feminine", plurality: "singular" },
+            { english: "street", french: ["rue"], gender: "feminine", plurality: "singular" },
+            { english: "paper", french: ["papier"], gender: "masculine", plurality: "singular" },
+            { english: "table", french: ["table"], gender: "feminine", plurality: "singular" },
+            { english: "space", french: ["espace"], gender: "masculine", plurality: "singular" },
+            { english: "nature", french: ["nature"], gender: "feminine", plurality: "singular" },
+            { english: "science", french: ["science"], gender: "feminine", plurality: "singular" },
+            { english: "bank", french: ["banque"], gender: "feminine", plurality: "singular" },
+            { english: "church", french: ["église"], gender: "feminine", plurality: "singular" },
+            { english: "blood", french: ["sang"], gender: "masculine", plurality: "singular" },
+            { english: "fire", french: ["feu"], gender: "masculine", plurality: "singular" },
+            { english: "hair", french: ["cheveu"], gender: "masculine", plurality: "singular" },
+            { english: "hospital", french: ["hôpital"], gender: "masculine", plurality: "singular" },
+            { english: "hotel", french: ["hôtel"], gender: "masculine", plurality: "singular" },
+            { english: "kitchen", french: ["cuisine"], gender: "feminine", plurality: "singular" },
+            { english: "land", french: ["terre"], gender: "feminine", plurality: "singular" },
+            { english: "letter", french: ["lettre"], gender: "feminine", plurality: "singular" },
+            { english: "meeting", french: ["réunion"], gender: "feminine", plurality: "singular" },
+            { english: "memory", french: ["mémoire"], gender: "feminine", plurality: "singular" },
+            { english: "message", french: ["message"], gender: "masculine", plurality: "singular" },
+            { english: "movie", french: ["film"], gender: "masculine", plurality: "singular" },
+            { english: "newspaper", french: ["journal"], gender: "masculine", plurality: "singular" },
+            { english: "noise", french: ["bruit"], gender: "masculine", plurality: "singular" },
+            { english: "pain", french: ["douleur"], gender: "feminine", plurality: "singular" },
+            { english: "park", french: ["parc"], gender: "masculine", plurality: "singular" },
+            { english: "political party", french: ["parti"], gender: "masculine", plurality: "singular" },
+            { english: "photo", french: ["photo"], gender: "feminine", plurality: "singular" },
+            { english: "plane", french: ["avion"], gender: "masculine", plurality: "singular" },
+            { english: "plant", french: ["plante"], gender: "feminine", plurality: "singular" },
+            { english: "radio", french: ["radio"], gender: "feminine", plurality: "singular" },
+            { english: "rain", french: ["pluie"], gender: "feminine", plurality: "singular" },
+            { english: "restaurant", french: ["restaurant"], gender: "masculine", plurality: "singular" },
+            { english: "river", french: ["rivière"], gender: "feminine", plurality: "singular" },
+            { english: "road", french: ["route"], gender: "feminine", plurality: "singular" },
+            { english: "room", french: ["chambre"], gender: "feminine", plurality: "singular" },
+            { english: "sea", french: ["mer"], gender: "feminine", plurality: "singular" },
+            { english: "seat", french: ["siège"], gender: "masculine", plurality: "singular" },
+            { english: "shop", french: ["magasin"], gender: "masculine", plurality: "singular" },
+            { english: "sky", french: ["ciel"], gender: "masculine", plurality: "singular" },
+            { english: "snow", french: ["neige"], gender: "feminine", plurality: "singular" },
+            { english: "song", french: ["chanson"], gender: "feminine", plurality: "singular" },
+            { english: "sport", french: ["sport"], gender: "masculine", plurality: "singular" },
+            { english: "spring", french: ["printemps"], gender: "masculine", plurality: "singular" },
+            { english: "star", french: ["étoile"], gender: "feminine", plurality: "singular" },
+            { english: "summer", french: ["été"], gender: "masculine", plurality: "singular" },
+            { english: "sun", french: ["soleil"], gender: "masculine", plurality: "singular" },
+            { english: "tea", french: ["thé"], gender: "masculine", plurality: "singular" },
+            { english: "television", french: ["télévision"], gender: "feminine", plurality: "singular" },
+            { english: "theater", french: ["théâtre"], gender: "masculine", plurality: "singular" },
+            { english: "tree", french: ["arbre"], gender: "masculine", plurality: "singular" },
+            { english: "trouble", french: ["problème"], gender: "masculine", plurality: "singular" },
+            { english: "university", french: ["université"], gender: "feminine", plurality: "singular" },
+            { english: "village", french: ["village"], gender: "masculine", plurality: "singular" },
+            { english: "weather", french: ["temps"], gender: "masculine", plurality: "singular" },
+            { english: "winter", french: ["hiver"], gender: "masculine", plurality: "singular" }
+        ];
+
+        // App state
+        let currentNounIndex = 0;
+        let score = 0;
+        let correctCount = 0;
+        let almostCount = 0;
+        let incorrectCount = 0;
+        let practiceHistory = [];
+        let currentNoun = null;
+        let showHint = false;
+        let currentArticleType = "definite"; // "definite" or "indefinite"
+        let toleranceLevel = 1; // 0: Strict, 1: Low, 2: Medium, 3: High
+
+        // DOM elements
+        const englishNounElement = document.getElementById('english-noun');
+        const articleTypeElement = document.getElementById('article-type');
+        const hintElement = document.getElementById('hint');
+        const articleSelectElement = document.getElementById('article-select');
+        const nounInputElement = document.getElementById('noun-input');
+        const resultElement = document.getElementById('result');
+        const scoreElement = document.getElementById('score');
+        const correctCountElement = document.getElementById('correct-count');
+        const almostCountElement = document.getElementById('almost-count');
+        const incorrectCountElement = document.getElementById('incorrect-count');
+        const remainingElement = document.getElementById('remaining');
+        const progressElement = document.getElementById('progress');
+        const checkButton = document.getElementById('check-btn');
+        const hintButton = document.getElementById('hint-btn');
+        const nextButton = document.getElementById('next-btn');
+        const downloadButton = document.getElementById('download-btn');
+        const accentKeyboardElement = document.getElementById('accent-keyboard');
+        const toleranceSlider = document.getElementById('tolerance-slider');
+        const toleranceDisplay = document.getElementById('tolerance-display');
+
+        // Initialize French accent keyboard
+        function initAccentKeyboard() {
+            // French accents including û and ô - reduced set for usability
+            const accents = ['à', 'â', 'ç', 'é', 'è', 'ê', 'ë', 'î', 'ï', 'ô', 'œ', 'ù', 'û', 'ü'];
+            
+            // Group accents into rows for better display
+            const accentRows = [
+                ['à', 'â', 'ç', 'é', 'è', 'ê', 'ë'],
+                ['î', 'ï', 'ô', 'œ', 'ù', 'û', 'ü']
+            ];
+            
+            accentRows.forEach(row => {
+                const rowDiv = document.createElement('div');
+                rowDiv.style.display = 'flex';
+                rowDiv.style.justifyContent = 'center';
+                rowDiv.style.gap = '8px';
+                rowDiv.style.marginBottom = '5px';
+                
+                row.forEach(accent => {
+                    const button = document.createElement('button');
+                    button.type = 'button';
+                    button.className = 'accent-btn';
+                    button.textContent = accent;
+                    button.style.fontSize = '1rem';
+                    button.addEventListener('click', () => {
+                        nounInputElement.value += accent;
+                        nounInputElement.focus();
+                    });
+                    rowDiv.appendChild(button);
+                });
+                
+                accentKeyboardElement.appendChild(rowDiv);
+            });
+        }
+
+        // Check if a noun starts with a vowel or silent h (requires l')
+        function requiresLApostrophe(noun) {
+            if (!noun || noun.length === 0) return false;
+            
+            const firstLetter = noun.charAt(0).toLowerCase();
+            const vowels = ['a', 'e', 'i', 'o', 'u', 'y', 'h'];
+            const vowelStart = vowels.includes(firstLetter);
+            
+            // For h, check if it's a silent h (aspirated h)
+            if (firstLetter === 'h') {
+                // Common French words with silent h that take l'
+                const silentHWords = ['homme', 'heure', 'hôtel', 'hôpital', 'hiver', 'herbe', 'histoire', 'habitude', 'humeur'];
+                return silentHWords.some(word => noun.toLowerCase().startsWith(word.substring(1)));
+            }
+            
+            return vowelStart;
+        }
+
+        // Get a random noun from the list
+        function getRandomNoun() {
+            // Make a copy of the nouns that haven't been practiced yet
+            const remainingNouns = frenchNouns.filter((noun, index) => 
+                !practiceHistory.some(item => item.index === index)
+            );
+            
+            // If all nouns have been practiced, reset
+            if (remainingNouns.length === 0) {
+                // Keep the history but allow practicing again
+                practiceHistory = [];
+                const randomIndex = Math.floor(Math.random() * frenchNouns.length);
+                currentNounIndex = randomIndex;
+                return {...frenchNouns[randomIndex], index: randomIndex};
+            }
+            
+            // Get a random noun from remaining ones
+            const randomIndex = Math.floor(Math.random() * remainingNouns.length);
+            const noun = remainingNouns[randomIndex];
+            const originalIndex = frenchNouns.findIndex(n => 
+                n.english === noun.english && n.french[0] === noun.french[0]
+            );
+            
+            currentNounIndex = originalIndex;
+            return {...noun, index: originalIndex};
+        }
+
+        // Update the displayed noun
+        function updateNounDisplay() {
+            currentNoun = getRandomNoun();
+            
+            // Randomly choose definite or indefinite article for this noun
+            currentArticleType = Math.random() > 0.5 ? "definite" : "indefinite";
+            
+            // Display the English with the appropriate article
+            let englishDisplay = "";
+            if (currentArticleType === "definite") {
+                englishDisplay = `the ${currentNoun.english}`;
+                articleTypeElement.textContent = "Definite Article";
+                articleTypeElement.style.color = "#e74c3c";
+            } else {
+                // Use "a" or "an" based on first letter sound
+                const firstLetter = currentNoun.english.charAt(0).toLowerCase();
+                const useAn = ['a', 'e', 'i', 'o', 'u'].includes(firstLetter);
+                englishDisplay = `${useAn ? "an" : "a"} ${currentNoun.english}`;
+                articleTypeElement.textContent = "Indefinite Article";
+                articleTypeElement.style.color = "#3498db";
+            }
+            
+            englishNounElement.textContent = englishDisplay;
+            showHint = false;
+            hintElement.textContent = "Click 'Show Hint' for gender and plurality";
+            
+            // Clear input and result
+            articleSelectElement.value = "";
+            nounInputElement.value = "";
+            resultElement.textContent = "";
+            resultElement.className = "result";
+            
+            // Focus on article select
+            articleSelectElement.focus();
+            
+            updateStats();
+        }
+
+        // Update statistics display
+        function updateStats() {
+            scoreElement.textContent = score;
+            correctCountElement.textContent = correctCount;
+            almostCountElement.textContent = almostCount;
+            incorrectCountElement.textContent = incorrectCount;
+            remainingElement.textContent = frenchNouns.length - practiceHistory.length;
+            
+            const progressPercent = Math.round((practiceHistory.length / frenchNouns.length) * 100);
+            progressElement.style.width = `${progressPercent}%`;
+        }
+
+        // Determine correct article based on noun and article type
+        function getCorrectArticle() {
+            const mainNoun = currentNoun.french[0];
+            
+            // Check if this noun requires l' (vowel or silent h start)
+            if (currentArticleType === "definite" && requiresLApostrophe(mainNoun)) {
+                return "l'";
+            }
+            
+            if (currentArticleType === "definite") {
+                if (currentNoun.gender === "masculine" && currentNoun.plurality === "singular") {
+                    return "le";
+                } else if (currentNoun.gender === "feminine" && currentNoun.plurality === "singular") {
+                    return "la";
+                } else if (currentNoun.plurality === "plural") {
+                    return "les";
+                }
+            } else { // indefinite
+                if (currentNoun.gender === "masculine" && currentNoun.plurality === "singular") {
+                    return "un";
+                } else if (currentNoun.gender === "feminine" && currentNoun.plurality === "singular") {
+                    return "une";
+                } else if (currentNoun.plurality === "plural") {
+                    return "des";
+                }
+            }
+            return "";
+        }
+
+        // Check if user's noun matches any of the accepted synonyms
+        function checkNounMatch(userInput) {
+            const userInputNormalized = removeAccents(userInput.toLowerCase().trim());
+            
+            // Check for exact match (with or without accents)
+            for (const correctNoun of currentNoun.french) {
+                const correctNormalized = removeAccents(correctNoun.toLowerCase());
+                if (userInputNormalized === correctNormalized) {
+                    return { match: true, exact: true, correctNoun };
+                }
+            }
+            
+            // Check for similar match with Levenshtein
+            for (const correctNoun of currentNoun.french) {
+                if (isSimilarEnough(userInput, correctNoun, toleranceLevel)) {
+                    return { match: true, exact: false, correctNoun };
+                }
+            }
+            
+            return { match: false, exact: false, correctNoun: currentNoun.french[0] };
+        }
+
+        // Check the user's answer
+        function checkAnswer() {
+            const selectedArticle = articleSelectElement.value;
+            const userNoun = nounInputElement.value.trim();
+            const correctArticle = getCorrectArticle();
+            
+            // Special handling for l': if user selected le/la but noun requires l', check if that's what they meant
+            let isArticleCorrect = selectedArticle === correctArticle;
+            let adjustedUserArticle = selectedArticle;
+            
+            // If correct article is l' but user selected le or la, check if they typed the noun correctly
+            if (correctArticle === "l'" && (selectedArticle === "le" || selectedArticle === "la")) {
+                // Check if the noun actually starts with vowel/silent h
+                if (requiresLApostrophe(userNoun) || requiresLApostrophe(currentNoun.french[0])) {
+                    isArticleCorrect = false; // They should have selected l'
+                }
+            }
+            
+            // Check noun against synonyms with Levenshtein
+            const nounCheck = checkNounMatch(userNoun);
+            const isNounMatch = nounCheck.match;
+            const isNounExact = nounCheck.exact;
+            const displayedCorrectNoun = nounCheck.correctNoun;
+            
+            // Determine result
+            let resultType = "incorrect";
+            let points = 0;
+            let message = "";
+            
+            if (isArticleCorrect && isNounExact) {
+                // Perfect answer
+                resultType = "correct";
+                points = 10;
+                correctCount++;
+                message = `✓ Perfect! "${correctArticle}${correctArticle.endsWith("'") ? "" : " "}${displayedCorrectNoun}" is correct.`;
+                if (currentNoun.french.length > 1) {
+                    message += ` (Also accepted: ${currentNoun.french.slice(1).join(', ')})`;
+                }
+            } else if (isArticleCorrect && isNounMatch && !isNounExact) {
+                // Almost correct (article right, noun close)
+                resultType = "almost";
+                points = 7;
+                almostCount++;
+                message = `✓ Almost! You wrote "${selectedArticle}${selectedArticle.endsWith("'") ? "" : " "}${userNoun}". The correct answer is "${correctArticle}${correctArticle.endsWith("'") ? "" : " "}${displayedCorrectNoun}".`;
+                if (currentNoun.french.length > 1) {
+                    message += ` (Also accepted: ${currentNoun.french.slice(1).join(', ')})`;
+                }
+            } else if (isArticleCorrect && !isNounMatch) {
+                // Wrong noun
+                resultType = "incorrect";
+                points = -2;
+                incorrectCount++;
+                const acceptedNouns = currentNoun.french.join(' or ');
+                const articleSpace = selectedArticle.endsWith("'") ? "" : " ";
+                message = `✗ Article correct but noun wrong. You wrote "${selectedArticle}${articleSpace}${userNoun}". Accepted: ${acceptedNouns}.`;
+            } else if (!isArticleCorrect && isNounMatch) {
+                // Wrong article
+                resultType = "incorrect";
+                points = -2;
+                incorrectCount++;
+                const articleSpace = selectedArticle.endsWith("'") ? "" : " ";
+                message = `✗ Noun correct but article wrong. You wrote "${selectedArticle}${articleSpace}${userNoun}". The correct article is "${correctArticle}".`;
+                if (correctArticle === "l'" && requiresLApostrophe(displayedCorrectNoun)) {
+                    message += ` (Remember: "${displayedCorrectNoun}" starts with a vowel/silent h, so it requires l')`;
+                }
+            } else {
+                // Both wrong
+                resultType = "incorrect";
+                points = -3;
+                incorrectCount++;
+                const acceptedNouns = currentNoun.french.join(' or ');
+                const articleSpace = correctArticle.endsWith("'") ? "" : " ";
+                message = `✗ Incorrect. The correct answer is "${correctArticle}${articleSpace}${acceptedNouns}".`;
+                if (correctArticle === "l'") {
+                    message += ` (Note: "${acceptedNouns}" starts with a vowel/silent h, so it requires l')`;
+                }
+            }
+            
+            // Update score
+            score = Math.max(0, score + points);
+            
+            // Record the attempt
+            const attempt = {
+                index: currentNoun.index,
+                english: currentNoun.english,
+                french: currentNoun.french,
+                gender: currentNoun.gender,
+                plurality: currentNoun.plurality,
+                articleType: currentArticleType,
+                userArticle: selectedArticle,
+                userNoun: userNoun,
+                correctArticle: correctArticle,
+                correctNoun: displayedCorrectNoun,
+                requiresLApostrophe: requiresLApostrophe(displayedCorrectNoun),
+                resultType: resultType,
+                points: points,
+                timestamp: new Date().toISOString()
+            };
+            
+            // Only add to history if not already practiced (avoid duplicates in current session)
+            if (!practiceHistory.some(item => item.index === currentNoun.index)) {
+                practiceHistory.push(attempt);
+            }
+            
+            // Display result
+            resultElement.textContent = message;
+            resultElement.className = `result ${resultType}`;
+            
+            updateStats();
+            nextButton.focus();
+        }
+
+        // Show hint for current noun
+        function showCurrentHint() {
+            showHint = true;
+            const synonyms = currentNoun.french.length > 1 ? 
+                ` (Synonyms: ${currentNoun.french.join(', ')})` : '';
+            const mainNoun = currentNoun.french[0];
+            const needsL = requiresLApostrophe(mainNoun) ? ` | Requires l'` : '';
+            hintElement.textContent = `Gender: ${currentNoun.gender} | Plurality: ${currentNoun.plurality}${needsL}${synonyms}`;
+        }
+
+        // Update tolerance display
+        function updateToleranceDisplay() {
+            const toleranceLabels = ["Strict", "Low", "Medium", "High"];
+            toleranceDisplay.textContent = toleranceLabels[toleranceLevel];
+        }
+
+        // Download results as CSV
+        function downloadResults() {
+            if (practiceHistory.length === 0) {
+                alert("No practice data to download yet. Complete some exercises first.");
+                return;
+            }
+            
+            // Create CSV content
+            let csvContent = "Timestamp,English Word,French Answer,Article Type,Your Article,Your Noun,Correct Article,Correct Noun,Requires l',Result,Points\n";
+            
+            practiceHistory.forEach(attempt => {
+                const row = [
+                    attempt.timestamp,
+                    `"${attempt.english}"`,
+                    `"${Array.isArray(attempt.french) ? attempt.french.join('/') : attempt.french}"`,
+                    attempt.articleType,
+                    attempt.userArticle,
+                    `"${attempt.userNoun}"`,
+                    attempt.correctArticle,
+                    `"${attempt.correctNoun}"`,
+                    attempt.requiresLApostrophe ? "Yes" : "No",
+                    attempt.resultType,
+                    attempt.points
+                ].join(",");
+                
+                csvContent += row + "\n";
+            });
+            
+            // Add summary
+            csvContent += `\n\nSummary\n`;
+            csvContent += `Total Practice Sessions,${practiceHistory.length}\n`;
+            csvContent += `Correct Answers,${correctCount}\n`;
+            csvContent += `Almost Correct,${almostCount}\n`;
+            csvContent += `Incorrect Answers,${incorrectCount}\n`;
+            csvContent += `Final Score,${score}\n`;
+            csvContent += `Accuracy,${correctCount + almostCount > 0 ? Math.round(((correctCount + almostCount) / practiceHistory.length) * 100) : 0}%\n`;
+            csvContent += `Tolerance Level,${["Strict", "Low", "Medium", "High"][toleranceLevel]}\n`;
+            
+            // Create download link
+            const blob = new Blob([csvContent], { type: 'text/csv' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `french-nouns-practice-${new Date().toISOString().slice(0, 10)}.csv`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
+        // Event listeners
+        checkButton.addEventListener('click', checkAnswer);
+        
+        hintButton.addEventListener('click', showCurrentHint);
+        
+        nextButton.addEventListener('click', updateNounDisplay);
+        
+        downloadButton.addEventListener('click', downloadResults);
+        
+        nounInputElement.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                checkAnswer();
+            }
+        });
+        
+        // Allow Enter key to move to next after checking
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' && resultElement.textContent !== "") {
+                updateNounDisplay();
+            }
+        });
+        
+        // Tolerance slider
+        toleranceSlider.addEventListener('input', (e) => {
+            toleranceLevel = parseInt(e.target.value);
+            updateToleranceDisplay();
+        });
+
+        // Initialize the app
+        function initApp() {
+            initAccentKeyboard();
+            updateToleranceDisplay();
+            updateNounDisplay();
+        }
+
+        // Start the app when page loads
+        document.addEventListener('DOMContentLoaded', initApp);
+    </script>
+</body>
+</html>

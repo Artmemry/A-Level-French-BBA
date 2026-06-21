@@ -1,0 +1,1142 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Connecteurs Logiques — Atelier 25 min</title>
+<style>
+  :root {
+    --bg: #f6f5f1;
+    --paper: #ffffff;
+    --ink: #1f2937;
+    --muted: #6b7280;
+    --brand: #2e5a88;
+    --brand-soft: #eaf1f8;
+    --accent: #c47a3d;
+    --green: #1f7a1f;
+    --green-soft: #e6f4e6;
+    --red: #b3261e;
+    --red-soft: #fbe9e7;
+    --line: #e5e0d4;
+    --shadow: 0 4px 14px rgba(0,0,0,0.06);
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    font-family: 'Segoe UI', Helvetica, Arial, system-ui, sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    line-height: 1.5;
+    min-height: 100vh;
+  }
+  .wrap {
+    max-width: 920px;
+    margin: 0 auto;
+    padding: 24px 20px 140px;
+  }
+  header.top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 18px;
+  }
+  .title h1 {
+    margin: 0;
+    font-size: 22px;
+    color: var(--brand);
+    letter-spacing: 0.2px;
+  }
+  .title .sub {
+    font-size: 13px;
+    color: var(--muted);
+    margin-top: 2px;
+  }
+  .meters { display: flex; gap: 10px; flex-wrap: wrap; }
+  .meter {
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 8px 14px;
+    box-shadow: var(--shadow);
+    min-width: 110px;
+  }
+  .meter .label { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.6px; }
+  .meter .val { font-size: 18px; font-weight: 700; color: var(--brand); }
+  .meter.score .val { color: var(--accent); }
+  .meter.timer .val.warn { color: var(--red); }
+
+  .progress {
+    height: 8px;
+    background: var(--line);
+    border-radius: 99px;
+    overflow: hidden;
+    margin-bottom: 16px;
+  }
+  .progress > div {
+    height: 100%;
+    background: linear-gradient(90deg, #2e5a88, #4a82bd);
+    transition: width 0.4s ease;
+  }
+
+  .card {
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 22px 22px 20px;
+    box-shadow: var(--shadow);
+    margin-bottom: 14px;
+  }
+  .round-tag {
+    display: inline-block;
+    background: var(--brand-soft);
+    color: var(--brand);
+    font-weight: 700;
+    font-size: 12px;
+    padding: 4px 10px;
+    border-radius: 99px;
+    letter-spacing: 0.4px;
+  }
+  .round-title {
+    font-size: 18px;
+    font-weight: 700;
+    margin: 8px 0 4px;
+  }
+  .round-desc {
+    color: var(--muted);
+    font-size: 14px;
+    margin-bottom: 14px;
+  }
+
+  .prompt {
+    background: var(--brand-soft);
+    border-left: 4px solid var(--brand);
+    padding: 14px 16px;
+    border-radius: 0 10px 10px 0;
+    font-size: 17px;
+    margin-bottom: 12px;
+  }
+  .prompt .target {
+    background: #fff2cf;
+    padding: 1px 6px;
+    border-radius: 4px;
+    border-bottom: 2px solid var(--accent);
+    font-weight: 700;
+  }
+  .ask {
+    font-size: 14px;
+    color: var(--muted);
+    margin-bottom: 12px;
+  }
+  .ask b { color: var(--ink); }
+
+  .answer-row {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  input[type=text] {
+    flex: 1 1 240px;
+    font-size: 17px;
+    padding: 12px 14px;
+    border: 2px solid var(--line);
+    border-radius: 10px;
+    background: #fff;
+    outline: none;
+    font-family: inherit;
+  }
+  input[type=text]:focus { border-color: var(--brand); }
+  button.btn {
+    font-size: 14px;
+    font-weight: 600;
+    padding: 11px 16px;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+    font-family: inherit;
+    transition: transform 0.05s ease, background 0.2s ease;
+  }
+  button.btn:active { transform: translateY(1px); }
+  .btn.primary { background: var(--brand); color: #fff; }
+  .btn.primary:hover { background: #25496d; }
+  .btn.ghost { background: transparent; color: var(--brand); border: 1px solid var(--line); }
+  .btn.ghost:hover { background: var(--brand-soft); }
+  .btn.danger-ghost { background: transparent; color: var(--muted); border: 1px solid var(--line); }
+  .btn.danger-ghost:hover { color: var(--red); border-color: var(--red); }
+
+  .choices {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+  @media (max-width: 540px) { .choices { grid-template-columns: 1fr; } }
+  .choice {
+    text-align: left;
+    background: #fff;
+    border: 2px solid var(--line);
+    border-radius: 10px;
+    padding: 12px 14px;
+    cursor: pointer;
+    font-size: 15px;
+    font-family: inherit;
+    transition: all 0.15s ease;
+  }
+  .choice:hover { border-color: var(--brand); background: var(--brand-soft); }
+  .choice.correct { background: var(--green-soft); border-color: var(--green); color: var(--green); font-weight: 700; }
+  .choice.wrong { background: var(--red-soft); border-color: var(--red); color: var(--red); }
+  .choice:disabled { cursor: default; }
+
+  .feedback {
+    margin-top: 14px;
+    padding: 12px 14px;
+    border-radius: 10px;
+    font-size: 14.5px;
+    line-height: 1.55;
+  }
+  .feedback.ok { background: var(--green-soft); border: 1px solid #b9dbb9; color: #1c4d1c; }
+  .feedback.bad { background: var(--red-soft); border: 1px solid #f1c2bc; color: #7c1d18; }
+  .feedback.hint { background: #fff5e6; border: 1px solid #f2d9a8; color: #6e4912; }
+  .feedback .also {
+    margin-top: 6px;
+    font-size: 13px;
+    color: var(--muted);
+  }
+  .feedback .also b { color: var(--ink); }
+  .feedback .didyouknow {
+    margin-top: 8px;
+    font-style: italic;
+    color: #555;
+  }
+
+  .ref-toggle {
+    background: transparent;
+    color: var(--brand);
+    border: 1px dashed var(--brand);
+    border-radius: 8px;
+    padding: 8px 12px;
+    cursor: pointer;
+    font-size: 13px;
+    font-family: inherit;
+  }
+  .ref-toggle:hover { background: var(--brand-soft); }
+  .ref {
+    display: none;
+    margin-top: 12px;
+    padding: 14px;
+    background: #fdfaf2;
+    border: 1px solid #ecdcb1;
+    border-radius: 10px;
+    font-size: 13.5px;
+  }
+  .ref.open { display: block; }
+  .ref h4 { margin: 8px 0 4px; color: var(--brand); font-size: 14px; }
+  .ref ul { margin: 0 0 6px 18px; padding: 0; }
+  .ref li { margin-bottom: 2px; }
+
+  /* Floating accent keyboard */
+  #accentpad {
+    position: fixed;
+    bottom: 16px;
+    right: 16px;
+    background: rgba(255,255,255,0.97);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 10px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+    z-index: 50;
+    backdrop-filter: blur(6px);
+    user-select: none;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+  }
+  #accentpad.minimized { transform: translateY(58px); opacity: 0.85; }
+  #accentpad header {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 6px;
+  }
+  #accentpad header span { font-size: 11px; color: var(--muted); letter-spacing: 0.4px; text-transform: uppercase; }
+  #accentpad header button { background: transparent; border: none; color: var(--muted); cursor: pointer; font-size: 14px; padding: 2px 6px; }
+  .accent-grid {
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    gap: 4px;
+  }
+  .accent-grid button {
+    width: 32px;
+    height: 32px;
+    border-radius: 6px;
+    border: 1px solid var(--line);
+    background: #fff;
+    font-size: 16px;
+    cursor: pointer;
+    font-family: inherit;
+    color: var(--ink);
+    padding: 0;
+    transition: all 0.1s ease;
+  }
+  .accent-grid button:hover { background: var(--brand-soft); border-color: var(--brand); }
+  @media (max-width: 540px) {
+    .accent-grid { grid-template-columns: repeat(6, 1fr); }
+    #accentpad { bottom: 8px; right: 8px; }
+  }
+
+  /* End screen */
+  .end {
+    text-align: center;
+  }
+  .end h2 { color: var(--brand); margin: 0 0 6px; }
+  .big-score {
+    font-size: 56px;
+    font-weight: 800;
+    color: var(--accent);
+    line-height: 1;
+    margin: 18px 0 4px;
+  }
+  .big-score small { font-size: 22px; color: var(--muted); font-weight: 500; }
+  .bytype { text-align: left; margin: 22px 0; }
+  .bytype h3 { font-size: 15px; color: var(--brand); margin-bottom: 8px; }
+  .bytype .row {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 8px 12px; border-bottom: 1px solid var(--line);
+    font-size: 14px;
+  }
+  .bytype .row:last-child { border-bottom: none; }
+  .bytype .bar {
+    flex: 1; height: 6px; background: var(--line); border-radius: 99px;
+    margin: 0 12px; overflow: hidden;
+  }
+  .bytype .bar > div { height: 100%; background: var(--green); }
+  .bytype .bar > div.low { background: var(--red); }
+  .bytype .bar > div.mid { background: var(--accent); }
+
+  .suggestions {
+    text-align: left;
+    background: #fff5e6;
+    border: 1px solid #f2d9a8;
+    border-radius: 12px;
+    padding: 16px 18px;
+    margin: 16px 0;
+  }
+  .suggestions h3 { margin: 0 0 8px; color: #6e4912; font-size: 15px; }
+  .suggestions ul { margin: 0 0 0 18px; padding: 0; }
+  .suggestions li { margin-bottom: 6px; font-size: 14px; }
+
+  .end .actions {
+    display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;
+    margin-top: 8px;
+  }
+
+  .namebox {
+    background: #fdfaf2;
+    border: 1px solid #ecdcb1;
+    border-radius: 12px;
+    padding: 14px 16px;
+    margin: 18px auto 10px;
+    text-align: left;
+    max-width: 520px;
+  }
+  .namebox label {
+    display: block;
+    font-size: 13px;
+    color: #4a3c1c;
+    margin-bottom: 6px;
+  }
+  .namebox input[type=text] {
+    width: 100%;
+    font-size: 15px;
+    padding: 10px 12px;
+    border-radius: 8px;
+    border: 2px solid #ecdcb1;
+    background: #fff;
+  }
+  .namebox input[type=text]:focus { border-color: var(--brand); outline: none; }
+  .name-help {
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 6px;
+    font-style: italic;
+  }
+  button.btn:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+  }
+  button.btn:disabled:hover { background: var(--brand); }
+
+  /* Intro screen */
+  .intro h2 { color: var(--brand); margin-top: 0; }
+  .intro ol { padding-left: 18px; }
+  .intro li { margin-bottom: 8px; }
+  .start-btn {
+    background: var(--accent);
+    color: #fff;
+    border: none;
+    padding: 14px 28px;
+    font-size: 16px;
+    font-weight: 700;
+    border-radius: 12px;
+    cursor: pointer;
+    font-family: inherit;
+    margin-top: 8px;
+    box-shadow: 0 6px 16px rgba(196,122,61,0.3);
+  }
+  .start-btn:hover { background: #a96631; }
+
+  .footer-note {
+    text-align: center;
+    color: var(--muted);
+    font-size: 12px;
+    margin-top: 20px;
+  }
+  kbd {
+    background: #f0ece1;
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    padding: 1px 6px;
+    font-family: 'Segoe UI', sans-serif;
+    font-size: 12px;
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <header class="top">
+    <div class="title">
+      <h1>Connecteurs logiques — Atelier 25 minutes</h1>
+      <div class="sub">Élargissez votre palette pour la rédaction. Tapez avec accents grâce au clavier flottant.</div>
+    </div>
+    <div class="meters">
+      <div class="meter timer">
+        <div class="label">Temps restant</div>
+        <div class="val" id="timer">25:00</div>
+      </div>
+      <div class="meter score">
+        <div class="label">Score</div>
+        <div class="val" id="score">0 / 0</div>
+      </div>
+    </div>
+  </header>
+
+  <div class="progress"><div id="progressbar" style="width:0%"></div></div>
+
+  <div id="stage"></div>
+
+  <p class="footer-note">Astuce : appuyez sur <kbd>Entrée</kbd> pour valider, <kbd>Tab</kbd> pour passer.</p>
+</div>
+
+<!-- Floating accent keyboard -->
+<div id="accentpad" aria-label="Clavier d'accents">
+  <header>
+    <span>Accents français</span>
+    <button id="padmin" title="Réduire">▾</button>
+  </header>
+  <div class="accent-grid" id="accentgrid"></div>
+</div>
+
+<script>
+"use strict";
+
+// ============================================================
+// CONTENT BANK
+// ============================================================
+
+// Practical synonyms per category (the useful ones, not the far-fetched).
+// Each accepted answer is normalized (lowercase, no diacritics, no punctuation).
+const CATEGORIES = {
+  addition:   { fr: "Addition",     accept: ["de plus","en outre","par ailleurs","puis","aussi","egalement","de surcroit"] },
+  cause:      { fr: "Cause",        accept: ["parce que","puisque","comme","car","etant donne que","du fait que","en effet","vu que","grace a"] },
+  consequence:{ fr: "Conséquence",  accept: ["donc","ainsi","par consequent","c'est pourquoi","d'ou","aussi","alors"] },
+  opposition: { fr: "Opposition",   accept: ["mais","cependant","neanmoins","toutefois","en revanche","par contre","pourtant","or"] },
+  concession: { fr: "Concession",   accept: ["bien que","quoique","malgre","meme si","alors que"] },
+  conclusion: { fr: "Conclusion",   accept: ["en conclusion","pour conclure","en somme","bref","finalement","en definitive","ainsi"] },
+  illustration:{fr: "Illustration", accept: ["par exemple","notamment","en particulier","ainsi","entre autres"] },
+  enumeration:{ fr: "Énumération",  accept: ["d'abord","tout d'abord","premierement","en premier lieu","ensuite","puis","enfin"] },
+  but:        { fr: "But",          accept: ["pour","afin de","afin que","pour que","de facon a","en vue de"] },
+  condition:  { fr: "Condition",    accept: ["si","a condition que","pourvu que","a moins que","au cas ou","dans le cas ou"] },
+  temps:      { fr: "Temps",        accept: ["quand","lorsque","pendant que","tandis que","avant que","apres que","des que"] },
+  restriction:{ fr: "Restriction",  accept: ["sauf","excepte","hormis","ne...que","uniquement","simplement"] },
+};
+
+// Display lists for the reference panel — only the practical synonyms
+const REFERENCE = {
+  "Addition":     ["De plus", "En outre", "Par ailleurs", "Puis", "Également", "De surcroît"],
+  "Cause":        ["Parce que", "Puisque", "Comme", "Car", "Étant donné que", "Du fait que", "En effet", "Grâce à"],
+  "Conséquence":  ["Donc", "Ainsi", "Par conséquent", "C'est pourquoi", "D'où", "Alors"],
+  "Opposition":   ["Mais", "Cependant", "Néanmoins", "Toutefois", "En revanche", "Par contre", "Pourtant", "Or"],
+  "Concession":   ["Bien que (+ subj.)", "Quoique (+ subj.)", "Malgré (+ nom)", "Même si (+ indic.)", "Alors que"],
+  "Conclusion":   ["En conclusion", "Pour conclure", "En somme", "Bref", "Finalement", "En définitive"],
+  "Illustration": ["Par exemple", "Notamment", "En particulier", "Ainsi", "Entre autres"],
+  "Énumération":  ["D'abord", "Tout d'abord", "Premièrement", "Ensuite", "Puis", "Enfin"],
+  "But":          ["Pour", "Afin de", "Afin que (+ subj.)", "Pour que (+ subj.)", "En vue de"],
+  "Condition":    ["Si", "À condition que (+ subj.)", "Pourvu que (+ subj.)", "À moins que (+ subj.)", "Au cas où (+ cond.)"],
+  "Temps":        ["Quand", "Lorsque", "Pendant que", "Tandis que", "Avant que (+ subj.)", "Après que", "Dès que"],
+  "Restriction":  ["Sauf", "Excepté", "Hormis", "Ne… que", "Uniquement"],
+};
+
+// ROUND 1 — Upgrade the connector in a sentence
+const ROUND1 = [
+  { sentence: "Il pleut <span class='target'>et</span> il fait très froid ce matin.",
+    cat: "addition",
+    overused: "et",
+    hint: "Pensez à un mot ou groupe qui ajoute une idée, à l'écrit." },
+  { sentence: "Le film est lent ; <span class='target'>mais</span> il reste fascinant.",
+    cat: "opposition",
+    overused: "mais",
+    hint: "Un connecteur de contraste, plus soutenu que « mais »." },
+  { sentence: "Je suis épuisé, <span class='target'>donc</span> je vais me coucher tôt.",
+    cat: "consequence",
+    overused: "donc",
+    hint: "Un synonyme de « donc » qui marque une conséquence logique." },
+  { sentence: "<span class='target'>Parce qu'</span>il est tard, je rentre chez moi.",
+    cat: "cause",
+    overused: "parce que",
+    hint: "Une cause introduite plus élégamment qu'avec « parce que »." },
+  { sentence: "<span class='target'>Par exemple</span>, le climat se dérègle chaque année.",
+    cat: "illustration",
+    overused: "par exemple",
+    hint: "Pour introduire un cas particulier sans réutiliser « par exemple »." },
+  { sentence: "<span class='target'>Bien qu'</span>il pleuve, je sors me promener.",
+    cat: "concession",
+    overused: "bien que",
+    hint: "Une concession : on admet quelque chose, mais on agit autrement." },
+  { sentence: "<span class='target'>En conclusion</span>, ce film est une réussite.",
+    cat: "conclusion",
+    overused: "en conclusion",
+    hint: "Comment ouvrir une conclusion sans dire « en conclusion » ?" },
+  { sentence: "<span class='target'>D'abord</span>, il faut lire le texte attentivement.",
+    cat: "enumeration",
+    overused: "d'abord",
+    hint: "Un mot d'énumération pour commencer une liste d'étapes." },
+];
+
+// ROUND 2 — Click the right category for a given connector
+const ROUND2 = [
+  { word: "Néanmoins",      answer: "opposition" },
+  { word: "Par conséquent", answer: "consequence" },
+  { word: "Puisque",        answer: "cause" },
+  { word: "En outre",       answer: "addition" },
+  { word: "Notamment",      answer: "illustration" },
+  { word: "En définitive",  answer: "conclusion" },
+  { word: "Pourvu que",     answer: "condition" },
+  { word: "Afin que",       answer: "but" },
+  { word: "Tandis que",     answer: "opposition", note: "Aussi accepté : Temps. Ici on retient le sens d'opposition." },
+  { word: "Hormis",         answer: "restriction" },
+];
+const CHOICE_POOL = ["addition","opposition","cause","consequence","illustration","conclusion","condition","but","restriction","concession"];
+
+// ROUND 3 — Cloze: type a connector that fits the gap
+const ROUND3 = [
+  { before: "Il pleut sans arrêt ;",            after: "je prends un parapluie.",                  cat: "consequence" },
+  { before: "Je révise tous les jours",         after: "réussir mon examen.",                      cat: "but" },
+  { before: "",                                 after: "il fait beau, je sortirai me promener.",   cat: "condition", lead: "Si / " },
+  { before: "Le héros est solitaire",           after: "il refuse l'aide de ses amis.",            cat: "cause" },
+  { before: "Le film est sombre ;",             after: ", il garde une lueur d'espoir.",           cat: "opposition" },
+  { before: "Les techniques sont variées :",    after: "le noir et blanc, le compte à rebours.",   cat: "illustration" },
+];
+
+// ============================================================
+// STATE
+// ============================================================
+
+const state = {
+  phase: "intro", // intro | round | end
+  round: 0,
+  q: 0,
+  score: 0,
+  total: 0,
+  byCat: {},       // { cat: {correct: n, total: n} }
+  mistakes: [],    // {round, q, prompt, answer, accepted, cat}
+  startedAt: null,
+  remainingMs: 25 * 60 * 1000,
+  timerInterval: null,
+  studentName: "",
+};
+
+function slugify(s) {
+  return s
+    .normalize("NFD").replace(/[̀-ͯ]/g, "")
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "_")
+    .replace(/^_+|_+$/g, "")
+    .slice(0, 40) || "etudiant";
+}
+
+Object.keys(CATEGORIES).forEach(c => state.byCat[c] = {correct: 0, total: 0});
+
+const stage = document.getElementById("stage");
+const scoreEl = document.getElementById("score");
+const timerEl = document.getElementById("timer");
+const progressEl = document.getElementById("progressbar");
+
+const TOTAL_QUESTIONS = ROUND1.length + ROUND2.length + ROUND3.length;
+
+// ============================================================
+// HELPERS
+// ============================================================
+
+function normalize(s) {
+  return s
+    .toLowerCase()
+    .normalize("NFD").replace(/[̀-ͯ]/g, "")
+    .replace(/[''']/g, "'")
+    .replace(/[.,!?;:]/g, "")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function isAccepted(userInput, cat) {
+  const n = normalize(userInput);
+  if (!n) return false;
+  return CATEGORIES[cat].accept.some(a => normalize(a) === n);
+}
+
+function renderProgress() {
+  const done = state.round === 1 ? state.q
+             : state.round === 2 ? ROUND1.length + state.q
+             : state.round === 3 ? ROUND1.length + ROUND2.length + state.q
+             : 0;
+  progressEl.style.width = (done / TOTAL_QUESTIONS * 100) + "%";
+  scoreEl.textContent = state.score + " / " + state.total;
+}
+
+function recordResult(cat, ok, payload) {
+  state.byCat[cat].total++;
+  state.total++;
+  if (ok) {
+    state.byCat[cat].correct++;
+    state.score++;
+  } else {
+    state.mistakes.push(payload);
+  }
+  renderProgress();
+}
+
+function startTimer() {
+  state.startedAt = Date.now();
+  state.timerInterval = setInterval(() => {
+    state.remainingMs -= 1000;
+    if (state.remainingMs <= 0) {
+      state.remainingMs = 0;
+      clearInterval(state.timerInterval);
+      goToEnd(true);
+    }
+    const m = Math.floor(state.remainingMs / 60000);
+    const s = Math.floor((state.remainingMs % 60000) / 1000);
+    timerEl.textContent = String(m).padStart(2,"0") + ":" + String(s).padStart(2,"0");
+    if (state.remainingMs < 60000) timerEl.classList.add("warn"); else timerEl.classList.remove("warn");
+  }, 1000);
+}
+
+// ============================================================
+// SCREENS
+// ============================================================
+
+function showIntro() {
+  state.phase = "intro";
+  stage.innerHTML = `
+    <div class="card intro">
+      <h2>Bienvenue dans l'atelier des connecteurs logiques</h2>
+      <p>En 25 minutes et trois manches, vous allez enrichir la palette de connecteurs que vous utilisez dans vos rédactions — sans tomber dans les formules trop pédantes.</p>
+      <ol>
+        <li><b>Manche 1 — Améliore ma phrase.</b> Remplace le connecteur banal par un synonyme plus soutenu. Plusieurs réponses sont acceptées.</li>
+        <li><b>Manche 2 — Range le connecteur.</b> Pour chaque mot, identifie sa catégorie logique.</li>
+        <li><b>Manche 3 — Complète la phrase.</b> Tape un connecteur pertinent pour relier deux idées.</li>
+      </ol>
+      <p style="color:var(--muted); font-size:14px;">À la fin, vous pourrez télécharger un rapport personnalisé avec vos erreurs et des suggestions ciblées. Le clavier d'accents en bas à droite vous permet de taper é, è, à, ç… sans configurer votre clavier.</p>
+      <button class="start-btn" id="startbtn">Commencer la manche 1 →</button>
+    </div>
+  `;
+  document.getElementById("startbtn").addEventListener("click", () => {
+    startTimer();
+    state.round = 1; state.q = 0;
+    showRound1();
+  });
+}
+
+function showRound1() {
+  state.phase = "round";
+  if (state.q >= ROUND1.length) { state.round = 2; state.q = 0; return showRound2(); }
+  const Q = ROUND1[state.q];
+  stage.innerHTML = `
+    <div class="card">
+      <span class="round-tag">Manche 1 — ${state.q + 1} / ${ROUND1.length}</span>
+      <div class="round-title">Améliore ma phrase</div>
+      <div class="round-desc">Remplace le connecteur surligné par un synonyme plus soutenu de la même catégorie : <b>${CATEGORIES[Q.cat].fr}</b>.</div>
+
+      <div class="prompt">${Q.sentence}</div>
+      <div class="ask">Remplace <b>« ${Q.overused} »</b> par un meilleur connecteur :</div>
+
+      <div class="answer-row">
+        <input type="text" id="userin" placeholder="Tape ta réponse ici…" autocomplete="off" autofocus>
+        <button class="btn primary" id="submit">Valider</button>
+        <button class="btn ghost" id="hint">Indice</button>
+        <button class="btn danger-ghost" id="skip">Passer</button>
+      </div>
+
+      <div id="feedback"></div>
+
+      <button class="ref-toggle" id="reftoggle" style="margin-top:14px;">📖 Voir la fiche des connecteurs</button>
+      <div class="ref" id="ref"></div>
+    </div>
+  `;
+  attachReference();
+  attachAccentTarget();
+  const input = document.getElementById("userin");
+  input.focus();
+
+  document.getElementById("submit").addEventListener("click", submit);
+  document.getElementById("hint").addEventListener("click", () => {
+    document.getElementById("feedback").innerHTML =
+      `<div class="feedback hint">💡 ${Q.hint}</div>`;
+  });
+  document.getElementById("skip").addEventListener("click", skip);
+  input.addEventListener("keydown", e => {
+    if (e.key === "Enter") { e.preventDefault(); submit(); }
+    if (e.key === "Tab")   { e.preventDefault(); skip(); }
+  });
+
+  function submit() {
+    const v = input.value;
+    const ok = isAccepted(v, Q.cat);
+    const fb = document.getElementById("feedback");
+    const accepted = CATEGORIES[Q.cat].accept.slice(0, 6)
+      .map(a => REFERENCE[CATEGORIES[Q.cat].fr]?.find(r => normalize(r) === normalize(a)) || a)
+      .filter((x,i,arr) => arr.indexOf(x) === i);
+    if (ok) {
+      fb.innerHTML = `<div class="feedback ok">✅ Excellent — « <b>${v.trim()}</b> » fonctionne très bien.
+        <div class="also">Autres synonymes acceptés : <b>${accepted.filter(a => normalize(a) !== normalize(v)).join(" · ")}</b></div>
+        <div class="didyouknow">À glisser dans ta prochaine rédaction pour varier ton style !</div>
+      </div>`;
+    } else {
+      fb.innerHTML = `<div class="feedback bad">❌ Pas tout à fait. « ${v.trim() || "(vide)"} » ne convient pas pour la catégorie <b>${CATEGORIES[Q.cat].fr}</b>.
+        <div class="also">Réponses attendues : <b>${accepted.join(" · ")}</b></div>
+      </div>`;
+    }
+    recordResult(Q.cat, ok, {round: 1, prompt: Q.sentence.replace(/<[^>]+>/g,""), answer: v, accepted, cat: CATEGORIES[Q.cat].fr});
+    replaceButtonsWithNext(() => { state.q++; showRound1(); });
+  }
+  function skip() {
+    recordResult(Q.cat, false, {round: 1, prompt: Q.sentence.replace(/<[^>]+>/g,""), answer: "(passé)", accepted: CATEGORIES[Q.cat].accept.slice(0,5), cat: CATEGORIES[Q.cat].fr});
+    state.q++; showRound1();
+  }
+}
+
+function showRound2() {
+  state.phase = "round";
+  if (state.q >= ROUND2.length) { state.round = 3; state.q = 0; return showRound3(); }
+  const Q = ROUND2[state.q];
+
+  // Build 4 options: the correct one + 3 distractors
+  const distractors = CHOICE_POOL.filter(c => c !== Q.answer);
+  shuffleInPlace(distractors);
+  const options = [Q.answer, ...distractors.slice(0, 3)];
+  shuffleInPlace(options);
+
+  stage.innerHTML = `
+    <div class="card">
+      <span class="round-tag">Manche 2 — ${state.q + 1} / ${ROUND2.length}</span>
+      <div class="round-title">Range le connecteur</div>
+      <div class="round-desc">Dans quelle catégorie ce mot s'utilise-t-il principalement ?</div>
+
+      <div class="prompt" style="font-size:24px; text-align:center; font-weight:700;">${Q.word}</div>
+
+      <div class="choices" id="choices">
+        ${options.map(o => `<button class="choice" data-cat="${o}">${CATEGORIES[o].fr}</button>`).join("")}
+      </div>
+
+      <div id="feedback"></div>
+
+      <button class="ref-toggle" id="reftoggle" style="margin-top:14px;">📖 Voir la fiche des connecteurs</button>
+      <div class="ref" id="ref"></div>
+    </div>
+  `;
+  attachReference();
+  document.querySelectorAll(".choice").forEach(b => {
+    b.addEventListener("click", () => {
+      const chosen = b.getAttribute("data-cat");
+      const ok = chosen === Q.answer;
+      document.querySelectorAll(".choice").forEach(x => {
+        x.disabled = true;
+        const c = x.getAttribute("data-cat");
+        if (c === Q.answer) x.classList.add("correct");
+        else if (c === chosen && !ok) x.classList.add("wrong");
+      });
+      const fb = document.getElementById("feedback");
+      const examples = REFERENCE[CATEGORIES[Q.answer].fr].slice(0, 5).join(" · ");
+      if (ok) {
+        fb.innerHTML = `<div class="feedback ok">✅ Bien vu — « <b>${Q.word}</b> » est typiquement un connecteur de <b>${CATEGORIES[Q.answer].fr}</b>.
+          <div class="also">Famille : ${examples}</div>
+          ${Q.note ? `<div class="didyouknow">${Q.note}</div>`:""}
+        </div>`;
+      } else {
+        fb.innerHTML = `<div class="feedback bad">❌ Catégorie attendue : <b>${CATEGORIES[Q.answer].fr}</b>.
+          <div class="also">Famille : ${examples}</div>
+          ${Q.note ? `<div class="didyouknow">${Q.note}</div>`:""}
+        </div>`;
+      }
+      recordResult(Q.answer, ok, {round: 2, prompt: Q.word, answer: CATEGORIES[chosen].fr, accepted: [CATEGORIES[Q.answer].fr], cat: CATEGORIES[Q.answer].fr});
+      replaceChoicesWithNext(() => { state.q++; showRound2(); });
+    });
+  });
+}
+
+function showRound3() {
+  state.phase = "round";
+  if (state.q >= ROUND3.length) { return goToEnd(false); }
+  const Q = ROUND3[state.q];
+
+  stage.innerHTML = `
+    <div class="card">
+      <span class="round-tag">Manche 3 — ${state.q + 1} / ${ROUND3.length}</span>
+      <div class="round-title">Complète la phrase</div>
+      <div class="round-desc">Tape un connecteur (de la catégorie <b>${CATEGORIES[Q.cat].fr}</b>) qui relie les deux idées. Plusieurs réponses sont acceptées.</div>
+
+      <div class="prompt">
+        ${Q.before ? Q.before + " " : ""}<span style="color:var(--accent); font-weight:700; border-bottom:2px dashed var(--accent); padding: 0 4px;">______</span> ${Q.after}
+      </div>
+      <div class="ask">Ta réponse${Q.lead ? ` (commence éventuellement par « ${Q.lead.trim()} »)` : ""} :</div>
+
+      <div class="answer-row">
+        <input type="text" id="userin" placeholder="Tape ta réponse ici…" autocomplete="off" autofocus>
+        <button class="btn primary" id="submit">Valider</button>
+        <button class="btn ghost" id="hint">Indice</button>
+        <button class="btn danger-ghost" id="skip">Passer</button>
+      </div>
+
+      <div id="feedback"></div>
+
+      <button class="ref-toggle" id="reftoggle" style="margin-top:14px;">📖 Voir la fiche des connecteurs</button>
+      <div class="ref" id="ref"></div>
+    </div>
+  `;
+  attachReference();
+  attachAccentTarget();
+  const input = document.getElementById("userin");
+  input.focus();
+
+  document.getElementById("submit").addEventListener("click", submit);
+  document.getElementById("hint").addEventListener("click", () => {
+    document.getElementById("feedback").innerHTML =
+      `<div class="feedback hint">💡 Pensez à la catégorie <b>${CATEGORIES[Q.cat].fr}</b>. Exemples : ${REFERENCE[CATEGORIES[Q.cat].fr].slice(0,3).join(", ")}…</div>`;
+  });
+  document.getElementById("skip").addEventListener("click", skip);
+  input.addEventListener("keydown", e => {
+    if (e.key === "Enter") { e.preventDefault(); submit(); }
+    if (e.key === "Tab")   { e.preventDefault(); skip(); }
+  });
+
+  function submit() {
+    const v = input.value;
+    const ok = isAccepted(v, Q.cat);
+    const fb = document.getElementById("feedback");
+    const accepted = REFERENCE[CATEGORIES[Q.cat].fr].slice(0, 6);
+    if (ok) {
+      fb.innerHTML = `<div class="feedback ok">✅ Super — « <b>${v.trim()}</b> » relie parfaitement les deux idées.
+        <div class="also">Autres choix possibles : <b>${accepted.filter(a => normalize(a) !== normalize(v)).join(" · ")}</b></div>
+      </div>`;
+    } else {
+      fb.innerHTML = `<div class="feedback bad">❌ Pas tout à fait. La catégorie attendue est <b>${CATEGORIES[Q.cat].fr}</b>.
+        <div class="also">Connecteurs adaptés : <b>${accepted.join(" · ")}</b></div>
+      </div>`;
+    }
+    const fullPrompt = `${Q.before || ""} ____ ${Q.after}`.trim();
+    recordResult(Q.cat, ok, {round: 3, prompt: fullPrompt, answer: v, accepted, cat: CATEGORIES[Q.cat].fr});
+    replaceButtonsWithNext(() => { state.q++; showRound3(); });
+  }
+  function skip() {
+    const fullPrompt = `${Q.before || ""} ____ ${Q.after}`.trim();
+    recordResult(Q.cat, false, {round: 3, prompt: fullPrompt, answer: "(passé)", accepted: REFERENCE[CATEGORIES[Q.cat].fr].slice(0,5), cat: CATEGORIES[Q.cat].fr});
+    state.q++; showRound3();
+  }
+}
+
+function goToEnd(timeUp) {
+  state.phase = "end";
+  if (state.timerInterval) clearInterval(state.timerInterval);
+  const elapsedMs = (25 * 60 * 1000) - state.remainingMs;
+  const elapsedMin = Math.floor(elapsedMs / 60000);
+  const elapsedSec = Math.floor((elapsedMs % 60000) / 1000);
+
+  // Per-category breakdown
+  const cats = Object.entries(state.byCat).filter(([_, v]) => v.total > 0);
+  const breakdownRows = cats.map(([k, v]) => {
+    const pct = v.total ? (v.correct / v.total) * 100 : 0;
+    const cls = pct < 50 ? "low" : pct < 80 ? "mid" : "";
+    return `
+      <div class="row">
+        <span style="min-width:120px;">${CATEGORIES[k].fr}</span>
+        <div class="bar"><div class="${cls}" style="width:${pct}%"></div></div>
+        <span style="min-width:50px; text-align:right;"><b>${v.correct}</b> / ${v.total}</span>
+      </div>`;
+  }).join("");
+
+  // Suggestions: target the 1-3 weakest categories
+  const weakest = cats
+    .map(([k, v]) => ({k, pct: v.correct / Math.max(1, v.total), total: v.total, correct: v.correct}))
+    .filter(x => x.pct < 0.8)
+    .sort((a, b) => a.pct - b.pct)
+    .slice(0, 3);
+
+  const suggestionItems = weakest.length
+    ? weakest.map(w => {
+        const examples = REFERENCE[CATEGORIES[w.k].fr].slice(0, 4).join(", ");
+        return `<li><b>${CATEGORIES[w.k].fr}</b> (${w.correct}/${w.total}) — à pratiquer : ${examples}.</li>`;
+      }).join("")
+    : `<li>Beau travail ! Toutes les catégories sont solides. Pour aller plus loin, glisse 2 nouveaux connecteurs dans ta prochaine rédaction.</li>`;
+
+  stage.innerHTML = `
+    <div class="card end">
+      <h2>${timeUp ? "⏰ Temps écoulé !" : "🎉 Atelier terminé !"}</h2>
+      <div class="big-score">${state.score}<small> / ${state.total}</small></div>
+      <div style="color:var(--muted); font-size:14px;">Durée : ${elapsedMin} min ${elapsedSec.toString().padStart(2,"0")} s</div>
+
+      <div class="bytype">
+        <h3>Résultats par catégorie</h3>
+        ${breakdownRows || `<div class="row"><span>Aucune question répondue.</span></div>`}
+      </div>
+
+      <div class="suggestions">
+        <h3>💡 Suggestions personnalisées</h3>
+        <ul>${suggestionItems}</ul>
+        <p style="margin:10px 0 0; font-size:13px; color:#6e4912;">Règle du pouce A* : essaie d'utiliser <b>au moins trois connecteurs différents par paragraphe</b>, dont un de la catégorie qui te résiste.</p>
+      </div>
+
+      <div class="namebox" id="namebox">
+        <label for="studentname"><b>Ton nom</b> <span style="color:var(--red);">*</span> <span style="color:var(--muted); font-weight:400;">— requis pour télécharger ton rapport</span></label>
+        <input type="text" id="studentname" placeholder="Prénom et nom (ex. Léa Martin)" autocomplete="name" maxlength="80">
+        <div class="name-help" id="namehelp">Le rapport sera personnalisé à ton nom (en-tête et nom de fichier).</div>
+      </div>
+
+      <div class="actions">
+        <button class="btn primary" id="dl" disabled title="Saisis ton nom pour activer le téléchargement">⬇️ Télécharger mon rapport (.md)</button>
+        <button class="btn ghost" id="restart">↺ Recommencer</button>
+      </div>
+    </div>
+  `;
+  // Wire up name → download enablement
+  const nameInput = document.getElementById("studentname");
+  const dlBtn = document.getElementById("dl");
+  const nameHelp = document.getElementById("namehelp");
+  if (state.studentName) {
+    nameInput.value = state.studentName;
+  }
+  function refreshDlState() {
+    const v = nameInput.value.trim();
+    state.studentName = v;
+    const ok = v.length >= 2;
+    dlBtn.disabled = !ok;
+    dlBtn.title = ok ? "Télécharger ton rapport personnalisé" : "Saisis ton nom (≥ 2 caractères) pour activer le téléchargement";
+    nameHelp.textContent = ok
+      ? `Le rapport sera enregistré sous : connecteurs_${slugify(v)}_${new Date().toISOString().slice(0,10)}.md`
+      : "Le rapport sera personnalisé à ton nom (en-tête et nom de fichier).";
+    nameHelp.style.color = ok ? "var(--green)" : "var(--muted)";
+  }
+  nameInput.addEventListener("input", refreshDlState);
+  nameInput.addEventListener("keydown", e => {
+    if (e.key === "Enter" && !dlBtn.disabled) { e.preventDefault(); downloadReport(); }
+  });
+  refreshDlState();
+  setTimeout(() => nameInput.focus(), 50);
+  dlBtn.addEventListener("click", downloadReport);
+  document.getElementById("restart").addEventListener("click", () => {
+    // Reset state
+    state.round = 0; state.q = 0; state.score = 0; state.total = 0;
+    state.mistakes = []; state.remainingMs = 25 * 60 * 1000;
+    Object.keys(CATEGORIES).forEach(c => state.byCat[c] = {correct: 0, total: 0});
+    timerEl.textContent = "25:00"; timerEl.classList.remove("warn");
+    renderProgress();
+    showIntro();
+  });
+  renderProgress();
+}
+
+// ============================================================
+// HELPER UI
+// ============================================================
+
+function replaceButtonsWithNext(onNext) {
+  const submit = document.getElementById("submit");
+  const hint = document.getElementById("hint");
+  const skip = document.getElementById("skip");
+  const input = document.getElementById("userin");
+  if (input) input.disabled = true;
+  if (submit) submit.disabled = true;
+  if (hint) hint.disabled = true;
+  if (skip) {
+    skip.textContent = "Suivant →";
+    skip.classList.remove("danger-ghost");
+    skip.classList.add("primary");
+    skip.disabled = false;
+    const fresh = skip.cloneNode(true);
+    skip.parentNode.replaceChild(fresh, skip);
+    fresh.addEventListener("click", onNext);
+    fresh.focus();
+  }
+}
+function replaceChoicesWithNext(onNext) {
+  const row = document.createElement("div");
+  row.style.marginTop = "12px";
+  row.style.textAlign = "right";
+  const next = document.createElement("button");
+  next.className = "btn primary";
+  next.textContent = "Suivant →";
+  next.addEventListener("click", onNext);
+  row.appendChild(next);
+  document.getElementById("choices").after(row);
+  next.focus();
+}
+
+function attachReference() {
+  const ref = document.getElementById("ref");
+  const tog = document.getElementById("reftoggle");
+  if (!ref || !tog) return;
+  ref.innerHTML = Object.entries(REFERENCE).map(([cat, items]) =>
+    `<h4>${cat}</h4><ul>${items.map(i => `<li>${i}</li>`).join("")}</ul>`
+  ).join("");
+  tog.addEventListener("click", () => {
+    ref.classList.toggle("open");
+    tog.textContent = ref.classList.contains("open") ? "▲ Masquer la fiche" : "📖 Voir la fiche des connecteurs";
+  });
+}
+
+function shuffleInPlace(arr) {
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+}
+
+// ============================================================
+// FLOATING ACCENT KEYBOARD
+// ============================================================
+
+const ACCENTS = ["é","è","ê","ë","à","â","î","ï","ô","ö","ù","û","ü","ç","œ","É","È","Ê","À","Â","Ô","Ç","Œ","«","»"];
+
+(function buildAccentPad() {
+  const grid = document.getElementById("accentgrid");
+  ACCENTS.forEach(ch => {
+    const b = document.createElement("button");
+    b.type = "button";
+    b.textContent = ch;
+    b.addEventListener("mousedown", e => { e.preventDefault(); insertAtCaret(ch); });
+    grid.appendChild(b);
+  });
+  const min = document.getElementById("padmin");
+  const pad = document.getElementById("accentpad");
+  min.addEventListener("click", () => {
+    pad.classList.toggle("minimized");
+    min.textContent = pad.classList.contains("minimized") ? "▴" : "▾";
+  });
+})();
+
+let lastFocusedInput = null;
+function attachAccentTarget() {
+  const inp = document.getElementById("userin");
+  if (!inp) return;
+  inp.addEventListener("focus", () => { lastFocusedInput = inp; });
+  // remember on mount
+  lastFocusedInput = inp;
+}
+
+function insertAtCaret(text) {
+  const inp = lastFocusedInput && document.body.contains(lastFocusedInput)
+    ? lastFocusedInput
+    : document.getElementById("userin");
+  if (!inp) return;
+  inp.focus();
+  const start = inp.selectionStart ?? inp.value.length;
+  const end = inp.selectionEnd ?? inp.value.length;
+  inp.value = inp.value.slice(0, start) + text + inp.value.slice(end);
+  const pos = start + text.length;
+  inp.setSelectionRange(pos, pos);
+}
+
+// ============================================================
+// REPORT DOWNLOAD (Blob)
+// ============================================================
+
+function downloadReport() {
+  // Final guard: must have a name (the button is normally disabled until this is true)
+  const name = (state.studentName || "").trim();
+  if (name.length < 2) {
+    const input = document.getElementById("studentname");
+    if (input) { input.focus(); input.style.borderColor = "var(--red)"; }
+    return;
+  }
+
+  const now = new Date();
+  const stamp = now.toISOString().slice(0,16).replace("T"," ");
+  const elapsedMs = (25 * 60 * 1000) - state.remainingMs;
+  const elapsedMin = Math.floor(elapsedMs / 60000);
+  const elapsedSec = Math.floor((elapsedMs % 60000) / 1000);
+
+  let md = `# Atelier Connecteurs Logiques — Rapport\n\n`;
+  md += `**Élève :** ${name}\n`;
+  md += `**Date :** ${stamp}\n`;
+  md += `**Score :** ${state.score} / ${state.total}\n`;
+  md += `**Durée :** ${elapsedMin} min ${String(elapsedSec).padStart(2,"0")} s\n\n`;
+  md += `---\n\n## Résultats par catégorie\n\n`;
+  md += `| Catégorie | Score | Maîtrise |\n|---|---|---|\n`;
+  Object.entries(state.byCat).filter(([_, v]) => v.total > 0).forEach(([k, v]) => {
+    const pct = v.total ? Math.round(100 * v.correct / v.total) : 0;
+    const tag = pct >= 80 ? "✅ Solide" : pct >= 50 ? "🟡 À consolider" : "🔴 À travailler";
+    md += `| ${CATEGORIES[k].fr} | ${v.correct}/${v.total} | ${pct}% — ${tag} |\n`;
+  });
+
+  // Mistakes
+  if (state.mistakes.length) {
+    md += `\n---\n\n## Tes erreurs (à revoir)\n\n`;
+    state.mistakes.forEach((m, i) => {
+      md += `### ${i+1}. Manche ${m.round} — catégorie : ${m.cat}\n`;
+      md += `- **Énoncé :** ${m.prompt}\n`;
+      md += `- **Ta réponse :** ${m.answer || "(vide)"}\n`;
+      md += `- **Réponses acceptées :** ${(m.accepted||[]).join(", ")}\n\n`;
+    });
+  } else {
+    md += `\n---\n\n## Tes erreurs\n\nAucune erreur — bravo !\n`;
+  }
+
+  // Suggestions
+  md += `\n---\n\n## Suggestions personnalisées\n\n`;
+  const weakest = Object.entries(state.byCat)
+    .filter(([_, v]) => v.total > 0)
+    .map(([k, v]) => ({k, pct: v.correct / Math.max(1, v.total), total: v.total, correct: v.correct}))
+    .filter(x => x.pct < 0.8)
+    .sort((a, b) => a.pct - b.pct);
+
+  if (weakest.length) {
+    weakest.forEach(w => {
+      md += `- **${CATEGORIES[w.k].fr}** (${w.correct}/${w.total}) — à intégrer dans ta prochaine rédaction : ${REFERENCE[CATEGORIES[w.k].fr].slice(0,4).join(", ")}.\n`;
+    });
+  } else {
+    md += `- Belle régularité sur toutes les catégories. Continue à varier : essaie d'utiliser un connecteur différent à chaque paragraphe.\n`;
+  }
+
+  md += `\n---\n\n## Fiche de référence (connecteurs utiles)\n\n`;
+  Object.entries(REFERENCE).forEach(([cat, items]) => {
+    md += `### ${cat}\n`;
+    md += items.map(i => `- ${i}`).join("\n") + "\n\n";
+  });
+
+  md += `\n---\n\n## Trois règles d'or pour la rédaction\n`;
+  md += `1. **Variez la catégorie d'ouverture de chaque paragraphe** — ne commencez pas deux paragraphes par « De plus ».\n`;
+  md += `2. **Réservez les connecteurs soutenus** (« en définitive », « du fait que », « néanmoins ») aux moments-clés : transition entre arguments, conclusion.\n`;
+  md += `3. **Évitez le calque de l'anglais** : « avec l'aide de » → « à l'aide de » ; « assumer » ≠ to assume → « supposer ».\n`;
+
+  const blob = new Blob([md], { type: "text/markdown;charset=utf-8" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = `connecteurs_${slugify(name)}_${now.toISOString().slice(0,10)}.md`;
+  document.body.appendChild(a);
+  a.click();
+  setTimeout(() => { URL.revokeObjectURL(url); document.body.removeChild(a); }, 100);
+}
+
+// ============================================================
+// BOOT
+// ============================================================
+showIntro();
+</script>
+</body>
+</html>

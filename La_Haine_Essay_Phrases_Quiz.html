@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>La Haine – Essay Phrases Quiz</title>
+  <style>
+    :root {
+      --red: #d9232d;
+      --dark-bg: #0a0a14;
+      --panel: #16213e;
+      --panel2: #1a1a2e;
+      --border: #0f3460;
+      --text: #f0f0f0;
+      --muted: #c0c0c0;
+      --success: #4caf50;
+      --warning: #f39c12;
+      --info: #3498db;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+    body { background: var(--dark-bg); color: var(--text); min-height: 100vh; padding: 20px; }
+    .container { max-width: 980px; margin: 0 auto; }
+
+    header {
+      text-align: center; padding: 30px 20px;
+      border-bottom: 3px solid var(--red); margin-bottom: 24px;
+      background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.85));
+      border-radius: 12px;
+    }
+    header h1 {
+      font-size: 2.4rem; color: var(--red);
+      text-transform: uppercase; letter-spacing: 3px;
+      text-shadow: 2px 2px 6px rgba(0,0,0,0.8); margin-bottom: 8px;
+    }
+    header p { font-size: 0.95rem; color: var(--muted); }
+
+    .tabs {
+      display: flex; flex-wrap: wrap;
+      background: var(--panel2); border-radius: 10px;
+      padding: 12px; gap: 8px; margin-bottom: 16px;
+    }
+    .tab {
+      flex: 1; min-width: 90px; padding: 10px 12px;
+      background: var(--panel); border: 2px solid var(--border);
+      color: var(--muted); border-radius: 6px; cursor: pointer;
+      font-weight: 700; font-size: 0.8rem; text-align: center;
+      transition: all 0.2s;
+    }
+    .tab:hover { background: var(--border); color: var(--text); transform: translateY(-2px); }
+    .tab.active { background: var(--red); border-color: var(--red); color: white; }
+
+    .controls-bar {
+      display: flex; align-items: center; justify-content: space-between;
+      background: var(--panel2); border-radius: 8px; padding: 12px 16px;
+      margin-bottom: 10px; flex-wrap: wrap; gap: 10px;
+    }
+    .mode-toggle { display: flex; gap: 8px; }
+    .mode-btn {
+      padding: 8px 18px; border: 2px solid var(--red);
+      border-radius: 20px; cursor: pointer; font-weight: 700;
+      font-size: 0.85rem; background: transparent; color: var(--red);
+      transition: all 0.2s;
+    }
+    .mode-btn.active { background: var(--red); color: white; }
+    .progress-info { font-size: 0.85rem; color: var(--muted); }
+
+    .progress-bar-wrap { height: 6px; background: var(--panel2); border-radius: 3px; margin-bottom: 20px; }
+    .progress-fill { height: 100%; background: linear-gradient(to right, var(--info), var(--red)); border-radius: 3px; transition: width 0.4s ease; }
+
+    /* FLASHCARD */
+    .flashcard-wrap { perspective: 1000px; max-width: 640px; margin: 0 auto 20px; height: 220px; }
+    .flashcard { width: 100%; height: 100%; position: relative; transform-style: preserve-3d; transition: transform 0.6s; cursor: pointer; }
+    .flashcard.flipped { transform: rotateY(180deg); }
+    .card-face {
+      position: absolute; width: 100%; height: 100%;
+      backface-visibility: hidden; border-radius: 14px;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      padding: 25px; text-align: center; box-shadow: 0 6px 20px rgba(0,0,0,0.5);
+    }
+    .card-front { background: linear-gradient(135deg, #0f3460, #16213e); border: 2px solid var(--border); }
+    .card-back { background: linear-gradient(135deg, #8b0000, #d9232d); transform: rotateY(180deg); }
+    .card-face .lang-label { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 1px; opacity: 0.65; margin-bottom: 10px; }
+    .card-face .phrase { font-size: 1.15rem; font-weight: 600; line-height: 1.55; color: white; }
+    .card-face .click-hint { font-size: 0.75rem; opacity: 0.5; margin-top: 14px; color: white; }
+    .flashcard-nav { display: flex; align-items: center; justify-content: center; gap: 14px; margin-bottom: 14px; }
+    .nav-btn { padding: 10px 22px; border: none; border-radius: 8px; cursor: pointer; font-weight: 700; font-size: 0.9rem; transition: all 0.2s; }
+    .prev-btn { background: var(--panel); color: var(--text); border: 1px solid var(--border); }
+    .prev-btn:hover { background: var(--border); }
+    .next-btn { background: var(--red); color: white; }
+    .next-btn:hover { background: #b71c1c; }
+    .card-counter { font-size: 0.9rem; color: var(--muted); min-width: 80px; text-align: center; }
+    .shuffle-btn {
+      display: block; margin: 0 auto;
+      padding: 8px 22px; border: 2px dashed var(--red); border-radius: 20px;
+      background: transparent; color: var(--red); cursor: pointer; font-size: 0.85rem; font-weight: 700;
+      transition: all 0.2s;
+    }
+    .shuffle-btn:hover { background: var(--red); color: white; }
+
+    /* QUIZ */
+    .question-card {
+      background: var(--panel); border: 1px solid var(--border);
+      border-radius: 10px; padding: 18px; margin-bottom: 16px;
+      transition: transform 0.2s, border-color 0.2s; box-shadow: 0 3px 10px rgba(0,0,0,0.3);
+    }
+    .question-card:hover { transform: translateY(-2px); border-color: #1a4a7a; }
+    .question-card.correct-border { border-left: 4px solid var(--success); }
+    .question-card.incorrect-border { border-left: 4px solid var(--red); }
+    .q-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px; }
+    .q-num { font-weight: 700; color: var(--red); font-size: 0.88rem; }
+    .q-cat { font-size: 0.72rem; background: #1a0a0e; color: #ff8a80; padding: 3px 8px; border-radius: 10px; font-weight: 700; border: 1px solid #5a1010; }
+    .q-english { font-size: 1rem; margin-bottom: 12px; line-height: 1.5; color: var(--text); }
+    .q-input-row { display: flex; gap: 8px; flex-wrap: wrap; }
+    .q-input {
+      flex: 1; min-width: 180px; padding: 10px 13px;
+      border: 2px solid var(--border); border-radius: 8px;
+      font-size: 0.92rem; background: var(--dark-bg); color: var(--text);
+      transition: border-color 0.2s;
+    }
+    .q-input:focus { outline: none; border-color: var(--red); box-shadow: 0 0 0 2px rgba(217,35,45,0.2); }
+    .q-input.correct-input { border-color: var(--success); background: #0a1f0a; }
+    .q-input.incorrect-input { border-color: #c62828; background: #1a0505; }
+    .check-btn-q, .hint-btn-q {
+      padding: 10px 14px; border: none; border-radius: 8px;
+      cursor: pointer; font-weight: 700; font-size: 0.82rem; transition: all 0.2s;
+    }
+    .check-btn-q { background: var(--red); color: white; }
+    .check-btn-q:hover { background: #b71c1c; }
+    .hint-btn-q { background: transparent; color: var(--warning); border: 1px solid var(--warning); }
+    .hint-btn-q:hover { background: var(--warning); color: var(--dark-bg); }
+    .q-feedback { margin-top: 8px; font-size: 0.88rem; font-weight: 700; }
+    .q-feedback.ok { color: var(--success); }
+    .q-feedback.bad { color: #ff5252; }
+    .q-answer-reveal {
+      margin-top: 8px; padding: 8px 12px;
+      background: #0a1a2e; border-left: 3px solid var(--info);
+      border-radius: 5px; font-size: 0.88rem; color: #90caf9; display: none;
+    }
+    .q-answer-reveal.show { display: block; }
+    .q-hint-box {
+      margin-top: 8px; padding: 8px 12px;
+      background: #1a1000; border-left: 3px solid var(--warning);
+      border-radius: 5px; font-size: 0.84rem; color: #ffcc80; display: none;
+    }
+    .q-hint-box.show { display: block; }
+    .attempts-label { font-size: 0.75rem; color: #666; margin-top: 4px; }
+
+    .result-panel {
+      margin: 20px 0; padding: 22px; background: var(--panel2);
+      border-radius: 10px; border: 2px dashed var(--red); display: none; text-align: center;
+    }
+    .result-panel.show { display: block; }
+    .result-panel h2 { color: var(--red); margin-bottom: 10px; font-size: 1.3rem; }
+    .result-panel .big-score { font-size: 2.8rem; font-weight: 900; color: var(--red); }
+
+    .bottom-btns { display: flex; justify-content: center; gap: 14px; flex-wrap: wrap; padding: 10px 0; }
+    .action-btn { padding: 12px 24px; border: none; border-radius: 8px; cursor: pointer; font-weight: 700; font-size: 0.92rem; transition: all 0.2s; }
+    .submit-btn { background: var(--red); color: white; }
+    .submit-btn:hover { background: #b71c1c; transform: translateY(-2px); }
+    .reset-btn { background: var(--panel); color: var(--text); border: 1px solid var(--border); }
+    .reset-btn:hover { background: var(--border); transform: translateY(-2px); }
+  </style>
+</head>
+<body>
+<div class="container">
+  <header>
+    <h1>La Haine – Essay Phrases Quiz</h1>
+    <p>Maîtrisez les expressions clés pour les dissertations A-Level — 66 expressions en 6 catégories</p>
+  </header>
+
+  <div class="tabs" id="tabBar">
+    <button class="tab active" onclick="setCategory('all')">Tout (66)</button>
+    <button class="tab" onclick="setCategory('general')">Général (13)</button>
+    <button class="tab" onclick="setCategory('sophisticated')">Sophistiqué (14)</button>
+    <button class="tab" onclick="setCategory('plot')">Intrigue (10)</button>
+    <button class="tab" onclick="setCategory('character')">Personnage (10)</button>
+    <button class="tab" onclick="setCategory('setting')">Cadre (10)</button>
+    <button class="tab" onclick="setCategory('film')">Cinéma (9)</button>
+  </div>
+
+  <div class="controls-bar">
+    <div class="mode-toggle">
+      <button class="mode-btn active" id="flashBtn" onclick="setMode('flash')">🃏 Fiches</button>
+      <button class="mode-btn" id="quizBtn" onclick="setMode('quiz')">✏️ Quiz</button>
+    </div>
+    <div class="progress-info" id="progressInfo">66 expressions sélectionnées</div>
+  </div>
+  <div class="progress-bar-wrap"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+
+  <div id="quizArea"></div>
+</div>
+
+<script>
+const ALL_PHRASES = [
+  // GÉNÉRAL
+  { cat: 'general', en: 'as a result / consequently', fr: 'en conséquence / par conséquent' },
+  { cat: 'general', en: 'on the other hand', fr: 'en revanche' },
+  { cat: 'general', en: 'these days / nowadays', fr: 'de nos jours / à notre époque' },
+  { cat: 'general', en: "In my opinion, one can(not) believe that…", fr: "À mon avis, on (ne) peut (pas) croire que…" },
+  { cat: 'general', en: 'in fact / in reality', fr: 'en réalité / en fait' },
+  { cat: 'general', en: 'to sum up / in a nutshell', fr: 'en résumé / en bref' },
+  { cat: 'general', en: 'to begin / to finish…', fr: 'pour commencer / pour terminer…' },
+  { cat: 'general', en: 'finally / in the end', fr: 'enfin / pour finir' },
+  { cat: 'general', en: 'on the one hand… on the other…', fr: "d'un côté… de l'autre…" },
+  { cat: 'general', en: "Let's begin by examining…", fr: 'Commençons par examiner…' },
+  { cat: 'general', en: 'It is often said/claimed that…', fr: 'On affirme souvent que…' },
+  { cat: 'general', en: 'We must also consider that…', fr: 'Il faut également considérer que…' },
+  { cat: 'general', en: 'Watching the film, one realises that…', fr: "En regardant le film, on se rend compte que…" },
+  // SOPHISTIQUÉ
+  { cat: 'sophisticated', en: 'After all / In the end, one can conclude that…', fr: "En fin de compte, on peut conclure que…" },
+  { cat: 'sophisticated', en: 'As the film progresses…', fr: "Au fur et à mesure que le film avance…" },
+  { cat: 'sophisticated', en: 'Likewise, it should be stressed that…', fr: "Il convient également de souligner que…" },
+  { cat: 'sophisticated', en: 'As the director shows / makes clear…', fr: "Comme le montre le réalisateur…" },
+  { cat: 'sophisticated', en: 'It is a perfect backdrop', fr: "C'est un cadre parfait" },
+  { cat: 'sophisticated', en: 'One can even say that…', fr: "On peut même dire que…" },
+  { cat: 'sophisticated', en: 'The fact / truth is that…', fr: "Le fait est que… / La vérité est que…" },
+  { cat: 'sophisticated', en: "It cannot be denied that… / There's no denying…", fr: "On ne peut pas nier que… / Il est indéniable que…" },
+  { cat: 'sophisticated', en: "Let us take the example of…", fr: "Prenons l'exemple de…" },
+  { cat: 'sophisticated', en: 'It is difficult to believe that…', fr: "Il est difficile de croire que…" },
+  { cat: 'sophisticated', en: 'Be that as it may, one must acknowledge that…', fr: "Quoi qu'il en soit, force est de constater que…" },
+  { cat: 'sophisticated', en: 'One could even say that…', fr: "On pourrait même dire que…" },
+  { cat: 'sophisticated', en: "It is a question (of hatred and violence)", fr: "Il s'agit (de la haine et de la violence)" },
+  { cat: 'sophisticated', en: 'by way of example / a case in point is', fr: "à titre d'exemple / pour illustrer" },
+  // INTRIGUE
+  { cat: 'plot', en: 'the complexity of the plot', fr: "la complexité de l'intrigue" },
+  { cat: 'plot', en: 'the (non-)linear structure', fr: "la structure (non) linéaire" },
+  { cat: 'plot', en: 'plot / narrative development', fr: "le développement de l'intrigue / du récit" },
+  { cat: 'plot', en: 'a flashback', fr: "un retour en arrière / un flash-back" },
+  { cat: 'plot', en: 'at the end of the film', fr: "à la fin du film" },
+  { cat: 'plot', en: 'an unexpected twist', fr: "un rebondissement inattendu" },
+  { cat: 'plot', en: 'The work has a tragic ending.', fr: "L'œuvre a un dénouement tragique." },
+  { cat: 'plot', en: 'a summary of the plot', fr: "un résumé de l'intrigue" },
+  { cat: 'plot', en: 'the sequence of events', fr: "la succession des événements" },
+  { cat: 'plot', en: 'the time constraint (24 hours)', fr: "l'unité de temps (24 heures)" },
+  // PERSONNAGE
+  { cat: 'character', en: 'the development of a conflict between…', fr: "le développement d'un conflit entre…" },
+  { cat: 'character', en: 'The character (x) stands out / is remarkable', fr: "Le personnage de (x) se distingue / se démarque" },
+  { cat: 'character', en: "He/She is one of those characters you don't easily forget.", fr: "C'est un de ces personnages qu'on n'oublie pas facilement." },
+  { cat: 'character', en: "the character's development / arc", fr: "l'évolution du personnage" },
+  { cat: 'character', en: 'the main character / the protagonist', fr: "le personnage principal / le protagoniste" },
+  { cat: 'character', en: 'The characters are very alike / very different', fr: "Les personnages se ressemblent beaucoup / sont très différents" },
+  { cat: 'character', en: 'a portrait of the main character', fr: "un portrait du protagoniste" },
+  { cat: 'character', en: 'They are very different in character', fr: "Ils ont des caractères très différents" },
+  { cat: 'character', en: "the characters' inner life", fr: "la vie intérieure des personnages" },
+  { cat: 'character', en: 'a complex / ambiguous / archetypal character', fr: "un personnage complexe / ambigu / archétypal" },
+  // CADRE
+  { cat: 'setting', en: 'The action takes place in the Parisian suburbs', fr: "L'action se déroule dans la banlieue parisienne" },
+  { cat: 'setting', en: 'the atmosphere of the housing estate', fr: "l'atmosphère de la cité / de la banlieue" },
+  { cat: 'setting', en: 'to describe the urban environment', fr: "décrire l'environnement urbain" },
+  { cat: 'setting', en: 'description of the backdrop / setting', fr: "la description du cadre" },
+  { cat: 'setting', en: 'the historical / social context', fr: "le contexte historique / social" },
+  { cat: 'setting', en: 'The film reflects social reality.', fr: "Le film reflète la réalité sociale." },
+  { cat: 'setting', en: 'to recreate the period / era', fr: "recréer la période / l'époque" },
+  { cat: 'setting', en: 'a sense of place / belonging', fr: "un sentiment d'appartenance / de lieu" },
+  { cat: 'setting', en: 'to convey the impression of a place', fr: "transmettre l'impression d'un lieu" },
+  { cat: 'setting', en: 'the enclosed space of the housing estate', fr: "l'espace clos de la cité" },
+  // CINÉMA
+  { cat: 'film', en: 'performance in a role', fr: "la performance / l'interprétation d'un rôle" },
+  { cat: 'film', en: 'to shoot a film in black and white', fr: "tourner un film en noir et blanc" },
+  { cat: 'film', en: 'to alternate between wide shot / close-up / extreme close-up', fr: "alterner entre plan large / plan rapproché / gros plan" },
+  { cat: 'film', en: 'a committed / socially engaged film-maker', fr: "un cinéaste engagé" },
+  { cat: 'film', en: 'a moving / powerful scene', fr: "une scène poignante / bouleversante" },
+  { cat: 'film', en: 'a striking / effective image', fr: "une image percutante / efficace" },
+  { cat: 'film', en: 'The film grips you from the very first minute.', fr: "Le film bouleverse dès les premières minutes." },
+  { cat: 'film', en: 'the shooting of the film', fr: "le tournage du film" },
+  { cat: 'film', en: 'the editing / editing effects', fr: "le montage / les effets de montage" },
+];
+
+const CAT_LABELS = {
+  general: 'Général',
+  sophisticated: 'Sophistiqué',
+  plot: 'Intrigue',
+  character: 'Personnage',
+  setting: 'Cadre',
+  film: 'Cinéma'
+};
+
+let currentCategory = 'all';
+let currentMode = 'flash';
+let filteredPhrases = [];
+let flashIndex = 0;
+let flashFlipped = false;
+let quizAttempts = {};
+let quizCorrect = {};
+
+function normalize(s) {
+  return s.toLowerCase()
+    .replace(/[àâä]/g, 'a').replace(/[éèêë]/g, 'e')
+    .replace(/[îï]/g, 'i').replace(/[ôö]/g, 'o')
+    .replace(/[ùûü]/g, 'u').replace(/ç/g, 'c')
+    .replace(/œ/g, 'oe').replace(/æ/g, 'ae')
+    .replace(/[^a-z0-9\s]/g, '').trim();
+}
+
+function shuffle(arr) {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function setCategory(cat) {
+  currentCategory = cat;
+  const cats = ['all','general','sophisticated','plot','character','setting','film'];
+  document.querySelectorAll('.tab').forEach((t, i) => t.classList.toggle('active', cats[i] === cat));
+  filteredPhrases = cat === 'all' ? [...ALL_PHRASES] : ALL_PHRASES.filter(p => p.cat === cat);
+  flashIndex = 0; flashFlipped = false;
+  quizAttempts = {}; quizCorrect = {};
+  document.getElementById('progressInfo').textContent = `${filteredPhrases.length} expressions sélectionnées`;
+  render();
+}
+
+function setMode(mode) {
+  currentMode = mode;
+  document.getElementById('flashBtn').classList.toggle('active', mode === 'flash');
+  document.getElementById('quizBtn').classList.toggle('active', mode === 'quiz');
+  flashIndex = 0; flashFlipped = false;
+  render();
+}
+
+function render() {
+  if (currentMode === 'flash') renderFlash();
+  else renderQuiz();
+}
+
+function renderFlash() {
+  const p = filteredPhrases[flashIndex] || filteredPhrases[0];
+  document.getElementById('quizArea').innerHTML = `
+    <div class="flashcard-wrap">
+      <div class="flashcard" id="flashcard" onclick="flipCard()">
+        <div class="card-face card-front">
+          <div class="lang-label">🇬🇧 English</div>
+          <div class="phrase">${p.en}</div>
+          <div class="click-hint">Cliquez pour révéler le français</div>
+        </div>
+        <div class="card-face card-back">
+          <div class="lang-label">🇫🇷 Français · ${CAT_LABELS[p.cat]}</div>
+          <div class="phrase">${p.fr}</div>
+          <div class="click-hint">Cliquez pour retourner</div>
+        </div>
+      </div>
+    </div>
+    <div class="flashcard-nav">
+      <button class="nav-btn prev-btn" onclick="prevCard()">← Précédent</button>
+      <span class="card-counter">${flashIndex + 1} / ${filteredPhrases.length}</span>
+      <button class="nav-btn next-btn" onclick="nextCard()">Suivant →</button>
+    </div>
+    <button class="shuffle-btn" onclick="shuffleCards()">🔀 Mélanger les fiches</button>
+  `;
+  updateProgressBar(flashIndex + 1, filteredPhrases.length);
+}
+
+function flipCard() { flashFlipped = !flashFlipped; document.getElementById('flashcard').classList.toggle('flipped', flashFlipped); }
+function prevCard() { flashIndex = (flashIndex - 1 + filteredPhrases.length) % filteredPhrases.length; flashFlipped = false; renderFlash(); }
+function nextCard() { flashIndex = (flashIndex + 1) % filteredPhrases.length; flashFlipped = false; renderFlash(); }
+function shuffleCards() { filteredPhrases = shuffle(filteredPhrases); flashIndex = 0; flashFlipped = false; renderFlash(); }
+
+function renderQuiz() {
+  const correctCount = Object.values(quizCorrect).filter(Boolean).length;
+  updateProgressBar(correctCount, filteredPhrases.length);
+  let html = '';
+  filteredPhrases.forEach((p, i) => {
+    const att = quizAttempts[i] || 0;
+    const correct = quizCorrect[i] || false;
+    const disabled = correct || att >= 3 ? 'disabled' : '';
+    const borderClass = correct ? 'correct-border' : (att >= 3 ? 'incorrect-border' : '');
+    html += `
+      <div class="question-card ${borderClass}" id="qcard${i}">
+        <div class="q-header">
+          <span class="q-num">Q${i + 1}</span>
+          <span class="q-cat">${CAT_LABELS[p.cat]}</span>
+        </div>
+        <div class="q-english">${p.en}</div>
+        <div class="q-input-row">
+          <input class="q-input" id="qi${i}" type="text" placeholder="Écrivez en français…" ${disabled}
+            onkeydown="if(event.key==='Enter') checkQ(${i})">
+          <button class="check-btn-q" onclick="checkQ(${i})" ${disabled}>Vérifier</button>
+          <button class="hint-btn-q" onclick="toggleHint(${i})">Indice</button>
+        </div>
+        <div class="q-hint-box" id="hint${i}">Début : <strong>${p.fr.slice(0, Math.min(6, p.fr.indexOf(' ') > 0 ? p.fr.indexOf(' ') : 5))}…</strong></div>
+        <div class="q-feedback" id="fb${i}"></div>
+        <div class="q-answer-reveal" id="ans${i}">✅ Réponse : <strong>${p.fr}</strong></div>
+        <div class="attempts-label" id="att${i}">${att > 0 ? `Tentatives : ${att}/3` : ''}</div>
+      </div>`;
+  });
+  html += `
+    <div class="result-panel" id="resultPanel">
+      <h2>🎉 Toutes les questions répondues !</h2>
+      <div class="big-score">${correctCount} / ${filteredPhrases.length}</div>
+      <p style="margin-top:10px;color:var(--muted)">${Math.round(correctCount/filteredPhrases.length*100)}% — ${correctCount===filteredPhrases.length ? 'Score parfait !' : 'Continuez !'}</p>
+    </div>
+    <div class="bottom-btns">
+      <button class="action-btn submit-btn" onclick="submitAll()">Tout soumettre</button>
+      <button class="action-btn reset-btn" onclick="resetQuiz()">Réinitialiser</button>
+    </div>`;
+  document.getElementById('quizArea').innerHTML = html;
+  filteredPhrases.forEach((p, i) => {
+    const inp = document.getElementById('qi' + i);
+    if (!inp) return;
+    if (quizCorrect[i]) { inp.classList.add('correct-input'); document.getElementById('fb' + i).textContent = '✓ Correct !'; document.getElementById('fb' + i).className = 'q-feedback ok'; }
+    else if ((quizAttempts[i] || 0) >= 3) { inp.classList.add('incorrect-input'); document.getElementById('ans' + i).classList.add('show'); document.getElementById('fb' + i).textContent = '✗ Révélé après 3 tentatives.'; document.getElementById('fb' + i).className = 'q-feedback bad'; }
+  });
+}
+
+function checkQ(i) {
+  if (quizCorrect[i] || (quizAttempts[i] || 0) >= 3) return;
+  const inp = document.getElementById('qi' + i);
+  const val = inp.value.trim();
+  if (!val) return;
+  quizAttempts[i] = (quizAttempts[i] || 0) + 1;
+  const p = filteredPhrases[i];
+  // Check against all variants separated by /
+  const variants = p.fr.split(' / ').map(v => normalize(v.trim()));
+  const userNorm = normalize(val);
+  const correct = variants.some(v => userNorm === v) || normalize(p.fr) === userNorm;
+  const fb = document.getElementById('fb' + i);
+  const attEl = document.getElementById('att' + i);
+  const ansEl = document.getElementById('ans' + i);
+  const card = document.getElementById('qcard' + i);
+  attEl.textContent = `Tentatives : ${quizAttempts[i]}/3`;
+  if (correct) {
+    quizCorrect[i] = true;
+    inp.classList.add('correct-input'); inp.disabled = true;
+    document.querySelector(`#qcard${i} .check-btn-q`).disabled = true;
+    fb.textContent = '✓ Correct !'; fb.className = 'q-feedback ok';
+    card.classList.add('correct-border'); ansEl.classList.add('show');
+  } else {
+    inp.classList.add('incorrect-input');
+    fb.textContent = quizAttempts[i] >= 3 ? '✗ 3 tentatives — réponse révélée.' : `✗ Réessayez (${quizAttempts[i]}/3)`;
+    fb.className = 'q-feedback bad';
+    if (quizAttempts[i] >= 3) { inp.disabled = true; document.querySelector(`#qcard${i} .check-btn-q`).disabled = true; ansEl.classList.add('show'); card.classList.add('incorrect-border'); }
+  }
+  const cc = Object.values(quizCorrect).filter(Boolean).length;
+  updateProgressBar(cc, filteredPhrases.length);
+  document.getElementById('progressInfo').textContent = `${cc}/${filteredPhrases.length} corrects`;
+}
+
+function toggleHint(i) { document.getElementById('hint' + i).classList.toggle('show'); }
+
+function submitAll() {
+  filteredPhrases.forEach((p, i) => {
+    if (!quizCorrect[i] && !(quizAttempts[i] >= 3)) {
+      quizAttempts[i] = 3;
+      const ansEl = document.getElementById('ans' + i); if (ansEl) ansEl.classList.add('show');
+      const inp = document.getElementById('qi' + i); if (inp) { inp.disabled = true; inp.classList.add('incorrect-input'); }
+      const fb = document.getElementById('fb' + i); if (fb) { fb.textContent = '— Non répondu.'; fb.className = 'q-feedback bad'; }
+    }
+  });
+  const cc = Object.values(quizCorrect).filter(Boolean).length;
+  updateProgressBar(cc, filteredPhrases.length);
+  const rp = document.getElementById('resultPanel');
+  if (rp) { rp.innerHTML = `<h2>Résultats finaux</h2><div class="big-score">${cc} / ${filteredPhrases.length}</div><p style="margin-top:10px;color:var(--muted)">${Math.round(cc/filteredPhrases.length*100)}%</p>`; rp.classList.add('show'); }
+  document.getElementById('progressInfo').textContent = `${cc}/${filteredPhrases.length} corrects`;
+}
+
+function resetQuiz() {
+  quizAttempts = {}; quizCorrect = {};
+  filteredPhrases = currentCategory === 'all' ? [...ALL_PHRASES] : ALL_PHRASES.filter(p => p.cat === currentCategory);
+  document.getElementById('progressInfo').textContent = `${filteredPhrases.length} expressions sélectionnées`;
+  updateProgressBar(0, filteredPhrases.length);
+  renderQuiz();
+}
+
+function updateProgressBar(done, total) {
+  document.getElementById('progressFill').style.width = total > 0 ? `${(done / total) * 100}%` : '0%';
+}
+
+filteredPhrases = [...ALL_PHRASES];
+render();
+</script>
+</body>
+</html>

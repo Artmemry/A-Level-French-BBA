@@ -1,0 +1,522 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Devoir A-Level Français — Éducation & Harcèlement (avec timer)</title>
+<style>
+  :root{--bg:#f4f7fb;--card:#fff;--accent:#1f7ae0;--muted:#556;}
+  body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial; background:var(--bg); margin:0;padding:18px;color:#073066;}
+  .wrap{max-width:980px;margin:0 auto;}
+  header{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:14px;}
+  h1{font-size:1.25rem;margin:0;}
+  .timer{background:var(--card);padding:12px;border-radius:10px;box-shadow:0 6px 20px rgba(3,12,50,0.06);display:flex;align-items:center;gap:12px;}
+  .time-display{font-family:monospace;font-weight:700;font-size:1.1rem;padding:6px 10px;border-radius:8px;border:1px solid #e6eefb;background:#f7fbff;}
+  .btn{background:var(--accent);color:white;border:0;padding:8px 10px;border-radius:8px;cursor:pointer;font-weight:600;}
+  .btn.ghost{background:transparent;color:var(--accent);border:1px solid #cfe3ff;}
+  .layout{display:grid;grid-template-columns:1fr;gap:14px;margin-top:14px;}
+  .card{background:var(--card);padding:16px;border-radius:10px;box-shadow:0 6px 18px rgba(3,12,50,0.04);}
+  .reading-box{max-height:300px;overflow:auto;border:1px solid #e6eefb;padding:12px;border-radius:8px;background:#fbfeff;white-space:pre-line;}
+  label{display:block;font-weight:700;margin:8px 0 6px;}
+  input[type="text"], textarea{width:100%;box-sizing:border-box;padding:8px;border-radius:8px;border:1px solid #dfeafc;font-size:1rem;}
+  textarea{min-height:110px;resize:vertical;}
+  .small{font-size:.95rem;color:var(--muted);}
+  .row{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px;}
+  .toggle-answer{margin-top:10px;padding:10px;border-radius:8px;background:#f1f8ff;border:1px dashed #cfe3ff;display:none;}
+  .correct{outline:3px solid rgba(7,48,110,0.06);}
+  .green{background:#eaf8ee;border-left:4px solid #1a8f3a;padding:8px;border-radius:6px;}
+  .red{background:#fff1f1;border-left:4px solid #cc2a2a;padding:8px;border-radius:6px;}
+  .meta{font-size:.95rem;color:var(--muted);margin-top:6px;}
+  .disabled-overlay{position:fixed;inset:0;background:rgba(255,255,255,0.6);display:flex;align-items:center;justify-content:center;font-size:1.4rem;color:#cc2a2a;z-index:200;display:none;}
+  footer{font-size:.9rem;color:var(--muted);margin-top:14px;text-align:center;}
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <h1>Devoir — L’éducation &amp; le harcèlement scolaire (A-Level)</h1>
+      <div class="timer" aria-live="polite">
+        <div style="display:flex;flex-direction:column">
+          <div class="small">Temps total recommandé</div>
+          <div class="time-display" id="timeDisplay">01:45:00</div>
+        </div>
+        <div style="margin-left:8px" class="row">
+          <button id="startBtn" class="btn">Start</button>
+          <button id="pauseBtn" class="btn ghost">Pause</button>
+          <button id="resetBtn" class="btn ghost">Reset</button>
+        </div>
+      </div>
+    </header>
+
+    <section class="meta small">
+      <strong>Répartition du temps (≈ 1 h 45 min)</strong> — Gap-fill 20', Compréhension 25', Accuracy fixes 15', Vocab/Traduction 15', Rédaction 25', Oral prep 5'.
+    </section>
+
+    <main class="layout">
+      <!-- GAP-FILL -->
+      <section class="card" id="gapSection">
+        <h2>1) Texte à trous — Conjugaisons (20 min)</h2>
+        <p class="small">Complétez les verbes entre parenthèses. Utilisez la forme qui vous semble la plus cohérente (imparfait / passé composé / présent selon le récit).</p>
+
+        <form id="gapForm" onsubmit="return false;">
+          <p>
+            J’ <input class="student-input" id="v1" type="text" placeholder="(faire)"/> mes études à l’école primaire située à Clapham qui
+            <input class="student-input" id="v2" type="text" placeholder="(s’appeler)"/> Wix et ensuite au Lycée Français Charles de Gaulle à South Kensington. 
+            Au collège je <input class="student-input" id="v3" type="text" placeholder="(s’intéresser)"/> à toutes les matières plus ou moins, même si je n’
+            <input class="student-input" id="v4" type="text" placeholder="(apprécier)"/> guère l’espagnol. Ma prof d’espagnol <input class="student-input" id="v5" type="text" placeholder="(penser)"/> que j’
+            <input class="student-input" id="v6" type="text" placeholder="(être)"/> paresseuse car je n’
+            <input class="student-input" id="v7" type="text" placeholder="(apprendre)"/> jamais la conjugaison et mon prof de gym
+            <input class="student-input" id="v8" type="text" placeholder="(dire)"/> toujours que « je
+            <input class="student-input" id="v9" type="text" placeholder="(pouvoir)"/> faire mieux ». Sinon j’
+            <input class="student-input" id="v10" type="text" placeholder="(obtenir)"/> de bonnes notes et donc des moyennes élevées. Quand je
+            <input class="student-input" id="v11" type="text" placeholder="(entrer)"/> au lycée, le niveau
+            <input class="student-input" id="v12" type="text" placeholder="(avoir)"/> beaucoup augmenté et on
+            <input class="student-input" id="v13" type="text" placeholder="(avoir)"/> énormément de devoirs.
+          </p>
+
+          <p>
+            Il <input class="student-input" id="v14" type="text" placeholder="(exister)"/> trois filières : le BAC S, ES ou L vu que le lycée français de Londres n’
+            <input class="student-input" id="v15" type="text" placeholder="(offrir)"/> pas de BAC technologique. Ainsi, à la fin de la seconde j’
+            <input class="student-input" id="v16" type="text" placeholder="(choisir)"/> le BAC L bien que j’
+            <input class="student-input" id="v17" type="text" placeholder="(aim(er)/présent/imp)"/> les matières scientifiques. La plupart des bons élèves
+            <input class="student-input" id="v18" type="text" placeholder="(choisir)"/> le bac S car il
+            <input class="student-input" id="v19" type="text" placeholder="(être)"/> mieux considéré mais je
+            <input class="student-input" id="v20" type="text" placeholder="(refuser)"/> d’abandonner des matières que j’
+            <input class="student-input" id="v21" type="text" placeholder="(adorer)"/>. De plus, deux de mes meilleures amies
+            <input class="student-input" id="v22" type="text" placeholder="(avoir)"/> fait le même choix. Comme j’
+            <input class="student-input" id="v23" type="text" placeholder="(choisir)"/> l’option L, j’
+            <input class="student-input" id="v24" type="text" placeholder="(avoir)"/> 8 heures de philosophie par semaine. Heureusement que j’
+            <input class="student-input" id="v25" type="text" placeholder="(aimer)"/> ça !
+          </p>
+
+          <div class="row" style="margin-top:8px;">
+            <button class="btn" id="checkGapBtn" type="button">Vérifier mes réponses</button>
+            <button class="btn ghost" id="showGapModel" type="button">Afficher réponses modèle</button>
+            <button class="btn ghost" id="clearGap" type="button">Effacer</button>
+          </div>
+
+          <div id="gapFeedback" class="meta" style="margin-top:12px;"></div>
+
+          <div id="gapModel" class="toggle-answer" aria-hidden="true">
+            <strong>Réponses modèle (exemples acceptables — plusieurs temps acceptés selon cohérence) :</strong>
+            <ol>
+              <li>v1 : <em>j'ai fait / je faisais</em></li>
+              <li>v2 : <em>s'appelait / s'appelle</em></li>
+              <li>v3 : <em>je m'intéressais</em></li>
+              <li>v4 : <em>n'appréciais guère / n'ai guère apprécié</em></li>
+              <li>v5 : <em>pensait</em></li>
+              <li>v6 : <em>étais</em></li>
+              <li>v7 : <em>n'apprenais jamais / n'ai jamais appris</em></li>
+              <li>v8 : <em>disait</em></li>
+              <li>v9 : <em>pouvais</em></li>
+              <li>v10: <em>obtenais / ai obtenu</em></li>
+              <li>v11: <em>suis entré(e) / j'entrais</em></li>
+              <li>v12: <em>avait</em></li>
+              <li>v13: <em>avions / avions / avait</em></li>
+              <li>v14: <em>existait</em></li>
+              <li>v15: <em>n'offrait pas</em></li>
+              <li>v16: <em>ai choisi</em></li>
+              <li>v17: <em>n'aimais pas / n'aime pas (context)</em></li>
+              <li>v18: <em>choisissent / ont choisi</em></li>
+              <li>v19: <em>est</em></li>
+              <li>v20: <em>refusais / ai refusé</em></li>
+              <li>v21: <em>adorais</em></li>
+              <li>v22: <em>ont</em></li>
+              <li>v23: <em>ai choisi</em></li>
+              <li>v24: <em>avais</em></li>
+              <li>v25: <em>aimais / j'aimais</em></li>
+            </ol>
+            <p class="small">Remarque : plusieurs temps sont acceptables si l'élève garde une cohérence narrative. Les professeurs doivent privilégier la cohérence et l'exactitude grammaticale.</p>
+          </div>
+        </form>
+      </section>
+
+      <!-- READING & COMPREHENSION -->
+      <section class="card" id="compSection">
+        <h2>2) Compréhension écrite — Texte & Questions (25 min)</h2>
+        <p class="small">Lisez le texte ci-dessous puis répondez en français.</p>
+
+        <div class="reading-box" id="readingText">
+Le harcèlement scolaire est devenu une priorité nationale en France, notamment après le suicide tragique d'une adolescente en mai 2023.
+Près d'un million d'élèves sont victimes de ce fléau, poussant le gouvernement à instaurer plusieurs mesures pour le combattre :
+- Nouveau délit spécifique : Peines pouvant aller jusqu'à 10 ans de prison et 150 000 euros d'amende.
+- Transfert des élèves responsables : Les harceleurs peuvent être transférés dans une autre école.
+- Sanctions pour cyberharcèlement : Obligations imposées aux plateformes numériques.
+- Application 3018 : Lancée en février, elle permet de signaler les situations de harcèlement et d'améliorer l'accompagnement des victimes.
+
+Le système éducatif français est également au cœur de plusieurs débats :
+- Le redoublement concerne environ 11 % des élèves. Il est populaire auprès des parents et enseignants, mais critiqué pour ses effets négatifs sur l’estime de soi et la motivation.
+- La semaine de quatre jours est controversée (journées longues, impact sur la santé).
+- Écoles privées vs publiques : Meilleurs résultats dans le privé, souvent expliqués par la sélection et une discipline stricte.
+- Réforme du baccalauréat (2021, modifiée 2024) : Opinions partagées — continuité d'évaluation appréciée, mais concentration des épreuves en terminale redoutée.
+- Lycées professionnels : réformes en cours et rémunération des stages.
+- Parcoursup : critiquée pour son manque de transparence et le stress qu'elle engendre.
+- Laïcité : interdictions (voile, abaya, qamis) au nom de la neutralité.
+        </div>
+
+        <div style="margin-top:10px;">
+          <label for="q1">1) Quel événement tragique a poussé le gouvernement à faire du harcèlement scolaire une priorité nationale ?</label>
+          <textarea id="q1" class="student-input" placeholder="Réponse (1–2 phrases)"></textarea>
+
+          <label for="q2">2) Quelles sont les sanctions prévues pour les auteurs de harcèlement scolaire selon les nouvelles mesures ?</label>
+          <textarea id="q2" class="student-input" placeholder="Réponse (liste / 2–4 éléments)"></textarea>
+
+          <label for="q3">3) Pourquoi la réforme du baccalauréat suscite-t-elle des opinions partagées parmi les élèves ?</label>
+          <textarea id="q3" class="student-input" placeholder="Réponse (3–4 phrases)"></textarea>
+
+          <div class="row" style="margin-top:8px;">
+            <button class="btn" id="showCompModel">Montrer réponses proposées</button>
+            <button class="btn ghost" id="clearComp">Effacer réponses</button>
+          </div>
+
+          <div id="compModel" class="toggle-answer" aria-hidden="true">
+            <strong>Réponses suggérées :</strong>
+            <ul>
+              <li><strong>Q1 :</strong> Le suicide tragique d’une adolescente en mai 2023.</li>
+              <li><strong>Q2 :</strong> Jusqu'à 10 ans de prison et 150 000 € d'amende ; transfert de l'élève harceleur ; sanctions pour cyberharcèlement ; obligations pour plateformes ; application 3018 pour signaler.</li>
+              <li><strong>Q3 :</strong> Les élèves apprécient la continuité d'évaluation, mais craignent la concentration des épreuves en terminale et la suppression des séries (peur d'une charge accrue et d'une perte de choix).</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- ACCURACY FIXES -->
+      <section class="card" id="accSection">
+        <h2>3) Accuracy fixes — Corrigez & expliquez (15 min)</h2>
+        <p class="small">Corrigez chaque phrase et écrivez une courte explication (conjugaison / accord / expression).</p>
+
+        <label>Phrase 1 : « Les élèves doivent obéir aux règles mais ils ne respectent pas toujours. »</label>
+        <input class="student-input" id="c1" type="text" placeholder="Correction" />
+        <input class="student-input" id="c1e" type="text" placeholder="Explication (1 ligne)" />
+
+        <label>Phrase 2 : « Elle a dit qu’elle est fatiguée depuis la semaine dernière. »</label>
+        <input class="student-input" id="c2" type="text" placeholder="Correction" />
+        <input class="student-input" id="c2e" type="text" placeholder="Explication" />
+
+        <label>Phrase 3 : « On a réduit le contrôle continu à 40% de la note finale du bac, ça laissent plus d'importance aux épreuves. »</label>
+        <input class="student-input" id="c3" type="text" placeholder="Correction" />
+        <input class="student-input" id="c3e" type="text" placeholder="Explication" />
+
+        <div class="row" style="margin-top:8px;">
+          <button class="btn" id="showCorr">Voir corrections & conseils</button>
+          <button class="btn ghost" id="clearCorr">Effacer</button>
+        </div>
+
+        <div id="corrModel" class="toggle-answer" aria-hidden="true">
+          <strong>Corrections (modèle)</strong>
+          <ol>
+            <li>« Les élèves doivent respecter les règles, mais ne le font pas toujours. » — explication : tournure idiomatique et omission du pronom « le ». </li>
+            <li>« Elle a dit qu’elle était fatiguée depuis la semaine dernière. » — explication : concordance des temps (discours rapporté au passé → imparfait).</li>
+            <li>« On a réduit le contrôle continu à 40 % de la note finale du bac, ce qui laisse plus d’importance aux épreuves. » — explication : accord et structure relative (« ce qui laisse »).</li>
+          </ol>
+        </div>
+      </section>
+
+      <!-- VOCAB / TRANSLATION / ESSAY -->
+      <section class="card" id="vocabSection">
+        <h2>4) Vocabulaire / Traduction / Rédaction</h2>
+
+        <div style="margin-bottom:12px;">
+          <label>Synonyme / reformulation :</label>
+          <input class="student-input" id="vocab1" type="text" placeholder="Harcèlement scolaire → ..." />
+          <input class="student-input" id="vocab2" type="text" placeholder="Transférer les élèves responsables → ..." style="margin-top:6px;" />
+          <input class="student-input" id="vocab3" type="text" placeholder="Manque de transparence → ..." style="margin-top:6px;" />
+          <div class="row" style="margin-top:8px;">
+            <button class="btn" id="showVocab">Voir suggestions</button>
+            <button class="btn ghost" id="clearVocab">Effacer</button>
+          </div>
+          <div id="vocabModel" class="toggle-answer" aria-hidden="true">
+            <ul>
+              <li>Harcèlement scolaire → « intimidation à l'école » / « brimades »</li>
+              <li>Transférer les élèves responsables → « muter / déplacer les élèves coupables vers un autre établissement »</li>
+              <li>Manque de transparence → « opacité » / « absence de clarté »</li>
+            </ul>
+          </div>
+        </div>
+
+        <div style="margin-bottom:12px;">
+          <label>Traduction en anglais :</label>
+          <div class="small">Traduisez : « La plateforme Parcoursup fait l'objet de critiques pour son manque de transparence et le stress qu'elle engendre chez les candidats. »</div>
+          <textarea class="student-input" id="translation" placeholder="Write your English translation here..."></textarea>
+          <div class="row" style="margin-top:8px;">
+            <button class="btn" id="showTrans">Afficher traduction modèle</button>
+            <button class="btn ghost" id="clearTrans">Effacer</button>
+          </div>
+          <div id="transModel" class="toggle-answer" aria-hidden="true"><em>Model:</em> <div style="margin-top:8px;">"The Parcoursup platform has been criticized for its lack of transparency and the stress it causes applicants."</div></div>
+        </div>
+
+        <div>
+          <label>Rédaction — 250–300 mots (25 min)</label>
+          <div class="small">Sujet : <em>« Selon vous, quelles sont les principales forces et faiblesses du système éducatif français, et quelles réformes seraient nécessaires pour mieux préparer les élèves au futur ? »</em></div>
+          <textarea class="student-input" id="essay" placeholder="Écrivez 250–300 mots en français..."></textarea>
+          <div class="row" style="margin-top:6px;">
+            <div class="small" id="wordCount">Mots : 0</div>
+            <button class="btn ghost" id="showEssayHelp">Plan & phrases utiles</button>
+          </div>
+          <div id="essayHelp" class="toggle-answer" aria-hidden="true">
+            <strong>Plan & phrases utiles</strong>
+            <p>Intro : Exemple d'accroche + énoncé du problème. Dév. : deux paragraphes (arguments + exemple). Conclusion : résumé + recommandation.</p>
+            <p>Phrases utiles : « En outre », « Toutefois », « Par conséquent », « Il est essentiel que », « Cela pose problème car ».</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- DOWNLOAD & UTILS -->
+      <section class="card center" style="text-align:left;">
+        <h2>Utilitaires</h2>
+        <div class="row">
+          <button class="btn" id="downloadBtn">Télécharger mes réponses (JSON)</button>
+          <button class="btn ghost" id="enableEditing">Réactiver si temps dépassé</button>
+        </div>
+        <p class="small" style="margin-top:10px;">Quand le chronomètre atteint zéro, toutes les zones de saisie seront désactivées pour simuler une remise. Le bouton "Réactiver" permet au professeur de rouvrir si nécessaire.</p>
+      </section>
+    </main>
+
+    <footer>Besoin d'une version imprimable / PDF ? Dites-le et je vous fournis une mise en page prête à imprimer.</footer>
+  </div>
+
+  <div id="timeUpOverlay" class="disabled-overlay">Le temps est écoulé — travail bloqué. Demandez au professeur de réactiver si nécessaire.</div>
+
+<script>
+/* ----------------------------
+   Timer
+   ---------------------------- */
+const DEFAULT_SECONDS = 105 * 60; // 1h45 = 105 minutes
+let remaining = DEFAULT_SECONDS;
+let timerId = null;
+const timeDisplay = document.getElementById('timeDisplay');
+const startBtn = document.getElementById('startBtn');
+const pauseBtn = document.getElementById('pauseBtn');
+const resetBtn = document.getElementById('resetBtn');
+const overlay = document.getElementById('timeUpOverlay');
+const enableEditingBtn = document.getElementById('enableEditing');
+
+function formatTime(s){
+  // return HH:MM:SS (pad)
+  const h = Math.floor(s/3600);
+  const m = Math.floor((s%3600)/60);
+  const sec = s%60;
+  return String(h).padStart(2,'0') + ':' + String(m).padStart(2,'0') + ':' + String(sec).padStart(2,'0');
+}
+function renderTime(){ timeDisplay.textContent = formatTime(remaining); }
+function tick(){
+  if(remaining<=0){ clearInterval(timerId); timerId = null; timeUp(); return; }
+  remaining--; renderTime();
+}
+function startTimer(){
+  if(timerId) return;
+  timerId = setInterval(tick,1000);
+}
+function pauseTimer(){
+  if(timerId){ clearInterval(timerId); timerId = null; }
+}
+function resetTimer(){
+  pauseTimer();
+  remaining = DEFAULT_SECONDS;
+  renderTime();
+  // Re-enable inputs by default when resetting
+  enableAllInputs(true);
+  overlay.style.display = 'none';
+}
+function timeUp(){
+  overlay.style.display = 'flex';
+  disableAllInputs();
+}
+/* Hook buttons */
+startBtn.addEventListener('click',()=>startTimer());
+pauseBtn.addEventListener('click',()=>pauseTimer());
+resetBtn.addEventListener('click',()=>resetTimer());
+enableEditingBtn.addEventListener('click',()=>{
+  enableAllInputs(true);
+  overlay.style.display='none';
+  // Note: doesn't restart timer
+});
+
+/* ----------------------------
+   Enable / Disable inputs
+   ---------------------------- */
+function getAllStudentInputs(){
+  return Array.from(document.querySelectorAll('.student-input'));
+}
+function disableAllInputs(){
+  getAllStudentInputs().forEach(el=>el.disabled=true);
+  // disable check buttons so they can't be used after time up
+  document.querySelectorAll('button').forEach(b=>{
+    if(b.id !== 'enableEditing') b.disabled = true;
+  });
+  // leave enableEditing button active
+  document.getElementById('enableEditing').disabled = false;
+}
+function enableAllInputs(flag){
+  getAllStudentInputs().forEach(el=>el.disabled=!flag?true:false);
+  // re-enable all buttons except start/pause if appropriate
+  document.querySelectorAll('button').forEach(b=>{
+    // keep overlay enable button enabled
+    b.disabled = false;
+  });
+}
+
+/* initialize display */
+renderTime();
+
+/* ----------------------------
+   Gap-checking
+   ---------------------------- */
+/* Accept lists (per field) — normalized */
+const accepted = [
+  /*v1*/["ai fait","je faisais","faisais","j'ai fait","ai fait mes études","faisais mes études"],
+  /*v2*/["s'appelait","s'appelait wix","s'appelle","s appelle","s'appelait wix"],
+  /*v3*/["je m'intéressais","m'intéressais","je m interessais","m interessais"],
+  /*v4*/["n'appréciais","n'appréciais guère","n'ai guère apprécié","n'ai pas apprecié","n'appréciais pas","n'aime pas"],
+  /*v5*/["pensait","il pensait","elle pensait","pensait que"],
+  /*v6*/["étais","j'étais","etais"],
+  /*v7*/["n'apprenais","n'apprenais jamais","n'ai jamais appris","n'ai jamais appris la conjugaison"],
+  /*v8*/["disait"],
+  /*v9*/["pouvais","je pouvais"],
+  /*v10*/["obtenais","j'obtenais","ai obtenu","j'ai obtenu"],
+  /*v11*/["suis entré","suis entrée","je suis entré","je suis entrée","j'entrais","entrais"],
+  /*v12*/["avait","avait beaucoup augmenté","a beaucoup augmenté","avait beaucoup augmenté"],
+  /*v13*/["avions","avions énormement","avons","avait énormément"],
+  /*v14*/["existait","il existait"],
+  /*v15*/["n'offrait pas","n'offrait","n'offrait pas de bac technologique"],
+  /*v16*/["ai choisi","j'ai choisi","ai choisi le bac l"],
+  /*v17*/["n'aimais pas","n'aimais","n'aime pas","je n'aimais pas","aimais"],
+  /*v18*/["choisissent","ont choisi","choisissaient","ont choisi le bac s"],
+  /*v19*/["est","il est","est mieux considéré"],
+  /*v20*/["refusais","ai refusé","ai refuse","refuse"],
+  /*v21*/["adorais","j'adorais","j'adore"],
+  /*v22*/["ont","ont fait","ont fait le même choix"],
+  /*v23*/["ai choisi","j'ai choisi","ai choisi l'option l"],
+  /*v24*/["avais","j'avais","ai","ai 8 heures","ai 8 heures de philosophie","avais 8 heures"],
+  /*v25*/["aimais","j'aimais","aime","j'aime"]
+];
+
+/* Normalizer: lowercase, remove accents, collapse spaces, replace fancy apostrophe */
+function norm(s){
+  if(!s) return "";
+  s = String(s).trim().toLowerCase();
+  s = s.replace(/’/g, "'").replace(/“|”/g,'"');
+  // remove diacritics
+  s = s.normalize('NFD').replace(/[\u0300-\u036f]/g, "");
+  s = s.replace(/\s+/g,' ');
+  return s;
+}
+
+function checkGap(){
+  let total = accepted.length;
+  let correct = 0;
+  for(let i=0;i<accepted.length;i++){
+    const id = 'v'+(i+1);
+    const el = document.getElementById(id);
+    const user = norm(el.value || "");
+    let good = false;
+    if(user.length === 0){
+      el.style.outline = '2px solid rgba(255,165,0,0.5)'; // warn
+      el.title = "Champ vide";
+      continue;
+    }
+    for(const cand of accepted[i]){
+      if(user === norm(cand) || user.includes(norm(cand)) || norm(cand).includes(user) ){
+        good = true; break;
+      }
+    }
+    if(good){ el.style.background = "#eaf8ee"; el.style.border = "1px solid #cbeed0"; correct++; }
+    else { el.style.background = "#fff1f1"; el.style.border = "1px solid #f3c7c7"; }
+  }
+  const fb = document.getElementById('gapFeedback');
+  fb.innerHTML = `<div class="${correct===total?'green':'red'}">Résultat indicatif : <strong>${correct} / ${total}</strong>. Les réponses modèle sont affichées ci-dessous. Les variantes de temps (imparfait / passé composé) sont acceptées si le temps est cohérent sur tout le texte.</div>`;
+}
+document.getElementById('checkGapBtn').addEventListener('click', checkGap);
+document.getElementById('showGapModel').addEventListener('click', ()=>{
+  const el = document.getElementById('gapModel');
+  el.style.display = el.style.display === 'none' || el.style.display === '' ? 'block' : 'none';
+});
+document.getElementById('clearGap').addEventListener('click', ()=>{
+  for(let i=1;i<=25;i++){ const e=document.getElementById('v'+i); if(e){ e.value=''; e.style.background=''; e.style.border='1px solid #dfeafc'; } }
+  document.getElementById('gapFeedback').innerHTML='';
+});
+
+/* ----------------------------
+   Comprehension toggles
+   ---------------------------- */
+document.getElementById('showCompModel').addEventListener('click', ()=>{
+  const el = document.getElementById('compModel'); el.style.display = el.style.display === 'block' ? 'none' : 'block';
+});
+document.getElementById('clearComp').addEventListener('click', ()=>{
+  ['q1','q2','q3'].forEach(id=>document.getElementById(id).value='');
+});
+
+/* ----------------------------
+   Corrections toggles
+   ---------------------------- */
+document.getElementById('showCorr').addEventListener('click', ()=>{
+  const el = document.getElementById('corrModel'); el.style.display = el.style.display === 'block' ? 'none' : 'block';
+});
+document.getElementById('clearCorr').addEventListener('click', ()=>{
+  ['c1','c1e','c2','c2e','c3','c3e'].forEach(id=>document.getElementById(id).value='');
+});
+
+/* ----------------------------
+   Vocab / Trans toggles
+   ---------------------------- */
+document.getElementById('showVocab').addEventListener('click', ()=>{ const el=document.getElementById('vocabModel'); el.style.display = el.style.display==='block' ? 'none' : 'block'; });
+document.getElementById('clearVocab').addEventListener('click', ()=>{ ['vocab1','vocab2','vocab3'].forEach(id=>document.getElementById(id).value=''); });
+document.getElementById('showTrans').addEventListener('click', ()=>{ const el=document.getElementById('transModel'); el.style.display = el.style.display==='block' ? 'none' : 'block'; });
+document.getElementById('clearTrans').addEventListener('click', ()=>{ document.getElementById('translation').value=''; });
+
+/* ----------------------------
+   Essay helpers
+   ---------------------------- */
+const essayEl = document.getElementById('essay');
+const wordCount = document.getElementById('wordCount');
+const essayHelpBtn = document.getElementById('showEssayHelp');
+essayHelpBtn.addEventListener('click', ()=>{ const el=document.getElementById('essayHelp'); el.style.display = el.style.display==='block'?'none':'block'; });
+
+function countWords(text){
+  if(!text) return 0;
+  // split on whitespace, ignore empty strings
+  return text.trim().split(/\s+/).filter(Boolean).length;
+}
+essayEl.addEventListener('input', ()=>{
+  const n = countWords(essayEl.value);
+  wordCount.textContent = `Mots : ${n}`;
+  if(n >= 250 && n <= 300) wordCount.style.color = 'green';
+  else wordCount.style.color = '';
+});
+
+/* ----------------------------
+   Download responses JSON
+   ---------------------------- */
+document.getElementById('downloadBtn').addEventListener('click', ()=>{
+  const data = { gap:{}, comprehension:{}, corrections:{}, vocab:{}, translation:'', essay:'', meta:{timeRemaining:remaining} };
+  for(let i=1;i<=25;i++){ const el=document.getElementById('v'+i); data.gap['v'+i] = el ? el.value : ''; }
+  ['q1','q2','q3'].forEach(id=>data.comprehension[id]=document.getElementById(id).value);
+  ['c1','c1e','c2','c2e','c3','c3e'].forEach(id=>data.corrections[id]=document.getElementById(id).value);
+  ['vocab1','vocab2','vocab3'].forEach(id=>data.vocab[id]=document.getElementById(id).value);
+  data.translation = document.getElementById('translation').value;
+  data.essay = document.getElementById('essay').value;
+
+  const blob = new Blob([JSON.stringify(data,null,2)], {type:'application/json'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = 'devoir_reponses.json'; document.body.appendChild(a); a.click();
+  setTimeout(()=>{ URL.revokeObjectURL(url); a.remove(); },500);
+});
+
+/* ----------------------------
+   Accessibility: allow Enter to submit check for gap when in an input (optional)
+   ---------------------------- */
+document.getElementById('gapForm').addEventListener('keydown', (e)=>{
+  if(e.key === 'Enter' && (e.ctrlKey || e.metaKey)){
+    e.preventDefault(); checkGap();
+  }
+});
+
+/* Ensure all toggle areas hidden to start */
+['gapModel','compModel','corrModel','vocabModel','transModel','essayHelp'].forEach(id => {
+  const el = document.getElementById(id);
+  if(el) el.style.display = 'none';
+});
+</script>
+</body>
+</html>

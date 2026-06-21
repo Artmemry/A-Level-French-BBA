@@ -1,0 +1,1117 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>French A-Level Vocabulary Trainer</title>
+<style>
+  :root {
+    --blue: #002395;
+    --red: #ED2939;
+    --white: #FFFFFF;
+    --bg: #f0f2f8;
+    --card: #ffffff;
+    --dark: #1a1a2e;
+    --mid: #444466;
+    --success: #27ae60;
+    --error: #e74c3c;
+    --warn: #e67e22;
+    --accent: #002395;
+    --shadow: 0 4px 20px rgba(0,35,149,0.10);
+    --radius: 14px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    background: var(--bg);
+    min-height: 100vh;
+    color: var(--dark);
+  }
+
+  /* ── HEADER ── */
+  header {
+    background: linear-gradient(135deg, var(--blue) 0%, #1a3a8f 100%);
+    color: white;
+    padding: 16px 28px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.2);
+  }
+  .flag {
+    display: flex;
+    height: 34px;
+    border-radius: 4px;
+    overflow: hidden;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.3);
+  }
+  .flag span { display:block; width:14px; }
+  .flag .f-blue { background:var(--blue); }
+  .flag .f-white { background:var(--white); }
+  .flag .f-red { background:var(--red); }
+  header h1 { font-size: 1.25rem; font-weight: 700; letter-spacing: .3px; }
+  header p { font-size: .78rem; opacity: .8; }
+  .header-right { margin-left: auto; font-size: .85rem; opacity: .75; }
+
+  /* ── SCREENS ── */
+  .screen { display: none; min-height: calc(100vh - 70px); padding: 32px 20px; }
+  .screen.active { display: flex; flex-direction: column; align-items: center; justify-content: center; }
+
+  /* ── CARD ── */
+  .card {
+    background: var(--card);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 36px 40px;
+    width: 100%;
+    max-width: 520px;
+  }
+  .card h2 { font-size: 1.5rem; color: var(--blue); margin-bottom: 8px; }
+  .card p.sub { color: var(--mid); font-size: .92rem; margin-bottom: 24px; }
+
+  /* ── INPUTS ── */
+  input[type=text] {
+    width: 100%;
+    padding: 12px 16px;
+    border: 2px solid #d0d6e8;
+    border-radius: 8px;
+    font-size: 1.05rem;
+    outline: none;
+    transition: border-color .2s;
+    color: var(--dark);
+  }
+  input[type=text]:focus { border-color: var(--blue); }
+  label { display: block; font-size: .88rem; font-weight: 600; color: var(--mid); margin-bottom: 6px; }
+
+  /* ── BUTTONS ── */
+  .btn {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 12px 26px;
+    border: none; border-radius: 8px; cursor: pointer;
+    font-size: 1rem; font-weight: 600;
+    transition: all .18s; text-decoration: none;
+  }
+  .btn-primary { background: var(--blue); color: white; }
+  .btn-primary:hover { background: #0031c7; transform: translateY(-1px); box-shadow: 0 4px 14px rgba(0,35,149,.35); }
+  .btn-secondary { background: #eaecf8; color: var(--blue); }
+  .btn-secondary:hover { background: #d8dcf5; }
+  .btn-success { background: var(--success); color: white; }
+  .btn-success:hover { background: #219a52; }
+  .btn-red { background: var(--red); color: white; }
+  .btn-red:hover { background: #c0392b; }
+  .btn-sm { padding: 7px 14px; font-size: .88rem; }
+  .btn:disabled { opacity: .5; cursor: not-allowed; transform: none; }
+
+  /* ── UNIT GRID ── */
+  #screen-units { padding: 28px 20px; }
+  #screen-units .screen-title {
+    text-align: center; margin-bottom: 28px;
+  }
+  #screen-units .screen-title h2 { font-size: 1.6rem; color: var(--blue); }
+  #screen-units .screen-title p { color: var(--mid); margin-top: 4px; }
+  .unit-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 14px;
+    width: 100%; max-width: 900px;
+  }
+  .unit-card {
+    background: var(--card);
+    border-radius: 12px;
+    box-shadow: var(--shadow);
+    padding: 18px 20px;
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: all .2s;
+    position: relative;
+    overflow: hidden;
+  }
+  .unit-card::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0; height: 4px;
+    background: linear-gradient(90deg, var(--blue), var(--red));
+  }
+  .unit-card:hover { border-color: var(--blue); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,35,149,.15); }
+  .unit-card .unit-code { font-weight: 800; font-size: 1rem; color: var(--blue); }
+  .unit-card .unit-title { font-size: .82rem; color: var(--mid); margin-top: 4px; line-height: 1.35; }
+  .unit-card .unit-score {
+    margin-top: 10px; font-size: .78rem; font-weight: 600;
+    color: var(--success); display: none;
+  }
+  .unit-card.done .unit-score { display: block; }
+  .unit-card.done { border-color: #c3e6cb; background: #f0faf4; }
+
+  /* ── QUIZ SCREEN ── */
+  #screen-quiz { padding: 28px 20px; }
+  .quiz-wrap { width: 100%; max-width: 640px; }
+
+  /* Progress */
+  .progress-bar-wrap {
+    background: #e0e4f0; border-radius: 99px; height: 8px; margin-bottom: 20px; overflow: hidden;
+  }
+  .progress-bar { background: linear-gradient(90deg, var(--blue), var(--red)); height: 100%; border-radius: 99px; transition: width .4s ease; }
+
+  .quiz-meta {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 14px; color: var(--mid); font-size: .88rem;
+  }
+  .quiz-meta .score-badge {
+    background: var(--blue); color: white;
+    padding: 4px 12px; border-radius: 99px; font-weight: 700; font-size: .85rem;
+  }
+
+  /* Question card */
+  .q-card {
+    background: var(--card);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 32px;
+    margin-bottom: 16px;
+  }
+  .q-label {
+    font-size: .8rem; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 1px; color: var(--mid); margin-bottom: 12px;
+  }
+  .q-english {
+    font-size: 1.5rem; font-weight: 700; color: var(--dark);
+    margin-bottom: 6px; line-height: 1.3;
+  }
+  .q-hint {
+    font-size: .82rem; color: #888; margin-bottom: 20px; font-style: italic;
+  }
+
+  .answer-row {
+    display: flex; gap: 10px; align-items: stretch;
+  }
+  .answer-row input {
+    flex: 1;
+    font-size: 1.05rem;
+    border-radius: 8px 0 0 8px;
+  }
+  .answer-row .btn { border-radius: 0 8px 8px 0; white-space: nowrap; }
+
+  /* Feedback */
+  .feedback {
+    min-height: 38px;
+    padding: 10px 16px;
+    border-radius: 8px;
+    font-size: .95rem;
+    font-weight: 600;
+    margin-top: 12px;
+    display: none;
+    align-items: center;
+    gap: 8px;
+  }
+  .feedback.show { display: flex; }
+  .feedback.correct { background: #d4edda; color: #155724; }
+  .feedback.incorrect { background: #f8d7da; color: #721c24; }
+  .feedback.partial { background: #fff3cd; color: #856404; }
+
+  /* ── ACCENT KEYBOARD ── */
+  .accent-kb {
+    background: var(--card);
+    border-radius: 10px;
+    box-shadow: var(--shadow);
+    padding: 12px 16px;
+    margin-bottom: 16px;
+  }
+  .accent-kb-label {
+    font-size: .72rem; font-weight: 700; text-transform: uppercase;
+    letter-spacing: .8px; color: var(--mid); margin-bottom: 8px;
+  }
+  .accent-rows { display: flex; flex-direction: column; gap: 6px; }
+  .accent-row { display: flex; gap: 6px; flex-wrap: wrap; }
+  .accent-key {
+    border: 2px solid #d0d6e8;
+    background: white;
+    border-radius: 7px;
+    padding: 7px 13px;
+    font-size: 1.05rem;
+    cursor: pointer;
+    transition: all .15s;
+    font-weight: 600;
+    color: var(--dark);
+    min-width: 42px;
+    text-align: center;
+    user-select: none;
+  }
+  .accent-key:hover { border-color: var(--blue); background: #eef0fc; color: var(--blue); transform: translateY(-1px); }
+  .accent-key:active { transform: translateY(0); }
+  .accent-key.primary { border-color: var(--blue); background: #eef0fc; color: var(--blue); }
+  .accent-divider {
+    width: 1px; background: #d0d6e8; margin: 0 4px;
+    align-self: stretch;
+  }
+
+  /* ── CONTROLS ── */
+  .quiz-controls {
+    display: flex; gap: 10px; margin-top: 16px; flex-wrap: wrap;
+  }
+
+  /* ── RESULTS ── */
+  #screen-results { padding: 28px 20px; }
+  .results-wrap { width: 100%; max-width: 640px; }
+  .results-header {
+    background: linear-gradient(135deg, var(--blue), #1a3a8f);
+    color: white;
+    border-radius: var(--radius);
+    padding: 28px 32px;
+    margin-bottom: 20px;
+    box-shadow: var(--shadow);
+  }
+  .results-header h2 { font-size: 1.6rem; margin-bottom: 4px; }
+  .results-header .total-score { font-size: 3rem; font-weight: 800; margin: 12px 0 4px; }
+  .results-header .total-sub { opacity: .8; font-size: .9rem; }
+
+  .unit-results {
+    background: var(--card);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    overflow: hidden;
+    margin-bottom: 20px;
+  }
+  .unit-result-row {
+    display: flex; align-items: center;
+    padding: 14px 20px;
+    border-bottom: 1px solid #f0f2f8;
+    gap: 14px;
+  }
+  .unit-result-row:last-child { border-bottom: none; }
+  .unit-result-code { font-weight: 700; color: var(--blue); width: 42px; flex-shrink: 0; }
+  .unit-result-title { flex: 1; font-size: .9rem; color: var(--mid); }
+  .unit-result-bar-wrap { width: 120px; height: 8px; background: #e8eaf2; border-radius: 99px; overflow: hidden; flex-shrink: 0; }
+  .unit-result-bar { height: 100%; border-radius: 99px; background: var(--success); }
+  .unit-result-score { font-weight: 700; font-size: .9rem; width: 56px; text-align: right; flex-shrink: 0; }
+  .unit-result-row.skipped .unit-result-score { color: #bbb; }
+  .unit-result-row.skipped .unit-result-bar { background: #ccc; }
+
+  .results-actions { display: flex; gap: 12px; flex-wrap: wrap; }
+
+  /* ── TOAST ── */
+  .toast {
+    position: fixed; bottom: 24px; right: 24px;
+    background: var(--dark); color: white;
+    padding: 12px 20px; border-radius: 10px;
+    font-size: .9rem; font-weight: 600;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.25);
+    transform: translateY(80px); opacity: 0;
+    transition: all .3s; z-index: 999;
+  }
+  .toast.show { transform: translateY(0); opacity: 1; }
+
+  /* ── NEXT OVERLAY ── */
+  .next-btn-wrap { margin-top: 14px; text-align: center; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 520px) {
+    .card { padding: 24px 18px; }
+    .q-card { padding: 22px 18px; }
+    .q-english { font-size: 1.25rem; }
+    .unit-grid { grid-template-columns: 1fr 1fr; }
+    .accent-kb { padding: 10px 12px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="flag">
+    <span class="f-blue"></span>
+    <span class="f-white"></span>
+    <span class="f-red"></span>
+  </div>
+  <div>
+    <h1>French A-Level Vocabulary Trainer</h1>
+    <p>Edexcel · SP1–SP12 · All 12 Units</p>
+  </div>
+  <div class="header-right" id="header-name"></div>
+</header>
+
+<!-- ════════════════════════════════════════════
+     SCREEN 1: WELCOME / NAME
+══════════════════════════════════════════════ -->
+<div class="screen active" id="screen-welcome">
+  <div class="card">
+    <h2>Bienvenue ! 👋</h2>
+    <p class="sub">Enter your name to begin. Your results will be saved for download at the end.</p>
+    <div style="margin-bottom:20px;">
+      <label for="input-name">Your name</label>
+      <input type="text" id="input-name" placeholder="e.g. Sophie Martin" autocomplete="off" maxlength="60">
+    </div>
+    <button class="btn btn-primary" onclick="startApp()" id="btn-start">
+      Start →
+    </button>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════
+     SCREEN 2: UNIT SELECTION
+══════════════════════════════════════════════ -->
+<div class="screen" id="screen-units">
+  <div class="screen-title">
+    <h2 id="units-greeting">Choisissez une unité</h2>
+    <p>Select any unit to practise. Completed units show your score.</p>
+  </div>
+  <div class="unit-grid" id="unit-grid"></div>
+  <div style="margin-top:24px; display:flex; gap:12px; flex-wrap:wrap; justify-content:center;">
+    <button class="btn btn-secondary" onclick="practiseAll()">🎯 Practise All Units</button>
+    <button class="btn btn-success" id="btn-download" onclick="downloadResults()" style="display:none">⬇ Download Results</button>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════
+     SCREEN 3: QUIZ
+══════════════════════════════════════════════ -->
+<div class="screen" id="screen-quiz">
+  <div class="quiz-wrap">
+
+    <!-- Progress -->
+    <div class="quiz-meta">
+      <span id="quiz-unit-label">SP1 — La famille</span>
+      <span class="score-badge" id="quiz-score-badge">0 / 0</span>
+    </div>
+    <div class="progress-bar-wrap">
+      <div class="progress-bar" id="quiz-progress-bar" style="width:0%"></div>
+    </div>
+
+    <!-- Question -->
+    <div class="q-card">
+      <div class="q-label">Translate into French</div>
+      <div class="q-english" id="q-english">—</div>
+      <div class="q-hint" id="q-hint"></div>
+
+      <div class="answer-row">
+        <input type="text" id="answer-input" placeholder="Votre réponse en français…" autocomplete="off" autocorrect="off" spellcheck="false">
+        <button class="btn btn-primary" id="btn-check" onclick="checkAnswer()">Vérifier ✓</button>
+      </div>
+
+      <div class="feedback" id="feedback"></div>
+    </div>
+
+    <!-- Accent keyboard -->
+    <div class="accent-kb">
+      <div class="accent-kb-label">⌨ Accent keyboard — click to insert</div>
+      <div class="accent-rows">
+        <!-- Row 1: Primary 5 (AZERTY keys) -->
+        <div class="accent-row" id="accent-row-primary">
+          <span class="accent-key primary" onclick="insertAccent('é')" title="é">é</span>
+          <span class="accent-key primary" onclick="insertAccent('è')" title="è">è</span>
+          <span class="accent-key primary" onclick="insertAccent('à')" title="à">à</span>
+          <span class="accent-key primary" onclick="insertAccent('ç')" title="ç">ç</span>
+          <span class="accent-key primary" onclick="insertAccent('ù')" title="ù">ù</span>
+          <div class="accent-divider"></div>
+          <span class="accent-key" onclick="insertAccent('ê')" title="ê">ê</span>
+          <span class="accent-key" onclick="insertAccent('ô')" title="ô">ô</span>
+          <span class="accent-key" onclick="insertAccent('î')" title="î">î</span>
+          <span class="accent-key" onclick="insertAccent('û')" title="û">û</span>
+          <span class="accent-key" onclick="insertAccent('â')" title="â">â</span>
+          <span class="accent-key" onclick="insertAccent('œ')" title="œ">œ</span>
+          <span class="accent-key" onclick="insertAccent('ë')" title="ë">ë</span>
+          <span class="accent-key" onclick="insertAccent('ï')" title="ï">ï</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Controls -->
+    <div class="quiz-controls">
+      <button class="btn btn-secondary" onclick="skipQuestion()">Passer →</button>
+      <button class="btn btn-secondary" onclick="goToUnits()">⬅ Units</button>
+      <button class="btn btn-secondary btn-sm" id="btn-show-answer" onclick="showAnswer()" style="margin-left:auto">Show answer</button>
+    </div>
+
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════
+     SCREEN 4: RESULTS
+══════════════════════════════════════════════ -->
+<div class="screen" id="screen-results">
+  <div class="results-wrap">
+    <div class="results-header">
+      <h2 id="results-name">Results</h2>
+      <div class="total-score" id="results-total">—</div>
+      <div class="total-sub" id="results-sub">—</div>
+    </div>
+    <div class="unit-results" id="results-unit-list"></div>
+    <div class="results-actions">
+      <button class="btn btn-primary" onclick="goToUnits()">⬅ Back to Units</button>
+      <button class="btn btn-success" onclick="downloadResults()">⬇ Download Results (.txt)</button>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script>
+// ═══════════════════════════════════════════════════════════
+//  VOCABULARY DATA — all 12 units
+//  Format: { en: "English", fr: "le/la français", hint: "optional gender/type hint" }
+// ═══════════════════════════════════════════════════════════
+const UNITS = [
+  {
+    code: "SP1",
+    title: "La famille en voie de changement",
+    theme: "Société française contemporaine",
+    vocab: [
+      { en: "marriage",                        fr: "le mariage",                           hint: "noun (m)" },
+      { en: "divorce",                         fr: "le divorce",                           hint: "noun (m)" },
+      { en: "civil partnership (France)",      fr: "le PACS",                              hint: "Pacte civil de solidarité" },
+      { en: "cohabitation / living together",  fr: "la cohabitation",                      hint: "noun (f)" },
+      { en: "common-law relationship",         fr: "l'union libre",                        hint: "noun (f)" },
+      { en: "blended / reconstituted family",  fr: "la famille recomposée",                hint: "noun (f)" },
+      { en: "shared custody",                  fr: "la garde partagée",                    hint: "noun (f)" },
+      { en: "single parenthood",               fr: "la monoparentalité",                   hint: "noun (f)" },
+      { en: "household / home",                fr: "le foyer",                             hint: "noun (m)" },
+      { en: "intergenerational solidarity",    fr: "la solidarité intergénérationnelle",   hint: "noun (f)" },
+      { en: "parental leave",                  fr: "le congé parental",                    hint: "noun (m)" },
+      { en: "birth rate",                      fr: "la natalité",                          hint: "noun (f)" },
+      { en: "to grow old / age",               fr: "vieillir",                             hint: "verb (infinitive)" },
+      { en: "dependency",                      fr: "la dépendance",                        hint: "noun (f)" },
+      { en: "the ageing of the population",    fr: "le vieillissement de la population",   hint: "noun (m)" },
+    ]
+  },
+  {
+    code: "SP2",
+    title: "La place des femmes et l'éducation",
+    theme: "Société française contemporaine",
+    vocab: [
+      { en: "equality",                        fr: "l'égalité",                            hint: "noun (f)" },
+      { en: "discrimination",                  fr: "la discrimination",                    hint: "noun (f)" },
+      { en: "glass ceiling",                   fr: "le plafond de verre",                  hint: "noun (m)" },
+      { en: "equal representation (gender)",   fr: "la parité",                            hint: "noun (f)" },
+      { en: "harassment",                      fr: "le harcèlement",                       hint: "noun (m)" },
+      { en: "maternity leave",                 fr: "le congé maternité",                   hint: "noun (m)" },
+      { en: "nursery / crèche",                fr: "la crèche",                            hint: "noun (f)" },
+      { en: "sexism",                          fr: "le sexisme",                           hint: "noun (m)" },
+      { en: "elite higher education institution", fr: "une Grande École",                  hint: "noun (f)" },
+      { en: "competitive entrance exam",       fr: "le concours",                          hint: "noun (m)" },
+      { en: "preparatory class (for Grandes Écoles)", fr: "la prépa",                      hint: "= classe préparatoire" },
+      { en: "scholarship / grant",             fr: "la bourse",                            hint: "noun (f)" },
+      { en: "dropping out (school)",           fr: "le décrochage scolaire",               hint: "noun (m)" },
+      { en: "educational inequality",          fr: "l'inégalité scolaire",                 hint: "noun (f)" },
+      { en: "empowerment / autonomy",          fr: "l'autonomie",                          hint: "noun (f)" },
+    ]
+  },
+  {
+    code: "SP3",
+    title: "Le monde du travail",
+    theme: "Société française contemporaine",
+    vocab: [
+      { en: "strike",                          fr: "la grève",                             hint: "noun (f)" },
+      { en: "trade union",                     fr: "le syndicat",                          hint: "noun (m)" },
+      { en: "retirement / pension",            fr: "la retraite",                          hint: "noun (f)" },
+      { en: "unemployment",                    fr: "le chômage",                           hint: "noun (m)" },
+      { en: "minimum wage (France)",           fr: "le SMIC",                              hint: "Salaire minimum interprofessionnel de croissance" },
+      { en: "precarious work / job insecurity", fr: "la précarité",                        hint: "noun (f)" },
+      { en: "permanent contract",              fr: "le CDI",                               hint: "contrat à durée indéterminée" },
+      { en: "temporary contract",              fr: "le CDD",                               hint: "contrat à durée déterminée" },
+      { en: "redundancy / dismissal",          fr: "le licenciement",                      hint: "noun (m)" },
+      { en: "offshoring / outsourcing",        fr: "la délocalisation",                    hint: "noun (f)" },
+      { en: "remote working",                  fr: "le télétravail",                       hint: "noun (m)" },
+      { en: "purchasing power",                fr: "le pouvoir d'achat",                   hint: "noun (m)" },
+      { en: "collective bargaining",           fr: "la négociation collective",             hint: "noun (f)" },
+      { en: "labour law",                      fr: "le droit du travail",                  hint: "noun (m)" },
+      { en: "social dialogue",                 fr: "le dialogue social",                   hint: "noun (m)" },
+    ]
+  },
+  {
+    code: "SP4",
+    title: "La cyber-société",
+    theme: "Culture politique et artistique",
+    vocab: [
+      { en: "digital technology",              fr: "le numérique",                         hint: "noun (m)" },
+      { en: "social media",                    fr: "les réseaux sociaux",                  hint: "noun (m pl)" },
+      { en: "misinformation / disinformation", fr: "la désinformation",                    hint: "noun (f)" },
+      { en: "cyberbullying",                   fr: "le cyberharcèlement",                  hint: "noun (m)" },
+      { en: "digital divide",                  fr: "la fracture numérique",                hint: "noun (f)" },
+      { en: "privacy",                         fr: "la vie privée",                        hint: "noun (f)" },
+      { en: "personal data",                   fr: "les données personnelles",              hint: "noun (f pl)" },
+      { en: "addiction (screen)",              fr: "l'addiction aux écrans",               hint: "noun (f)" },
+      { en: "artificial intelligence",         fr: "l'intelligence artificielle",          hint: "noun (f)" },
+      { en: "hacking / cyberattack",           fr: "le piratage informatique",             hint: "noun (m)" },
+      { en: "surveillance",                    fr: "la surveillance",                      hint: "noun (f)" },
+      { en: "digital identity",                fr: "l'identité numérique",                 hint: "noun (f)" },
+      { en: "e-commerce",                      fr: "le commerce en ligne",                 hint: "noun (m)" },
+      { en: "fake news",                       fr: "les fausses informations",             hint: "noun (f pl) — also: infox" },
+      { en: "to regulate (internet)",          fr: "réguler",                              hint: "verb (infinitive)" },
+    ]
+  },
+  {
+    code: "SP5",
+    title: "Les médias",
+    theme: "Culture politique et artistique",
+    vocab: [
+      { en: "freedom of the press",            fr: "la liberté de la presse",              hint: "noun (f)" },
+      { en: "press / print media",             fr: "la presse écrite",                     hint: "noun (f)" },
+      { en: "journalism",                      fr: "le journalisme",                       hint: "noun (m)" },
+      { en: "audience / readership",           fr: "l'audience",                           hint: "noun (f)" },
+      { en: "circulation (newspaper)",         fr: "le tirage",                            hint: "noun (m)" },
+      { en: "public broadcasting",             fr: "l'audiovisuel public",                 hint: "noun (m)" },
+      { en: "censorship",                      fr: "la censure",                           hint: "noun (f)" },
+      { en: "media plurality",                 fr: "le pluralisme des médias",             hint: "noun (m)" },
+      { en: "the fourth estate",               fr: "le quatrième pouvoir",                 hint: "noun (m)" },
+      { en: "objectivity",                     fr: "l'objectivité",                        hint: "noun (f)" },
+      { en: "satire",                          fr: "la satire",                            hint: "noun (f)" },
+      { en: "media bias",                      fr: "le biais médiatique",                  hint: "noun (m)" },
+      { en: "right to information",            fr: "le droit à l'information",             hint: "noun (m)" },
+      { en: "concentration of media ownership",fr: "la concentration des médias",          hint: "noun (f)" },
+      { en: "press release",                   fr: "le communiqué de presse",              hint: "noun (m)" },
+    ]
+  },
+  {
+    code: "SP6",
+    title: "Le patrimoine culturel français",
+    theme: "Culture politique et artistique",
+    vocab: [
+      { en: "cultural heritage",               fr: "le patrimoine culturel",               hint: "noun (m)" },
+      { en: "the cultural exception (French policy)", fr: "l'exception culturelle",        hint: "noun (f)" },
+      { en: "international influence / prestige", fr: "le rayonnement international",      hint: "noun (m)" },
+      { en: "the French-speaking world",       fr: "la Francophonie",                      hint: "noun (f)" },
+      { en: "intangible heritage",             fr: "le patrimoine immatériel",             hint: "noun (m)" },
+      { en: "secularism (French principle)",   fr: "la laïcité",                           hint: "noun (f)" },
+      { en: "republican values",               fr: "les valeurs républicaines",            hint: "noun (f pl)" },
+      { en: "cultural diversity",              fr: "la diversité culturelle",              hint: "noun (f)" },
+      { en: "national identity",               fr: "l'identité nationale",                 hint: "noun (f)" },
+      { en: "government arts subsidy",         fr: "la subvention culturelle",             hint: "noun (f)" },
+      { en: "democratisation (of culture)",    fr: "la démocratisation de la culture",     hint: "noun (f)" },
+      { en: "artistic creation",               fr: "la création artistique",               hint: "noun (f)" },
+      { en: "cultural imperialism",            fr: "l'impérialisme culturel",              hint: "noun (m)" },
+      { en: "UNESCO World Heritage Site",      fr: "le patrimoine mondial de l'UNESCO",    hint: "noun (m)" },
+      { en: "to safeguard / preserve",         fr: "sauvegarder",                          hint: "verb (infinitive)" },
+    ]
+  },
+  {
+    code: "SP7",
+    title: "L'immigration",
+    theme: "Immigration et société multiculturelle",
+    vocab: [
+      { en: "immigration",                     fr: "l'immigration",                        hint: "noun (f)" },
+      { en: "emigration",                      fr: "l'émigration",                         hint: "noun (f)" },
+      { en: "migrant",                         fr: "le migrant / la migrante",             hint: "noun (m/f)" },
+      { en: "refugee",                         fr: "le réfugié / la réfugiée",             hint: "noun (m/f)" },
+      { en: "asylum",                          fr: "l'asile",                              hint: "noun (m)" },
+      { en: "integration",                     fr: "l'intégration",                        hint: "noun (f)" },
+      { en: "naturalisation",                  fr: "la naturalisation",                    hint: "noun (f)" },
+      { en: "citizenship",                     fr: "la citoyenneté",                       hint: "noun (f)" },
+      { en: "residence permit",                fr: "le titre de séjour",                   hint: "noun (m)" },
+      { en: "undocumented person / illegal immigrant", fr: "le sans-papiers",              hint: "noun (m)" },
+      { en: "family reunification",            fr: "le regroupement familial",             hint: "noun (m)" },
+      { en: "deportation / expulsion",         fr: "l'expulsion",                          hint: "noun (f)" },
+      { en: "illegal / clandestine immigration", fr: "l'immigration clandestine",          hint: "noun (f)" },
+      { en: "migration policy",                fr: "la politique migratoire",              hint: "noun (f)" },
+      { en: "host country",                    fr: "le pays d'accueil",                    hint: "noun (m)" },
+    ]
+  },
+  {
+    code: "SP8",
+    title: "La société multiculturelle",
+    theme: "Immigration et société multiculturelle",
+    vocab: [
+      { en: "multiculturalism",                fr: "le multiculturalisme",                 hint: "noun (m)" },
+      { en: "assimilation",                    fr: "l'assimilation",                       hint: "noun (f)" },
+      { en: "communitarianism",                fr: "le communautarisme",                   hint: "noun (m)" },
+      { en: "mixed society / social mixing",   fr: "la mixité sociale",                    hint: "noun (f)" },
+      { en: "cultural blending / hybridity",   fr: "le métissage culturel",                hint: "noun (m)" },
+      { en: "diversity",                       fr: "la diversité",                         hint: "noun (f)" },
+      { en: "living together / coexistence",   fr: "le vivre-ensemble",                    hint: "noun (m)" },
+      { en: "social cohesion",                 fr: "la cohésion sociale",                  hint: "noun (f)" },
+      { en: "otherness / alterity",            fr: "l'altérité",                           hint: "noun (f)" },
+      { en: "interculturality",                fr: "l'interculturalité",                   hint: "noun (f)" },
+      { en: "tolerance",                       fr: "la tolérance",                         hint: "noun (f)" },
+      { en: "deprived suburb (Paris)",         fr: "la banlieue",                          hint: "noun (f)" },
+      { en: "segregation",                     fr: "la ségrégation",                       hint: "noun (f)" },
+      { en: "social exclusion",                fr: "l'exclusion sociale",                  hint: "noun (f)" },
+      { en: "integration model",               fr: "le modèle d'intégration",              hint: "noun (m)" },
+    ]
+  },
+  {
+    code: "SP9",
+    title: "Le racisme et la discrimination",
+    theme: "Immigration et société multiculturelle",
+    vocab: [
+      { en: "racism",                          fr: "le racisme",                           hint: "noun (m)" },
+      { en: "xenophobia",                      fr: "la xénophobie",                        hint: "noun (f)" },
+      { en: "discrimination",                  fr: "la discrimination",                    hint: "noun (f)" },
+      { en: "prejudice",                       fr: "les préjugés",                         hint: "noun (m pl)" },
+      { en: "stereotypes",                     fr: "les stéréotypes",                      hint: "noun (m pl)" },
+      { en: "Islamophobia",                    fr: "l'islamophobie",                       hint: "noun (f)" },
+      { en: "anti-Semitism",                   fr: "l'antisémitisme",                      hint: "noun (m)" },
+      { en: "equal opportunities",             fr: "l'égalité des chances",                hint: "noun (f)" },
+      { en: "hate crime / hate speech",        fr: "le discours de haine",                 hint: "noun (m)" },
+      { en: "conviction / criminal sentence",  fr: "la condamnation",                      hint: "noun (f)" },
+      { en: "awareness-raising",               fr: "la sensibilisation",                   hint: "noun (f)" },
+      { en: "activism / campaigning",          fr: "le militantisme",                      hint: "noun (m)" },
+      { en: "institutionalised racism",        fr: "le racisme institutionnel",            hint: "noun (m)" },
+      { en: "fight against discrimination",    fr: "la lutte contre les discriminations",  hint: "noun (f)" },
+      { en: "positive discrimination",         fr: "la discrimination positive",           hint: "noun (f)" },
+    ]
+  },
+  {
+    code: "SP10",
+    title: "La politique et la citoyenneté",
+    theme: "Engagement politique et civique",
+    vocab: [
+      { en: "democracy",                       fr: "la démocratie",                        hint: "noun (f)" },
+      { en: "the Republic",                    fr: "la République",                        hint: "noun (f)" },
+      { en: "universal suffrage",              fr: "le suffrage universel",                hint: "noun (m)" },
+      { en: "voter abstention",                fr: "l'abstentionnisme",                    hint: "noun (m)" },
+      { en: "civic engagement",                fr: "l'engagement civique",                 hint: "noun (m)" },
+      { en: "the right to vote",               fr: "le droit de vote",                     hint: "noun (m)" },
+      { en: "citizen",                         fr: "le citoyen / la citoyenne",            hint: "noun (m/f)" },
+      { en: "human rights",                    fr: "les droits de l'homme",                hint: "noun (m pl)" },
+      { en: "separation of powers",            fr: "la séparation des pouvoirs",           hint: "noun (f)" },
+      { en: "referendum",                      fr: "le référendum",                        hint: "noun (m)" },
+      { en: "the Constitution",                fr: "la Constitution",                      hint: "noun (f)" },
+      { en: "decentralisation",                fr: "la décentralisation",                  hint: "noun (f)" },
+      { en: "political disenchantment",        fr: "la désaffection politique",            hint: "noun (f)" },
+      { en: "grassroots movement",             fr: "le mouvement citoyen",                 hint: "noun (m)" },
+      { en: "rule of law",                     fr: "l'état de droit",                      hint: "noun (m)" },
+    ]
+  },
+  {
+    code: "SP11",
+    title: "L'environnement et le développement durable",
+    theme: "Enjeux contemporains",
+    vocab: [
+      { en: "global warming",                  fr: "le réchauffement climatique",          hint: "noun (m)" },
+      { en: "sustainable development",         fr: "le développement durable",             hint: "noun (m)" },
+      { en: "carbon footprint",                fr: "l'empreinte carbone",                  hint: "noun (f)" },
+      { en: "renewable energy",                fr: "les énergies renouvelables",           hint: "noun (f pl)" },
+      { en: "biodiversity",                    fr: "la biodiversité",                      hint: "noun (f)" },
+      { en: "deforestation",                   fr: "la déforestation",                     hint: "noun (f)" },
+      { en: "pollution",                       fr: "la pollution",                         hint: "noun (f)" },
+      { en: "selective waste sorting",         fr: "le tri sélectif",                      hint: "noun (m)" },
+      { en: "energy transition",               fr: "la transition énergétique",            hint: "noun (f)" },
+      { en: "nuclear power",                   fr: "le nucléaire",                         hint: "noun (m)" },
+      { en: "ecological awareness",            fr: "la conscience écologique",             hint: "noun (f)" },
+      { en: "greenhouse gases",                fr: "les gaz à effet de serre",             hint: "noun (m pl)" },
+      { en: "carbon neutrality",               fr: "la neutralité carbone",                hint: "noun (f)" },
+      { en: "to preserve / protect",           fr: "préserver",                            hint: "verb (infinitive)" },
+      { en: "climate change denial",           fr: "le climatoscepticisme",                hint: "noun (m)" },
+    ]
+  },
+  {
+    code: "SP12",
+    title: "La France occupée et la Résistance",
+    theme: "France 1940–1944",
+    vocab: [
+      { en: "the Occupation",                  fr: "l'Occupation",                         hint: "noun (f) — 1940–44" },
+      { en: "the Resistance",                  fr: "la Résistance",                        hint: "noun (f)" },
+      { en: "collaboration (with Nazis)",      fr: "la collaboration",                     hint: "noun (f)" },
+      { en: "the Vichy regime",                fr: "le régime de Vichy",                   hint: "noun (m)" },
+      { en: "deportation",                     fr: "la déportation",                       hint: "noun (f)" },
+      { en: "persecution",                     fr: "la persécution",                       hint: "noun (f)" },
+      { en: "anti-Semitism",                   fr: "l'antisémitisme",                      hint: "noun (m)" },
+      { en: "the maquis (underground fighters)", fr: "le maquis",                          hint: "noun (m)" },
+      { en: "Liberation (of France, 1944)",    fr: "la Libération",                        hint: "noun (f)" },
+      { en: "remembrance / duty of memory",    fr: "le devoir de mémoire",                 hint: "noun (m)" },
+      { en: "testimony / witness account",     fr: "le témoignage",                        hint: "noun (m)" },
+      { en: "genocide",                        fr: "le génocide",                          hint: "noun (m)" },
+      { en: "round-up (of Jews, e.g. 1942)",   fr: "la rafle",                             hint: "noun (f)" },
+      { en: "propaganda",                      fr: "la propagande",                        hint: "noun (f)" },
+      { en: "commitment / moral engagement",   fr: "l'engagement",                         hint: "noun (m)" },
+    ]
+  }
+];
+
+// ═══════════════════════════════════════════════════════════
+//  STATE
+// ═══════════════════════════════════════════════════════════
+let studentName = "";
+let scores = {}; // { "SP1": { correct: 0, total: 0, details: [] }, … }
+let currentQueue = []; // flat list of { unitCode, item }
+let qIndex = 0;
+let currentAnswer = null;
+let answerRevealed = false;
+
+// ═══════════════════════════════════════════════════════════
+//  NAVIGATION
+// ═══════════════════════════════════════════════════════════
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+
+// ═══════════════════════════════════════════════════════════
+//  WELCOME → UNITS
+// ═══════════════════════════════════════════════════════════
+document.getElementById('input-name').addEventListener('keydown', e => {
+  if (e.key === 'Enter') startApp();
+});
+
+function startApp() {
+  const name = document.getElementById('input-name').value.trim();
+  if (!name) {
+    document.getElementById('input-name').focus();
+    return;
+  }
+  studentName = name;
+  document.getElementById('header-name').textContent = '👤 ' + name;
+  buildUnitGrid();
+  showScreen('screen-units');
+  document.getElementById('units-greeting').textContent = `Bonjour, ${name} ! Choisissez une unité`;
+}
+
+// ═══════════════════════════════════════════════════════════
+//  UNIT GRID
+// ═══════════════════════════════════════════════════════════
+function buildUnitGrid() {
+  const grid = document.getElementById('unit-grid');
+  grid.innerHTML = '';
+  UNITS.forEach(unit => {
+    const div = document.createElement('div');
+    div.className = 'unit-card' + (scores[unit.code] ? ' done' : '');
+    div.innerHTML = `
+      <div class="unit-code">${unit.code}</div>
+      <div class="unit-title">${unit.title}</div>
+      ${scores[unit.code]
+        ? `<div class="unit-score">✓ ${scores[unit.code].correct}/${scores[unit.code].total} correct</div>`
+        : ''}
+    `;
+    div.addEventListener('click', () => startUnit(unit.code));
+    grid.appendChild(div);
+  });
+  // Show download button if any unit done
+  const anyDone = Object.keys(scores).length > 0;
+  document.getElementById('btn-download').style.display = anyDone ? 'inline-flex' : 'none';
+}
+
+// ═══════════════════════════════════════════════════════════
+//  START QUIZ — single unit
+// ═══════════════════════════════════════════════════════════
+function startUnit(unitCode) {
+  const unit = UNITS.find(u => u.code === unitCode);
+  const shuffled = shuffleArray([...unit.vocab]);
+  currentQueue = shuffled.map(item => ({ unitCode, item }));
+  qIndex = 0;
+  if (!scores[unitCode]) scores[unitCode] = { correct: 0, total: 0, details: [] };
+  else scores[unitCode] = { correct: 0, total: 0, details: [] }; // reset on retry
+  showScreen('screen-quiz');
+  loadQuestion();
+}
+
+// Practise all units in sequence
+function practiseAll() {
+  currentQueue = [];
+  UNITS.forEach(unit => {
+    const shuffled = shuffleArray([...unit.vocab]);
+    shuffled.forEach(item => currentQueue.push({ unitCode: unit.code, item }));
+  });
+  qIndex = 0;
+  UNITS.forEach(u => { scores[u.code] = { correct: 0, total: 0, details: [] }; });
+  showScreen('screen-quiz');
+  loadQuestion();
+}
+
+// ═══════════════════════════════════════════════════════════
+//  QUIZ LOGIC
+// ═══════════════════════════════════════════════════════════
+function loadQuestion() {
+  if (qIndex >= currentQueue.length) {
+    finishQuiz();
+    return;
+  }
+  answerRevealed = false;
+  const { unitCode, item } = currentQueue[qIndex];
+  const unit = UNITS.find(u => u.code === unitCode);
+  currentAnswer = item;
+
+  // UI
+  document.getElementById('quiz-unit-label').textContent = `${unitCode} — ${unit.title}`;
+  document.getElementById('q-english').textContent = item.en;
+  document.getElementById('q-hint').textContent = item.hint ? `Hint: ${item.hint}` : '';
+  document.getElementById('answer-input').value = '';
+  document.getElementById('answer-input').disabled = false;
+  document.getElementById('btn-check').disabled = false;
+  document.getElementById('btn-show-answer').disabled = false;
+
+  // Feedback
+  hideFeedback();
+
+  // Progress
+  const total = currentQueue.length;
+  const done = qIndex;
+  const pct = total ? (done / total) * 100 : 0;
+  document.getElementById('quiz-progress-bar').style.width = pct + '%';
+
+  // Score badge (for current unit's questions so far)
+  const sc = scores[unitCode];
+  document.getElementById('quiz-score-badge').textContent =
+    `${qIndex + 1} / ${total}`;
+
+  document.getElementById('answer-input').focus();
+}
+
+document.getElementById('answer-input').addEventListener('keydown', e => {
+  if (e.key === 'Enter') {
+    e.preventDefault();
+    if (!document.getElementById('btn-check').disabled) checkAnswer();
+  }
+});
+
+function checkAnswer() {
+  const input = document.getElementById('answer-input').value.trim();
+  if (!input) return;
+
+  const correct = currentAnswer.fr;
+  const { unitCode } = currentQueue[qIndex];
+
+  const [isCorrect, isPartial] = compare(input, correct);
+
+  scores[unitCode].total += 1;
+  scores[unitCode].details.push({
+    en: currentAnswer.en,
+    expected: correct,
+    given: input,
+    correct: isCorrect
+  });
+
+  if (isCorrect) {
+    scores[unitCode].correct += 1;
+    showFeedback('correct', `✓ Correct ! ${correct}`);
+    document.getElementById('answer-input').disabled = true;
+    document.getElementById('btn-check').disabled = true;
+    setTimeout(nextQuestion, 1200);
+  } else if (isPartial) {
+    // Accent-stripped match
+    showFeedback('partial', `⚠ Presque correct, but check your accents. Answer: ${correct}`);
+    document.getElementById('answer-input').disabled = true;
+    document.getElementById('btn-check').disabled = true;
+    setTimeout(nextQuestion, 2000);
+  } else {
+    showFeedback('incorrect', `✗ Incorrect. La bonne réponse : ${correct}`);
+    document.getElementById('answer-input').disabled = true;
+    document.getElementById('btn-check').disabled = true;
+    setTimeout(nextQuestion, 2200);
+  }
+}
+
+function showAnswer() {
+  if (answerRevealed) return;
+  answerRevealed = true;
+  const correct = currentAnswer.fr;
+  const { unitCode } = currentQueue[qIndex];
+  scores[unitCode].total += 1;
+  scores[unitCode].details.push({
+    en: currentAnswer.en, expected: correct, given: '(shown)', correct: false
+  });
+  showFeedback('incorrect', `📖 Answer: ${correct}`);
+  document.getElementById('answer-input').disabled = true;
+  document.getElementById('btn-check').disabled = true;
+  document.getElementById('btn-show-answer').disabled = true;
+  setTimeout(nextQuestion, 2500);
+}
+
+function skipQuestion() {
+  const { unitCode } = currentQueue[qIndex];
+  scores[unitCode].total += 1;
+  scores[unitCode].details.push({
+    en: currentAnswer ? currentAnswer.en : '', expected: currentAnswer ? currentAnswer.fr : '',
+    given: '(skipped)', correct: false
+  });
+  nextQuestion();
+}
+
+function nextQuestion() {
+  qIndex++;
+  loadQuestion();
+}
+
+// ═══════════════════════════════════════════════════════════
+//  COMPARISON LOGIC
+// ═══════════════════════════════════════════════════════════
+function normalize(str) {
+  return str.toLowerCase().trim()
+    .replace(/^(le |la |les |l'|l'|un |une |des )/i, '')
+    .replace(/\(.*?\)/g, '') // strip parenthetical notes
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
+function stripAccents(str) {
+  return str.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+}
+
+function compare(input, correct) {
+  const normIn = normalize(input);
+  const normCo = normalize(correct);
+
+  // Exact match (case insensitive, with or without article)
+  if (normIn === normCo || input.toLowerCase().trim() === correct.toLowerCase().trim()) {
+    return [true, false];
+  }
+  // Accept either form (with or without article) for full credit
+  if (stripAccents(normIn) === stripAccents(normCo) &&
+      stripAccents(input.toLowerCase().trim()) !== stripAccents(correct.toLowerCase().trim())) {
+    // The normalized forms match accent-free: partial (accent error)
+  }
+  if (normIn === normCo) return [true, false];
+
+  // Accent-stripped partial match
+  if (stripAccents(normIn) === stripAccents(normCo)) {
+    return [false, true];
+  }
+
+  return [false, false];
+}
+
+// ═══════════════════════════════════════════════════════════
+//  FEEDBACK
+// ═══════════════════════════════════════════════════════════
+function showFeedback(type, msg) {
+  const fb = document.getElementById('feedback');
+  fb.textContent = msg;
+  fb.className = 'feedback show ' + type;
+}
+function hideFeedback() {
+  document.getElementById('feedback').className = 'feedback';
+}
+
+// ═══════════════════════════════════════════════════════════
+//  FINISH QUIZ
+// ═══════════════════════════════════════════════════════════
+function finishQuiz() {
+  buildUnitGrid(); // refresh scores on unit screen
+  showResultsScreen();
+}
+
+function goToUnits() {
+  buildUnitGrid();
+  showScreen('screen-units');
+}
+
+// ═══════════════════════════════════════════════════════════
+//  RESULTS SCREEN
+// ═══════════════════════════════════════════════════════════
+function showResultsScreen() {
+  let totalC = 0, totalT = 0;
+  UNITS.forEach(u => {
+    if (scores[u.code]) {
+      totalC += scores[u.code].correct;
+      totalT += scores[u.code].total;
+    }
+  });
+
+  document.getElementById('results-name').textContent = `Results for ${studentName}`;
+  document.getElementById('results-total').textContent = `${totalC} / ${totalT}`;
+  const pct = totalT ? Math.round((totalC / totalT) * 100) : 0;
+  document.getElementById('results-sub').textContent =
+    `Overall accuracy: ${pct}%  ·  ${new Date().toLocaleDateString('en-GB', {day:'numeric', month:'long', year:'numeric'})}`;
+
+  const list = document.getElementById('results-unit-list');
+  list.innerHTML = '';
+  UNITS.forEach(unit => {
+    const sc = scores[unit.code];
+    const div = document.createElement('div');
+    div.className = 'unit-result-row' + (sc ? '' : ' skipped');
+    const c = sc ? sc.correct : 0;
+    const t = sc ? sc.total : 0;
+    const p = t ? Math.round((c / t) * 100) : 0;
+    const barColor = p >= 80 ? '#27ae60' : p >= 50 ? '#e67e22' : '#e74c3c';
+    div.innerHTML = `
+      <div class="unit-result-code">${unit.code}</div>
+      <div class="unit-result-title">${unit.title}</div>
+      <div class="unit-result-bar-wrap">
+        <div class="unit-result-bar" style="width:${p}%;background:${barColor}"></div>
+      </div>
+      <div class="unit-result-score">${sc ? `${c}/${t}` : '—'}</div>
+    `;
+    list.appendChild(div);
+  });
+
+  showScreen('screen-results');
+}
+
+// ═══════════════════════════════════════════════════════════
+//  DOWNLOAD RESULTS
+// ═══════════════════════════════════════════════════════════
+function downloadResults() {
+  const date = new Date().toLocaleDateString('en-GB', {weekday:'long', year:'numeric', month:'long', day:'numeric'});
+  const time = new Date().toLocaleTimeString('en-GB');
+  let out = [];
+  out.push('═══════════════════════════════════════════════════════');
+  out.push('  FRENCH A-LEVEL VOCABULARY TRAINER — RESULTS');
+  out.push('═══════════════════════════════════════════════════════');
+  out.push(`  Student : ${studentName}`);
+  out.push(`  Date    : ${date}, ${time}`);
+  out.push('───────────────────────────────────────────────────────');
+
+  let totalC = 0, totalT = 0;
+
+  UNITS.forEach(unit => {
+    const sc = scores[unit.code];
+    if (!sc || sc.total === 0) return;
+    totalC += sc.correct;
+    totalT += sc.total;
+    const pct = Math.round((sc.correct / sc.total) * 100);
+    const bar = '█'.repeat(Math.round(pct / 5)) + '░'.repeat(20 - Math.round(pct / 5));
+    out.push('');
+    out.push(`  ${unit.code}  ${unit.title}`);
+    out.push(`  Score : ${sc.correct}/${sc.total}  (${pct}%)   [${bar}]`);
+    out.push('  ┌─────────────────────────────────────────────────────');
+    out.push('  │  #   English               Your answer          ✓/✗');
+    out.push('  ├─────────────────────────────────────────────────────');
+    sc.details.forEach((d, i) => {
+      const tick = d.correct ? '✓' : '✗';
+      const en = d.en.padEnd(24).slice(0, 24);
+      const given = d.given.padEnd(20).slice(0, 20);
+      out.push(`  │  ${String(i+1).padStart(2)}  ${en}  ${given}  ${tick}`);
+      if (!d.correct) {
+        out.push(`  │        ↳ Correct: ${d.expected}`);
+      }
+    });
+    out.push('  └─────────────────────────────────────────────────────');
+  });
+
+  out.push('');
+  out.push('───────────────────────────────────────────────────────');
+  const totalPct = totalT ? Math.round((totalC / totalT) * 100) : 0;
+  out.push(`  TOTAL: ${totalC} / ${totalT}   (${totalPct}%)`);
+  out.push('═══════════════════════════════════════════════════════');
+
+  const blob = new Blob([out.join('\n')], { type: 'text/plain;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `French_Results_${studentName.replace(/\s+/g, '_')}_${new Date().toISOString().slice(0,10)}.txt`;
+  a.click();
+  URL.revokeObjectURL(url);
+  showToast('⬇ Results downloaded!');
+}
+
+// ═══════════════════════════════════════════════════════════
+//  ACCENT KEYBOARD
+// ═══════════════════════════════════════════════════════════
+function insertAccent(char) {
+  const input = document.getElementById('answer-input');
+  if (input.disabled) return;
+  const start = input.selectionStart;
+  const end = input.selectionEnd;
+  const val = input.value;
+  input.value = val.slice(0, start) + char + val.slice(end);
+  input.selectionStart = input.selectionEnd = start + char.length;
+  input.focus();
+}
+
+// ═══════════════════════════════════════════════════════════
+//  UTILS
+// ═══════════════════════════════════════════════════════════
+function shuffleArray(arr) {
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2800);
+}
+</script>
+</body>
+</html>

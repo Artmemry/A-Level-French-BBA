@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Le Cinéma de Vichy - Dictée</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .container {
+            max-width: 900px;
+            width: 100%;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            padding: 30px;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 10px;
+            font-size: 2em;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 25px;
+            font-style: italic;
+        }
+
+        .name-input {
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        .name-input input {
+            padding: 12px 20px;
+            font-size: 16px;
+            border: 2px solid #667eea;
+            border-radius: 8px;
+            width: 300px;
+            max-width: 100%;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        .name-input input:focus {
+            border-color: #764ba2;
+        }
+
+        .audio-controls {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 25px;
+            text-align: center;
+            color: white;
+        }
+
+        .audio-controls h3 {
+            margin-bottom: 20px;
+            font-size: 1.3em;
+        }
+
+        .audio-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .audio-btn {
+            background: white;
+            color: #667eea;
+            border: none;
+            padding: 15px 25px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .audio-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 7px 20px rgba(0,0,0,0.3);
+        }
+
+        .audio-btn:active {
+            transform: translateY(0);
+        }
+
+        .audio-btn.playing {
+            background: #11998e;
+            color: white;
+        }
+
+        .audio-btn:disabled {
+            background: #ccc;
+            color: #666;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .speed-control {
+            margin-top: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .speed-control input[type="range"] {
+            width: 200px;
+            cursor: pointer;
+        }
+
+        .instructions {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            border-left: 4px solid #667eea;
+        }
+
+        .instructions h3 {
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+
+        .instructions ul {
+            margin-left: 20px;
+            line-height: 1.8;
+        }
+
+        .typing-area {
+            width: 100%;
+            min-height: 350px;
+            padding: 20px;
+            font-size: 16px;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            resize: vertical;
+            font-family: 'Georgia', serif;
+            line-height: 1.8;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        .typing-area:focus {
+            border-color: #667eea;
+        }
+
+        .stats {
+            display: flex;
+            justify-content: space-around;
+            margin: 20px 0;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .stat-box {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 10px;
+            text-align: center;
+            min-width: 120px;
+        }
+
+        .stat-box .label {
+            font-size: 12px;
+            opacity: 0.9;
+            margin-bottom: 5px;
+        }
+
+        .stat-box .value {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .keyboard {
+            position: fixed;
+            bottom: -300px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: white;
+            padding: 20px;
+            border-radius: 15px 15px 0 0;
+            box-shadow: 0 -10px 30px rgba(0,0,0,0.3);
+            transition: bottom 0.3s ease;
+            z-index: 1000;
+            max-width: 900px;
+            width: 95%;
+        }
+
+        .keyboard.show {
+            bottom: 0;
+        }
+
+        .keyboard-toggle {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 25px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 16px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            z-index: 999;
+            transition: transform 0.2s;
+        }
+
+        .keyboard-toggle:hover {
+            transform: scale(1.05);
+        }
+
+        .keyboard-row {
+            display: flex;
+            justify-content: center;
+            gap: 5px;
+            margin-bottom: 8px;
+        }
+
+        .key {
+            background: #f0f0f0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 10px;
+            min-width: 40px;
+            text-align: center;
+            cursor: pointer;
+            user-select: none;
+            transition: all 0.1s;
+            font-family: monospace;
+        }
+
+        .key:hover {
+            background: #e0e0e0;
+            transform: translateY(-2px);
+        }
+
+        .key:active {
+            background: #667eea;
+            color: white;
+            transform: translateY(0);
+        }
+
+        .key.space {
+            min-width: 300px;
+        }
+
+        .download-btn {
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            display: block;
+            margin: 20px auto;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            transition: transform 0.2s;
+        }
+
+        .download-btn:hover {
+            transform: scale(1.05);
+        }
+
+        .download-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .show-text-btn {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
+            margin: 10px auto;
+            display: block;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            transition: transform 0.2s;
+        }
+
+        .show-text-btn:hover {
+            transform: scale(1.05);
+        }
+
+        .hidden-text {
+            display: none;
+            background: #fff3cd;
+            border: 2px solid #ffc107;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .hidden-text.visible {
+            display: block;
+        }
+
+        .hidden-text h3 {
+            color: #856404;
+            margin-bottom: 15px;
+        }
+
+        .hidden-text ul {
+            margin-left: 20px;
+            margin-bottom: 15px;
+        }
+
+        .hidden-text li {
+            margin-bottom: 8px;
+            line-height: 1.6;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+
+            h1 {
+                font-size: 1.5em;
+            }
+
+            .keyboard {
+                padding: 10px;
+            }
+
+            .key {
+                min-width: 30px;
+                padding: 8px;
+                font-size: 12px;
+            }
+
+            .key.space {
+                min-width: 150px;
+            }
+
+            .audio-buttons {
+                flex-direction: column;
+            }
+
+            .audio-btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Le Cinéma de Vichy</h1>
+        <p class="subtitle">Exercice de dictée</p>
+        
+        <div class="name-input">
+            <input type="text" id="studentName" placeholder="Entrez votre nom" maxlength="50">
+        </div>
+
+        <div class="instructions">
+            <h3>📝 Instructions</h3>
+            <ul>
+                <li>Cliquez sur "▶ Lire le texte" pour écouter la dictée</li>
+                <li>Vous pouvez mettre en pause et ajuster la vitesse de lecture</li>
+                <li>Écrivez ce que vous entendez dans la zone de texte ci-dessous</li>
+                <li>Utilisez le clavier virtuel pour les caractères spéciaux français</li>
+                <li>Une fois terminé, téléchargez votre travail</li>
+            </ul>
+        </div>
+
+        <div class="audio-controls">
+            <h3>🔊 Contrôles Audio</h3>
+            <div class="audio-buttons">
+                <button class="audio-btn" id="playBtn">
+                    <span>▶</span>
+                    <span>Lire le texte</span>
+                </button>
+                <button class="audio-btn" id="pauseBtn" disabled>
+                    <span>⏸</span>
+                    <span>Pause</span>
+                </button>
+                <button class="audio-btn" id="stopBtn" disabled>
+                    <span>⏹</span>
+                    <span>Arrêter</span>
+                </button>
+            </div>
+            <div class="speed-control">
+                <label>Vitesse:</label>
+                <input type="range" id="speedSlider" min="0.5" max="1.5" step="0.1" value="0.9">
+                <span id="speedValue">0.9x</span>
+            </div>
+        </div>
+
+        <div class="stats">
+            <div class="stat-box">
+                <div class="label">Mots</div>
+                <div class="value" id="wordCount">0</div>
+            </div>
+            <div class="stat-box">
+                <div class="label">Caractères</div>
+                <div class="value" id="charCount">0</div>
+            </div>
+            <div class="stat-box">
+                <div class="label">Temps (min)</div>
+                <div class="value" id="timeCount">0:00</div>
+            </div>
+        </div>
+
+        <textarea class="typing-area" id="typingArea" placeholder="Écrivez ici ce que vous entendez..."></textarea>
+
+        <button class="show-text-btn" id="showTextBtn">👁️ Voir le texte original (après avoir terminé)</button>
+
+        <div class="hidden-text" id="hiddenText">
+            <h3>📄 Texte Original</h3>
+            <p>Il n'y avait pas vraiment un 'cinéma de Vichy'. Les genres préférés du public et imposés par la censure étaient:</p>
+            
+            <ul>
+                <li>les films policiers, utilisant la popularité de Simenon, etc.;</li>
+                <li>les adaptations littéraires, comme la transposition, par Cocteau, du mythe de Tristan et Yseult dans L'éternel retour, ou un récit de Diderot pour Bresson;</li>
+                <li>les films en costumes, repliés dans le passé, malgré la pénurie de décors et d'accessoires, magistralement compensée par Carné avec Les enfants du Paradis;</li>
+                <li>les films fantastiques, ceux de S. de Poligny (Le Baron fantôme (1942), dont Jean Cocteau écrit les dialogues, et La Fiancée des ténèbres (1944), et Les visiteurs du soir (M.Carné);</li>
+                <li>les insipides études de mœurs: 1) critique sociale, p.e. de la classe dirigeante de la Troisième République, Les Inconnus dans la maison, 1941, Henri Decoin; La Loi du printemps, 1942, Jacques Daniel-Norman), 2) la terre salvatrice (Andorra, 1941, Émile Couzinet), 3) la victoire sur soi-même (Premier de cordée, 1943, Louis Daquin), 4) le rôle du chef (Carrefour des enfants perdus, 1943, Léo Joannon), 5) l'honneur de la famille (Les Roquevillard, 1943, Jean Dréville), 6) l'amour des autres (Le Chant de l'exilé, 1942, André Hugon), 7) le nationalisme (La Symphonie fantastique, 1941, Christian-Jaque), 8) la solidarité (Nous les gosses, 1941, Louis Daquin).</li>
+            </ul>
+
+            <p>La femme est plus généralement synonyme de devoir et de sacrifice (Le Voile bleu, 1942, Jean Stelli). Avant tout et surtout, elle est mère. Cependant, à partir de 1941, une nouvelle image de la famille transparaît, où priment l'amour sincère et la fécondité, et la réhabilitation de la mère célibataire. Celle-ci, écartée un moment de la société, finit par la réintégrer et se marier (La Fille du puisatier, 1940, Marcel Pagnol, et Andorra, 1941, Émile Couzinet). La famille est une cellule indispensable, sans laquelle l'enfant ne peut recevoir d'éducation complète.</p>
+        </div>
+
+        <button class="download-btn" id="downloadBtn">📥 Télécharger mon travail</button>
+    </div>
+
+    <button class="keyboard-toggle" id="keyboardToggle">⌨️ Clavier</button>
+
+    <div class="keyboard" id="keyboard">
+        <div class="keyboard-row">
+            <div class="key">à</div>
+            <div class="key">â</div>
+            <div class="key">é</div>
+            <div class="key">è</div>
+            <div class="key">ê</div>
+            <div class="key">ë</div>
+            <div class="key">î</div>
+            <div class="key">ï</div>
+            <div class="key">ô</div>
+            <div class="key">ù</div>
+            <div class="key">û</div>
+            <div class="key">ü</div>
+            <div class="key">ÿ</div>
+            <div class="key">ç</div>
+        </div>
+        <div class="keyboard-row">
+            <div class="key">œ</div>
+            <div class="key">æ</div>
+            <div class="key">'</div>
+            <div class="key">'</div>
+            <div class="key">«</div>
+            <div class="key">»</div>
+            <div class="key">;</div>
+            <div class="key">:</div>
+            <div class="key">,</div>
+            <div class="key">.</div>
+            <div class="key">!</div>
+            <div class="key">?</div>
+            <div class="key">-</div>
+        </div>
+        <div class="keyboard-row">
+            <div class="key">(</div>
+            <div class="key">)</div>
+            <div class="key">1</div>
+            <div class="key">2</div>
+            <div class="key">3</div>
+            <div class="key">4</div>
+            <div class="key">5</div>
+            <div class="key">6</div>
+            <div class="key">7</div>
+            <div class="key">8</div>
+        </div>
+        <div class="keyboard-row">
+            <div class="key space">espace</div>
+        </div>
+    </div>
+
+    <script>
+        const typingArea = document.getElementById('typingArea');
+        const studentName = document.getElementById('studentName');
+        const wordCount = document.getElementById('wordCount');
+        const charCount = document.getElementById('charCount');
+        const timeCount = document.getElementById('timeCount');
+        const downloadBtn = document.getElementById('downloadBtn');
+        const keyboardToggle = document.getElementById('keyboardToggle');
+        const keyboard = document.getElementById('keyboard');
+        const playBtn = document.getElementById('playBtn');
+        const pauseBtn = document.getElementById('pauseBtn');
+        const stopBtn = document.getElementById('stopBtn');
+        const speedSlider = document.getElementById('speedSlider');
+        const speedValue = document.getElementById('speedValue');
+        const showTextBtn = document.getElementById('showTextBtn');
+        const hiddenText = document.getElementById('hiddenText');
+
+        let startTime = null;
+        let timerInterval = null;
+        let utterance = null;
+        let isPaused = false;
+
+        const textToRead = `Il n'y avait pas vraiment un 'cinéma de Vichy'. Les genres préférés du public et imposés par la censure étaient:
+
+les films policiers, utilisant la popularité de Simenon, et cetera;
+
+les adaptations littéraires, comme la transposition, par Cocteau, du mythe de Tristan et Yseult dans L'éternel retour, ou un récit de Diderot pour Bresson;
+
+les films en costumes, repliés dans le passé, malgré la pénurie de décors et d'accessoires, magistralement compensée par Carné avec Les enfants du Paradis;
+
+les films fantastiques, ceux de S. de Poligny: Le Baron fantôme, 1942, dont Jean Cocteau écrit les dialogues, et La Fiancée des ténèbres, 1944, et Les visiteurs du soir, M.Carné;
+
+les insipides études de mœurs: un, critique sociale, par exemple de la classe dirigeante de la Troisième République, Les Inconnus dans la maison, 1941, Henri Decoin; La Loi du printemps, 1942, Jacques Daniel-Norman; deux, la terre salvatrice, Andorra, 1941, Émile Couzinet; trois, la victoire sur soi-même, Premier de cordée, 1943, Louis Daquin; quatre, le rôle du chef, Carrefour des enfants perdus, 1943, Léo Joannon; cinq, l'honneur de la famille, Les Roquevillard, 1943, Jean Dréville; six, l'amour des autres, Le Chant de l'exilé, 1942, André Hugon; sept, le nationalisme, La Symphonie fantastique, 1941, Christian-Jaque; huit, la solidarité, Nous les gosses, 1941, Louis Daquin.
+
+La femme est plus généralement synonyme de devoir et de sacrifice: Le Voile bleu, 1942, Jean Stelli. Avant tout et surtout, elle est mère. Cependant, à partir de 1941, une nouvelle image de la famille transparaît, où priment l'amour sincère et la fécondité, et la réhabilitation de la mère célibataire. Celle-ci, écartée un moment de la société, finit par la réintégrer et se marier: La Fille du puisatier, 1940, Marcel Pagnol, et Andorra, 1941, Émile Couzinet. La famille est une cellule indispensable, sans laquelle l'enfant ne peut recevoir d'éducation complète.`;
+
+        // Check for speech synthesis support
+        if (!('speechSynthesis' in window)) {
+            alert('Désolé, votre navigateur ne supporte pas la synthèse vocale. Veuillez utiliser Chrome, Safari, ou Edge.');
+            playBtn.disabled = true;
+        }
+
+        // Play audio
+        playBtn.addEventListener('click', () => {
+            if (!isPaused) {
+                utterance = new SpeechSynthesisUtterance(textToRead);
+                utterance.lang = 'fr-FR';
+                utterance.rate = parseFloat(speedSlider.value);
+                
+                utterance.onstart = () => {
+                    playBtn.disabled = true;
+                    pauseBtn.disabled = false;
+                    stopBtn.disabled = false;
+                    playBtn.classList.add('playing');
+                };
+
+                utterance.onend = () => {
+                    playBtn.disabled = false;
+                    pauseBtn.disabled = true;
+                    stopBtn.disabled = true;
+                    playBtn.classList.remove('playing');
+                    isPaused = false;
+                };
+
+                window.speechSynthesis.speak(utterance);
+            } else {
+                window.speechSynthesis.resume();
+                isPaused = false;
+                playBtn.textContent = '▶ Lire le texte';
+            }
+        });
+
+        // Pause audio
+        pauseBtn.addEventListener('click', () => {
+            window.speechSynthesis.pause();
+            isPaused = true;
+            playBtn.disabled = false;
+            playBtn.innerHTML = '<span>▶</span><span>Reprendre</span>';
+        });
+
+        // Stop audio
+        stopBtn.addEventListener('click', () => {
+            window.speechSynthesis.cancel();
+            playBtn.disabled = false;
+            pauseBtn.disabled = true;
+            stopBtn.disabled = true;
+            playBtn.classList.remove('playing');
+            playBtn.innerHTML = '<span>▶</span><span>Lire le texte</span>';
+            isPaused = false;
+        });
+
+        // Speed control
+        speedSlider.addEventListener('input', (e) => {
+            const speed = parseFloat(e.target.value);
+            speedValue.textContent = `${speed}x`;
+            if (utterance && window.speechSynthesis.speaking) {
+                window.speechSynthesis.cancel();
+                utterance = new SpeechSynthesisUtterance(textToRead);
+                utterance.lang = 'fr-FR';
+                utterance.rate = speed;
+                window.speechSynthesis.speak(utterance);
+            }
+        });
+
+        // Show text button
+        showTextBtn.addEventListener('click', () => {
+            hiddenText.classList.toggle('visible');
+            showTextBtn.textContent = hiddenText.classList.contains('visible') 
+                ? '🙈 Cacher le texte' 
+                : '👁️ Voir le texte original (après avoir terminé)';
+        });
+
+        // Update statistics
+        typingArea.addEventListener('input', () => {
+            if (!startTime) {
+                startTime = Date.now();
+                timerInterval = setInterval(updateTimer, 1000);
+            }
+
+            const text = typingArea.value;
+            charCount.textContent = text.length;
+            wordCount.textContent = text.trim() ? text.trim().split(/\s+/).length : 0;
+        });
+
+        function updateTimer() {
+            const elapsed = Math.floor((Date.now() - startTime) / 1000);
+            const minutes = Math.floor(elapsed / 60);
+            const seconds = elapsed % 60;
+            timeCount.textContent = `${minutes}:${seconds.toString().padStart(2, '0')}`;
+        }
+
+        // Virtual keyboard
+        keyboardToggle.addEventListener('click', () => {
+            keyboard.classList.toggle('show');
+            keyboardToggle.textContent = keyboard.classList.contains('show') ? '✕ Fermer' : '⌨️ Clavier';
+        });
+
+        document.querySelectorAll('.key').forEach(key => {
+            key.addEventListener('click', () => {
+                const char = key.textContent === 'espace' ? ' ' : key.textContent;
+                const start = typingArea.selectionStart;
+                const end = typingArea.selectionEnd;
+                const text = typingArea.value;
+                
+                typingArea.value = text.substring(0, start) + char + text.substring(end);
+                typingArea.selectionStart = typingArea.selectionEnd = start + char.length;
+                typingArea.focus();
+                
+                typingArea.dispatchEvent(new Event('input'));
+            });
+        });
+
+        // Download functionality
+        downloadBtn.addEventListener('click', () => {
+            const name = studentName.value.trim() || 'Étudiant';
+            const text = typingArea.value;
+            
+            if (!text.trim()) {
+                alert('Veuillez écrire votre dictée avant de télécharger.');
+                return;
+            }
+
+            const elapsed = startTime ? Math.floor((Date.now() - startTime) / 1000) : 0;
+            const minutes = Math.floor(elapsed / 60);
+            const seconds = elapsed % 60;
+
+            const content = `Le Cinéma de Vichy - Exercice de dictée
+Étudiant: ${name}
+Date: ${new Date().toLocaleDateString('fr-FR')}
+Temps écoulé: ${minutes}:${seconds.toString().padStart(2, '0')}
+Mots: ${wordCount.textContent}
+Caractères: ${charCount.textContent}
+
+${'='.repeat(60)}
+
+${text}`;
+
+            const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `dictee-cinema-vichy_${name.replace(/\s+/g, '_')}_${new Date().toISOString().split('T')[0]}.txt`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        });
+
+        // Close keyboard when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!keyboard.contains(e.target) && e.target !== keyboardToggle && keyboard.classList.contains('show')) {
+                keyboard.classList.remove('show');
+                keyboardToggle.textContent = '⌨️ Clavier';
+            }
+        });
+    </script>
+</body>
+</html>

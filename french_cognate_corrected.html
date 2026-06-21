@@ -1,0 +1,1146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>French Cognate Pattern Practice</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(45deg, #6a11cb, #2575fc);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        .progress-container {
+            background: rgba(255,255,255,0.2);
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 20px;
+        }
+
+        .progress-bar {
+            background: rgba(255,255,255,0.3);
+            height: 20px;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 10px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(45deg, #4CAF50, #45a049);
+            width: 0%;
+            transition: width 0.5s ease;
+            border-radius: 10px;
+        }
+
+        .progress-text {
+            font-size: 1.1em;
+            font-weight: bold;
+        }
+
+        .pattern-info {
+            background: #e3f2fd;
+            border-left: 5px solid #2196F3;
+            margin: 20px;
+            padding: 20px;
+            border-radius: 0 10px 10px 0;
+        }
+
+        .pattern-info h3 {
+            color: #1976D2;
+            margin-bottom: 10px;
+            font-size: 1.3em;
+        }
+
+        .pattern-info p {
+            color: #424242;
+            line-height: 1.5;
+        }
+
+        .practice-area {
+            padding: 40px;
+        }
+
+        .question-card {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            border: 3px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .question-card.correct {
+            border-color: #4CAF50;
+            background: #e8f5e9;
+        }
+
+        .question-card.incorrect {
+            border-color: #f44336;
+            background: #ffebee;
+        }
+
+        .english-word {
+            font-size: 2.2em;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .word-info {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #666;
+            line-height: 1.4;
+        }
+
+        .meaning-hint {
+            background: #fff3e0;
+            border-left: 4px solid #ff9800;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 0 8px 8px 0;
+            font-style: italic;
+            color: #e65100;
+        }
+
+        .input-container {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .french-input {
+            flex: 1;
+            padding: 15px;
+            font-size: 1.3em;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            outline: none;
+            transition: border-color 0.3s ease;
+        }
+
+        .french-input:focus {
+            border-color: #6a11cb;
+        }
+
+        .check-btn {
+            padding: 15px 25px;
+            background: linear-gradient(45deg, #6a11cb, #2575fc);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+
+        .check-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .check-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .accent-keyboard {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .accent-keyboard h3 {
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .accent-btn {
+            background: white;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            padding: 10px 15px;
+            margin: 5px;
+            font-size: 1.2em;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .accent-btn:hover {
+            background: #6a11cb;
+            color: white;
+            border-color: #6a11cb;
+        }
+
+        .result {
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            text-align: center;
+            font-weight: bold;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .result.show {
+            opacity: 1;
+        }
+
+        .result.correct {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .result.incorrect {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 30px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .next-btn {
+            padding: 12px 24px;
+            background: linear-gradient(45deg, #4CAF50, #45a049);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+
+        .next-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .next-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .export-btn, .pattern-btn {
+            padding: 12px 24px;
+            background: linear-gradient(45deg, #ff6b6b, #ee5a52);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+
+        .pattern-btn {
+            background: linear-gradient(45deg, #9c27b0, #673ab7);
+        }
+
+        .export-btn:hover, .pattern-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .completion-screen {
+            text-align: center;
+            padding: 40px;
+            display: none;
+        }
+
+        .completion-screen.show {
+            display: block;
+        }
+
+        .completion-screen h2 {
+            font-size: 2.5em;
+            color: #4CAF50;
+            margin-bottom: 20px;
+        }
+
+        .final-score {
+            font-size: 1.5em;
+            margin-bottom: 30px;
+            color: #333;
+        }
+
+        .pattern-selector {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            display: none;
+        }
+
+        .pattern-selector.show {
+            display: block;
+        }
+
+        .pattern-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .pattern-card {
+            background: #f8f9fa;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            padding: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .pattern-card:hover {
+            border-color: #6a11cb;
+            background: #e3f2fd;
+        }
+
+        .pattern-card.selected {
+            border-color: #4CAF50;
+            background: #e8f5e9;
+        }
+
+        .pattern-title {
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .pattern-count {
+            color: #666;
+            font-size: 0.9em;
+        }
+
+        .variation-info {
+            font-size: 0.9em;
+            color: #666;
+            margin-top: 10px;
+            font-style: italic;
+        }
+
+        @media (max-width: 768px) {
+            .input-container {
+                flex-direction: column;
+            }
+            
+            .controls {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .controls > * {
+                width: 100%;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>French Cognate Pattern Practice</h1>
+            <p>Master French-English word patterns through systematic practice</p>
+            <div class="progress-container">
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
+                <div class="progress-text" id="progressText">0 / 0</div>
+            </div>
+        </div>
+
+        <div class="pattern-selector" id="patternSelector">
+            <h2>Choose Learning Mode</h2>
+            <div style="margin: 20px 0;">
+                <button class="pattern-btn" onclick="practiceAll()" style="margin-right: 15px;">Practice All Patterns</button>
+                <button class="pattern-btn" onclick="showPatternGrid()">Practice by Pattern</button>
+            </div>
+            <div class="pattern-grid" id="patternGrid" style="display: none;"></div>
+        </div>
+
+        <div class="pattern-info" id="patternInfo" style="display: none;">
+            <h3 id="currentPatternTitle"></h3>
+            <p id="currentPatternDesc"></p>
+        </div>
+
+        <div class="practice-area" id="practiceArea" style="display: none;">
+            <div class="question-card" id="questionCard">
+                <div class="english-word" id="englishWord"></div>
+                <div class="word-info" id="wordInfo"></div>
+                <div class="meaning-hint" id="meaningHint" style="display: none;"></div>
+                
+                <div class="accent-keyboard">
+                    <h3>Accent Helper</h3>
+                    <button class="accent-btn" onclick="addAccent('à')">à</button>
+                    <button class="accent-btn" onclick="addAccent('â')">â</button>
+                    <button class="accent-btn" onclick="addAccent('é')">é</button>
+                    <button class="accent-btn" onclick="addAccent('è')">è</button>
+                    <button class="accent-btn" onclick="addAccent('ê')">ê</button>
+                    <button class="accent-btn" onclick="addAccent('ë')">ë</button>
+                    <button class="accent-btn" onclick="addAccent('î')">î</button>
+                    <button class="accent-btn" onclick="addAccent('ï')">ï</button>
+                    <button class="accent-btn" onclick="addAccent('ô')">ô</button>
+                    <button class="accent-btn" onclick="addAccent('ù')">ù</button>
+                    <button class="accent-btn" onclick="addAccent('û')">û</button>
+                    <button class="accent-btn" onclick="addAccent('ü')">ü</button>
+                    <button class="accent-btn" onclick="addAccent('ç')">ç</button>
+                </div>
+
+                <div class="input-container">
+                    <input type="text" id="frenchInput" class="french-input" placeholder="Type the French cognate..." autocomplete="off">
+                    <button class="check-btn" id="checkBtn" onclick="checkAnswer()">Check</button>
+                </div>
+
+                <div class="result" id="result"></div>
+                <div class="variation-info" id="variationInfo" style="display: none;">
+                    Note: We accept conjugated verbs and gender variations where appropriate.
+                </div>
+            </div>
+
+            <div class="controls">
+                <button class="next-btn" id="nextBtn" onclick="nextQuestion()" disabled>Next Question</button>
+                <button class="pattern-btn" onclick="showPatternSelector()">Change Pattern</button>
+                <button class="export-btn" onclick="exportToPDF()">Export Results</button>
+            </div>
+        </div>
+
+        <div class="completion-screen" id="completionScreen">
+            <h2>🎉 Félicitations!</h2>
+            <div class="final-score" id="finalScore"></div>
+            <button class="next-btn" onclick="restartPractice()">Practice Again</button>
+            <button class="export-btn" onclick="exportToPDF()">Export Final Results</button>
+            <button class="pattern-btn" onclick="showPatternSelector()">Choose New Pattern</button>
+        </div>
+    </div>
+
+    <script>
+        // French cognate patterns data with accurate cognates only
+        const cognatePatterns = {
+            1: {
+                title: "English to French: -ty to -té",
+                description: "English words ending in -ty become -té in French",
+                words: [
+                    {english: "university", french: "université", meanings: "university"},
+                    {english: "electricity", french: "électricité", meanings: "electricity"},
+                    {english: "activity", french: "activité", meanings: "activity"},
+                    {english: "possibility", french: "possibilité", meanings: "possibility"},
+                    {english: "reality", french: "réalité", meanings: "reality"},
+                    {english: "society", french: "société", meanings: "society"},
+                    {english: "quality", french: "qualité", meanings: "quality"},
+                    {english: "quantity", french: "quantité", meanings: "quantity"},
+                    {english: "nationality", french: "nationalité", meanings: "nationality"},
+                    {english: "personality", french: "personnalité", meanings: "personality"}
+                ]
+            },
+            2: {
+                title: "English to French: -ism to -isme",
+                description: "English words ending in -ism become -isme in French",
+                words: [
+                    {english: "capitalism", french: "capitalisme", meanings: "capitalism"},
+                    {english: "socialism", french: "socialisme", meanings: "socialism"},
+                    {english: "communism", french: "communisme", meanings: "communism"},
+                    {english: "tourism", french: "tourisme", meanings: "tourism"},
+                    {english: "realism", french: "réalisme", meanings: "realism"},
+                    {english: "optimism", french: "optimisme", meanings: "optimism"},
+                    {english: "pessimism", french: "pessimisme", meanings: "pessimism"},
+                    {english: "organism", french: "organisme", meanings: "organism"},
+                    {english: "mechanism", french: "mécanisme", meanings: "mechanism"},
+                    {english: "journalism", french: "journalisme", meanings: "journalism"}
+                ]
+            },
+            3: {
+                title: "English to French: -ist to -iste",
+                description: "English words ending in -ist become -iste in French",
+                words: [
+                    {english: "artist", french: "artiste", meanings: "artist"},
+                    {english: "journalist", french: "journaliste", meanings: "journalist"},
+                    {english: "tourist", french: "touriste", meanings: "tourist"},
+                    {english: "dentist", french: "dentiste", meanings: "dentist"},
+                    {english: "pianist", french: "pianiste", meanings: "pianist"},
+                    {english: "specialist", french: "spécialiste", meanings: "specialist"},
+                    {english: "communist", french: "communiste", meanings: "communist"},
+                    {english: "socialist", french: "socialiste", meanings: "socialist"},
+                    {english: "optimist", french: "optimiste", meanings: "optimist"},
+                    {english: "pessimist", french: "pessimiste", meanings: "pessimist"}
+                ]
+            },
+            4: {
+                title: "English to French: -tion to -tion",
+                description: "English words ending in -tion are identical in French",
+                words: [
+                    {english: "nation", french: "nation", meanings: "nation"},
+                    {english: "action", french: "action", meanings: "action"},
+                    {english: "information", french: "information", meanings: "information"},
+                    {english: "education", french: "éducation", meanings: "education"},
+                    {english: "situation", french: "situation", meanings: "situation"},
+                    {english: "question", french: "question", meanings: "question"},
+                    {english: "solution", french: "solution", meanings: "solution"},
+                    {english: "revolution", french: "révolution", meanings: "revolution"},
+                    {english: "production", french: "production", meanings: "production"},
+                    {english: "attention", french: "attention", meanings: "attention"}
+                ]
+            },
+            5: {
+                title: "English to French: -ary to -aire",
+                description: "English words ending in -ary become -aire in French",
+                words: [
+                    {english: "vocabulary", french: "vocabulaire", meanings: "vocabulary"},
+                    {english: "primary", french: "primaire", meanings: "primary"},
+                    {english: "secondary", french: "secondaire", meanings: "secondary"},
+                    {english: "military", french: "militaire", meanings: "military"},
+                    {english: "ordinary", french: "ordinaire", meanings: "ordinary"},
+                    {english: "necessary", french: "nécessaire", meanings: "necessary"},
+                    {english: "legendary", french: "légendaire", meanings: "legendary"},
+                    {english: "voluntary", french: "volontaire", meanings: "voluntary"},
+                    {english: "imaginary", french: "imaginaire", meanings: "imaginary"},
+                    {english: "literary", french: "littéraire", meanings: "literary"}
+                ]
+            },
+            6: {
+                title: "English to French: -ence/-ance to -ence/-ance",
+                description: "English words ending in -ence/-ance are similar in French",
+                words: [
+                    {english: "difference", french: "différence", meanings: "difference"},
+                    {english: "intelligence", french: "intelligence", meanings: "intelligence"},
+                    {english: "patience", french: "patience", meanings: "patience"},
+                    {english: "silence", french: "silence", meanings: "silence"},
+                    {english: "violence", french: "violence", meanings: "violence"},
+                    {english: "importance", french: "importance", meanings: "importance"},
+                    {english: "distance", french: "distance", meanings: "distance"},
+                    {english: "assistance", french: "assistance", meanings: "assistance"},
+                    {english: "resistance", french: "résistance", meanings: "resistance"},
+                    {english: "confidence", french: "confiance", meanings: "confidence"}
+                ]
+            },
+            7: {
+                title: "English to French: -ment to -ment",
+                description: "English words ending in -ment are similar in French",
+                words: [
+                    {english: "government", french: "gouvernement", meanings: "government"},
+                    {english: "department", french: "département", meanings: "department"},
+                    {english: "document", french: "document", meanings: "document"},
+                    {english: "moment", french: "moment", meanings: "moment"},
+                    {english: "instrument", french: "instrument", meanings: "instrument"},
+                    {english: "argument", french: "argument", meanings: "argument"},
+                    {english: "monument", french: "monument", meanings: "monument"},
+                    {english: "segment", french: "segment", meanings: "segment"},
+                    {english: "complement", french: "complément", meanings: "complement"},
+                    {english: "development", french: "développement", meanings: "development"}
+                ]
+            },
+            8: {
+                title: "English to French: -ous to -eux/-euse",
+                description: "English words ending in -ous become -eux (masc.) or -euse (fem.) in French",
+                words: [
+                    {english: "dangerous", french: "dangereux", meanings: "dangerous"},
+                    {english: "mysterious", french: "mystérieux", meanings: "mysterious"},
+                    {english: "serious", french: "sérieux", meanings: "serious"},
+                    {english: "curious", french: "curieux", meanings: "curious"},
+                    {english: "generous", french: "généreux", meanings: "generous"},
+                    {english: "nervous", french: "nerveux", meanings: "nervous"},
+                    {english: "marvellous", french: "merveilleux", meanings: "marvellous"},
+                    {english: "courageous", french: "courageux", meanings: "courageous"},
+                    {english: "victorious", french: "victorieux", meanings: "victorious"},
+                    {english: "ambitious", french: "ambitieux", meanings: "ambitious"}
+                ]
+            },
+            9: {
+                title: "English to French: -ic/-ical to -ique",
+                description: "English words ending in -ic/-ical become -ique in French",
+                words: [
+                    {english: "economic", french: "économique", meanings: "economic"},
+                    {english: "romantic", french: "romantique", meanings: "romantic"},
+                    {english: "specific", french: "spécifique", meanings: "specific"},
+                    {english: "scientific", french: "scientifique", meanings: "scientific"},
+                    {english: "electric", french: "électrique", meanings: "electric"},
+                    {english: "classic", french: "classique", meanings: "classic"},
+                    {english: "dramatic", french: "dramatique", meanings: "dramatic"},
+                    {english: "automatic", french: "automatique", meanings: "automatic"},
+                    {english: "fantastic", french: "fantastique", meanings: "fantastic"},
+                    {english: "democratic", french: "démocratique", meanings: "democratic"}
+                ]
+            },
+            10: {
+                title: "English to French: -ure to -ure",
+                description: "English words ending in -ure are similar in French",
+                words: [
+                    {english: "culture", french: "culture", meanings: "culture"},
+                    {english: "literature", french: "littérature", meanings: "literature"},
+                    {english: "temperature", french: "température", meanings: "temperature"},
+                    {english: "structure", french: "structure", meanings: "structure"},
+                    {english: "architecture", french: "architecture", meanings: "architecture"},
+                    {english: "adventure", french: "aventure", meanings: "adventure"},
+                    {english: "figure", french: "figure", meanings: "figure"},
+                    {english: "procedure", french: "procédure", meanings: "procedure"},
+                    {english: "signature", french: "signature", meanings: "signature"},
+                    {english: "nature", french: "nature", meanings: "nature"}
+                ]
+            },
+            11: {
+                title: "English to French: Verbs -ate to -er",
+                description: "English verbs ending in -ate often become -er in French",
+                words: [
+                    {english: "celebrate", french: "célébrer", meanings: "to celebrate"},
+                    {english: "create", french: "créer", meanings: "to create"},
+                    {english: "educate", french: "éduquer", meanings: "to educate"},
+                    {english: "estimate", french: "estimer", meanings: "to estimate"},
+                    {english: "participate", french: "participer", meanings: "to participate"},
+                    {english: "separate", french: "séparer", meanings: "to separate"},
+                    {english: "tolerate", french: "tolérer", meanings: "to tolerate"},
+                    {english: "generate", french: "générer", meanings: "to generate"},
+                    {english: "fascinate", french: "fasciner", meanings: "to fascinate"},
+                    {english: "concentrate", french: "concentrer", meanings: "to concentrate"}
+                ]
+            },
+            12: {
+                title: "English to French: Verbs -ify to -ifier",
+                description: "English verbs ending in -ify become -ifier in French",
+                words: [
+                    {english: "classify", french: "classifier", meanings: "to classify"},
+                    {english: "identify", french: "identifier", meanings: "to identify"},
+                    {english: "justify", french: "justifier", meanings: "to justify"},
+                    {english: "modify", french: "modifier", meanings: "to modify"},
+                    {english: "qualify", french: "qualifier", meanings: "to qualify"},
+                    {english: "simplify", french: "simplifier", meanings: "to simplify"},
+                    {english: "specify", french: "spécifier", meanings: "to specify"},
+                    {english: "verify", french: "vérifier", meanings: "to verify"},
+                    {english: "clarify", french: "clarifier", meanings: "to clarify"},
+                    {english: "purify", french: "purifier", meanings: "to purify"}
+                ]
+            },
+            13: {
+                title: "English to French: -able to -able",
+                description: "English words ending in -able are often identical in French",
+                words: [
+                    {english: "acceptable", french: "acceptable", meanings: "acceptable"},
+                    {english: "admirable", french: "admirable", meanings: "admirable"},
+                    {english: "comfortable", french: "confortable", meanings: "comfortable"},
+                    {english: "considerable", french: "considérable", meanings: "considerable"},
+                    {english: "durable", french: "durable", meanings: "durable"},
+                    {english: "notable", french: "notable", meanings: "notable"},
+                    {english: "portable", french: "portable", meanings: "portable"},
+                    {english: "probable", french: "probable", meanings: "probable"},
+                    {english: "reasonable", french: "raisonnable", meanings: "reasonable"},
+                    {english: "valuable", french: "précieux", meanings: "valuable"}
+                ]
+            },
+            14: {
+                title: "English to French: -al adjectives",
+                description: "English adjectives ending in -al are often similar in French",
+                words: [
+                    {english: "natural", french: "naturel", meanings: "natural"},
+                    {english: "general", french: "général", meanings: "general"},
+                    {english: "moral", french: "moral", meanings: "moral"},
+                    {english: "national", french: "national", meanings: "national"},
+                    {english: "original", french: "original", meanings: "original"},
+                    {english: "special", french: "spécial", meanings: "special"},
+                    {english: "central", french: "central", meanings: "central"},
+                    {english: "personal", french: "personnel", meanings: "personal"},
+                    {english: "international", french: "international", meanings: "international"},
+                    {english: "emotional", french: "émotionnel", meanings: "emotional"}
+                ]
+            },
+            15: {
+                title: "English to French: Perfect cognates",
+                description: "English words that are identical or nearly identical in French",
+                words: [
+                    {english: "animal", french: "animal", meanings: "animal"},
+                    {english: "capital", french: "capital", meanings: "capital"},
+                    {english: "chocolate", french: "chocolat", meanings: "chocolate"},
+                    {english: "client", french: "client", meanings: "client"},
+                    {english: "concert", french: "concert", meanings: "concert"},
+                    {english: "desert", french: "désert", meanings: "desert"},
+                    {english: "fruit", french: "fruit", meanings: "fruit"},
+                    {english: "garage", french: "garage", meanings: "garage"},
+                    {english: "hotel", french: "hôtel", meanings: "hotel"},
+                    {english: "metal", french: "métal", meanings: "metal"}
+                ]
+            }
+        };
+
+        let currentPatternKey = null;
+        let currentWords = [];
+        let currentIndex = 0;
+        let correctAnswers = 0;
+        let results = [];
+        let answered = false;
+
+        // Words that need meaning hints due to complexity or false friends
+        const meaningHints = {
+            "confortable": "Note: French spelling has no 'm' before the 't'",
+            "raisonnable": "Note: French spelling has double 'n'",
+            "précieux": "This means 'valuable/precious' - not a direct cognate of 'valuable'",
+            "chocolat": "Note: No final 'e' in French",
+            "désert": "Note: accent on first 'e'",
+            "hôtel": "Note: circumflex accent on 'ô'",
+            "métal": "Note: accent on first 'e'"
+        };
+
+        // Improved normalization function that preserves word structure
+        function normalize(text) {
+            return text.toLowerCase().trim()
+                .normalize("NFD").replace(/[\u0300-\u036f]/g, ""); // Remove accents but preserve other characters
+        }
+
+        // Check if the user's answer is correct with flexible matching
+        function isAnswerCorrect(userAnswer, correctAnswer, englishWord) {
+            // Normalize both answers
+            const normalizedUser = normalize(userAnswer);
+            const normalizedCorrect = normalize(correctAnswer);
+            
+            // Direct match
+            if (normalizedUser === normalizedCorrect) {
+                return true;
+            }
+            
+            // Check for verb conjugations
+            if (isVerbConjugation(userAnswer, correctAnswer, englishWord)) {
+                return true;
+            }
+            
+            // Check for gender variations
+            if (isGenderVariation(userAnswer, correctAnswer)) {
+                return true;
+            }
+            
+            // Check for number variations (singular/plural)
+            if (isNumberVariation(userAnswer, correctAnswer)) {
+                return true;
+            }
+            
+            return false;
+        }
+
+        // Check if the user's answer is a valid verb conjugation
+        function isVerbConjugation(userAnswer, correctAnswer, englishWord) {
+            // Only check for verbs
+            if (!englishWord || typeof englishWord !== 'string') return false;
+            
+            const normalizedUser = normalize(userAnswer);
+            const normalizedCorrect = normalize(correctAnswer);
+            
+            // Check if the correct answer is a verb (ends with -er, -ir, -re)
+            if (normalizedCorrect.endsWith('er') || normalizedCorrect.endsWith('ir') || normalizedCorrect.endsWith('re')) {
+                // Common conjugated forms
+                const conjugatedForms = getConjugatedForms(normalizedCorrect);
+                
+                // Check if user's answer matches any conjugated form
+                return conjugatedForms.includes(normalizedUser);
+            }
+            
+            return false;
+        }
+
+        // Generate common conjugated forms for a French verb
+        function getConjugatedForms(verb) {
+            const base = verb.slice(0, -2); // Remove the -er/-ir/-re ending
+            const ending = verb.slice(-2); // Get the ending (-er, -ir, or -re)
+            
+            let forms = [];
+            
+            if (ending === 'er') {
+                forms = [
+                    base + 'e',      // je form
+                    base + 'es',     // tu form
+                    base + 'e',      // il/elle/on form
+                    base + 'ons',    // nous form
+                    base + 'ez',     // vous form
+                    base + 'ent'     // ils/elles form
+                ];
+            } else if (ending === 'ir') {
+                forms = [
+                    base + 'is',     // je form
+                    base + 'is',     // tu form
+                    base + 'it',     // il/elle/on form
+                    base + 'issons', // nous form
+                    base + 'issez',  // vous form
+                    base + 'issent'  // ils/elles form
+                ];
+            } else if (ending === 're') {
+                forms = [
+                    base + 's',      // je form
+                    base + 's',     // tu form
+                    base + '',       // il/elle/on form
+                    base + 'ons',    // nous form
+                    base + 'ez',     // vous form
+                    base + 'ent'     // ils/elles form
+                ];
+            }
+            
+            return forms;
+        }
+
+        // Check if the user's answer is a gender variation
+        function isGenderVariation(userAnswer, correctAnswer) {
+            const normalizedUser = normalize(userAnswer);
+            const normalizedCorrect = normalize(correctAnswer);
+            
+            // Check for masculine/feminine variation (e/ée)
+            if (normalizedCorrect.endsWith('e') && normalizedUser === normalizedCorrect + 'e') {
+                return true;
+            }
+            
+            if (normalizedCorrect.endsWith('ee') && normalizedUser === normalizedCorrect.slice(0, -1)) {
+                return true;
+            }
+            
+            // Check for eux/euse variation
+            if (normalizedCorrect.endsWith('eux') && normalizedUser === normalizedCorrect.slice(0, -3) + 'euse') {
+                return true;
+            }
+            
+            if (normalizedCorrect.endsWith('euse') && normalizedUser === normalizedCorrect.slice(0, -4) + 'eux') {
+                return true;
+            }
+            
+            return false;
+        }
+
+        // Check if the user's answer is a number variation (singular/plural)
+        function isNumberVariation(userAnswer, correctAnswer) {
+            const normalizedUser = normalize(userAnswer);
+            const normalizedCorrect = normalize(correctAnswer);
+            
+            // Check for singular/plural variation (add s)
+            if (normalizedCorrect.endsWith('s') && normalizedUser === normalizedCorrect.slice(0, -1)) {
+                return true;
+            }
+            
+            if (!normalizedCorrect.endsWith('s') && normalizedUser === normalizedCorrect + 's') {
+                return true;
+            }
+            
+            // Check for al/aux variation
+            if (normalizedCorrect.endsWith('al') && normalizedUser === normalizedCorrect.slice(0, -2) + 'aux') {
+                return true;
+            }
+            
+            if (normalizedCorrect.endsWith('aux') && normalizedUser === normalizedCorrect.slice(0, -3) + 'al') {
+                return true;
+            }
+            
+            return false;
+        }
+
+        function showPatternSelector() {
+            document.getElementById('patternSelector').classList.add('show');
+            document.getElementById('practiceArea').style.display = 'none';
+            document.getElementById('completionScreen').classList.remove('show');
+            document.getElementById('patternInfo').style.display = 'none';
+            updateProgress(0, 0);
+        }
+
+        function showPatternGrid() {
+            const grid = document.getElementById('patternGrid');
+            grid.style.display = 'grid';
+            grid.innerHTML = '';
+            
+            Object.entries(cognatePatterns).forEach(([key, pattern]) => {
+                const card = document.createElement('div');
+                card.className = 'pattern-card';
+                card.onclick = () => selectPattern(key);
+                card.innerHTML = `
+                    <div class="pattern-title">${pattern.title}</div>
+                    <div class="pattern-count">${pattern.words.length} words</div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        function selectPattern(patternKey) {
+            currentPatternKey = patternKey;
+            startPractice([cognatePatterns[patternKey]]);
+        }
+
+        function practiceAll() {
+            currentPatternKey = 'all';
+            startPractice(Object.values(cognatePatterns));
+        }
+
+        function startPractice(patterns) {
+            currentWords = [];
+            patterns.forEach(pattern => {
+                pattern.words.forEach(word => {
+                    currentWords.push({
+                        ...word,
+                        pattern: pattern.title,
+                        patternDesc: pattern.description
+                    });
+                });
+            });
+            
+            // Shuffle words
+            currentWords = currentWords.sort(() => Math.random() - 0.5);
+            
+            currentIndex = 0;
+            correctAnswers = 0;
+            results = [];
+            answered = false;
+            
+            document.getElementById('patternSelector').classList.remove('show');
+            document.getElementById('practiceArea').style.display = 'block';
+            document.getElementById('completionScreen').classList.remove('show');
+            
+            if (currentPatternKey !== 'all') {
+                const pattern = cognatePatterns[currentPatternKey];
+                document.getElementById('patternInfo').style.display = 'block';
+                document.getElementById('currentPatternTitle').textContent = pattern.title;
+                document.getElementById('currentPatternDesc').textContent = pattern.description;
+            } else {
+                document.getElementById('patternInfo').style.display = 'none';
+            }
+            
+            // Show variation info for verbs
+            document.getElementById('variationInfo').style.display = 'block';
+            
+            displayQuestion();
+        }
+
+        function displayQuestion() {
+            if (currentIndex >= currentWords.length) {
+                showCompletion();
+                return;
+            }
+
+            const current = currentWords[currentIndex];
+            document.getElementById('englishWord').textContent = current.english;
+            
+            let wordInfo = `<div><strong>Meaning:</strong> ${current.meanings}</div>`;
+            if (currentPatternKey === 'all') {
+                wordInfo += `<div style="margin-top: 8px;"><strong>Pattern:</strong> ${current.pattern}</div>`;
+            }
+            
+            document.getElementById('wordInfo').innerHTML = wordInfo;
+            
+            // Show meaning hint if needed
+            const hintDiv = document.getElementById('meaningHint');
+            if (meaningHints[current.french]) {
+                hintDiv.style.display = 'block';
+                hintDiv.textContent = `💡 Learning tip: ${meaningHints[current.french]}`;
+            } else {
+                hintDiv.style.display = 'none';
+            }
+            
+            document.getElementById('frenchInput').value = '';
+            document.getElementById('frenchInput').focus();
+            document.getElementById('result').classList.remove('show');
+            document.getElementById('questionCard').classList.remove('correct', 'incorrect');
+            document.getElementById('nextBtn').disabled = true;
+            document.getElementById('checkBtn').disabled = false;
+            answered = false;
+            updateProgress(currentIndex, currentWords.length);
+        }
+
+        function checkAnswer() {
+            if (answered) return;
+            
+            const userInput = document.getElementById('frenchInput').value.trim();
+            const current = currentWords[currentIndex];
+            const resultDiv = document.getElementById('result');
+            
+            const isCorrect = isAnswerCorrect(userInput, current.french, current.english);
+            
+            if (isCorrect) {
+                correctAnswers++;
+                resultDiv.textContent = '✓ Correct! Well done recognising the pattern.';
+                resultDiv.className = 'result correct show';
+                document.getElementById('questionCard').classList.add('correct');
+            } else {
+                resultDiv.innerHTML = `✗ Incorrect. The answer is: <strong>${current.french}</strong><br>Pattern: ${current.patternDesc}`;
+                resultDiv.className = 'result incorrect show';
+                document.getElementById('questionCard').classList.add('incorrect');
+            }
+            
+            results.push({
+                english: current.english,
+                userAnswer: userInput,
+                correctAnswer: current.french,
+                isCorrect: isCorrect,
+                meanings: current.meanings,
+                pattern: current.pattern,
+                patternDesc: current.patternDesc
+            });
+            
+            answered = true;
+            document.getElementById('nextBtn').disabled = false;
+            document.getElementById('checkBtn').disabled = true;
+        }
+
+        function nextQuestion() {
+            currentIndex++;
+            displayQuestion();
+        }
+
+        function showCompletion() {
+            document.getElementById('practiceArea').style.display = 'none';
+            document.getElementById('completionScreen').classList.add('show');
+            document.getElementById('patternInfo').style.display = 'none';
+            const percentage = Math.round((correctAnswers / currentWords.length) * 100);
+            document.getElementById('finalScore').textContent = 
+                `You got ${correctAnswers} out of ${currentWords.length} correct (${percentage}%)`;
+        }
+
+        function restartPractice() {
+            if (currentPatternKey === 'all') {
+                practiceAll();
+            } else {
+                selectPattern(currentPatternKey);
+            }
+        }
+
+        function updateProgress(current, total) {
+            const progress = total > 0 ? (current / total) * 100 : 0;
+            document.getElementById('progressFill').style.width = progress + '%';
+            document.getElementById('progressText').textContent = `${current} / ${total}`;
+        }
+
+        function addAccent(letter) {
+            const input = document.getElementById('frenchInput');
+            const start = input.selectionStart;
+            const end = input.selectionEnd;
+            const currentValue = input.value;
+            
+            input.value = currentValue.substring(0, start) + letter + currentValue.substring(end);
+            input.selectionStart = input.selectionEnd = start + 1;
+            input.focus();
+        }
+
+        function exportToPDF() {
+            if (results.length === 0) {
+                alert('No results to export yet! Complete some questions first.');
+                return;
+            }
+            
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+            
+            // Title
+            doc.setFontSize(18);
+            doc.text('French Cognate Pattern Practice Results', 20, 20);
+            
+            // Summary
+            doc.setFontSize(12);
+            const percentage = Math.round((correctAnswers / results.length) * 100);
+            doc.text(`Score: ${correctAnswers}/${results.length} (${percentage}%)`, 20, 35);
+            doc.text(`Date: ${new Date().toLocaleDateString()}`, 20, 45);
+            doc.text(`Practice Mode: ${currentPatternKey === 'all' ? 'All Patterns' : cognatePatterns[currentPatternKey]?.title || 'Selected Pattern'}`, 20, 55);
+            
+            // Group results by pattern for better organisation
+            const groupedResults = {};
+            results.forEach(result => {
+                if (!groupedResults[result.pattern]) {
+                    groupedResults[result.pattern] = [];
+                }
+                groupedResults[result.pattern].push(result);
+            });
+            
+            let y = 75;
+            
+            Object.entries(groupedResults).forEach(([pattern, patternResults]) => {
+                if (y > 260) {
+                    doc.addPage();
+                    y = 20;
+                }
+                
+                // Pattern header
+                doc.setFontSize(11);
+                doc.setFont(undefined, 'bold');
+                doc.text(`Pattern: ${pattern}`, 20, y);
+                y += 8;
+                
+                // Results for this pattern
+                doc.setFontSize(9);
+                doc.setFont(undefined, 'normal');
+                
+                patternResults.forEach(result => {
+                    if (y > 270) {
+                        doc.addPage();
+                        y = 20;
+                    }
+                    
+                    const status = result.isCorrect ? '✓' : '✗';
+                    doc.text(`${status} ${result.english} → ${result.correctAnswer}`, 25, y);
+                    
+                    if (!result.isCorrect && result.userAnswer) {
+                        y += 5;
+                        doc.text(`   Your answer: ${result.userAnswer}`, 25, y);
+                    }
+                    
+                    y += 6;
+                });
+                
+                y += 5; // Space between patterns
+            });
+            
+            doc.save('french-cognate-pattern-results.pdf');
+        }
+
+        // Event listeners
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('frenchInput').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    if (!answered) {
+                        checkAnswer();
+                    } else {
+                        nextQuestion();
+                    }
+                }
+            });
+            
+            showPatternSelector();
+        });
+    </script>
+</body>
+</html>
+
+        

@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>French A-Level Revision Pack</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', sans-serif; background: #f4f1ec; color: #2c2c2c; font-size: 15px; }
+
+  header { background: #1a3a5c; color: white; padding: 20px 30px; }
+  header h1 { font-size: 1.3em; }
+  header p { font-size: 0.82em; opacity: 0.8; margin-top: 4px; }
+
+  .accent-bar { background: #eee; padding: 8px 20px; display: flex; gap: 6px; flex-wrap: wrap; align-items: center; border-bottom: 1px solid #ddd; }
+  .accent-bar span { font-size: 0.78em; color: #555; }
+  .acc { background: white; border: 1px solid #bbb; border-radius: 4px; padding: 3px 8px; cursor: pointer; font-size: 0.95em; }
+  .acc:hover { background: #1a3a5c; color: white; }
+
+  .toolbar { background: #fff; border-bottom: 2px solid #ddd; padding: 8px 20px; display: flex; gap: 8px; flex-wrap: wrap; align-items: center; justify-content: space-between; }
+  .tab-btn { padding: 6px 14px; border: 1px solid #bbb; border-radius: 20px; background: white; cursor: pointer; font-size: 0.82em; }
+  .tab-btn.active { background: #1a3a5c; color: white; border-color: #1a3a5c; }
+  .dl-btn { background: #2e6b35; color: white; border: none; padding: 7px 16px; border-radius: 6px; cursor: pointer; font-size: 0.82em; font-weight: 600; }
+  .dl-btn:hover { background: #1e4a24; }
+
+  .container { max-width: 860px; margin: 0 auto; padding: 24px 20px; }
+  .section { display: none; }
+  .section.active { display: block; }
+
+  h2 { color: #1a3a5c; font-size: 1.1em; margin-bottom: 14px; padding-bottom: 6px; border-bottom: 2px solid #1a3a5c; }
+  h3 { color: #333; font-size: 0.95em; margin: 18px 0 8px; font-weight: 700; }
+
+  .task { background: white; border-radius: 8px; padding: 16px 18px; margin-bottom: 18px; box-shadow: 0 1px 5px rgba(0,0,0,0.07); }
+  .task-label { font-size: 0.75em; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: #888; margin-bottom: 8px; }
+
+  .vocab-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin: 10px 0; }
+  .vocab-item { display: flex; align-items: center; gap: 8px; }
+  .vocab-item span { font-size: 0.88em; color: #444; min-width: 180px; }
+  .vocab-item input { flex: 1; border: 1px solid #ccc; border-radius: 4px; padding: 4px 7px; font-size: 0.88em; }
+
+  .q-list { list-style: none; padding: 0; }
+  .q-list li { margin-bottom: 10px; }
+  .q-list li p { font-size: 0.9em; margin-bottom: 4px; font-weight: 600; }
+  .q-list li textarea { width: 100%; min-height: 52px; border: 1px solid #ccc; border-radius: 5px; padding: 6px 8px; font-size: 0.88em; resize: vertical; font-family: inherit; }
+
+  .trans-list { list-style: none; padding: 0; }
+  .trans-list li { margin-bottom: 12px; }
+  .trans-list li .eng { font-size: 0.9em; color: #333; font-style: italic; margin-bottom: 4px; }
+  .trans-list li textarea { width: 100%; min-height: 52px; border: 1px solid #ccc; border-radius: 5px; padding: 6px 8px; font-size: 0.88em; resize: vertical; font-family: inherit; }
+
+  .morph-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .morph-item { display: flex; align-items: center; gap: 8px; font-size: 0.88em; }
+  .morph-item span { min-width: 130px; color: #333; }
+  .morph-item input { flex: 1; border: 1px solid #ccc; border-radius: 4px; padding: 4px 7px; font-size: 0.88em; }
+
+  .show-ans { background: #f0f0f0; border: 1px solid #ccc; border-radius: 5px; padding: 6px 12px; cursor: pointer; font-size: 0.8em; margin-top: 8px; }
+  .show-ans:hover { background: #e0e0e0; }
+  .answer { display: none; background: #eaf4ea; border-left: 3px solid #2e6b35; padding: 8px 12px; margin-top: 8px; border-radius: 4px; font-size: 0.85em; }
+  .answer.visible { display: block; }
+  .answer p { margin-bottom: 4px; }
+
+  .tip { background: #fff8e1; border-left: 3px solid #f0a500; padding: 8px 12px; border-radius: 4px; font-size: 0.83em; margin-bottom: 12px; }
+
+  .progress-note { font-size: 0.78em; color: #888; margin-top: 6px; }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Révision A-Level — Thèmes 3 &amp; 4</h1>
+  <p>Immigration · Intégration · Extrême droite · La France occupée · Vichy</p>
+</header>
+
+<div class="accent-bar">
+  <span>Accents :</span>
+  <button class="acc" onclick="ins('à')">à</button>
+  <button class="acc" onclick="ins('â')">â</button>
+  <button class="acc" onclick="ins('é')">é</button>
+  <button class="acc" onclick="ins('è')">è</button>
+  <button class="acc" onclick="ins('ê')">ê</button>
+  <button class="acc" onclick="ins('ë')">ë</button>
+  <button class="acc" onclick="ins('î')">î</button>
+  <button class="acc" onclick="ins('ï')">ï</button>
+  <button class="acc" onclick="ins('ô')">ô</button>
+  <button class="acc" onclick="ins('ù')">ù</button>
+  <button class="acc" onclick="ins('û')">û</button>
+  <button class="acc" onclick="ins('ü')">ü</button>
+  <button class="acc" onclick="ins('ç')">ç</button>
+  <button class="acc" onclick="ins('œ')">œ</button>
+  <button class="acc" onclick="ins('«&nbsp;')">«</button>
+  <button class="acc" onclick="ins('&nbsp;»')">&raquo;</button>
+</div>
+
+<div class="toolbar">
+  <div style="display:flex;gap:6px;flex-wrap:wrap;">
+    <button class="tab-btn active" onclick="show('imm',this)">Immigration</button>
+    <button class="tab-btn" onclick="show('int',this)">Intégration</button>
+    <button class="tab-btn" onclick="show('fn',this)">Extrême droite</button>
+    <button class="tab-btn" onclick="show('vichy',this)">Vichy</button>
+  </div>
+  <button class="dl-btn" onclick="dl()">⬇ Télécharger</button>
+</div>
+
+<div class="container">
+
+<!-- ============================================================ -->
+<!-- SECTION 1: IMMIGRATION -->
+<!-- ============================================================ -->
+<div id="imm" class="section active">
+  <h2>L'impact positif de l'immigration &amp; la diversité à l'antenne</h2>
+
+  <div class="tip">🎯 <strong>Priorité traduction :</strong> Maîtrisez les structures avec <em>d'autant que, afin de, à condition que + subjonctif</em> — elles reviennent régulièrement dans les passages à traduire.</div>
+
+  <!-- VOCAB -->
+  <div class="task">
+    <div class="task-label">Vocabulaire — Donnez le français</div>
+    <h3>L'immigration et l'économie (OCDE)</h3>
+    <div class="vocab-grid">
+      <div class="vocab-item"><span>growth</span><input onfocus="setA(this)" placeholder="fr…"></div>
+      <div class="vocab-item"><span>key element</span><input onfocus="setA(this)" placeholder="fr…"></div>
+      <div class="vocab-item"><span>to bring (a contribution)</span><input onfocus="setA(this)" placeholder="fr…"></div>
+      <div class="vocab-item"><span>to put a brake on</span><input onfocus="setA(this)" placeholder="fr…"></div>
+      <div class="vocab-item"><span>fall / decline (noun)</span><input onfocus="setA(this)" placeholder="fr…"></div>
+      <div class="vocab-item"><span>to become more marked</span><input onfocus="setA(this)" placeholder="fr…"></div>
+      <div class="vocab-item"><span>hotel and catering</span><input onfocus="setA(this)" placeholder="fr…"></div>
+      <div class="vocab-item"><span>building industry</span><input onfocus="setA(this)" placeholder="fr…"></div>
+      <div class="vocab-item"><span>to ease tensions</span><input onfocus="setA(this)" placeholder="fr…"></div>
+      <div class="vocab-item"><span>job shortage</span><input onfocus="setA(this)" placeholder="fr…"></div>
+      <div class="vocab-item"><span>ageing population</span><input onfocus="setA(this)" placeholder="fr…"></div>
+      <div class="vocab-item"><span>birth rate</span><input onfocus="setA(this)" placeholder="fr…"></div>
+    </div>
+    <button class="show-ans" onclick="tog(this)">Voir les réponses</button>
+    <div class="answer">
+      <p>la croissance · élément clé · apporter · porter un coup de frein à · le recul / la baisse · s'accentuer · l'hôtellerie · le bâtiment · apaiser les tensions · pénurie d'emploi · le vieillissement de la population · la natalité</p>
+    </div>
+  </div>
+
+  <div class="task">
+    <div class="task-label">Vocabulaire — La diversité à l'antenne (CSA)</div>
+    <div class="vocab-grid">
+      <div class="vocab-item"><span>under-represented</span><input onfocus="setA(this)" placeholder="fr…"></div>
+      <div class="vocab-item"><span>over-represented</span><input onfocus="setA(this)" placeholder="fr…"></div>
+      <div class="vocab-item"><span>perceived origin</span><input onfocus="setA(this)" placeholder="fr…"></div>
+      <div class="vocab-item"><span>disability</span><input onfocus="setA(this)" placeholder="fr…"></div>
+      <div class="vocab-item"><span>time slot</span><input onfocus="setA(this)" placeholder="fr…"></div>
+      <div class="vocab-item"><span>to carry out (a study)</span><input onfocus="setA(this)" placeholder="fr…"></div>
+      <div class="vocab-item"><span>on the margins of society</span><input onfocus="setA(this)" placeholder="fr…"></div>
+      <div class="vocab-item"><span>spread / distribution</span><input onfocus="setA(this)" placeholder="fr…"></div>
+    </div>
+    <button class="show-ans" onclick="tog(this)">Voir les réponses</button>
+    <div class="answer">
+      <p>sous-représenté(e) · surreprésenté(e) · l'origine perçue · le handicap · la tranche horaire · effectuer · en marge de la société · la répartition</p>
+    </div>
+  </div>
+
+  <!-- COMPREHENSION -->
+  <div class="task">
+    <div class="task-label">Compréhension — Répondez en français</div>
+    <h3>OCDE : l'immigration est nécessaire pour assurer la croissance</h3>
+    <ul class="q-list">
+      <li><p>1. Quel est le message central du rapport de l'OCDE concernant l'immigration ?</p><textarea onfocus="setA(this)" placeholder="Répondez en français…"></textarea></li>
+      <li><p>2. Quels groupes ont été les plus touchés par la crise économique ?</p><textarea onfocus="setA(this)" placeholder="Répondez en français…"></textarea></li>
+      <li><p>3. Pourquoi l'OCDE juge-t-elle l'immigration nécessaire à moyen et long terme ?</p><textarea onfocus="setA(this)" placeholder="Répondez en français…"></textarea></li>
+    </ul>
+    <button class="show-ans" onclick="tog(this)">Voir les réponses</button>
+    <div class="answer">
+      <p>1. L'immigration apporte une contribution bénéfique à l'économie et ne devrait pas être trop limitée, même en période de crise.</p>
+      <p>2. Les jeunes et ceux qui travaillaient dans les secteurs de l'hôtellerie et du bâtiment.</p>
+      <p>3. Pour faire face au vieillissement de la population et aux pénuries d'emploi, notamment dans la santé et l'ingénierie.</p>
+    </div>
+  </div>
+
+  <div class="task">
+    <div class="task-label">Compréhension — La diversité à l'antenne</div>
+    <ul class="q-list">
+      <li><p>1. Comment le baromètre du CSA a-t-il été réalisé ? Donnez deux détails.</p><textarea onfocus="setA(this)" placeholder="Répondez en français…"></textarea></li>
+      <li><p>2. Quels types d'émissions présentent les meilleurs taux de personnes « non-blanches » ?</p><textarea onfocus="setA(this)" placeholder="Répondez en français…"></textarea></li>
+      <li><p>3. Quel constat fait-on concernant les rôles joués par les personnes « non-blanches » dans les fictions ?</p><textarea onfocus="setA(this)" placeholder="Répondez en français…"></textarea></li>
+      <li><p>4. Pourquoi le taux de handicapés à l'antenne a-t-il augmenté en 2016 ?</p><textarea onfocus="setA(this)" placeholder="Répondez en français…"></textarea></li>
+    </ul>
+    <button class="show-ans" onclick="tog(this)">Voir les réponses</button>
+    <div class="answer">
+      <p>1. En visionnant 17 chaînes de la TNT gratuite ainsi que Canal+, en mai et septembre 2016, sur les tranches horaires de 17h à 23h.</p>
+      <p>2. Les émissions sportives et les productions américaines (animation, séries, cinéma).</p>
+      <p>3. Elles sont surreprésentées dans des activités marginales ou illégales.</p>
+      <p>4. En raison de la diffusion des XVe Jeux paralympiques d'été à Rio de Janeiro.</p>
+    </div>
+  </div>
+
+  <!-- MORPHOLOGIE -->
+  <div class="task">
+    <div class="task-label">Morphologie — Verbe → Nom</div>
+    <h3>Trouvez le nom associé à chaque verbe</h3>
+    <div class="morph-grid">
+      <div class="morph-item"><span>représenter</span><input onfocus="setA(this)" placeholder="nom…"></div>
+      <div class="morph-item"><span>évoluer</span><input onfocus="setA(this)" placeholder="nom…"></div>
+      <div class="morph-item"><span>progresser</span><input onfocus="setA(this)" placeholder="nom…"></div>
+      <div class="morph-item"><span>répartir</span><input onfocus="setA(this)" placeholder="nom…"></div>
+      <div class="morph-item"><span>diffuser</span><input onfocus="setA(this)" placeholder="nom…"></div>
+      <div class="morph-item"><span>produire</span><input onfocus="setA(this)" placeholder="nom…"></div>
+      <div class="morph-item"><span>augmenter</span><input onfocus="setA(this)" placeholder="nom…"></div>
+      <div class="morph-item"><span>atteindre</span><input onfocus="setA(this)" placeholder="nom…"></div>
+    </div>
+    <button class="show-ans" onclick="tog(this)">Voir les réponses</button>
+    <div class="answer">
+      <p>la représentation · l'évolution · la progression · la répartition · la diffusion · la production · l'augmentation · l'atteinte</p>
+      <p><em>Règle clé :</em> Les verbes en <strong>-er</strong> donnent souvent des noms en <strong>-ation (f)</strong> ; les verbes en <strong>-re / -ir</strong> souvent en <strong>-tion, -sion, -ment</strong>.</p>
+    </div>
+  </div>
+
+  <!-- TRANSLATION -->
+  <div class="task">
+    <div class="task-label">Traduction vers le français ⭐ Priorité examen</div>
+    <div class="tip">Attention : <em>although</em> → <em>bien que + subjonctif</em> | <em>unless</em> → <em>à moins que + subjonctif</em> | <em>so that</em> → <em>afin que / pour que + subjonctif</em></div>
+    <ol class="trans-list">
+      <li><div class="eng">Immigration plays a key role in the growth of the economy.</div><textarea onfocus="setA(this)" placeholder="Traduisez…"></textarea></li>
+      <li><div class="eng">The government gave the same rights to immigrants as to those already living in the country.</div><textarea onfocus="setA(this)" placeholder="Traduisez…"></textarea></li>
+      <li><div class="eng">During the economic crisis, unemployment rose and immigration fell sharply.</div><textarea onfocus="setA(this)" placeholder="Traduisez…"></textarea></li>
+      <li><div class="eng">According to the OECD, unless there is immigration, there will be shortages in certain sectors.</div><textarea onfocus="setA(this)" placeholder="Traduisez…"></textarea></li>
+      <li><div class="eng">The low birth rate and ageing population in France are, in economic terms, a source of concern.</div><textarea onfocus="setA(this)" placeholder="Traduisez…"></textarea></li>
+      <li><div class="eng">An annual report published by the CSA has revealed that France has made little progress as far as representing diversity on television is concerned.</div><textarea onfocus="setA(this)" placeholder="Traduisez…"></textarea></li>
+      <li><div class="eng">While in the USA black people appear in all sorts of programmes, in France the presence of ethnic minorities is notably lower.</div><textarea onfocus="setA(this)" placeholder="Traduisez…"></textarea></li>
+    </ol>
+    <button class="show-ans" onclick="tog(this)">Voir les réponses modèles</button>
+    <div class="answer">
+      <p>1. L'immigration joue un rôle clé dans la croissance de l'économie.</p>
+      <p>2. Le gouvernement a accordé les mêmes droits aux immigrés qu'aux personnes déjà installées dans le pays.</p>
+      <p>3. Pendant la crise économique, le chômage a augmenté et l'immigration a chuté rapidement.</p>
+      <p>4. Selon l'OCDE, à moins qu'il n'y ait de l'immigration, il y aura des pénuries dans certains secteurs.</p>
+      <p>5. Le faible taux de natalité et le vieillissement de la population en France constituent, en termes économiques, une source d'inquiétude.</p>
+      <p>6. Un rapport annuel publié par le CSA a révélé que la France a peu progressé en ce qui concerne la représentation de la diversité à la télévision.</p>
+      <p>7. Alors qu'aux États-Unis les personnes noires apparaissent dans toutes sortes d'émissions, en France la présence des minorités ethniques est nettement inférieure.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- SECTION 2: INTÉGRATION -->
+<!-- ============================================================ -->
+<div id="int" class="section">
+  <h2>Répondre aux défis de l'immigration et de l'intégration en France</h2>
+
+  <div class="tip">🎯 Thèmes clés à maîtriser : la laïcité, les banlieues, la solidarité, le Front populaire, la discrimination. Utilisez des exemples précis (Clichy-sous-Bois, Charlie Hebdo, 15-M) dans vos réponses.</div>
+
+  <div class="task">
+    <div class="task-label">Vocabulaire — Donnez le français</div>
+    <div class="vocab-grid">
+      <div class="vocab-item"><span>secular (adj)</span><input onfocus="setA(this)" placeholder="fr…"></div>
+      <div class="vocab-item"><span>civil service</span><input onfocus="setA(this)" placeholder="fr…"></div>
+      <div class="vocab-item"><span>to take precedence</span><input onfocus="setA(this)" placeholder="fr…"></div>
+      <div class="vocab-item"><span>host country</span><input onfocus="setA(this)" placeholder="fr…"></div>
+      <div class="vocab-item"><span>pioneer (first generation)</span><input onfocus="setA(this)" placeholder="fr…"></div>
+      <div class="vocab-item"><span>dazzling success</span><input onfocus="setA(this)" placeholder="fr…"></div>
+      <div class="vocab-item"><span>working class</span><input onfocus="setA(this)" placeholder="fr…"></div>
+      <div class="vocab-item"><span>delinquency / criminal behaviour</span><input onfocus="setA(this)" placeholder="fr…"></div>
+      <div class="vocab-item"><span>night club bouncer</span><input onfocus="setA(this)" placeholder="fr…"></div>
+      <div class="vocab-item"><span>racial profiling</span><input onfocus="setA(this)" placeholder="fr…"></div>
+      <div class="vocab-item"><span>to marginalise</span><input onfocus="setA(this)" placeholder="fr…"></div>
+      <div class="vocab-item"><span>alienation</span><input onfocus="setA(this)" placeholder="fr…"></div>
+    </div>
+    <button class="show-ans" onclick="tog(this)">Voir les réponses</button>
+    <div class="answer">
+      <p>laïque · la fonction publique · prévaloir · la terre d'accueil · le pionnier · la réussite éclatante · la classe ouvrière · la délinquance · le videur · le délit de faciès · marginaliser · l'aliénation</p>
+    </div>
+  </div>
+
+  <div class="task">
+    <div class="task-label">Compréhension — L'intégration en France, marche-t-elle ?</div>
+    <ul class="q-list">
+      <li><p>1. Quelle conclusion générale les chercheurs tirent-ils de l'enquête ?</p><textarea onfocus="setA(this)" placeholder="Répondez en français…"></textarea></li>
+      <li><p>2. Quel facteur est décrit comme essentiel pour la réussite des immigrés ?</p><textarea onfocus="setA(this)" placeholder="Répondez en français…"></textarea></li>
+      <li><p>3. Quelle exception note-t-on concernant les filles d'immigrés ?</p><textarea onfocus="setA(this)" placeholder="Répondez en français…"></textarea></li>
+      <li><p>4. Pourquoi les jeunes Algériens représentent-ils un cas particulier ?</p><textarea onfocus="setA(this)" placeholder="Répondez en français…"></textarea></li>
+    </ul>
+    <button class="show-ans" onclick="tog(this)">Voir les réponses</button>
+    <div class="answer">
+      <p>1. Que « l'intégration marche » — les indicateurs sont globalement positifs pour la plupart des groupes.</p>
+      <p>2. La durée — plus longtemps un immigré est installé en France, meilleurs sont les résultats scolaires de ses enfants.</p>
+      <p>3. Les filles turques se retirent jeunes du système éducatif, contrairement à la tendance générale.</p>
+      <p>4. Ils quittent plus souvent le système scolaire et connaissent des parcours délinquants plus fréquents, ce qui obscurcit la vision positive d'ensemble.</p>
+    </div>
+  </div>
+
+  <div class="task">
+    <div class="task-label">Compréhension — Une rude épreuve pour les idéaux de la République</div>
+    <ul class="q-list">
+      <li><p>1. Comment certains jeunes musulmans perçoivent-ils les valeurs républicaines ? (2 points)</p><textarea onfocus="setA(this)" placeholder="Répondez en français…"></textarea></li>
+      <li><p>2. Qu'est-ce qu'Andrew Hussey entend par « fondamentalistes des Lumières » ?</p><textarea onfocus="setA(this)" placeholder="Répondez en français…"></textarea></li>
+      <li><p>3. Que dit Mariam Cissé sur le cosmopolitisme de la France ?</p><textarea onfocus="setA(this)" placeholder="Répondez en français…"></textarea></li>
+    </ul>
+    <button class="show-ans" onclick="tog(this)">Voir les réponses</button>
+    <div class="answer">
+      <p>1. Ils les considèrent comme étrangères/blasphématoires et imposées comme une forme de colonialisme culturel ; ils ne se sentent ni égaux ni libres.</p>
+      <p>2. Des personnes qui exigent l'imposition d'une identité unique, comme si les valeurs républicaines étaient absolues et sacrées au même titre que le communisme.</p>
+      <p>3. La France doit assumer son cosmopolitisme — on ne peut pas accueillir toutes sortes de gens sans accepter leurs différences.</p>
+    </div>
+  </div>
+
+  <div class="task">
+    <div class="task-label">Morphologie — Nom → Verbe</div>
+    <div class="morph-grid">
+      <div class="morph-item"><span>la réussite</span><input onfocus="setA(this)" placeholder="verbe…"></div>
+      <div class="morph-item"><span>l'intégration</span><input onfocus="setA(this)" placeholder="verbe…"></div>
+      <div class="morph-item"><span>l'accueil</span><input onfocus="setA(this)" placeholder="verbe…"></div>
+      <div class="morph-item"><span>l'échec</span><input onfocus="setA(this)" placeholder="verbe…"></div>
+      <div class="morph-item"><span>la confirmation</span><input onfocus="setA(this)" placeholder="verbe…"></div>
+      <div class="morph-item"><span>la connaissance</span><input onfocus="setA(this)" placeholder="verbe…"></div>
+      <div class="morph-item"><span>la création</span><input onfocus="setA(this)" placeholder="verbe…"></div>
+      <div class="morph-item"><span>la durée</span><input onfocus="setA(this)" placeholder="verbe…"></div>
+    </div>
+    <button class="show-ans" onclick="tog(this)">Voir les réponses</button>
+    <div class="answer">
+      <p>réussir · intégrer · accueillir · échouer · confirmer · connaître · créer · durer</p>
+    </div>
+  </div>
+
+  <div class="task">
+    <div class="task-label">Traduction vers le français ⭐</div>
+    <div class="tip">Attention aux verbes pronominaux réfléchis : <em>se sentir, se méfier, s'intégrer, se retirer</em>. Attention aussi aux accords des participes passés.</div>
+    <ol class="trans-list">
+      <li><div class="eng">Integration finally catches up with all the children of immigrants, whatever their origin.</div><textarea onfocus="setA(this)" placeholder="Traduisez…"></textarea></li>
+      <li><div class="eng">The duration of their stay remains an essential factor in the integration of immigrants.</div><textarea onfocus="setA(this)" placeholder="Traduisez…"></textarea></li>
+      <li><div class="eng">Young Muslims feel that the values of the state are foreign, even blasphemous, imposed on them as a form of cultural colonialism.</div><textarea onfocus="setA(this)" placeholder="Traduisez…"></textarea></li>
+      <li><div class="eng">Some journalists showed that black people found it much harder to enter night clubs than white people.</div><textarea onfocus="setA(this)" placeholder="Traduisez…"></textarea></li>
+      <li><div class="eng">France must acknowledge its multiculturalism: you cannot welcome all sorts of people without accepting their differences.</div><textarea onfocus="setA(this)" placeholder="Traduisez…"></textarea></li>
+    </ol>
+    <button class="show-ans" onclick="tog(this)">Voir les réponses modèles</button>
+    <div class="answer">
+      <p>1. L'intégration finit par rattraper tous les enfants d'immigrés, quelle que soit leur origine.</p>
+      <p>2. La durée de leur séjour reste un facteur essentiel de l'intégration des immigrés.</p>
+      <p>3. Les jeunes musulmans estiment que les valeurs de l'État leur semblent étrangères, voire blasphématoires, imposées à eux comme une forme de colonialisme culturel.</p>
+      <p>4. Des journalistes ont montré que les personnes noires trouvaient beaucoup plus difficile d'entrer dans des boîtes de nuit que les personnes blanches.</p>
+      <p>5. La France doit assumer son cosmopolitisme : on ne peut pas accueillir toutes sortes de gens dans le pays sans accepter leurs différences.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- SECTION 3: EXTRÊME DROITE -->
+<!-- ============================================================ -->
+<div id="fn" class="section">
+  <h2>L'extrême droite</h2>
+
+  <div class="tip">🎯 Arguments clés à retenir : <strong>3 axes de l'extrême droite</strong> (anticommunisme, antilibéralisme économique, fierté nationale) + <strong>3 causes de sa montée</strong> (faillite économie libérale, immigration/échec intégration, surmédiatisation thèmes sécuritaires).</div>
+
+  <div class="task">
+    <div class="task-label">Vocabulaire — Donnez le français</div>
+    <div class="vocab-grid">
+      <div class="vocab-item"><span>hatred</span><input onfocus="setA(this)" placeholder="fr…"></div>
+      <div class="vocab-item"><span>national pride</span><input onfocus="setA(this)" placeholder="fr…"></div>
+      <div class="vocab-item"><span>to embody</span><input onfocus="setA(this)" placeholder="fr…"></div>
+      <div class="vocab-item"><span>contempt (for)</span><input onfocus="setA(this)" placeholder="fr…"></div>
+      <div class="vocab-item"><span>rejection</span><input onfocus="setA(this)" placeholder="fr…"></div>
+      <div class="vocab-item"><span>enslavement</span><input onfocus="setA(this)" placeholder="fr…"></div>
+      <div class="vocab-item"><span>to go against (a principle)</span><input onfocus="setA(this)" placeholder="fr…"></div>
+      <div class="vocab-item"><span>malcontent / discontented person</span><input onfocus="setA(this)" placeholder="fr…"></div>
+      <div class="vocab-item"><span>excessive media coverage</span><input onfocus="setA(this)" placeholder="fr…"></div>
+      <div class="vocab-item"><span>bankruptcy / failure (of a system)</span><input onfocus="setA(this)" placeholder="fr…"></div>
+      <div class="vocab-item"><span>frustrated</span><input onfocus="setA(this)" placeholder="fr…"></div>
+      <div class="vocab-item"><span>to bring together</span><input onfocus="setA(this)" placeholder="fr…"></div>
+    </div>
+    <button class="show-ans" onclick="tog(this)">Voir les réponses</button>
+    <div class="answer">
+      <p>la haine · la fierté nationale · incarner · le mépris (pour) · le rejet · l'asservissement · aller à l'encontre de · le mécontent · la surmédiatisation · la faillite · frustré · rassembler</p>
+    </div>
+  </div>
+
+  <div class="task">
+    <div class="task-label">Compréhension — La montée de l'extrême droite</div>
+    <ul class="q-list">
+      <li><p>1. Quels sont les trois grands axes traditionnels de l'extrême droite selon le texte ?</p><textarea onfocus="setA(this)" placeholder="Répondez en français…"></textarea></li>
+      <li><p>2. Comment le FN utilise-t-il sa critique de l'économie libérale pour séduire les classes moyennes ?</p><textarea onfocus="setA(this)" placeholder="Répondez en français…"></textarea></li>
+      <li><p>3. Quelles sont les trois causes principales de la montée de l'extrême droite en France selon le texte ?</p><textarea onfocus="setA(this)" placeholder="Répondez en français…"></textarea></li>
+      <li><p>4. Comment le texte distingue-t-il la France de 2016 de l'Allemagne de 1933 ?</p><textarea onfocus="setA(this)" placeholder="Répondez en français…"></textarea></li>
+    </ul>
+    <button class="show-ans" onclick="tog(this)">Voir les réponses</button>
+    <div class="answer">
+      <p>1. L'anticommunisme, l'antilibéralisme économique et l'emphase sur la fierté nationale.</p>
+      <p>2. Il dénonce le soutien des partis modérés à l'économie de marché, qu'il présente comme synonyme d'asservissement aux États-Unis — argument crédible après la crise de 2008.</p>
+      <p>3. La faillite de l'économie libérale, l'immigration et l'échec des politiques d'intégration, et la surmédiatisation des thèmes sécuritaires.</p>
+      <p>4. La France est une vieille nation au passé souvent glorifié, pas une jeune nation frustrée comme l'Allemagne en 1933 ; elle croit voir une substitution de sa population par des immigrés.</p>
+    </div>
+  </div>
+
+  <div class="task">
+    <div class="task-label">Morphologie — Verbe → Nom &amp; Nom → Verbe</div>
+    <h3>Trouvez le nom</h3>
+    <div class="morph-grid">
+      <div class="morph-item"><span>échouer</span><input onfocus="setA(this)" placeholder="nom…"></div>
+      <div class="morph-item"><span>rejeter</span><input onfocus="setA(this)" placeholder="nom…"></div>
+      <div class="morph-item"><span>haïr</span><input onfocus="setA(this)" placeholder="nom…"></div>
+      <div class="morph-item"><span>soutenir</span><input onfocus="setA(this)" placeholder="nom…"></div>
+      <div class="morph-item"><span>blesser</span><input onfocus="setA(this)" placeholder="nom…"></div>
+      <div class="morph-item"><span>gérer</span><input onfocus="setA(this)" placeholder="nom…"></div>
+    </div>
+    <h3>Trouvez le verbe</h3>
+    <div class="morph-grid">
+      <div class="morph-item"><span>la gloire</span><input onfocus="setA(this)" placeholder="verbe…"></div>
+      <div class="morph-item"><span>la domination</span><input onfocus="setA(this)" placeholder="verbe…"></div>
+      <div class="morph-item"><span>le rassemblement</span><input onfocus="setA(this)" placeholder="verbe…"></div>
+      <div class="morph-item"><span>la définition</span><input onfocus="setA(this)" placeholder="verbe…"></div>
+    </div>
+    <button class="show-ans" onclick="tog(this)">Voir les réponses</button>
+    <div class="answer">
+      <p><strong>Noms :</strong> l'échec · le rejet · la haine · le soutien · la blessure · la gestion</p>
+      <p><strong>Verbes :</strong> glorifier · dominer · rassembler · définir</p>
+    </div>
+  </div>
+
+  <div class="task">
+    <div class="task-label">Traduction vers le français ⭐</div>
+    <div class="tip">Attention : <em>although / even though</em> → <em>bien que / même si</em> | <em>they say</em> → <em>disent-ils</em> (inversion) | <em>as for</em> → <em>quant à</em></div>
+    <ol class="trans-list">
+      <li><div class="eng">The rise of the far right can be explained by a number of factors, including economic despair and the fear of immigration.</div><textarea onfocus="setA(this)" placeholder="Traduisez…"></textarea></li>
+      <li><div class="eng">The far right is a philosophy of rejection rather than adherence to a project.</div><textarea onfocus="setA(this)" placeholder="Traduisez…"></textarea></li>
+      <li><div class="eng">People tend to think that foreigners take their jobs, although this is far from certain.</div><textarea onfocus="setA(this)" placeholder="Traduisez…"></textarea></li>
+      <li><div class="eng">The excessive media coverage of security issues contributes to fear of a religion that supporters of the far right consider alien.</div><textarea onfocus="setA(this)" placeholder="Traduisez…"></textarea></li>
+      <li><div class="eng">Multiculturalism has failed, they say, as they long for an imagined golden age of the past.</div><textarea onfocus="setA(this)" placeholder="Traduisez…"></textarea></li>
+    </ol>
+    <button class="show-ans" onclick="tog(this)">Voir les réponses modèles</button>
+    <div class="answer">
+      <p>1. La montée de l'extrême droite s'explique par un certain nombre de facteurs, notamment le désespoir économique et la peur de l'immigration.</p>
+      <p>2. L'extrême droite est une philosophie du rejet plutôt qu'une adhésion à un projet.</p>
+      <p>3. Les gens ont tendance à penser que les étrangers prennent leurs emplois, bien que ce soit loin d'être certain.</p>
+      <p>4. La surmédiatisation des thèmes sécuritaires contribue à la peur d'une religion que les partisans de l'extrême droite considèrent étrangère.</p>
+      <p>5. Le multiculturalisme a échoué, disent-ils, pendant qu'ils aspirent à un âge d'or imaginé du passé.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- SECTION 4: VICHY -->
+<!-- ============================================================ -->
+<div id="vichy" class="section">
+  <h2>La France occupée et le régime Vichy</h2>
+
+  <div class="tip">🎯 Structures utiles pour ce thème : <em>il fallait + infinitif, on était obligé de, faute de (+ nom), à la suite de, lors de</em>.</div>
+
+  <div class="task">
+    <div class="task-label">Vocabulaire — Donnez le français</div>
+    <div class="vocab-grid">
+      <div class="vocab-item"><span>raid / mass arrest</span><input onfocus="setA(this)" placeholder="fr…"></div>
+      <div class="vocab-item"><span>rationing</span><input onfocus="setA(this)" placeholder="fr…"></div>
+      <div class="vocab-item"><span>trench</span><input onfocus="setA(this)" placeholder="fr…"></div>
+      <div class="vocab-item"><span>curfew</span><input onfocus="setA(this)" placeholder="fr…"></div>
+      <div class="vocab-item"><span>to requisition</span><input onfocus="setA(this)" placeholder="fr…"></div>
+      <div class="vocab-item"><span>to barter</span><input onfocus="setA(this)" placeholder="fr…"></div>
+      <div class="vocab-item"><span>black market</span><input onfocus="setA(this)" placeholder="fr…"></div>
+      <div class="vocab-item"><span>to perish</span><input onfocus="setA(this)" placeholder="fr…"></div>
+      <div class="vocab-item"><span>to arouse suspicion</span><input onfocus="setA(this)" placeholder="fr…"></div>
+      <div class="vocab-item"><span>to mistrust</span><input onfocus="setA(this)" placeholder="fr…"></div>
+      <div class="vocab-item"><span>solidarity</span><input onfocus="setA(this)" placeholder="fr…"></div>
+      <div class="vocab-item"><span>to stand up to / cope with</span><input onfocus="setA(this)" placeholder="fr…"></div>
+    </div>
+    <button class="show-ans" onclick="tog(this)">Voir les réponses</button>
+    <div class="answer">
+      <p>la rafle · le rationnement · la tranchée · le couvre-feu · réquisitionner · faire du troc · le marché noir · périr · éveiller les soupçons · se méfier de · la solidarité · tenir face à</p>
+    </div>
+  </div>
+
+  <div class="task">
+    <div class="task-label">Compréhension — Témoignages de femmes / Souvenirs d'enfance</div>
+    <ul class="q-list">
+      <li><p>1. Pourquoi le rationnement était-il particulièrement difficile pour les habitants des villes ?</p><textarea onfocus="setA(this)" placeholder="Répondez en français…"></textarea></li>
+      <li><p>2. Comment Mme Lebret ravitaillait-elle sa famille ?</p><textarea onfocus="setA(this)" placeholder="Répondez en français…"></textarea></li>
+      <li><p>3. Comment les habitants de Lézignan décrivent-ils leur souvenir des soldats allemands ? Donnez deux aspects contrastés.</p><textarea onfocus="setA(this)" placeholder="Répondez en français…"></textarea></li>
+      <li><p>4. Pourquoi les cafés jouaient-ils un rôle important dans la résistance locale ?</p><textarea onfocus="setA(this)" placeholder="Répondez en français…"></textarea></li>
+    </ul>
+    <button class="show-ans" onclick="tog(this)">Voir les réponses</button>
+    <div class="answer">
+      <p>1. Ils ne pouvaient pas récolter leur propre nourriture comme les fermiers, devaient faire la queue des heures, et recevaient un pain noir de mauvaise qualité.</p>
+      <p>2. Elle donnait des tickets inutilisés à ses clients à la campagne, qui lui ramenaient en échange du beurre ou de la viande le samedi.</p>
+      <p>3. D'un côté ils étaient l'ennemi et faisaient peur ; de l'autre certains étaient drôlement sympas, tristes d'être loin de leur pays et amenaient du chocolat.</p>
+      <p>4. Ils recevaient beaucoup de monde et permettaient aux résistants de se retrouver et de communiquer sans éveiller les soupçons grâce à des boîtes à lettres.</p>
+    </div>
+  </div>
+
+  <div class="task">
+    <div class="task-label">Morphologie — Complétez la grille</div>
+    <h3>Trouvez le verbe ou le nom manquant</h3>
+    <div class="morph-grid">
+      <div class="morph-item"><span>soutenir →</span><input onfocus="setA(this)" placeholder="nom…"></div>
+      <div class="morph-item"><span>→ arrestation</span><input onfocus="setA(this)" placeholder="verbe…"></div>
+      <div class="morph-item"><span>→ transfert</span><input onfocus="setA(this)" placeholder="verbe…"></div>
+      <div class="morph-item"><span>reconnaître →</span><input onfocus="setA(this)" placeholder="nom…"></div>
+      <div class="morph-item"><span>condamner →</span><input onfocus="setA(this)" placeholder="nom…"></div>
+      <div class="morph-item"><span>→ fondation</span><input onfocus="setA(this)" placeholder="verbe…"></div>
+      <div class="morph-item"><span>réussir →</span><input onfocus="setA(this)" placeholder="nom…"></div>
+      <div class="morph-item"><span>→ déportation</span><input onfocus="setA(this)" placeholder="verbe…"></div>
+    </div>
+    <button class="show-ans" onclick="tog(this)">Voir les réponses</button>
+    <div class="answer">
+      <p>le soutien · arrêter · transférer · la reconnaissance · la condamnation · fonder · la réussite · déporter</p>
+    </div>
+  </div>
+
+  <div class="task">
+    <div class="task-label">Traduction vers le français ⭐</div>
+    <div class="tip">Attention au choix passé composé / imparfait : actions complètes/ponctuelles → <em>passé composé</em> ; descriptions, états, actions habituelles → <em>imparfait</em>.</div>
+    <ol class="trans-list">
+      <li><div class="eng">At the start of the war, most families were dispersed and it became more and more difficult to find somewhere to live.</div><textarea onfocus="setA(this)" placeholder="Traduisez…"></textarea></li>
+      <li><div class="eng">Because of the bombing raids, we had to take refuge in shelters which we dug ourselves.</div><textarea onfocus="setA(this)" placeholder="Traduisez…"></textarea></li>
+      <li><div class="eng">The shortage of food made our lives difficult, but we managed to feed our families.</div><textarea onfocus="setA(this)" placeholder="Traduisez…"></textarea></li>
+      <li><div class="eng">Although people continued to mistrust each other, they stood up to the Germans and maintained their dignity.</div><textarea onfocus="setA(this)" placeholder="Traduisez…"></textarea></li>
+      <li><div class="eng">The only place where we could go without arousing suspicion was the local cafes, where letter boxes could be found.</div><textarea onfocus="setA(this)" placeholder="Traduisez…"></textarea></li>
+      <li><div class="eng">A feeling of solidarity developed and we found ways to help each other cope with the difficulties.</div><textarea onfocus="setA(this)" placeholder="Traduisez…"></textarea></li>
+    </ol>
+    <button class="show-ans" onclick="tog(this)">Voir les réponses modèles</button>
+    <div class="answer">
+      <p>1. Au début de la guerre, la plupart des familles ont été dispersées et il est devenu de plus en plus difficile de trouver un logement.</p>
+      <p>2. À cause des bombardements, nous avons dû nous réfugier dans des abris que nous creusions nous-mêmes.</p>
+      <p>3. Le manque de nourriture rendait notre vie difficile, mais nous avons réussi à nourrir nos familles.</p>
+      <p>4. Bien que les gens aient continué à se méfier les uns des autres, ils ont tenu face aux Allemands et ont maintenu leur dignité.</p>
+      <p>5. Le seul endroit où nous pouvions aller sans éveiller les soupçons était les cafés locaux, où l'on pouvait trouver des boîtes aux lettres.</p>
+      <p>6. Un sentiment de solidarité s'est développé et nous avons trouvé des moyens de nous aider à faire face aux difficultés.</p>
+    </div>
+  </div>
+</div>
+
+</div><!-- end container -->
+
+<script>
+  let activeEl = null;
+  function setA(el) { activeEl = el; }
+  function ins(ch) {
+    if (!activeEl) return;
+    const s = activeEl.selectionStart, e = activeEl.selectionEnd, v = activeEl.value;
+    const clean = ch.replace(/&nbsp;/g,' ');
+    activeEl.value = v.slice(0,s) + clean + v.slice(e);
+    activeEl.selectionStart = activeEl.selectionEnd = s + clean.length;
+    activeEl.focus();
+  }
+  function show(id, btn) {
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    btn.classList.add('active');
+  }
+  function tog(btn) {
+    const ans = btn.nextElementSibling;
+    ans.classList.toggle('visible');
+    btn.textContent = ans.classList.contains('visible') ? 'Masquer les réponses' : 'Voir les réponses';
+  }
+  function dl() {
+    const blob = new Blob([document.documentElement.outerHTML], {type:'text/html'});
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'revision_french_alevel.html';
+    a.click();
+    URL.revokeObjectURL(a.href);
+  }
+</script>
+</body>
+</html>

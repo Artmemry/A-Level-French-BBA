@@ -1,0 +1,1843 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>L'Étranger — Atelier A*</title>
+<style>
+:root {
+  --navy:      #1B2845;
+  --navy-d:   #0E1626;
+  --sand:      #D9A86C;
+  --sand-d:    #B5894C;
+  --cream:     #F5EDD8;
+  --cream-l:   #FBF6E9;
+  --terra:     #B5482E;
+  --terra-l:   #D87055;
+  --green:     #2D8541;
+  --green-l:   #44A35A;
+  --red-warn:  #C0392B;
+  --ink:       #1A1A1A;
+  --grey:      #555;
+  --light:     #DDD3B8;
+  --shadow:    0 4px 14px rgba(27,40,69,0.14);
+  --shadow-lg: 0 10px 28px rgba(27,40,69,0.20);
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+body {
+  font-family: Calibri, "Segoe UI", system-ui, -apple-system, sans-serif;
+  font-size: 16px;
+  color: var(--ink);
+  background:
+    radial-gradient(circle at 100% 0%, rgba(217,168,108,0.18) 0%, transparent 50%),
+    radial-gradient(circle at 0% 100%, rgba(181,72,46,0.10) 0%, transparent 50%),
+    var(--cream);
+  background-attachment: fixed;
+  line-height: 1.55;
+  min-height: 100vh;
+  padding-bottom: 90px;
+}
+
+/* ---- Header ---- */
+header.topbar {
+  background: var(--navy);
+  color: var(--cream);
+  padding: 18px 32px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: var(--shadow);
+  position: sticky; top: 0; z-index: 50;
+}
+.brand { display: flex; flex-direction: column; gap: 2px; }
+.brand .eyebrow {
+  color: var(--sand);
+  font-size: 13px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+.brand h1 {
+  margin: 0; font-size: 26px; font-weight: 700; color: var(--cream);
+}
+.brand h1 em {
+  color: var(--sand); font-style: italic;
+}
+.global-stats {
+  display: flex; gap: 18px; align-items: center;
+}
+.stat-pill {
+  background: rgba(245,237,216,0.10);
+  padding: 6px 14px;
+  border-radius: 999px;
+  display: flex; flex-direction: column; align-items: center;
+  font-size: 11px; letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--sand);
+  font-weight: 700;
+}
+.stat-pill strong {
+  display: block; font-size: 20px; color: var(--cream); font-weight: 800;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---- Layout ---- */
+main {
+  max-width: 1500px;
+  margin: 0 auto;
+  padding: 22px 24px;
+}
+
+.title-bar {
+  background: var(--white, #fff);
+  border-radius: 14px;
+  padding: 18px 22px;
+  box-shadow: var(--shadow);
+  margin-bottom: 22px;
+  border-left: 6px solid var(--terra);
+}
+.title-bar h2 {
+  margin: 0 0 6px; font-size: 20px; color: var(--navy);
+}
+.title-bar p {
+  margin: 4px 0 0; color: var(--grey); font-size: 14px;
+}
+/* ---- Title selection (exam-style choice of two) ---- */
+.choice-cards {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 14px; margin-top: 14px;
+}
+@media (max-width: 720px) { .choice-cards { grid-template-columns: 1fr; } }
+.choice-card {
+  background: var(--cream);
+  border: 2px solid var(--sand);
+  border-radius: 10px;
+  padding: 16px 18px;
+  cursor: pointer;
+  transition: all 140ms ease;
+  position: relative;
+  display: flex; flex-direction: column; gap: 8px;
+}
+.choice-card:hover {
+  border-color: var(--terra);
+  background: var(--cream-l);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow);
+}
+.choice-card .lab {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--terra);
+  font-weight: 800;
+}
+.choice-card .q {
+  font-size: 15px;
+  color: var(--navy);
+  font-weight: 700;
+  font-style: italic;
+  line-height: 1.45;
+}
+.choice-card .pick {
+  margin-top: auto;
+  align-self: flex-end;
+  background: var(--navy);
+  color: var(--cream);
+  padding: 5px 14px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+.choice-controls {
+  margin-top: 12px;
+  display: flex; gap: 10px;
+  align-items: center; flex-wrap: wrap;
+}
+.choice-controls .btn-shuffle {
+  background: white; border: 1px solid var(--light);
+  color: var(--navy); padding: 6px 14px;
+  border-radius: 999px; font-size: 13px;
+  cursor: pointer; font-family: inherit; font-weight: 600;
+}
+.choice-controls .btn-shuffle:hover {
+  border-color: var(--terra); color: var(--terra);
+}
+/* Selected title display */
+.locked-title {
+  display: none; align-items: center; gap: 14px; margin-top: 14px;
+  padding: 14px 18px;
+  background: var(--navy);
+  border-radius: 10px;
+  color: var(--cream);
+  flex-wrap: wrap;
+}
+.locked-title.show { display: flex; }
+.locked-title .lt-label {
+  background: var(--terra); color: var(--cream);
+  padding: 4px 12px; border-radius: 999px;
+  font-size: 11px; letter-spacing: 0.08em;
+  text-transform: uppercase; font-weight: 800;
+  white-space: nowrap;
+}
+.locked-title .lt-q {
+  flex: 1 1 auto; font-style: italic; font-size: 15px;
+  min-width: 200px;
+}
+.locked-title .btn-change {
+  background: transparent; color: var(--cream);
+  border: 1px solid rgba(245,237,216,0.5);
+  padding: 6px 14px; border-radius: 999px;
+  font-family: inherit; font-size: 13px; font-weight: 600;
+  cursor: pointer;
+}
+.locked-title .btn-change:hover { background: rgba(245,237,216,0.1); }
+
+/* Axes panel for non-modelled titles */
+.axes-box {
+  margin-top: 12px;
+  background: var(--cream-l);
+  border-left: 4px solid var(--sand-d);
+  padding: 12px 16px;
+  border-radius: 0 6px 6px 0;
+  font-size: 14px;
+  display: none;
+}
+.axes-box.show { display: block; }
+.axes-box h4 {
+  margin: 0 0 8px;
+  font-size: 12px;
+  color: var(--terra);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+.axes-box ul { margin: 0; padding-left: 20px; }
+.axes-box li { margin-bottom: 5px; line-height: 1.5; }
+
+/* ---- Workshop grid ---- */
+.workshop {
+  display: grid;
+  grid-template-columns: 280px 1fr 320px;
+  gap: 18px;
+}
+@media (max-width: 1180px) {
+  .workshop { grid-template-columns: 1fr; }
+}
+
+/* ---- Side panels ---- */
+aside.panel {
+  background: white;
+  border-radius: 14px;
+  box-shadow: var(--shadow);
+  overflow: hidden;
+  align-self: start;
+  position: sticky; top: 100px;
+  max-height: calc(100vh - 130px);
+  display: flex; flex-direction: column;
+}
+@media (max-width: 1180px) {
+  aside.panel { position: static; max-height: none; }
+}
+aside.panel .panel-header {
+  background: var(--navy);
+  color: var(--cream);
+  padding: 12px 16px;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+aside.panel .panel-tabs {
+  display: flex; flex-wrap: wrap; gap: 4px;
+  padding: 8px;
+  background: var(--cream-l);
+  border-bottom: 1px solid var(--light);
+}
+.tab-btn {
+  flex: 1 1 auto;
+  background: white;
+  border: 1px solid var(--sand);
+  color: var(--navy);
+  padding: 6px 10px;
+  border-radius: 6px;
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 120ms ease;
+}
+.tab-btn:hover { background: var(--sand); color: var(--navy); }
+.tab-btn.active { background: var(--terra); color: var(--cream); border-color: var(--terra); }
+
+aside.panel .panel-body {
+  padding: 14px 16px;
+  overflow-y: auto;
+  flex: 1;
+  font-size: 14px;
+}
+.lex-section h4 {
+  margin: 14px 0 6px;
+  font-size: 13px;
+  color: var(--terra);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+.lex-section h4:first-child { margin-top: 0; }
+.lex-list {
+  margin: 0; padding: 0; list-style: none;
+}
+.lex-list li {
+  padding: 5px 8px;
+  margin-bottom: 4px;
+  background: var(--cream);
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 120ms ease;
+  font-size: 14px;
+  line-height: 1.4;
+}
+.lex-list li:hover {
+  background: var(--sand);
+}
+.lex-pair { display: flex; gap: 8px; align-items: center; }
+.lex-pair .from { color: var(--grey); font-style: italic; }
+.lex-pair .arrow { color: var(--terra); font-weight: 700; }
+
+/* ---- Writing area ---- */
+section.writing {
+  background: white;
+  border-radius: 14px;
+  box-shadow: var(--shadow);
+  padding: 22px 26px;
+}
+.writing h3 {
+  margin: 0 0 6px; color: var(--navy); font-size: 22px;
+}
+.writing > p.intro-instructions {
+  color: var(--grey); margin: 0 0 16px; font-size: 14px;
+}
+.section-block {
+  margin-bottom: 18px;
+}
+.section-block .label-row {
+  display: flex; justify-content: space-between; align-items: baseline;
+  margin-bottom: 6px;
+}
+.section-block label {
+  font-weight: 700;
+  color: var(--navy);
+  font-size: 15px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+.section-block .wc {
+  font-size: 13px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  color: var(--grey);
+}
+.section-block .wc.over { color: var(--terra); }
+.section-block .wc.good { color: var(--green); }
+.section-block textarea {
+  width: 100%;
+  min-height: 70px;
+  padding: 12px 14px;
+  border: 2px solid var(--light);
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: 16px;
+  line-height: 1.55;
+  color: var(--ink);
+  background: #FFFEF9;
+  resize: vertical;
+  transition: border-color 160ms ease;
+}
+.section-block textarea:focus {
+  outline: none;
+  border-color: var(--terra);
+  background: white;
+}
+.section-block textarea.plan { min-height: 90px; background: var(--cream-l); }
+.section-block textarea.intro,
+.section-block textarea.conclusion { min-height: 100px; }
+.section-block textarea.peel { min-height: 130px; }
+
+/* ---- Feedback panel ---- */
+.fb-empty { color: var(--grey); font-style: italic; padding: 8px 0; }
+.fb-block {
+  background: var(--cream-l);
+  border-left: 4px solid var(--navy);
+  padding: 10px 12px;
+  margin-bottom: 12px;
+  border-radius: 0 6px 6px 0;
+  font-size: 13px;
+  line-height: 1.5;
+}
+.fb-block.good { border-left-color: var(--green); }
+.fb-block.warn { border-left-color: var(--terra); }
+.fb-block.info { border-left-color: var(--sand-d); }
+.fb-block h5 {
+  margin: 0 0 4px;
+  font-size: 12px;
+  color: var(--navy);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-weight: 800;
+}
+.fb-block .chip {
+  display: inline-block;
+  background: white;
+  border: 1px solid var(--light);
+  border-radius: 999px;
+  padding: 2px 9px;
+  margin: 2px 3px 0 0;
+  font-size: 12px;
+  color: var(--navy);
+}
+.fb-block .chip.ok { background: #DCEFE0; border-color: var(--green); color: #1F5C2C; }
+.fb-block .chip.miss { background: #FAE0DA; border-color: var(--terra); color: #7C2C18; }
+.fb-block .chip.suggest { background: #FFF1D6; border-color: var(--sand); color: #6C4D17; }
+
+/* Score grid */
+.score-grid {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 4px 10px;
+  margin-top: 6px;
+}
+.score-grid .crit { font-size: 13px; color: var(--ink); }
+.score-grid .pts {
+  font-weight: 800;
+  color: var(--terra);
+  font-variant-numeric: tabular-nums;
+}
+.score-total {
+  margin-top: 8px;
+  padding: 8px 0 0;
+  border-top: 1px solid var(--light);
+  font-size: 14px;
+  font-weight: 800;
+  display: flex; justify-content: space-between;
+  color: var(--navy);
+}
+.score-total span { color: var(--terra); font-size: 18px; }
+
+/* ---- Action bar ---- */
+.actions {
+  margin-top: 22px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+}
+.btn {
+  background: var(--cream);
+  color: var(--navy);
+  border: 2px solid var(--sand);
+  padding: 10px 18px;
+  border-radius: 999px;
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 140ms ease;
+  box-shadow: 0 2px 0 rgba(0,0,0,0.10);
+}
+.btn:hover { transform: translateY(-1px); box-shadow: 0 4px 0 rgba(0,0,0,0.10); }
+.btn:active { transform: translateY(0); }
+.btn.primary { background: var(--terra); color: var(--cream); border-color: var(--terra); }
+.btn.primary:hover { background: var(--terra-l); }
+.btn.success { background: var(--green); color: var(--cream); border-color: var(--green); }
+.btn.success:hover { background: var(--green-l); }
+.btn.dark { background: var(--navy); color: var(--cream); border-color: var(--navy); }
+.btn.dark:hover { background: var(--navy-d); }
+
+/* ---- Floating accent keyboard ---- */
+#keyboard {
+  position: fixed;
+  left: 50%;
+  bottom: 14px;
+  transform: translateX(-50%);
+  background: var(--navy);
+  color: var(--cream);
+  padding: 8px 12px;
+  border-radius: 14px;
+  box-shadow: var(--shadow-lg);
+  z-index: 100;
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+  align-items: center;
+  cursor: move;
+  user-select: none;
+  max-width: 90vw;
+}
+#keyboard.hidden { display: none; }
+#keyboard .kb-grip {
+  color: var(--sand);
+  font-size: 18px;
+  padding: 0 6px;
+  cursor: move;
+  font-weight: 800;
+}
+#keyboard button {
+  background: var(--cream);
+  color: var(--navy);
+  border: none;
+  width: 38px;
+  height: 38px;
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: 18px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 100ms ease;
+}
+#keyboard button:hover {
+  background: var(--sand);
+  transform: translateY(-1px);
+}
+#keyboard button:active {
+  transform: translateY(0);
+  background: var(--terra);
+  color: var(--cream);
+}
+#keyboard .kb-toggle {
+  color: var(--sand);
+  background: transparent;
+  cursor: pointer;
+  font-size: 13px;
+  width: auto;
+  padding: 0 8px;
+}
+#kb-show {
+  position: fixed;
+  bottom: 14px;
+  right: 14px;
+  z-index: 100;
+  background: var(--navy);
+  color: var(--cream);
+  border: none;
+  padding: 10px 16px;
+  border-radius: 999px;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: var(--shadow);
+  display: none;
+}
+#kb-show.show { display: block; }
+
+/* ---- Modal ---- */
+.modal-backdrop {
+  position: fixed; inset: 0;
+  background: rgba(14, 22, 38, 0.78);
+  z-index: 200;
+  display: none;
+  align-items: center; justify-content: center;
+  padding: 24px;
+}
+.modal-backdrop.show { display: flex; }
+.modal {
+  background: white;
+  border-radius: 14px;
+  max-width: 1100px; width: 100%;
+  max-height: 90vh;
+  overflow: hidden;
+  display: flex; flex-direction: column;
+  box-shadow: var(--shadow-lg);
+}
+.modal-header {
+  background: var(--navy);
+  color: var(--cream);
+  padding: 16px 24px;
+  display: flex; justify-content: space-between; align-items: center;
+}
+.modal-header h3 { margin: 0; font-size: 18px; }
+.modal-close {
+  background: transparent;
+  color: var(--cream);
+  border: 1px solid rgba(245,237,216,0.4);
+  padding: 6px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 14px;
+}
+.modal-close:hover { background: rgba(245,237,216,0.1); }
+.modal-body {
+  padding: 22px 28px;
+  overflow-y: auto;
+  flex: 1;
+}
+.model-tabs { display: flex; gap: 6px; margin-bottom: 16px; flex-wrap: wrap; }
+.model-tabs button {
+  background: var(--cream);
+  color: var(--navy);
+  border: 2px solid var(--sand);
+  padding: 6px 14px;
+  border-radius: 999px;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+}
+.model-tabs button.active { background: var(--terra); color: var(--cream); border-color: var(--terra); }
+.model-essay {
+  background: var(--cream-l);
+  padding: 16px 20px;
+  border-left: 4px solid var(--sand-d);
+  border-radius: 0 8px 8px 0;
+  font-size: 15px;
+  line-height: 1.65;
+  white-space: pre-wrap;
+}
+.model-essay p { margin: 0 0 12px; }
+.compare-toggle {
+  text-align: right; margin-bottom: 8px;
+}
+.split { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+@media (max-width: 800px) { .split { grid-template-columns: 1fr; } }
+.your-essay {
+  background: white;
+  padding: 16px 20px;
+  border-left: 4px solid var(--terra);
+  border-radius: 0 8px 8px 0;
+  font-size: 15px;
+  line-height: 1.65;
+  white-space: pre-wrap;
+}
+.your-essay h6, .model-essay h6 {
+  margin: 0 0 8px;
+  font-size: 12px;
+  color: var(--navy);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-weight: 800;
+}
+
+/* Toast */
+.toast {
+  position: fixed;
+  bottom: 80px; left: 50%;
+  transform: translateX(-50%) translateY(120px);
+  background: var(--navy);
+  color: var(--cream);
+  padding: 10px 22px;
+  border-radius: 999px;
+  box-shadow: var(--shadow-lg);
+  font-size: 14px;
+  font-weight: 600;
+  transition: transform 280ms ease;
+  z-index: 150;
+}
+.toast.show { transform: translateX(-50%) translateY(0); }
+
+/* footer */
+footer {
+  margin: 30px auto 14px;
+  text-align: center;
+  color: var(--grey);
+  font-size: 12px;
+}
+
+/* hide on print */
+@media print {
+  header.topbar, .actions, #keyboard, #kb-show, aside.panel { display: none; }
+  .workshop { grid-template-columns: 1fr; }
+  body { background: white; }
+}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="brand">
+    <span class="eyebrow">A-Level French · Edexcel · Niveau A*</span>
+    <h1>L'<em>Étranger</em> — Atelier de rédaction</h1>
+  </div>
+  <div class="global-stats">
+    <div class="stat-pill"><strong id="g-words">0</strong>mots</div>
+    <div class="stat-pill"><strong id="g-target">320-350</strong>cible</div>
+    <div class="stat-pill"><strong id="g-score">— / 24</strong>note AO4</div>
+  </div>
+</header>
+
+<main>
+
+  <!-- Title selector — exam-style choice of two -->
+  <div class="title-bar">
+    <h2 id="title-bar-h">Choisissez UN sujet sur les DEUX proposés</h2>
+    <p id="title-bar-p">Comme à l'examen Edexcel : deux titres sont tirés au sort. Lisez-les attentivement, puis cliquez sur celui que vous choisissez.</p>
+    <div class="choice-cards" id="choice-cards"></div>
+    <div class="choice-controls" id="choice-controls">
+      <button class="btn-shuffle" id="btn-shuffle">🎲  Tirer deux nouveaux sujets</button>
+      <span style="font-size:13px; color: var(--grey);">6 sujets en banque · paire renouvelable</span>
+    </div>
+    <div class="locked-title" id="locked-title">
+      <span class="lt-label" id="lt-label"></span>
+      <span class="lt-q" id="lt-q"></span>
+      <button class="btn-change" id="btn-change-title">↺  Changer de sujet</button>
+    </div>
+    <div class="axes-box" id="axes-box">
+      <h4>Axes de réflexion (sans essai modèle pour ce sujet)</h4>
+      <ul id="axes-list"></ul>
+    </div>
+  </div>
+
+  <!-- Workshop -->
+  <div class="workshop">
+
+    <!-- Left panel: lexis -->
+    <aside class="panel">
+      <div class="panel-header">Aide rédactionnelle</div>
+      <div class="panel-tabs">
+        <button class="tab-btn active" data-tab="connecteurs">Connecteurs</button>
+        <button class="tab-btn" data-tab="phrases">Phrases évaluatives</button>
+        <button class="tab-btn" data-tab="lexique">Lexique L'Étranger</button>
+        <button class="tab-btn" data-tab="citations">Citations clés</button>
+      </div>
+      <div class="panel-body" id="lexis-body"></div>
+    </aside>
+
+    <!-- Center: writing area -->
+    <section class="writing">
+      <h3>Votre essai</h3>
+      <p class="intro-instructions">
+        Tapez votre plan rapide en 3 minutes, puis rédigez votre essai en sections.
+        Cliquez sur <strong>Évaluer</strong> à tout moment pour recevoir un feedback détaillé.
+      </p>
+
+      <div class="section-block">
+        <div class="label-row">
+          <label>Plan rapide  ·  3 min</label>
+          <span class="wc" id="wc-plan">0 mots</span>
+        </div>
+        <textarea class="plan" id="plan" data-min="0" data-max="100"
+          placeholder="Mot-clé du titre · 3 angles · 3 scènes-clés · 1 contre-argument"></textarea>
+      </div>
+
+      <div class="section-block">
+        <div class="label-row">
+          <label>Introduction  ·  50–70 mots</label>
+          <span class="wc" id="wc-intro">0/60 mots</span>
+        </div>
+        <textarea class="intro" id="intro" data-min="50" data-max="70"
+          placeholder="Contextualiser (Camus, 1942) → reformuler le titre → annoncer 3 idées."></textarea>
+      </div>
+
+      <div class="section-block">
+        <div class="label-row">
+          <label>PEEL 1 — premier angle  ·  70–90 mots</label>
+          <span class="wc" id="wc-peel1">0/80 mots</span>
+        </div>
+        <textarea class="peel" id="peel1" data-min="70" data-max="90"
+          placeholder="P : votre point répondant directement au titre.
+E : scène / citation précise (ex. « à cause du soleil »).
+Ex : effet sur le lecteur / lien à l'absurde.
+L : retour au mot-clé du titre."></textarea>
+      </div>
+
+      <div class="section-block">
+        <div class="label-row">
+          <label>PEEL 2 — élargissement  ·  70–90 mots</label>
+          <span class="wc" id="wc-peel2">0/80 mots</span>
+        </div>
+        <textarea class="peel" id="peel2" data-min="70" data-max="90"
+          placeholder="Deuxième angle — autre scène, autre éclairage."></textarea>
+      </div>
+
+      <div class="section-block">
+        <div class="label-row">
+          <label>PEEL 3 — contre-argument nuancé  ·  70–90 mots</label>
+          <span class="wc" id="wc-peel3">0/80 mots</span>
+        </div>
+        <textarea class="peel" id="peel3" data-min="70" data-max="90"
+          placeholder="Cependant… / Il faut nuancer… — montrez votre lecture critique."></textarea>
+      </div>
+
+      <div class="section-block">
+        <div class="label-row">
+          <label>Conclusion  ·  50–70 mots</label>
+          <span class="wc" id="wc-conclusion">0/60 mots</span>
+        </div>
+        <textarea class="conclusion" id="conclusion" data-min="50" data-max="70"
+          placeholder="Synthèse → nuance → ouverture (lecture moderne, écho contemporain)."></textarea>
+      </div>
+    </section>
+
+    <!-- Right panel: feedback -->
+    <aside class="panel">
+      <div class="panel-header">Feedback en direct</div>
+      <div class="panel-body" id="feedback-body">
+        <div class="fb-empty">
+          Cliquez sur <strong>Évaluer mon essai</strong> en bas pour recevoir un feedback complet
+          (compteurs, connecteurs, citations, score AO4).
+        </div>
+      </div>
+    </aside>
+  </div>
+
+  <!-- Action bar -->
+  <div class="actions">
+    <button class="btn primary" id="btn-evaluate">⚡  Évaluer mon essai</button>
+    <button class="btn" id="btn-model">📖  Voir un essai modèle</button>
+    <button class="btn dark" id="btn-compare">🪞  Comparer côte à côte</button>
+    <button class="btn success" id="btn-download">⬇  Télécharger ma copie + feedback</button>
+    <button class="btn" id="btn-print">🖨️  Imprimer</button>
+    <button class="btn" id="btn-reset">↺  Réinitialiser</button>
+  </div>
+
+  <footer>
+    Atelier hors-ligne · aucun cookie · L'Étranger d'Albert Camus (1942) · niveau A-Level Edexcel
+  </footer>
+</main>
+
+<!-- Floating accent keyboard -->
+<div id="keyboard">
+  <span class="kb-grip" title="Glisser pour déplacer">⋮⋮</span>
+  <button data-c="à">à</button>
+  <button data-c="â">â</button>
+  <button data-c="ä">ä</button>
+  <button data-c="é">é</button>
+  <button data-c="è">è</button>
+  <button data-c="ê">ê</button>
+  <button data-c="ë">ë</button>
+  <button data-c="î">î</button>
+  <button data-c="ï">ï</button>
+  <button data-c="ô">ô</button>
+  <button data-c="ö">ö</button>
+  <button data-c="ù">ù</button>
+  <button data-c="û">û</button>
+  <button data-c="ü">ü</button>
+  <button data-c="ÿ">ÿ</button>
+  <button data-c="ç">ç</button>
+  <button data-c="œ">œ</button>
+  <button data-c="«">«</button>
+  <button data-c="»">»</button>
+  <button data-c="’">’</button>
+  <button data-c="…">…</button>
+  <button class="kb-toggle" id="kb-hide">×</button>
+</div>
+<button id="kb-show">⌨ Clavier français</button>
+
+<!-- Modal for model essay -->
+<div class="modal-backdrop" id="model-modal">
+  <div class="modal">
+    <div class="modal-header">
+      <h3 id="model-title">Essai modèle</h3>
+      <button class="modal-close" id="model-close">Fermer  ×</button>
+    </div>
+    <div class="modal-body">
+      <div class="model-tabs" id="model-tabs"></div>
+      <div class="compare-toggle">
+        <label style="font-size: 13px; color: #555;">
+          <input type="checkbox" id="compare-toggle"> Comparer avec mon essai
+        </label>
+      </div>
+      <div id="model-content"></div>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* ============================================================
+   DATA — titles + model essays
+   ============================================================ */
+const TITLES = [
+  {
+    id: "aumonier",
+    label: "Sujet 1 · La confrontation avec l'aumônier",
+    formalQ: "Dans quelle mesure la confrontation finale entre Meursault et l'aumônier représente-t-elle l'apogée de la révolte de Meursault et une critique de la religion ?",
+    models: [
+      {
+        label: "Approche philosophique",
+        text:
+"La confrontation finale entre Meursault et l'aumônier représente indéniablement l'apogée de sa révolte existentielle, tout en constituant une critique acerbe de la religion. Camus orchestre cette scène comme un affrontement dialectique entre deux visions du monde irréconciliables.\n\n" +
+"D'emblée, le protagoniste rejette catégoriquement les consolations religieuses. Lorsqu'il affirme « je ne savais pas ce qu'était un péché », il démontre non pas l'ignorance, mais plutôt un refus délibéré du cadre moral judéo-chrétien. Cette déclaration laconique illustre parfaitement la philosophie de l'absurde propre à Camus : Meursault n'accepte que la réalité tangible, celle qu'il peut percevoir physiquement.\n\n" +
+"La métaphore des « pierres qui suent la douleur » révèle le gouffre séparant les deux hommes. Tandis que l'aumônier y perçoit le visage divin dans les pierres de la cellule, Meursault n'y voit que le visage de Marie, symbole de désir charnel et d'existence concrète. Cette opposition entre les promesses de l'au-delà et la réalité physique est à la base du dernier chapitre : foi contre athéisme, abstraction contre matérialisme, espoir contre lucidité.\n\n" +
+"L'explosion de colère constitue paradoxalement un moment de libération cathartique. En criant « à plein gosier », Meursault articule enfin sa philosophie avec une clarté cristalline. Sa déclaration « aucune de ses certitudes ne valait un cheveu de femme » résume sa critique : les dogmes religieux offrent des consolations illusoires qui détournent l'homme de l'expérience authentique.\n\n" +
+"Néanmoins, cette scène transcende la simple polémique anticléricale. Camus critique moins la religion en soi que le besoin humain de créer du sens artificiel. L'aumônier personnifie la société qui condamne Meursault, celle qui exige conformité et hypocrisie émotionnelle.\n\n" +
+"En conclusion, bien que la confrontation représente effectivement l'aboutissement de la révolte de Meursault, elle constitue également son émancipation spirituelle. Paradoxalement, c'est en rejetant violemment Dieu qu'il atteint une forme de sérénité existentielle, s'ouvrant à « la tendre indifférence du monde »."
+      },
+      {
+        label: "Approche stylistique",
+        text:
+"L'affrontement avec l'aumônier marque un tournant stylistique et thématique dans L'Étranger, transformant le narrateur passif en philosophe véhément. Cette métamorphose littéraire souligne l'importance capitale de cette scène comme sommet narratif et idéologique.\n\n" +
+"Structurellement, le roman construit progressivement vers ce climax. Depuis l'ouverture détachée « Aujourd'hui, maman est morte », Camus développe méthodiquement le caractère de Meursault jusqu'à cette éruption finale. Le contraste entre le ton monocorde de la première partie et la véhémence passionnée du chapitre cinq est saisissant. Les phrases deviennent plus complexes, incorporant le subjonctif et l'imparfait du subjonctif, reflétant l'évolution psychologique du protagoniste.\n\n" +
+"La confrontation fonctionne comme révélateur chimique, catalysant l'expression explicite de ce qui restait implicite. Quand Meursault proclame être « sûr de tout, plus sûr que lui », il renverse totalement le rapport de force : le prisonnier condamné possède davantage de certitude existentielle que le représentant de Dieu. Cette ironie dramatique accentue l'absurdité des conventions sociales.\n\n" +
+"Le vocabulaire religieux subit une subversion systématique. Les termes « péché », « âme », « salut » perdent leur signification transcendante pour devenir des constructions vides. Meursault les rejette non par ignorance théologique mais par cohérence philosophique. Son athéisme n'est pas nihiliste mais affirmatif, privilégiant le monde matériel et terrestre.\n\n" +
+"Toutefois, interpréter cette scène uniquement comme critique religieuse serait réducteur. L'aumônier symbolise l'ensemble des institutions sociales — justice, religion, morale conventionnelle — qui tentent d'imposer leurs narratifs sur l'expérience individuelle. Le véritable antagoniste n'est pas Dieu mais le conformisme intellectuel.\n\n" +
+"Ainsi, la confrontation représente simultanément l'accomplissement de la révolte absurdiste et une critique nuancée de la religion institutionnalisée. Camus ne condamne pas la spiritualité personnelle mais rejette les certitudes dogmatiques qui nient l'absurdité fondamentale de l'existence humaine."
+      },
+      {
+        label: "Approche contextuelle",
+        text:
+"Dans le contexte philosophique français d'après-guerre, la confrontation entre Meursault et l'aumônier cristallise les tensions entre absurdisme et religion tout en parachevant l'arc narratif du protagoniste.\n\n" +
+"D'après Sartre, Camus appartient à la tradition des moralistes français classiques. Camus privilégie l'expérience sensorielle immédiate face à l'indifférence cosmique. Meursault incarne cette philosophie jusqu'au bout : même face à la mort, il refuse les fausses certitudes de la foi au profit de souvenirs concrets — le visage de Marie, la couleur du soleil.\n\n" +
+"L'aumônier représente ce que Camus nommerait le « suicide philosophique » dans Le Mythe de Sisyphe : la fuite devant l'absurde vers des explications transcendantes ou spirituelles. Quand l'aumônier suggère que les pierres révèlent un « visage divin », il illustre parfaitement cette tentation d'imposer un sens artificiel à l'univers indifférent. Meursault, authentiquement absurde, rejette cette facilité.\n\n" +
+"La violence de l'explosion émotionnelle surprend d'autant plus qu'elle provient d'un personnage jusque-là apathique. Cette colère n'est pas contradictoire mais révélatrice : Meursault défend farouchement son droit à l'authenticité face à l'absurde. Son refus catégorique des prières — « je lui ai dit de ne pas prier » — affirme son autonomie face aux institutions coercitives.\n\n" +
+"Néanmoins, la critique religieuse comporte des nuances importantes. Camus critique spécifiquement le christianisme institutionnel qui promet consolations illusoires et dévalorise l'existence terrestre. La référence finale aux « cris de haine » suggère même une forme d'acceptation communautaire paradoxale.\n\n" +
+"En définitive, cette confrontation constitue bien l'aboutissement de la révolte absurdiste tout en formulant une critique de la religion comme système d'évasion. Meursault atteint simultanément sa plus grande lucidité et sa plus profonde acceptation de l'univers indifférent."
+      }
+    ]
+  },
+  {
+    id: "indifference",
+    label: "Sujet 2 · Réconciliation avec l'indifférence du monde",
+    formalQ: "Comment la trajectoire de Meursault aboutit-elle à une réconciliation avec l'indifférence du monde, et quelle liberté en découle face à la mort ?",
+    models: [
+      {
+        label: "Approche psychologique",
+        text:
+"La trajectoire psychologique de Meursault culmine dans une réconciliation paradoxale avec l'indifférence cosmique, transformant son aliénation initiale en libération ultime. Ce processus complexe révèle la dimension profondément humaniste de la philosophie camusienne.\n\n" +
+"Initialement, Meursault subit passivement l'indifférence du monde sans la comprendre consciemment. Son fameux « cela m'était égal » résonne tout au long de la première partie comme leitmotiv d'aliénation existentielle. Pourtant, cette apparente apathie masque une sensibilité aiguë aux expériences sensorielles — la chaleur écrasante, la lumière aveuglante, les sensations physiques qui dictent ses actions.\n\n" +
+"Le meurtre de l'Arabe représente le moment où l'indifférence naturelle rencontre la responsabilité humaine. Meursault attribue l'acte au soleil, externalisant la causalité vers des forces impersonnelles. Cette explication, bien que juridiquement inadmissible, contient une vérité philosophique : nous sommes tous soumis aux caprices d'un univers amoral.\n\n" +
+"La prison force une intériorisation progressive. Privé de stimuli sensoriels, Meursault développe finalement une conscience réflexive. Ses méditations sur la guillotine — « il n'y avait aucune chance, absolument aucune » — démontrent une lucidité croissante face à l'absurde. Il comprend que la « mécanique » de l'exécution symbolise l'inexorabilité de toute existence mortelle.\n\n" +
+"L'épiphanie finale survient après l'explosion cathartique contre l'aumônier. Purge émotionnelle accomplie, Meursault accède à « la tendre indifférence du monde ». Cette formulation oxymorique suggère une réconciliation profonde : l'indifférence n'est plus hostile mais fraternelle. En acceptant que le monde ne se soucie pas de lui, il se libère du besoin de validation externe.\n\n" +
+"Cette liberté ultime face à la mort transcende le simple stoïcisme. Meursault découvre le bonheur dans l'acceptation totale de sa condition mortelle, comprenant rétrospectivement pourquoi sa mère a choisi de « recommencer » avant de mourir. L'indifférence cosmique, loin d'être nihiliste, permet l'authenticité existentielle absolue."
+      },
+      {
+        label: "Approche symbolique",
+        text:
+"Les motifs récurrents dans L'Étranger — soleil, mer, lumière, chaleur — fonctionnent comme métaphores de l'indifférence naturelle avec laquelle Meursault doit ultimement se réconcilier. Cette réconciliation s'opère à travers un langage poétique qui contraste radicalement avec la prose plate des chapitres initiaux.\n\n" +
+"Le soleil occupe une position symbolique centrale. Agent du meurtre autant que source de plaisir sensuel, il incarne l'ambivalence fondamentale de la nature : simultanément nourricière et destructrice, indifférente aux distinctions morales humaines. Quand Meursault explique « c'était à cause du soleil », il reconnaît implicitement cette indifférence cosmique.\n\n" +
+"La progression métaphorique révèle l'évolution psychologique. Dans la première partie, les descriptions sensorielles restent factuelles, presque cliniques. Progressivement, particulièrement après l'emprisonnement, le style devient plus lyrique. La métaphore finale — « la merveilleuse paix de cet été endormi entrait en moi comme une marée » — signale une fusion harmonieuse avec le monde naturel.\n\n" +
+"Cette transformation stylistique parallèle la réconciliation thématique. L'imparfait remplace le passé composé, suggérant une temporalité moins fragmentée, plus fluide. Les phrases s'allongent, incorporant subordonnées et relatives qui reflètent une pensée plus complexe. Meursault devient finalement l'écrivain de sa propre expérience.\n\n" +
+"La « tendre indifférence du monde » constitue l'oxymoron clé résolvant la tension narrative. En juxtaposant « tendre » et « indifférence », Camus suggère que l'acceptation de l'absurde n'implique pas désespoir mais sérénité. L'indifférence cesse d'être menace pour devenir consolation.\n\n" +
+"La liberté ultime face à la mort découle directement de cette acceptation. Libéré de l'illusion que l'univers se préoccupe de lui, Meursault peut enfin vivre — et mourir — authentiquement. Son souhait paradoxal de « cris de haine » lors de l'exécution affirme cette liberté conquise : même la mort devient acte de solidarité existentielle."
+      },
+      {
+        label: "Approche absurdiste",
+        text:
+"La réconciliation de Meursault avec l'indifférence cosmique et sa découverte subséquente de la liberté face à la mort illustrent parfaitement la résolution du conflit absurde tel que Camus le théorise dans Le Mythe de Sisyphe. Cette résolution nécessite l'acceptation simultanée de trois vérités contradictoires.\n\n" +
+"Premièrement, Meursault reconnaît l'absurdité fondamentale : le divorce entre les aspirations humaines vers l'unité et le dualisme insurmontable de l'esprit et de la nature. Contrairement aux autres personnages qui se réfugient dans des certitudes confortables — la justice, la religion, les conventions sociales — il embrasse courageusement cette vérité dérangeante. Son assertion « rien n'avait d'importance » n'exprime pas le nihilisme mais la lucidité absurdiste.\n\n" +
+"Deuxièmement, il accepte l'indifférence radicale du cosmos. Comme Sartre l'observe dans sa critique, Camus affirme que « le monde n'est ni tout à fait rationnel ni à ce point irrationnel ». L'univers ne connaît ni bien ni mal, ni justice ni injustice. Cette reconnaissance explique pourquoi les arguments juridiques et moraux présentés durant son procès lui semblent si absurdes.\n\n" +
+"Troisièmement, et paradoxalement, cette acceptation génère une liberté spécifiquement absurdiste. Délié de l'obligation de conformité morale ou de recherche de sens transcendant, Meursault peut enfin habiter pleinement son existence. La colère purgative contre l'aumônier accomplit cette libération : « vidé d'espoir », il s'ouvre authentiquement au monde.\n\n" +
+"La compréhension rétrospective de sa mère constitue le moment d'illumination finale. Reconnaissant qu'elle aussi a dû affronter l'indifférence cosmique avant de mourir, il réalise l'universalité de la condition absurde. Cette prise de conscience transforme sa solitude initiale en solidarité humaine universelle.\n\n" +
+"La liberté ultime face à la mort n'est donc pas résignation mais affirmation vitale. Meursault découvre qu'on peut être heureux même condamné, précisément parce que l'acceptation de l'absurde libère du besoin de justification externe."
+      }
+    ]
+  },
+  {
+    id: "arabe",
+    label: "Sujet 3 · L'anonymat de l'Arabe (hors-programme — entraînement)",
+    formalQ: "Dans L'Étranger, l'Arabe n'a ni nom ni voix. Cet anonymat était-il nécessaire au projet philosophique de Camus ?",
+    models: [
+      {
+        label: "Version sobre (A*)",
+        text:
+"Dans L'Étranger d'Albert Camus, l'homme tué par Meursault sur la plage n'a pas de nom : il est simplement appelé « l'Arabe ». Ce silence peut nous sembler choquant aujourd'hui, mais on peut se demander si Camus avait vraiment le choix. Dans cet essai, je vais montrer que cet anonymat est nécessaire pour trois raisons : pour préserver l'absurde, pour montrer l'aliénation de Meursault, et pour rendre la caricature du procès plus convaincante.\n\n" +
+"D'abord, si Camus avait donné un nom et une histoire à l'Arabe, le meurtre aurait eu une motivation claire. Par exemple, on aurait pu y voir une vengeance ou un acte d'autodéfense pour protéger Raymond. Le crime serait devenu une affaire ordinaire, avec un mobile précis. Or, Camus voulait montrer un acte absurde, commis « à cause du soleil », comme Meursault le dit lui-même au tribunal. Donner un nom à la victime aurait donc détruit cette idée centrale.\n\n" +
+"Ensuite, ce qui est troublant pour le lecteur moderne, l'Arabe sans nom devient presque un objet, comme le soleil ou la chaleur sur la plage. Pour Meursault, cet homme n'est pas une personne mais un élément du paysage. D'ailleurs, juste après le coup de feu, il décrit le « bruit sec et assourdissant » de l'arme plutôt que la mort de l'homme. Cela illustre son aliénation : c'est la même indifférence qu'il montre à l'enterrement de sa mère.\n\n" +
+"Enfin, ce silence rend possible le procès absurde. Au tribunal, on parle à peine de l'Arabe : le procureur reproche surtout à Meursault de ne pas avoir pleuré à l'enterrement de sa mère, et d'avoir pris une maîtresse le lendemain. En laissant la victime dans l'ombre, Camus peut montrer une justice qui condamne un homme pour ses émotions, pas pour son crime.\n\n" +
+"En conclusion, Camus n'avait pas vraiment le choix : pour que son roman fonctionne comme parabole de l'absurde, il fallait que l'Arabe reste sans nom. Cependant, il faut reconnaître que ce silence a un prix moral. Aujourd'hui, on lit L'Étranger avec un double regard : on accepte le projet philosophique de Camus, mais on entend aussi la voix qui manquait."
+      },
+      {
+        label: "Version standard",
+        text:
+"Dans L'Étranger, la victime de Meursault n'est jamais nommée ; elle reste simplement « l'Arabe ». Bien que ce silence puisse sembler choquant aujourd'hui, il est intéressant de se demander ce qui se serait passé si Camus avait fait un autre choix. En réalité, cet anonymat était inévitable pour préserver le message philosophique du roman et montrer l'aliénation du personnage principal.\n\n" +
+"Tout d'abord, si Camus avait donné une véritable identité à la victime — un nom, une famille ou des dialogues — le meurtre aurait eu une explication rationnelle. Le lecteur aurait pu penser que Meursault tuait par vengeance ou pour protéger son ami Raymond. Or, le but de Camus est d'illustrer un acte complètement absurde, commis sans raison valable, simplement « à cause du soleil ». Par conséquent, humaniser l'Arabe aurait détruit l'idée centrale du livre.\n\n" +
+"De plus, ce refus de nommer la victime met en lumière le détachement extrême de Meursault. Pour lui, l'Arabe n'est pas un être humain, mais un simple élément du paysage accablant, au même titre que la chaleur ou la lumière aveuglante. Cet effacement montre l'incapacité de Meursault à ressentir de l'empathie. L'Arabe est déshumanisé, ce qui souligne la profonde aliénation du protagoniste.\n\n" +
+"Enfin, cet anonymat est indispensable pour critiquer la justice. Lors du procès, le tribunal ignore presque totalement la victime. Les juges s'intéressent uniquement au comportement de Meursault à l'enterrement de sa mère. Si l'Arabe avait eu une voix, le procureur aurait dû se concentrer sur la tragédie d'une vie perdue. Au lieu de cela, Camus crée une parodie de justice où l'on condamne un homme parce qu'il ne pleure pas, et non parce qu'il a tué.\n\n" +
+"En conclusion, donner un nom à l'Arabe aurait transformé L'Étranger en un simple roman policier. L'anonymat de la victime est donc un outil littéraire crucial. Il permet à Camus de dénoncer l'hypocrisie de la société et d'illustrer l'absurdité de la condition humaine, même si ce choix nous met mal à l'aise aujourd'hui."
+      }
+    ]
+  },
+  {
+    id: "marie",
+    label: "Sujet 4 · Marie Cardona — fonction & limites",
+    formalQ: "Examinez la fonction de Marie Cardona dans L'Étranger. Sa présence dépasse-t-elle le simple rôle de désir charnel ?",
+    axes: [
+      "Marie est la seule figure féminine nommée — contraste avec l'Arabe sans nom et avec « maman ».",
+      "Scènes-clés : la nageuse à la plage, la robe à rayures, le baiser comique sur le balcon.",
+      "« Elle a voulu savoir si je l'aimais. J'ai répondu… que cela ne signifiait rien » — le langage amoureux ne fonctionne pas pour Meursault.",
+      "Marie comme miroir de l'absurdité : elle veut un sens (mariage, amour) ; lui n'en accorde aucun.",
+      "Contre-point : Marie au tribunal sanglote — elle est la seule à pleurer Meursault avec une émotion humaine non codée.",
+      "Limite : malgré son nom, elle reste périphérique au récit philosophique — un objet du désir plutôt qu'un sujet."
+    ],
+    models: []
+  },
+  {
+    id: "incipit",
+    label: "Sujet 5 · L'incipit programme tout le roman ?",
+    formalQ: "« Aujourd'hui, maman est morte. » Dans quelle mesure cette phrase programme-t-elle l'ensemble du roman ?",
+    axes: [
+      "Phrase courte, passé composé, monosyllabes : le style annonce le ton plat de toute la Partie I.",
+      "« Aujourd'hui » brise l'ouverture descriptive traditionnelle — pas de cadre, pas de paysage.",
+      "« maman » (familier, presque enfantin) en collision avec « est morte » — décalage émotionnel programmatique.",
+      "L'incipit annonce ce qui condamnera Meursault : son indifférence apparente lors de l'enterrement.",
+      "Écho final : « pour que tout fût consommé… » — Meursault comprend rétrospectivement sa mère qui voulait « recommencer ».",
+      "Hypothèse : tout le roman peut être lu comme un développement de cette ouverture — Meursault apprend à habiter la mort."
+    ],
+    models: []
+  },
+  {
+    id: "structure",
+    label: "Sujet 6 · La structure en deux parties",
+    formalQ: "La structure en deux parties de L'Étranger est-elle un choix narratif essentiel au sens du roman ?",
+    axes: [
+      "Partie I (six chapitres avant le meurtre) : sensations, présent, extérieur, phrases brèves.",
+      "Partie II (cinq chapitres après) : prison, réflexion, intériorité, phrases plus longues.",
+      "Le meurtre comme charnière narrative ET philosophique — la balle change tout, y compris le style.",
+      "Le procès recompose la Partie I selon une logique sociale fausse (« il n'a pas pleuré »).",
+      "La structure incarne le passage de l'absurdité subie (Partie I) à l'absurdité acceptée (fin de Partie II).",
+      "Sans cette structure binaire, l'épiphanie finale (« la tendre indifférence du monde ») perdrait son poids."
+    ],
+    models: []
+  }
+];
+
+/* ============================================================
+   LEXIS BANK
+   ============================================================ */
+const LEXIS = {
+  connecteurs: {
+    title: "Connecteurs sophistiqués (à utiliser)",
+    sections: [
+      { h: "Au lieu de DONC →", items: ["ainsi", "par conséquent", "de ce fait", "c'est pourquoi", "dès lors"] },
+      { h: "Au lieu de MAIS →", items: ["cependant", "néanmoins", "toutefois", "en revanche", "or"] },
+      { h: "Au lieu de AUSSI →", items: ["de plus", "par ailleurs", "en outre", "qui plus est"] },
+      { h: "Au lieu de PARCE QUE →", items: ["étant donné que", "dans la mesure où", "puisque", "vu que"] },
+      { h: "Pour structurer →", items: ["d'abord / premièrement", "ensuite / deuxièmement", "enfin / en dernier lieu"] }
+    ]
+  },
+  phrases: {
+    title: "Phrases évaluatives (mémorisables)",
+    sections: [
+      { h: "Pour introduire un argument", items: [
+        "Il convient de souligner que…",
+        "On peut affirmer / avancer que…",
+        "Il est clair que…",
+        "À mon avis / Selon moi,…"
+      ]},
+      { h: "Pour analyser", items: [
+        "Cela montre / illustre / révèle / met en évidence…",
+        "Cela témoigne de…",
+        "Ce passage / cet épisode traduit…",
+        "Loin de + infinitif, Camus / l'auteur / le romancier…"
+      ]},
+      { h: "Pour nuancer", items: [
+        "Cependant, on peut nuancer en disant que…",
+        "Il faut tenir compte de…",
+        "Toutefois, on ne peut pas oublier que…",
+        "Il convient de relativiser…"
+      ]},
+      { h: "Pour conclure", items: [
+        "Pour conclure / En conclusion,…",
+        "En définitive,…",
+        "Aujourd'hui encore, ce roman reste pertinent car…"
+      ]}
+    ]
+  },
+  lexique: {
+    title: "Lexique critique pour L'Étranger",
+    sections: [
+      { h: "L'absurde et l'existence", items: [
+        "l'absurde · l'absurdité",
+        "l'aliénation · l'apathie",
+        "le détachement · l'indifférence cosmique",
+        "la lucidité · la conscience réflexive",
+        "le suicide philosophique"
+      ]},
+      { h: "Le procès et la société", items: [
+        "la machine judiciaire",
+        "l'hypocrisie sociale",
+        "la conformité émotionnelle",
+        "le conformisme intellectuel",
+        "la parodie de justice"
+      ]},
+      { h: "Style & narration", items: [
+        "le narrateur passif / véhément",
+        "le ton monocorde",
+        "l'oxymore (la « tendre indifférence »)",
+        "la subversion du vocabulaire religieux",
+        "la prose cathartique"
+      ]},
+      { h: "Personnages & relations", items: [
+        "Meursault — protagoniste absurde",
+        "l'aumônier — représentant du dogme",
+        "Marie — désir charnel et présent",
+        "l'Arabe — victime sans nom"
+      ]}
+    ]
+  },
+  citations: {
+    title: "Citations clés (à mobiliser)",
+    sections: [
+      { h: "Ouverture & enterrement", items: [
+        "« Aujourd'hui, maman est morte. »",
+        "« Cela m'était égal. »",
+        "Mère qui « recommence »"
+      ]},
+      { h: "Le meurtre", items: [
+        "« C'était à cause du soleil. »",
+        "« un bruit sec et assourdissant »"
+      ]},
+      { h: "Le procès", items: [
+        "« On juge l'âme du criminel… »",
+        "« sa mère est morte… il prend une maîtresse »"
+      ]},
+      { h: "L'aumônier & la fin", items: [
+        "« je ne savais pas ce qu'était un péché »",
+        "« aucune de ses certitudes ne valait un cheveu de femme »",
+        "« la tendre indifférence du monde »",
+        "« cris de haine »"
+      ]}
+    ]
+  }
+};
+
+/* ============================================================
+   STATE
+   ============================================================ */
+const state = {
+  titleIdx: -1,           // -1 = no title chosen yet
+  offered: [],            // current pair of indices on offer
+  sections: { plan: "", intro: "", peel1: "", peel2: "", peel3: "", conclusion: "" },
+  currentLexisTab: "connecteurs",
+  feedback: null,
+  modelChoice: 0,
+  compare: false
+};
+
+/* ============================================================
+   HELPERS
+   ============================================================ */
+function escapeHtml(s) {
+  return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;").replace(/'/g, "&#39;");
+}
+function countWords(text) {
+  const t = text.trim();
+  if (!t) return 0;
+  return t.split(/\s+/).filter(w => w.match(/[a-zA-ZÀ-ÿ]/)).length;
+}
+function showToast(msg) {
+  const t = document.getElementById("toast");
+  t.textContent = msg;
+  t.classList.add("show");
+  clearTimeout(showToast._t);
+  showToast._t = setTimeout(() => t.classList.remove("show"), 2000);
+}
+
+/* ============================================================
+   RENDER
+   ============================================================ */
+/* Pick 2 distinct random indices from the title bank */
+function drawNewPair() {
+  const n = TITLES.length;
+  let a = Math.floor(Math.random() * n);
+  let b = Math.floor(Math.random() * n);
+  while (b === a) b = Math.floor(Math.random() * n);
+  state.offered = [a, b];
+  state.titleIdx = -1;
+  renderChoice();
+}
+
+function renderChoice() {
+  const cards = document.getElementById("choice-cards");
+  const controls = document.getElementById("choice-controls");
+  const locked = document.getElementById("locked-title");
+  const axes = document.getElementById("axes-box");
+  const h = document.getElementById("title-bar-h");
+  const p = document.getElementById("title-bar-p");
+
+  if (state.titleIdx === -1) {
+    /* show 2 cards */
+    cards.style.display = "";
+    controls.style.display = "";
+    locked.classList.remove("show");
+    axes.classList.remove("show");
+    h.textContent = "Choisissez UN sujet sur les DEUX proposés";
+    p.textContent = "Comme à l'examen Edexcel : deux titres sont tirés au sort. Lisez-les attentivement, puis cliquez sur celui que vous choisissez.";
+
+    cards.innerHTML = "";
+    state.offered.forEach((idx, pos) => {
+      const t = TITLES[idx];
+      const card = document.createElement("div");
+      card.className = "choice-card";
+      const hasModel = t.models && t.models.length > 0;
+      card.innerHTML = `
+        <span class="lab">Question ${pos + 1}${hasModel ? "  ·  essai modèle disponible" : "  ·  axes seulement"}</span>
+        <span class="q">${escapeHtml(t.formalQ)}</span>
+        <span class="pick">Choisir cette question  →</span>
+      `;
+      card.onclick = () => selectTitle(idx);
+      cards.appendChild(card);
+    });
+  } else {
+    /* show locked title */
+    cards.style.display = "none";
+    controls.style.display = "none";
+    locked.classList.add("show");
+    h.textContent = "Sujet choisi";
+    p.textContent = "Vous avez verrouillé ce sujet. Tous les outils ci-dessous sont désormais activés. Vous pouvez changer de sujet à tout moment (sans perdre votre rédaction).";
+
+    const t = TITLES[state.titleIdx];
+    document.getElementById("lt-label").textContent = t.label.split(" · ")[0];
+    document.getElementById("lt-q").textContent = "« " + t.formalQ + " »";
+
+    /* If no model essays, show axes de réflexion instead */
+    if (!t.models || t.models.length === 0) {
+      axes.classList.add("show");
+      const ul = document.getElementById("axes-list");
+      ul.innerHTML = "";
+      (t.axes || []).forEach(a => {
+        const li = document.createElement("li");
+        li.textContent = a;
+        ul.appendChild(li);
+      });
+    } else {
+      axes.classList.remove("show");
+    }
+  }
+}
+
+function selectTitle(idx) {
+  state.titleIdx = idx;
+  renderChoice();
+  /* scroll to writing area */
+  document.querySelector("section.writing")?.scrollIntoView({ behavior: "smooth", block: "start" });
+}
+
+function renderLexis() {
+  const data = LEXIS[state.currentLexisTab];
+  const body = document.getElementById("lexis-body");
+  let html = "";
+  data.sections.forEach(sec => {
+    html += `<div class="lex-section"><h4>${escapeHtml(sec.h)}</h4><ul class="lex-list">`;
+    sec.items.forEach(it => {
+      html += `<li data-insert="${escapeHtml(it.replace(/[«»…]/g, "").trim())}">${escapeHtml(it)}</li>`;
+    });
+    html += "</ul></div>";
+  });
+  body.innerHTML = html;
+  body.querySelectorAll(".lex-list li").forEach(li => {
+    li.addEventListener("click", () => {
+      const text = li.dataset.insert;
+      const ta = document.activeElement;
+      if (ta && ta.tagName === "TEXTAREA") {
+        insertAtCursor(ta, text);
+      } else {
+        navigator.clipboard?.writeText(text);
+        showToast(`Copié : « ${text} »`);
+      }
+    });
+  });
+}
+
+function insertAtCursor(ta, text) {
+  const start = ta.selectionStart, end = ta.selectionEnd;
+  const before = ta.value.substring(0, start);
+  const after = ta.value.substring(end);
+  ta.value = before + text + after;
+  const newPos = start + text.length;
+  ta.setSelectionRange(newPos, newPos);
+  ta.focus();
+  // Update state
+  state.sections[ta.id] = ta.value;
+  updateWordCounts();
+}
+
+function updateWordCounts() {
+  const SECTIONS = ["plan", "intro", "peel1", "peel2", "peel3", "conclusion"];
+  let total = 0;
+  SECTIONS.forEach(id => {
+    const ta = document.getElementById(id);
+    const wc = countWords(ta.value);
+    if (id !== "plan") total += wc;
+    const el = document.getElementById("wc-" + id);
+    const min = parseInt(ta.dataset.min, 10);
+    const max = parseInt(ta.dataset.max, 10);
+    if (id === "plan") {
+      el.textContent = `${wc} mots`;
+      el.className = "wc";
+    } else {
+      el.textContent = `${wc}/${min}-${max} mots`;
+      el.className = "wc";
+      if (wc > max + 5) el.className = "wc over";
+      else if (wc >= min && wc <= max) el.className = "wc good";
+    }
+  });
+  document.getElementById("g-words").textContent = total;
+}
+
+/* ============================================================
+   FEEDBACK ENGINE — substantive AO4-style assessment
+   ============================================================ */
+function evaluate() {
+  if (state.titleIdx === -1) {
+    showToast("Choisissez d'abord un sujet en haut de page.");
+    return null;
+  }
+  const sections = state.sections;
+  const fullEssay = [
+    sections.intro, sections.peel1, sections.peel2, sections.peel3, sections.conclusion
+  ].filter(Boolean).join(" \n\n ");
+  const lc = fullEssay.toLowerCase();
+  const totalWords = countWords(fullEssay);
+
+  /* ---- 1. Connectors ---- */
+  const SOPH = [
+    "ainsi", "par conséquent", "de ce fait", "c'est pourquoi", "dès lors",
+    "cependant", "néanmoins", "toutefois", "en revanche", "or",
+    "de plus", "par ailleurs", "en outre", "qui plus est",
+    "étant donné que", "dans la mesure où", "puisque", "d'abord",
+    "ensuite", "premièrement", "deuxièmement", "enfin", "en dernier lieu"
+  ];
+  const BASIC_OVERUSED = ["et puis", " et ", " mais ", " aussi ", " donc "];
+  const sophUsed = [];
+  SOPH.forEach(w => {
+    const re = new RegExp("\\b" + w.replace(/['']/g, "['']") + "\\b", "gi");
+    const m = (lc.match(re) || []).length;
+    if (m > 0) sophUsed.push(`${w}${m > 1 ? " ×" + m : ""}`);
+  });
+  const basicCounts = {};
+  BASIC_OVERUSED.forEach(w => {
+    const re = new RegExp(w.replace(/ /g, "\\s+"), "gi");
+    const c = (lc.match(re) || []).length;
+    if (c > 0) basicCounts[w.trim()] = c;
+  });
+
+  /* ---- 2. Evaluative phrases ---- */
+  const EVAL_PHRASES = [
+    "il convient de", "force est de", "on peut dire", "on peut affirmer",
+    "il est clair", "il est évident", "à mon avis", "selon moi",
+    "cela montre", "cela illustre", "cela révèle", "cela traduit",
+    "cela témoigne", "loin de", "il faut nuancer", "il faut souligner",
+    "il faut reconnaître", "en définitive", "en conclusion", "pour conclure"
+  ];
+  const evalUsed = EVAL_PHRASES.filter(p => lc.includes(p));
+
+  /* ---- 3. Citations (« ... ») ---- */
+  const quotes = (fullEssay.match(/[«"][^«»"]{4,}[»"]/g) || []);
+
+  /* ---- 4. Specific references / lexis ---- */
+  const REFS = ["meursault", "marie", "raymond", "salamano", "céleste",
+                "l'aumônier", "l'arabe", "l'absurde", "le soleil", "la plage",
+                "la prison", "la cellule", "le procès", "le procureur",
+                "la guillotine", "l'enterrement", "maman", "indifférence"];
+  const refsUsed = REFS.filter(r => lc.includes(r));
+
+  /* ---- 5. Forbidden / register problems ---- */
+  const TOO_HIGH = [
+    "force est de constater", "sine qua non", "pour adj qu'il fût",
+    "tisser", "épouser", "demeurer (intransitif)"
+  ];
+  const tooHighFound = ["force est de constater", "sine qua non"]
+    .filter(p => lc.includes(p));
+  const ANGLO = ["réaliser que", "supporter (= soutenir au sens anglais)",
+                  "discuter de", "introduire (= présenter)"];
+  // light check
+  const angloFound = [];
+  if (lc.match(/\bréaliser\s+que\b/)) angloFound.push("réaliser que (anglicisme — préférer « se rendre compte »)");
+
+  /* ---- 6. Repeated weak verbs ---- */
+  const VERBS_TO_DIVERSIFY = ["montrer", "il y a", "important", "beaucoup", "dire"];
+  const repeated = {};
+  VERBS_TO_DIVERSIFY.forEach(v => {
+    const re = new RegExp("\\b" + v + "\\w*\\b", "gi");
+    const c = (lc.match(re) || []).length;
+    if (c >= 4) repeated[v] = c;
+  });
+
+  /* ---- 7. Structure check ---- */
+  const structureChecks = {
+    intro: countWords(sections.intro) >= 30,
+    peel1: countWords(sections.peel1) >= 50,
+    peel2: countWords(sections.peel2) >= 50,
+    peel3: countWords(sections.peel3) >= 50,
+    conclusion: countWords(sections.conclusion) >= 30
+  };
+  const structuralOK = Object.values(structureChecks).every(Boolean);
+
+  /* ---- 8. AO4-style scoring out of 24 ---- */
+  // Pertinence (4): contains references to title's keyword(s)
+  const titleQ = TITLES[state.titleIdx].formalQ.toLowerCase();
+  const titleKeywords = ["aumônier", "religion", "arabe", "anonymat",
+                          "indifférence", "absurde", "révolte", "liberté"];
+  const titleHits = titleKeywords.filter(k => titleQ.includes(k) && lc.includes(k));
+  const pertinence = totalWords > 100 && titleHits.length >= 1
+    ? Math.min(4, 1 + titleHits.length) : (totalWords > 50 ? 1 : 0);
+
+  // Argumentation (4): all 5 sections present + good lengths
+  const argumentation =
+    structuralOK ? 4 :
+    Object.values(structureChecks).filter(Boolean).length >= 4 ? 3 :
+    Object.values(structureChecks).filter(Boolean).length >= 3 ? 2 :
+    Object.values(structureChecks).filter(Boolean).length >= 2 ? 1 : 0;
+
+  // Précision lexicale (4): refs + quotes
+  const precision = Math.min(4,
+    Math.floor(refsUsed.length / 3) + Math.min(2, quotes.length));
+
+  // Range (4): sophisticated connectors + evaluative phrases
+  const range = Math.min(4,
+    Math.floor(sophUsed.length / 2) + Math.floor(evalUsed.length / 2));
+
+  // Conclusion qualité (4): conclusion present + nuance + ouverture
+  const conclQ = sections.conclusion.toLowerCase();
+  let conclusionScore = 0;
+  if (countWords(sections.conclusion) >= 40) conclusionScore += 2;
+  if (conclQ.match(/cependant|toutefois|néanmoins|nuance/)) conclusionScore += 1;
+  if (conclQ.match(/aujourd'hui|encore|moderne|écho|rester|actualité/)) conclusionScore += 1;
+
+  // Précision grammaticale (4): heuristic — penalise missing accents on common words,
+  // and overuse of basic connectors
+  let grammar = 4;
+  if ((basicCounts["et"] || 0) > 8) grammar -= 1;
+  if ((basicCounts["mais"] || 0) > 4) grammar -= 1;
+  if (Object.keys(repeated).length > 0) grammar -= 1;
+  if (lc.match(/\ba\s+cause\s/)) grammar -= 1; // missing à
+  grammar = Math.max(0, grammar);
+
+  const total = pertinence + argumentation + precision + range + conclusionScore + grammar;
+
+  /* ---- Build feedback object ---- */
+  const fb = {
+    totalWords,
+    sophUsed,
+    basicCounts,
+    evalUsed,
+    quotes,
+    refsUsed,
+    tooHighFound,
+    angloFound,
+    repeated,
+    structureChecks,
+    scores: {
+      pertinence, argumentation, precision, range,
+      conclusion: conclusionScore, grammar
+    },
+    total
+  };
+  state.feedback = fb;
+  return fb;
+}
+
+function renderFeedback(fb) {
+  const body = document.getElementById("feedback-body");
+  if (!fb) {
+    body.innerHTML = '<div class="fb-empty">Cliquez sur <strong>Évaluer mon essai</strong>…</div>';
+    return;
+  }
+  let html = "";
+
+  /* Score block */
+  html += `<div class="fb-block info">
+    <h5>Score AO4 estimé</h5>
+    <div class="score-grid">
+      <span class="crit">Pertinence à la question</span><span class="pts">${fb.scores.pertinence} / 4</span>
+      <span class="crit">Argumentation (intro + 3 PEEL + concl)</span><span class="pts">${fb.scores.argumentation} / 4</span>
+      <span class="crit">Précision lexicale (citations, lexique)</span><span class="pts">${fb.scores.precision} / 4</span>
+      <span class="crit">Range (connecteurs + phrases évaluatives)</span><span class="pts">${fb.scores.range} / 4</span>
+      <span class="crit">Conclusion (synthèse + nuance + ouverture)</span><span class="pts">${fb.scores.conclusion} / 4</span>
+      <span class="crit">Précision grammaticale (heuristique)</span><span class="pts">${fb.scores.grammar} / 4</span>
+    </div>
+    <div class="score-total">Total <span>${fb.total} / 24</span></div>
+  </div>`;
+  document.getElementById("g-score").textContent = fb.total + " / 24";
+
+  /* Word count */
+  html += `<div class="fb-block ${fb.totalWords >= 300 && fb.totalWords <= 360 ? "good" : "warn"}">
+    <h5>Longueur</h5>
+    ${fb.totalWords} mots${fb.totalWords < 300 ? ' (trop court · cible 300-350)' :
+      fb.totalWords > 360 ? ' (trop long · risque de digression)' : ' ✓ dans la cible'}
+  </div>`;
+
+  /* Connectors */
+  html += `<div class="fb-block ${fb.sophUsed.length >= 4 ? "good" : "warn"}">
+    <h5>Connecteurs sophistiqués (${fb.sophUsed.length})</h5>`;
+  if (fb.sophUsed.length === 0) {
+    html += '<span class="chip miss">Aucun détecté — ajoutez « cependant », « par conséquent »…</span>';
+  } else {
+    fb.sophUsed.forEach(w => html += `<span class="chip ok">${escapeHtml(w)}</span>`);
+  }
+  if (Object.keys(fb.basicCounts).length) {
+    html += "<div style='margin-top:6px; font-size:12px; color:#7C2C18;'>Connecteurs basiques surutilisés : ";
+    html += Object.entries(fb.basicCounts).map(([w, c]) => `${w} ×${c}`).join(", ");
+    html += "</div>";
+  }
+  html += "</div>";
+
+  /* Evaluative phrases */
+  html += `<div class="fb-block ${fb.evalUsed.length >= 2 ? "good" : "warn"}">
+    <h5>Phrases évaluatives (${fb.evalUsed.length})</h5>`;
+  if (fb.evalUsed.length === 0) {
+    html += '<span class="chip miss">Ajoutez « il convient de souligner », « cela montre que », « à mon avis »…</span>';
+  } else {
+    fb.evalUsed.forEach(p => html += `<span class="chip ok">${escapeHtml(p)}…</span>`);
+  }
+  html += "</div>";
+
+  /* Citations */
+  html += `<div class="fb-block ${fb.quotes.length >= 2 ? "good" : "warn"}">
+    <h5>Citations / preuves textuelles (${fb.quotes.length})</h5>`;
+  if (fb.quotes.length === 0) {
+    html += '<span class="chip miss">Aucune citation détectée — utilisez « ... » au moins deux fois.</span>';
+  } else {
+    fb.quotes.slice(0, 4).forEach(q => {
+      const trim = q.length > 50 ? q.substring(0, 47) + "…" : q;
+      html += `<span class="chip ok">${escapeHtml(trim)}</span>`;
+    });
+  }
+  html += "</div>";
+
+  /* References */
+  html += `<div class="fb-block ${fb.refsUsed.length >= 5 ? "good" : "info"}">
+    <h5>Références textuelles (${fb.refsUsed.length})</h5>`;
+  fb.refsUsed.forEach(r => html += `<span class="chip ok">${escapeHtml(r)}</span>`);
+  if (fb.refsUsed.length < 5) {
+    html += '<div style="margin-top:6px; font-size:12px; color:#6C4D17;">Ajoutez plus de références : Marie, Raymond, le procureur, l\'aumônier…</div>';
+  }
+  html += "</div>";
+
+  /* Warnings */
+  if (fb.tooHighFound.length || fb.angloFound.length || Object.keys(fb.repeated).length) {
+    html += `<div class="fb-block warn"><h5>À surveiller</h5>`;
+    fb.tooHighFound.forEach(p => html += `<div>⚠ Registre trop élevé : « ${escapeHtml(p)} » — préférer une formulation A-Level.</div>`);
+    fb.angloFound.forEach(p => html += `<div>⚠ ${escapeHtml(p)}</div>`);
+    Object.entries(fb.repeated).forEach(([v, c]) => {
+      html += `<div>⚠ « ${escapeHtml(v)} » utilisé ${c} fois — varier (illustrer, dépeindre, révéler…)</div>`;
+    });
+    html += "</div>";
+  }
+
+  /* Structure */
+  if (!Object.values(fb.structureChecks).every(Boolean)) {
+    html += `<div class="fb-block warn"><h5>Sections incomplètes</h5>`;
+    Object.entries(fb.structureChecks).forEach(([k, ok]) => {
+      if (!ok) html += `<span class="chip miss">${k} trop court</span>`;
+    });
+    html += "</div>";
+  }
+
+  body.innerHTML = html;
+}
+
+/* ============================================================
+   ACTIONS
+   ============================================================ */
+function exportEssay(includeModel = true) {
+  if (state.titleIdx === -1) {
+    showToast("Choisissez d'abord un sujet en haut de page.");
+    return;
+  }
+  const t = TITLES[state.titleIdx];
+  const fb = state.feedback || evaluate();
+  if (!fb) return;
+  renderFeedback(fb);
+  const hasModel = t.models && t.models.length > 0;
+  const date = new Date().toLocaleDateString("fr-FR", {
+    year: "numeric", month: "long", day: "numeric"
+  });
+  const safeFull = (s) => escapeHtml(s).replace(/\n/g, "<br>");
+  const fullEssay = [
+    state.sections.intro,
+    state.sections.peel1,
+    state.sections.peel2,
+    state.sections.peel3,
+    state.sections.conclusion
+  ].filter(Boolean).join("\n\n");
+
+  const modelHtml = (includeModel && hasModel)
+    ? `<h2>Essai modèle de comparaison — ${escapeHtml(t.models[state.modelChoice].label)}</h2>
+       <div class="boxed model">${safeFull(t.models[state.modelChoice].text)}</div>`
+    : (t.axes ? `<h2>Axes de réflexion</h2><div class="boxed">${t.axes.map(a => "• " + escapeHtml(a)).join("<br>")}</div>` : "");
+
+  const html = `<!DOCTYPE html><html lang="fr"><head><meta charset="UTF-8">
+<title>L'Étranger — Mon essai (${date})</title>
+<style>
+body { font-family: Calibri, sans-serif; max-width: 850px; margin: 30px auto;
+       padding: 0 24px; color: #1A1A1A; line-height: 1.6; }
+h1 { color: #1B2845; border-bottom: 3px solid #B5482E; padding-bottom: 8px; }
+h2 { color: #1B2845; margin-top: 28px; font-size: 18px; }
+h3 { color: #B5482E; font-size: 14px; text-transform: uppercase;
+     letter-spacing: 0.08em; margin: 22px 0 6px; }
+.title-q { background: #F5EDD8; padding: 14px 18px; border-left: 4px solid #1B2845;
+           font-style: italic; margin: 16px 0; border-radius: 0 6px 6px 0; }
+.boxed { padding: 14px 18px; border: 1px solid #DDD3B8; border-radius: 8px;
+         background: #FBF6E9; margin-bottom: 12px; white-space: pre-wrap; }
+.boxed.model { background: #F0E8D0; border-left: 4px solid #D9A86C; }
+.score-table { width: 100%; border-collapse: collapse; margin: 12px 0; }
+.score-table td { padding: 6px 10px; border-bottom: 1px solid #EEE; font-size: 14px; }
+.score-table td:last-child { text-align: right; font-weight: 700; color: #B5482E; }
+.score-row.total td { font-weight: 800; border-top: 2px solid #1B2845;
+                       padding-top: 10px; font-size: 16px; }
+.fb-section { background: #FFFEF9; padding: 12px 16px; border-left: 4px solid #1B2845;
+              margin: 10px 0; border-radius: 0 6px 6px 0; }
+.fb-section.good { border-left-color: #2D8541; }
+.fb-section.warn { border-left-color: #B5482E; }
+.chip { display: inline-block; background: white; border: 1px solid #DDD3B8;
+        border-radius: 999px; padding: 2px 9px; margin: 2px 3px 0 0; font-size: 13px; }
+.chip.ok { background: #DCEFE0; border-color: #2D8541; color: #1F5C2C; }
+.chip.miss { background: #FAE0DA; border-color: #B5482E; color: #7C2C18; }
+@media print { .boxed { break-inside: avoid; } }
+</style></head><body>
+<h1>L'Étranger — Ma copie d'examen</h1>
+<p style="color:#555;"><em>Exporté le ${date}  ·  A-Level French Edexcel</em></p>
+
+<h2>Sujet choisi</h2>
+<div class="title-q">${escapeHtml(t.formalQ)}</div>
+
+<h2>Score AO4 estimé : ${fb.total} / 24</h2>
+<table class="score-table">
+  <tr><td>Pertinence à la question</td><td>${fb.scores.pertinence} / 4</td></tr>
+  <tr><td>Argumentation (5 sections)</td><td>${fb.scores.argumentation} / 4</td></tr>
+  <tr><td>Précision lexicale (citations, lexique)</td><td>${fb.scores.precision} / 4</td></tr>
+  <tr><td>Range (connecteurs, phrases évaluatives)</td><td>${fb.scores.range} / 4</td></tr>
+  <tr><td>Conclusion (synthèse, nuance, ouverture)</td><td>${fb.scores.conclusion} / 4</td></tr>
+  <tr><td>Précision grammaticale (heuristique)</td><td>${fb.scores.grammar} / 4</td></tr>
+  <tr class="score-row total"><td>TOTAL</td><td>${fb.total} / 24</td></tr>
+</table>
+
+<h2>Mon essai (${fb.totalWords} mots)</h2>
+<h3>Plan</h3>
+<div class="boxed">${safeFull(state.sections.plan || "(aucun plan)")}</div>
+<h3>Introduction</h3>
+<div class="boxed">${safeFull(state.sections.intro || "(vide)")}</div>
+<h3>PEEL 1</h3>
+<div class="boxed">${safeFull(state.sections.peel1 || "(vide)")}</div>
+<h3>PEEL 2</h3>
+<div class="boxed">${safeFull(state.sections.peel2 || "(vide)")}</div>
+<h3>PEEL 3</h3>
+<div class="boxed">${safeFull(state.sections.peel3 || "(vide)")}</div>
+<h3>Conclusion</h3>
+<div class="boxed">${safeFull(state.sections.conclusion || "(vide)")}</div>
+
+<h2>Feedback détaillé</h2>
+<div class="fb-section ${fb.sophUsed.length >= 4 ? "good" : "warn"}">
+  <strong>Connecteurs sophistiqués (${fb.sophUsed.length})</strong><br>
+  ${fb.sophUsed.length ? fb.sophUsed.map(w => `<span class="chip ok">${escapeHtml(w)}</span>`).join(" ") : "<em>Aucun détecté.</em>"}
+</div>
+<div class="fb-section ${fb.evalUsed.length >= 2 ? "good" : "warn"}">
+  <strong>Phrases évaluatives (${fb.evalUsed.length})</strong><br>
+  ${fb.evalUsed.length ? fb.evalUsed.map(p => `<span class="chip ok">${escapeHtml(p)}…</span>`).join(" ") : "<em>Aucune détectée.</em>"}
+</div>
+<div class="fb-section ${fb.quotes.length >= 2 ? "good" : "warn"}">
+  <strong>Citations textuelles (${fb.quotes.length})</strong><br>
+  ${fb.quotes.length ? fb.quotes.slice(0, 6).map(q => `<span class="chip ok">${escapeHtml(q)}</span>`).join(" ") : "<em>Aucune citation détectée.</em>"}
+</div>
+<div class="fb-section">
+  <strong>Références textuelles (${fb.refsUsed.length})</strong><br>
+  ${fb.refsUsed.map(r => `<span class="chip ok">${escapeHtml(r)}</span>`).join(" ")}
+</div>
+${(fb.tooHighFound.length || fb.angloFound.length || Object.keys(fb.repeated).length) ? `
+<div class="fb-section warn">
+  <strong>À surveiller</strong><br>
+  ${fb.tooHighFound.map(p => `<div>⚠ Registre trop élevé : « ${escapeHtml(p)} »</div>`).join("")}
+  ${fb.angloFound.map(p => `<div>⚠ ${escapeHtml(p)}</div>`).join("")}
+  ${Object.entries(fb.repeated).map(([v, c]) => `<div>⚠ « ${escapeHtml(v)} » utilisé ${c} fois — varier le vocabulaire.</div>`).join("")}
+</div>` : ""}
+
+${modelHtml}
+
+</body></html>`;
+
+  const blob = new Blob([html], { type: "text/html;charset=utf-8" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  const stamp = new Date().toISOString().slice(0, 10);
+  a.download = `LEtranger_essai_${TITLES[state.titleIdx].id}_${stamp}.html`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  setTimeout(() => URL.revokeObjectURL(url), 0);
+  showToast("Téléchargement lancé !");
+}
+
+function showModel(compare = false) {
+  if (state.titleIdx === -1) {
+    showToast("Choisissez d'abord un sujet en haut de page.");
+    return;
+  }
+  const t = TITLES[state.titleIdx];
+  if (!t.models || t.models.length === 0) {
+    showToast("Pas d'essai modèle pour ce sujet — utilisez les axes de réflexion.");
+    return;
+  }
+  state.modelChoice = 0;
+  state.compare = compare;
+  document.getElementById("model-title").textContent =
+    "Essai modèle — " + t.label;
+  // Tabs
+  const tabs = document.getElementById("model-tabs");
+  tabs.innerHTML = "";
+  t.models.forEach((m, i) => {
+    const btn = document.createElement("button");
+    btn.textContent = m.label;
+    if (i === state.modelChoice) btn.classList.add("active");
+    btn.onclick = () => {
+      state.modelChoice = i;
+      Array.from(tabs.children).forEach((b, j) =>
+        b.classList.toggle("active", j === i));
+      renderModelContent();
+    };
+    tabs.appendChild(btn);
+  });
+  document.getElementById("compare-toggle").checked = compare;
+  renderModelContent();
+  document.getElementById("model-modal").classList.add("show");
+}
+
+function renderModelContent() {
+  const t = TITLES[state.titleIdx];
+  const m = t.models[state.modelChoice];
+  const cmp = document.getElementById("compare-toggle").checked;
+  const studentEssay = [
+    state.sections.intro, state.sections.peel1, state.sections.peel2,
+    state.sections.peel3, state.sections.conclusion
+  ].filter(Boolean).join("\n\n") || "(votre essai n'est pas encore rédigé)";
+  const cont = document.getElementById("model-content");
+  if (cmp) {
+    cont.innerHTML = `<div class="split">
+      <div class="your-essay"><h6>Votre essai</h6>${escapeHtml(studentEssay).replace(/\n\n/g, "</p><p>").replace(/^/, "<p>") + "</p>"}</div>
+      <div class="model-essay"><h6>Modèle — ${escapeHtml(m.label)}</h6>${escapeHtml(m.text).replace(/\n\n/g, "</p><p>").replace(/^/, "<p>") + "</p>"}</div>
+    </div>`;
+  } else {
+    cont.innerHTML = `<div class="model-essay">${escapeHtml(m.text).replace(/\n\n/g, "</p><p>").replace(/^/, "<p>") + "</p>"}</div>`;
+  }
+}
+
+/* ============================================================
+   FLOATING KEYBOARD — drag + insert + show/hide
+   ============================================================ */
+function setupKeyboard() {
+  const kb = document.getElementById("keyboard");
+  // Insert character on click
+  kb.querySelectorAll("button[data-c]").forEach(btn => {
+    btn.addEventListener("click", (e) => {
+      e.preventDefault();
+      const c = btn.dataset.c;
+      const ta = state.lastFocused;
+      if (ta) {
+        insertAtCursor(ta, c);
+      }
+    });
+    btn.addEventListener("mousedown", e => e.preventDefault());
+  });
+
+  // Hide / show toggles
+  document.getElementById("kb-hide").addEventListener("click", () => {
+    kb.classList.add("hidden");
+    document.getElementById("kb-show").classList.add("show");
+  });
+  document.getElementById("kb-show").addEventListener("click", () => {
+    kb.classList.remove("hidden");
+    document.getElementById("kb-show").classList.remove("show");
+  });
+
+  // Drag
+  let dragging = false, dx = 0, dy = 0;
+  const onDown = (e) => {
+    if (e.target.tagName === "BUTTON") return;
+    dragging = true;
+    const r = kb.getBoundingClientRect();
+    dx = (e.clientX || e.touches[0].clientX) - r.left;
+    dy = (e.clientY || e.touches[0].clientY) - r.top;
+    kb.style.transform = "none";
+    kb.style.left = r.left + "px";
+    kb.style.top = r.top + "px";
+    kb.style.bottom = "auto";
+    e.preventDefault();
+  };
+  const onMove = (e) => {
+    if (!dragging) return;
+    const x = (e.clientX || e.touches?.[0].clientX) - dx;
+    const y = (e.clientY || e.touches?.[0].clientY) - dy;
+    kb.style.left = Math.max(0, Math.min(window.innerWidth - kb.offsetWidth, x)) + "px";
+    kb.style.top = Math.max(0, Math.min(window.innerHeight - kb.offsetHeight, y)) + "px";
+  };
+  const onUp = () => { dragging = false; };
+  kb.addEventListener("mousedown", onDown);
+  document.addEventListener("mousemove", onMove);
+  document.addEventListener("mouseup", onUp);
+  kb.addEventListener("touchstart", onDown);
+  document.addEventListener("touchmove", onMove);
+  document.addEventListener("touchend", onUp);
+}
+
+/* ============================================================
+   INIT
+   ============================================================ */
+function init() {
+  drawNewPair();              // pick 2 titles randomly
+  renderLexis();
+  setupKeyboard();
+
+  document.getElementById("btn-shuffle").addEventListener("click", () => {
+    drawNewPair();
+    showToast("Deux nouveaux sujets tirés au sort.");
+  });
+  document.getElementById("btn-change-title").addEventListener("click", () => {
+    if (!confirm("Changer de sujet ? Votre rédaction est conservée mais le sujet sera ré-ouvert au choix.")) return;
+    drawNewPair();
+    showToast("Choisissez un nouveau sujet.");
+  });
+
+  // Tab buttons
+  document.querySelectorAll(".tab-btn").forEach(b => {
+    b.addEventListener("click", () => {
+      state.currentLexisTab = b.dataset.tab;
+      document.querySelectorAll(".tab-btn").forEach(x =>
+        x.classList.toggle("active", x === b));
+      renderLexis();
+    });
+  });
+
+  // Track focused textarea
+  state.lastFocused = null;
+  document.querySelectorAll("textarea").forEach(ta => {
+    ta.addEventListener("focus", () => { state.lastFocused = ta; });
+    ta.addEventListener("input", () => {
+      state.sections[ta.id] = ta.value;
+      updateWordCounts();
+    });
+  });
+
+  // Buttons
+  document.getElementById("btn-evaluate").addEventListener("click", () => {
+    const fb = evaluate();
+    if (!fb) return;
+    renderFeedback(fb);
+    showToast(`Note estimée : ${fb.total} / 24`);
+  });
+  document.getElementById("btn-model").addEventListener("click", () => showModel(false));
+  document.getElementById("btn-compare").addEventListener("click", () => showModel(true));
+  document.getElementById("btn-download").addEventListener("click", () => exportEssay(true));
+  document.getElementById("btn-print").addEventListener("click", () => window.print());
+  document.getElementById("btn-reset").addEventListener("click", () => {
+    if (!confirm("Effacer toute votre rédaction ?")) return;
+    Object.keys(state.sections).forEach(k => state.sections[k] = "");
+    document.querySelectorAll("textarea").forEach(ta => ta.value = "");
+    state.feedback = null;
+    updateWordCounts();
+    renderFeedback(null);
+    document.getElementById("g-score").textContent = "— / 24";
+    showToast("Réinitialisé.");
+  });
+
+  // Modal close + compare toggle
+  document.getElementById("model-close").addEventListener("click", () =>
+    document.getElementById("model-modal").classList.remove("show"));
+  document.getElementById("model-modal").addEventListener("click", (e) => {
+    if (e.target.id === "model-modal")
+      document.getElementById("model-modal").classList.remove("show");
+  });
+  document.getElementById("compare-toggle").addEventListener("change", renderModelContent);
+
+  updateWordCounts();
+}
+init();
+</script>
+</body>
+</html>

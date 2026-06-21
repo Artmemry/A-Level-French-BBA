@@ -1,0 +1,1014 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>French Translation Exercises - Complete Set</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f5f7fa;
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: linear-gradient(135deg, #2c3e50, #4a6491);
+            color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        h1 {
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+        }
+        
+        h2 {
+            color: #2c3e50;
+            margin: 25px 0 15px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #eaecef;
+        }
+        
+        .exercise-container {
+            background-color: white;
+            border-radius: 10px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease;
+        }
+        
+        .exercise-container:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        .english-text {
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-left: 4px solid #3498db;
+            margin-bottom: 20px;
+            border-radius: 5px;
+        }
+        
+        .translation-section {
+            margin-bottom: 25px;
+            padding: 20px;
+            border: 1px solid #e1e4e8;
+            border-radius: 8px;
+            background-color: #fafbfc;
+            transition: all 0.3s ease;
+        }
+        
+        .translation-section.active {
+            border-color: #3498db;
+            background-color: #edf7ff;
+            box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+        }
+        
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .section-number {
+            background-color: #3498db;
+            color: white;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+        
+        .english-sentence {
+            font-weight: 600;
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+            color: #2c3e50;
+        }
+        
+        textarea {
+            width: 100%;
+            min-height: 80px;
+            padding: 12px;
+            border: 1px solid #d1d5da;
+            border-radius: 6px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-size: 1rem;
+            resize: vertical;
+            transition: border-color 0.3s;
+        }
+        
+        textarea:focus {
+            outline: none;
+            border-color: #3498db;
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+        }
+        
+        .check-btn {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            margin-top: 10px;
+            font-weight: 600;
+            transition: background-color 0.3s;
+        }
+        
+        .check-btn:hover {
+            background-color: #2980b9;
+        }
+        
+        .feedback {
+            margin-top: 15px;
+            padding: 12px;
+            border-radius: 6px;
+            display: none;
+            font-weight: 500;
+        }
+        
+        .correct {
+            background-color: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+        }
+        
+        .incorrect {
+            background-color: #f8d7da;
+            border: 1px solid #f5c6cb;
+            color: #721c24;
+        }
+        
+        .mark-scheme {
+            margin-top: 15px;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            display: none;
+            border-left: 4px solid #6c757d;
+        }
+        
+        .mark-scheme h4 {
+            margin-top: 0;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+        
+        .accepted {
+            color: #28a745;
+            margin-bottom: 8px;
+        }
+        
+        .rejected {
+            color: #dc3545;
+            margin-bottom: 8px;
+        }
+        
+        .toggle-btn {
+            background-color: #6c757d;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            margin-top: 10px;
+            transition: background-color 0.3s;
+        }
+        
+        .toggle-btn:hover {
+            background-color: #5a6268;
+        }
+        
+        .section-score {
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+        
+        .correct .section-score {
+            color: #28a745;
+        }
+        
+        .incorrect .section-score {
+            color: #dc3545;
+        }
+        
+        .score-display {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, #2c3e50, #4a6491);
+            color: white;
+            padding: 12px 18px;
+            border-radius: 8px;
+            font-weight: bold;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            z-index: 100;
+        }
+        
+        /* Floating Accent Keyboard Styles */
+        #accent-keyboard {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+            padding: 15px;
+            z-index: 1000;
+            transition: all 0.3s ease;
+            border: 1px solid #e1e4e8;
+            max-width: 300px;
+        }
+        
+        .keyboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #eaecef;
+        }
+        
+        .keyboard-title {
+            font-weight: 600;
+            color: #2c3e50;
+            font-size: 0.9rem;
+        }
+        
+        .close-keyboard {
+            background: none;
+            border: none;
+            font-size: 1.2rem;
+            cursor: pointer;
+            color: #6c757d;
+        }
+        
+        .accent-buttons {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 8px;
+        }
+        
+        .accent-btn {
+            padding: 8px 5px;
+            background-color: #f8f9fa;
+            border: 1px solid #d1d5da;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.2s;
+        }
+        
+        .accent-btn:hover {
+            background-color: #e9ecef;
+            transform: translateY(-2px);
+        }
+        
+        .accent-btn:active {
+            background-color: #dee2e6;
+            transform: translateY(0);
+        }
+        
+        .keyboard-instructions {
+            font-size: 0.75rem;
+            color: #6c757d;
+            margin-top: 10px;
+            text-align: center;
+        }
+        
+        .show-keyboard-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            z-index: 999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+        
+        .show-keyboard-btn:hover {
+            transform: scale(1.1);
+        }
+        
+        @media (max-width: 768px) {
+            #accent-keyboard {
+                max-width: 280px;
+                bottom: 10px;
+                right: 10px;
+            }
+            
+            .accent-buttons {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>French Translation Exercises - Complete Set</h1>
+        <p>Practice your translation skills with these exercises about the French National Front</p>
+    </header>
+    
+    <div class="score-display">
+        Total Score: <span id="total-score">0</span>/60
+    </div>
+    
+    <button class="show-keyboard-btn" id="show-keyboard-btn">é</button>
+    
+    <div id="accent-keyboard" style="display: none;">
+        <div class="keyboard-header">
+            <div class="keyboard-title">French Accents</div>
+            <button class="close-keyboard" id="close-keyboard">×</button>
+        </div>
+        <div class="accent-buttons">
+            <button class="accent-btn" data-accent="à">à</button>
+            <button class="accent-btn" data-accent="â">â</button>
+            <button class="accent-btn" data-accent="ç">ç</button>
+            <button class="accent-btn" data-accent="è">è</button>
+            <button class="accent-btn" data-accent="é">é</button>
+            <button class="accent-btn" data-accent="ê">ê</button>
+            <button class="accent-btn" data-accent="ë">ë</button>
+            <button class="accent-btn" data-accent="î">î</button>
+            <button class="accent-btn" data-accent="ï">ï</button>
+            <button class="accent-btn" data-accent="ô">ô</button>
+            <button class="accent-btn" data-accent="ù">ù</button>
+            <button class="accent-btn" data-accent="û">û</button>
+            <button class="accent-btn" data-accent="ü">ü</button>
+            <button class="accent-btn" data-accent="œ">œ</button>
+            <button class="accent-btn" data-accent="«">«</button>
+            <button class="accent-btn" data-accent="»">»</button>
+        </div>
+        <div class="keyboard-instructions">
+            Click an accent, then click in a text area to insert
+        </div>
+    </div>
+
+    <!-- EXERCISE 1 -->
+    <div class="exercise-container" id="exercise-1">
+        <h2>Exercise 1: The Early Years of the FN</h2>
+        
+        <div class="english-text">
+            <h3>English Text (110 words):</h3>
+            <p>The National Front was created in 1972 by a group of far-right movements. Jean-Marie Le Pen became its leader. At first, the party had little success. In the 1974 presidential elections, Le Pen only obtained 0.74% of votes. The party struggled for ten years before making its breakthrough in the 1983 local elections. The FN used immigration as a political weapon to attract voters. Many French people began to understand the party's ideas and identified with them more easily. For the FN, immigrants represented a threat to the French way of life. The party defended national independence and traditional values while rejecting European integration.</p>
+        </div>
+        
+        <div id="translation-sections-1">
+            <!-- Sections will be dynamically generated by JavaScript -->
+        </div>
+    </div>
+
+    <!-- EXERCISE 2 -->
+    <div class="exercise-container" id="exercise-2">
+        <h2>Exercise 2: Marine Le Pen's Strategy Change</h2>
+        
+        <div class="english-text">
+            <h3>English Text (110 words):</h3>
+            <p>In 1998, Marine Le Pen encouraged her father to change the party's themes to attract a larger electorate. The FN began to harshly criticise poor working conditions and unemployment, blaming immigration and the European Union for everything. This strategy worked well. In April 2002, Jean-Marie Le Pen qualified for the second round of the presidential election but did not win. More and more voters embraced the anti-immigration ideas, though many were protest votes. In 2011, Marine succeeded her father at the head of the party. She started a change of strategy to make the party more acceptable to mainstream voters while keeping its core nationalist message.</p>
+        </div>
+        
+        <div id="translation-sections-2">
+            <!-- Sections will be dynamically generated by JavaScript -->
+        </div>
+    </div>
+
+    <!-- EXERCISE 3 -->
+    <div class="exercise-container" id="exercise-3">
+        <h2>Exercise 3: The FN's Electoral Success</h2>
+        
+        <div class="english-text">
+            <h3>English Text (110 words):</h3>
+            <p>During the 1990s, the National Front attracted more and more voters. Bruno Mégret became the party's number two for ten years. In 1998, after a violent disagreement about Le Pen's provocative statements, Mégret left the party. The same year, Le Pen gave more power to his daughter Marine. The strategy change paid off. Anti-immigration ideas appealed to increasingly worried voters. Many felt that immigrants were taking their jobs and benefits. The party also benefited from protest votes against traditional parties. In 2014, the FN came first in the European elections with twenty-five percent of votes, proving that the extreme right had become a major political force in France.</p>
+        </div>
+        
+        <div id="translation-sections-3">
+            <!-- Sections will be dynamically generated by JavaScript -->
+        </div>
+    </div>
+
+    <script>
+        // Complete mark scheme data for all three texts
+        const markSchemes = {
+            text1: [
+                {
+                    english: "The National Front was created in 1972",
+                    mainTranslation: "Le Front National a été créé en 1972",
+                    accepted: ["Le Front National fut créé en 1972", "Le FN a été créé en 1972", "Le Front National a été fondé en 1972"],
+                    rejected: ["Le Front National était créé", "Le Front National est créé", "Le Front National a créé"]
+                },
+                {
+                    english: "by a group of far-right movements",
+                    mainTranslation: "par un groupe de mouvements d'extrême droite",
+                    accepted: ["par un petit groupe de mouvements d'extrême droite", "par des mouvements d'extrême droite", "par un groupe de mouvements d'extrême-droite"],
+                    rejected: ["par un groupe de mouvements de droite extrême", "par un groupe des mouvements"]
+                },
+                {
+                    english: "Jean-Marie Le Pen became its leader",
+                    mainTranslation: "Jean-Marie Le Pen en est devenu le chef de file",
+                    accepted: ["Jean-Marie Le Pen en devint le chef de file", "Jean-Marie Le Pen en fut désigné président", "Jean-Marie Le Pen est devenu son leader"],
+                    rejected: ["Jean-Marie Le Pen a devenu", "Jean-Marie Le Pen devenait le chef", "Jean-Marie Le Pen est devenu leur chef"]
+                },
+                {
+                    english: "At first, the party had little success",
+                    mainTranslation: "Au début, le parti a eu peu de succès",
+                    accepted: ["Au début, le parti avait peu de succès", "Au départ, le parti n'a pas eu beaucoup de succès", "D'abord, le parti a connu peu de succès"],
+                    rejected: ["Au premier, le parti a eu peu de succès", "Le parti a eu peu succès", "Au début le parti a eu peu du succès"]
+                },
+                {
+                    english: "In the 1974 presidential elections",
+                    mainTranslation: "Aux élections présidentielles de 1974",
+                    accepted: ["Lors des élections présidentielles de 1974", "Pendant les élections présidentielles de 1974", "À l'élection présidentielle de 1974"],
+                    rejected: ["Dans les élections présidentielles", "Aux élections présidentes", "Aux élections presidentielles"]
+                },
+                {
+                    english: "Le Pen only obtained 0.74% of votes",
+                    mainTranslation: "Le Pen n'a obtenu que 0,74% des votes",
+                    accepted: ["Le Pen a seulement obtenu 0,74% des votes", "Le Pen n'a atteint que 0,74 pour cent des votes", "Le Pen n'a obtenu que 0,74% des voix"],
+                    rejected: ["Le Pen a obtenu seulement 0,74%", "Le Pen a obtenu 0.74%", "Le Pen n'a obtenu que 0,74% de votes"]
+                },
+                {
+                    english: "The party struggled for ten years",
+                    mainTranslation: "Le parti a végété pendant dix ans",
+                    accepted: ["Le parti a eu des difficultés pendant dix ans", "Le parti a lutté pendant une dizaine d'années", "Le parti a connu des difficultés pendant dix ans"],
+                    rejected: ["Le parti luttait pendant dix ans", "Le parti a végété pour dix ans", "Le parti struggled pendant dix ans"]
+                },
+                {
+                    english: "before making its breakthrough",
+                    mainTranslation: "avant de percer",
+                    accepted: ["avant de faire sa percée", "avant de connaître son succès", "avant de réaliser sa percée"],
+                    rejected: ["avant faire sa percée", "avant de faire son breakthrough", "avant percer"]
+                },
+                {
+                    english: "in the 1983 local elections",
+                    mainTranslation: "aux élections municipales de 1983",
+                    accepted: ["lors des élections municipales de 1983", "pendant les élections municipales de 1983", "aux élections locales de 1983"],
+                    rejected: ["aux élections municipals", "aux élections municipales en 1983"]
+                },
+                {
+                    english: "The FN used immigration as a political weapon",
+                    mainTranslation: "Le FN a utilisé l'immigration comme arme politique",
+                    accepted: ["Le FN utilisait l'immigration comme atout politique", "Le FN s'est servi de l'immigration comme arme politique", "Le FN a exploité l'immigration comme arme politique"],
+                    rejected: ["Le FN a utilisé immigration", "Le FN a utilisé l'immigration comme une arme politique", "Le FN used l'immigration"]
+                },
+                {
+                    english: "to attract voters",
+                    mainTranslation: "pour attirer des électeurs",
+                    accepted: ["pour attirer les électeurs", "afin d'attirer des électeurs", "pour séduire des électeurs"],
+                    rejected: ["pour attirer électeurs", "pour attirer les voteurs", "attirer des électeurs"]
+                },
+                {
+                    english: "Many French people began to understand",
+                    mainTranslation: "Beaucoup de Français ont commencé à comprendre",
+                    accepted: ["De nombreux Français commençaient à comprendre", "La population française commençait à comprendre", "Beaucoup de Français se sont mis à comprendre"],
+                    rejected: ["Beaucoup des Français", "Beaucoup de Français commençaient comprendre", "Beaucoup Français ont commencé"]
+                },
+                {
+                    english: "the party's ideas",
+                    mainTranslation: "les idées du parti",
+                    accepted: ["les idées du FN", "ses idées", "les idées de ce parti"],
+                    rejected: ["les idées du partie", "les idées de parti", "les idées du parti's"]
+                },
+                {
+                    english: "and identified with them more easily",
+                    mainTranslation: "et s'y identifiaient plus facilement",
+                    accepted: ["et s'identifiaient à elles plus facilement", "et y adhéraient plus facilement", "et s'identifiaient à celles-ci plus facilement"],
+                    rejected: ["et identifiaient avec eux", "et s'identifiaient plus facilement avec elles", "et s'identifiait plus facilement"]
+                },
+                {
+                    english: "For the FN, immigrants represented a threat",
+                    mainTranslation: "Pour le FN, les immigrés représentaient une menace",
+                    accepted: ["Selon le FN, les immigrés constituaient une menace", "Pour le FN, les immigrants représentaient une menace", "D'après le FN, les immigrés étaient une menace"],
+                    rejected: ["Pour le FN, immigrés représentaient une menace", "Pour le FN, les immigrés ont représenté", "Pour le FN, les immigrés représentait"]
+                },
+                {
+                    english: "to the French way of life",
+                    mainTranslation: "pour le mode de vie français",
+                    accepted: ["au style de vie des Français", "pour la vie française", "au mode de vie français"],
+                    rejected: ["pour la façon de vie française", "au way of life français", "pour le mode de vie francais"]
+                },
+                {
+                    english: "The party defended national independence",
+                    mainTranslation: "Le parti défendait l'indépendance nationale",
+                    accepted: ["Le parti a défendu l'indépendance nationale", "Le parti soutenait l'indépendance nationale", "Le FN défendait l'indépendance nationale"],
+                    rejected: ["Le parti défendait indépendance nationale", "Le parti défendait la nationale indépendance", "Le parti défendais l'indépendance"]
+                },
+                {
+                    english: "and traditional values",
+                    mainTranslation: "et les valeurs traditionnelles",
+                    accepted: ["et des valeurs traditionnelles", "ainsi que les valeurs traditionnelles", "et les valeurs traditionelles"],
+                    rejected: ["et valeurs traditionnelles", "et les valeurs traditionnels", "et les valeurs traditionnel"]
+                },
+                {
+                    english: "while rejecting",
+                    mainTranslation: "tout en rejetant",
+                    accepted: ["en rejetant", "tandis qu'il rejetait", "alors qu'il rejetait"],
+                    rejected: ["pendant rejetant", "while rejetant", "tout en rejettant"]
+                },
+                {
+                    english: "European integration",
+                    mainTranslation: "l'intégration européenne",
+                    accepted: ["l'unification européenne", "l'intégration à l'Europe", "l'Europe intégrée"],
+                    rejected: ["intégration européenne", "l'intégration europeen", "l'intégration européene"]
+                }
+            ],
+            text2: [
+                {
+                    english: "In 1998, Marine Le Pen encouraged her father",
+                    mainTranslation: "En 1998, Marine Le Pen a encouragé son père",
+                    accepted: ["En 1998, Marine Le Pen encourageait son père", "En 1998, Marine Le Pen incitait son père", "En mille neuf cent quatre-vingt-dix-huit, Marine Le Pen a encouragé son père"],
+                    rejected: ["En 1998, Marine Le Pen encourage son père", "En 1998, Marine Le Pen a encouragé leur père", "En 1998, Marine Le Pen a encourager son père"]
+                },
+                {
+                    english: "to change the party's themes",
+                    mainTranslation: "à changer les thématiques du parti",
+                    accepted: ["à modifier les thèmes du parti", "à changer les thèmes du FN", "de changer les thématiques du parti"],
+                    rejected: ["pour changer les thématiques du parti", "à changer les thématiques du partie", "changer les thématiques"]
+                },
+                {
+                    english: "to attract a larger electorate",
+                    mainTranslation: "pour attirer un électorat plus grand",
+                    accepted: ["afin d'attirer un électorat plus large", "pour séduire un plus grand électorat", "pour attirer davantage d'électeurs"],
+                    rejected: ["pour attirer un grand électorat", "pour attirer un électorat plus grande", "attirer un électorat plus grand"]
+                },
+                {
+                    english: "The FN began to harshly criticise",
+                    mainTranslation: "Le FN a commencé à critiquer durement",
+                    accepted: ["Le FN s'est mis à critiquer sévèrement", "Le FN commençait à critiquer vivement", "Le FN a commencé à critiquer vigoureusement"],
+                    rejected: ["Le FN a commencé critiquer durement", "Le FN a commencé à durement critiquer", "Le FN a commencer à critiquer"]
+                },
+                {
+                    english: "poor working conditions",
+                    mainTranslation: "les mauvaises conditions de travail",
+                    accepted: ["les conditions de travail précaires", "les piètres conditions de travail", "les conditions de travail difficiles"],
+                    rejected: ["les pauvres conditions de travail", "les conditions de travail pauvres", "les conditions de travail"]
+                },
+                {
+                    english: "and unemployment",
+                    mainTranslation: "et le chômage",
+                    accepted: ["ainsi que le chômage", "et le chomage", "et du chômage"],
+                    rejected: ["et chômage", "et l'unemployment", "et le chommage"]
+                },
+                {
+                    english: "blaming immigration and the European Union for everything",
+                    mainTranslation: "en mettant tout sur le dos de l'immigration et de l'Union européenne",
+                    accepted: ["en accusant l'immigration et l'Union européenne de tout", "en rendant l'immigration et l'UE responsables de tout", "en imputant tout à l'immigration et à l'Union européenne"],
+                    rejected: ["en blaming l'immigration", "en mettant tout sur le dos de immigration", "en mettant tout sur le dos de l'immigration et l'Union européenne"]
+                },
+                {
+                    english: "This strategy worked well",
+                    mainTranslation: "Cette stratégie a bien marché",
+                    accepted: ["Cette stratégie marchait bien", "Cette tactique a bien fonctionné", "Ça marchait bien"],
+                    rejected: ["Cette stratégie a bien travaillé", "Cette stratégie a marché bien", "Cette stratégie worked bien"]
+                },
+                {
+                    english: "In April 2002",
+                    mainTranslation: "En avril 2002",
+                    accepted: ["Le 21 avril 2002", "Au mois d'avril 2002", "En avril deux mille deux"],
+                    rejected: ["Dans avril 2002", "À avril 2002", "En april 2002"]
+                },
+                {
+                    english: "Jean-Marie Le Pen qualified for the second round",
+                    mainTranslation: "Jean-Marie Le Pen s'est qualifié pour le second tour",
+                    accepted: ["Jean-Marie Le Pen se qualifiait pour le deuxième tour", "Jean-Marie Le Pen est passé au second tour", "Jean-Marie Le Pen accédait au second tour"],
+                    rejected: ["Jean-Marie Le Pen a qualifié pour le second tour", "Jean-Marie Le Pen s'est qualifié au second tour", "Jean-Marie Le Pen s'est qualifiés"]
+                },
+                {
+                    english: "of the presidential election",
+                    mainTranslation: "de l'élection présidentielle",
+                    accepted: ["des élections présidentielles", "du scrutin présidentiel", "de l'election présidentielle"],
+                    rejected: ["de l'élection présidente", "de élection présidentielle", "de l'élection presidentielle"]
+                },
+                {
+                    english: "but did not win",
+                    mainTranslation: "mais n'a pas gagné",
+                    accepted: ["mais n'en fut pas vainqueur", "mais n'a pas remporté l'élection", "mais n'a pas été élu"],
+                    rejected: ["mais n'a pas gagner", "mais ne gagnait pas", "mais pas gagné"]
+                },
+                {
+                    english: "More and more voters",
+                    mainTranslation: "De plus en plus d'électeurs",
+                    accepted: ["De plus en plus de votants", "Un nombre croissant d'électeurs", "De plus en plus d'electeurs"],
+                    rejected: ["Plus et plus d'électeurs", "De plus en plus des électeurs", "De plus en plus électeurs"]
+                },
+                {
+                    english: "embraced the anti-immigration ideas",
+                    mainTranslation: "adhéraient aux idées anti-immigration",
+                    accepted: ["ont adopté les idées anti-immigration", "embrassaient les idées anti-immigration", "soutenaient les idées contre l'immigration"],
+                    rejected: ["embraced les idées", "adhéraient les idées anti-immigration", "adhérait aux idées"]
+                },
+                {
+                    english: "though many were protest votes",
+                    mainTranslation: "bien que beaucoup soient des votes contestataires",
+                    accepted: ["même si beaucoup étaient des votes de protestation", "mais c'étaient aussi des votes contestataires", "quoique beaucoup fussent des votes de protestation"],
+                    rejected: ["though beaucoup étaient", "bien que beaucoup sont des votes", "bien que beaucoup soit"]
+                },
+                {
+                    english: "In 2011, Marine succeeded her father",
+                    mainTranslation: "En 2011, Marine a succédé à son père",
+                    accepted: ["En janvier 2011, Marine succédait à son père", "En 2011, Marine succède à son père", "En deux mille onze, Marine a succédé à son père"],
+                    rejected: ["En 2011, Marine a succédé son père", "En 2011, Marine a succeeded à son père", "En 2011, Marine a succéder à son père"]
+                },
+                {
+                    english: "at the head of the party",
+                    mainTranslation: "à la tête du parti",
+                    accepted: ["comme chef du parti", "en tant que dirigeante du parti", "à la tete du parti"],
+                    rejected: ["à la tête de parti", "au chef du parti", "à la tête de la partie"]
+                },
+                {
+                    english: "She started a change of strategy",
+                    mainTranslation: "Elle a commencé un changement de stratégie",
+                    accepted: ["Elle entamait un changement de stratégie", "Elle a entamé un changement de tactique", "Elle commençait un changement de stratégie"],
+                    rejected: ["Elle a commencé un change de stratégie", "Elle started un changement", "Elle a commencer un changement"]
+                },
+                {
+                    english: "to make the party more acceptable to mainstream voters",
+                    mainTranslation: "pour rendre le parti plus acceptable aux électeurs traditionnels",
+                    accepted: ["afin de rendre le parti plus acceptable pour les électeurs modérés", "pour rendre le FN plus acceptable au grand public", "pour que le parti soit plus acceptable aux électeurs mainstream"],
+                    rejected: ["pour faire le parti plus acceptable", "pour rendre le parti plus acceptable", "pour rendre le parti acceptable"]
+                },
+                {
+                    english: "while keeping its core nationalist message",
+                    mainTranslation: "tout en gardant son message nationaliste fondamental",
+                    accepted: ["tout en conservant son discours nationaliste de base", "en maintenant son message nationaliste central", "sans abandonner son message nationaliste essentiel"],
+                    rejected: ["pendant gardant son message", "tout en gardant leur message", "tout en gardant son message nationaliste"]
+                }
+            ],
+            text3: [
+                {
+                    english: "During the 1990s",
+                    mainTranslation: "Pendant les années 1990",
+                    accepted: ["Au cours des années 1990", "Dans les années 1990", "Pendant les années quatre-vingt-dix"],
+                    rejected: ["Pendant les 1990s", "Durant 1990s", "Pendant 1990"]
+                },
+                {
+                    english: "the National Front attracted more and more voters",
+                    mainTranslation: "le Front National attirait de plus en plus d'électeurs",
+                    accepted: ["le Front National a attiré de plus en plus d'électeurs", "le FN séduisait de plus en plus d'électeurs", "le Front National attirait davantage d'électeurs"],
+                    rejected: ["le Front National attirait plus et plus d'électeurs", "le Front National attracted de plus en plus d'électeurs", "le Front National attirait de plus en plus électeurs"]
+                },
+                {
+                    english: "Bruno Mégret became the party's number two",
+                    mainTranslation: "Bruno Mégret est devenu le numéro deux du parti",
+                    accepted: ["Bruno Mégret devenait le numéro deux du parti", "Bruno Mégret devint le second du parti", "Bruno Mégret est devenu le bras droit du parti"],
+                    rejected: ["Bruno Mégret a devenu le numéro deux", "Bruno Mégret est devenu le deux du parti", "Bruno Mégret est devenue"]
+                },
+                {
+                    english: "for ten years",
+                    mainTranslation: "pendant dix ans",
+                    accepted: ["durant dix ans", "pour une dizaine d'années", "pendant dix annees"],
+                    rejected: ["pour dix ans", "pendant dix année"]
+                },
+                {
+                    english: "In 1998, after a violent disagreement",
+                    mainTranslation: "En 1998, après un désaccord violent",
+                    accepted: ["En 1998, suite à un désaccord violent", "En 1998, après un conflit violent", "En 1998, après une dispute violente"],
+                    rejected: ["En 1998, après un disagreement violent", "En 1998, après violent désaccord", "En 1998, après un désaccord violente"]
+                },
+                {
+                    english: "about Le Pen's provocative statements",
+                    mainTranslation: "par rapport aux propos provocateurs de Le Pen",
+                    accepted: ["concernant les propos provocateurs de Le Pen", "au sujet des déclarations provocatrices de Le Pen", "à propos des propos provocateurs de Monsieur Le Pen"],
+                    rejected: ["about les propos provocateurs", "par rapport les propos", "par rapport aux propos provocateur"]
+                },
+                {
+                    english: "Mégret left the party",
+                    mainTranslation: "Mégret a quitté le parti",
+                    accepted: ["Mégret quittait le parti", "Mégret quitta le parti", "Megret a quitté le parti"],
+                    rejected: ["Mégret a laissé le parti", "Mégret left le parti", "Mégret a quitter le parti"]
+                },
+                {
+                    english: "The same year",
+                    mainTranslation: "La même année",
+                    accepted: ["Cette même année", "L'année même", "La meme année"],
+                    rejected: ["La même an", "Le même année", "La même annee"]
+                },
+                {
+                    english: "Le Pen gave more power to his daughter Marine",
+                    mainTranslation: "Le Pen a donné plus de pouvoir à sa fille Marine",
+                    accepted: ["Le Pen donnait davantage de pouvoir à sa fille Marine", "Le Pen a accordé plus de pouvoir à Marine", "Monsieur Le Pen donna plus de pouvoir à sa fille"],
+                    rejected: ["Le Pen a donné plus pouvoir à sa fille", "Le Pen gave plus de pouvoir", "Le Pen a donner plus de pouvoir"]
+                },
+                {
+                    english: "The strategy change paid off",
+                    mainTranslation: "Le changement de stratégie a porté ses fruits",
+                    accepted: ["Le changement de stratégie portait ses fruits", "Le changement de tactique a été payant", "Et ça marche !"],
+                    rejected: ["Le changement de stratégie a payé", "Le changement de stratégie paid off", "Le changement de stratégie a porté leur fruits"]
+                },
+                {
+                    english: "Anti-immigration ideas",
+                    mainTranslation: "Les idées anti-immigration",
+                    accepted: ["Les idées contre l'immigration", "Les thèses anti-immigration", "Les idées anti immigration"],
+                    rejected: ["Idées anti-immigration", "Les idees anti-immigration"]
+                },
+                {
+                    english: "appealed to increasingly worried voters",
+                    mainTranslation: "plaisaient aux électeurs de plus en plus inquiets",
+                    accepted: ["séduisaient les électeurs de plus en plus préoccupés", "attiraient des électeurs de plus en plus soucieux", "plaisaient à des électeurs toujours plus inquiets"],
+                    rejected: ["appelaient aux électeurs", "plaisaient les électeurs", "plaisaient aux électeurs de plus en plus inquiet"]
+                },
+                {
+                    english: "Many felt that immigrants",
+                    mainTranslation: "Beaucoup pensaient que les immigrés",
+                    accepted: ["Nombreux estimaient que les immigrés", "Beaucoup avaient le sentiment que les immigrants", "Beaucoup croyaient que les immigrés"],
+                    rejected: ["Beaucoup felt que les immigrés", "Beaucoup des gens pensaient", "Beaucoup pensaient que immigrés"]
+                },
+                {
+                    english: "were taking their jobs and benefits",
+                    mainTranslation: "leur prenaient leurs emplois et leurs aides",
+                    accepted: ["prenaient leur travail et leurs allocations", "leur volaient leurs emplois et aides sociales", "accaparaient leurs emplois et prestations"],
+                    rejected: ["étaient prenant leurs emplois", "prenaient leurs jobs et benefits", "leur prenaient leur emplois"]
+                },
+                {
+                    english: "The party also benefited from protest votes",
+                    mainTranslation: "Le parti a aussi bénéficié de votes contestataires",
+                    accepted: ["Le parti bénéficiait également de votes de protestation", "Le FN profitait aussi de votes contestataires", "Le parti a egalement bénéficié de votes contestataires"],
+                    rejected: ["Le parti a aussi benefitted de votes", "Le parti a aussi bénéficié des votes", "Le parti aussi a bénéficié"]
+                },
+                {
+                    english: "against traditional parties",
+                    mainTranslation: "contre les partis traditionnels",
+                    accepted: ["contre les partis établis", "contre les autres partis", "contre les partis traditionels"],
+                    rejected: ["contre partis traditionnels", "contre les traditionnels partis", "contre les partis traditionnel"]
+                },
+                {
+                    english: "In 2014, the FN came first",
+                    mainTranslation: "En 2014, le FN est arrivé en tête",
+                    accepted: ["En 2014, le FN arrivait premier", "En 2014, le Front National arrive très largement en tête", "En deux mille quatorze, le FN est arrivé en tête"],
+                    rejected: ["En 2014, le FN a venu premier", "En 2014, le FN came first", "En 2014, le FN est arrive en tête"]
+                },
+                {
+                    english: "in the European elections",
+                    mainTranslation: "aux élections européennes",
+                    accepted: ["lors des élections européennes", "pendant les élections européennes", "dans les élections européennes"],
+                    rejected: ["aux élections europées", "aux élections européen", "en les élections européennes"]
+                },
+                {
+                    english: "with twenty-five percent of votes",
+                    mainTranslation: "avec vingt-cinq pour cent des voix",
+                    accepted: ["avec 25% des voix", "avec vingt-cinq pourcent des suffrages", "avec 25 pour cent des votes"],
+                    rejected: ["avec vingt-cinq percent des voix", "avec vingt-cinq pour cent de voix", "avec vingt-cinq pourcents"]
+                },
+                {
+                    english: "proving that the extreme right had become a major political force in France",
+                    mainTranslation: "prouvant que l'extrême droite était devenue une force politique majeure en France",
+                    accepted: ["ce qui prouvait que l'extrême droite était devenue une force politique importante en France", "démontrant que l'extrême droite avait pris de l'importance en France", "prouvant que l'extreme droite était devenue une force politique majeure en France"],
+                    rejected: ["prouvant que l'extrême droite a devenu une force", "proving que l'extrême droite", "prouvant que l'extrême droite était devenu"]
+                }
+            ]
+        };
+
+        // Initialize all translation sections
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeExercise('text1', 'translation-sections-1');
+            initializeExercise('text2', 'translation-sections-2');
+            initializeExercise('text3', 'translation-sections-3');
+            
+            // Set up accent keyboard functionality
+            setupAccentKeyboard();
+            
+            // Set up active section tracking
+            setupActiveSectionTracking();
+        });
+
+        // Function to initialize an exercise
+        function initializeExercise(textId, containerId) {
+            const sectionsContainer = document.getElementById(containerId);
+            const markScheme = markSchemes[textId];
+            
+            markScheme.forEach((item, index) => {
+                const section = document.createElement('div');
+                section.className = 'translation-section';
+                section.id = `${textId}-section-${index + 1}`;
+                
+                section.innerHTML = `
+                    <div class="section-header">
+                        <div class="section-number">${index + 1}</div>
+                        <div class="section-score">0/1</div>
+                    </div>
+                    <div class="english-sentence">${item.english}</div>
+                    <textarea id="${textId}-translation-${index + 1}" placeholder="Enter your French translation here..."></textarea>
+                    <button class="check-btn" onclick="checkTranslation('${textId}', ${index})">Check Translation</button>
+                    <div id="${textId}-feedback-${index + 1}" class="feedback"></div>
+                    <button class="toggle-btn" onclick="toggleMarkScheme('${textId}', ${index})">Show Mark Scheme</button>
+                    <div id="${textId}-mark-scheme-${index + 1}" class="mark-scheme">
+                        <h4>Mark Scheme</h4>
+                        <p><strong>Main Translation:</strong> ${item.mainTranslation}</p>
+                        <p class="accepted"><strong>Accepted Elements:</strong> ${item.accepted.join('; ')}</p>
+                        <p class="rejected"><strong>Rejected Elements:</strong> ${item.rejected.join('; ')}</p>
+                    </div>
+                `;
+                
+                sectionsContainer.appendChild(section);
+            });
+        }
+
+        // Function to check a translation
+        function checkTranslation(textId, index) {
+            const userTranslation = document.getElementById(`${textId}-translation-${index + 1}`).value.trim();
+            const feedbackElement = document.getElementById(`${textId}-feedback-${index + 1}`);
+            const sectionElement = document.getElementById(`${textId}-section-${index + 1}`);
+            const sectionScoreElement = sectionElement.querySelector('.section-score');
+            
+            if (!userTranslation) {
+                feedbackElement.textContent = "Please enter a translation before checking.";
+                feedbackElement.className = "feedback incorrect";
+                feedbackElement.style.display = "block";
+                sectionScoreElement.textContent = "0/1";
+                sectionElement.classList.remove("correct", "incorrect");
+                sectionElement.classList.add("incorrect");
+                updateTotalScore();
+                return;
+            }
+            
+            const item = markSchemes[textId][index];
+            let isCorrect = false;
+            
+            // Check against main translation
+            if (normalizeText(userTranslation) === normalizeText(item.mainTranslation)) {
+                isCorrect = true;
+            }
+            
+            // Check against accepted elements
+            if (!isCorrect) {
+                for (const accepted of item.accepted) {
+                    if (normalizeText(userTranslation) === normalizeText(accepted)) {
+                        isCorrect = true;
+                        break;
+                    }
+                }
+            }
+            
+            // Display feedback
+            if (isCorrect) {
+                feedbackElement.textContent = "Correct! Your translation matches the mark scheme.";
+                feedbackElement.className = "feedback correct";
+                sectionScoreElement.textContent = "1/1";
+                sectionElement.classList.remove("correct", "incorrect");
+                sectionElement.classList.add("correct");
+            } else {
+                feedbackElement.textContent = "Your translation doesn't match the accepted options. Check the mark scheme for guidance.";
+                feedbackElement.className = "feedback incorrect";
+                sectionScoreElement.textContent = "0/1";
+                sectionElement.classList.remove("correct", "incorrect");
+                sectionElement.classList.add("incorrect");
+            }
+            
+            feedbackElement.style.display = "block";
+            updateTotalScore();
+        }
+        
+        // Function to normalize text for comparison
+        function normalizeText(text) {
+            return text
+                .toLowerCase()
+                .replace(/\s+/g, ' ')
+                .replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, '')
+                .trim();
+        }
+        
+        // Function to toggle mark scheme visibility
+        function toggleMarkScheme(textId, index) {
+            const markSchemeElement = document.getElementById(`${textId}-mark-scheme-${index + 1}`);
+            const button = markSchemeElement.previousElementSibling;
+            
+            if (markSchemeElement.style.display === "block") {
+                markSchemeElement.style.display = "none";
+                button.textContent = "Show Mark Scheme";
+            } else {
+                markSchemeElement.style.display = "block";
+                button.textContent = "Hide Mark Scheme";
+            }
+        }
+        
+        // Function to update total score
+        function updateTotalScore() {
+            let totalScore = 0;
+            const sections = document.querySelectorAll('.translation-section');
+            
+            sections.forEach(section => {
+                const scoreText = section.querySelector('.section-score').textContent;
+                if (scoreText === "1/1") {
+                    totalScore++;
+                }
+            });
+            
+            document.getElementById('total-score').textContent = totalScore;
+        }
+        
+        // Function to set up the accent keyboard
+        function setupAccentKeyboard() {
+            const showKeyboardBtn = document.getElementById('show-keyboard-btn');
+            const closeKeyboardBtn = document.getElementById('close-keyboard');
+            const accentKeyboard = document.getElementById('accent-keyboard');
+            const accentButtons = document.querySelectorAll('.accent-btn');
+            
+            // Track the currently focused textarea
+            let activeTextarea = null;
+            
+            // Add focus event to all textareas
+            document.querySelectorAll('textarea').forEach(textarea => {
+                textarea.addEventListener('focus', function() {
+                    activeTextarea = this;
+                });
+            });
+            
+            // Show keyboard when button is clicked
+            showKeyboardBtn.addEventListener('click', function() {
+                accentKeyboard.style.display = 'block';
+                showKeyboardBtn.style.display = 'none';
+            });
+            
+            // Hide keyboard when close button is clicked
+            closeKeyboardBtn.addEventListener('click', function() {
+                accentKeyboard.style.display = 'none';
+                showKeyboardBtn.style.display = 'flex';
+            });
+            
+            // Add click event to all accent buttons
+            accentButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const accent = this.getAttribute('data-accent');
+                    insertAccent(accent);
+                });
+            });
+            
+            // Function to insert accent into focused textarea
+            function insertAccent(accent) {
+                if (activeTextarea) {
+                    const start = activeTextarea.selectionStart;
+                    const end = activeTextarea.selectionEnd;
+                    const text = activeTextarea.value;
+                    activeTextarea.value = text.substring(0, start) + accent + text.substring(end);
+                    activeTextarea.selectionStart = activeTextarea.selectionEnd = start + accent.length;
+                    activeTextarea.focus();
+                } else {
+                    // If no textarea is focused, focus on the first one
+                    const firstTextarea = document.querySelector('textarea');
+                    if (firstTextarea) {
+                        firstTextarea.focus();
+                        activeTextarea = firstTextarea;
+                        insertAccent(accent);
+                    }
+                }
+            }
+        }
+        
+        // Function to track active section for keyboard positioning
+        function setupActiveSectionTracking() {
+            const translationSections = document.querySelectorAll('.translation-section');
+            
+            // Create an Intersection Observer to track which section is active
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        // Remove active class from all sections
+                        translationSections.forEach(section => {
+                            section.classList.remove('active');
+                        });
+                        
+                        // Add active class to the current section
+                        entry.target.classList.add('active');
+                    }
+                });
+            }, {
+                rootMargin: '-50% 0px -50% 0px',
+                threshold: 0
+            });
+            
+            // Observe each translation section
+            translationSections.forEach(section => {
+                observer.observe(section);
+            });
+        }
+    </script>
+</body>
+</html>

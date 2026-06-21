@@ -1,0 +1,749 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>French A-Level: Le Monde du Travail Preparation</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #e3e8f0 100%);
+            color: #333;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 10px;
+            padding-bottom: 15px;
+            border-bottom: 3px solid #3498db;
+        }
+        h2 {
+            color: #2980b9;
+            margin-top: 30px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #eee;
+        }
+        h3 {
+            color: #3498db;
+            margin-top: 25px;
+        }
+        h4 {
+            color: #2c3e50;
+            margin-top: 20px;
+        }
+        .section {
+            margin-bottom: 30px;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            border-left: 5px solid #3498db;
+        }
+        .activity {
+            margin: 20px 0;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.03);
+            border: 1px solid #eaeaea;
+        }
+        .tab-container {
+            display: flex;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #ddd;
+            flex-wrap: wrap;
+        }
+        .tab {
+            padding: 12px 20px;
+            cursor: pointer;
+            background: #f1f1f1;
+            margin-right: 5px;
+            border-radius: 5px 5px 0 0;
+            transition: all 0.3s;
+            margin-bottom: 5px;
+        }
+        .tab.active {
+            background: #3498db;
+            color: white;
+        }
+        .tab-content {
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+        }
+        .vocab-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        .vocab-card {
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background: white;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .vocab-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        .french-term {
+            font-weight: bold;
+            color: #2980b9;
+            font-size: 1.1em;
+        }
+        .english-term {
+            color: #7f8c8d;
+            margin-top: 5px;
+        }
+        .example {
+            font-style: italic;
+            margin-top: 8px;
+            font-size: 0.9em;
+            color: #555;
+            border-left: 3px solid #3498db;
+            padding-left: 10px;
+        }
+        button {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 10px 5px;
+            transition: background 0.3s;
+        }
+        button:hover {
+            background: #2980b9;
+        }
+        .feedback {
+            margin-top: 15px;
+            padding: 12px;
+            border-radius: 6px;
+            display: none;
+        }
+        .correct {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .incorrect {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .concept-explanation {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 15px 0;
+        }
+        .progress-bar {
+            height: 10px;
+            background: #ecf0f1;
+            border-radius: 5px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+        .progress {
+            height: 100%;
+            background: #3498db;
+            width: 0%;
+            transition: width 0.5s;
+        }
+        .score {
+            text-align: center;
+            font-size: 18px;
+            margin: 15px 0;
+            font-weight: bold;
+        }
+        .instructions {
+            background: #e8f4fc;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        .key-concept {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            border-left: 4px solid #3498db;
+        }
+        input[type="text"] {
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            width: 100%;
+            margin-top: 5px;
+        }
+        .gap-fill-container {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        .gap-fill-sentence {
+            margin: 15px 0;
+            font-size: 1.1em;
+            line-height: 1.8;
+        }
+        .gap {
+            display: inline-block;
+            min-width: 120px;
+            border-bottom: 2px dashed #3498db;
+            margin: 0 5px;
+            text-align: center;
+        }
+        .gap input {
+            width: 100%;
+            border: none;
+            background: transparent;
+            text-align: center;
+            font-size: 1em;
+            outline: none;
+        }
+        .word-bank {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 20px 0;
+            padding: 15px;
+            background: #e8f4fc;
+            border-radius: 8px;
+        }
+        .word-option {
+            padding: 8px 15px;
+            background: white;
+            border: 1px solid #3498db;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .word-option:hover {
+            background: #3498db;
+            color: white;
+        }
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        .comparison-table th, .comparison-table td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+        .comparison-table th {
+            background-color: #3498db;
+            color: white;
+        }
+        .comparison-table tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+        .labour-relations-guide {
+            background: #e8f4fc;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 25px 0;
+        }
+        .labour-relations-guide h3 {
+            color: #2c3e50;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+        }
+        .visual-explanation {
+            display: flex;
+            justify-content: space-around;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+        .visual-box {
+            width: 200px;
+            padding: 15px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            margin: 10px;
+            text-align: center;
+        }
+        .visual-box h4 {
+            margin-top: 0;
+            color: #2980b9;
+        }
+        .bargaining-level {
+            font-weight: bold;
+            color: #2c3e50;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>French A-Level: Le Monde du Travail</h1>
+        <p class="instructions">Prepare for your lesson on the French labour market with these interactive activities. Learn key vocabulary, concepts, and practice for your speaking exam.</p>
+        
+        <div class="progress-bar">
+            <div class="progress" id="progress"></div>
+        </div>
+        <div class="score" id="scoreDisplay">Progress: 0%</div>
+        
+        <div class="tab-container">
+            <div class="tab active" data-tab="basics">Labour Relations Basics</div>
+            <div class="tab" data-tab="vocab">Key Vocabulary</div>
+            <div class="tab" data-tab="gapfill">Gap Fill Practice</div>
+            <div class="tab" data-tab="concepts">Key Concepts</div>
+            <div class="tab" data-tab="practice">Exam Practice</div>
+        </div>
+        
+        <div class="tab-content active" id="basics-tab">
+            <h2>Beginner's Guide to Labour Relations</h2>
+            
+            <div class="labour-relations-guide">
+                <h3>What are Trade Unions?</h3>
+                <p><strong>Trade unions</strong> are organisations that represent workers in discussions with employers about wages, working conditions, and other employment matters. In simple terms, they're like a team that negotiates on behalf of all the workers.</p>
+                
+                <h3>Wage Bargaining Explained</h3>
+                <p><strong>Wage bargaining</strong> is the process where unions and employers negotiate about pay. It's like collective haggling - instead of each worker negotiating their own salary, the union negotiates for everyone.</p>
+                
+                <h3>Levels of Negotiation</h3>
+                <div class="visual-explanation">
+                    <div class="visual-box">
+                        <h4>Sectoral Level</h4>
+                        <div class="bargaining-level">Industry-Wide</div>
+                        <p>Unions negotiate with employer organisations for entire industries (e.g., all metalworkers in France)</p>
+                    </div>
+                    <div class="visual-box">
+                        <h4>Enterprise Level</h4>
+                        <div class="bargaining-level">Company-Specific</div>
+                        <p>Negotiations happen within individual companies between management and worker representatives</p>
+                    </div>
+                    <div class="visual-box">
+                        <h4>Workplace Level</h4>
+                        <div class="bargaining-level">Local Agreements</div>
+                        <p>Specific agreements for particular workplaces or departments within a company</p>
+                    </div>
+                </div>
+                
+                <h3>France vs UK: Key Differences</h3>
+                <table class="comparison-table">
+                    <tr>
+                        <th>Aspect</th>
+                        <th>France</th>
+                        <th>United Kingdom</th>
+                    </tr>
+                    <tr>
+                        <td><strong>Union Membership</strong></td>
+                        <td>Low (about 8-11%) but high influence through protests</td>
+                        <td>Higher (about 23%) but declining influence</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Strike Culture</strong></td>
+                        <td>Frequent, large-scale strikes; seen as legitimate political tool</td>
+                        <td>Less frequent, more regulated with ballot requirements</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Negotiation Level</strong></td>
+                        <td>Traditionally sectoral, moving toward enterprise level</td>
+                        <td>Mostly enterprise or workplace level</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Government Role</strong></td>
+                        <td>High involvement in labour relations</td>
+                        <td>Less direct involvement</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Public Support</strong></td>
+                        <td>Generally supportive of strike actions</td>
+                        <td>More mixed public opinion on strikes</td>
+                    </tr>
+                </table>
+                
+                <h3>What is Decentralisation of Negotiations?</h3>
+                <p><strong>Decentralisation</strong> means moving wage bargaining from the national or sectoral level down to individual companies. Instead of having one agreement for all metalworkers in France, each metalworking company would negotiate its own agreement.</p>
+                
+                <div class="concept-explanation">
+                    <p><strong>Macron's Reform:</strong> The French government made it easier for companies with fewer than 50 employees to make agreements at the company level that could override sector-wide agreements, even without union representatives being present.</p>
+                </div>
+                
+                <h3>Types of Agreements in France</h3>
+                <ul>
+                    <li><strong>Accords de branche:</strong> Sector-wide agreements covering entire industries</li>
+                    <li><strong>Accords d'entreprise:</strong> Company-level agreements</li>
+                    <li><strong>Accords de groupe:</strong> Agreements covering corporate groups</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="tab-content" id="vocab-tab">
+            <h2>Essential Vocabulary</h2>
+            <p>Study these key terms related to the French labour market:</p>
+            
+            <div class="vocab-grid">
+                <div class="vocab-card">
+                    <div class="french-term">le marché du travail</div>
+                    <div class="english-term">the labour market</div>
+                    <div class="example">Le marché du travail français est assez rigide.</div>
+                </div>
+                <div class="vocab-card">
+                    <div class="french-term">un syndicat</div>
+                    <div class="english-term">a trade union</div>
+                    <div class="example">Les syndicats défendent les droits des travailleurs.</div>
+                </div>
+                <div class="vocab-card">
+                    <div class="french-term">la grève</div>
+                    <div class="english-term">strike</div>
+                    <div class="example">Il y a souvent des grèves en France pour protester contre les réformes.</div>
+                </div>
+                <div class="vocab-card">
+                    <div class="french-term">un CDI / un CDD</div>
+                    <div class="english-term">permanent contract / fixed-term contract</div>
+                    <div class="example">Les jeunes préfèrent avoir un CDI plutôt qu'un CDD.</div>
+                </div>
+                <div class="vocab-card">
+                    <div class="french-term">le chômage</div>
+                    <div class="english-term">unemployment</div>
+                    <div class="example">Le taux de chômage en France est plus élevé qu'en Allemagne.</div>
+                </div>
+                <div class="vocab-card">
+                    <div class="french-term">les cotisations</div>
+                    <div class="english-term">social security contributions</div>
+                    <div class="example">Les cotisations sociales financent le système de retraite.</div>
+                </div>
+                <div class="vocab-card">
+                    <div class="french-term">la précarité</div>
+                    <div class="english-term">job insecurity</div>
+                    <div class="example">La précarité de l'emploi inquiète beaucoup de jeunes.</div>
+                </div>
+                <div class="vocab-card">
+                    <div class="french-term">un licenciement</div>
+                    <div class="english-term">dismissal, redundancy</div>
+                    <div class="example">Les procédures de licenciement en France sont complexes.</div>
+                </div>
+                <div class="vocab-card">
+                    <div class="french-term">la retraite</div>
+                    <div class="english-term">retirement, pension</div>
+                    <div class="example">La réforme des retraites a provoqué de nombreuses manifestations.</div>
+                </div>
+                <div class="vocab-card">
+                    <div class="french-term">le télétravail</div>
+                    <div class="english-term">teleworking, remote work</div>
+                    <div class="example">Le télétravail est devenu plus courant après la pandémie.</div>
+                </div>
+                <div class="vocab-card">
+                    <div class="french-term">la négociation salariale</div>
+                    <div class="english-term">wage bargaining</div>
+                    <div class="example">La décentralisation des négociations salariales affaiblit les syndicats.</div>
+                </div>
+                <div class="vocab-card">
+                    <div class="french-term">un accord collectif</div>
+                    <div class="english-term">collective agreement</div>
+                    <div class="example">L'accord collectif détermine les conditions de travail dans l'entreprise.</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="tab-content" id="gapfill-tab">
+            <h2>Gap Fill Practice</h2>
+            <p>Complete the sentences using the word bank below. Drag and drop or type your answers.</p>
+            
+            <div class="word-bank" id="wordBank">
+                <!-- Word options will be inserted here by JavaScript -->
+            </div>
+            
+            <div class="gap-fill-container">
+                <div class="gap-fill-sentence">
+                    Les <span class="gap"><input type="text" id="gap1" data-answer="syndicats"></span> en France organisent souvent des <span class="gap"><input type="text" id="gap2" data-answer="grèves"></span> pour protester contre les réformes du gouvernement.
+                </div>
+                
+                <div class="gap-fill-sentence">
+                    La réforme des <span class="gap"><input type="text" id="gap3" data-answer="retraites"></span> a augmenté l'âge légal de départ de 62 à 64 ans, ce qui a provoqué beaucoup de <span class="gap"><input type="text" id="gap4" data-answer="mécontentement"></span>.
+                </div>
+                
+                <div class="gap-fill-sentence">
+                    Le <span class="gap"><input type="text" id="gap5" data-answer="chômage"></span> des jeunes en France est plus <span class="gap"><input type="text" id="gap6" data-answer="élevé"></span> que dans beaucoup d'autres pays européens.
+                </div>
+                
+                <div class="gap-fill-sentence">
+                    Les réformes du Code du Travail ont <span class="gap"><input type="text" id="gap7" data-answer="décentralisé"></span> les négociations salariales, permettant aux <span class="gap"><input type="text" id="gap8" data-answer="entreprises"></span> de négocier directement avec leurs salariés.
+                </div>
+                
+                <div class="gap-fill-sentence">
+                    Beaucoup de jeunes travailleurs ont des <span class="gap"><input type="text" id="gap9" data-answer="CDD"></span> (contrats à durée déterminée) au lieu de <span class="gap"><input type="text" id="gap10" data-answer="CDI"></span>, ce qui augmente la précarité.
+                </div>
+                
+                <div class="gap-fill-sentence">
+                    Le <span class="gap"><input type="text" id="gap11" data-answer="télétravail"></span> est devenu plus courant après la <span class="gap"><input type="text" id="gap12" data-answer">pandémie</span> de COVID-19.
+                </div>
+            </div>
+            
+            <button id="check-gapfill">Check Answers</button>
+            <div class="feedback" id="gapfill-feedback"></div>
+        </div>
+        
+        <div class="tab-content" id="concepts-tab">
+            <h2>Key Concepts in the French Labour Market</h2>
+            
+            <div class="key-concept">
+                <h3>La semaine de 35 heures</h3>
+                <p>The 35-hour work week was introduced in France in 2000 to combat unemployment by encouraging job sharing. While popular with employees, critics argue it has reduced France's competitiveness.</p>
+                <div class="concept-explanation">
+                    <strong>Debate Points:</strong> 
+                    <ul>
+                        <li>For: Better work-life balance, created jobs</li>
+                        <li>Against: Reduced competitiveness, limited wage growth</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="key-concept">
+                <h3>Les réformes du Code du Travail</h3>
+                <p>Macron's government reformed labour laws to make hiring and firing easier and to decentralise wage bargaining, reducing the power of national unions.</p>
+                <div class="concept-explanation">
+                    <strong>What "decentralising wage bargaining" actually means:</strong> 
+                    <p>Before the reforms, if you worked in the metal industry, your wages and conditions were mostly set by a national agreement for all metalworkers. After the reforms, your company can make its own agreement that might be different from the national one, and they can do this even without union representatives in small companies.</p>
+                </div>
+            </div>
+            
+            <div class="key-concept">
+                <h3>La réforme des retraites</h3>
+                <p>The 2023 pension reform raised the retirement age from 62 to 64 to address the system's financial deficit, sparking massive protests.</p>
+                <div class="concept-explanation">
+                    <strong>Arguments:</strong> 
+                    <ul>
+                        <li>For: Necessary for financial sustainability, people live longer</li>
+                        <li>Against: Unfair to manual workers, breaks social contract</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="key-concept">
+                <h3>Le télétravail</h3>
+                <p>Remote work became widespread during COVID-19 and has remained popular, though France has specific regulations governing its implementation.</p>
+                <div class="concept-explanation">
+                    <strong>French Specifics:</strong> 
+                    <ul>
+                        <li>Regulated by "accord collectif" or company charter</li>
+                        <li>Employees retain all rights (training, medical visits, etc.)</li>
+                        <li>Employers may need to contribute to home office costs</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <div class="tab-content" id="practice-tab">
+            <h2>Exam Practice</h2>
+            <p>Prepare for potential speaking exam questions on these topics:</p>
+            
+            <div class="activity">
+                <h3>Stimulus Card Practice</h3>
+                <div class="concept-explanation">
+                    <strong>Stimulus: </strong>"Les réformes du Code du Travail visaient essentiellement le pouvoir des syndicats."
+                </div>
+                
+                <p><strong>Prepare notes for these potential examiner questions:</strong></p>
+                <ol>
+                    <li>Les syndicats avaient-ils raison de se sentir visés par ces réformes ?</li>
+                    <li>Quelles sont les modifications imposées par le gouvernement français dans la réforme du Code du Travail ?</li>
+                </ol>
+                
+                <div class="key-concept">
+                    <h4>Preparation Framework (IDEAL)</h4>
+                    <p><strong>I</strong> - Introduction: Rephrase the statement</p>
+                    <p><strong>D</strong> - Développement: 2-3 main arguments</p>
+                    <p><strong>E</strong> - Exemple: A concrete fact or example</p>
+                    <p><strong>A</strong> - Antithèse: The counter-argument</p>
+                    <p><strong>L</strong> - Lien: Link to broader issues/your opinion</p>
+                </div>
+                
+                <textarea id="exam-notes" placeholder="Type your preparation notes here..." rows="8" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; margin: 10px 0;"></textarea>
+                
+                <button id="save-notes">Save Notes</button>
+                <button id="show-example">Show Example Answer</button>
+                
+                <div class="feedback" id="example-answer" style="display: none;">
+                    <h4>Example Answer Structure:</h4>
+                    <p><strong>Introduction:</strong> "La déclaration suggère que les réformes du travail sous Macron ciblaient délibérément l'influence des syndicats."</p>
+                    <p><strong>Développement:</strong> "Premièrement, les réformes ont décentralisé les négociations salariales... Deuxièmement, elles ont modifié les procédures de licenciement..."</p>
+                    <p><strong>Exemple:</strong> "Par exemple, dans les entreprises de moins de 50 salariés, des accords peuvent maintenant être conclus sans présence syndicale."</p>
+                    <p><strong>Antithèse:</strong> "Cependant, le gouvernement affirmait que ces changements étaient nécessaires pour réduire le chômage et flexibiliser le marché du travail."</p>
+                    <p><strong>Lien:</strong> "Personnellement, je pense que ces réformes reflètent un conflit plus large entre protection des travailleurs et compétitivité économique."</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Tab functionality
+        document.querySelectorAll('.tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                // Remove active class from all tabs and contents
+                document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                
+                // Add active class to clicked tab and corresponding content
+                tab.classList.add('active');
+                const tabId = tab.getAttribute('data-tab') + '-tab';
+                document.getElementById(tabId).classList.add('active');
+                
+                // Update progress based on active tab
+                updateProgress();
+            });
+        });
+        
+        // Gap fill functionality
+        const wordBankOptions = [
+            "syndicats", "grèves", "retraites", "mécontentement", 
+            "chômage", "élevé", "décentralisé", "entreprises", 
+            "CDD", "CDI", "télétravail", "pandémie"
+        ];
+        
+        // Shuffle the word bank
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+        
+        const shuffledWords = shuffleArray([...wordBankOptions]);
+        
+        // Populate word bank
+        const wordBank = document.getElementById('wordBank');
+        shuffledWords.forEach(word => {
+            const wordElement = document.createElement('div');
+            wordElement.className = 'word-option';
+            wordElement.textContent = word;
+            wordElement.draggable = true;
+            
+            wordElement.addEventListener('dragstart', function(e) {
+                e.dataTransfer.setData('text/plain', word);
+            });
+            
+            wordBank.appendChild(wordElement);
+        });
+        
+        // Make gaps droppable
+        document.querySelectorAll('.gap input').forEach(gap => {
+            gap.addEventListener('dragover', function(e) {
+                e.preventDefault();
+            });
+            
+            gap.addEventListener('drop', function(e) {
+                e.preventDefault();
+                const data = e.dataTransfer.getData('text/plain');
+                this.value = data;
+                updateProgress();
+            });
+        });
+        
+        // Allow clicking word options to fill nearest empty gap
+        document.querySelectorAll('.word-option').forEach(option => {
+            option.addEventListener('click', function() {
+                const word = this.textContent;
+                const emptyGaps = Array.from(document.querySelectorAll('.gap input')).filter(gap => !gap.value);
+                if (emptyGaps.length > 0) {
+                    emptyGaps[0].value = word;
+                    updateProgress();
+                }
+            });
+        });
+        
+        // Check gap fill answers
+        document.getElementById('check-gapfill').addEventListener('click', () => {
+            let correctCount = 0;
+            const totalGaps = document.querySelectorAll('.gap input').length;
+            
+            document.querySelectorAll('.gap input').forEach(gap => {
+                const userAnswer = gap.value.toLowerCase().trim();
+                const correctAnswer = gap.getAttribute('data-answer').toLowerCase();
+                
+                if (userAnswer === correctAnswer) {
+                    gap.style.backgroundColor = '#d4edda';
+                    correctCount++;
+                } else {
+                    gap.style.backgroundColor = '#f8d7da';
+                }
+            });
+            
+            const feedback = document.getElementById('gapfill-feedback');
+            const percentage = Math.round((correctCount / totalGaps) * 100);
+            
+            if (correctCount === totalGaps) {
+                feedback.textContent = `✓ Excellent! All ${totalGaps} answers correct (${percentage}%)`;
+                feedback.className = "feedback correct";
+            } else {
+                feedback.textContent = `✓ ${correctCount} out of ${totalGaps} correct (${percentage}%). Keep practicing!`;
+                feedback.className = "feedback incorrect";
+            }
+            feedback.style.display = "block";
+            updateProgress();
+        });
+        
+        // Exam practice
+        document.getElementById('show-example').addEventListener('click', () => {
+            document.getElementById('example-answer').style.display = 'block';
+        });
+        
+        document.getElementById('save-notes').addEventListener('click', () => {
+            alert('Notes saved! (In a real application, this would save to your device)');
+            updateProgress();
+        });
+        
+        // Progress tracking
+        function updateProgress() {
+            let progress = 0;
+            
+            // Check if user has interacted with each tab
+            if (document.getElementById('basics-tab').classList.contains('active')) {
+                progress = 20;
+            } else if (document.getElementById('vocab-tab').classList.contains('active')) {
+                progress = 40;
+            } else if (document.getElementById('gapfill-tab').classList.contains('active')) {
+                progress = 60;
+                // Check if user has attempted gap fill
+                const filledGaps = Array.from(document.querySelectorAll('.gap input')).filter(gap => gap.value).length;
+                if (filledGaps > 0) {
+                    progress = 70;
+                }
+                if (document.getElementById('gapfill-feedback').style.display === 'block') {
+                    progress = 80;
+                }
+            } else if (document.getElementById('concepts-tab').classList.contains('active')) {
+                progress = 90;
+            } else if (document.getElementById('practice-tab').classList.contains('active')) {
+                progress = 95;
+                if (document.getElementById('exam-notes').value.length > 10) {
+                    progress = 100;
+                }
+            }
+            
+            document.getElementById('progress').style.width = progress + '%';
+            document.getElementById('scoreDisplay').textContent = `Progress: ${progress}%`;
+        }
+        
+        // Initialize progress
+        updateProgress();
+    </script>
+</body>
+</html>

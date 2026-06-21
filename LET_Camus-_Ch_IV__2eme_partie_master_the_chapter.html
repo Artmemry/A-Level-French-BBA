@@ -1,0 +1,1314 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>L'Étranger - Chapitre 4 (2ème Partie) - Le Procès</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Georgia', serif;
+            line-height: 1.6;
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            color: #333;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 2.2em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.95;
+        }
+        
+        /* Toolbar */
+        .toolbar {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            z-index: 1000;
+        }
+        
+        .toolbar-btn {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 15px 25px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 1em;
+            box-shadow: 0 5px 20px rgba(52, 152, 219, 0.5);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 60px;
+        }
+        
+        .toolbar-btn:hover {
+            background: #2980b9;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(52, 152, 219, 0.6);
+        }
+        
+        .toolbar-btn.secondary {
+            background: #9b59b6;
+            box-shadow: 0 5px 20px rgba(155, 89, 182, 0.5);
+        }
+        
+        .toolbar-btn.secondary:hover {
+            background: #8e44ad;
+            box-shadow: 0 8px 25px rgba(155, 89, 182, 0.6);
+        }
+        
+        .toolbar-btn.download {
+            background: #e74c3c;
+            box-shadow: 0 5px 20px rgba(231, 76, 60, 0.5);
+        }
+        
+        .toolbar-btn.download:hover {
+            background: #c0392b;
+            box-shadow: 0 8px 25px rgba(231, 76, 60, 0.6);
+        }
+        
+        /* French Keyboard */
+        .french-keyboard {
+            position: fixed;
+            bottom: 200px;
+            right: 30px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            padding: 15px;
+            display: none;
+            flex-direction: column;
+            gap: 8px;
+            z-index: 1001;
+            border: 2px solid #3498db;
+        }
+        
+        .french-keyboard.show {
+            display: flex;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        .keyboard-title {
+            font-size: 0.9em;
+            color: #3498db;
+            font-weight: bold;
+            margin-bottom: 5px;
+            text-align: center;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 5px;
+        }
+        
+        .keyboard-row {
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+        }
+        
+        .keyboard-key {
+            background: #f8f9fa;
+            border: 2px solid #e9ecef;
+            border-radius: 5px;
+            padding: 8px 12px;
+            cursor: pointer;
+            font-size: 1.1em;
+            transition: all 0.2s ease;
+            min-width: 40px;
+            text-align: center;
+        }
+        
+        .keyboard-key:hover {
+            background: #3498db;
+            color: white;
+            border-color: #3498db;
+            transform: translateY(-2px);
+        }
+        
+        .floating-text {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            max-width: 800px;
+            max-height: 80vh;
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+            overflow-y: auto;
+            z-index: 999;
+            display: none;
+        }
+        
+        .floating-text.show {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        .floating-text h2 {
+            color: #3498db;
+            margin-bottom: 20px;
+            font-size: 1.8em;
+        }
+        
+        .floating-text p {
+            margin-bottom: 15px;
+            line-height: 1.8;
+            text-align: justify;
+        }
+        
+        .close-text {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            background: #e74c3c;
+            color: white;
+            border: none;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+        
+        .close-text:hover {
+            background: #c0392b;
+        }
+        
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            z-index: 998;
+            display: none;
+        }
+        
+        .overlay.show {
+            display: block;
+        }
+        
+        .content {
+            padding: 40px;
+        }
+        
+        .section {
+            margin-bottom: 40px;
+            padding: 30px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            border-left: 5px solid #3498db;
+            display: none;
+        }
+        
+        .section.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .section h2 {
+            color: #3498db;
+            margin-bottom: 20px;
+            font-size: 1.8em;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+        }
+        
+        .question {
+            background: white;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: relative;
+        }
+        
+        .question-number {
+            position: absolute;
+            top: -10px;
+            left: -10px;
+            background: #3498db;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 0.9em;
+        }
+        
+        .question-text {
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-size: 1.1em;
+            padding-left: 10px;
+        }
+        
+        .options {
+            margin: 15px 0;
+        }
+        
+        .option {
+            padding: 12px 15px;
+            margin: 8px 0;
+            background: #f8f9fa;
+            border: 2px solid #e9ecef;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .option:hover {
+            background: #e9ecef;
+            border-color: #3498db;
+            transform: translateX(5px);
+        }
+        
+        .option.selected {
+            background: #3498db;
+            color: white;
+            border-color: #3498db;
+        }
+        
+        .option.correct {
+            background: #27ae60;
+            color: white;
+            border-color: #27ae60;
+        }
+        
+        .option.incorrect {
+            background: #e74c3c;
+            color: white;
+            border-color: #e74c3c;
+        }
+        
+        textarea {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e9ecef;
+            border-radius: 6px;
+            font-family: inherit;
+            font-size: 1em;
+            resize: vertical;
+            min-height: 100px;
+        }
+        
+        textarea:focus {
+            outline: none;
+            border-color: #3498db;
+        }
+        
+        .btn {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: all 0.3s ease;
+            margin: 10px 5px;
+        }
+        
+        .btn:hover {
+            background: #2980b9;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.4);
+        }
+        
+        .btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .feedback {
+            margin-top: 15px;
+            padding: 15px;
+            border-radius: 6px;
+            display: none;
+        }
+        
+        .feedback.show {
+            display: block;
+            animation: slideIn 0.3s ease;
+        }
+        
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .feedback.correct {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .feedback.incorrect {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        
+        .feedback.info {
+            background: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+        
+        .nav-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 2px solid #e9ecef;
+        }
+        
+        .progress {
+            background: #e9ecef;
+            height: 8px;
+            border-radius: 10px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+        
+        .progress-bar {
+            background: linear-gradient(90deg, #3498db 0%, #2980b9 100%);
+            height: 100%;
+            transition: width 0.3s ease;
+            border-radius: 10px;
+        }
+        
+        .quote {
+            background: #fff3cd;
+            border-left: 4px solid #f39c12;
+            padding: 15px;
+            margin: 15px 0;
+            font-style: italic;
+            color: #856404;
+        }
+        
+        .hint {
+            background: #e7f3ff;
+            border-left: 4px solid #3498db;
+            padding: 12px;
+            margin: 10px 0;
+            font-size: 0.95em;
+            color: #014361;
+        }
+        
+        .score-display {
+            text-align: center;
+            font-size: 1.5em;
+            color: #3498db;
+            margin: 20px 0;
+            font-weight: bold;
+        }
+        
+        .theme-box {
+            background: #ecf0f1;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+            border-left: 4px solid #3498db;
+        }
+        
+        .theme-title {
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 8px;
+            font-size: 1.1em;
+        }
+        
+        .theme-desc {
+            color: #7f8c8d;
+        }
+        
+        .completion-info {
+            background: #d4edda;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+            text-align: center;
+            border: 2px solid #c3e6cb;
+        }
+        
+        .student-info {
+            background: #e7f3ff;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border: 2px solid #3498db;
+        }
+    </style>
+</head>
+<body>
+    <!-- Toolbar -->
+    <div class="toolbar">
+        <button class="toolbar-btn" onclick="toggleText()" title="Voir le texte intégral">
+            📖 Texte
+        </button>
+        <button class="toolbar-btn secondary" onclick="toggleKeyboard()" title="Clavier accents français">
+            ⌨️ Accents
+        </button>
+        <button class="toolbar-btn download" onclick="downloadStudentWork()" title="Télécharger mes réponses et score">
+            📥 Mes Réponses
+        </button>
+    </div>
+    
+    <!-- French Keyboard -->
+    <div class="french-keyboard" id="frenchKeyboard">
+        <div class="keyboard-title">Accents Français</div>
+        <div class="keyboard-row">
+            <button class="keyboard-key" data-char="é" onclick="insertAccent('é')">é</button>
+            <button class="keyboard-key" data-char="è" onclick="insertAccent('è')">è</button>
+            <button class="keyboard-key" data-char="ê" onclick="insertAccent('ê')">ê</button>
+            <button class="keyboard-key" data-char="ë" onclick="insertAccent('ë')">ë</button>
+        </div>
+        <div class="keyboard-row">
+            <button class="keyboard-key" data-char="à" onclick="insertAccent('à')">à</button>
+            <button class="keyboard-key" data-char="â" onclick="insertAccent('â')">â</button>
+            <button class="keyboard-key" data-char="ç" onclick="insertAccent('ç')">ç</button>
+            <button class="keyboard-key" data-char="î" onclick="insertAccent('î')">î</button>
+            <button class="keyboard-key" data-char="ï" onclick="insertAccent('ï')">ï</button>
+        </div>
+        <div class="keyboard-row">
+            <button class="keyboard-key" data-char="ô" onclick="insertAccent('ô')">ô</button>
+            <button class="keyboard-key" data-char="œ" onclick="insertAccent('œ')">œ</button>
+            <button class="keyboard-key" data-char="ù" onclick="insertAccent('ù')">ù</button>
+            <button class="keyboard-key" data-char="û" onclick="insertAccent('û')">û</button>
+            <button class="keyboard-key" data-char="ü" onclick="insertAccent('ü')">ü</button>
+        </div>
+        <button class="btn" style="margin-top: 10px; padding: 8px;" onclick="toggleKeyboard()">
+            Fermer
+        </button>
+    </div>
+    
+    <div class="overlay" id="overlay" onclick="closeAllModals()"></div>
+    
+    <div class="floating-text" id="floatingText">
+        <button class="close-text" onclick="toggleText()">×</button>
+        <h2>L'Étranger - Chapitre 4 (Deuxième Partie)</h2>
+        <p>Même sur un banc d'accusé, il est toujours intéressant d'entendre parler de soi. Pendant les plaidoiries du procureur et de mon avocat, je peux dire qu'on a beaucoup parlé de moi et peut-être plus de moi que de mon crime. Étaient-elles si différentes, d'ailleurs, ces plaidoiries ? L'avocat levait les bras et plaidait coupable, mais avec excuses. Le procureur tendait ses mains et dénonçait la culpabilité, mais sans excuses.  
+
+Une chose pourtant me gênait vaguement. Malgré mes préoccupations, j'étais parfois tenté d'intervenir et mon avocat me disait alors : « Taisez-vous, cela vaut mieux pour votre affaire. » En quelque sorte, on avait l'air de traiter cette affaire en dehors de moi. Tout se déroulait sans mon intervention. Mon sort se réglait sans qu'on prenne mon avis. De temps en temps, j'avais envie d'interrompre tout le monde et de dire : « Mais tout de même, qui est l'accusé ? C'est important d'être l'accusé. Et j'ai quelque chose à dire ! » Mais réflexion faite, je n'avais rien à dire.  
+
+D'ailleurs, je dois reconnaître que l'intérêt qu'on trouve à occuper les gens ne dure pas longtemps. Par exemple, la plaidoirie du procureur m'a très vite lassé. Ce sont seulement des fragments, des gestes ou des tirades entières, mais détachées de l'ensemble, qui m'ont frappé ou ont éveillé mon intérêt.</p>  
+
+<p>Le fond de sa pensée, si j'ai bien compris, c'est que j'avais prémédité mon crime. Du moins, il a essayé de le démontrer. Comme il le disait lui-même : « J'en ferai la preuve, Messieurs, et je la ferai doublement. Sous l'aveuglante clarté des faits d'abord et ensuite dans l'éclairage sombre que me fournira la psychologie de cette âme criminelle. »  
+
+Il a résumé les faits à partir de la mort de maman. Il a rappelé mon insensibilité, l'ignorance où j'étais de l'âge de maman, mon bain du lendemain, avec une femme, le cinéma, Fernandel et enfin la rentrée avec Marie. J'ai mis du temps à le comprendre, à ce moment, parce qu'il disait « sa maîtresse » et pour moi, elle était Marie. Ensuite, il en est venu à l'histoire de Raymond.  
+
+J'ai trouvé que sa façon de voir les événements ne manquait pas de clarté. Ce qu'il disait était plausible. J'avais écrit la lettre d'accord avec Raymond pour attirer sa maîtresse et la livrer aux mauvais traitements d'un homme « de moralité douteuse ». J'avais provoqué sur la plage les adversaires de Raymond. Celui-ci avait été blessé. Je lui avais demandé son revolver. J'étais revenu seul pour m'en servir. J'avais abattu l'Arabe comme je le projetais. J'avais attendu. Et « pour être sûr que la besogne était bien faite », j'avais tiré encore quatre balles, posément, à coup sûr, d'une façon réfléchie en quelque sorte.</p>  
+
+<p>« Et voilà, Messieurs, a dit l'avocat général. J'ai retracé devant vous le fil d'événements qui a conduit cet homme à tuer en pleine connaissance de cause. J'insiste là-dessus, a-t-il dit. Car il ne s'agit pas d'un assassinat ordinaire, d'un acte irréfléchi que vous pourriez estimer atténué par les circonstances. Cet homme, Messieurs, cet homme est intelligent. Vous l'avez entendu, n'est-ce pas ? Il sait répondre. Il connaît la valeur des mots. Et l'on ne peut pas dire qu'il a agi sans se rendre compte de ce qu'il faisait. » </p> 
+
+<p>Moi j'écoutais et j'entendais qu'on me jugeait intelligent. Mais je ne comprenais pas bien comment les qualités d'un homme ordinaire pouvaient devenir des charges écrasantes contre un coupable. Du moins, c'était cela qui me frappait et je n'ai plus écouté le procureur jusqu'au moment où je l'ai entendu dire : « A-t-il seulement exprimé des regrets ? Jamais, Messieurs. Pas une seule fois au cours de l'instruction cet homme n'a paru ému de son abominable forfait. »  
+
+À ce moment, il s'est tourné vers moi et m'a désigné du doigt en continuant à m'accabler sans qu'en réalité je comprenne bien pourquoi. Sans doute, je ne pouvais pas m'empêcher de reconnaître qu'il avait raison. Je ne regrettais pas beaucoup mon acte. Mais tant d'acharnement m'étonnait. J'aurais voulu essayer de lui expliquer cordialement, presque avec affection, que je n'avais jamais pu regretter vraiment quelque chose.  
+
+J'étais toujours pris par ce qui allait arriver, par aujourd'hui ou par demain. Mais naturellement, dans l'état où l'on m'avait mis, je ne pouvais parler à personne sur ce ton. Je n'avais pas le droit de me montrer affectueux, d'avoir de la bonne volonté. Et j'ai essayé d'écouter encore parce que le procureur s'est mis à parler de mon âme. </p> 
+
+<p>Il disait qu'il s'était penché sur elle et qu'il n'avait rien trouvé, Messieurs les jurés. Il disait qu'à la vérité, je n'en avais point, d'âme, et que rien d'humain, et pas un des principes moraux qui gardent le cœur des hommes ne m'était accessible.  
+
+« Sans doute, ajoutait-il, nous ne saurions le lui reprocher. Ce qu'il ne saurait acquérir, nous ne pouvons nous plaindre qu'il en manque. Mais quand il s'agit de cette cour, la vertu toute négative de la tolérance doit se muer en celle, moins facile, mais plus élevée, de la justice. Surtout lorsque le vide du cœur tel qu'on le découvre chez cet homme devient un gouffre où la société peut succomber. »  
+
+C'est alors qu'il a parlé de mon attitude envers maman. Il a répété ce qu'il avait dit pendant les débats. Mais il a été beaucoup plus long que lorsqu'il parlait de mon crime, si long même que, finalement, je n'ai plus senti que la chaleur de cette matinée.  
+
+Jusqu'au moment, du moins, où l'avocat général s'est arrêté et après un moment de silence, a repris d'une voix très basse et très pénétrée : « Cette même cour, Messieurs, va juger demain le plus abominable des forfaits : le meurtre d'un père. »  
+
+Selon lui, l'imagination reculait devant cet atroce attentat. Il osait espérer que la justice des hommes punirait sans faiblesse. Mais, il ne craignait pas de le dire, l'horreur que lui inspirait ce crime le cédait presque à celle qu'il ressentait devant mon insensibilité.  
+
+Toujours selon lui, un homme qui tuait moralement sa mère se retranchait de la société des hommes au même titre que celui qui portait une main meurtrière sur l'auteur de ses jours. Dans tous les cas, le premier préparait les actes du second, il les annonçait en quelque sorte et il les légitimait.  
+
+« J'en suis persuadé, Messieurs, a-t-il ajouté en élevant la voix, vous ne trouverez pas ma pensée trop audacieuse, si je dis que l'homme qui est assis sur ce banc est coupable aussi du meurtre que cette cour devra juger demain. Il doit être puni en conséquence. »  
+
+Ici, le procureur a essuyé son visage brillant de sueur. Il a dit enfin que son devoir était douloureux, mais qu'il l'accomplirait fermement. Il a déclaré que je n'avais rien à faire avec une société dont je méconnaissais les règles les plus essentielles et que je ne pouvais pas en appeler à ce cœur humain dont j'ignorais les réactions élémentaires.  
+
+« Je vous demande la tête de cet homme, a-t-il dit, et c'est le cœur léger que je vous la demande. Car s'il m'est arrivé au cours de ma déjà longue carrière de réclamer des peines capitales, jamais autant qu'aujourd'hui, je n'ai senti ce pénible devoir compensé, balancé, éclairé par la conscience d'un commandement impérieux et sacré et par l'horreur que je ressens devant un visage d'homme où je ne lis rien que de monstrueux. » </p> 
+
+<p>Quand le procureur s'est rassis, il y a eu un moment de silence assez long. Moi, j'étais étourdi de chaleur et d'étonnement. Le président a toussé un peu et sur un ton très bas, il m'a demandé si je n'avais rien à ajouter.  
+
+Je me suis levé et comme j'avais envie de parler, j'ai dit, un peu au hasard d'ailleurs, que je n'avais pas eu l'intention de tuer l'Arabe. Le président a répondu que c'était une affirmation, que jusqu'ici il saisissait mal mon système de défense et qu'il serait heureux, avant d'entendre mon avocat, de me faire préciser les motifs qui avaient inspiré mon acte.  
+
+J'ai dit rapidement, en mêlant un peu les mots et en me rendant compte de mon ridicule, que c'était à cause du soleil. Il y a eu des rires dans la salle. Mon avocat a haussé les épaules et tout de suite après, on lui a donné la parole. Mais il a déclaré qu'il était tard, qu'il en avait pour plusieurs heures et qu'il demandait le renvoi à l'après-midi. La cour y a consenti.</p> 
+
+<p>L'après-midi, les grands ventilateurs brassaient toujours l'air épais de la salle et les petits éventails multicolores des jurés s'agitaient tous dans le même sens. La plaidoirie de mon avocat me semblait ne devoir jamais finir. À un moment donné, cependant, je l'ai écouté parce qu'il disait : « Il est vrai que j'ai tué. »  
+
+Puis il a continué sur ce ton, disant « je » chaque fois qu'il parlait de moi. J'étais très étonné. Je me suis penché vers un gendarme et je lui ai demandé pourquoi. Il m'a dit de me taire et, après un moment, il a ajouté : « Tous les avocats font ça. »  
+
+Moi, j'ai pensé que c'était m'écarter encore de l'affaire, me réduire à zéro et, en un certain sens, se substituer à moi. Mais je crois que j'étais déjà très loin de cette salle d'audience. D'ailleurs, mon avocat m'a semblé ridicule.  
+
+Il a plaidé la provocation très rapidement et puis lui aussi a parlé de mon âme. Mais il m'a paru qu'il avait beaucoup moins de talent que le procureur. « Moi aussi, a-t-il dit, je me suis penché sur cette âme, mais, contrairement à l'éminent représentant du ministère public, j'ai trouvé quelque chose et je puis dire que j'y ai lu à livre ouvert. »  
+
+Il y avait lu que j'étais un honnête homme, un travailleur régulier, infatigable, fidèle à la maison qui l'employait, aimé de tous et compatissant aux misères d'autrui. Pour lui, j'étais un fils modèle qui avait soutenu sa mère aussi longtemps qu'il l'avait pu.  
+
+Finalement j'avais espéré qu'une maison de retraite donnerait à la vieille femme le confort que mes moyens ne me permettaient pas de lui procurer. « Je m'étonne, Messieurs, a-t-il ajouté, qu'on ait mené si grand bruit autour de cet asile. Car enfin, s'il fallait donner une preuve de l'utilité et de la grandeur de ces institutions, il faudrait bien dire que c'est l'État lui-même qui les subventionne. »  
+
+Seulement, il n'a pas parlé de l'enterrement et j'ai senti que cela manquait dans sa plaidoirie. Mais à cause de toutes ces longues phrases, de toutes ces journées et ces heures interminables pendant lesquelles on avait parlé de mon âme, j'ai eu l'impression que tout devenait comme une eau incolore où je trouvais le vertige. </p> 
+
+<p>À la fin, je me souviens seulement que, de la rue et à travers tout l'espace des salles et des prétoires, pendant que mon avocat continuait à parler, la trompette d'un marchand de glace a résonné jusqu'à moi.  
+
+J'ai été assailli des souvenirs d'une vie qui ne m'appartenait plus, mais où j'avais trouvé les plus pauvres et les plus tenaces de mes joies : des odeurs d'été, le quartier que j'aimais, un certain ciel du soir, le rire et les robes de Marie.  
+
+Tout ce que je faisais d'inutile en ce lieu m'est alors remonté à la gorge et je n'ai eu qu'une hâte, c'est qu'on en finisse et que je retrouve ma cellule avec le sommeil.  
+
+C'est à peine si j'ai entendu mon avocat s'écrier, pour finir, que les jurés ne voudraient pas envoyer à la mort un travailleur honnête perdu par une minute d'égarement et demander les circonstances atténuantes pour un crime dont je traînais déjà, comme le plus sûr de mes châtiments, le remords éternel.  
+
+La cour a suspendu l'audience et l'avocat s'est assis d'un air épuisé. Mais ses collègues sont venus vers lui pour lui serrer la main. J'ai entendu : « Magnifique, mon cher. » L'un d'eux m'a même pris à témoin : « Hein ? » m'a-t-il dit. J'ai acquiescé, mais mon compliment n'était pas sincère, parce que j'étais trop fatigué.</p>  
+
+<p>Pourtant, l'heure déclinait au-dehors et la chaleur était moins forte. Aux quelques bruits de rue que j'entendais, je devinais la douceur du soir.  
+
+Nous étions là, tous, à attendre. Et ce qu'ensemble nous attendions ne concernait que moi. J'ai encore regardé la salle. Tout était dans le même état que le premier jour. J'ai rencontré le regard du journaliste à la veste grise et de la femme automate.  
+
+Cela m'a donné à penser que je n'avais pas cherché Marie du regard pendant tout le procès. Je ne l'avais pas oubliée, mais j'avais trop à faire. Je l'ai vue entre Céleste et Raymond. Elle m'a fait un petit signe comme si elle disait : « Enfin », et j'ai vu son visage un peu anxieux qui souriait.  
+
+Mais je sentais mon cœur fermé et je n'ai même pas pu répondre à son sourire. </p> 
+
+<p>La cour est revenue. Très vite, on a lu aux jurés une série de questions. J'ai entendu « coupable de meurtre »... « préméditation »... « circonstances atténuantes ».  
+
+Les jurés sont sortis et l'on m'a emmené dans la petite pièce où j'avais déjà attendu. Mon avocat est venu me rejoindre : il était très volubile et m'a parlé avec plus de confiance et de cordialité qu'il ne l'avait jamais fait.  
+
+Il pensait que tout irait bien et que je m'en tirerais avec quelques années de prison ou de bagne. Je lui ai demandé s'il y avait des chances de cassation en cas de jugement défavorable. Il m'a dit que non.  
+
+Sa tactique avait été de ne pas déposer de conclusions pour ne pas indisposer le jury. Il m'a expliqué qu'on ne cassait pas un jugement, comme cela, pour rien. Cela m'a paru évident et je me suis rendu à ses raisons. À considérer froidement la chose, c'était tout à fait naturel.  
+
+Dans le cas contraire, il y aurait trop de paperasses inutiles. « De toute façon, m'a dit mon avocat, il y a le pourvoi. Mais je suis persuadé que l'issue sera favorable. » </p> 
+
+<p>Nous avons attendu très longtemps, près de trois quarts d'heure, je crois. Au bout de ce temps, une sonnerie a retenti.  
+
+Mon avocat m'a quitté en disant : « Le président du jury va lire les réponses. On ne vous fera entrer que pour l'énoncé du jugement. » Des portes ont claqué. Des gens couraient dans des escaliers dont je ne savais pas s'ils étaient proches ou éloignés. Puis j'ai entendu une voix sourde lire quelque chose dans la salle.  
+
+Quand la sonnerie a encore retenti, que la porte du box s'est ouverte, c'est le silence de la salle qui est monté vers moi, le silence, et cette singulière sensation que j'ai eue lorsque j'ai constaté que le jeune journaliste avait détourné ses yeux.  
+
+Je n'ai pas regardé du côté de Marie. Je n'en ai pas eu le temps parce que le président m'a dit dans une forme bizarre que j'aurais la tête tranchée sur une place publique au nom du peuple français.  
+
+Il m'a semblé alors reconnaître le sentiment que je lisais sur tous les visages. Je crois bien que c'était de la considération. Les gendarmes étaient très doux avec moi. L'avocat a posé sa main sur mon poignet.  
+
+Je ne pensais plus à rien. Mais le président m'a demandé si je n'avais rien à ajouter. J'ai réfléchi. J'ai dit : « Non. » C'est alors qu'on m'a emmené.</p>
+    </div>
+    
+    <div class="container">
+        <div class="header">
+            <h1>L'Étranger - Albert Camus</h1>
+            <p>Chapitre 4, Deuxième Partie : Le Procès de Meursault</p>
+        </div>
+        
+        <div class="content">
+            <div class="student-info">
+                <h3>Informations Étudiant</h3>
+                <p><strong>Nom :</strong> <input type="text" id="studentName" placeholder="Votre nom" style="padding: 5px; margin-left: 10px;"></p>
+                <p><strong>Classe :</strong> <input type="text" id="studentClass" placeholder="Votre classe" style="padding: 5px; margin-left: 10px;"></p>
+            </div>
+            
+            <div class="progress">
+                <div class="progress-bar" id="progressBar"></div>
+            </div>
+            <div class="score-display" id="scoreDisplay">Score : 0/0</div>
+            
+            <div class="completion-info" id="completionInfo" style="display: none;">
+                <strong>📊 Progression :</strong> <span id="completionText">0% complété</span>
+            </div>
+            
+            <!-- Key Themes Overview -->
+            <div class="theme-box">
+                <div class="theme-title">Thèmes Clés de ce Chapitre</div>
+                <div class="theme-desc">
+                    • L'exclusion et l'aliénation • Le regard détaché de Meursault • 
+                    L'absurdité du système judiciaire • Le décalage entre la réalité et le langage • 
+                    La condamnation pour non-conformité sociale
+                </div>
+            </div>
+            
+            <!-- Section 1: L'exclusion de Meursault -->
+            <div class="section active" id="section1">
+                <h2>I. L'Exclusion de Meursault</h2>
+                
+                <div class="quote">
+                    "En quelque sorte, on avait l'air de traiter cette affaire en dehors de moi. Tout se déroulait sans mon intervention."
+                </div>
+                
+                <div class="question">
+                    <div class="question-number">1</div>
+                    <div class="question-text">Que dit l'avocat de Meursault quand celui-ci veut intervenir pendant le procès ?</div>
+                    <div class="options">
+                        <div class="option" data-answer="a" data-question="1">a) « Parlez librement, c'est votre droit »</div>
+                        <div class="option" data-answer="b" data-question="1">b) « Taisez-vous, cela vaut mieux pour votre affaire »</div>
+                        <div class="option" data-answer="c" data-question="1">c) « Dites ce que vous pensez »</div>
+                        <div class="option" data-answer="d" data-question="1">d) « Attendez votre tour »</div>
+                    </div>
+                    <button class="btn" onclick="checkAnswer(this, 'b', 5)">Vérifier</button>
+                    <div class="feedback"></div>
+                </div>
+                
+                <div class="question">
+                    <div class="question-number">2</div>
+                    <div class="question-text">Pourquoi Meursault ne dit-il finalement rien quand il veut intervenir ?</div>
+                    <div class="options">
+                        <div class="option" data-answer="a" data-question="2">a) Il a peur du jugement</div>
+                        <div class="option" data-answer="b" data-question="2">b) Il réalise qu'il n'a rien à dire</div>
+                        <div class="option" data-answer="c" data-question="2">c) Il est trop en colère pour parler</div>
+                        <div class="option" data-answer="d" data-question="2">d) Son avocat le lui interdit</div>
+                    </div>
+                    <button class="btn" onclick="checkAnswer(this, 'b', 5)">Vérifier</button>
+                    <div class="feedback"></div>
+                </div>
+                
+                <div class="question">
+                    <div class="question-number">3</div>
+                    <div class="question-text">Analyse : Comment le point de vue à la première personne renforce-t-il le sentiment d'exclusion de Meursault ? (100-150 mots)</div>
+                    <textarea id="answer3" placeholder="Écrivez votre analyse ici..."></textarea>
+                    <button class="btn" onclick="showModelAnswer(3)">Voir un exemple de réponse</button>
+                    <div class="feedback"></div>
+                </div>
+            </div>
+            
+            <!-- Section 2: Le discours du procureur -->
+            <div class="section" id="section2">
+                <h2>II. Le Discours du Procureur</h2>
+                
+                <div class="hint">
+                    💡 Observez comment le procureur construit son réquisitoire non pas sur le meurtre, mais sur la personnalité de Meursault.
+                </div>
+                
+                <div class="question">
+                    <div class="question-number">4</div>
+                    <div class="question-text">Quels comportements de Meursault après la mort de sa mère le procureur utilise-t-il contre lui ?</div>
+                    <div class="options">
+                        <div class="option" data-answer="a" data-question="4">a) Son insensibilité, ne pas connaître l'âge de sa mère, aller se baigner avec une femme, aller au cinéma voir Fernandel</div>
+                        <div class="option" data-answer="b" data-question="4">b) Seulement le fait qu'il ait tué un homme</div>
+                        <div class="option" data-answer="c" data-question="4">c) Ses relations avec Raymond uniquement</div>
+                        <div class="option" data-answer="d" data-question="4">d) Son refus de pleurer au tribunal</div>
+                    </div>
+                    <button class="btn" onclick="checkAnswer(this, 'a', 5)">Vérifier</button>
+                    <div class="feedback"></div>
+                </div>
+                
+                <div class="question">
+                    <div class="question-number">5</div>
+                    <div class="question-text">Comment le procureur interprète-t-il le fait que Meursault est "intelligent" ?</div>
+                    <div class="options">
+                        <div class="option" data-answer="a" data-question="5">a) Comme une circonstance atténuante</div>
+                        <div class="option" data-answer="b" data-question="5">b) Comme une preuve de préméditation</div>
+                        <div class="option" data-answer="c" data-question="5">c) Comme un compliment</div>
+                        <div class="option" data-answer="d" data-question="5">d) Comme une excuse</div>
+                    </div>
+                    <button class="btn" onclick="checkAnswer(this, 'b', 5)">Vérifier</button>
+                    <div class="feedback"></div>
+                </div>
+                
+                <div class="question">
+                    <div class="question-number">6</div>
+                    <div class="question-text">Quelle comparaison choquante le procureur fait-il entre Meursault et un autre criminel ?</div>
+                    <div class="options">
+                        <div class="option" data-answer="a" data-question="6">a) Il le compare à un parricide</div>
+                        <div class="option" data-answer="b" data-question="6">b) Il le compare à un voleur</div>
+                        <div class="option" data-answer="c" data-question="6">c) Il le compare à un menteur</div>
+                        <div class="option" data-answer="d" data-question="6">d) Il le compare à un terroriste</div>
+                    </div>
+                    <button class="btn" onclick="checkAnswer(this, 'a', 5)">Vérifier</button>
+                    <div class="feedback"></div>
+                </div>
+                
+                <div class="question">
+                    <div class="question-number">7</div>
+                    <div class="question-text">Analyse : En quoi le discours du procureur révèle-t-il que Meursault est jugé pour son refus des conventions sociales plutôt que pour le meurtre ? (150-200 mots)</div>
+                    <textarea id="answer7" placeholder="Développez votre analyse..."></textarea>
+                    <button class="btn" onclick="showModelAnswer(7)">Voir un exemple de réponse</button>
+                    <div class="feedback"></div>
+                </div>
+            </div>
+            
+            <!-- Section 3: Le décalage langagier -->
+            <div class="section" id="section3">
+                <h2>III. Le Décalage Langagier</h2>
+                
+                <div class="quote">
+                    "Il disait « sa maîtresse » et pour moi, elle était Marie."
+                </div>
+                
+                <div class="question">
+                    <div class="question-number">8</div>
+                    <div class="question-text">Quand le procureur dit "sa maîtresse", comment Meursault réagit-il ?</div>
+                    <div class="options">
+                        <div class="option" data-answer="a" data-question="8">a) Il comprend exactement la même chose</div>
+                        <div class="option" data-answer="b" data-question="8">b) Pour lui, "elle était Marie" - il ne comprend pas cette étiquette morale</div>
+                        <div class="option" data-answer="c" data-question="8">c) Il pense à une autre personne</div>
+                        <div class="option" data-answer="d" data-question="8">d) Il ne comprend pas le mot "maîtresse"</div>
+                    </div>
+                    <button class="btn" onclick="checkAnswer(this, 'b', 5)">Vérifier</button>
+                    <div class="feedback"></div>
+                </div>
+                
+                <div class="question">
+                    <div class="question-number">9</div>
+                    <div class="question-text">Comment Camus montre-t-il que Meursault et le procureur ne parlent pas le même langage ?</div>
+                    <div class="options">
+                        <div class="option" data-answer="a" data-question="9">a) Ils parlent des langues différentes</div>
+                        <div class="option" data-answer="b" data-question="9">b) Le procureur utilise un langage moral et dramatique, Meursault un langage simple et factuel</div>
+                        <div class="option" data-answer="c" data-question="9">c) Meursault ne comprend pas le français</div>
+                        <div class="option" data-answer="d" data-question="9">d) Il n'y a aucun décalage</div>
+                    </div>
+                    <button class="btn" onclick="checkAnswer(this, 'b', 5)">Vérifier</button>
+                    <div class="feedback"></div>
+                </div>
+                
+                <div class="question">
+                    <div class="question-number">10</div>
+                    <div class="question-text">Analyse stylistique : Pourquoi Meursault met-il certains mots entre guillemets (comme "sa maîtresse" ou "de moralité douteuse") ? (100-150 mots)</div>
+                    <textarea id="answer10" placeholder="Analysez le rapport au langage..."></textarea>
+                    <button class="btn" onclick="showModelAnswer(10)">Voir un exemple de réponse</button>
+                    <div class="feedback"></div>
+                </div>
+            </div>
+            
+            <!-- Section 4: La plaidoirie de l'avocat -->
+            <div class="section" id="section4">
+                <h2>IV. La Plaidoirie de l'Avocat</h2>
+                
+                <div class="hint">
+                    💡 L'avocat utilise également un langage qui dépersonnalise Meursault.
+                </div>
+                
+                <div class="question">
+                    <div class="question-number">11</div>
+                    <div class="question-text">Qu'est-ce qui étonne Meursault dans la plaidoirie de son avocat ?</div>
+                    <div class="options">
+                        <div class="option" data-answer="a" data-question="11">a) L'avocat dit « je » chaque fois qu'il parle de Meursault</div>
+                        <div class="option" data-answer="b" data-question="11">b) L'avocat ne dit rien</div>
+                        <div class="option" data-answer="c" data-question="11">c) L'avocat le critique</div>
+                        <div class="option" data-answer="d" data-question="11">d) L'avocat parle trop vite</div>
+                    </div>
+                    <button class="btn" onclick="checkAnswer(this, 'a', 5)">Vérifier</button>
+                    <div class="feedback"></div>
+                </div>
+                
+                <div class="question">
+                    <div class="question-number">12</div>
+                    <div class="question-text">Comment l'avocat décrit-il Meursault ?</div>
+                    <div class="options">
+                        <div class="option" data-answer="a" data-question="12">a) Comme un criminel endurci</div>
+                        <div class="option" data-answer="b" data-question="12">b) Comme un honnête homme, un travailleur régulier, un fils modèle</div>
+                        <div class="option" data-answer="c" data-question="12">c) Comme un homme perturbé</div>
+                        <div class="option" data-answer="d" data-question="12">d) Comme un étranger inadapté</div>
+                    </div>
+                    <button class="btn" onclick="checkAnswer(this, 'b', 5)">Vérifier</button>
+                    <div class="feedback"></div>
+                </div>
+                
+                <div class="question">
+                    <div class="question-number">13</div>
+                    <div class="question-text">Que manque-t-il dans la plaidoirie de l'avocat selon Meursault ?</div>
+                    <div class="options">
+                        <div class="option" data-answer="a" data-question="13">a) La mention de l'enterrement de sa mère</div>
+                        <div class="option" data-answer="b" data-question="13">b) La mention du meurtre</div>
+                        <div class="option" data-answer="c" data-question="13">c) La mention de Marie</div>
+                        <div class="option" data-answer="d" data-question="13">d) La mention du soleil</div>
+                    </div>
+                    <button class="btn" onclick="checkAnswer(this, 'a', 5)">Vérifier</button>
+                    <div class="feedback"></div>
+                </div>
+                
+                <div class="question">
+                    <div class="question-number">14</div>
+                    <div class="question-text">Analyse : En quoi la défense de l'avocat est-elle aussi absurde que l'accusation du procureur ? (150-200 mots)</div>
+                    <textarea id="answer14" placeholder="Développez votre analyse..."></textarea>
+                    <button class="btn" onclick="showModelAnswer(14)">Voir un exemple de réponse</button>
+                    <div class="feedback"></div>
+                </div>
+            </div>
+            
+            <!-- Section 5: Les souvenirs et le jugement -->
+            <div class="section" id="section5">
+                <h2>V. Les Souvenirs et le Jugement</h2>
+                
+                <div class="quote">
+                    "La trompette d'un marchand de glace a résonné jusqu'à moi. J'ai été assailli des souvenirs d'une vie qui ne m'appartenait plus."
+                </div>
+                
+                <div class="question">
+                    <div class="question-number">15</div>
+                    <div class="question-text">Quel souvenir sensoriel vient assaillir Meursault pendant la plaidoirie de son avocat ?</div>
+                    <div class="options">
+                        <div class="option" data-answer="a" data-question="15">a) La trompette d'un marchand de glace</div>
+                        <div class="option" data-answer="b" data-question="15">b) Le son des vagues</div>
+                        <div class="option" data-answer="c" data-question="15">c) La voix de sa mère</div>
+                        <div class="option" data-answer="d" data-question="15">d) Le bruit de la pluie</div>
+                    </div>
+                    <button class="btn" onclick="checkAnswer(this, 'a', 5)">Vérifier</button>
+                    <div class="feedback"></div>
+                </div>
+                
+                <div class="question">
+                    <div class="question-number">16</div>
+                    <div class="question-text">Quelle est la réaction de Meursault quand il voit Marie dans la salle d'audience ?</div>
+                    <div class="options">
+                        <div class="option" data-answer="a" data-question="16">a) Il lui sourit chaleureusement</div>
+                        <div class="option" data-answer="b" data-question="16">b) Il ne peut pas répondre à son sourire car son cœur est fermé</div>
+                        <div class="option" data-answer="c" data-question="16">c) Il lui fait un signe de la main</div>
+                        <div class="option" data-answer="d" data-question="16">d) Il détourne les yeux</div>
+                    </div>
+                    <button class="btn" onclick="checkAnswer(this, 'b', 5)">Vérifier</button>
+                    <div class="feedback"></div>
+                </div>
+                
+                <div class="question">
+                    <div class="question-number">17</div>
+                    <div class="question-text">Quelle peine est prononcée contre Meursault ?</div>
+                    <div class="options">
+                        <div class="option" data-answer="a" data-question="17">a) La prison à vie</div>
+                        <div class="option" data-answer="b" data-question="17">b) La tête tranchée sur une place publique</div>
+                        <div class="option" data-answer="c" data-question="17">c) Vingt ans de bagne</div>
+                        <div class="option" data-answer="d" data-question="17">d) Dix ans de prison</div>
+                    </div>
+                    <button class="btn" onclick="checkAnswer(this, 'b', 5)">Vérifier</button>
+                    <div class="feedback"></div>
+                </div>
+                
+                <div class="question">
+                    <div class="question-number">18</div>
+                    <div class="question-text">Analyse : Comment les souvenirs sensoriels contrastent-ils avec la froideur du procès ? Que révèle ce contraste sur la perception de Meursault ? (150-200 mots)</div>
+                    <textarea id="answer18" placeholder="Analysez ce contraste..."></textarea>
+                    <button class="btn" onclick="showModelAnswer(18)">Voir un exemple de réponse</button>
+                    <div class="feedback"></div>
+                </div>
+            </div>
+            
+            <!-- Section 6: Synthèse et réflexion -->
+            <div class="section" id="section6">
+                <h2>VI. Synthèse et Réflexion</h2>
+                
+                <div class="question">
+                    <div class="question-number">19</div>
+                    <div class="question-text">Selon vous, pourquoi Meursault est-il condamné à mort ?</div>
+                    <div class="options">
+                        <div class="option" data-answer="a" data-question="19">a) Pour le meurtre de l'Arabe</div>
+                        <div class="option" data-answer="b" data-question="19">b) Pour n'avoir pas pleuré à l'enterrement de sa mère</div>
+                        <div class="option" data-answer="c" data-question="19">c) Pour son refus des conventions sociales et son incapacité à jouer le jeu social</div>
+                        <div class="option" data-answer="d" data-question="19">d) Pour son manque de remords</div>
+                    </div>
+                    <button class="btn" onclick="checkAnswer(this, 'c', 5)">Vérifier</button>
+                    <div class="feedback"></div>
+                </div>
+                
+                <div class="question">
+                    <div class="question-number">20</div>
+                    <div class="question-text">Dissertation courte : En quoi ce chapitre illustre-t-il l'absurdité du système judiciaire et plus généralement de la société ? Rédigez une réponse structurée. (250-300 mots)</div>
+                    <div class="hint">💡 Structure possible : I. L'exclusion de l'accusé / II. Le jugement des apparences plutôt que des actes / III. Le langage comme instrument d'aliénation</div>
+                    <textarea id="answer20" style="min-height: 150px;" placeholder="Rédigez votre dissertation..."></textarea>
+                    <button class="btn" onclick="showModelAnswer(20)">Voir un exemple de réponse</button>
+                    <div class="feedback"></div>
+                </div>
+                
+                <div class="question">
+                    <div class="question-number">21</div>
+                    <div class="question-text">Réflexion personnelle : Pensez-vous que Meursault mérite sa condamnation ? Pourquoi ou pourquoi pas ?</div>
+                    <textarea id="answer21" placeholder="Réflexion personnelle..."></textarea>
+                    <div class="feedback info show">
+                        <strong>💭 Réflexion libre :</strong> Il n'y a pas de "bonne" réponse unique. Réfléchissez à la justice, à la société, et à la notion de culpabilité.
+                    </div>
+                </div>
+            </div>
+            
+            <div class="nav-buttons">
+                <button class="btn" id="prevBtn" onclick="changeSection(-1)">← Précédent</button>
+                <button class="btn" id="nextBtn" onclick="changeSection(1)">Suivant →</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentSection = 1;
+        const totalSections = 6;
+        let scores = {};
+        let totalQuestions = 0;
+        let correctAnswers = 0;
+        let activeTextArea = null;
+        let studentAnswers = {};
+        let completionStatus = {};
+
+        // Text viewer functions
+        function toggleText() {
+            const floatingText = document.getElementById('floatingText');
+            const overlay = document.getElementById('overlay');
+            
+            if (floatingText.classList.contains('show')) {
+                floatingText.classList.remove('show');
+                overlay.classList.remove('show');
+            } else {
+                floatingText.classList.add('show');
+                overlay.classList.add('show');
+            }
+        }
+
+        // French keyboard functions
+        function toggleKeyboard() {
+            const keyboard = document.getElementById('frenchKeyboard');
+            const overlay = document.getElementById('overlay');
+            
+            if (keyboard.classList.contains('show')) {
+                keyboard.classList.remove('show');
+                overlay.classList.remove('show');
+            } else {
+                keyboard.classList.add('show');
+                overlay.classList.add('show');
+                // Store reference to active textarea
+                activeTextArea = document.activeElement;
+            }
+        }
+
+        function insertAccent(accent) {
+            if (activeTextArea && activeTextArea.tagName === 'TEXTAREA') {
+                const start = activeTextArea.selectionStart;
+                const end = activeTextArea.selectionEnd;
+                const text = activeTextArea.value;
+                const newText = text.substring(0, start) + accent + text.substring(end);
+                activeTextArea.value = newText;
+                activeTextArea.focus();
+                activeTextArea.selectionStart = activeTextArea.selectionEnd = start + 1;
+                
+                // Save answer
+                const questionId = activeTextArea.id.replace('answer', '');
+                if (questionId) {
+                    studentAnswers[questionId] = newText;
+                    updateCompletionStatus();
+                }
+            }
+        }
+
+        // Track text input for essay questions
+        document.querySelectorAll('textarea').forEach(textarea => {
+            textarea.addEventListener('input', function(e) {
+                const questionId = this.id.replace('answer', '');
+                if (questionId) {
+                    studentAnswers[questionId] = this.value;
+                    updateCompletionStatus();
+                }
+            });
+        });
+
+        // Download student work function
+        function downloadStudentWork() {
+            const studentName = document.getElementById('studentName').value || 'Étudiant';
+            const studentClass = document.getElementById('studentClass').value || 'Classe non spécifiée';
+            const now = new Date();
+            const dateStr = now.toLocaleDateString('fr-FR');
+            const timeStr = now.toLocaleTimeString('fr-FR', {hour: '2-digit', minute: '2-digit'});
+            
+            let content = `RÉPONSES DE L'ÉTUDIANT - L'ÉTRANGER CHAPITRE 4\n`;
+            content += `====================================================\n\n`;
+            content += `Étudiant : ${studentName}\n`;
+            content += `Classe : ${studentClass}\n`;
+            content += `Date : ${dateStr}\n`;
+            content += `Heure : ${timeStr}\n`;
+            content += `Score : ${correctAnswers}/${totalQuestions} (${totalQuestions > 0 ? Math.round((correctAnswers/totalQuestions)*100) : 0}%)\n`;
+            content += `Progression : ${calculateCompletionPercentage()}%\n\n`;
+            content += `====================================================\n`;
+            content += `RÉPONSES DÉTAILLÉES\n`;
+            content += `====================================================\n\n`;
+            
+            // Multiple choice questions
+            for (let i = 1; i <= 21; i++) {
+                if ([3, 7, 10, 14, 18, 20, 21].includes(i)) {
+                    // Essay questions
+                    if (studentAnswers[i]) {
+                        content += `Question ${i} (Réponse développée) :\n`;
+                        content += studentAnswers[i] + '\n';
+                        content += `---\n\n`;
+                    }
+                } else {
+                    // Multiple choice questions
+                    const questionElement = document.querySelector(`[data-question="${i}"]`);
+                    if (questionElement && questionElement.classList.contains('selected')) {
+                        const selectedAnswer = questionElement.dataset.answer;
+                        const isCorrect = scores[`Q${i}`];
+                        content += `Question ${i} : ${selectedAnswer} ${isCorrect ? '✓' : '✗'}\n`;
+                        content += `---\n\n`;
+                    }
+                }
+            }
+            
+            content += `====================================================\n`;
+            content += `ANALYSE DE LA PERFORMANCE\n`;
+            content += `====================================================\n\n`;
+            
+            // Calculate statistics
+            const completedQuestions = Object.keys(completionStatus).length;
+            const essayQuestions = [3, 7, 10, 14, 18, 20, 21];
+            const essayAnswers = essayQuestions.filter(q => studentAnswers[q] && studentAnswers[q].trim().length > 10).length;
+            
+            content += `Statistiques :\n`;
+            content += `- Questions totales : 21\n`;
+            content += `- Questions à choix multiples : 14\n`;
+            content += `- Questions de rédaction : 7\n`;
+            content += `- Réponses données : ${completedQuestions}/21\n`;
+            content += `- Rédactions complétées : ${essayAnswers}/7\n`;
+            content += `- Score aux QCM : ${correctAnswers}/${totalQuestions}\n\n`;
+            
+            content += `Commentaire :\n`;
+            if (correctAnswers === totalQuestions && totalQuestions > 0) {
+                content += `Excellent travail ! Vous avez parfaitement compris ce chapitre crucial du roman.\n`;
+            } else if (correctAnswers >= totalQuestions * 0.7) {
+                content += `Bon travail ! Vous avez bien saisi les enjeux principaux du procès de Meursault.\n`;
+            } else {
+                content += `Il serait bénéfique de relire attentivement le texte et de revoir les thèmes principaux.\n`;
+            }
+            
+            const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = `L_Etranger_Ch4_${studentName.replace(/\s+/g, '_')}_${dateStr.replace(/\//g, '-')}.txt`;
+            link.click();
+        }
+
+        // Calculate completion percentage
+        function calculateCompletionPercentage() {
+            const totalPossible = 21;
+            let completed = 0;
+            
+            // Count multiple choice questions answered
+            for (let i = 1; i <= 21; i++) {
+                if ([3, 7, 10, 14, 18, 20, 21].includes(i)) {
+                    // Essay questions
+                    if (studentAnswers[i] && studentAnswers[i].trim().length > 10) {
+                        completed++;
+                    }
+                } else {
+                    // Multiple choice questions
+                    const selectedOption = document.querySelector(`[data-question="${i}"].selected`);
+                    if (selectedOption) {
+                        completed++;
+                    }
+                }
+            }
+            
+            return Math.round((completed / totalPossible) * 100);
+        }
+
+        function updateCompletionStatus() {
+            const percentage = calculateCompletionPercentage();
+            const completionInfo = document.getElementById('completionInfo');
+            const completionText = document.getElementById('completionText');
+            
+            if (percentage > 0) {
+                completionInfo.style.display = 'block';
+                completionText.textContent = `${percentage}% complété (${Object.keys(completionStatus).length}/21 questions)`;
+            }
+        }
+
+        // Close all modals
+        function closeAllModals() {
+            document.getElementById('floatingText').classList.remove('show');
+            document.getElementById('frenchKeyboard').classList.remove('show');
+            document.getElementById('overlay').classList.remove('show');
+        }
+
+        // Track active textarea for keyboard
+        document.addEventListener('focusin', function(e) {
+            if (e.target.tagName === 'TEXTAREA') {
+                activeTextArea = e.target;
+            }
+        });
+
+        // Exercise functions
+        function updateProgress() {
+            const progress = (currentSection / totalSections) * 100;
+            document.getElementById('progressBar').style.width = progress + '%';
+        }
+
+        function updateScore() {
+            document.getElementById('scoreDisplay').textContent = 
+                `Score : ${correctAnswers}/${totalQuestions} questions correctes`;
+        }
+
+        function changeSection(direction) {
+            const sections = document.querySelectorAll('.section');
+            sections[currentSection - 1].classList.remove('active');
+            
+            currentSection += direction;
+            
+            if (currentSection < 1) currentSection = 1;
+            if (currentSection > totalSections) currentSection = totalSections;
+            
+            sections[currentSection - 1].classList.add('active');
+            
+            document.getElementById('prevBtn').disabled = currentSection === 1;
+            document.getElementById('nextBtn').disabled = currentSection === totalSections;
+            
+            updateProgress();
+            window.scrollTo({top: 0, behavior: 'smooth'});
+        }
+
+        function checkAnswer(button, correctAnswer, points) {
+            const question = button.closest('.question');
+            const options = question.querySelectorAll('.option');
+            const feedback = question.querySelector('.feedback');
+            
+            let selectedAnswer = null;
+            let selectedOption = null;
+            
+            options.forEach(option => {
+                if (option.classList.contains('selected')) {
+                    selectedAnswer = option.dataset.answer;
+                    selectedOption = option;
+                }
+            });
+            
+            if (!selectedAnswer) {
+                feedback.className = 'feedback show incorrect';
+                feedback.innerHTML = '⚠️ Veuillez sélectionner une réponse.';
+                return;
+            }
+            
+            const questionNumber = question.querySelector('.question-number').textContent;
+            const questionId = `Q${questionNumber}`;
+            
+            if (!scores[questionId]) {
+                totalQuestions++;
+            }
+            
+            // Store the student's answer
+            completionStatus[questionNumber] = true;
+            updateCompletionStatus();
+            
+            if (selectedAnswer === correctAnswer) {
+                feedback.className = 'feedback show correct';
+                feedback.innerHTML = '✓ Excellent ! Réponse correcte.';
+                options.forEach(option => {
+                    if (option.dataset.answer === correctAnswer) {
+                        option.classList.add('correct');
+                    }
+                });
+                
+                if (!scores[questionId]) {
+                    correctAnswers++;
+                    scores[questionId] = true;
+                }
+            } else {
+                feedback.className = 'feedback show incorrect';
+                feedback.innerHTML = '✗ Pas tout à fait. Relisez le texte et réfléchissez à nouveau.';
+                options.forEach(option => {
+                    if (option.dataset.answer === correctAnswer) {
+                        option.classList.add('correct');
+                    }
+                    if (option.dataset.answer === selectedAnswer) {
+                        option.classList.add('incorrect');
+                    }
+                });
+                
+                if (scores[questionId]) {
+                    correctAnswers--;
+                }
+                scores[questionId] = false;
+            }
+            
+            button.disabled = true;
+            updateScore();
+        }
+
+        function showModelAnswer(questionNum) {
+            const question = document.getElementById(`answer${questionNum}`).closest('.question');
+            const feedback = question.querySelector('.feedback');
+            
+            const modelAnswers = {
+                3: `<strong>Exemple de réponse :</strong><br><br>
+                Le point de vue à la première personne renforce puissamment le sentiment d'exclusion de Meursault. En nous faisant vivre le procès à travers ses yeux, Camus nous montre directement son incompréhension face au langage judiciaire. Le lecteur ressent la même distance que Meursault face aux discours du procureur et de l'avocat. Les expressions comme "en quelque sorte", "si j'ai bien compris" montrent sa difficulté à saisir la logique du procès. Cette narration interne crée un effet de distanciation : nous sommes avec Meursault, spectateurs impuissants de son propre jugement.`,
+                
+                7: `<strong>Exemple de réponse :</strong><br><br>
+                Le procureur ne juge pas Meursault pour le meurtre de l'Arabe, mais pour son comportement après la mort de sa mère. Les "preuves" qu'il cite sont révélatrices : "mon insensibilité, l'ignorance où j'étais de l'âge de maman, mon bain du lendemain, avec une femme, le cinéma, Fernandel". Ces éléments n'ont aucun lien juridique avec le meurtre, mais ils violent les conventions sociales du deuil. Meursault est coupable de ne pas avoir pleuré, de ne pas avoir feint une émotion qu'il ne ressentait pas. Le procureur le dit lui-même : "on a beaucoup parlé de moi et peut-être plus de moi que de mon crime". C'est bien la personne de Meursault, son refus des codes sociaux, qui est jugée.`,
+                
+                10: `<strong>Exemple de réponse :</strong><br><br>
+                Meursault met certains mots entre guillemets pour montrer sa distance par rapport à ce langage qui n'est pas le sien. Ces guillemets indiquent que ces termes lui sont étrangers, qu'il les emprunte au discours des autres. Quand le procureur dit "sa maîtresse", Meursault précise : "pour moi, elle était Marie". Cette distinction est cruciale : le procureur utilise un vocabulaire chargé de jugements moraux ("maîtresse", "moralité douteuse"), tandis que Meursault utilise des noms propres, simples et concrets. Ce décalage langagier montre que Meursault et le système judiciaire ne partagent pas le même rapport au langage ni à la réalité.`,
+                
+                14: `<strong>Exemple de réponse :</strong><br><br>
+                La défense de l'avocat est aussi absurde que l'accusation du procureur car elle repose sur les mêmes codes sociaux que Meursault refuse. L'avocat tente de présenter Meursault comme "un honnête homme, un travailleur régulier, un fils modèle", c'est-à-dire qu'il essaie de le faire rentrer dans les cases sociales que Meursault a toujours rejetées. De plus, l'avocat dit "je" à la place de Meursault, le dépossédant encore davantage de son procès. Comme le procureur, il parle de "l'âme" de Meursault, notion qui n'a pas de sens pour ce dernier. Les deux plaidoiries sont symétriques dans leur absurdité : l'une accuse, l'autre défend, mais toutes deux jugent Meursault selon des critères qui lui sont étrangers.`,
+                
+                18: `<strong>Exemple de réponse :</strong><br><br>
+                Les souvenirs sensoriels contrastent violemment avec la froideur du procès. Alors que le tribunal parle un langage abstrait et moralisateur, Meursault est assailli par des sensations concrètes : "la trompette d'un marchand de glace", "des odeurs d'été", "un certain ciel du soir", "le rire et les robes de Marie". Ces souvenirs représentent la vie réelle, simple et sensorielle que Meursault a perdue. Ce contraste révèle que Meursault vit dans un monde sensible, immédiat, alors que le procès se déroule dans un monde de concepts et de conventions. La réalité de Meursault est faite de sensations, celle du tribunal de mots et de jugements. C'est ce décalage fondamental qui le condamne.`,
+                
+                20: `<strong>Exemple de dissertation :</strong><br><br>
+                <strong>Introduction :</strong> Le procès de Meursault dans L'Étranger illustre magistralement l'absurdité du système judiciaire et, plus largement, de la société qui exige la conformité aux conventions.<br><br>
+                
+                <strong>I. L'exclusion de l'accusé</strong><br>
+                Meursault est physiquement présent mais totalement exclu de son propre procès. "On avait l'air de traiter cette affaire en dehors de moi", observe-t-il. Quand il veut intervenir, son avocat le fait taire. Il n'est plus qu'un objet sur lequel s'exerce la mécanique judiciaire, réduit au silence dans son propre jugement.<br><br>
+                
+                <strong>II. Le jugement des apparences plutôt que des actes</strong><br>
+                Meursault n'est pas jugé pour le meurtre, mais pour son comportement après la mort de sa mère. Le procureur énumère des "preuves" qui n'ont aucun lien juridique avec le crime : ne pas connaître l'âge de sa mère, aller se baigner, aller au cinéma. La société juge les apparences, la conformité aux rituels sociaux, plutôt que les actes eux-mêmes.<br><br>
+                
+                <strong>III. Le langage comme instrument d'aliénation</strong><br>
+                Meursault ne comprend pas le langage du tribunal. Quand le procureur parle de "sa maîtresse", pour Meursault "elle était Marie". Le langage judiciaire, chargé de moralité, lui est étranger. Ce décalage linguistique symbolise son exclusion de la société.<br><br>
+                
+                <strong>Conclusion :</strong> Le procès révèle que la société condamne non les crimes, mais les différences. Meursault est un étranger parce qu'il refuse de jouer le jeu social, et c'est cette étrangeté que la justice punit.`
+            };
+            
+            feedback.className = 'feedback show info';
+            feedback.innerHTML = modelAnswers[questionNum];
+        }
+
+        // Event listeners for options
+        document.addEventListener('click', function(e) {
+            if (e.target.classList.contains('option')) {
+                const question = e.target.closest('.question');
+                const options = question.querySelectorAll('.option');
+                options.forEach(opt => opt.classList.remove('selected'));
+                e.target.classList.add('selected');
+                
+                // Store the answer
+                const questionNumber = question.querySelector('.question-number').textContent;
+                const answer = e.target.dataset.answer;
+                studentAnswers[questionNumber] = answer;
+                updateCompletionStatus();
+            }
+        });
+
+        // Initialisation
+        updateProgress();
+        updateScore();
+        document.getElementById('prevBtn').disabled = true;
+    </script>
+</body>
+</html>

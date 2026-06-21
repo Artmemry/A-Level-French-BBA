@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Les femmes dans la Résistance</title>
+<style>
+  :root {
+    --navy:#1e3a5f; --gold:#c9a227; --lgold:#fdf8ec; --red:#c0392b;
+    --green:#1a6b3c; --mid:#5a6a7a; --light:#f4f7fa; --white:#fff;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:'Segoe UI',sans-serif;background:var(--light);color:#1a1a2e;min-height:100vh;}
+  header{background:linear-gradient(135deg,var(--navy),#2d5986);color:var(--white);padding:2rem 1.5rem;text-align:center;}
+  header h1{font-size:1.5rem;margin-bottom:.4rem;}
+  header p{opacity:.85;font-size:.9rem;}
+  .badge{display:inline-block;background:rgba(255,255,255,.15);border-radius:20px;padding:.2rem .8rem;font-size:.75rem;margin:.3rem .2rem;}
+  nav{display:flex;justify-content:center;flex-wrap:wrap;gap:.5rem;padding:1rem;background:var(--white);border-bottom:2px solid #e2e8f0;position:sticky;top:0;z-index:50;}
+  .tab{padding:.5rem 1.1rem;border:2px solid #cbd5e1;border-radius:20px;cursor:pointer;font-size:.88rem;background:var(--white);transition:.2s;color:var(--navy);}
+  .tab.active{background:var(--navy);color:var(--white);border-color:var(--navy);}
+  .tab:hover:not(.active){background:var(--lgold);border-color:var(--gold);}
+  .page{display:none;max-width:860px;margin:0 auto;padding:1.5rem 1rem 4rem;}
+  .page.active{display:block;}
+  /* Reading */
+  .rbox{background:var(--white);border-left:5px solid var(--gold);border-radius:0 10px 10px 0;padding:1.4rem 1.6rem;line-height:1.95;font-size:.97rem;box-shadow:0 2px 10px rgba(0,0,0,.06);margin-bottom:1.2rem;}
+  .rbox h2{color:var(--navy);margin-bottom:.8rem;font-size:1.1rem;}
+  .kw{color:var(--navy);font-weight:700;border-bottom:2px dotted var(--gold);cursor:help;}
+  .src{font-size:.75rem;color:var(--mid);margin-top:.8rem;text-align:right;font-style:italic;}
+  /* Sections */
+  .card{background:var(--white);border-radius:12px;padding:1.4rem;margin-bottom:1.2rem;box-shadow:0 2px 10px rgba(0,0,0,.06);}
+  .card h3{color:var(--navy);margin-bottom:.8rem;font-size:1rem;display:flex;align-items:center;gap:.5rem;}
+  .sn{background:var(--navy);color:var(--white);border-radius:50%;width:26px;height:26px;display:inline-flex;align-items:center;justify-content:center;font-size:.8rem;flex-shrink:0;}
+  /* MCQ */
+  .q-block{margin-bottom:1.1rem;}
+  .q-text{font-weight:600;margin-bottom:.5rem;line-height:1.4;font-size:.95rem;}
+  .options label{display:flex;align-items:flex-start;gap:.5rem;padding:.4rem .6rem;margin:.2rem 0;border-radius:6px;cursor:pointer;border:1.5px solid #e2e8f0;transition:.15s;font-size:.92rem;}
+  .options label:hover{background:var(--lgold);border-color:var(--gold);}
+  .options input{margin-top:.15rem;flex-shrink:0;}
+  .correct{background:#dcfce7!important;border-color:var(--green)!important;}
+  .wrong{background:#fee2e2!important;border-color:var(--red)!important;}
+  .feedback{font-size:.85rem;margin-top:.4rem;padding:.4rem .7rem;border-radius:6px;}
+  .feedback.ok{background:#dcfce7;color:#166534;}
+  .feedback.bad{background:#fee2e2;color:#991b1b;}
+  /* Gap fill */
+  .gap-p{line-height:2.8;font-size:.96rem;}
+  .gap{border:none;border-bottom:2px solid var(--gold);background:transparent;font-size:.96rem;font-family:inherit;padding:.1rem .3rem;color:#1a1a2e;outline:none;min-width:90px;transition:.2s;}
+  .gap:focus{border-bottom-color:var(--navy);background:#eef2ff;}
+  .gap.ci{border-bottom-color:var(--green);background:#dcfce7;}
+  .gap.wi{border-bottom-color:var(--red);background:#fee2e2;}
+  .word-bank{background:var(--lgold);border:1.5px solid #f0d980;border-radius:8px;padding:.7rem 1rem;margin-bottom:1rem;font-size:.87rem;line-height:2;}
+  .wb-tag{display:inline-block;background:var(--white);border:1.5px solid #f0d980;border-radius:6px;padding:.15rem .55rem;margin:.2rem;font-size:.86rem;}
+  /* Vocab match */
+  .vmatch-row{display:flex;align-items:center;gap:.6rem;margin-bottom:.55rem;flex-wrap:wrap;}
+  .vm-fr{font-weight:700;color:var(--navy);min-width:220px;font-size:.93rem;}
+  .vm-sel{flex:1;padding:.38rem;border:1.5px solid #fde68a;border-radius:6px;font-size:.88rem;min-width:160px;}
+  .vm-sel:focus{outline:none;border-color:var(--navy);}
+  .vm-fb{font-size:1rem;}
+  /* True/False */
+  .tf-row{margin-bottom:.9rem;padding:.8rem;border:1.5px solid #e2e8f0;border-radius:8px;}
+  .tf-stmt{font-weight:600;margin-bottom:.5rem;font-size:.93rem;}
+  .tf-btns{display:flex;gap:.5rem;margin-bottom:.3rem;}
+  .tf-btn{padding:.3rem .9rem;border-radius:6px;border:1.5px solid #cbd5e1;cursor:pointer;font-size:.88rem;background:var(--white);transition:.15s;}
+  .tf-btn.sv{background:#dcfce7;border-color:var(--green);font-weight:700;}
+  .tf-btn.sf{background:#fee2e2;border-color:var(--red);font-weight:700;}
+  /* Translation */
+  .tr-row{margin-bottom:1rem;}
+  .tr-en{font-style:italic;color:var(--mid);font-size:.9rem;margin-bottom:.3rem;}
+  .tr-hint{font-size:.78rem;color:#7c8fa8;margin-bottom:.3rem;}
+  .tr-input{width:100%;padding:.5rem .8rem;border:1.5px solid #fde68a;border-radius:6px;font-size:.92rem;}
+  .tr-input:focus{outline:none;border-color:var(--navy);}
+  /* Score */
+  #scoreBar{position:fixed;bottom:0;left:0;right:0;background:var(--white);border-top:2px solid var(--gold);padding:.6rem 1.2rem;display:flex;align-items:center;justify-content:space-between;gap:.8rem;z-index:90;box-shadow:0 -3px 10px rgba(0,0,0,.07);}
+  #scoreText{font-weight:700;font-size:.95rem;color:var(--navy);}
+  .btn{background:var(--navy);color:var(--white);border:none;padding:.6rem 1.4rem;border-radius:8px;font-size:.9rem;cursor:pointer;transition:.2s;}
+  .btn:hover{background:#2d5986;}
+  .btn-check{background:var(--gold);color:var(--navy);font-weight:700;}
+  .btn-check:hover{background:#b8911f;}
+  .prog-wrap{background:#e2e8f0;border-radius:99px;height:6px;margin-bottom:1rem;overflow:hidden;}
+  .prog-fill{height:100%;background:linear-gradient(90deg,var(--navy),var(--gold));border-radius:99px;transition:.5s;width:0%;}
+  /* Accent KB */
+  #accentKb{position:fixed;bottom:56px;right:12px;background:#1e293b;border-radius:10px;padding:.5rem .6rem;display:none;flex-direction:column;gap:.4rem;z-index:100;box-shadow:0 4px 16px rgba(0,0,0,.3);}
+  .kb-row{display:flex;gap:.3rem;}
+  .kb-btn{background:#334155;color:#fff;border:none;border-radius:5px;width:36px;height:36px;font-size:1.05rem;cursor:pointer;}
+  .kb-btn:hover{background:var(--gold);color:var(--navy);}
+  #kbToggle{position:fixed;bottom:52px;right:12px;background:var(--gold);color:var(--navy);border:none;border-radius:50%;width:42px;height:42px;font-size:1.1rem;cursor:pointer;z-index:101;box-shadow:0 2px 8px rgba(0,0,0,.2);}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>🇫🇷 Les femmes dans la Résistance</h1>
+  <p>Une force vive trop longtemps ignorée</p>
+  <div>
+    <span class="badge">A-Level French</span>
+    <span class="badge">B2</span>
+    <span class="badge">La Seconde Guerre mondiale</span>
+  </div>
+</header>
+
+<nav>
+  <button class="tab active" onclick="show('reading')">📖 Texte</button>
+  <button class="tab" onclick="show('mcq')">1 · Compréhension</button>
+  <button class="tab" onclick="show('tf')">2 · Vrai / Faux</button>
+  <button class="tab" onclick="show('gaps')">3 · Texte à trous</button>
+  <button class="tab" onclick="show('vocab')">4 · Vocabulaire</button>
+  <button class="tab" onclick="show('trans')">5 · Traduction</button>
+</nav>
+
+<!-- READING -->
+<div class="page active" id="reading">
+  <div class="prog-wrap"><div class="prog-fill" id="progFill"></div></div>
+  <div class="rbox">
+    <h2>Le rôle des femmes dans la Résistance — une force vive</h2>
+    <p>La place des femmes dans la Résistance a été <span class="kw" title="reconnu avec retard / acknowledged late">connue tardivement</span> dans l'historiographie de la Seconde Guerre mondiale. En effet, c'est à partir du moment où la communauté scientifique s'est <span class="kw" title="s'est intéressée à / turned its attention to">penchée sur</span> la résistance quotidienne que l'importance du rôle des femmes a réellement émergé.</p>
+    <br>
+    <p><span class="kw" title="to hide">Cacher</span>, <span class="kw" title="to shelter / take in">héberger</span>, <span class="kw" title="to feed">nourrir</span>, <span class="kw" title="to supply">approvisionner</span> — telles étaient les missions que la majorité d'entre elles exerçaient dans la <span class="kw" title="clandestinité = secret / underground activity">clandestinité</span>. Au sein des réseaux, elles assuraient les travaux de secrétariat, étaient <span class="kw" title="agent de liaison = courier / go-between">agents de liaison</span> ou officiaient dans les services sociaux. D'autres avaient rejoint les unités de la France Libre comme médecin, infirmière ou aviatrice.</p>
+    <br>
+    <p>Leur engagement a été <span class="kw" title="peu valorisé = undervalued / given little recognition">peu valorisé</span> à la Libération, ce que traduisent les chiffres : on ne compte que <strong>6 femmes</strong> parmi les 1 059 Compagnons de la Libération. De même, seulement <strong>10 % des médaillés de la Résistance</strong> sont des femmes.</p>
+    <br>
+    <p>Mais l'année <strong>1975</strong>, dans la <span class="kw" title="dans la foulée de = in the wake of / following">foulée</span> de la vague féministe, un colloque organisé par l'Union des femmes françaises leur est consacré — premier du genre à mettre en avant leur rôle important dans la Résistance. Les publications et les travaux universitaires sur le sujet vont peu à peu se multiplier.</p>
+    <br>
+    <p>Les spécificités de la résistance féminine risquaient de remettre en cause les <span class="kw" title="idées reçues = preconceived ideas / received wisdom">idées reçues</span> sur la Résistance, ce qui peut expliquer la <span class="kw" title="frilosité = reluctance / timidity">frilosité</span> des historiens à s'y pencher. L'histoire de cette période ne saurait pourtant s'écrire sans elles — héroïques au même titre que leurs homologues masculins.</p>
+    <div class="src">Texte adapté — Résistance et mémoire, Seconde Guerre mondiale · Niveau B2</div>
+  </div>
+  <p style="font-size:.82rem;color:var(--mid);text-align:center;">💡 Passe la souris sur les mots soulignés pour voir leur définition.</p>
+</div>
+
+<!-- MCQ -->
+<div class="page" id="mcq">
+  <div class="card">
+    <h3><span class="sn">1</span> Compréhension — Choix multiple</h3>
+    <p style="font-size:.85rem;color:var(--mid);margin-bottom:1rem;">Choisis la bonne réponse pour chaque question.</p>
+    <div id="mcqBox"></div>
+    <button class="btn btn-check" onclick="checkMCQ()">Vérifier ✓</button>
+  </div>
+</div>
+
+<!-- TRUE/FALSE -->
+<div class="page" id="tf">
+  <div class="card">
+    <h3><span class="sn">2</span> Vrai ou Faux ?</h3>
+    <p style="font-size:.85rem;color:var(--mid);margin-bottom:1rem;">Dis si chaque affirmation est vraie ou fausse, puis explique en anglais pourquoi.</p>
+    <div id="tfBox"></div>
+    <button class="btn btn-check" onclick="checkTF()">Vérifier ✓</button>
+  </div>
+</div>
+
+<!-- GAPS -->
+<div class="page" id="gaps">
+  <div class="card">
+    <h3><span class="sn">3</span> Texte à trous</h3>
+    <p style="font-size:.85rem;color:var(--mid);margin-bottom:.8rem;">Complète les phrases avec le mot juste du recuadro. Attention — il y a deux mots en trop !</p>
+    <div class="word-bank" id="wordBank"><strong>Mots :</strong></div>
+    <div id="gapBox"></div>
+    <button class="btn btn-check" style="margin-top:.8rem" onclick="checkGaps()">Vérifier ✓</button>
+  </div>
+</div>
+
+<!-- VOCAB -->
+<div class="page" id="vocab">
+  <div class="card">
+    <h3><span class="sn">4</span> Vocabulaire — Relie</h3>
+    <p style="font-size:.85rem;color:var(--mid);margin-bottom:1rem;">Associe chaque mot ou expression français(e) à sa définition ou traduction anglaise.</p>
+    <div id="vocabBox"></div>
+    <button class="btn btn-check" style="margin-top:.8rem" onclick="checkVocab()">Vérifier ✓</button>
+  </div>
+</div>
+
+<!-- TRANSLATION -->
+<div class="page" id="trans">
+  <div class="card">
+    <h3><span class="sn">5</span> Traduction — Anglais → Français</h3>
+    <p style="font-size:.85rem;color:var(--mid);margin-bottom:1rem;">Traduis les phrases en français. Les pistes indiquent la structure grammaticale à utiliser.</p>
+    <div id="transBox"></div>
+    <button class="btn btn-check" style="margin-top:.8rem" onclick="checkTrans()">Vérifier ✓</button>
+  </div>
+</div>
+
+<!-- SCORE BAR -->
+<div id="scoreBar">
+  <span id="scoreText">Score : 0 / 0</span>
+  <div style="display:flex;gap:.5rem;">
+    <button class="btn" onclick="window.scrollTo({top:0,behavior:'smooth'})">⬆ Haut</button>
+  </div>
+</div>
+
+<button id="kbToggle" onclick="toggleKb()">é</button>
+<div id="accentKb">
+  <div style="color:#94a3b8;font-size:.68rem;margin-bottom:.2rem;text-align:center">ACCENTS</div>
+  <div class="kb-row">
+    <button class="kb-btn" onclick="ins('à')">à</button>
+    <button class="kb-btn" onclick="ins('â')">â</button>
+    <button class="kb-btn" onclick="ins('é')">é</button>
+    <button class="kb-btn" onclick="ins('è')">è</button>
+    <button class="kb-btn" onclick="ins('ê')">ê</button>
+  </div>
+  <div class="kb-row">
+    <button class="kb-btn" onclick="ins('ë')">ë</button>
+    <button class="kb-btn" onclick="ins('î')">î</button>
+    <button class="kb-btn" onclick="ins('ï')">ï</button>
+    <button class="kb-btn" onclick="ins('ô')">ô</button>
+    <button class="kb-btn" onclick="ins('ù')">ù</button>
+  </div>
+  <div class="kb-row">
+    <button class="kb-btn" onclick="ins('û')">û</button>
+    <button class="kb-btn" onclick="ins('ü')">ü</button>
+    <button class="kb-btn" onclick="ins('ç')">ç</button>
+    <button class="kb-btn" onclick="ins('œ')">œ</button>
+    <button class="kb-btn" onclick="ins('«')">«»</button>
+  </div>
+  <div style="color:#475569;font-size:.66rem;margin-top:.2rem;text-align:center">cliquer d'abord dans une case</div>
+</div>
+
+<script>
+let lastF=null, scores={};
+document.addEventListener('focusin',e=>{
+  const t=e.target;
+  if((t.tagName==='INPUT'&&t.type==='text')||t.tagName==='TEXTAREA') lastF=t;
+});
+function toggleKb(){
+  const k=document.getElementById('accentKb');
+  k.style.display=k.style.display!=='flex'?'flex':'none';
+}
+function ins(ch){
+  if(!lastF) return;
+  const el=lastF,s=el.selectionStart,e2=el.selectionEnd;
+  el.value=el.value.slice(0,s)+ch+el.value.slice(e2);
+  el.selectionStart=el.selectionEnd=s+ch.length; el.focus();
+}
+function shuffle(a){return [...a].sort(()=>Math.random()-.5);}
+function norm(s){return s.toLowerCase().trim().replace(/\s+/g,' ');}
+
+function show(id){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  const tabs=['reading','mcq','tf','gaps','vocab','trans'];
+  document.querySelectorAll('.tab')[tabs.indexOf(id)].classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+// ── DATA ────────────────────────────────────────────────────────────────────
+
+const mcqData=[
+  {q:"Pourquoi le rôle des femmes dans la Résistance a-t-il été reconnu tardivement ?",
+   opts:["Les femmes refusaient d'en parler après la guerre.","Les historiens se sont d'abord focalisés sur la résistance armée et quotidienne des hommes.","Il n'existait aucune preuve de leur participation.","Le gouvernement avait interdit toute recherche sur ce sujet."],
+   ans:1, expl:"C'est lorsque les historiens se sont intéressés à la résistance quotidienne que l'importance des femmes a émergé — leur rôle discret était donc moins visible."},
+  {q:"Quelle mission n'est PAS mentionnée dans le texte parmi celles des femmes résistantes ?",
+   opts:["Cacher des personnes recherchées","Fabriquer des armes","Servir d'agents de liaison","Approvisionner les réseaux"],
+   ans:1, expl:"Le texte mentionne cacher, héberger, nourrir, approvisionner, la liaison et le secrétariat — mais pas la fabrication d'armes."},
+  {q:"Que révèlent les chiffres sur la reconnaissance des femmes à la Libération ?",
+   opts:["Les femmes ont reçu autant de médailles que les hommes.","Seulement 6 femmes figurent parmi les 1 059 Compagnons de la Libération.","Plus de la moitié des médailles de la Résistance ont été attribuées à des femmes.","Les femmes ont été récompensées mais plus tard que les hommes."],
+   ans:1, expl:"Le texte précise que seulement 6 femmes font partie des 1 059 Compagnons de la Libération et que 10 % seulement des médaillés sont des femmes."},
+  {q:"Quel événement de 1975 a marqué un tournant pour la reconnaissance des femmes résistantes ?",
+   opts:["La publication d'un roman sur la Résistance","Un colloque organisé par l'Union des femmes françaises","Une loi votée par le parlement français","Un documentaire diffusé à la télévision nationale"],
+   ans:1, expl:"En 1975, dans la foulée de la vague féministe, un colloque — premier du genre — a été consacré au rôle des femmes dans la Résistance."},
+  {q:"Selon le texte, pourquoi les historiens ont-ils tardé à étudier la résistance féminine ?",
+   opts:["Les archives étaient inaccessibles.","Les femmes résistantes refusaient de témoigner.","Leurs actions risquaient de remettre en cause les idées reçues sur la Résistance.","Les universités ne finançaient pas ce type de recherche."],
+   ans:2, expl:"Le texte évoque la 'frilosité des historiens' car les spécificités de la résistance féminine pouvaient remettre en cause les idées reçues."},
+];
+
+const tfData=[
+  {stmt:"Women's role in the Resistance was well documented from the end of the Second World War.",ans:false,expl:"The text states it was 'connue tardivement' — recognised late — and only began to emerge when historians turned their attention to everyday resistance."},
+  {stmt:"Women in the Resistance only carried out domestic tasks such as cooking and cleaning.",ans:false,expl:"While many did hide, feed and shelter people, others served as liaison agents, worked in social services, or joined the Free French as doctors, nurses and pilots."},
+  {stmt:"Only 6 women are counted among the 1,059 Companions of the Liberation.",ans:true,expl:"The text states this explicitly: 'on ne compte que 6 femmes parmi les 1 059 compagnons de la libération.'"},
+  {stmt:"The feminist movement of the 1970s contributed to renewed academic interest in women resisters.",ans:true,expl:"The 1975 colloquium was organised 'dans la foulée de la vague féministe' — in the wake of the feminist movement."},
+  {stmt:"Historians were enthusiastic about studying women's resistance from the outset.",ans:false,expl:"The text mentions the 'frilosité' (reluctance/timidity) of historians, partly because women's specific forms of resistance challenged established ideas about the Resistance."},
+];
+
+const gapData=[
+  {before:"La place des femmes a été ",ans:"tardivement",after:" reconnue dans l'historiographie de la guerre."},
+  {before:"Cacher, héberger et nourrir étaient des missions exercées dans la ",ans:"clandestinité",after:"."},
+  {before:"Certaines femmes ont rejoint les unités de la France Libre comme ",ans:"aviatrices",after:" ou infirmières."},
+  {before:"Seulement 10 % des ",ans:"médaillés",after:" de la Résistance sont des femmes."},
+  {before:"En 1975, un ",ans:"colloque",after:" a été consacré pour la première fois au rôle des femmes résistantes."},
+  {before:"La résistance féminine risquait de remettre en cause les ",ans:"idées reçues",after:" sur la Résistance."},
+  {before:"Les historiens ont fait preuve de ",ans:"frilosité",after:" avant de s'intéresser à ce sujet."},
+  {before:"Les travaux universitaires sur le sujet ont commencé à se ",ans:"multiplier",after:" après 1975."},
+];
+const gapDistractors=["courage","libération"];
+
+const vocabData=[
+  {fr:"connue tardivement",opts:["recognised belatedly","widely celebrated","secretly known","gradually forgotten"],ans:"recognised belatedly"},
+  {fr:"se pencher sur",opts:["to turn one's attention to","to lean over physically","to publish about","to ignore"],ans:"to turn one's attention to"},
+  {fr:"héberger",opts:["to shelter / take in","to feed","to supply","to spy on"],ans:"to shelter / take in"},
+  {fr:"agent de liaison",opts:["courier / go-between","secret agent","press officer","military commander"],ans:"courier / go-between"},
+  {fr:"peu valorisé",opts:["given little recognition","highly praised","largely forgotten","poorly paid"],ans:"given little recognition"},
+  {fr:"dans la foulée de",opts:["in the wake of","in spite of","before","alongside"],ans:"in the wake of"},
+  {fr:"les idées reçues",opts:["preconceived ideas","new theories","historical facts","received letters"],ans:"preconceived ideas"},
+  {fr:"la frilosité",opts:["reluctance / timidity","courage","enthusiasm","rigour"],ans:"reluctance / timidity"},
+  {fr:"au même titre que",opts:["in the same way as / just as much as","more than","unlike","instead of"],ans:"in the same way as / just as much as"},
+  {fr:"approvisionner",opts:["to supply / provide for","to hide","to communicate","to recruit"],ans:"to supply / provide for"},
+];
+
+const transData=[
+  {en:"Women's role in the Resistance was only recognised late in historiography.",
+   hint:"Passif avec 'être' au passé composé + adverbe de temps.",
+   ans:"Le rôle des femmes dans la Résistance n'a été reconnu que tardivement dans l'historiographie."},
+  {en:"Most of them carried out their missions in secret.",
+   hint:"'La majorité d'entre elles' + imparfait + 'dans la clandestinité'.",
+   ans:"La majorité d'entre elles exerçaient leurs missions dans la clandestinité."},
+  {en:"The history of this period cannot be written without them.",
+   hint:"'Ne saurait' = conditionnel de modalité (impossibility/strong assertion).",
+   ans:"L'histoire de cette période ne saurait s'écrire sans elles."},
+  {en:"Academic publications on the subject gradually multiplied after 1975.",
+   hint:"'Peu à peu' + passé composé ou passé simple selon le registre.",
+   ans:"Les publications universitaires sur le sujet ont peu à peu commencé à se multiplier après 1975."},
+  {en:"Their heroism deserves to be recognised just as much as that of their male counterparts.",
+   hint:"'Au même titre que' + leurs homologues + 'mérite d'être' + participe passé.",
+   ans:"Leur héroïsme mérite d'être reconnu au même titre que celui de leurs homologues masculins."},
+];
+
+// ── BUILD ────────────────────────────────────────────────────────────────────
+
+function buildMCQ(){
+  const c=document.getElementById('mcqBox');
+  mcqData.forEach((q,i)=>{
+    const d=document.createElement('div'); d.className='q-block';
+    d.innerHTML=`<div class="q-text">${i+1}. ${q.q}</div><div class="options" id="mopts${i}">`
+      +q.opts.map((o,j)=>`<label id="mlbl${i}_${j}"><input type="radio" name="mcq${i}" value="${j}"> ${o}</label>`).join('')
+      +`</div><div class="feedback" id="mfb${i}" style="display:none"></div>`;
+    c.appendChild(d);
+  });
+}
+
+function buildTF(){
+  const c=document.getElementById('tfBox');
+  tfData.forEach((t,i)=>{
+    const d=document.createElement('div'); d.className='tf-row';
+    d.innerHTML=`<div class="tf-stmt">${i+1}. ${t.stmt}</div>
+    <div class="tf-btns">
+      <button class="tf-btn" id="tfV${i}" onclick="selTF(${i},'v')">✅ Vrai</button>
+      <button class="tf-btn" id="tfF${i}" onclick="selTF(${i},'f')">❌ Faux</button>
+    </div>
+    <input type="text" style="width:100%;padding:.4rem .7rem;border:1.5px solid #e2e8f0;border-radius:6px;font-size:.87rem;margin-bottom:.3rem" id="tfEx${i}" placeholder="Justify in English…">
+    <div class="feedback" id="tfFb${i}" style="display:none"></div>`;
+    c.appendChild(d);
+  });
+}
+const tfSel={};
+function selTF(i,v){
+  tfSel[i]=v;
+  document.getElementById(`tfV${i}`).className='tf-btn'+(v==='v'?' sv':'');
+  document.getElementById(`tfF${i}`).className='tf-btn'+(v==='f'?' sf':'');
+}
+
+function buildGaps(){
+  const allWords=shuffle([...gapData.map(g=>g.ans),...gapDistractors]);
+  const wb=document.getElementById('wordBank');
+  allWords.forEach(w=>{const s=document.createElement('span');s.className='wb-tag';s.textContent=w;wb.appendChild(s);});
+  const c=document.getElementById('gapBox');
+  let html='<p class="gap-p">';
+  gapData.forEach((g,i)=>{
+    html+=`<strong>${i+1}.</strong> `+g.before+`<input type="text" class="gap" id="gap${i}" placeholder="…" autocomplete="off">`+g.after+'<br><br>';
+  });
+  c.innerHTML=html+'</p>';
+}
+
+function buildVocab(){
+  const c=document.getElementById('vocabBox');
+  vocabData.forEach((v,i)=>{
+    const d=document.createElement('div'); d.className='vmatch-row';
+    const sh=shuffle(v.opts);
+    d.innerHTML=`<span class="vm-fr">${v.fr}</span>
+      <select class="vm-sel" id="vm${i}"><option value="">— choisir —</option>
+      ${sh.map(o=>`<option value="${o}">${o}</option>`).join('')}</select>
+      <span class="vm-fb" id="vmfb${i}"></span>`;
+    c.appendChild(d);
+  });
+}
+
+function buildTrans(){
+  const c=document.getElementById('transBox');
+  transData.forEach((t,i)=>{
+    const d=document.createElement('div'); d.className='tr-row';
+    d.innerHTML=`<div class="tr-en"><strong>${i+1}.</strong> 🇬🇧 ${t.en}</div>
+      <div class="tr-hint">🔑 ${t.hint}</div>
+      <input type="text" class="tr-input" id="tr${i}" placeholder="Écris ta traduction ici…" autocomplete="off">
+      <div class="feedback" id="trfb${i}" style="display:none;margin-top:.3rem"></div>`;
+    c.appendChild(d);
+  });
+}
+
+// ── CHECK ────────────────────────────────────────────────────────────────────
+
+function checkMCQ(){
+  let ok=0;
+  mcqData.forEach((q,i)=>{
+    const sel=document.querySelector(`input[name="mcq${i}"]:checked`);
+    const fb=document.getElementById(`mfb${i}`);
+    for(let j=0;j<q.opts.length;j++) document.getElementById(`mlbl${i}_${j}`).classList.remove('correct','wrong');
+    if(!sel){fb.style.display='block';fb.className='feedback bad';fb.textContent='⚠️ Pas de réponse.';return;}
+    const v=parseInt(sel.value);
+    if(v===q.ans){document.getElementById(`mlbl${i}_${v}`).classList.add('correct');fb.style.display='block';fb.className='feedback ok';fb.innerHTML=`✅ Correct ! ${q.expl}`;ok++;}
+    else{document.getElementById(`mlbl${i}_${v}`).classList.add('wrong');document.getElementById(`mlbl${i}_${q.ans}`).classList.add('correct');fb.style.display='block';fb.className='feedback bad';fb.innerHTML=`❌ Bonne réponse : <strong>${q.opts[q.ans]}</strong>. ${q.expl}`;}
+  });
+  scores.mcq={got:ok,total:mcqData.length}; upScore();
+}
+
+function checkTF(){
+  let ok=0;
+  tfData.forEach((t,i)=>{
+    const sel=tfSel[i];
+    const fb=document.getElementById(`tfFb${i}`);
+    fb.style.display='block';
+    const correct=(sel==='v')===t.ans;
+    if(correct){fb.className='feedback ok';fb.innerHTML=`✅ ${t.ans?'Vrai':'Faux'} — ${t.expl}`;ok++;}
+    else{fb.className='feedback bad';fb.innerHTML=`❌ C'est ${t.ans?'<strong>vrai</strong>':'<strong>faux</strong>'} — ${t.expl}`;}
+  });
+  scores.tf={got:ok,total:tfData.length}; upScore();
+}
+
+function checkGaps(){
+  let ok=0;
+  gapData.forEach((g,i)=>{
+    const el=document.getElementById(`gap${i}`);
+    el.classList.remove('ci','wi');
+    if(norm(el.value)===norm(g.ans)){el.classList.add('ci');ok++;}
+    else{el.classList.add('wi');el.title=`Réponse : ${g.ans}`;}
+  });
+  scores.gaps={got:ok,total:gapData.length}; upScore();
+  alert(`Texte à trous : ${ok}/${gapData.length}. Passe la souris sur les cases rouges pour voir la réponse.`);
+}
+
+function checkVocab(){
+  let ok=0;
+  vocabData.forEach((v,i)=>{
+    const val=document.getElementById(`vm${i}`).value;
+    const fb=document.getElementById(`vmfb${i}`);
+    if(val===v.ans){fb.textContent='✅';ok++;}
+    else{fb.innerHTML=`❌ <small style="color:var(--red)">${v.ans}</small>`;}
+  });
+  scores.vocab={got:ok,total:vocabData.length}; upScore();
+}
+
+function checkTrans(){
+  let ok=0;
+  transData.forEach((t,i)=>{
+    const val=document.getElementById(`tr${i}`).value.trim();
+    const fb=document.getElementById(`trfb${i}`);
+    fb.style.display='block';
+    const wA=norm(t.ans).split(' ');
+    const hits=norm(val).split(' ').filter(w=>wA.includes(w)).length;
+    if(hits/wA.length>=0.72){fb.className='feedback ok';fb.innerHTML=`✅ Très bien ! Réponse suggérée : <em>${t.ans}</em>`;ok++;}
+    else{fb.className='feedback bad';fb.innerHTML=`❌ Réponse suggérée : <em>${t.ans}</em>`;}
+  });
+  scores.trans={got:ok,total:transData.length}; upScore();
+}
+
+function upScore(){
+  let g=0,t=0;
+  Object.values(scores).forEach(s=>{g+=s.got;t+=s.total;});
+  document.getElementById('scoreText').textContent=`Score : ${g} / ${t}`;
+  document.getElementById('progFill').style.width=(t>0?Math.round(g/t*100):0)+'%';
+}
+
+// ── INIT ─────────────────────────────────────────────────────────────────────
+buildMCQ(); buildTF(); buildGaps(); buildVocab(); buildTrans();
+</script>
+</body>
+</html>

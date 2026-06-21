@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Clinique AO3 — Exactitude</title>
+<style>
+:root{--navy:#1f3a5f;--terra:#b04520;--green:#1e6b2e;--line:#c9b89a;--soft:#eef1f5;--cream:#fbf4e8;--ink:#222;}
+*{box-sizing:border-box}
+body{font-family:Arial,Helvetica,sans-serif;color:var(--ink);margin:0;background:#f6f7f9;line-height:1.4}
+.wrap{max-width:860px;margin:0 auto;padding:18px 16px 120px}
+header{background:var(--navy);color:#fff;border-radius:10px;padding:16px 18px;margin-bottom:14px}
+header h1{margin:0 0 4px;font-size:22px}
+header .t{font-size:13px;color:#cfdbea;font-style:italic}
+.bar{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0 18px}
+button.act{background:var(--terra);color:#fff;border:0;border-radius:8px;padding:9px 14px;font-size:14px;cursor:pointer}
+button.act.alt{background:var(--navy)}
+button.act:hover{filter:brightness(1.08)}
+section.block{background:#fff;border:1px solid var(--line);border-radius:10px;padding:14px 16px;margin-bottom:14px}
+section.block h2{margin:0 0 2px;color:var(--navy);font-size:16px}
+section.block .instr{color:#555;font-size:13px;margin:0 0 10px}
+.item{border-top:1px dashed #ddd;padding:10px 0}
+.item:first-of-type{border-top:0}
+.q{font-size:14px;margin-bottom:6px}
+.q b{color:var(--terra)}
+.row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+input.ans{flex:1;min-width:220px;font-size:15px;padding:8px 10px;border:1.5px solid #bcc6d2;border-radius:7px;font-family:inherit}
+textarea.ans{width:100%;font-size:15px;padding:8px 10px;border:1.5px solid #bcc6d2;border-radius:7px;font-family:inherit;min-height:54px}
+.opts label{display:inline-block;margin:2px 12px 2px 0;font-size:15px;cursor:pointer}
+button.mini{background:#e7ecf2;color:var(--navy);border:0;border-radius:6px;padding:7px 11px;font-size:13px;cursor:pointer}
+button.mini:hover{background:#dbe4ef}
+.fb{font-size:13px;margin-top:5px;min-height:16px;font-weight:bold}
+.fb.ok{color:var(--green)} .fb.no{color:#b00020} .fb.near{color:#b8651b}
+.model{display:none;margin-top:6px;background:var(--cream);border-left:4px solid var(--terra);padding:7px 10px;border-radius:0 6px 6px 0;font-size:13.5px}
+.model b{color:var(--green)} .model .e{color:#555;display:block;margin-top:3px;font-style:italic}
+/* accent pad */
+#pad{position:fixed;right:16px;bottom:16px;background:var(--navy);border-radius:12px;box-shadow:0 6px 22px rgba(0,0,0,.25);padding:8px;z-index:50;max-width:260px}
+#pad .h{display:flex;justify-content:space-between;align-items:center;color:#cfdbea;font-size:11px;margin-bottom:6px;cursor:move;user-select:none}
+#pad .keys{display:flex;flex-wrap:wrap;gap:5px;max-width:240px}
+#pad .keys button{width:34px;height:34px;border:0;border-radius:7px;background:#2c4a72;color:#fff;font-size:16px;cursor:pointer}
+#pad .keys button:hover{background:var(--terra)}
+#pad.min .keys{display:none}
+.toggle{background:#2c4a72;color:#fff;border:0;border-radius:6px;font-size:11px;padding:2px 7px;cursor:pointer}
+.note{font-size:12px;color:#777;margin-top:10px}
+</style></head>
+<body>
+<div class="wrap">
+<header><h1>Clinique AO3 — Exactitude</h1><div class="t">Les fautes d'exactitude les plus fréquentes aux examens Paper 2 — genre, accords, formes verbales, subjonctif, si-clauses, prépositions, négation et anglicismes. Travaille bloc par bloc ; vérifie au fur et à mesure.</div></header>
+<div class="bar">
+  <button class="act" onclick="checkAll()">Tout vérifier</button>
+  <button class="act alt" onclick="revealAll()">Afficher toutes les réponses</button>
+  <button class="act" onclick="download_()">⬇ Télécharger mes réponses</button>
+</div>
+<div id="content"></div>
+<p class="note">Astuce : sers-toi du clavier d'accents flottant (en bas à droite). Clique dans une réponse, puis sur l'accent voulu.</p>
+</div>
+
+<div id="pad">
+  <div class="h" id="padh"><span>Accents</span><button class="toggle" onclick="togglePad()">–</button></div>
+  <div class="keys" id="padkeys"></div>
+</div>
+
+<script>
+const DATA = {"title": "Clinique AO3 — Exactitude", "sub": "Les fautes d'exactitude les plus fréquentes aux examens Paper 2 — genre, accords, formes verbales, subjonctif, si-clauses, prépositions, négation et anglicismes. Travaille bloc par bloc ; vérifie au fur et à mesure.", "code": "AO3_EXACTITUDE", "blocks": [{"title": "1 · Genre & articles", "instr": "Choisis ou corrige.", "items": [{"t": "corrige", "q": "les tensions <b>sociaux</b> de la banlieue", "a": ["les tensions sociales", "tensions sociales"], "m": "les tensions sociales", "e": "Adjectif au féminin pluriel (la tension)."}, {"t": "corrige", "q": "Hubert ne rend guère de choses <b>positifs</b>", "a": ["choses positives", "de choses positives"], "m": "de choses positives", "e": "Accord au féminin pluriel (les choses)."}, {"t": "corrige", "q": "son rêve d'être un boxeur <b>professionnelle</b>", "a": ["un boxeur professionnel", "boxeur professionnel"], "m": "un boxeur professionnel", "e": "Hubert est masculin."}, {"t": "corrige", "q": "ce stagiaire voit <b>tout</b> la violence", "a": ["toute la violence", "voit toute la violence"], "m": "toute la violence", "e": "« tout » s'accorde : toute + nom féminin."}, {"t": "qcm", "q": "___ personne", "opts": ["un", "une"], "c": 1, "m": "une personne", "e": "« personne » est féminin."}, {"t": "qcm", "q": "___ figure", "opts": ["un", "une"], "c": 1, "m": "une figure", "e": "« figure » est féminin."}, {"t": "qcm", "q": "___ pouvoir", "opts": ["le", "la"], "c": 0, "m": "le pouvoir", "e": "« pouvoir » est masculin."}, {"t": "qcm", "q": "___ chance", "opts": ["un", "une"], "c": 1, "m": "une chance", "e": "« chance » est féminin."}]}, {"title": "2 · Accords (adjectifs, participes)", "instr": "Corrige l'accord.", "items": [{"t": "corrige", "q": "la faute <b>n'ai</b> pas des jeunes", "a": ["la faute n'est pas des jeunes", "n'est pas"], "m": "la faute n'est pas des jeunes", "e": "3e personne : « est », pas « ai »."}, {"t": "corrige", "q": "la police va <b>cachera</b> la vérité", "a": ["va cacher la vérité", "la police va cacher la vérité"], "m": "la police va cacher la vérité", "e": "Après « aller » → infinitif (futur proche)."}, {"t": "corrige", "q": "les hommes <b>foncé son aggressifs</b>", "a": ["les hommes foncés sont agressifs"], "m": "les hommes foncés sont agressifs", "e": "Pluriel (foncés) + « sont » + un seul g (agressifs)."}, {"t": "corrige", "q": "cela <b>rendera</b> la cité plus difficile à quitter", "a": ["rendra"], "m": "rendra", "e": "Futur de « rendre » : rendra."}, {"t": "gap", "q": "Quoiqu'ils m'___ (traiter, subjonctif passé) avec respect,", "a": ["aient traitée", "aient traité"], "m": "aient traitée", "e": "« quoique » + subjonctif ; PP accordé avec « m' » (fém.) → traitée."}, {"t": "corrige", "q": "Hubert a <b>un bon chance</b> de partir", "a": ["une bonne chance"], "m": "une bonne chance", "e": "« chance » = féminin → une bonne."}, {"t": "corrige", "q": "il a <b>le meilleur chance</b>", "a": ["la meilleure chance"], "m": "la meilleure chance", "e": "Féminin : la meilleure chance."}, {"t": "corrige", "q": "des réactions <b>différents</b>", "a": ["différentes", "des réactions différentes"], "m": "des réactions différentes", "e": "Accord féminin pluriel."}]}, {"title": "3 · Formes verbales", "instr": "Conjugue ou corrige.", "items": [{"t": "corrige", "q": "il a <b>travailler</b> dur pour partir", "a": ["il a travaillé dur pour partir", "a travaillé"], "m": "il a travaillé dur", "e": "Participe passé après « avoir »."}, {"t": "corrige", "q": "Hubert est le seul <b>de réussir</b> à partir", "a": ["le seul à réussir à partir", "Hubert est le seul à réussir à partir"], "m": "Hubert est le seul à réussir à partir", "e": "« le seul À + infinitif »."}, {"t": "gap", "q": "Les jeunes ___ (vouloir, présent) partir de la cité.", "a": ["veulent"], "m": "veulent", "e": "3e personne du pluriel de « vouloir »."}, {"t": "gap", "q": "Ils ___ (gagner, passé composé) de l'argent.", "a": ["ont gagné"], "m": "ont gagné", "e": "passé composé avec « avoir »."}, {"t": "gap", "q": "Hubert ___ (vivre) avec sa mère.", "a": ["vit"], "m": "vit", "e": "3e pers. de « vivre » : vit."}, {"t": "gap", "q": "Ils ___ (ne pas obtenir) les mêmes opportunités.", "a": ["n'obtiennent pas"], "m": "n'obtiennent pas", "e": "« obtenir » : ils obtiennent."}, {"t": "gap", "q": "Il ___ (utiliser) le pistolet.", "a": ["utilise"], "m": "utilise", "e": "« utiliser » : il utilise."}, {"t": "gap", "q": "Saïd ___ (ouvrir) les yeux.", "a": ["ouvre"], "m": "ouvre", "e": "« ouvrir » : il ouvre."}]}, {"title": "4 · Verbes pronominaux (passé composé)", "instr": "Conjugue — attention à l'auxiliaire et à l'accord.", "items": [{"t": "gap", "q": "Ma mère ___ (se remarier).", "a": ["s'est remariée"], "m": "s'est remariée", "e": "Auxiliaire « être » + accord au féminin."}, {"t": "gap", "q": "Les deux fils ___ (venir) habiter chez nous.", "a": ["sont venus"], "m": "sont venus", "e": "« venir » → être ; accord au masculin pluriel."}, {"t": "gap", "q": "Quelquefois je ___ (ne pas se sentir, présent) à l'aise.", "a": ["ne me sens pas"], "m": "ne me sens pas", "e": "Négation du verbe pronominal : ne me sens pas."}, {"t": "gap", "q": "Ma mère ___ (se remarier, passé composé).", "a": ["s'est remariée"], "m": "s'est remariée", "e": "être + accord féminin."}]}, {"title": "5 · Subjonctif", "instr": "Mets la bonne forme.", "items": [{"t": "gap", "q": "Je voulais que mes parents ___ (se séparer).", "a": ["se séparent"], "m": "se séparent", "e": "« vouloir que » + subjonctif."}, {"t": "gap", "q": "Bien qu'ils m'___ (traiter, subjonctif passé) avec respect,", "a": ["aient traitée", "aient traité"], "m": "aient traitée", "e": "« bien que » + subjonctif ; PP accordé avec « m' » (fém.) → traitée."}, {"t": "gap", "q": "Si j'___ (pouvoir, plus-que-parfait) choisir,", "a": ["avais pu"], "m": "avais pu", "e": "si + plus-que-parfait."}, {"t": "gap", "q": "j'___ (préférer, conditionnel passé) grandir ailleurs.", "a": ["aurais préféré"], "m": "aurais préféré", "e": "conditionnel passé dans la principale."}]}, {"title": "6 · Si-clauses", "instr": "Mets les verbes aux bons temps.", "items": [{"t": "gap", "q": "j'___ (préférer, conditionnel passé) un autre milieu.", "a": ["aurais préféré"], "m": "aurais préféré", "e": "conditionnel passé."}, {"t": "gap", "q": "Si les forces de l'ordre ___ (prendre, conditionnel passé) la situation en douceur…", "a": ["auraient pris"], "m": "auraient pris", "e": "conditionnel passé (résultat hypothétique)."}]}, {"title": "7 · Prépositions", "instr": "Choisis la bonne préposition.", "items": [{"t": "qcm", "q": "Vinz veut lutter ___ la violence policière.", "opts": ["à", "contre", "de"], "c": 1, "m": "contre", "e": "« lutter CONTRE »."}, {"t": "qcm", "q": "Il faut répondre ___ la violence.", "opts": ["à", "de", "contre"], "c": 0, "m": "à", "e": "« répondre À »."}, {"t": "qcm", "q": "Hubert veut échapper ___ la banlieue.", "opts": ["—", "à", "de"], "c": 1, "m": "à", "e": "« échapper À »."}, {"t": "qcm", "q": "à cause ___ la violence", "opts": ["de", "à", "par"], "c": 0, "m": "de", "e": "« à cause DE »."}, {"t": "qcm", "q": "il aime ___ montrer ses idées", "opts": ["—", "de", "à"], "c": 0, "m": "(rien)", "e": "« aimer + infinitif » sans préposition."}, {"t": "qcm", "q": "aider ___ les arrêter", "opts": ["à", "de", "—"], "c": 0, "m": "à", "e": "« aider À + infinitif »."}, {"t": "qcm", "q": "différent ___ les deux autres", "opts": ["que", "de", "des"], "c": 2, "m": "des", "e": "« différent DES » (de + les)."}]}, {"title": "8 · Négation complète", "instr": "Corrige la négation.", "items": [{"t": "corrige", "q": "Il est évident qu'ils ne <b>comprennent</b>.", "a": ["ils ne comprennent pas", "ne comprennent pas"], "m": "ils ne comprennent pas", "e": "Négation complète : ne…pas."}, {"t": "corrige", "q": "il faut <b>expériencer</b> les conséquences", "a": ["subir les conséquences", "faire l'expérience des conséquences"], "m": "subir les conséquences", "e": "« expériencer » est un calque ; dire « subir »."}, {"t": "corrige", "q": "sa <b>réflection</b> dans le miroir", "a": ["réflexion", "sa réflexion"], "m": "sa réflexion", "e": "Orthographe : réflexion."}, {"t": "gap", "q": "Leurs enfants ___ (ne…aucun, avoir) contrôle de la situation.", "a": ["n'ont aucun"], "m": "n'ont aucun", "e": "« ne…aucun » au singulier : n'ont aucun contrôle."}]}, {"title": "9 · Anglicismes & orthographe", "instr": "Remplace l'anglicisme ou corrige l'orthographe.", "items": [{"t": "corrige", "q": "les <b>préjudices</b> de la société", "a": ["les préjugés", "préjugés"], "m": "les préjugés", "e": "« préjudice » ≠ « préjugé » (faux ami)."}, {"t": "corrige", "q": "ce <b>prédicament</b>", "a": ["cette situation difficile", "situation difficile"], "m": "cette situation difficile", "e": "Calque de l'anglais « predicament »."}, {"t": "corrige", "q": "traiter avec <b>digniter</b>", "a": ["dignité", "avec dignité"], "m": "avec dignité", "e": "Orthographe : dignité."}, {"t": "corrige", "q": "un crime <b>commit</b>", "a": ["commis", "un crime commis"], "m": "commis", "e": "Participe passé de « commettre » : commis."}, {"t": "corrige", "q": "les <b>protagonists</b>", "a": ["les protagonistes", "protagonistes"], "m": "les protagonistes", "e": "Orthographe française."}, {"t": "corrige", "q": "un personnage de <b>sympathy</b>", "a": ["sympathie", "de sympathie"], "m": "de sympathie", "e": "Sympathie (français)."}, {"t": "corrige", "q": "<b>Paragraph</b> 1", "a": ["Paragraphe 1", "paragraphe"], "m": "Paragraphe", "e": "Orthographe française."}, {"t": "corrige", "q": "un <b>symbol</b> de pouvoir", "a": ["un symbole", "symbole"], "m": "un symbole", "e": "Symbole (français)."}]}]};
+let last=null;
+const norm=s=>(s||'').trim().toLowerCase().replace(/\s+/g,' ').replace(/[’‘]/g,"'").replace(/[«»"]/g,'').replace(/\s*([.,;:!?])/g,'$1');
+const noacc=s=>norm(s).normalize('NFD').replace(/[̀-ͯ]/g,'');
+function el(tag,cls,html){const e=document.createElement(tag);if(cls)e.className=cls;if(html!=null)e.innerHTML=html;return e;}
+
+const root=document.getElementById('content');
+DATA.blocks.forEach((bl,bi)=>{
+  const sec=el('section','block');
+  sec.appendChild(el('h2',null,bl.title));
+  if(bl.instr) sec.appendChild(el('p','instr',bl.instr));
+  bl.items.forEach((it,ii)=>{
+    const id='i'+bi+'_'+ii;
+    const div=el('div','item'); div.dataset.id=id; div.dataset.type=it.t;
+    div.appendChild(el('div','q',it.q));
+    if(it.t==='qcm'){
+      const op=el('div','opts');
+      it.opts.forEach((o,oi)=>{
+        const lab=el('label'); lab.innerHTML=`<input type="radio" name="${id}" value="${oi}"> ${o}`;
+        op.appendChild(lab);
+      });
+      div.appendChild(op);
+    } else if(it.t==='enrich'){
+      const ta=el('textarea','ans'); ta.id=id; div.appendChild(ta);
+    } else {
+      const r=el('div','row'); const inp=el('input','ans'); inp.id=id; inp.type='text'; r.appendChild(inp); div.appendChild(r);
+    }
+    const ctr=el('div','row');
+    if(it.t!=='enrich'){const cb=el('button','mini','Vérifier'); cb.onclick=()=>checkOne(div,it); ctr.appendChild(cb);}
+    const rb=el('button','mini','Voir la réponse'); rb.onclick=()=>reveal(div); ctr.appendChild(rb);
+    div.appendChild(ctr);
+    div.appendChild(el('div','fb'));
+    const m=el('div','model'); m.innerHTML=(it.m?('<b>Réponse :</b> '+it.m):'')+(it.e?('<span class="e">'+it.e+'</span>'):''); div.appendChild(m);
+    sec.appendChild(div);
+  });
+  root.appendChild(sec);
+});
+
+function getItem(div){const [bi,ii]=div.dataset.id.replace('i','').split('_').map(Number);return DATA.blocks[bi].items[ii];}
+function checkOne(div,it){
+  const fb=div.querySelector('.fb');
+  if(it.t==='qcm'){
+    const sel=div.querySelector('input[type=radio]:checked');
+    if(!sel){fb.className='fb no';fb.textContent='Choisis une option.';return;}
+    if(Number(sel.value)===it.c){fb.className='fb ok';fb.textContent='✓ Correct !';}
+    else{fb.className='fb no';fb.textContent='✗ Pas encore — réessaie.';}
+    return;
+  }
+  const v=(div.querySelector('.ans')||{}).value||'';
+  const acc=(it.a||[]).map(norm);
+  if(acc.includes(norm(v))){fb.className='fb ok';fb.textContent='✓ Correct !';}
+  else if((it.a||[]).map(noacc).includes(noacc(v))){fb.className='fb near';fb.textContent='≈ Presque — vérifie les accents.';}
+  else{fb.className='fb no';fb.textContent='✗ Pas encore — réessaie ou « Voir la réponse ».';}
+}
+function reveal(div){div.querySelector('.model').style.display='block';}
+function checkAll(){document.querySelectorAll('.item').forEach(d=>{const it=getItem(d); if(it.t!=='enrich')checkOne(d,it);});}
+function revealAll(){document.querySelectorAll('.model').forEach(m=>m.style.display='block');}
+
+function download_(){
+  let out='ATELIER AO3 — '+DATA.title+'\n'+DATA.sub+'\n\n';
+  DATA.blocks.forEach(bl=>{
+    out+='== '+bl.title+' ==\n';
+    bl.items.forEach((it,ii)=>{
+      const id='i'+DATA.blocks.indexOf(bl)+'_'+ii;
+      let ua='';
+      if(it.t==='qcm'){const s=document.querySelector('input[name="'+id+'"]:checked'); ua=s?it.opts[Number(s.value)]:'(non répondu)';}
+      else{const e=document.getElementById(id); ua=e&&e.value?e.value:'(non répondu)';}
+      out+='• '+it.q.replace(/<[^>]+>/g,'')+'\n   Ta réponse : '+ua+'\n';
+      if(it.m) out+='   Réponse attendue : '+it.m.replace(/<[^>]+>/g,'')+'\n';
+      out+='\n';
+    });
+  });
+  const blob=new Blob([out],{type:'text/plain;charset=utf-8'});
+  const a=document.createElement('a'); a.href=URL.createObjectURL(blob);
+  a.download='atelier_'+DATA.code+'_AO3.txt'; document.body.appendChild(a); a.click();
+  setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove();},800);
+}
+
+// accent pad
+const ACC=['é','è','ê','ë','à','â','ä','ç','î','ï','ô','ö','ù','û','ü','œ','«','»','’','—'];
+const keys=document.getElementById('padkeys');
+ACC.forEach(ch=>{const b=document.createElement('button');b.textContent=ch;b.onmousedown=e=>{e.preventDefault();insert(ch);};keys.appendChild(b);});
+document.addEventListener('focusin',e=>{if(e.target.classList&&e.target.classList.contains('ans'))last=e.target;});
+function insert(ch){if(!last)return;const s=last.selectionStart,en=last.selectionEnd,v=last.value;last.value=v.slice(0,s)+ch+v.slice(en);last.selectionStart=last.selectionEnd=s+ch.length;last.focus();}
+function togglePad(){const p=document.getElementById('pad');p.classList.toggle('min');p.querySelector('.toggle').textContent=p.classList.contains('min')?'+':'–';}
+// drag
+(function(){const p=document.getElementById('pad'),h=document.getElementById('padh');let dx,dy,drag=false;
+ h.addEventListener('mousedown',e=>{drag=true;dx=e.clientX-p.offsetLeft;dy=e.clientY-p.offsetTop;p.style.right='auto';});
+ document.addEventListener('mousemove',e=>{if(!drag)return;p.style.left=(e.clientX-dx)+'px';p.style.top=(e.clientY-dy)+'px';p.style.bottom='auto';});
+ document.addEventListener('mouseup',()=>drag=false);})();
+</script>
+</body></html>

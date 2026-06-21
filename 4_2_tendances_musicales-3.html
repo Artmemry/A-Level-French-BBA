@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>4.2 Les Tendances Musicales - Leçon Interactive Complète</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: linear-gradient(135deg,#667eea 0%,#764ba2 100%); padding: 20px; min-height:100vh; color:#333; padding-bottom:120px; }
+        .container { max-width:1200px; margin:0 auto; background:white; border-radius:15px; box-shadow:0 10px 40px rgba(0,0,0,0.25); padding:36px; }
+        .header { text-align:center; margin-bottom:30px; border-bottom:3px solid #667eea; padding-bottom:18px; }
+        h1 { color:#667eea; font-size:2.2em; }
+        .subtitle { color:#666; }
+        .section { background:#f8f9fa; padding:20px; border-radius:10px; margin-bottom:22px; border-left:5px solid #667eea; }
+        .section-title { color:#667eea; font-size:1.4em; margin-bottom:12px; }
+        .text-box { background:white; padding:18px; border-radius:8px; border:2px solid #e0e0e0; line-height:1.7; }
+        .vocab-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:10px; margin-top:12px; }
+        .vocab-card { background:#fff; padding:12px; border-radius:8px; border:1px solid #ddd; }
+        .activity-number { display:inline-block; background:#667eea; color:white; padding:6px 14px; border-radius:20px; font-weight:700; margin-bottom:10px; }
+        .controls { display:flex; gap:10px; flex-wrap:wrap; margin-top:12px; }
+        .btn { padding:10px 16px; border:none; border-radius:8px; cursor:pointer; font-weight:600; }
+        .btn-check { background:#4caf50; color:white; }
+        .btn-reset { background:#f44336; color:white; }
+        textarea,input[type=text]{ width:100%; padding:10px; border-radius:6px; border:2px solid #ddd; margin-top:8px; font-family:inherit; }
+        textarea{ min-height:100px; resize:vertical; }
+        .grammar-box{ background:#e3f2fd; padding:14px; border-radius:8px; border-left:4px solid #2196f3; margin-top:12px; }
+        .answer-box{ display:none; background:#f9f9f9; padding:12px; border-radius:8px; margin-top:10px; border-left:4px solid #4caf50; }
+        .toggle-answer{ background:#4caf50; color:white; border:none; padding:8px 12px; border-radius:6px; cursor:pointer; font-weight:700; }
+        .sentence-order{ display:flex; flex-direction:column; gap:8px; margin-top:12px; }
+        .sentence-item{ background:white; padding:12px; border-radius:8px; border:1px solid #ddd; cursor:move; display:flex; gap:12px; align-items:center; }
+        .sentence-number{ background:#667eea; color:white; width:32px; height:32px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:700; }
+        .homework-box{ background:#ffebee; padding:14px; border-radius:8px; border-left:4px solid #e91e63; }
+        .listening-section{ background:#fff3e0; padding:14px; border-radius:8px; border-left:4px solid #ff9800; }
+        @media(max-width:768px){ .vocab-grid{ grid-template-columns:1fr; } }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎶 4.2 Les Tendances Musicales</h1>
+            <p class="subtitle">Lecture, vocabulaire, grammaire et activités interactives</p>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title">📋 Objectifs de l'unité</h2>
+            <div class="text-box">
+                <p><strong>Thème:</strong> Explorer les tendances musicales francophones, avec un accent sur Haïti et la chanson française.</p>
+                <ul style="margin-left:18px; margin-top:10px;">
+                    <li>Compréhension écrite et auditive</li>
+                    <li>Vocabulaire spécialisé (musique, histoire et société)</li>
+                    <li>Révision du passé simple / past historic et du passé composé</li>
+                    <li>Pratique de production écrite et discussion</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="activity-number">Lecture</div>
+            <h2 class="section-title">La musique haïtienne – quelques tendances</h2>
+            <div class="text-box" id="haitiText">
+                <p>Pour bien comprendre les tendances musicales d’Haïti, il faut fouiller dans son passé. Ancienne colonie française, Haïti se libéra en 1804 quand les nombreux esclaves qu’avaient fait transporter les Français se révoltèrent. Dès lors indépendante, la culture française y resta tout de même importante voire dominante – surtout en ce qui concerne la haute société – et le français, la langue officielle. Ceci se refléta dans la musique haïtienne de l’époque, les riches préférant la musique francophone, les couches sociales moins favorisées, celle d’origine africaine. Inévitablement, les influences culturelles françaises, africaines et caribéennes finirent par s’entremêler, ce qui résulta en des styles musicaux uniques en Haïti dont le kompa, le rara et le mizik Rasin.</p>
+
+                <p>Une version plus moderne de la méringue française, le kompa provint du XIXème siècle et s’inspira, au départ, des rythmes vaudou. Ce fut dans les années cinquante qu’il devint vraiment connu grâce au musicien Nemours Jean Baptiste qui en créa sa propre version, plus proche de la méringue de la République Dominicaine, qu’il nomma kompa direct et qui n’avait aucun lien avec le vaudou. Malgré les différentes tendances qui voient périodiquement le jour, la formule du kompa reste homogène.</p>
+
+                <p>À la différence du kompa direct, le rara associe la musique et la culture du vaudou. Diffusé dans les rues uniquement à l’époque du carnaval jusqu’aux fêtes de Pâques, cette musique paysanne est le seul visage officiel du vaudou.</p>
+
+                <p>Plutôt méconnu à l’étranger, le mizik rasin naquit au milieu des années soixante-dix, au milieu des émeutes et des manifestations étudiantes. Ce fut alors la parole et l’énergie des jeunes Haïtiens. Dix ans après, ce courant musical devint un véritable mouvement de contestation. Les groupes de mizik rasin, comme Boukan Eksperyans ou Boukman Eksperyans, jouèrent un rôle important dans la révolte de 1986 qui mit fin au régime de Jean-Claude Duvalier. Le mizik rasin est encore aujourd’hui un genre musical très populaire en Haïti et continue d’influencer la vie et la culture du pays.</p>
+            </div>
+
+            <div style="margin-top:14px;">
+                <div class="activity-number">Activité 4.2.1</div>
+                <h3>Remettez ces phrases dans l'ordre (ordre du texte)</h3>
+                <p>Glissez pour réordonner selon le passage ci-dessus.</p>
+                <div class="sentence-order" id="orderContainer">
+                    <div class="sentence-item" draggable="true" data-id="1"><div class="sentence-number">1</div><div>Le kompa et son origine</div></div>
+                    <div class="sentence-item" draggable="true" data-id="2"><div class="sentence-number">2</div><div>Le rara et le vaudou</div></div>
+                    <div class="sentence-item" draggable="true" data-id="3"><div class="sentence-number">3</div><div>Le mizik rasin et la contestation</div></div>
+                    <div class="sentence-item" draggable="true" data-id="4"><div class="sentence-number">4</div><div>Influences françaises, africaines et caribéennes</div></div>
+                </div>
+                <div class="controls">
+                    <button class="btn btn-check" onclick="checkOrder()">✓ Vérifier</button>
+                    <button class="btn btn-reset" onclick="resetOrder()">🔄 Réinitialiser</button>
+                </div>
+                <div id="orderFeedback" style="margin-top:8px;font-weight:700"></div>
+                <div class="answer-box" id="orderAnswerBox"><p><strong>Ordre correct:</strong> Influences → Le kompa → Le rara → Le mizik rasin.</p></div>
+                <button class="toggle-answer" onclick="toggleAnswer('orderAnswerBox')">Voir la réponse</button>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="activity-number">Vocabulaire</div>
+            <h2 class="section-title">Mots clés & test de vocabulaire</h2>
+            <div class="text-box">
+                <p>Travaillez le vocabulaire suivant — associez les mots anglais à leur équivalent français dans le test plus bas.</p>
+                <div class="vocab-grid">
+                    <div class="vocab-card">1. controversial — controversé</div>
+                    <div class="vocab-card">2. une couche — a layer / a social class</div>
+                    <div class="vocab-card">3. from then on — dès lors</div>
+                    <div class="vocab-card">4. broadcast (adj / past participle) — diffusé</div>
+                    <div class="vocab-card">5. s’égarer — to get lost / to stray</div>
+                    <div class="vocab-card">6. s’entremêler — to blend / to get mixed</div>
+                    <div class="vocab-card">7. une époque — a period of history</div>
+                    <div class="vocab-card">8. un(e) esclave — a slave</div>
+                    <div class="vocab-card">9. favorisé — fortunate / privileged</div>
+                    <div class="vocab-card">10. fouiller — to rummage / to search</div>
+                    <div class="vocab-card">11. haïtien(ne) — Haitian</div>
+                    <div class="vocab-card">12. homogène — homogenous</div>
+                    <div class="vocab-card">13. un(e) interprète — a performer</div>
+                    <div class="vocab-card">14. se libérer — to become free</div>
+                    <div class="vocab-card">15. périodiquement — periodically</div>
+                    <div class="vocab-card">16. la réincarnation — reincarnation</div>
+                    <div class="vocab-card">17. revendiquer — to claim / to demand</div>
+                    <div class="vocab-card">18. se révolter — to revolt</div>
+                    <div class="vocab-card">19. une tendance — a trend</div>
+                    <div class="vocab-card">20. le vaudou — voodoo</div>
+                </div>
+
+                <div style="margin-top:12px;">
+                    <div class="activity-number">Test vocab</div>
+                    <p>Entrez la traduction française (ou anglaise) et cliquez Vérifier.</p>
+                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+                        <div>
+                            <label>1. controversial →</label>
+                            <input type="text" id="v1" placeholder="votre réponse">
+                        </div>
+                        <div>
+                            <label>2. une couche →</label>
+                            <input type="text" id="v2" placeholder="votre réponse">
+                        </div>
+                    </div>
+                    <div class="controls" style="margin-top:10px;">
+                        <button class="btn btn-check" onclick="checkVocab()">✓ Vérifier</button>
+                        <button class="btn btn-reset" onclick="resetVocab()">🔄 Réinitialiser</button>
+                    </div>
+                    <div id="vocabFeedback" style="margin-top:8px;font-weight:700"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="activity-number">Grammaire</div>
+            <h2 class="section-title">Le passé simple / Past historic (révision)</h2>
+            <div class="grammar-box">
+                <p><strong>Rappel:</strong> Le passé simple est utilisé principalement dans la langue écrite et la littérature. Voici quelques terminaisons et exemples tirés du texte.</p>
+                <ul style="margin-left:18px;">
+                    <li>Les verbes en -er : a (il chanta), èrent (ils chantèrent)</li>
+                    <li>Les verbes en -ir : it / irent (il partit / ils finirent)</li>
+                    <li>Verbes irréguliers : être → fut, avoir → eut, voir → vit, faire → fit</li>
+                </ul>
+                <p style="margin-top:8px;"><em>Exemples du texte:</em> <br>"Haïti se libéra en 1804..." / "les esclaves ... se révoltèrent" / "Ceci se refléta dans la musique..."</p>
+            </div>
+
+            <div style="margin-top:12px;">
+                <div class="activity-number">Activité Grammaire</div>
+                <h3>Transformez au passé simple</h3>
+                <p>Transformez ces phrases au passé simple (écrivez votre réponse ci-dessous).</p>
+                <div class="question"><label>1. se libérer →</label><input type="text" id="g1" placeholder="ex: se libéra"></div>
+                <div class="question" style="margin-top:8px;"><label>2. se révolter →</label><input type="text" id="g2" placeholder="ex: se révoltèrent"></div>
+                <div class="controls"><button class="btn btn-check" onclick="checkGrammar()">✓ Vérifier</button><button class="btn btn-reset" onclick="resetGrammar()">🔄 Réinitialiser</button></div>
+                <div id="grammarFeedback" style="margin-top:8px;font-weight:700"></div>
+                <div class="answer-box" id="grammarAnswerBox"><p><strong>Réponses modèles:</strong> 1. se libéra / 2. se révoltèrent</p></div>
+                <button class="toggle-answer" onclick="toggleAnswer('grammarAnswerBox')">Voir les réponses</button>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="activity-number">Écoute / Lecture</div>
+            <h2 class="section-title">La chanson française (texte d'écoute)</h2>
+            <div class="listening-section">
+                <p>PRÉSENTATEUR: Rares sont ceux, au moins dans le monde de la musique, qui n’ont jamais entendu parler de la chanson française, genre musical où les interprètes chantent des textes écrits en français. Mais que savent les jeunes Français de cette musique?</p>
+                <p>ADOLESCENTE 1: La chanson française provient du Moyen-Âge quand les troubadours, entre autres, chantaient lors des fêtes. Elle a connu de nombreuses réincarnations au cours des années – de la chanson réaliste, pleine de désespoir, à la musique pop.</p>
+                <p>ADOLESCENTE 2: Malgré le succès des cabarets et des chanteuses réalistes, comme Édith Piaf, ce n’est qu’après la Seconde Guerre Mondiale que la chanson française est devenue une vraie industrie.</p>
+                <p>ADOLESCENTE 1: Elle a évolué selon les goûts du moment. Les chanteurs-poètes tels que Georges Brassens et Jacques Brel – bref, les idoles des années cinquante – ont été par exemple vite remplacés par les yé-yé dans les années soixante...</p>
+
+                <div style="margin-top:10px;">
+                    <label>Question: En deux phrases, expliquez l'évolution de la chanson française.</label>
+                    <textarea id="listenQ" placeholder="Votre réponse..."></textarea>
+                    <div class="controls"><button class="btn btn-check" onclick="checkListening()">✓ Vérifier (auto-check)</button></div>
+                    <div id="listenFeedback" style="margin-top:8px;font-weight:700"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="activity-number">Production écrite</div>
+            <h2 class="section-title">Exit Ticket</h2>
+            <div class="text-box">
+                <p>Écrivez un paragraphe (8-10 lignes) sur une tradition musicale francophone de votre choix en incluant:</p>
+                <ul style="margin-left:18px;">
+                    <li>origine</li>
+                    <li>interprètes</li>
+                    <li>évolution et popularité</li>
+                    <li>votre opinion et perspectives</li>
+                </ul>
+                <textarea id="exitParagraph" placeholder="Votre paragraphe..."></textarea>
+                <div class="controls"><button class="btn btn-check" onclick="checkExit()">✓ Soumettre</button></div>
+                <div id="exitFeedback" style="margin-top:8px;font-weight:700"></div>
+            </div>
+        </div>
+
+        <div class="section homework-box">
+            <h3>Devoirs / HW</h3>
+            <ul style="margin-left:18px;">
+                <li>Terminer 4.1 reading & listening (si non fait)</li>
+                <li>Faire 4.2 reading, vocabulaire et exercices</li>
+                <li>Rechercher trois traditions de musique francophone (ex.: Haïti, Québec, Maghreb)</li>
+                <li>Préparez un court exposé (2 minutes) sur votre tradition choisie</li>
+            </ul>
+        </div>
+
+    </div>
+
+    <script>
+        // Small interactivity: drag reorder
+        const container = document.getElementById('orderContainer');
+        let dragSrc = null;
+        container.addEventListener('dragstart', (e) => {
+            const li = e.target.closest('.sentence-item');
+            if(!li) return;
+            dragSrc = li;
+            li.classList.add('dragging');
+            e.dataTransfer.effectAllowed = 'move';
+        });
+        container.addEventListener('dragend', (e) => {
+            if(dragSrc) dragSrc.classList.remove('dragging');
+            dragSrc = null;
+        });
+        container.addEventListener('dragover', (e) => { e.preventDefault(); const after = getDragAfterElement(container, e.clientY); const dragging = document.querySelector('.dragging'); if(!dragging) return; if(after==null) container.appendChild(dragging); else container.insertBefore(dragging, after); });
+        function getDragAfterElement(container, y){ const draggableElements = [...container.querySelectorAll('.sentence-item:not(.dragging)')]; return draggableElements.reduce((closest, child) => { const box = child.getBoundingClientRect(); const offset = y - box.top - box.height/2; if(offset<0 && offset>closest.offset){ return {offset: offset, element: child}; } else return closest; }, {offset: Number.NEGATIVE_INFINITY}).element; }
+
+        function checkOrder(){
+            const items = [...container.querySelectorAll('.sentence-item')];
+            // extract the visible text part (ignore the leading number circle)
+            const texts = items.map(i => {
+                const node = i.querySelector('div:nth-child(2)');
+                const txt = node ? node.innerText.trim() : i.innerText.trim();
+                return txt.toLowerCase();
+            });
+            // expected phrases (lowercase)
+            const expected = [
+                'influences françaises, africaines et caribéennes',
+                'le kompa et son origine',
+                'le rara et le vaudou',
+                'le mizik rasin et la contestation'
+            ];
+            let ok = true;
+            if(texts.length !== expected.length) ok = false;
+            else{
+                for(let i=0;i<expected.length;i++){
+                    // check that the expected key words appear in the placed item
+                    const expKey = expected[i].split(' ')[0];
+                    if(!texts[i].includes(expKey)) { ok = false; break; }
+                }
+            }
+            const fb = document.getElementById('orderFeedback');
+            fb.textContent = ok ? 'Bon travail — ordre correct ✔️' : 'Il y a des erreurs. Réessayez.';
+        }
+        function resetOrder(){ // simple: move items back to initial
+            const initial = ['Le kompa et son origine','Le rara et le vaudou','Le mizik rasin et la contestation','Influences françaises, africaines et caribéennes'];
+            const items = [...container.querySelectorAll('.sentence-item')];
+            // clear
+            container.innerHTML='';
+            initial.forEach((t,i)=>{ const div=document.createElement('div'); div.className='sentence-item'; div.draggable=true; div.dataset.id=(i+1); div.innerHTML = `<div class="sentence-number">${i+1}</div><div>${t}</div>`; container.appendChild(div); });
+            document.getElementById('orderFeedback').textContent='';
+        }
+
+        function toggleAnswer(id){ const el=document.getElementById(id); el.style.display = (el.style.display==='block') ? 'none' : 'block'; }
+
+        function checkVocab(){ const a=document.getElementById('v1').value.trim().toLowerCase(); const b=document.getElementById('v2').value.trim().toLowerCase(); let score=0; if(a==='controversé' || a==='controversé' ) score++; if(b==='a layer' || b==='a social class' || b==='a layer / a social class' || b==='une couche') score++; document.getElementById('vocabFeedback').textContent = `Résultat: ${score}/2.`; }
+        function resetVocab(){ document.getElementById('v1').value=''; document.getElementById('v2').value=''; document.getElementById('vocabFeedback').textContent=''; }
+
+        function checkGrammar(){ const g1=document.getElementById('g1').value.trim().toLowerCase(); const g2=document.getElementById('g2').value.trim().toLowerCase(); let ok = (g1==='se libéra' || g1==='se libéra.') && (g2==='se révoltèrent' || g2==='se révoltèrent.'); document.getElementById('grammarFeedback').textContent = ok ? 'Correct ✔️' : 'Il y a des erreurs — comparez avec la réponse modèle.'; }
+        function resetGrammar(){ document.getElementById('g1').value=''; document.getElementById('g2').value=''; document.getElementById('grammarFeedback').textContent=''; }
+
+        function checkListening(){ const ans = document.getElementById('listenQ').value.trim(); document.getElementById('listenFeedback').textContent = ans.length>20 ? 'Bonne réponse — contient du détail.' : 'Répondez en deux phrases complètes.'; }
+
+        function checkExit(){ const p = document.getElementById('exitParagraph').value.trim(); document.getElementById('exitFeedback').textContent = p.length>120 ? 'Paragraphe soumis — bon travail.' : 'Élargissez votre paragraphe (8-10 lignes attendues).'; }
+
+    </script>
+
+
+<!-- Floating Accent Keyboard -->
+<div id="accentKeyboard" style="position:fixed; bottom:20px; right:20px; background:white; padding:10px; border-radius:10px; box-shadow:0 4px 12px rgba(0,0,0,0.3); display:flex; gap:6px; z-index:9999;">
+    <button onclick="insertAccent('é')">é</button>
+    <button onclick="insertAccent('è')">è</button>
+    <button onclick="insertAccent('ê')">ê</button>
+    <button onclick="insertAccent('à')">à</button>
+    <button onclick="insertAccent('ç')">ç</button>
+    <button onclick="insertAccent('ô')">ô</button>
+    <button onclick="insertAccent('ù')">ù</button>
+</div>
+
+<!-- Download HTML Button -->
+<div style="position:fixed; bottom:20px; left:20px; z-index:9999;">
+    <button onclick="downloadPage()" style="padding:10px 16px; background:#667eea; color:white; border:none; border-radius:8px; font-weight:700;">⬇ Télécharger cette page</button>
+</div>
+
+<script>
+// Insert accent into focused input/textarea
+function insertAccent(char){
+    const active = document.activeElement;
+    if(active && (active.tagName === 'INPUT' || active.tagName === 'TEXTAREA')){
+        const start = active.selectionStart;
+        const end = active.selectionEnd;
+        const text = active.value;
+        active.value = text.slice(0,start) + char + text.slice(end);
+        active.selectionStart = active.selectionEnd = start + 1;
+        active.focus();
+    }
+}
+
+// Download current page as HTML
+function downloadPage(){
+    const blob = new Blob([document.documentElement.outerHTML], {type:'text/html'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = '4.2_tendances_musicales.html';
+    a.click();
+    URL.revokeObjectURL(url);
+}
+</script>
+
+</body>
+</html>

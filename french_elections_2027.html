@@ -1,0 +1,771 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>La présidentielle 2027 - Activité</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background-color: #f3f4f6;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .header h1 {
+            color: #1e3a8a;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            color: #6b7280;
+            font-size: 1.1rem;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 8px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        
+        .card.blue-bg {
+            background-color: #eff6ff;
+            border: 1px solid #bfdbfe;
+        }
+        
+        .card.green-bg {
+            background-color: #f0fdf4;
+            border: 1px solid #bbf7d0;
+        }
+        
+        .card-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #1f2937;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #e5e7eb;
+            padding-bottom: 10px;
+        }
+        
+        .reading-text p {
+            margin-bottom: 15px;
+            color: #374151;
+            text-align: justify;
+        }
+        
+        .reading-text p:first-of-type {
+            font-weight: 600;
+        }
+        
+        .question {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 6px;
+            padding: 20px;
+            margin-bottom: 15px;
+        }
+        
+        .question-text {
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #1f2937;
+        }
+        
+        .option {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            margin: 8px 0;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        
+        .option:hover {
+            background-color: #f9fafb;
+        }
+        
+        .option input[type="radio"] {
+            margin-right: 10px;
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+        
+        .option.correct {
+            background-color: #d1fae5;
+            border-left: 4px solid #10b981;
+        }
+        
+        .option.incorrect {
+            background-color: #fee2e2;
+            border-left: 4px solid #ef4444;
+        }
+        
+        .vocab-row {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px;
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 6px;
+            margin-bottom: 12px;
+        }
+        
+        .vocab-french {
+            font-weight: 600;
+            min-width: 180px;
+            color: #1f2937;
+        }
+        
+        .vocab-row select {
+            flex: 1;
+            padding: 8px 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+        
+        .vocab-row.correct {
+            background-color: #d1fae5;
+            border-left: 4px solid #10b981;
+        }
+        
+        .vocab-row.incorrect {
+            background-color: #fee2e2;
+            border-left: 4px solid #ef4444;
+        }
+        
+        .word-bank {
+            background-color: #eff6ff;
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+        }
+        
+        .word-bank p {
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        
+        .word-options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        .word-tag {
+            background: white;
+            padding: 8px 15px;
+            border: 1px solid #d1d5db;
+            border-radius: 4px;
+        }
+        
+        .gap-fill-text {
+            padding: 20px;
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 6px;
+            line-height: 2;
+        }
+        
+        .gap-fill-text select {
+            margin: 0 5px;
+            padding: 4px 8px;
+            border: 1px solid #d1d5db;
+            border-radius: 4px;
+        }
+        
+        .gap-fill-text .correct-gap {
+            background-color: #d1fae5;
+        }
+        
+        .gap-fill-text .incorrect-gap {
+            background-color: #fee2e2;
+        }
+        
+        textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 4px;
+            font-family: inherit;
+            font-size: 1rem;
+            min-height: 80px;
+            resize: vertical;
+        }
+        
+        .button-group {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 30px;
+        }
+        
+        button {
+            padding: 12px 24px;
+            font-size: 1rem;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+        
+        .btn-primary {
+            background-color: #2563eb;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background-color: #1d4ed8;
+        }
+        
+        .btn-secondary {
+            background-color: white;
+            color: #374151;
+            border: 1px solid #d1d5db;
+        }
+        
+        .btn-secondary:hover {
+            background-color: #f9fafb;
+        }
+        
+        .score-display {
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .score-display .score {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #1e3a8a;
+        }
+        
+        .score-display .percentage {
+            color: #6b7280;
+            margin-top: 8px;
+        }
+        
+        .answer-guide {
+            margin-top: 15px;
+        }
+        
+        .answer-guide > div {
+            margin-bottom: 15px;
+        }
+        
+        .answer-guide .guide-question {
+            font-weight: 600;
+            color: #1f2937;
+            margin-bottom: 5px;
+        }
+        
+        .answer-guide .guide-answer {
+            color: #374151;
+        }
+        
+        .answer-guide .guide-note {
+            color: #6b7280;
+            font-style: italic;
+            font-size: 0.9rem;
+        }
+        
+        .icon {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            margin-left: 8px;
+        }
+        
+        .check-icon {
+            color: #10b981;
+        }
+        
+        .x-icon {
+            color: #ef4444;
+        }
+        
+        @media print {
+            body {
+                background: white;
+            }
+            .button-group {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>La présidentielle 2027</h1>
+            <p>Activité de compréhension - Niveau B2</p>
+        </div>
+
+        <div id="scoreCard" class="card blue-bg" style="display: none;">
+            <div class="score-display">
+                <div class="score" id="scoreText">Score: 0 / 15</div>
+                <div class="percentage" id="percentageText">(0%)</div>
+            </div>
+        </div>
+
+        <!-- Reading Text -->
+        <div class="card blue-bg">
+            <h2 class="card-title">Texte : Lisez attentivement</h2>
+            <div class="reading-text">
+                <p>La France en 2026 : vers les élections de 2027</p>
+                <p>Aujourd'hui, beaucoup de Français sont pessimistes. Ils pensent que la France "flotte mais n'avance plus". Le pays n'a pas de budget, et cela crée beaucoup d'incertitude. Les citoyens sont déboussolés et désespérés.</p>
+                <p>Dans ce contexte difficile, les Français veulent du changement. Ils sont prêts à écouter "les voix de la rupture" - des politiciens qui promettent de tout changer. Le Rassemblement National (RN) est maintenant en position de favori pour l'élection présidentielle de 2027. C'est une situation nouvelle et historique.</p>
+                <p>Les autres partis politiques ont des difficultés. Le parti d'Emmanuel Macron n'a pas réussi à créer un ancrage local fort. Les candidats potentiels doivent se démarquer du président actuel, qui est très impopulaire.</p>
+                <p>Pour gagner en 2027, un candidat doit répondre à deux questions importantes : "Qui me protège ?" et "Qui me projette vers l'avenir ?". Ce n'est pas facile dans une société marquée par les peurs et le manque de confiance.</p>
+                <p>Le sentiment de "dégagisme" - vouloir se débarrasser des politiciens actuels - est très fort en France aujourd'hui.</p>
+            </div>
+        </div>
+
+        <!-- Section 1: Comprehension -->
+        <div class="card">
+            <h2 class="card-title">Section 1: Compréhension du texte (5 points)</h2>
+            <div id="comprehension">
+                <!-- Questions will be inserted here by JavaScript -->
+            </div>
+        </div>
+
+        <!-- Section 2: Vocabulary -->
+        <div class="card">
+            <h2 class="card-title">Section 2: Vocabulaire - Associez les mots (6 points)</h2>
+            <div id="vocabulary">
+                <!-- Vocabulary matching will be inserted here -->
+            </div>
+        </div>
+
+        <!-- Section 3: Gap Fill -->
+        <div class="card">
+            <h2 class="card-title">Section 3: Texte à trous (4 points)</h2>
+            <div class="word-bank">
+                <p>Mots disponibles:</p>
+                <div class="word-options">
+                    <span class="word-tag">favori</span>
+                    <span class="word-tag">flotte</span>
+                    <span class="word-tag">prêts</span>
+                    <span class="word-tag">rupture</span>
+                    <span class="word-tag">content</span>
+                    <span class="word-tag">coule</span>
+                    <span class="word-tag">perdant</span>
+                    <span class="word-tag">stabilité</span>
+                </div>
+            </div>
+            <div class="gap-fill-text" id="gapFill">
+                Les Français sont 
+                <select id="gap0">
+                    <option value="">___</option>
+                    <option value="favori">favori</option>
+                    <option value="flotte">flotte</option>
+                    <option value="prêts">prêts</option>
+                    <option value="rupture">rupture</option>
+                    <option value="content">content</option>
+                    <option value="coule">coule</option>
+                    <option value="perdant">perdant</option>
+                    <option value="stabilité">stabilité</option>
+                </select>
+                à écouter les voix de la 
+                <select id="gap1">
+                    <option value="">___</option>
+                    <option value="favori">favori</option>
+                    <option value="flotte">flotte</option>
+                    <option value="prêts">prêts</option>
+                    <option value="rupture">rupture</option>
+                    <option value="content">content</option>
+                    <option value="coule">coule</option>
+                    <option value="perdant">perdant</option>
+                    <option value="stabilité">stabilité</option>
+                </select>
+                . Le sentiment général est que le bateau France 
+                <select id="gap2">
+                    <option value="">___</option>
+                    <option value="favori">favori</option>
+                    <option value="flotte">flotte</option>
+                    <option value="prêts">prêts</option>
+                    <option value="rupture">rupture</option>
+                    <option value="content">content</option>
+                    <option value="coule">coule</option>
+                    <option value="perdant">perdant</option>
+                    <option value="stabilité">stabilité</option>
+                </select>
+                mais n'avance plus. Le RN est en position de 
+                <select id="gap3">
+                    <option value="">___</option>
+                    <option value="favori">favori</option>
+                    <option value="flotte">flotte</option>
+                    <option value="prêts">prêts</option>
+                    <option value="rupture">rupture</option>
+                    <option value="content">content</option>
+                    <option value="coule">coule</option>
+                    <option value="perdant">perdant</option>
+                    <option value="stabilité">stabilité</option>
+                </select>
+                pour 2027.
+            </div>
+        </div>
+
+        <!-- Section 4: Short Answers -->
+        <div class="card">
+            <h2 class="card-title">Section 4: Questions courtes (répondez en français) (6 points)</h2>
+            <div id="shortAnswers">
+                <div class="question">
+                    <div class="question-text">1. Pourquoi le pays n'avance plus selon le texte ? (mentionnez le budget)</div>
+                    <textarea id="short0" placeholder="Écrivez votre réponse ici..."></textarea>
+                </div>
+                <div class="question">
+                    <div class="question-text">2. Nommez DEUX émotions ou sentiments négatifs mentionnés dans le texte.</div>
+                    <textarea id="short1" placeholder="Écrivez votre réponse ici..."></textarea>
+                </div>
+                <div class="question">
+                    <div class="question-text">3. Pourquoi les candidats du parti Macron ont-ils des difficultés ?</div>
+                    <textarea id="short2" placeholder="Écrivez votre réponse ici..."></textarea>
+                </div>
+            </div>
+        </div>
+
+        <!-- Buttons -->
+        <div class="button-group">
+            <button class="btn-primary" onclick="checkAnswers()">Vérifier les réponses</button>
+            <button class="btn-secondary" onclick="resetActivity()">Recommencer</button>
+            <button class="btn-secondary" onclick="downloadResults()">📥 Télécharger les résultats</button>
+        </div>
+
+        <!-- Answer Guide -->
+        <div id="answerGuide" class="card green-bg" style="display: none;">
+            <h2 class="card-title">Guide des réponses - Section 4 (exemples acceptables)</h2>
+            <div class="answer-guide">
+                <div>
+                    <div class="guide-question">Question 1:</div>
+                    <div class="guide-answer">- Le pays n'a pas de budget / Il n'y a pas de budget / L'absence de budget crée de l'incertitude</div>
+                </div>
+                <div>
+                    <div class="guide-question">Question 2:</div>
+                    <div class="guide-answer">- pessimistes / déboussolés / désespérés / peur / manque de confiance</div>
+                    <div class="guide-note">(Deux émotions nécessaires)</div>
+                </div>
+                <div>
+                    <div class="guide-question">Question 3:</div>
+                    <div class="guide-answer">- Macron est très impopulaire / Le parti n'a pas d'ancrage local / Ils doivent se démarquer de Macron</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const comprehensionQuestions = [
+            {
+                id: 'q1',
+                question: "Selon le texte, comment se sentent beaucoup de Français aujourd'hui ?",
+                options: [
+                    "Optimistes et confiants",
+                    "Déboussolés et désespérés",
+                    "Satisfaits de la situation",
+                    "Indifférents à la politique"
+                ],
+                correct: 1
+            },
+            {
+                id: 'q2',
+                question: "Quelle métaphore est utilisée pour décrire la France ?",
+                options: [
+                    "Un train qui roule vite",
+                    "Un bateau qui flotte mais n'avance plus",
+                    "Un avion qui vole haut",
+                    "Une voiture en panne"
+                ],
+                correct: 1
+            },
+            {
+                id: 'q3',
+                question: "Quel parti est en position de favori pour 2027 ?",
+                options: [
+                    "Le parti d'Emmanuel Macron",
+                    "Le Parti Socialiste",
+                    "Le Rassemblement National",
+                    "Les Républicains"
+                ],
+                correct: 2
+            },
+            {
+                id: 'q4',
+                question: "Quelles sont les deux questions qu'un candidat doit répondre ?",
+                options: [
+                    "Qui suis-je ? et Où vais-je ?",
+                    "Qui me protège ? et Qui me projette ?",
+                    "Que faire ? et Comment ?",
+                    "Pourquoi voter ? et Pour qui ?"
+                ],
+                correct: 1
+            },
+            {
+                id: 'q5',
+                question: "Que signifie le 'dégagisme' ?",
+                options: [
+                    "Aimer les politiciens",
+                    "Voter pour le même parti",
+                    "Vouloir se débarrasser des politiciens actuels",
+                    "Ne pas voter"
+                ],
+                correct: 2
+            }
+        ];
+
+        const vocabMatching = [
+            { id: 'v1', french: 'déboussolé(e)', english: 'disoriented/lost' },
+            { id: 'v2', french: 'la rupture', english: 'break/radical change' },
+            { id: 'v3', french: 'le dégagisme', english: 'wanting to get rid of politicians' },
+            { id: 'v4', french: 'se démarquer', english: 'to stand out/distinguish oneself' },
+            { id: 'v5', french: "l'ancrage local", english: 'local roots/presence' },
+            { id: 'v6', french: 'le scrutin', english: 'election/ballot' }
+        ];
+
+        const vocabOptions = [
+            'disoriented/lost',
+            'break/radical change',
+            'wanting to get rid of politicians',
+            'to stand out/distinguish oneself',
+            'local roots/presence',
+            'election/ballot'
+        ];
+
+        const gapFillAnswers = ['prêts', 'rupture', 'flotte', 'favori'];
+
+        let showingResults = false;
+
+        // Generate comprehension questions
+        function generateComprehension() {
+            const container = document.getElementById('comprehension');
+            comprehensionQuestions.forEach((q, idx) => {
+                const questionDiv = document.createElement('div');
+                questionDiv.className = 'question';
+                questionDiv.id = 'comp-' + q.id;
+                
+                let html = `<div class="question-text">${idx + 1}. ${q.question}</div>`;
+                q.options.forEach((option, optIdx) => {
+                    html += `
+                        <div class="option" onclick="selectOption('${q.id}', ${optIdx})">
+                            <input type="radio" name="${q.id}" value="${optIdx}" id="${q.id}-${optIdx}">
+                            <label for="${q.id}-${optIdx}">${option}</label>
+                        </div>
+                    `;
+                });
+                
+                questionDiv.innerHTML = html;
+                container.appendChild(questionDiv);
+            });
+        }
+
+        // Generate vocabulary matching
+        function generateVocabulary() {
+            const container = document.getElementById('vocabulary');
+            vocabMatching.forEach((item) => {
+                const rowDiv = document.createElement('div');
+                rowDiv.className = 'vocab-row';
+                rowDiv.id = 'vocab-' + item.id;
+                
+                let html = `
+                    <div class="vocab-french">${item.french}</div>
+                    <span>=</span>
+                    <select id="select-${item.id}">
+                        <option value="">Choisissez...</option>
+                `;
+                
+                vocabOptions.forEach(opt => {
+                    html += `<option value="${opt}">${opt}</option>`;
+                });
+                
+                html += '</select>';
+                rowDiv.innerHTML = html;
+                container.appendChild(rowDiv);
+            });
+        }
+
+        function selectOption(questionId, optionIndex) {
+            const radio = document.getElementById(`${questionId}-${optionIndex}`);
+            radio.checked = true;
+        }
+
+        function checkAnswers() {
+            showingResults = true;
+            let score = 0;
+            let total = 0;
+
+            // Check comprehension
+            comprehensionQuestions.forEach(q => {
+                total++;
+                const selected = document.querySelector(`input[name="${q.id}"]:checked`);
+                const questionDiv = document.getElementById('comp-' + q.id);
+                const options = questionDiv.querySelectorAll('.option');
+                
+                options.forEach((opt, idx) => {
+                    opt.classList.remove('correct', 'incorrect');
+                    if (idx === q.correct) {
+                        opt.classList.add('correct');
+                        opt.innerHTML += ' <span class="icon check-icon">✓</span>';
+                    }
+                    if (selected && parseInt(selected.value) === idx && idx !== q.correct) {
+                        opt.classList.add('incorrect');
+                        opt.innerHTML += ' <span class="icon x-icon">✗</span>';
+                    }
+                });
+                
+                if (selected && parseInt(selected.value) === q.correct) {
+                    score++;
+                }
+            });
+
+            // Check vocabulary
+            vocabMatching.forEach(item => {
+                total++;
+                const select = document.getElementById('select-' + item.id);
+                const rowDiv = document.getElementById('vocab-' + item.id);
+                
+                if (select.value === item.english) {
+                    rowDiv.classList.add('correct');
+                    score++;
+                } else if (select.value !== '') {
+                    rowDiv.classList.add('incorrect');
+                }
+            });
+
+            // Check gap fill
+            gapFillAnswers.forEach((answer, idx) => {
+                total++;
+                const select = document.getElementById('gap' + idx);
+                if (select.value === answer) {
+                    select.classList.add('correct-gap');
+                    score++;
+                } else if (select.value !== '') {
+                    select.classList.add('incorrect-gap');
+                }
+            });
+
+            // Display score
+            document.getElementById('scoreCard').style.display = 'block';
+            document.getElementById('scoreText').textContent = `Score: ${score} / ${total}`;
+            document.getElementById('percentageText').textContent = `(${Math.round((score / total) * 100)}%)`;
+            
+            // Show answer guide
+            document.getElementById('answerGuide').style.display = 'block';
+
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function resetActivity() {
+            showingResults = false;
+            
+            // Reset comprehension
+            document.querySelectorAll('input[type="radio"]').forEach(radio => {
+                radio.checked = false;
+            });
+            document.querySelectorAll('.option').forEach(opt => {
+                opt.classList.remove('correct', 'incorrect');
+                const icons = opt.querySelectorAll('.icon');
+                icons.forEach(icon => icon.remove());
+            });
+
+            // Reset vocabulary
+            vocabMatching.forEach(item => {
+                document.getElementById('select-' + item.id).value = '';
+                document.getElementById('vocab-' + item.id).classList.remove('correct', 'incorrect');
+            });
+
+            // Reset gap fill
+            for (let i = 0; i < 4; i++) {
+                const select = document.getElementById('gap' + i);
+                select.value = '';
+                select.classList.remove('correct-gap', 'incorrect-gap');
+            }
+
+            // Reset short answers
+            for (let i = 0; i < 3; i++) {
+                document.getElementById('short' + i).value = '';
+            }
+
+            // Hide score and guide
+            document.getElementById('scoreCard').style.display = 'none';
+            document.getElementById('answerGuide').style.display = 'none';
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function downloadResults() {
+            let text = "RESULTATS - La presidentielle 2027\n\n";
+            text += "=".repeat(60) + "\n\n";
+
+            text += "SECTION 1: COMPREHENSION\n";
+            comprehensionQuestions.forEach((q, i) => {
+                const selected = document.querySelector(`input[name="${q.id}"]:checked`);
+                text += `${i + 1}. ${q.question}\n`;
+                text += `   Votre reponse: ${selected ? q.options[selected.value] : 'Pas de reponse'}\n`;
+                text += `   Correct: ${selected && parseInt(selected.value) === q.correct ? 'OUI' : 'NON'}\n\n`;
+            });
+
+            text += "\nSECTION 2: VOCABULAIRE\n";
+            vocabMatching.forEach((item, i) => {
+                const select = document.getElementById('select-' + item.id);
+                text += `${i + 1}. ${item.french}\n`;
+                text += `   Votre reponse: ${select.value || 'Pas de reponse'}\n`;
+                text += `   Correct: ${select.value === item.english ? 'OUI' : 'NON'}\n\n`;
+            });
+
+            text += "\nSECTION 3: TEXTE A TROUS\n";
+            gapFillAnswers.forEach((answer, i) => {
+                const select = document.getElementById('gap' + i);
+                text += `Blanc ${i + 1}: ${select.value || 'Pas de reponse'} ${select.value === answer ? '(Correct)' : '(Incorrect: ' + answer + ')'}\n`;
+            });
+
+            text += "\n\nSECTION 4: QUESTIONS COURTES\n";
+            for (let i = 0; i < 3; i++) {
+                const questions = [
+                    "Pourquoi le pays n'avance plus selon le texte ?",
+                    "Nommez DEUX emotions ou sentiments negatifs mentionnes dans le texte.",
+                    "Pourquoi les candidats du parti Macron ont-ils des difficultes ?"
+                ];
+                text += `${i + 1}. ${questions[i]}\n`;
+                text += `   Reponse: ${document.getElementById('short' + i).value || 'Pas de reponse'}\n\n`;
+            }
+
+            const blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'resultats-activite-francais.txt';
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+
+        // Initialize on page load
+        window.onload = function() {
+            generateComprehension();
+            generateVocabulary();
+        };
+    </script>
+</body>
+</html>
