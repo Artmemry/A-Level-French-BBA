@@ -1,868 +1,450 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>L'Étranger - Albert Camus: Exercices A-Level French</title>
-    <style>
-        body {
-            font-family: 'Georgia', serif;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-            background: linear-gradient(135deg, #2b3a42 0%, #1a242a 100%);
-            color: #f5f5f5;
-            line-height: 1.6;
-        }
-
-        .header {
-            text-align: center;
-            margin-bottom: 40px;
-            padding: 30px;
-            background: rgba(43, 58, 66, 0.6);
-            border-radius: 15px;
-            border: 2px solid #a8dadc;
-        }
-
-        .header h1 {
-            color: #e0f2f7;
-            font-size: 2.5em;
-            margin-bottom: 10px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
-        }
-
-        .header p {
-            font-size: 1.2em;
-            color: #d1eff7;
-            font-style: italic;
-        }
-
-        .section {
-            margin-bottom: 40px;
-            padding: 25px;
-            background: rgba(0, 0, 0, 0.4);
-            border-radius: 10px;
-            border-left: 5px solid #e63946;
-        }
-
-        .section h2 {
-            color: #e63946;
-            font-size: 1.8em;
-            margin-bottom: 20px;
-            border-bottom: 2px solid #e63946;
-            padding-bottom: 10px;
-        }
-
-        .sentence {
-            margin-bottom: 25px;
-            padding: 20px;
-            background: rgba(255, 255, 255, 0.08);
-            border-radius: 8px;
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            transition: all 0.3s ease;
-        }
-
-        .sentence:hover {
-            background: rgba(255, 255, 255, 0.12);
-            transform: translateY(-2px);
-            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-        }
-
-        .original {
-            font-size: 1.1em;
-            margin-bottom: 15px;
-            line-height: 1.7;
-            color: #ebf5f7;
-        }
-
-        .english {
-            font-style: italic;
-            color: #a8dadc;
-            margin-bottom: 10px;
-            padding: 8px;
-            background: rgba(0,0,0,0.2);
-            border-left: 3px solid #1d3557;
-        }
-
-        .original strong {
-            background: #e63946;
-            color: white;
-            padding: 3px 8px;
-            border-radius: 4px;
-            font-weight: bold;
-        }
-
-        input[type="text"] {
-            width: 200px;
-            padding: 10px;
-            border: 2px solid #e63946;
-            border-radius: 5px;
-            font-size: 16px;
-            background: rgba(255, 255, 255, 0.95);
-            color: #333;
-            margin-right: 10px;
-        }
-
-        input[type="text"]:focus {
-            outline: none;
-            border-color: #a8dadc;
-            box-shadow: 0 0 10px rgba(168, 218, 220, 0.3);
-        }
-
-        .check-btn {
-            background: linear-gradient(45deg, #e63946, #fca311);
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 16px;
-            font-weight: bold;
-            transition: all 0.3s ease;
-        }
-
-        .check-btn:hover {
-            background: linear-gradient(45deg, #fca311, #e63946);
-            transform: translateY(-1px);
-            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-        }
-
-        .feedback {
-            margin-top: 15px;
-            padding: 10px;
-            border-radius: 5px;
-            font-weight: bold;
-            min-height: 20px;
-        }
-
-        .correct {
-            background: #457b9d;
-            color: #e0f2f7;
-            border: 1px solid #a8dadc;
-        }
-
-        .incorrect {
-            background: #b52b2b;
-            color: #f7d9d9;
-            border: 1px solid #e63946;
-        }
-
-        .instructions {
-            background: rgba(29, 53, 87, 0.2);
-            border: 2px solid #1d3557;
-            border-radius: 10px;
-            padding: 20px;
-            margin-bottom: 30px;
-            color: #a8dadc;
-        }
-
-        .counter {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background: rgba(0, 0, 0, 0.8);
-            padding: 15px;
-            border-radius: 10px;
-            border: 2px solid #e63946;
-            color: #fff;
-            font-weight: bold;
-            z-index: 1000;
-        }
-
-        .print-btn {
-            background: linear-gradient(45deg, #1d3557, #457b9d);
-            color: white;
-            border: none;
-            padding: 12px 25px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 16px;
-            font-weight: bold;
-            transition: all 0.3s ease;
-            margin: 20px auto;
-            display: block;
-        }
-
-        .print-btn:hover {
-            background: linear-gradient(45deg, #457b9d, #1d3557);
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-        }
-
-        .section-score {
-            float: right;
-            background: rgba(230, 57, 70, 0.2);
-            padding: 5px 10px;
-            border-radius: 20px;
-            font-size: 0.9em;
-        }
-
-        @media print {
-            body {
-                background: white;
-                color: black;
-                font-size: 12pt;
-            }
-
-            .header, .section {
-                background: white;
-                color: black;
-                border: 1px solid #ccc;
-            }
-
-            .header h1 {
-                color: black;
-                text-shadow: none;
-            }
-
-            .english {
-                color: #555;
-            }
-
-            input, button, .counter {
-                display: none;
-            }
-
-            .feedback {
-                border: 1px solid #ccc;
-            }
-
-            .correct {
-                background: #e6ffe6;
-                color: #006400;
-            }
-
-            .incorrect {
-                background: #ffe6e6;
-                color: #8b0000;
-            }
-
-            .print-btn {
-                display: none;
-            }
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>L'Étranger — Compétences de dissertation | A-Level French</title>
+<style>
+  :root{
+    --ink:#1a2733; --paper:#ffffff; --bg:#eef2f6;
+    --accent:#00546b; --accent2:#8a1538; --ok:#1e7b45; --warn:#b06f00; --bad:#a12727;
+    --line:#c9d4dd;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:Calibri,'Segoe UI',Arial,sans-serif;font-size:17px;line-height:1.55;
+       color:var(--ink);background:var(--bg);padding:24px 16px 120px}
+  .wrap{max-width:880px;margin:0 auto;background:var(--paper);border:1px solid var(--line);
+        border-radius:8px;padding:28px 32px}
+  header{border-bottom:3px solid var(--accent);padding-bottom:12px;margin-bottom:18px}
+  h1{font-size:1.6em;color:var(--accent)}
+  .meta{color:#5a6a78;font-style:italic;margin-top:4px}
+  h2{font-size:1.25em;color:var(--accent);margin:28px 0 8px;border-left:5px solid var(--accent);padding-left:10px}
+  h2 .pts{font-size:.75em;color:#5a6a78;font-weight:normal}
+  .consigne{background:#f2f7fa;border-left:4px solid var(--accent);padding:10px 14px;margin:8px 0 14px;border-radius:0 6px 6px 0}
+  .name-row{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin:14px 0}
+  .name-row input{padding:9px 12px;font-size:1em;border:2px solid var(--accent);border-radius:6px;width:280px;font-family:inherit}
+  .item{margin:14px 0;padding:12px 14px;border:1px solid var(--line);border-radius:6px}
+  .item p.q{margin-bottom:8px}
+  .item input[type=text],.item textarea{width:100%;padding:8px 10px;font-size:1em;font-family:inherit;
+      border:1.5px solid var(--line);border-radius:5px;margin-top:4px}
+  .item textarea{min-height:90px;resize:vertical}
+  .opts label{display:block;padding:7px 10px;margin:5px 0;border:1.5px solid var(--line);border-radius:5px;cursor:pointer}
+  .opts label:hover{background:#f2f7fa}
+  details.aide{margin:8px 0 2px}
+  details.aide summary{cursor:pointer;color:var(--warn);font-weight:bold}
+  details.aide div{background:#fff8ec;border-left:4px solid var(--warn);padding:8px 12px;margin-top:6px;border-radius:0 6px 6px 0}
+  .fb{display:none;margin-top:8px;padding:9px 12px;border-radius:6px;font-size:.95em}
+  .fb.ok{display:block;background:#e9f5ee;border-left:4px solid var(--ok);color:var(--ok)}
+  .fb.almost{display:block;background:#fff8ec;border-left:4px solid var(--warn);color:var(--warn)}
+  .fb.bad{display:block;background:#fbeeee;border-left:4px solid var(--bad);color:var(--bad)}
+  .stretch{border:2px dashed var(--accent2);border-radius:8px;padding:16px;margin:26px 0;background:#fdf7f9}
+  .stretch h2{color:var(--accent2);border-left-color:var(--accent2)}
+  .btn{background:var(--accent);color:#fff;border:none;padding:11px 20px;font-size:1em;font-family:inherit;
+       border-radius:6px;cursor:pointer;margin:6px 6px 6px 0}
+  .btn:hover{filter:brightness(1.15)}
+  .btn.dl{background:var(--ok)}
+  .btn.second{background:#5a6a78}
+  .score-banner{display:none;margin:18px 0;padding:14px;border-radius:8px;background:#f2f7fa;
+       border:2px solid var(--accent);font-size:1.15em;font-weight:bold;color:var(--accent)}
+  blockquote.citation{background:#f2f7fa;border-left:4px solid var(--accent);padding:8px 14px;margin:8px 0;font-style:italic}
+  /* ---------- Floating accent pad ---------- */
+  #accentPad{position:fixed;bottom:18px;right:18px;background:#fff;border:2px solid var(--accent);
+       border-radius:10px;box-shadow:0 6px 24px rgba(0,0,0,.25);padding:10px;z-index:1000;
+       display:flex;flex-wrap:wrap;gap:5px;max-width:340px;user-select:none}
+  #accentPad .drag{width:100%;cursor:move;font-size:.8em;color:#5a6a78;text-align:center;padding-bottom:4px}
+  #accentPad button{font-size:1.05em;font-family:inherit;min-width:34px;padding:6px 4px;border:1px solid var(--line);
+       border-radius:5px;background:#f2f7fa;cursor:pointer}
+  #accentPad button:hover{background:var(--accent);color:#fff}
+  #accentPad .maj{font-size:.8em;background:#e6e9ec}
+  #padToggle{position:fixed;bottom:18px;right:18px;z-index:999;background:var(--accent);color:#fff;
+       border:none;border-radius:50px;padding:12px 18px;font-size:1em;cursor:pointer;box-shadow:0 4px 14px rgba(0,0,0,.3)}
+  @media print{#accentPad,#padToggle{display:none}}
+</style>
 </head>
 <body>
-    <div class="header">
-        <h1>L'Étranger - Albert Camus</h1>
-        <p>Exercices de A-Level French - Edexcel AO3: Range and Accuracy of Language</p>
+<div class="wrap">
+  <header>
+    <h1>L'Étranger — Compétences de dissertation</h1>
+    <p class="meta">A-Level French (Edexcel) · Albert Camus, <em>L'Étranger</em> · Durée conseillée : 45 min</p>
+  </header>
+
+  <div class="name-row">
+    <label for="studentName"><strong>Votre nom :</strong></label>
+    <input type="text" id="studentName" placeholder="Prénom NOM" maxlength="60">
+  </div>
+
+  <div class="consigne"><strong>Consignes :</strong> Cette activité combine compréhension et compétences
+  méthodologiques de dissertation : phrases analytiques à compléter, connecteurs logiques, correspondance
+  citation-thème, puis un paragraphe PEEL complet. Complétez chaque exercice puis cliquez sur « Vérifier ».
+  À la fin, téléchargez vos résultats.</div>
+
+  <!-- ============ EXERCICE 1 : phrases analytiques à trous ============ -->
+  <h2>Exercice 1 · Complétez les phrases analytiques <span class="pts">(8 points)</span></h2>
+  <div class="consigne">Complétez chaque phrase avec le mot-clé thématique manquant (un nom, avec ou sans article).
+  L'orthographe et les accents comptent, mais une tolérance est appliquée.</div>
+
+  <div class="item" data-type="text" data-a="aW5kaWZmw6lyZW5jZXxsJ2luZGlmZsOpcmVuY2V8aW5kaWZmZXJlbmNlfGwnaW5kaWZmZXJlbmNl" data-exp="TGUgbW90IGNsw6kgZXN0IMKrIGluZGlmZsOpcmVuY2UgwrsgOiBkw6hzIGwnaW5jaXBpdCwgTWV1cnNhdWx0IHJlbGF0ZSBsYSBtb3J0IGRlIHNhIG3DqHJlIHN1ciB1biB0b24gbmV1dHJlLCBzYW5zIGVmZnVzaW9uIGRlIHRyaXN0ZXNzZSwgY2UgcXVpIGluc3RhbGxlIGxlIHRow6htZSBjZW50cmFsIGR1IHJvbWFuLg==">
+    <p class="q">1. Dès l'incipit du roman, le ton neutre employé par Meursault pour annoncer la mort de sa mère
+    installe le thème central de l'________ face aux conventions sociales du deuil.</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Indice</summary><div>C'est l'absence apparente d'émotion qui choque le lecteur dès la première page.</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="text" data-a="YWJzdXJkZXxsJ2Fic3VyZGU=" data-exp="wqsgTCdhYnN1cmRlIMK7IGTDqXNpZ25lIGNoZXogQ2FtdXMgbGUgZGl2b3JjZSBlbnRyZSBsZSBkw6lzaXIgaHVtYWluIGRlIHNlbnMgZXQgbGUgc2lsZW5jZSBpcnJhdGlvbm5lbCBkZSBsJ3VuaXZlcnMgOyBjJ2VzdCBsYSBub3Rpb24gcGhpbG9zb3BoaXF1ZSBzdHJ1Y3R1cmFudCB0b3V0IGxlIHJvbWFuLg==">
+    <p class="q">2. La notion philosophique centrale que Camus explore, où l'homme cherche un sens que le monde
+    ne lui offre pas, s'appelle l'________.</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Indice</summary><div>C'est aussi le titre d'un essai de Camus : <em>Le Mythe de Sisyphe</em>.</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="text" data-a="c29sZWlsfGxlIHNvbGVpbA==" data-exp="TGUgc29sZWlsIGVzdCBsJ8OpbMOpbWVudCBkw6ljbGVuY2hldXIgcsOpY3VycmVudCA6IMOgIGwnZW50ZXJyZW1lbnQsIHB1aXMgc3VyIGxhIHBsYWdlLCBzYSBjaGFsZXVyIMOpY3Jhc2FudGUgYWx0w6hyZSBsYSBwZXJjZXB0aW9uIGRlIE1ldXJzYXVsdCBldCBjdWxtaW5lIGRhbnMgbGUgbWV1cnRyZS4=">
+    <p class="q">3. L'élément physique qui revient sans cesse à l'enterrement puis sur la plage, et qui altère
+    la perception de Meursault jusqu'au meurtre, est le ________.</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Indice</summary><div>« C'est à cause du soleil », dira Meursault au procès.</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="text" data-a="c29jacOpdMOpfGxhIHNvY2nDqXTDqXxzb2NpZXRlfGxhIHNvY2lldGU=" data-exp="Qydlc3QgYmllbiDCqyBsYSBzb2Npw6l0w6kgwrsg4oCUIHJlcHLDqXNlbnTDqWUgcGFyIGxlIHRyaWJ1bmFsIOKAlCBxdWkgY29uZGFtbmUgTWV1cnNhdWx0IGRhdmFudGFnZSBwb3VyIHNvbiBub24tY29uZm9ybWlzbWUgw6ltb3Rpb25uZWwgcXVlIHBvdXIgbCdhY3RlIGNyaW1pbmVsIGx1aS1tw6ptZS4=">
+    <p class="q">4. Au tribunal, c'est en réalité la ________, représentée par le procureur, qui juge Meursault
+    davantage sur sa personnalité que sur ses actes.</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Indice</summary><div>Pensez à l'institution qui organise le procès.</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="text" data-a="csOpdm9sdGV8bGEgcsOpdm9sdGV8cmV2b2x0ZXxsYSByZXZvbHRl" data-exp="TGEgwqsgcsOpdm9sdGUgwrsgZGUgTWV1cnNhdWx0IGZhY2Ugw6AgbCdhdW3DtG5pZXIgY29uc3RpdHVlIGxlIHBvaW50IGN1bG1pbmFudCBkdSByb21hbiA6IGlsIHJlZnVzZSBjYXTDqWdvcmlxdWVtZW50IHRvdXRlIGNvbnNvbGF0aW9uIHJlbGlnaWV1c2UgaW1wb3PDqWUu">
+    <p class="q">5. Face à l'aumônier qui insiste pour parler de Dieu, Meursault exprime enfin sa ________,
+    moment culminant du roman.</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Indice</summary><div>Il l'attrape par le collet et laisse exploser une colère longtemps contenue.</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="text" data-a="bHVjaWRpdMOpfGxhIGx1Y2lkaXTDqXxsdWNpZGl0ZXxsYSBsdWNpZGl0ZQ==" data-exp="TGEgwqsgbHVjaWRpdMOpIMK7IGVzdCBsYSBxdWFsaXTDqSBxdWUgQ2FtdXMgYXR0cmlidWUgYXUgaMOpcm9zIGFic3VyZGUgOiBNZXVyc2F1bHQgdm9pdCBsZSBtb25kZSB0ZWwgcXUnaWwgZXN0LCBzYW5zIGlsbHVzaW9uIG3DqXRhcGh5c2lxdWUgbmkgY29uc29sYXRpb24gZmFjaWxlLg==">
+    <p class="q">6. La qualité que Camus attribue à son « héros absurde », qui voit le monde sans illusion
+    ni consolation métaphysique, est la ________.</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Indice</summary><div>C'est le contraire de l'aveuglement ou de l'illusion.</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="text" data-a="cHLDqW3DqWRpdGF0aW9ufGxhIHByw6ltw6lkaXRhdGlvbnxwcmVtZWRpdGF0aW9ufGxhIHByZW1lZGl0YXRpb24=" data-exp="TCdhY2N1c2F0aW9uIGRlIMKrIHByw6ltw6lkaXRhdGlvbiDCuyByZXBvc2Ugc3VyIGRlcyBkw6l0YWlscyB0w6ludXMgKGxlcyBxdWF0cmUgY291cHMgZGUgZmV1IHN1cHBsw6ltZW50YWlyZXMpIHF1ZSBsZSBwcm9jdXJldXIgdHJhbnNmb3JtZSBlbiBwcmV1dmUgZCd1bmUgaW50ZW50aW9uIGNyaW1pbmVsbGUgcsOpZmzDqWNoaWUu">
+    <p class="q">7. Le procureur transforme les quatre coups de feu supplémentaires en preuve de
+    ________, accusation qui pèse lourdement sur le verdict.</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Indice</summary><div>C'est l'idée que le crime a été planifié à l'avance, non commis sur une impulsion.</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="text" data-a="w6l0cmFuZ2VyfHVuIMOpdHJhbmdlcnxldHJhbmdlcnx1biBldHJhbmdlcg==" data-exp="TWV1cnNhdWx0IGRldmllbnQgwqsgw6l0cmFuZ2VyIMK7IMOgIHNhIHByb3ByZSB2aWUgZXQgw6Agc2EgcHJvcHJlIHNvY2nDqXTDqSA6IGxlIHRpdHJlIGR1IHJvbWFuIGTDqXNpZ25lIHNvbiBhbGnDqW5hdGlvbiBmYWNlIGF1eCBjb2RlcyBzb2NpYXV4IHF1J2lsIHJlZnVzZSBkJ2VuZG9zc2VyLg==">
+    <p class="q">8. Le titre du roman désigne Meursault comme un ________ à sa propre vie et à sa société, tant
+    il refuse d'endosser les codes sociaux attendus.</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Indice</summary><div>C'est le mot du titre lui-même, employé comme nom commun.</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <!-- ============ EXERCICE 2 : structure argumentative ============ -->
+  <h2>Exercice 2 · Structurez votre argumentation <span class="pts">(6 points)</span></h2>
+  <div class="consigne">Complétez chaque connecteur logique manquant dans ce squelette de paragraphe argumentatif
+  sur la responsabilité de Meursault. Un seul connecteur adapté à la fonction indiquée est attendu.</div>
+
+  <div class="item" data-type="text" data-a="ZCdhYm9yZHxkYWJvcmR8cHJlbWnDqHJlbWVudHxwcmVtaWVyZW1lbnQ=" data-exp="UG91ciBvdXZyaXIgdW4gcGFyYWdyYXBoZSBhcmd1bWVudGF0aWYsIG9uIHV0aWxpc2UgdW4gY29ubmVjdGV1ciBkJ2ludHJvZHVjdGlvbiBjb21tZSDCqyBkJ2Fib3JkIMK7IG91IMKrIHByZW1pw6hyZW1lbnQgwrssIHF1aSBhbm5vbmNlIGxlIHByZW1pZXIgYXhlIGQnYW5hbHlzZS4=">
+    <p class="q">9. (Fonction : introduire le premier argument) ________, on peut affirmer que Meursault n'est pas
+    entièrement responsable de son geste, car le soleil et la chaleur ont altéré son jugement.</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Indice</summary><div>« D'abord » ou « premièrement ».</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="text" data-a="ZW4gZWZmZXQ=" data-exp="wqsgRW4gZWZmZXQgwrsgc2VydCDDoCBqdXN0aWZpZXIgb3UgYXBwcm9mb25kaXIgdW5lIGFmZmlybWF0aW9uIHF1aSBwcsOpY8OoZGUgOiBpbCBpbnRyb2R1aXQgdW5lIHByZXV2ZSBvdSB1bmUgZXhwbGljYXRpb24sIHJlbmZvcsOnYW50IGwnYXJndW1lbnQgZMOpasOgIMOpbm9uY8OpLg==">
+    <p class="q">10. (Fonction : justifier l'affirmation précédente) ________, le texte insiste sur les sensations
+    physiques accablantes — la sueur, l'éblouissement, la chaleur vibrante — juste avant le coup de feu.</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Indice</summary><div>Un connecteur qui introduit une preuve à l'appui de ce qui vient d'être dit.</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="text" data-a="Y2VwZW5kYW50fHRvdXRlZm9pc3xuw6lhbm1vaW5zfG5lYW5tb2lucw==" data-exp="VW4gY29ubmVjdGV1ciBkJ29wcG9zaXRpb24gY29tbWUgwqsgY2VwZW5kYW50IMK7IGVzdCBpbmRpc3BlbnNhYmxlIHBvdXIgbnVhbmNlciB1biBhcmd1bWVudCBldCBtb250cmVyIHVuZSBjYXBhY2l0w6kgZCdhbmFseXNlIGNyaXRpcXVlLCBlc3NlbnRpZWxsZSDDoCB1biBuaXZlYXUgQzEu">
+    <p class="q">11. (Fonction : nuancer / apporter une objection) ________, il serait réducteur d'excuser
+    entièrement Meursault : il choisit consciemment de tirer quatre coups supplémentaires sur un corps déjà
+    immobile.</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Indice</summary><div>Un connecteur d'opposition, typique du niveau C1.</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="text" data-a="ZGUgcGx1c3xlbiBvdXRyZXxwYXIgYWlsbGV1cnM=" data-exp="wqsgRGUgcGx1cyDCuyAob3UgwqsgZW4gb3V0cmUgwrspIHBlcm1ldCBkJ2Fqb3V0ZXIgdW4gYXJndW1lbnQgc3VwcGzDqW1lbnRhaXJlIGFsbGFudCBkYW5zIGxlIG3Dqm1lIHNlbnMgcXVlIGxlIHByw6ljw6lkZW50LCBjb25zdHJ1aXNhbnQgdW5lIGFjY3VtdWxhdGlvbiBwZXJzdWFzaXZlLg==">
+    <p class="q">12. (Fonction : ajouter un argument allant dans le même sens) ________, son geste de tirer à
+    nouveau relève d'une décision, même brève, qui suggère une part de responsabilité personnelle.</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Indice</summary><div>« De plus » ou « en outre » ajoute un argument qui va dans le même sens.</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="text" data-a="cGFyIGNvbnPDqXF1ZW50fHBhciBjb25zZXF1ZW50fGFpbnNpfGRvbmM=" data-exp="wqsgUGFyIGNvbnPDqXF1ZW50IMK7IChvdSDCqyBhaW5zaSDCuykgbWFycXVlIHVuZSByZWxhdGlvbiBkZSBjYXVzZSDDoCBjb25zw6lxdWVuY2UgZW50cmUgZGV1eCBpZMOpZXMsIHN0cnVjdHVyZSBsb2dpcXVlIGVzc2VudGllbGxlIGRhbnMgdW4gcGFyYWdyYXBoZSBhbmFseXRpcXVlLg==">
+    <p class="q">13. (Fonction : introduire une conséquence logique) ________, la responsabilité de Meursault
+    apparaît comme partagée entre une pulsion physique incontrôlable et un choix, si bref soit-il, de continuer
+    à tirer.</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Indice</summary><div>« Par conséquent » ou « ainsi ».</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="text" data-a="ZW4gY29uY2x1c2lvbnxwb3VyIGNvbmNsdXJlfGVuIHNvbW1l" data-exp="wqsgRW4gY29uY2x1c2lvbiDCuyAob3UgwqsgcG91ciBjb25jbHVyZSDCuykgaW50cm9kdWl0IGxhIHN5bnRow6hzZSBmaW5hbGUgZHUgcGFyYWdyYXBoZSwgb8O5IGwnb24gcmVsaWUgbCdhbmFseXNlIMOgIGxhIHF1ZXN0aW9uIHBvc8OpZSBpbml0aWFsZW1lbnQu">
+    <p class="q">14. (Fonction : conclure le paragraphe) ________, Camus refuse de trancher simplement entre
+    innocence et culpabilité, préférant montrer la complexité absurde de l'acte humain.</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Indice</summary><div>« En conclusion » ou « pour conclure ».</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <!-- ============ EXERCICE 3 : citation → thème ============ -->
+  <h2>Exercice 3 · Associez la citation à son thème <span class="pts">(6 points)</span></h2>
+  <div class="consigne">Pour chaque citation, choisissez le thème qu'elle illustre le mieux.</div>
+
+  <div class="item" data-type="mcq" data-a="MQ==" data-exp="wqsgQXVqb3VyZCdodWksIG1hbWFuIGVzdCBtb3J0ZSDCuyBpbGx1c3RyZSBsZSB0aMOobWUgZGUgbCdpbmRpZmbDqXJlbmNlIDogbGUgdG9uIG5ldXRyZSBldCBmYWN0dWVsIGTDqHMgbGEgcHJlbWnDqHJlIHBocmFzZSBjaG9xdWUgcGFyIHNvbiBhYnNlbmNlIGFwcGFyZW50ZSBkJ8OpbW90aW9uLg==">
+    <p class="q">15. <blockquote class="citation">« Aujourd'hui, maman est morte. »</blockquote> Cette citation illustre
+    surtout le thème de…</p>
+    <div class="opts">
+      <label><input type="radio" name="s3q1" value="0"> A) La justice</label>
+      <label><input type="radio" name="s3q1" value="1"> B) L'indifférence</label>
+      <label><input type="radio" name="s3q1" value="2"> C) Le destin</label>
+      <label><input type="radio" name="s3q1" value="3"> D) L'acceptation lucide</label>
     </div>
+    <details class="aide"><summary>Indice</summary><div>Le ton neutre de la phrase surprend dès l'ouverture du roman.</div></details>
+    <div class="fb"></div>
+  </div>
 
-    <div class="counter">
-        <div>Correctes: <span id="correct-count">0</span>/56</div>
-        <div>Progrès: <span id="progress">0%</span></div>
+  <div class="item" data-type="mcq" data-a="Mg==" data-exp="wqsgQydlc3Qgw6AgY2F1c2UgZHUgc29sZWlsIMK7IHJlbMOodmUgZHUgdGjDqG1lIGR1IGRlc3Rpbi9kZSBsJ2Fic3VyZGUgOiBNZXVyc2F1bHQgYXR0cmlidWUgc29uIGdlc3RlIMOgIHVuZSBmb3JjZSBwaHlzaXF1ZSBleHTDqXJpZXVyZSBwbHV0w7R0IHF1J8OgIHVuZSBpbnRlbnRpb24gbW9yYWxlIGNsYWlyZS4=">
+    <p class="q">16. <blockquote class="citation">« C'est à cause du soleil. »</blockquote> Cette citation illustre
+    surtout le thème de…</p>
+    <div class="opts">
+      <label><input type="radio" name="s3q2" value="0"> A) La justice</label>
+      <label><input type="radio" name="s3q2" value="1"> B) L'indifférence</label>
+      <label><input type="radio" name="s3q2" value="2"> C) Le destin / l'absurde</label>
+      <label><input type="radio" name="s3q2" value="3"> D) L'acceptation lucide</label>
     </div>
+    <details class="aide"><summary>Indice</summary><div>Meursault attribue son geste à une force extérieure, non à une intention morale.</div></details>
+    <div class="fb"></div>
+  </div>
 
-    <div class="instructions">
-        <h3>📚 Instructions:</h3>
-        <p>Complétez les phrases sur "L'Étranger" avec la forme correcte du verbe, pronom relatif ou connecteur avancé. Les réponses seront évaluées avec une **tolérance pour les accents et les fautes de frappe mineures** qui n'affectent pas la signification ou la structure grammaticale visée.</p>
+  <div class="item" data-type="mcq" data-a="MA==" data-exp="wqsgT24gYXZhaXQgbCdhaXIgZGUgdHJhaXRlciBjZXR0ZSBhZmZhaXJlIGVuIGRlaG9ycyBkZSBtb2kgwrsgaWxsdXN0cmUgbGUgdGjDqG1lIGRlIGxhIGp1c3RpY2UvZXhjbHVzaW9uIDogTWV1cnNhdWx0IGVzdCByw6lkdWl0IMOgIHVuIG9iamV0IHBhc3NpZiBkZSBzb24gcHJvcHJlIHByb2PDqHMu">
+    <p class="q">17. <blockquote class="citation">« On avait l'air de traiter cette affaire en dehors de moi. »</blockquote>
+    Cette citation illustre surtout le thème de…</p>
+    <div class="opts">
+      <label><input type="radio" name="s3q3" value="0"> A) La justice / l'exclusion</label>
+      <label><input type="radio" name="s3q3" value="1"> B) L'indifférence de Meursault</label>
+      <label><input type="radio" name="s3q3" value="2"> C) Le destin</label>
+      <label><input type="radio" name="s3q3" value="3"> D) L'acceptation lucide</label>
     </div>
+    <details class="aide"><summary>Indice</summary><div>Meursault n'a pas voix au chapitre dans son propre procès.</div></details>
+    <div class="fb"></div>
+  </div>
 
-    <div class="section" id="past-tenses">
-        <h2>⏱ Imparfait et Passé Composé - Descriptions et Actions <span class="section-score" id="past-tenses-score">0/14</span></h2>
-
-        <div class="sentence" data-answer="était">
-            <div class="english">Meursault's indifference was striking from the beginning of the novel.</div>
-            <div class="original">L'indifférence de Meursault <strong>___</strong> (être - imparfait) frappante dès le début du roman.</div>
-            <input type="text" name="q1" placeholder="Écrivez le verbe..." data-inf="être" />
-            <button type="button" class="check-btn">Vérifier</button>
-            <div class="feedback"></div>
-        </div>
-
-        <div class="sentence" data-answer="est allé">
-            <div class="english">He went to the funeral of his mother without shedding a single tear.</div>
-            <div class="original">Il <strong>___</strong> (aller - passé composé) à l'enterrement de sa mère sans verser une seule larme.</div>
-            <input type="text" name="q2" placeholder="Écrivez le verbe..." data-inf="aller" />
-            <button type="button" class="check-btn">Vérifier</button>
-            <div class="feedback"></div>
-        </div>
-
-        <div class="sentence" data-answer="brûlait,tuait">
-            <div class="english">The sun was blazing when Meursault killed the Arab.</div>
-            <div class="original">Le soleil <strong>___</strong> (brûler/tuer - imparfait) quand Meursault a tué l'Arabe.</div>
-            <input type="text" name="q3" placeholder="Écrivez le verbe..." data-inf="brûler" />
-            <button type="button" class="check-btn">Vérifier</button>
-            <div class="feedback"></div>
-        </div>
-
-        <div class="sentence" data-answer="avait rencontré">
-            <div class="english">He had met Marie Cardona the day after his mother's death.</div>
-            <div class="original">Il <strong>___</strong> (rencontrer - plus-que-parfait) Marie Cardona le lendemain de la mort de sa mère.</div>
-            <input type="text" name="q4" placeholder="Écrivez le verbe..." data-inf="rencontrer" />
-            <button type="button" class="check-btn">Vérifier</button>
-            <div class="feedback"></div>
-        </div>
-
-        <div class="sentence" data-answer="vivait">
-            <div class="english">Meursault lived an absurd life, devoid of true meaning.</div>
-            <div class="original">Meursault <strong>___</strong> (vivre - imparfait) une vie absurde, dépourvue de sens véritable.</div>
-            <input type="text" name="q5" placeholder="Écrivez le verbe..." data-inf="vivre" />
-            <button type="button" class="check-btn">Vérifier</button>
-            <div class="feedback"></div>
-        </div>
-
-        <div class="sentence" data-answer="est resté">
-            <div class="english">He remained calm even during his trial.</div>
-            <div class="original">Il <strong>___</strong> (rester - passé composé) calme même pendant son procès.</div>
-            <input type="text" name="q6" placeholder="Écrivez le verbe..." data-inf="rester" />
-            <button type="button" class="check-btn">Vérifier</button>
-            <div class="feedback"></div>
-        </div>
-
-        <div class="sentence" data-answer="pensait">
-            <div class="english">He thought about his mother in the prison cell.</div>
-            <div class="original">Il <strong>___</strong> (penser - imparfait) à sa mère dans sa cellule de prison.</div>
-            <input type="text" name="q7" placeholder="Écrivez le verbe..." data-inf="penser" />
-            <button type="button" class="check-btn">Vérifier</button>
-            <div class="feedback"></div>
-        </div>
-
-        <div class="sentence" data-answer="a tiré">
-            <div class="english">Meursault fired four more shots at the motionless body.</div>
-            <div class="original">Meursault <strong>___</strong> (tirer - passé composé) quatre coups supplémentaires sur le corps immobile.</div>
-            <input type="text" name="q8" placeholder="Écrivez le verbe..." data-inf="tirer" />
-            <button type="button" class="check-btn">Vérifier</button>
-            <div class="feedback"></div>
-        </div>
-
-        <div class="sentence" data-answer="était censé">
-            <div class="english">He was supposed to show remorse, but he couldn't.</div>
-            <div class="original">Il <strong>___</strong> (être censé - imparfait) montrer du remords, mais il ne le pouvait pas.</div>
-            <input type="text" name="q9" placeholder="Écrivez le verbe..." data-inf="être censé" />
-            <button type="button" class="check-btn">Vérifier</button>
-            <div class="feedback"></div>
-        </div>
-
-        <div class="sentence" data-answer="a refusé">
-            <div class="english">Meursault refused to conform to societal expectations.</div>
-            <div class="original">Meursault <strong>___</strong> (refuser - passé composé) de se conformer aux attentes de la société.</div>
-            <input type="text" name="q10" placeholder="Écrivez le verbe..." data-inf="refuser" />
-            <button type="button" class="check-btn">Vérifier</button>
-            <div class="feedback"></div>
-        </div>
-
-        <div class="sentence" data-answer="regardait">
-            <div class="english">He was looking at the sky when he accepted his fate.</div>
-            <div class="original">Il <strong>___</strong> (regarder - imparfait) le ciel quand il a accepté son destin.</div>
-            <input type="text" name="q11" placeholder="Écrivez le verbe..." data-inf="regarder" />
-            <button type="button" class="check-btn">Vérifier</button>
-            <div class="feedback"></div>
-        </div>
-
-        <div class="sentence" data-answer="a compris">
-            <div class="english">Meursault understood the absurdity of life just before his execution.</div>
-            <div class="original">Meursault <strong>___</strong> (comprendre - passé composé) l'absurdité de la vie juste avant son exécution.</div>
-            <input type="text" name="q12" placeholder="Écrivez le verbe..." data-inf="comprendre" />
-            <button type="button" class="check-btn">Vérifier</button>
-            <div class="feedback"></div>
-        </div>
-
-        <div class="sentence" data-answer="faisait">
-            <div class="english">The heat was suffocating during the trial.</div>
-            <div class="original">La chaleur <strong>___</strong> (faire - imparfait) étouffant pendant le procès.</div>
-            <input type="text" name="q13" placeholder="Écrivez le verbe..." data-inf="faire" />
-            <button type="button" class="check-btn">Vérifier</button>
-            <div class="feedback"></div>
-        </div>
-
-        <div class="sentence" data-answer="ont jugé">
-            <div class="english">The court judged him more on his behavior at the funeral than on the murder itself.</div>
-            <div class="original">La cour l'<strong>___</strong> (juger - passé composé) plus sur son comportement à l'enterrement que sur le meurtre lui-même.</div>
-            <input type="text" name="q14" placeholder="Écrivez le verbe..." data-inf="juger" />
-            <button type="button" class="check-btn">Vérifier</button>
-            <div class="feedback"></div>
-        </div>
+  <div class="item" data-type="mcq" data-a="Mw==" data-exp="wqsgSidhaSBzZW50aSBxdWUgaidhdmFpcyDDqXTDqSBoZXVyZXV4LCBldCBxdWUgamUgbCfDqXRhaXMgZW5jb3JlIMK7IHJlbMOodmUgZHUgdGjDqG1lIGRlIGwnYWNjZXB0YXRpb24gbHVjaWRlIDogTWV1cnNhdWx0IHRyb3V2ZSB1bmUgcGFpeCBwYXJhZG94YWxlIGZhY2Ugw6AgbGEgbW9ydCBpbW1pbmVudGUu">
+    <p class="q">18. <blockquote class="citation">« J'ai senti que j'avais été heureux, et que je l'étais encore. »</blockquote>
+    Cette citation illustre surtout le thème de…</p>
+    <div class="opts">
+      <label><input type="radio" name="s3q4" value="0"> A) La justice</label>
+      <label><input type="radio" name="s3q4" value="1"> B) L'indifférence</label>
+      <label><input type="radio" name="s3q4" value="2"> C) Le destin</label>
+      <label><input type="radio" name="s3q4" value="3"> D) L'acceptation lucide de l'absurde</label>
     </div>
+    <details class="aide"><summary>Indice</summary><div>C'est l'une des toutes dernières phrases du roman.</div></details>
+    <div class="fb"></div>
+  </div>
 
-    <div class="section" id="subjunctive-infinitive">
-        <h2>🎭 Subjonctif et Infinitif - Expressions d'Opinion et Nécessité <span class="section-score" id="subjunctive-infinitive-score">0/14</span></h2>
-
-        <div class="sentence" data-answer="soit">
-            <div class="english">It is essential that Meursault be seen as an alienated character.</div>
-            <div class="original">Il est essentiel que Meursault <strong>___</strong> (être - subjonctif) perçu comme un personnage aliéné.</div>
-            <input type="text" name="q15" placeholder="Écrivez le verbe..." data-inf="être" />
-            <button type="button" class="check-btn">Vérifier</button>
-            <div class="feedback"></div>
-        </div>
-
-        <div class="sentence" data-answer="avoir">
-            <div class="english">Camus wanted to create a character who seemed to have no emotions.</div>
-            <div class="original">Camus voulait <strong>___</strong> (avoir - infinitif) un personnage qui semblait n'avoir aucune émotion.</div>
-            <input type="text" name="q16" placeholder="Écrivez le verbe..." data-inf="avoir" />
-            <button type="button" class="check-btn">Vérifier</button>
-            <div class="feedback"></div>
-        </div>
-
-        <div class="sentence" data-answer="fasse">
-            <div class="english">It is surprising that he shows no remorse, even for the murder he commits.</div>
-            <div class="original">Il est surprenant qu'il ne <strong>___</strong> (faire - subjonctif) preuve d'aucun remords, même pour le meurtre qu'il commet.</div>
-            <input type="text" name="q17" placeholder="Écrivez le verbe..." data-inf="faire" />
-            <button type="button" class="check-btn">Vérifier</button>
-            <div class="feedback"></div>
-        </div>
-
-        <div class="sentence" data-answer="vivre">
-            <div class="english">He prefers to live in the present moment, without concern for the future.</div>
-            <div class="original">Il préfère <strong>___</strong> (vivre - infinitif) dans l'instant présent, sans se soucier de l'avenir.</div>
-            <input type="text" name="q18" placeholder="Écrivez le verbe..." data-inf="vivre" />
-            <button type="button" class="check-btn">Vérifier</button>
-            <div class="feedback"></div>
-        </div>
-
-        <div class="sentence" data-answer="puisse">
-            <div class="english">It is doubtful that one can truly understand Meursault without accepting the absurd.</div>
-            <div class="original">Il est douteux que l'on <strong>___</strong> (pouvoir - subjonctif) vraiment comprendre Meursault sans accepter l'absurde.</div>
-            <input type="text" name="q19" placeholder="Écrivez le verbe..." data-inf="pouvoir" />
-            <button type="button" class="check-btn">Vérifier</button>
-            <div class="feedback"></div>
-        </div>
-
-        <div class="sentence" data-answer="condamner">
-            <div class="english">The society hastened to condemn him for his unconventional behavior.</div>
-            <div class="original">La société s'est empressée de le <strong>___</strong> (condamner - infinitif) pour son comportement non conventionnel.</div>
-            <input type="text" name="q20" placeholder="Écrivez le verbe..." data-inf="condamner" />
-            <button type="button" class="check-btn">Vérifier</button>
-            <div class="feedback"></div>
-        </div>
-
-        <div class="sentence" data-answer="croie">
-            <div class="english">The magistrate wants Meursault to believe in God, but he refuses.</div>
-            <div class="original">Le magistrat veut que Meursault <strong>___</strong> (croire - subjonctif) en Dieu, mais il refuse.</div>
-            <input type="text" name="q21" placeholder="Écrivez le verbe..." data-inf="croire" />
-            <button type="button" class="check-btn">Vérifier</button>
-            <div class="feedback"></div>
-        </div>
-
-        <div class="sentence" data-answer="être">
-            <div class="english">He realizes that to be happy, one must accept the indifference of the universe.</div>
-            <div class="original">Il réalise que pour <strong>___</strong> (être - infinitif) heureux, il faut accepter l'indifférence de l'univers.</div>
-            <input type="text" name="q22" placeholder="Écrivez le verbe..." data-inf="être" />
-            <button type="button" class="check-btn">Vérifier</button>
-            <div class="feedback"></div>
-        </div>
-
-        <div class="sentence" data-answer="dise">
-            <div class="english">It is important that he tell the truth, even if it is uncomfortable.</div>
-            <div class="original">Il est important qu'il <strong>___</strong> (dire - subjonctif) la vérité, même si elle est inconfortable.</div>
-            <input type="text" name="q23" placeholder="Écrivez le verbe..." data-inf="dire" />
-            <button type="button" class="check-btn">Vérifier</button>
-            <div class="feedback"></div>
-        </div>
-
-        <div class="sentence" data-answer="avoir">
-            <div class="english">He seemed to have gained a new understanding of life in prison.</div>
-            <div class="original">Il semblait <strong>___</strong> (avoir - infinitif passé) acquis une nouvelle compréhension de la vie en prison.</div>
-            <input type="text" name="q24" placeholder="Écrivez le verbe..." data-inf="avoir" />
-            <button type="button" class="check-btn">Vérifier</button>
-            <div class="feedback"></div>
-        </div>
-
-        <div class="sentence" data-answer="comprenne">
-            <div class="english">It is necessary that the reader understand the philosophical implications of his actions.</div>
-            <div class="original">Il faut que le lecteur <strong>___</strong> (comprendre - subjonctif) les implications philosophiques de ses actes.</div>
-            <input type="text" name="q25" placeholder="Écrivez le verbe..." data-inf="comprendre" />
-            <button type="button" class="check-btn">Vérifier</button>
-            <div class="feedback"></div>
-        </div>
-
-        <div class="sentence" data-answer="mourir">
-            <div class="english">Meursault accepts his death as an inevitable part of his existence.</div>
-            <div class="original">Meursault accepte de <strong>___</strong> (mourir - infinitif) comme une partie inévitable de son existence.</div>
-            <input type="text" name="q26" placeholder="Écrivez le verbe..." data-inf="mourir" />
-            <button type="button" class="check-btn">Vérifier</button>
-            <div class="feedback"></div>
-        </div>
-
-        <div class="sentence" data-answer="soient">
-            <div class="english">It is regrettable that his emotions are not understood by society.</div>
-            <div class="original">Il est regrettable que ses émotions ne <strong>___</strong> (être - subjonctif) pas comprises par la société.</div>
-            <input type="text" name="q27" placeholder="Écrivez le verbe..." data-inf="être" />
-            <button type="button" class="check-btn">Vérifier</button>
-            <div class="feedback"></div>
-        </div>
-
-        <div class="sentence" data-answer="réaliser">
-            <div class="english">He begins to realize the absurdity of justice.</div>
-            <div class="original">Il commence à <strong>___</strong> (réaliser - infinitif) l'absurdité de la justice.</div>
-            <input type="text" name="q28" placeholder="Écrivez le verbe..." data-inf="réaliser" />
-            <button type="button" class="check-btn">Vérifier</button>
-            <div class="feedback"></div>
-        </div>
+  <div class="item" data-type="mcq" data-a="MQ==" data-exp="wqsgUmllbiwgcmllbiBuJ2F2YWl0IGQnaW1wb3J0YW5jZSBldCBqZSBzYXZhaXMgYmllbiBwb3VycXVvaSDCuyBleHByaW1lIGxhIHByaXNlIGRlIGNvbnNjaWVuY2UgZGUgbCdhYnN1cmRlIDogbGEgcmVsYXRpdmlzYXRpb24gdG90YWxlIGRlIHRvdXRlIGhpw6lyYXJjaGllIGRlIHZhbGV1cnMu">
+    <p class="q">19. <blockquote class="citation">« Rien, rien n'avait d'importance et je savais bien pourquoi. »</blockquote>
+    Cette citation illustre surtout le thème de…</p>
+    <div class="opts">
+      <label><input type="radio" name="s3q5" value="0"> A) La justice</label>
+      <label><input type="radio" name="s3q5" value="1"> B) L'absurde / la relativisation des valeurs</label>
+      <label><input type="radio" name="s3q5" value="2"> C) L'amour</label>
+      <label><input type="radio" name="s3q5" value="3"> D) L'ambition sociale</label>
     </div>
+    <details class="aide"><summary>Indice</summary><div>C'est une phrase-clé de la révolte finale de Meursault.</div></details>
+    <div class="fb"></div>
+  </div>
 
-    <div class="section" id="relative">
-        <h2>🔗 Pronoms Relatifs - Liens Complexes <span class="section-score" id="relative-score">0/14</span></h2>
-
-        <div class="sentence" data-answer="dont">
-            <div class="english">The heat, of which Meursault often complains, is a major thematic element.</div>
-            <div class="original">La chaleur, <strong>___</strong> Meursault se plaint souvent, est un élément thématique majeur.</div>
-            <input type="text" name="q29" placeholder="Écrivez le pronom..." />
-            <button type="button" class="check-btn">Vérifier</button>
-            <div class="feedback"></div>
-        </div>
-
-        <div class="sentence" data-answer="qui">
-            <div class="english">The sun, which blinds him, contributes to his fatal act.</div>
-            <div class="original">Le soleil, <strong>___</strong> l'aveugle, contribue à son geste fatal.</div>
-            <input type="text" name="q30" placeholder="Écrivez le pronom..." />
-            <button type="button" class="check-btn">Vérifier</button>
-            <div class="feedback"></div>
-        </div>
-
-        <div class="sentence" data-answer="où">
-            <div class="english">The beach is the place where the murder occurs.</div>
-            <div class="original">La plage est l'endroit <strong>___</strong> le meurtre se produit.</div>
-            <input type="text" name="q31" placeholder="Écrivez le pronom..." />
-            <button type="button" class="check-btn">Vérifier</button>
-            <div class="feedback"></div>
-        </div>
-
-        <div class="sentence" data-answer="ce qui">
-            <div class="english">What shocks society is his emotional detachment.</div>
-            <div class="original"><strong>___</strong> choque la société, c'est son détachement émotionnel.</div>
-            <input type="text" name="q32" placeholder="Écrivez le pronom..." />
-            <button type="button" class="check-btn">Vérifier</button>
-            <div class="feedback"></div>
-        </div>
-
-        <div class="sentence" data-answer="lequel">
-            <div class="english">The court, before which he appears, represents the hypocrisy of society.</div>
-            <div class="original">La cour, devant <strong>___</strong> il comparaît, représente l'hypocrisie de la société.</div>
-            <input type="text" name="q33" placeholder="Écrivez le pronom..." />
-            <button type="button" class="check-btn">Vérifier</button>
-            <div class="feedback"></div>
-        </div>
-
-        <div class="sentence" data-answer="dont">
-            <div class="english">The absurd, about which Camus writes, is a central philosophy in the novel.</div>
-            <div class="original">L'absurde, <strong>___</strong> Camus écrit, est une philosophie centrale du roman.</div>
-            <input type="text" name="q34" placeholder="Écrivez le pronom..." />
-            <button type="button" class="check-btn">Vérifier</button>
-            <div class="feedback"></div>
-        </div>
-
-        <div class="sentence" data-answer="auxquels">
-            <div class="english">The questions to which Meursault must respond are often irrelevant to the crime itself.</div>
-            <div class="original">Les questions <strong>___</strong> Meursault doit répondre sont souvent sans rapport avec le crime lui-même.</div>
-            <input type="text" name="q35" placeholder="Écrivez le pronom..." />
-            <button type="button" class="check-btn">Vérifier</button>
-            <div class="feedback"></div>
-        </div>
-
-        <div class="sentence" data-answer="qui">
-            <div class="english">It is the prosecutor who builds a case against his character.</div>
-            <div class="original">C'est le procureur <strong>___</strong> construit un dossier contre son caractère.</div>
-            <input type="text" name="q36" placeholder="Écrivez le pronom..." />
-            <button type="button" class="check-btn">Vérifier</button>
-            <div class="feedback"></div>
-        </div>
-
-        <div class="sentence" data-answer="ce dont">
-            <div class="english">He lacks what society expects: empathy.</div>
-            <div class="original">Il manque de <strong>___</strong> la société attend : de l'empathie.</div>
-            <input type="text" name="q37" placeholder="Écrivez le pronom..." />
-            <button type="button" class="check-btn">Vérifier</button>
-            <div class="feedback"></div>
-        </div>
-
-        <div class="sentence" data-answer="qui">
-            <div class="english">The ending, which brings him peace, is controversial for some readers.</div>
-            <div class="original">La fin, <strong>___</strong> lui apporte la paix, est controversée pour certains lecteurs.</div>
-            <input type="text" name="q38" placeholder="Écrivez le pronom..." />
-            <button type="button" class="check-btn">Vérifier</button>
-            <div class="feedback"></div>
-        </div>
-
-        <div class="sentence" data-answer="dans laquelle">
-            <div class="english">The prison cell, in which he spends his final days, becomes a space for self-discovery.</div>
-            <div class="original">La cellule de prison, <strong>___</strong> il passe ses derniers jours, devient un espace de découverte de soi.</div>
-            <input type="text" name="q39" placeholder="Écrivez le pronom..." />
-            <button type="button" class="check-btn">Vérifier</button>
-            <div class="feedback"></div>
-        </div>
-
-        <div class="sentence" data-answer="ce que">
-            <div class="english">What makes Meursault unique is his honesty about his feelings.</div>
-            <div class="original"><strong>___</strong> rend Meursault unique, c'est son honnêteté sur ses sentiments.</div>
-            <input type="text" name="q40" placeholder="Écrivez le pronom..." />
-            <button type="button" class="check-btn">Vérifier</button>
-            <div class="feedback"></div>
-        </div>
-
-        <div class="sentence" data-answer="lequel">
-            <div class="english">Raymond Sintès, with whom Meursault becomes friends, is a violent character.</div>
-            <div class="original">Raymond Sintès, avec <strong>___</strong> Meursault se lie d'amitié, est un personnage violent.</div>
-            <input type="text" name="q41" placeholder="Écrivez le pronom..." />
-            <button type="button" class="check-btn">Vérifier</button>
-            <div class="feedback"></div>
-        </div>
-
-        <div class="sentence" data-answer="dont">
-            <div class="english">The Arab, whose death is at the heart of the plot, remains nameless.</div>
-            <div class="original">L'Arabe, <strong>___</strong> la mort est au cœur de l'intrigue, reste anonyme.</div>
-            <input type="text" name="q42" placeholder="Écrivez le pronom..." />
-            <button type="button" class="check-btn">Vérifier</button>
-            <div class="feedback"></div>
-        </div>
+  <div class="item" data-type="mcq" data-a="Mg==" data-exp="wqsgT3V2cmUtdG9pIMOgIGxhIHRlbmRyZSBpbmRpZmbDqXJlbmNlIGR1IG1vbmRlIMK7IGlsbHVzdHJlIGxhIHLDqWNvbmNpbGlhdGlvbiBmaW5hbGUgYXZlYyBsJ2Fic3VyZGUgOiBNZXVyc2F1bHQgYWNjZXB0ZSBxdWUgbCd1bml2ZXJzIG5lIHLDqXBvbmRlIHBhcyDDoCBzZXMgYXR0ZW50ZXMgaHVtYWluZXMsIHNhbnMgYW1lcnR1bWUu">
+    <p class="q">20. <blockquote class="citation">« … ouvre-toi à la tendre indifférence du monde. »</blockquote>
+    Cette citation illustre surtout le thème de…</p>
+    <div class="opts">
+      <label><input type="radio" name="s3q6" value="0"> A) La justice</label>
+      <label><input type="radio" name="s3q6" value="1"> B) L'indifférence de Meursault envers Marie</label>
+      <label><input type="radio" name="s3q6" value="2"> C) La réconciliation finale avec l'absurde</label>
+      <label><input type="radio" name="s3q6" value="3"> D) L'ambition professionnelle</label>
     </div>
+    <details class="aide"><summary>Indice</summary><div>C'est l'avant-dernière phrase du roman, moment de paix quasi mystique.</div></details>
+    <div class="fb"></div>
+  </div>
 
-    <div class="section" id="connectors">
-        <h2>🌉 Connecteurs Avancés - Articulation des Idées <span class="section-score" id="connectors-score">0/14</span></h2>
+  <button class="btn" onclick="checkAll()">✔ Vérifier mes réponses</button>
+  <button class="btn second" onclick="resetAll()">↺ Recommencer</button>
+  <div class="score-banner" id="scoreBanner"></div>
 
-        <div class="sentence" data-answer="Par conséquent,Ainsi,En conséquence">
-            <div class="english">Meursault doesn't cry at his mother's funeral; consequently, society deems him a monster.</div>
-            <div class="original">Meursault ne pleure pas à l'enterrement de sa mère; <strong>___</strong>, la société le juge monstrueux.</div>
-            <input type="text" name="q43" placeholder="Écrivez le connecteur..." />
-            <button type="button" class="check-btn">Vérifier</button>
-            <div class="feedback"></div>
-        </div>
-
-        <div class="sentence" data-answer="En revanche,Par contre">
-            <div class="english">He feels no sadness; on the other hand, he enjoys the physical sensations of life.</div>
-            <div class="original">Il ne ressent aucune tristesse; <strong>___</strong>, il apprécie les sensations physiques de la vie.</div>
-            <input type="text" name="q44" placeholder="Écrivez le connecteur..." />
-            <button type="button" class="check-btn">Vérifier</button>
-            <div class="feedback"></div>
-        </div>
-
-        <div class="sentence" data-answer="De plus,En outre,Par ailleurs">
-            <div class="english">The heat is unbearable; furthermore, it directly influences Meursault's actions.</div>
-            <div class="original">La chaleur est insupportable; <strong>___</strong>, elle influence directement les actes de Meursault.</div>
-            <input type="text" name="q45" placeholder="Écrivez le connecteur..." />
-            <button type="button" class="check-btn">Vérifier</button>
-            <div class="feedback"></div>
-        </div>
-
-        <div class="sentence" data-answer="Cependant,Toutefois,Néanmoins">
-            <div class="english">The trial aims to understand his motives; however, it focuses more on his character.</div>
-            <div class="original">Le procès vise à comprendre ses motivations; <strong>___</strong>, il se concentre davantage sur son caractère.</div>
-            <input type="text" name="q46" placeholder="Écrivez le connecteur..." />
-            <button type="button" class="check-btn">Vérifier</button>
-            <div class="feedback"></div>
-        </div>
-
-        <div class="sentence" data-answer="Malgré cela,En dépit de cela">
-            <div class="english">He is condemned for murder; despite this, his execution seems to be for his non-conformity.</div>
-            <div class="original">Il est condamné pour meurtre; <strong>___</strong>, son exécution semble être pour sa non-conformité.</div>
-            <input type="text" name="q47" placeholder="Écrivez le connecteur..." />
-            <button type="button" class="check-btn">Vérifier</button>
-            <div class="feedback"></div>
-        </div>
-
-        <div class="sentence" data-answer="Autrement dit,En d'autres termes">
-            <div class="english">Meursault rejects societal norms; in other words, he lives authentically according to his own truth.</div>
-            <div class="original">Meursault rejette les normes sociales; <strong>___</strong>, il vit authentiquement selon sa propre vérité.</div>
-            <input type="text" name="q48" placeholder="Écrivez le connecteur..." />
-            <button type="button" class="check-btn">Vérifier</button>
-            <div class="feedback"></div>
-        </div>
-
-        <div class="sentence" data-answer="En effet">
-            <div class="english">The ending is paradoxical; indeed, it brings Meursault peace in the face of death.</div>
-            <div class="original">La fin est paradoxale; <strong>___</strong>, elle apporte la paix à Meursault face à la mort.</div>
-            <input type="text" name="q49" placeholder="Écrivez le connecteur..." />
-            <button type="button" class="check-btn">Vérifier</button>
-            <div class="feedback"></div>
-        </div>
-
-        <div class="sentence" data-answer="Or">
-            <div class="english">He desires the love of Marie; however, he cannot express conventional affection.</div>
-            <div class="original">Il désire l'amour de Marie; <strong>___</strong>, il ne peut pas exprimer une affection conventionnelle.</div>
-            <input type="text" name="q50" placeholder="Écrivez le connecteur..." />
-            <button type="button" class="check-btn">Vérifier</button>
-            <div class="feedback"></div>
-        </div>
-
-        <div class="sentence" data-answer="Par ailleurs,De plus,En outre">
-            <div class="english">The novel explores existentialism; moreover, it questions the meaning of human existence.</div>
-            <div class="original">Le roman explore l'existentialisme; <strong>___</strong>, il interroge le sens de l'existence humaine.</div>
-            <input type="text" name="q51" placeholder="Écrivez le connecteur..." />
-            <button type="button" class="check-btn">Vérifier</button>
-            <div class="feedback"></div>
-        </div>
-
-        <div class="sentence" data-answer="En somme,En bref,En résumé">
-            <div class="english">Meursault is an anti-hero; in summary, he challenges societal conventions through his indifference.</div>
-            <div class="original">Meursault est un anti-héros; <strong>___</strong>, il défie les conventions sociales par son indifférence.</div>
-            <input type="text" name="q52" placeholder="Écrivez le connecteur..." />
-            <button type="button" class="check-btn">Vérifier</button>
-            <div class="feedback"></div>
-        </div>
-
-        <div class="sentence" data-answer="D'abord,Premièrement">
-            <div class="english">First, the novel introduces us to Meursault's peculiar perspective.</div>
-            <div class="original"><strong>___</strong>, le roman nous introduit à la perspective particulière de Meursault.</div>
-            <input type="text" name="q53" placeholder="Écrivez le connecteur..." />
-            <button type="button" class="check-btn">Vérrivez</button>
-            <div class="feedback"></div>
-        </div>
-
-        <div class="sentence" data-answer="Ensuite,Deuxièmement">
-            <div class="english">Then, it describes the events leading to the murder.</div>
-            <div class="original"><strong>___</strong>, il décrit les événements menant au meurtre.</div>
-            <input type="text" name="q54" placeholder="Écrivez le connecteur..." />
-            <button type="button" class="check-btn">Vérifier</button>
-            <div class="feedback"></div>
-        </div>
-
-        <div class="sentence" data-answer="Enfin,Finalement">
-            <div class="english">Finally, Meursault's philosophical awakening occurs in prison.</div>
-            <div class="original"><strong>___</strong>, l'éveil philosophique de Meursault se produit en prison.</div>
-            <input type="text" name="q55" placeholder="Écrivez le connecteur..." />
-            <button type="button" class="check-btn">Vérifier</button>
-            <div class="feedback"></div>
-        </div>
-
-        <div class="sentence" data-answer="Néanmoins,Cependant,Toutefois">
-            <div class="english">The novel seems simple on the surface; nevertheless, its philosophical depth is considerable.</div>
-            <div class="original">Le roman semble simple en surface; <strong>___</strong>, sa profondeur philosophique est considérable.</div>
-            <input type="text" name="q56" placeholder="Écrivez le connecteur..." />
-            <button type="button" class="check-btn">Vérifier</button>
-            <div class="feedback"></div>
-        </div>
+  <!-- ============ DÉFI A* (stretch) ============ -->
+  <div class="stretch">
+    <h2>Défi A* — Rédigez un paragraphe PEEL complet</h2>
+    <div class="consigne">Tâche exigeante (C1) : Répondez à la question suivante en un paragraphe structuré selon
+    la méthode PEEL (Point / Evidence / Explanation / Link) : « Dans quelle mesure Camus critique-t-il la société
+    à travers le procès de Meursault ? » Rédigez au moins <strong>80 mots</strong>, en citant le texte au moins
+    une fois entre guillemets, et en utilisant un connecteur logique de chaque catégorie (addition, opposition,
+    conséquence).</div>
+    <p><em>Amorces :</em> « Point : Camus dénonce… », « Evidence : cela se manifeste lorsque… », « Explanation :
+    ceci révèle que… », « Link : ce procédé illustre donc… »</p>
+    <div class="item" data-type="free" data-min="80">
+      <textarea placeholder="Rédigez votre paragraphe PEEL ici (80 mots minimum)…"></textarea>
+      <div class="fb"></div>
     </div>
+    <details class="aide"><summary>Voir un modèle de réponse (après avoir écrit le vôtre)</summary>
+      <div id="modelAnswer" data-b64="TW9kw6hsZSBkZSBwYXJhZ3JhcGhlIFBFRUwgOiBQb2ludCDigJQgRGFucyBMJ8OJdHJhbmdlciwgQ2FtdXMgZMOpbm9uY2UgbCdoeXBvY3Jpc2llIGQndW5lIHNvY2nDqXTDqSBxdWkganVnZSBsYSBwZXJzb25uZSBwbHV0w7R0IHF1ZSBzZXMgYWN0ZXMuIEV2aWRlbmNlIOKAlCBMb3JzIGR1IHByb2PDqHMsIGxlIHByb2N1cmV1ciBhZmZpcm1lIHF1J8KrIG9uIGEgYmVhdWNvdXAgcGFybMOpIGRlIG1vaSBldCBwZXV0LcOqdHJlIHBsdXMgZGUgbW9pIHF1ZSBkZSBtb24gY3JpbWUgwrssIHNvdWxpZ25hbnQgcXVlIGwnYXR0ZW50aW9uIHNlIHBvcnRlIHN1ciBsZSBjb21wb3J0ZW1lbnQgZGUgTWV1cnNhdWx0IMOgIGwnZW50ZXJyZW1lbnQgcGx1dMO0dCBxdWUgc3VyIGxlIG1ldXJ0cmUgbHVpLW3Dqm1lLiBFeHBsYW5hdGlvbiDigJQgQ2V0dGUgZm9jYWxpc2F0aW9uIHLDqXbDqGxlIHF1ZSBsYSBzb2Npw6l0w6kgZXhpZ2UgdW5lIGNvbmZvcm1pdMOpIMOpbW90aW9ubmVsbGUgKGxhcm1lcywgZGV1aWwgdmlzaWJsZSkgcGx1cyBxdSdlbGxlIG5lIHJlY2hlcmNoZSBsYSB2w6lyaXTDqSBqdWRpY2lhaXJlIDsgTWV1cnNhdWx0IGVzdCBhaW5zaSBjb25kYW1uw6kgcG91ciBzb24gYXV0aGVudGljaXTDqSBwbHV0w7R0IHF1ZSBwb3VyIHNvbiBjcmltZS4gTGluayDigJQgQ2UgcHJvY8OpZMOpIGlsbHVzdHJlIGRvbmMgbGEgY3JpdGlxdWUgY2FtdXNpZW5uZSBkJ3VuZSBqdXN0aWNlIGFic3VyZGUsIGluY2FwYWJsZSBkZSBzYWlzaXIgdW4gaW5kaXZpZHUgcXVpIHJlZnVzZSBkZSBqb3VlciBsZSByw7RsZSBzb2NpYWwgYXR0ZW5kdSBkZSBsdWku"></div></details>
+  </div>
 
-    <button class="print-btn" onclick="window.print()">Imprimer les résultats</button>
+  <button class="btn dl" onclick="downloadResults()">📥 Télécharger mes résultats</button>
+</div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Helper function to remove accents and normalize text
-            function normalizeText(text) {
-                return text
-                    .normalize("NFD").replace(/[\u0300-\u036f]/g, "") // Remove accents
-                    .toLowerCase() // Convert to lowercase
-                    .replace(/œ/g, 'oe') // Handle ligatures like œ
-                    .replace(/ae/g, 'æ') // Handle ligatures like æ
-                    .replace(/['’]/g, '') // Remove apostrophes (simple heuristic for minor typos)
-                    .replace(/ /g, ''); // Remove spaces for closer matching
-            }
+<!-- ============ FLOATING ACCENT PAD ============ -->
+<button id="padToggle" onclick="togglePad()">é à ç — Accents</button>
+<div id="accentPad" style="display:none">
+  <div class="drag">⋮⋮ déplacer</div>
+</div>
 
-            // Function to calculate Levenshtein distance for misspelling tolerance
-            function levenshteinDistance(a, b) {
-                const an = a.length;
-                const bn = b.length;
-                if (an === 0) return bn;
-                if (bn === 0) return an;
+<script>
+/* ================= HOUSE ENGINE — do not weaken ================= */
+/* Answers are base64-encoded (UTF-8 safe) so they never sit in plain text next to the inputs. */
+function d(b){try{return decodeURIComponent(escape(atob(b)))}catch(e){return""}}
+function e64(s){return btoa(unescape(encodeURIComponent(s)))} /* helper for authoring */
 
-                const matrix = [];
-                for (let i = 0; i <= an; i++) {
-                    matrix[i] = [i];
-                }
-                for (let j = 1; j <= bn; j++) {
-                    matrix[0][j] = j;
-                }
+function norm(s){return (s||"").toLowerCase().replace(/['’]/g,"'").replace(/\s+/g," ").trim()}
+function deacc(s){return norm(s).normalize("NFD").replace(/[̀-ͯ]/g,"")}
 
-                for (let i = 1; i <= an; i++) {
-                    for (let j = 1; j <= bn; j++) {
-                        const cost = (a[i - 1] === b[j - 1]) ? 0 : 1;
-                        matrix[i][j] = Math.min(
-                            matrix[i - 1][j] + 1,      // Deletion
-                            matrix[i][j - 1] + 1,      // Insertion
-                            matrix[i - 1][j - 1] + cost // Substitution
-                        );
-                    }
-                }
-                return matrix[an][bn];
-            }
+/* tolerant text check: returns "ok" | "accents" | "bad" ; accepted = array */
+function judge(val, accepted){
+  const v=norm(val);
+  if(accepted.some(a=>norm(a)===v)) return "ok";
+  if(accepted.some(a=>deacc(a)===deacc(val))) return "accents";
+  return "bad";
+}
 
-            // Misspelling tolerance (e.g., 1 for very minor typos in short words)
-            const MISSPEL_TOLERANCE = 1; // Allows 1 difference for normalization purposes
+let results=[]; /* {label, given, ok, expected} */
 
-            // Initialize counters
-            let correctCount = 0;
-            const totalQuestions = 56;
+function checkAll(){
+  results=[]; let score=0, max=0;
+  document.querySelectorAll(".item").forEach((it,idx)=>{
+    const type=it.dataset.type, fb=it.querySelector(".fb");
+    const label=(it.querySelector(".q")?it.querySelector(".q").textContent.trim():("Défi "+(idx+1))).slice(0,90);
+    if(type==="mcq"){
+      max++;
+      const sel=it.querySelector("input[type=radio]:checked");
+      const correct=d(it.dataset.a), exp=d(it.dataset.exp||"");
+      if(!sel){fb.className="fb bad";fb.textContent="⚠ Répondez à la question.";results.push({label,given:"—",ok:false});return}
+      if(sel.value===correct){score++;fb.className="fb ok";fb.textContent="✔ Correct. "+exp;
+        results.push({label,given:sel.parentElement.textContent.trim(),ok:true});}
+      else{fb.className="fb bad";fb.textContent="✘ Incorrect. "+exp;
+        results.push({label,given:sel.parentElement.textContent.trim(),ok:false});}
+    }
+    if(type==="text"){
+      max++;
+      const inp=it.querySelector("input,textarea");
+      const accepted=d(it.dataset.a).split("|"), exp=d(it.dataset.exp||"");
+      const r=judge(inp.value,accepted);
+      if(r==="ok"){score++;fb.className="fb ok";fb.textContent="✔ Correct. "+exp;}
+      else if(r==="accents"){fb.className="fb almost";fb.textContent="≈ Presque ! Vérifiez les accents : "+accepted[0]+". "+exp;}
+      else{fb.className="fb bad";fb.textContent="✘ Réponse attendue : "+accepted[0]+". "+exp;}
+      results.push({label,given:inp.value||"—",ok:r==="ok"});
+    }
+    if(type==="free"){
+      const ta=it.querySelector("textarea"), min=parseInt(it.dataset.min||"40");
+      const words=(ta.value.trim().match(/\S+/g)||[]).length;
+      if(words===0){fb.className="fb";fb.textContent="";}
+      else if(words<min){fb.className="fb almost";fb.textContent="≈ "+words+" mots — visez au moins "+min+". Développez avec un connecteur (cependant, en revanche…).";}
+      else{fb.className="fb ok";fb.textContent="✔ "+words+" mots. Comparez maintenant avec le modèle, puis améliorez une phrase.";}
+      results.push({label,given:ta.value||"—",ok:words>=min});
+    }
+  });
+  const b=document.getElementById("scoreBanner");
+  b.style.display="block";
+  const pct=max?Math.round(100*score/max):0;
+  b.textContent="Score : "+score+" / "+max+" ("+pct+" %) — "+(pct>=80?"Excellent !":pct>=60?"Bien — corrigez les points signalés.":"Relisez les indices et réessayez.");
+  window._score={score,max};
+}
 
-            const correctCountSpan = document.getElementById('correct-count');
-            const progressSpan = document.getElementById('progress');
+function resetAll(){
+  document.querySelectorAll(".item input[type=text], .item textarea").forEach(i=>i.value="");
+  document.querySelectorAll(".item input[type=radio]").forEach(r=>r.checked=false);
+  document.querySelectorAll(".fb").forEach(f=>{f.className="fb";f.textContent=""});
+  document.getElementById("scoreBanner").style.display="none";
+  results=[];window._score=null;window.scrollTo({top:0,behavior:"smooth"});
+}
 
-            // Get all sections for individual scores
-            const sections = {
-                'past-tenses': {
-                    element: document.getElementById('past-tenses'),
-                    scoreSpan: document.getElementById('past-tenses-score'),
-                    correct: 0,
-                    total: 14
-                },
-                'subjunctive-infinitive': {
-                    element: document.getElementById('subjunctive-infinitive'),
-                    scoreSpan: document.getElementById('subjunctive-infinitive-score'),
-                    correct: 0,
-                    total: 14
-                },
-                'relative': {
-                    element: document.getElementById('relative'),
-                    scoreSpan: document.getElementById('relative-score'),
-                    correct: 0,
-                    total: 14
-                },
-                'connectors': {
-                    element: document.getElementById('connectors'),
-                    scoreSpan: document.getElementById('connectors-score'),
-                    correct: 0,
-                    total: 14
-                }
-            };
+function downloadResults(){
+  const name=document.getElementById("studentName").value.trim();
+  if(!name){alert("Écrivez d'abord votre nom en haut de la page.");document.getElementById("studentName").focus();return}
+  if(!window._score){alert("Cliquez d'abord sur « Vérifier mes réponses ».");return}
+  let txt="RÉSULTATS — "+document.title+"\n";
+  txt+="Élève : "+name+"\nDate : "+new Date().toLocaleString("fr-FR")+"\n";
+  txt+="Score : "+window._score.score+" / "+window._score.max+"\n";
+  txt+="".padEnd(60,"=")+"\n\n";
+  results.forEach((r,i)=>{txt+=(i+1)+". "+r.label+"\n   Réponse : "+r.given+"\n   "+(r.ok?"✔ correct":"✘ à revoir")+"\n\n";});
+  const blob=new Blob([txt],{type:"text/plain;charset=utf-8"});
+  const a=document.createElement("a");
+  a.href=URL.createObjectURL(blob);
+  a.download=(document.title.split("—")[0].trim()||"resultats").replace(/\s+/g,"_")+"_"+name.replace(/\s+/g,"_")+".txt";
+  document.body.appendChild(a);a.click();document.body.removeChild(a);URL.revokeObjectURL(a.href);
+}
 
-            document.querySelectorAll('.check-btn').forEach(button => {
-                button.addEventListener('click', function() {
-                    const sentenceDiv = this.closest('.sentence');
-                    const input = sentenceDiv.querySelector('input[type="text"]');
-                    const feedbackDiv = sentenceDiv.querySelector('.feedback');
-                    const rawUserAnswer = input.value.trim();
-                    const normalizedUserAnswer = normalizeText(rawUserAnswer);
-                    const correctAnswers = sentenceDiv.dataset.answer.split(',').map(ans => ans.trim());
+/* ---------- Accent pad ---------- */
+const CHARS=["é","è","ê","ë","à","â","î","ï","ô","ù","û","ü","ç","œ","æ","«","»","'","É","È","À","Ç","Œ"];
+let lastField=null;
+document.addEventListener("focusin",e=>{
+  if(e.target.matches("input[type=text],textarea") && e.target.id!=="studentName") lastField=e.target;
+  if(e.target.id==="studentName") lastField=e.target;
+});
+const pad=document.getElementById("accentPad");
+CHARS.forEach(c=>{
+  const b=document.createElement("button");
+  b.textContent=c; if(c===c.toUpperCase()&&c.toLowerCase()!==c) b.className="maj";
+  b.addEventListener("mousedown",ev=>{
+    ev.preventDefault(); /* keep focus in the field */
+    if(!lastField) return;
+    const s=lastField.selectionStart??lastField.value.length, t=lastField.selectionEnd??s;
+    lastField.value=lastField.value.slice(0,s)+c+lastField.value.slice(t);
+    lastField.selectionStart=lastField.selectionEnd=s+c.length;
+    lastField.focus();
+  });
+  pad.appendChild(b);
+});
+function togglePad(){
+  const show=pad.style.display==="none";
+  pad.style.display=show?"flex":"none";
+  document.getElementById("padToggle").style.display=show?"none":"block";
+  if(show){ /* add close button once */
+    if(!pad.querySelector(".closer")){
+      const x=document.createElement("button");x.textContent="✕";x.className="closer";
+      x.addEventListener("mousedown",ev=>{ev.preventDefault();togglePad()});pad.appendChild(x);
+    }
+  }
+}
+/* drag the pad */
+(function(){
+  const h=pad.querySelector(".drag");let sx,sy,ox,oy,drag=false;
+  h.addEventListener("mousedown",e=>{drag=true;sx=e.clientX;sy=e.clientY;const r=pad.getBoundingClientRect();ox=r.left;oy=r.top;
+    pad.style.right="auto";pad.style.bottom="auto";e.preventDefault()});
+  document.addEventListener("mousemove",e=>{if(!drag)return;pad.style.left=(ox+e.clientX-sx)+"px";pad.style.top=(oy+e.clientY-sy)+"px"});
+  document.addEventListener("mouseup",()=>drag=false);
+})();
 
-                    // Find the parent section to update its score
-                    const parentSectionId = sentenceDiv.closest('.section').id;
-                    const section = sections[parentSectionId];
-
-                    let isCorrect = false;
-
-                    // Check if already checked to reset counts
-                    if (feedbackDiv.classList.contains('correct') || feedbackDiv.classList.contains('incorrect')) {
-                        if (feedbackDiv.classList.contains('correct')) {
-                            correctCount--;
-                            section.correct--;
-                        }
-                        feedbackDiv.classList.remove('correct', 'incorrect');
-                    }
-
-                    // Check against all possible correct answers with normalization and tolerance
-                    for (const ans of correctAnswers) {
-                        const normalizedCorrectAnswer = normalizeText(ans);
-
-                        // Allow for a small Levenshtein distance for misspelling tolerance
-                        // This logic is simple: if the normalized length difference is small OR Levenshtein distance is within tolerance
-                        const lengthDiff = Math.abs(normalizedUserAnswer.length - normalizedCorrectAnswer.length);
-                        const distance = levenshteinDistance(normalizedUserAnswer, normalizedCorrectAnswer);
-
-                        if (normalizedUserAnswer === normalizedCorrectAnswer ||
-                            (distance <= MISSPEL_TOLERANCE && lengthDiff <= MISSPEL_TOLERANCE)) {
-                            isCorrect = true;
-                            break; // Found a match, no need to check further
-                        }
-                    }
-
-                    if (isCorrect) {
-                        feedbackDiv.textContent = 'Correct!';
-                        feedbackDiv.classList.add('correct');
-                        correctCount++;
-                        section.correct++;
-                    } else {
-                        feedbackDiv.textContent = `Incorrect. La réponse était: ${correctAnswers.join(' ou ')}.`;
-                        feedbackDiv.classList.add('incorrect');
-                    }
-
-                    // Update global counters
-                    correctCountSpan.textContent = correctCount;
-                    progressSpan.textContent = `${Math.round((correctCount / totalQuestions) * 100)}%`;
-
-                    // Update individual section scores
-                    section.scoreSpan.textContent = `${section.correct}/${section.total}`;
-                });
-            });
-        });
-    </script>
+/* decode model-answer block on demand */
+(function(){
+  const m=document.getElementById("modelAnswer");
+  if(m && m.dataset.b64){ m.textContent = d(m.dataset.b64); }
+})();
+</script>
 </body>
 </html>

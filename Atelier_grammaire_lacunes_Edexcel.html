@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Atelier de grammaire — Les lacunes d'Edexcel</title>
+<style>
+  :root{
+    --ink:#1a2733; --paper:#ffffff; --bg:#eef2f6;
+    --accent:#00546b; --accent2:#8a1538; --ok:#1e7b45; --warn:#b06f00; --bad:#a12727;
+    --line:#c9d4dd;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:Calibri,'Segoe UI',Arial,sans-serif;font-size:17px;line-height:1.55;
+       color:var(--ink);background:var(--bg);padding:24px 16px 120px}
+  .wrap{max-width:880px;margin:0 auto;background:var(--paper);border:1px solid var(--line);
+        border-radius:8px;padding:28px 32px}
+  header{border-bottom:3px solid var(--accent);padding-bottom:12px;margin-bottom:18px}
+  h1{font-size:1.6em;color:var(--accent)}
+  .meta{color:#5a6a78;font-style:italic;margin-top:4px}
+  h2{font-size:1.25em;color:var(--accent);margin:28px 0 8px;border-left:5px solid var(--accent);padding-left:10px}
+  h2 .pts{font-size:.75em;color:#5a6a78;font-weight:normal}
+  .consigne{background:#f2f7fa;border-left:4px solid var(--accent);padding:10px 14px;margin:8px 0 14px;border-radius:0 6px 6px 0}
+  .name-row{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin:14px 0}
+  .name-row input{padding:9px 12px;font-size:1em;border:2px solid var(--accent);border-radius:6px;width:280px;font-family:inherit}
+  .item{margin:14px 0;padding:12px 14px;border:1px solid var(--line);border-radius:6px}
+  .item p.q{margin-bottom:8px}
+  .item input[type=text],.item textarea{width:100%;padding:8px 10px;font-size:1em;font-family:inherit;
+      border:1.5px solid var(--line);border-radius:5px;margin-top:4px}
+  .item textarea{min-height:90px;resize:vertical}
+  .opts label{display:block;padding:7px 10px;margin:5px 0;border:1.5px solid var(--line);border-radius:5px;cursor:pointer}
+  .opts label:hover{background:#f2f7fa}
+  details.aide{margin:8px 0 2px}
+  details.aide summary{cursor:pointer;color:var(--warn);font-weight:bold}
+  details.aide div{background:#fff8ec;border-left:4px solid var(--warn);padding:8px 12px;margin-top:6px;border-radius:0 6px 6px 0}
+  .fb{display:none;margin-top:8px;padding:9px 12px;border-radius:6px;font-size:.95em}
+  .fb.ok{display:block;background:#e9f5ee;border-left:4px solid var(--ok);color:var(--ok)}
+  .fb.almost{display:block;background:#fff8ec;border-left:4px solid var(--warn);color:var(--warn)}
+  .fb.bad{display:block;background:#fbeeee;border-left:4px solid var(--bad);color:var(--bad)}
+  .stretch{border:2px dashed var(--accent2);border-radius:8px;padding:16px;margin:26px 0;background:#fdf7f9}
+  .stretch h2{color:var(--accent2);border-left-color:var(--accent2)}
+  .btn{background:var(--accent);color:#fff;border:none;padding:11px 20px;font-size:1em;font-family:inherit;
+       border-radius:6px;cursor:pointer;margin:6px 6px 6px 0}
+  .btn:hover{filter:brightness(1.15)}
+  .btn.dl{background:var(--ok)}
+  .btn.second{background:#5a6a78}
+  .score-banner{display:none;margin:18px 0;padding:14px;border-radius:8px;background:#f2f7fa;
+       border:2px solid var(--accent);font-size:1.15em;font-weight:bold;color:var(--accent)}
+  /* ---------- Floating accent pad ---------- */
+  #accentPad{position:fixed;bottom:18px;right:18px;background:#fff;border:2px solid var(--accent);
+       border-radius:10px;box-shadow:0 6px 24px rgba(0,0,0,.25);padding:10px;z-index:1000;
+       display:flex;flex-wrap:wrap;gap:5px;max-width:340px;user-select:none}
+  #accentPad .drag{width:100%;cursor:move;font-size:.8em;color:#5a6a78;text-align:center;padding-bottom:4px}
+  #accentPad button{font-size:1.05em;font-family:inherit;min-width:34px;padding:6px 4px;border:1px solid var(--line);
+       border-radius:5px;background:#f2f7fa;cursor:pointer}
+  #accentPad button:hover{background:var(--accent);color:#fff}
+  #accentPad .maj{font-size:.8em;background:#e6e9ec}
+  #padToggle{position:fixed;bottom:18px;right:18px;z-index:999;background:var(--accent);color:#fff;
+       border:none;border-radius:50px;padding:12px 18px;font-size:1em;cursor:pointer;box-shadow:0 4px 14px rgba(0,0,0,.3)}
+  @media print{#accentPad,#padToggle{display:none}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>Atelier de grammaire — Les lacunes d'Edexcel</h1>
+    <p class="meta">A-Level French (Edexcel) · L'immigration, la politique française, les médias, <em>La Haine</em>,
+    <em>L'Étranger</em> · Durée conseillée : 60 min</p>
+  </header>
+
+  <div class="name-row">
+    <label for="studentName"><strong>Votre nom :</strong></label>
+    <input type="text" id="studentName" placeholder="Prénom NOM" maxlength="60">
+  </div>
+
+  <div class="consigne"><strong>Consignes :</strong> Cet atelier couvre six points de grammaire souvent négligés au
+  niveau A-Level. Lisez la brève explication au début de chaque section, puis complétez les exercices. Cliquez sur
+  « Vérifier » pour un retour détaillé, puis téléchargez vos résultats.</div>
+
+  <!-- ============ SECTION 1 : Y et EN ============ -->
+  <h2>Section 1 · Les pronoms « y » et « en » <span class="pts">(5 points)</span></h2>
+  <div class="consigne">« y » remplace un complément de lieu ou « à + chose » ; « en » remplace « de + chose », une
+  quantité, ou « des + nom ». Devant un verbe conjugué, ils se placent avant le verbe. À l'impératif affirmatif, ils
+  se placent après le verbe (trait d'union) ; à l'impératif négatif, ils restent avant le verbe.</div>
+
+  <div class="item" data-type="mcq" data-a="MA==" data-exp="wqsgeSDCuyByZW1wbGFjZSB1biBjb21wbMOpbWVudCBpbnRyb2R1aXQgcGFyIMKrIMOgIMK7IGxvcnNxdSdpbCBzJ2FnaXQgZCd1bmUgY2hvc2UgKGljaSwgdW5lIGxvaSkgOiBMZSBtaW5pc3RyZSB5IHBlbnNlLg==">
+    <p class="q">1. « Le ministre pense à cette loi sur l'immigration. » → « Le ministre ______ pense. »</p>
+    <div class="opts">
+      <label><input type="radio" name="s1q1" value="0"> A) y</label>
+      <label><input type="radio" name="s1q1" value="1"> B) en</label>
+      <label><input type="radio" name="s1q1" value="2"> C) la</label>
+    </div>
+    <details class="aide"><summary>Indice</summary><div>« penser à quelque chose » → y.</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="mcq" data-a="MQ==" data-exp="wqsgZW4gwrsgcmVtcGxhY2UgdW4gY29tcGzDqW1lbnQgaW50cm9kdWl0IHBhciDCqyBkZSDCuyAoY2hvc2UpIDogcGFybGVyIGRlIGxhIGNyaXNlIOKGkiBlbiBwYXJsZXIu">
+    <p class="q">2. « Le journaliste parle souvent de la crise migratoire. » → « Le journaliste ______ parle souvent. »</p>
+    <div class="opts">
+      <label><input type="radio" name="s1q2" value="0"> A) y</label>
+      <label><input type="radio" name="s1q2" value="1"> B) en</label>
+      <label><input type="radio" name="s1q2" value="2"> C) lui</label>
+    </div>
+    <details class="aide"><summary>Indice</summary><div>« parler de quelque chose » → en.</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="text" data-a="ZG9ubmVzLWVu" data-exp="RGV2YW50IMKrIHkgwrsvwqsgZW4gwrsgw6AgbCdpbXDDqXJhdGlmIGFmZmlybWF0aWYsIGxlcyB2ZXJiZXMgZW4gLWVyIHJlcHJlbm5lbnQgbGV1ciDCqyBzIMK7IGZpbmFsIChub3JtYWxlbWVudCBzdXBwcmltw6kpIHBvdXIgcGVybWV0dHJlIGxhIGxpYWlzb24gOiBkb25uZSDihpIgZG9ubmVzLWVuLCBjb21tZSB2YSDihpIgdmFzLXku">
+    <p class="q">3. Mettez à l'impératif affirmatif (tu) avec « en », en remplaçant « des preuves » : « Donne des preuves. »</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Indice</summary><div>Pour les verbes en -er, on garde le « s » de la 2e personne devant « y » ou « en », pour la liaison : Donnes-en !</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="text" data-a="bid5IHZhIHBhcw==" data-exp="w4AgbGEgZm9ybWUgbsOpZ2F0aXZlLCBsJ29yZHJlIHJlZGV2aWVudCBub3JtYWwgKHByb25vbSBhdmFudCBsZSB2ZXJiZSkgZXQgbCdpbXDDqXJhdGlmIGVzdCBlbmNhZHLDqSBwYXIgwqsgbmUuLi5wYXMgwrsgOiBOJ3kgdmEgcGFzLg==">
+    <p class="q">4. Mettez à l'impératif négatif (tu) : « Va à cette manifestation. » (utilisez « y »)</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Indice</summary><div>À l'impératif négatif, le pronom reste avant le verbe, encadré par « ne...pas ».</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="text" data-a="bGVzIG1pZ3JhbnRzIHkgcGVuc2VudCBzb3V2ZW50" data-exp="wqsgeSDCuyByZW1wbGFjZSDCqyDDoCArIGxpZXUvY2hvc2UgwrsgZXQgc2UgcGxhY2UgaW1tw6lkaWF0ZW1lbnQgYXZhbnQgbGUgdmVyYmUgY29uanVndcOpIDogeSBwZW5zZW50Lg==">
+    <p class="q">5. Remplacez les mots soulignés par « y » : « Les migrants pensent souvent à leur pays d'origine. »</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Indice</summary><div>« y » se place juste avant le verbe conjugué.</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <!-- ============ SECTION 2 : dont / lequel / auquel / duquel ============ -->
+  <h2>Section 2 · Dont, lequel, auquel, duquel <span class="pts">(5 points)</span></h2>
+  <div class="consigne">« dont » remplace un complément introduit par « de » (verbe/nom + de). « lequel/laquelle/
+  lesquels/lesquelles » remplace une chose après une préposition simple (dans, sur, avec…). « auquel » = à + lequel.
+  « duquel » = de + lequel, utilisé après une préposition composée (à côté de, en face de, au sujet de) — jamais « dont ».</div>
+
+  <div class="item" data-type="mcq" data-a="MQ==" data-exp="wqsgZG9udCDCuyByZW1wbGFjZSB1biBjb21wbMOpbWVudCBpbnRyb2R1aXQgcGFyIMKrIGRlIMK7IDogbGUgZ291dmVybmVtZW50IHBhcmxlIGRlIGNldHRlIGxvaSDihpIgbGEgbG9pIGRvbnQgbGUgZ291dmVybmVtZW50IHBhcmxlLg==">
+    <p class="q">6. « La loi ______ le gouvernement parle est très controversée. » (le gouvernement parle de cette loi)</p>
+    <div class="opts">
+      <label><input type="radio" name="s2q1" value="0"> A) que</label>
+      <label><input type="radio" name="s2q1" value="1"> B) dont</label>
+      <label><input type="radio" name="s2q1" value="2"> C) laquelle</label>
+    </div>
+    <details class="aide"><summary>Indice</summary><div>« parler de » → le complément introduit par « de » se remplace par « dont ».</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="mcq" data-a="Mg==" data-exp="wqsgZG9udCDCuyBuZSBzJ3V0aWxpc2UgcXUnYXByw6hzIHVuIHZlcmJlL25vbSBjb25zdHJ1aXQgYXZlYyDCqyBkZSDCuy4gSWNpLCDCqyBoYWJpdGVyIGRhbnMgwrsgZXhpZ2UgbGEgcHLDqXBvc2l0aW9uIMKrIGRhbnMgwrsgKyDCqyBsZXF1ZWwgwrsgOiBsZSBxdWFydGllciBkYW5zIGxlcXVlbCBWaW56IGhhYml0ZS4=">
+    <p class="q">7. « Le quartier ______ Vinz habite est marqué par les tensions sociales. » (Vinz habite dans ce quartier — <em>La Haine</em>)</p>
+    <div class="opts">
+      <label><input type="radio" name="s2q2" value="0"> A) dont</label>
+      <label><input type="radio" name="s2q2" value="1"> B) auquel</label>
+      <label><input type="radio" name="s2q2" value="2"> C) dans lequel</label>
+    </div>
+    <details class="aide"><summary>Indice</summary><div>« habiter dans un lieu » → après la préposition « dans », on utilise « lequel », jamais « dont ».</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="text" data-a="YXVxdWVs" data-exp="wqsgYXVxdWVsIMK7IGVzdCBsYSBjb250cmFjdGlvbiBkZSDCqyDDoCArIGxlcXVlbCDCuywgdXRpbGlzw6llIHBvdXIgdW4gYW50w6ljw6lkZW50IG1hc2N1bGluIHNpbmd1bGllciBhcHLDqHMgdW4gdmVyYmUgY29uc3RydWl0IGF2ZWMgwqsgw6AgwrsgKMOqdHJlIGNvbmZyb250w6kgw6ApLg==">
+    <p class="q">8. Complétez avec « auquel » : « Meursault est confronté à un procès absurde. Le procès ______ il est confronté le dépasse totalement. »</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Indice</summary><div>« être confronté à » + préposition « à » → auquel (à + lequel, masculin singulier).</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="text" data-a="ZHVxdWVs" data-exp="wqsgZHVxdWVsIMK7IHJlbXBsYWNlIMKrIGRlICsgbGVxdWVsIMK7IGFwcsOocyB1bmUgcHLDqXBvc2l0aW9uIGNvbXBvc8OpZSBlbiDCqyBkZSDCuyAoZW4gZmFjZSBkZSwgw6AgY8O0dMOpIGRlLCBhdSBzdWpldCBkZSkg4oCUIGphbWFpcyDCqyBkb250IMK7IGRhbnMgY2UgY2FzLCBjYXIgwqsgZG9udCDCuyBuZSBwZXV0IHBhcyBzdWl2cmUgdW5lIHByw6lwb3NpdGlvbiBjb21wb3PDqWUu">
+    <p class="q">9. Complétez : « Voici l'immeuble ; la manifestation a eu lieu en face de cet immeuble. » → « Voici l'immeuble en face ______ la manifestation a eu lieu. »</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Indice</summary><div>Après une préposition composée comme « en face de », « à côté de », « au sujet de », on utilise « duquel » (= de + lequel) pour un antécédent masculin.</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="text" data-a="bCdhbGdlcmllIGEgY29ubnUgdW5lIGd1ZXJyZSBkb250IGNhbXVzIHBhcmxlIHNvdXZlbnQgZGFucyBzZXMgb2V1dnJlcw==" data-exp="wqsgZG9udCDCuyByZW1wbGFjZSBsZSBjb21wbMOpbWVudCDCqyBkZSBjZXR0ZSBndWVycmUgwrsgKHBhcmxlciBkZSkgOiDigKYgdW5lIGd1ZXJyZSBkb250IENhbXVzIHBhcmxlIHNvdXZlbnQu">
+    <p class="q">10. Combinez avec « dont » : « L'Algérie a connu une guerre. Camus parle souvent de cette guerre dans ses œuvres. »</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Indice</summary><div>« parler de » → dont.</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <!-- ============ SECTION 3 : passif et évitement ============ -->
+  <h2>Section 3 · La voix passive et son évitement <span class="pts">(5 points)</span></h2>
+  <div class="consigne">Le passif (être + participe passé + [par]) est moins utilisé en français qu'en anglais.
+  À l'oral et à l'écrit courant, on préfère souvent « on » + verbe actif, ou une construction pronominale
+  (« se + verbe ») pour exprimer un sens passif, surtout quand l'agent n'est pas précisé.</div>
+
+  <div class="item" data-type="text" data-a="Y2V0IGFydGljbGUgY29udHJvdmVyc2UgYSBldGUgcHVibGllIHBhciBsZXMgam91cm5hbGlzdGVz" data-exp="TGUgcGFzc2lmIHNlIGZvcm1lIGF2ZWMgwqsgw6p0cmUgwrsgY29uanVndcOpIGF1IG3Dqm1lIHRlbXBzIHF1ZSBsZSB2ZXJiZSBhY3RpZiwgc3VpdmkgZHUgcGFydGljaXBlIHBhc3PDqSBhY2NvcmTDqSBhdmVjIGxlIHN1amV0LCBwdWlzIMKrIHBhciDCuyArIGwnYWdlbnQgOiBhIMOpdMOpIHB1Ymxpw6kgcGFyLg==">
+    <p class="q">11. Mettez à la voix passive : « Les journalistes ont publié cet article controversé. »</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Indice</summary><div>Sujet passif + être (au même temps) + participe passé (accordé) + par + agent.</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="text" data-a="b24gdm90ZXJhIGRlIG5vdXZlbGxlcyBsb2lzIHN1ciBsJ2ltbWlncmF0aW9uIGxlIG1vaXMgcHJvY2hhaW4=" data-exp="UXVhbmQgbCdhZ2VudCBuJ2VzdCBwYXMgZXhwcmltw6ksIGxlIGZyYW7Dp2FpcyBwcsOpZsOocmUgc291dmVudCDCqyBvbiDCuyArIHZlcmJlIGFjdGlmIHBsdXTDtHQgcXVlIGxlIHBhc3NpZiA6IG9uIHZvdGVyYSAoZnV0dXIpIHBsdXTDtHQgcXVlIHNlcm9udCB2b3TDqWVzLg==">
+    <p class="q">12. Évitez le passif en utilisant « on » : « De nouvelles lois sur l'immigration seront votées le mois prochain. »</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Indice</summary><div>« on » + verbe actif au même temps remplace souvent un passif sans agent exprimé.</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="text" data-a="bGUgZnJhbmNhaXMgc2UgcGFybGUgZGFucyBkZSBub21icmV1eCBwYXlzIGFmcmljYWlucw==" data-exp="TGEgY29uc3RydWN0aW9uIHByb25vbWluYWxlIMOgIHNlbnMgcGFzc2lmICjCqyBzZSArIHZlcmJlIMK7KSBlc3QgaWRpb21hdGlxdWUgcG91ciBkZXMgZ8OpbsOpcmFsaXTDqXMgOiBsZSBmcmFuw6dhaXMgc2UgcGFybGUgPSBlc3QgcGFybMOpLCBzYW5zIG1lbnRpb25uZXIgZCdhZ2VudC4=">
+    <p class="q">13. Évitez le passif avec une construction pronominale (« se + verbe ») : « Le français est parlé dans de nombreux pays africains. »</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Indice</summary><div>« se + verbe » à sens passif est fréquent pour des vérités générales ou habituelles : cela se voit, cela se dit, cela se fait.</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="mcq" data-a="MQ==" data-exp="QmllbiBxdWUgbGUgcGFzc2lmIChBKSBzb2l0IGdyYW1tYXRpY2FsZW1lbnQgY29ycmVjdCwgbGUgZnJhbsOnYWlzIGNvdXJhbnQgcHLDqWbDqHJlIGxhIGNvbnN0cnVjdGlvbiBhdmVjIMKrIG9uIMK7IChCKSwgcGx1cyBuYXR1cmVsbGUgZXQgcGx1cyBpZGlvbWF0aXF1ZS4=">
+    <p class="q">14. Quelle phrase est la plus naturelle en français pour dire « This kind of violence is often seen in the suburbs » ?</p>
+    <div class="opts">
+      <label><input type="radio" name="s3q4" value="0"> A) Ce genre de violence est souvent vu dans les banlieues.</label>
+      <label><input type="radio" name="s3q4" value="1"> B) On voit souvent ce genre de violence dans les banlieues.</label>
+      <label><input type="radio" name="s3q4" value="2"> C) Ce genre de violence a été vu souvent dans les banlieues.</label>
+    </div>
+    <details class="aide"><summary>Indice</summary><div>Le français évite souvent le passif anglais en le remplaçant par « on » + verbe actif.</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="text" data-a="cGx1c2lldXJzIGpldW5lcyBkdSBxdWFydGllciBvbnQgZXRlIGludGVycGVsbGVzIHBhciBsYSBwb2xpY2U=" data-exp="QXUgcGFzc2lmLCBsZSBwYXJ0aWNpcGUgcGFzc8OpIHMnYWNjb3JkZSB0b3Vqb3VycyBhdmVjIGxlIHN1amV0IDogamV1bmVzIChtYXNjLiBwbHVyLikg4oaSIGludGVycGVsbMOpcy4=">
+    <p class="q">15. Mettez à la voix passive au passé composé : « La police a interpellé plusieurs jeunes du quartier. »</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Indice</summary><div>N'oubliez pas l'accord du participe passé avec le sujet passif (jeunes = masculin pluriel).</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <!-- ============ SECTION 4 : comparatifs / superlatifs ============ -->
+  <h2>Section 4 · Comparatifs et superlatifs <span class="pts">(5 points)</span></h2>
+  <div class="consigne">« meilleur(e)(s) » est l'adjectif comparatif/superlatif de « bon » (qualifie un nom).
+  « mieux » est l'adverbe comparatif/superlatif de « bien » (qualifie un verbe). Ne confondez jamais les deux !
+  « pire » est le comparatif irrégulier de « mauvais ».</div>
+
+  <div class="item" data-type="mcq" data-a="MQ==" data-exp="wqsgbWlldXggwrsgbW9kaWZpZSB1biB2ZXJiZSAoY29tcGFyYXRpZiBkZSDCqyBiaWVuIMK7KSA7IMKrIG1laWxsZXVyKGUpIMK7IG1vZGlmaWUgdW4gbm9tIChjb21wYXJhdGlmIGRlIMKrIGJvbiDCuykuIEljaSDCqyBhbmFseXNlIMK7IGVzdCB1biB2ZXJiZSDihpIgbWlldXgu">
+    <p class="q">16. « Ce journal analyse ______ la crise politique que ses concurrents. »</p>
+    <div class="opts">
+      <label><input type="radio" name="s4q1" value="0"> A) meilleur</label>
+      <label><input type="radio" name="s4q1" value="1"> B) mieux</label>
+      <label><input type="radio" name="s4q1" value="2"> C) meilleure</label>
+    </div>
+    <details class="aide"><summary>Indice</summary><div>Le mot qualifie ici un verbe (analyse) : il faut donc l'adverbe « mieux », pas l'adjectif « meilleur ».</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="mcq" data-a="MA==" data-exp="wqsgbWVpbGxldXIoZSkgwrsgZXN0IGxlIGNvbXBhcmF0aWYgaXJyw6lndWxpZXIgZGUgwqsgYm9uIMK7IGV0IHMnYWNjb3JkZSBhdmVjIGxlIG5vbSBxdSdpbCBxdWFsaWZpZSA6IGNldCBhcnRpY2xlIChtYXNjLikgZXN0IG1laWxsZXVyLiDCqyBwbHVzIGJvbiDCuyBuJ2V4aXN0ZSBwYXMu">
+    <p class="q">17. « Cet article est ______ que celui d'hier. »</p>
+    <div class="opts">
+      <label><input type="radio" name="s4q2" value="0"> A) meilleur</label>
+      <label><input type="radio" name="s4q2" value="1"> B) mieux</label>
+      <label><input type="radio" name="s4q2" value="2"> C) plus bon</label>
+    </div>
+    <details class="aide"><summary>Indice</summary><div>Ici, le mot qualifie le nom « article » (par l'intermédiaire du verbe « être ») : il faut l'adjectif « meilleur ».</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="text" data-a="bGEgaGFpbmUgZXN0IGxlIGZpbG0gbGUgcGx1cyBtYXJxdWFudHxsYSBoYWluZSBlc3QgdW4gZGVzIGZpbG1zIGxlcyBwbHVzIG1hcnF1YW50cw==" data-exp="TGUgc3VwZXJsYXRpZiBzZSBmb3JtZSBhdmVjIGwnYXJ0aWNsZSBkw6lmaW5pICsgcGx1cy9tb2lucyArIGFkamVjdGlmLCBhY2NvcmTDqSBhdmVjIGxlIG5vbSA6IGxlIGZpbG0gbGUgcGx1cyBtYXJxdWFudC4=">
+    <p class="q">18. Mettez au superlatif : « <em>La Haine</em> est un film marquant. »</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Indice</summary><div>Superlatif = le/la/les + plus/moins + adjectif.</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="text" data-a="bGVzIGJhbmxpZXVlcyBzb250IG1vaW5zIGJpZW4gcmVwcmVzZW50ZWVzIGRhbnMgbGVzIG1lZGlhcyBxdWUgbGUgY2VudHJlLXZpbGxl" data-exp="Q29tcGFyYXRpZiBkJ2luZsOpcmlvcml0w6kgOiBtb2lucyArIGFkamVjdGlmL2FkdmVyYmUgKyBxdWUuIEljaSDCqyBiaWVuIMK7IChhZHZlcmJlKSByZXN0ZSBpbnZhcmlhYmxlIDogbW9pbnMgYmllbiByZXByw6lzZW50w6llcy4=">
+    <p class="q">19. Traduisez avec un comparatif d'infériorité (moins…que) : « The suburbs are less well represented in the media than the city centre. »</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Indice</summary><div>« moins...que » encadre l'adjectif ou l'adverbe ; « bien représentées » reste un adverbe + participe.</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="text" data-a="bGEgc2l0dWF0aW9uIGVzdCBwaXJlIHF1ZSBsJ2FubmVlIGRlcm5pZXJlIG1haXMgbGVzIGpvdXJuYWxpc3RlcyBsYSBjb3V2cmVudCBtaWV1eA==" data-exp="wqsgcGlyZSDCuyBlc3QgbGUgY29tcGFyYXRpZiBpcnLDqWd1bGllciBkZSDCqyBtYXV2YWlzIMK7IChxdWFsaWZpZSB1biBub20vw6l0YXQpIDsgwqsgbWlldXggwrsgZXN0IGxlIGNvbXBhcmF0aWYgaXJyw6lndWxpZXIgZGUgwqsgYmllbiDCuyAocXVhbGlmaWUgdW4gdmVyYmUpIDogbGEgc2l0dWF0aW9uIGVzdCBwaXJlLCBpbHMgbGEgY291dnJlbnQgbWlldXgu">
+    <p class="q">20. Traduisez : « The situation is worse than last year, but journalists are covering it better. »</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Indice</summary><div>« worse » qualifiant un nom/état = pire (comparatif irrégulier de mauvais) ; « better » qualifiant un verbe = mieux.</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <!-- ============ SECTION 5 : futur antérieur / conditionnel passé ============ -->
+  <h2>Section 5 · Futur antérieur et conditionnel passé <span class="pts">(5 points)</span></h2>
+  <div class="consigne">Le futur antérieur (aurai/serai + participe passé) exprime une action future antérieure à
+  une autre action future (souvent après « dès que », « quand », « aussitôt que »). Le conditionnel passé
+  (aurais/serais + participe passé) s'utilise notamment dans l'hypothèse irréelle du passé : Si + plus-que-parfait,
+  conditionnel passé (regret, hypothèse impossible à réaliser).</div>
+
+  <div class="item" data-type="text" data-a="YXVyYSB2b3Rl" data-exp="wqsgZMOocyBxdWUvYXVzc2l0w7R0IHF1ZSArIGZ1dHVyIGFudMOpcmlldXIsIGZ1dHVyIHNpbXBsZSDCuyBleHByaW1lIGwnYW50w6lyaW9yaXTDqSBlbnRyZSBkZXV4IGFjdGlvbnMgZnV0dXJlcyA6IGF1cmEgdm90w6kgKGF2YW50KSDihpIgZW50cmVyYSBlbiB2aWd1ZXVyIChhcHLDqHMpLg==">
+    <p class="q">21. Mettez au futur antérieur : « Dès que le Parlement (voter) cette loi sur l'immigration, elle entrera en vigueur. »</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Indice</summary><div>« dès que » + futur antérieur pour une action future achevée avant une autre action future.</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="text" data-a="YXVyYXMgZmluaQ==" data-exp="Q29tbWUgwqsgZMOocyBxdWUgwrssIMKrIHF1YW5kIMK7IGludHJvZHVpc2FudCB1bmUgYWN0aW9uIGZ1dHVyZSB0ZXJtaW7DqWUgYXZhbnQgdW5lIGF1dHJlIGV4aWdlIGxlIGZ1dHVyIGFudMOpcmlldXIgOiBhdXJhcyBmaW5pLg==">
+    <p class="q">22. Mettez au futur antérieur : « Quand tu (finir) de lire <em>L'Étranger</em>, tu comprendras le sens du titre. »</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Indice</summary><div>Comme « dès que », « quand » introduisant une action future terminée avant une autre exige le futur antérieur.</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="text" data-a="bidhdXJhaXQgcGFzIGV0ZQ==" data-exp="U3RydWN0dXJlIGRlIGwnaXJyw6llbCBkdSBwYXNzw6kgKHR5cGUgMykgOiBTaSArIHBsdXMtcXVlLXBhcmZhaXQsIGNvbmRpdGlvbm5lbCBwYXNzw6kuIExlIHZlcmJlIMKrIMOqdHJlIGNvbmRhbW7DqSDCuyBzZSBjb25qdWd1ZSBhdmVjIGF2b2lyIGF1IGNvbmRpdGlvbm5lbCBwYXNzw6kgOiBuJ2F1cmFpdCBwYXMgw6l0w6kgY29uZGFtbsOpLg==">
+    <p class="q">23. Complétez la phrase hypothétique de type 3 : « Si Meursault n'avait pas tué l'Arabe, il (ne pas être) condamné à mort. »</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Indice</summary><div>Si + plus-que-parfait → conditionnel passé (aurait/serait + participe passé) dans la principale.</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="text" data-a="bidhdXJhaWVudCBwYXMgYXVnbWVudGU=" data-exp="RGFucyBsYSBwcmluY2lwYWxlIGQndW5lIGh5cG90aMOoc2UgaXJyw6llbGxlIGR1IHBhc3PDqSwgb24gZW1wbG9pZSBsZSBjb25kaXRpb25uZWwgcGFzc8OpIDogbidhdXJhaWVudCBwYXMgYXVnbWVudMOpIChzdWpldCBwbHVyaWVsIMKrIGxlcyB0ZW5zaW9ucyDCuywgcGFydGljaXBlIGludmFyaWFibGUgYXZlYyBhdm9pciku">
+    <p class="q">24. Complétez : « Si le gouvernement avait mieux géré la crise migratoire, les tensions (ne pas augmenter) autant. »</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Indice</summary><div>Conditionnel passé = aurait/serait + participe passé.</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="mcq" data-a="MA==" data-exp="U2V1bGUgbGEgcGhyYXNlIEEgY29tYmluZSDCqyBzaSArIHBsdXMtcXVlLXBhcmZhaXQgwrsgZXQgwqsgY29uZGl0aW9ubmVsIHBhc3PDqSDCuywgc3RydWN0dXJlIHR5cGlxdWUgZHUgcmVncmV0IG91IGRlIGwnaHlwb3Row6hzZSBpbXBvc3NpYmxlIMOgIHLDqWFsaXNlciBkYW5zIGxlIHBhc3PDqSAodHlwZSAzKS4=">
+    <p class="q">25. Quelle phrase exprime une hypothèse irréalisable dans le passé (regret) ?</p>
+    <div class="opts">
+      <label><input type="radio" name="s5q5" value="0"> A) Si j'avais su, je serais parti plus tôt.</label>
+      <label><input type="radio" name="s5q5" value="1"> B) Si je sais, je pars plus tôt.</label>
+      <label><input type="radio" name="s5q5" value="2"> C) Quand j'aurai fini, je partirai.</label>
+    </div>
+    <details class="aide"><summary>Indice</summary><div>L'hypothèse irréelle du passé combine plus-que-parfait (si) et conditionnel passé.</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <!-- ============ SECTION 6 : passé simple ============ -->
+  <h2>Section 6 · Le passé simple (reconnaissance) <span class="pts">(5 points)</span></h2>
+  <div class="consigne">Le passé simple ne s'utilise presque plus à l'oral, mais il est essentiel de le RECONNAÎTRE
+  en lecture (romans, comme <em>L'Étranger</em> d'Albert Camus). Entraînez-vous à identifier l'infinitif à partir
+  d'une forme au passé simple.</div>
+
+  <div class="item" data-type="mcq" data-a="MA==" data-exp="wqsgc3Vpdml0IMK7IGVzdCBsYSAzZSBwZXJzb25uZSBkdSBzaW5ndWxpZXIgZHUgcGFzc8OpIHNpbXBsZSBkZSDCqyBzdWl2cmUgwrsgKGlsIHN1aXQg4oaSIGlsIHN1aXZpdCwgY29tbWUgaWwgZGl0LCBpbCBwcml0LCBpbCBtaXQpLg==">
+    <p class="q">26. Quel est l'infinitif du verbe « il suivit » (passé simple) ?</p>
+    <div class="opts">
+      <label><input type="radio" name="s6q1" value="0"> A) suivre</label>
+      <label><input type="radio" name="s6q1" value="1"> B) suivir</label>
+      <label><input type="radio" name="s6q1" value="2"> C) suire</label>
+    </div>
+    <details class="aide"><summary>Indice</summary><div>Les verbes du 3e groupe en -re/-ir donnent souvent des formes en -it au passé simple (il suivit, il dit, il prit).</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="mcq" data-a="MQ==" data-exp="wqsgaWwgZnV0IMK7IGVzdCBsYSAzZSBwZXJzb25uZSBkdSBzaW5ndWxpZXIgZHUgcGFzc8OpIHNpbXBsZSBkdSB2ZXJiZSDCqyDDqnRyZSDCuyAoaXJyw6lndWxpZXIpIDogamUgZnVzLCB0dSBmdXMsIGlsIGZ1dCwgbm91cyBmw7ttZXPigKY=">
+    <p class="q">27. Quel est l'infinitif du verbe « il fut » (passé simple) ?</p>
+    <div class="opts">
+      <label><input type="radio" name="s6q2" value="0"> A) faire</label>
+      <label><input type="radio" name="s6q2" value="1"> B) être</label>
+      <label><input type="radio" name="s6q2" value="2"> C) aller</label>
+    </div>
+    <details class="aide"><summary>Indice</summary><div>« fut » est une forme irrégulière très fréquente du passé simple.</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="mcq" data-a="MA==" data-exp="wqsgaWwgZXV0IMK7IGVzdCBsYSAzZSBwZXJzb25uZSBkdSBzaW5ndWxpZXIgZHUgcGFzc8OpIHNpbXBsZSBkdSB2ZXJiZSDCqyBhdm9pciDCuyA6IGonZXVzLCB0dSBldXMsIGlsIGV1dCwgbm91cyBlw7ttZXPigKY=">
+    <p class="q">28. Quel est l'infinitif du verbe « il eut » (passé simple) ?</p>
+    <div class="opts">
+      <label><input type="radio" name="s6q3" value="0"> A) avoir</label>
+      <label><input type="radio" name="s6q3" value="1"> B) être</label>
+      <label><input type="radio" name="s6q3" value="2"> C) devoir</label>
+    </div>
+    <details class="aide"><summary>Indice</summary><div>« eut » se prononce comme « fut » sans le f — un autre auxiliaire irrégulier.</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="text" data-a="dmVuaXI=" data-exp="wqsgaWwgdmludCDCuyBlc3QgbGEgM2UgcGVyc29ubmUgZHUgc2luZ3VsaWVyIGR1IHBhc3PDqSBzaW1wbGUgZGUgwqsgdmVuaXIgwrsgKGNvbW1lIMKrIGlsIHRpbnQgwrsgdmllbnQgZGUgwqsgdGVuaXIgwrspLg==">
+    <p class="q">29. Donnez l'infinitif du verbe « il vint » (passé simple) — un verbe important dans le récit de Meursault.</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Indice</summary><div>Les verbes en -enir (venir, tenir) ont un passé simple irrégulier en -int.</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="text" data-a="Y29tcHJlbmRyZQ==" data-exp="wqsgaWwgY29tcHJpdCDCuyB2aWVudCBkZSDCqyBjb21wcmVuZHJlIMK7LCBzdXIgbGUgbW9kw6hsZSBkZSDCqyBwcmVuZHJlIMK7IOKGkiBpbCBwcml0LCBpbCBjb21wcml0LCBpbCBhcHByaXQu">
+    <p class="q">30. Donnez l'infinitif du verbe « il comprit » (passé simple).</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Indice</summary><div>Les composés de « prendre » (comprendre, apprendre, surprendre) suivent le même modèle irrégulier.</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <button class="btn" onclick="checkAll()">✔ Vérifier mes réponses</button>
+  <button class="btn second" onclick="resetAll()">↺ Recommencer</button>
+  <div class="score-banner" id="scoreBanner"></div>
+
+  <!-- ============ DÉFI A* (stretch) ============ -->
+  <div class="stretch">
+    <h2>Défi A* — Trois traductions exigeantes</h2>
+    <div class="consigne">Traduisez les trois phrases suivantes. Chacune impose une structure précise : « dont »,
+    l'évitement du passif (on / se), puis le conditionnel passé (si + plus-que-parfait). Comparez ensuite avec le
+    modèle fourni pour chaque phrase.</div>
+
+    <div class="item" data-type="text" data-a="Yydlc3QgdW4gc3VqZXQgZG9udCBsZXMgbWVkaWFzIGZyYW5jYWlzIHBhcmxlbnQgY29uc3RhbW1lbnQ=" data-exp="wqsgZG9udCDCuyByZW1wbGFjZSBsZSBjb21wbMOpbWVudCDCqyBkZSBjZSBzdWpldCDCuyAocGFybGVyIGRlKSA6IHVuIHN1amV0IGRvbnQgbGVzIG3DqWRpYXMgcGFybGVudC4=">
+      <p class="q">31. Traduisez en utilisant « dont » : « This is a subject the French media talk about constantly. »</p>
+      <input type="text" autocomplete="off" spellcheck="false">
+      <details class="aide"><summary>Indice</summary><div>« talk about » = parler de → dont.</div></details>
+      <div class="fb"></div>
+    </div>
+
+    <div class="item" data-type="text" data-a="b24gcGFybGUgc291dmVudCBkZSBsJ2ltbWlncmF0aW9uIGF1eCBpbmZvcm1hdGlvbnMgc2FucyBiZWF1Y291cCBkZSBudWFuY2V8bCdpbW1pZ3JhdGlvbiBzZSBkaXNjdXRlIHNvdXZlbnQgYXV4IGluZm9ybWF0aW9ucyBzYW5zIGJlYXVjb3VwIGRlIG51YW5jZQ==" data-exp="TGUgZnJhbsOnYWlzIMOpdml0ZSBsZSBwYXNzaWYgaWNpIGVuIHV0aWxpc2FudCDCqyBvbiDCuyArIHZlcmJlIGFjdGlmIChvbiBwYXJsZSBzb3V2ZW50IGRlKSBvdSB1bmUgdG91cm51cmUgcHJvbm9taW5hbGUgKGwnaW1taWdyYXRpb24gc2UgZGlzY3V0ZSku">
+      <p class="q">32. Traduisez en évitant le passif anglais (« on » ou « se ») : « Immigration is often discussed on the news without much nuance. »</p>
+      <input type="text" autocomplete="off" spellcheck="false">
+      <details class="aide"><summary>Indice</summary><div>Remplacez le passif anglais par « on » + verbe actif, ou par une construction pronominale.</div></details>
+      <div class="fb"></div>
+    </div>
+
+    <div class="item" data-type="text" data-a="c2kgbGUgZ291dmVybmVtZW50IGF2YWl0IGVjb3V0ZSBsZXMgamV1bmVzIGxlcyBlbWV1dGVzIG4nYXVyYWllbnQgcGFzIGV1IGxpZXV8c2kgbGUgZ291dmVybmVtZW50IGF2YWl0IGVjb3V0ZSBsZXMgamV1bmVzIGxlcyBlbWV1dGVzIG5lIHNlIHNlcmFpZW50IHBhcyBwcm9kdWl0ZXM=" data-exp="U3RydWN0dXJlIGlycsOpZWxsZSBkdSBwYXNzw6kgOiBTaSArIHBsdXMtcXVlLXBhcmZhaXQsIGNvbmRpdGlvbm5lbCBwYXNzw6kuIMKrIGF2b2lyIGxpZXUgwrsgc2UgY29uanVndWUgYXZlYyBhdm9pciA6IG4nYXVyYWllbnQgcGFzIGV1IGxpZXUu">
+      <p class="q">33. Traduisez avec un conditionnel passé (si + plus-que-parfait) : « If the government had listened to young people, the riots would not have happened. »</p>
+      <input type="text" autocomplete="off" spellcheck="false">
+      <details class="aide"><summary>Indice</summary><div>Si + plus-que-parfait (avait écouté), conditionnel passé (n'auraient pas eu lieu).</div></details>
+      <div class="fb"></div>
+    </div>
+
+    <details class="aide"><summary>Voir les modèles de traduction (après avoir écrit les vôtres)</summary>
+      <div id="modelAnswer">
+      31. C'est un sujet dont les médias français parlent constamment.<br>
+      32. On parle souvent de l'immigration aux informations sans beaucoup de nuance. (ou : L'immigration se discute souvent aux informations sans beaucoup de nuance.)<br>
+      33. Si le gouvernement avait écouté les jeunes, les émeutes n'auraient pas eu lieu. (ou : … ne se seraient pas produites.)
+      </div>
+    </details>
+  </div>
+
+  <button class="btn dl" onclick="downloadResults()">📥 Télécharger mes résultats</button>
+</div>
+
+<!-- ============ FLOATING ACCENT PAD ============ -->
+<button id="padToggle" onclick="togglePad()">é à ç — Accents</button>
+<div id="accentPad" style="display:none">
+  <div class="drag">⋮⋮ déplacer</div>
+</div>
+
+<script>
+/* ================= HOUSE ENGINE — do not weaken ================= */
+/* Answers are base64-encoded (UTF-8 safe) so they never sit in plain text next to the inputs. */
+function d(b){try{return decodeURIComponent(escape(atob(b)))}catch(e){return""}}
+function e64(s){return btoa(unescape(encodeURIComponent(s)))} /* helper for authoring */
+
+function norm(s){return (s||"").toLowerCase().replace(/['']/g,"'").replace(/\s+/g," ").trim()}
+function deacc(s){return norm(s).normalize("NFD").replace(/[̀-ͯ]/g,"")}
+
+/* tolerant text check: returns "ok" | "accents" | "bad" ; accepted = array */
+function judge(val, accepted){
+  const v=norm(val);
+  if(accepted.some(a=>norm(a)===v)) return "ok";
+  if(accepted.some(a=>deacc(a)===deacc(val))) return "accents";
+  return "bad";
+}
+
+let results=[]; /* {label, given, ok, expected} */
+
+function checkAll(){
+  results=[]; let score=0, max=0;
+  document.querySelectorAll(".item").forEach((it,idx)=>{
+    const type=it.dataset.type, fb=it.querySelector(".fb");
+    const label=(it.querySelector(".q")?it.querySelector(".q").textContent.trim():("Défi "+(idx+1))).slice(0,90);
+    if(type==="mcq"){
+      max++;
+      const sel=it.querySelector("input[type=radio]:checked");
+      const correct=d(it.dataset.a), exp=d(it.dataset.exp||"");
+      if(!sel){fb.className="fb bad";fb.textContent="⚠ Répondez à la question.";results.push({label,given:"—",ok:false});return}
+      if(sel.value===correct){score++;fb.className="fb ok";fb.textContent="✔ Correct. "+exp;
+        results.push({label,given:sel.parentElement.textContent.trim(),ok:true});}
+      else{fb.className="fb bad";fb.textContent="✘ Incorrect. "+exp;
+        results.push({label,given:sel.parentElement.textContent.trim(),ok:false});}
+    }
+    if(type==="text"){
+      max++;
+      const inp=it.querySelector("input,textarea");
+      const accepted=d(it.dataset.a).split("|"), exp=d(it.dataset.exp||"");
+      const r=judge(inp.value,accepted);
+      if(r==="ok"){score++;fb.className="fb ok";fb.textContent="✔ Correct. "+exp;}
+      else if(r==="accents"){fb.className="fb almost";fb.textContent="≈ Presque ! Vérifiez les accents : "+accepted[0]+". "+exp;}
+      else{fb.className="fb bad";fb.textContent="✘ Réponse attendue : "+accepted[0]+". "+exp;}
+      results.push({label,given:inp.value||"—",ok:r==="ok"});
+    }
+    if(type==="free"){
+      const ta=it.querySelector("textarea"), min=parseInt(it.dataset.min||"40");
+      const words=(ta.value.trim().match(/\S+/g)||[]).length;
+      if(words===0){fb.className="fb";fb.textContent="";}
+      else if(words<min){fb.className="fb almost";fb.textContent="≈ "+words+" mots — visez au moins "+min+". Développez avec un connecteur (cependant, en revanche…).";}
+      else{fb.className="fb ok";fb.textContent="✔ "+words+" mots. Comparez maintenant avec le modèle, puis améliorez une phrase.";}
+      results.push({label,given:ta.value||"—",ok:words>=min});
+    }
+  });
+  const b=document.getElementById("scoreBanner");
+  b.style.display="block";
+  const pct=max?Math.round(100*score/max):0;
+  b.textContent="Score : "+score+" / "+max+" ("+pct+" %) — "+(pct>=80?"Excellent !":pct>=60?"Bien — corrigez les points signalés.":"Relisez les indices et réessayez.");
+  window._score={score,max};
+}
+
+function resetAll(){
+  document.querySelectorAll(".item input[type=text], .item textarea").forEach(i=>i.value="");
+  document.querySelectorAll(".item input[type=radio]").forEach(r=>r.checked=false);
+  document.querySelectorAll(".fb").forEach(f=>{f.className="fb";f.textContent=""});
+  document.getElementById("scoreBanner").style.display="none";
+  results=[];window._score=null;window.scrollTo({top:0,behavior:"smooth"});
+}
+
+function downloadResults(){
+  const name=document.getElementById("studentName").value.trim();
+  if(!name){alert("Écrivez d'abord votre nom en haut de la page.");document.getElementById("studentName").focus();return}
+  if(!window._score){alert("Cliquez d'abord sur « Vérifier mes réponses ».");return}
+  let txt="RÉSULTATS — "+document.title+"\n";
+  txt+="Élève : "+name+"\nDate : "+new Date().toLocaleString("fr-FR")+"\n";
+  txt+="Score : "+window._score.score+" / "+window._score.max+"\n";
+  txt+="".padEnd(60,"=")+"\n\n";
+  results.forEach((r,i)=>{txt+=(i+1)+". "+r.label+"\n   Réponse : "+r.given+"\n   "+(r.ok?"✔ correct":"✘ à revoir")+"\n\n";});
+  const blob=new Blob([txt],{type:"text/plain;charset=utf-8"});
+  const a=document.createElement("a");
+  a.href=URL.createObjectURL(blob);
+  a.download=(document.title.split("—")[0].trim()||"resultats").replace(/\s+/g,"_")+"_"+name.replace(/\s+/g,"_")+".txt";
+  document.body.appendChild(a);a.click();document.body.removeChild(a);URL.revokeObjectURL(a.href);
+}
+
+/* ---------- Accent pad ---------- */
+const CHARS=["é","è","ê","ë","à","â","î","ï","ô","ù","û","ü","ç","œ","æ","«","»","'","É","È","À","Ç","Œ"];
+let lastField=null;
+document.addEventListener("focusin",e=>{
+  if(e.target.matches("input[type=text],textarea") && e.target.id!=="studentName") lastField=e.target;
+  if(e.target.id==="studentName") lastField=e.target;
+});
+const pad=document.getElementById("accentPad");
+CHARS.forEach(c=>{
+  const b=document.createElement("button");
+  b.textContent=c; if(c===c.toUpperCase()&&c.toLowerCase()!==c) b.className="maj";
+  b.addEventListener("mousedown",ev=>{
+    ev.preventDefault(); /* keep focus in the field */
+    if(!lastField) return;
+    const s=lastField.selectionStart??lastField.value.length, t=lastField.selectionEnd??s;
+    lastField.value=lastField.value.slice(0,s)+c+lastField.value.slice(t);
+    lastField.selectionStart=lastField.selectionEnd=s+c.length;
+    lastField.focus();
+  });
+  pad.appendChild(b);
+});
+function togglePad(){
+  const show=pad.style.display==="none";
+  pad.style.display=show?"flex":"none";
+  document.getElementById("padToggle").style.display=show?"none":"block";
+  if(show){ /* add close button once */
+    if(!pad.querySelector(".closer")){
+      const x=document.createElement("button");x.textContent="✕";x.className="closer";
+      x.addEventListener("mousedown",ev=>{ev.preventDefault();togglePad()});pad.appendChild(x);
+    }
+  }
+}
+/* drag the pad */
+(function(){
+  const h=pad.querySelector(".drag");let sx,sy,ox,oy,drag=false;
+  h.addEventListener("mousedown",e=>{drag=true;sx=e.clientX;sy=e.clientY;const r=pad.getBoundingClientRect();ox=r.left;oy=r.top;
+    pad.style.right="auto";pad.style.bottom="auto";e.preventDefault()});
+  document.addEventListener("mousemove",e=>{if(!drag)return;pad.style.left=(ox+e.clientX-sx)+"px";pad.style.top=(oy+e.clientY-sy)+"px"});
+  document.addEventListener("mouseup",()=>drag=false);
+})();
+</script>
+</body>
+</html>

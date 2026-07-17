@@ -3,628 +3,517 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>L'Étranger — Quiz interactif | A-Level French</title>
+<title>L'Étranger — Quiz interactif noté | A-Level French</title>
 <style>
-  /* ---- Palette inspired by L'Étranger : soleil algérien + alienation ---- */
-  :root {
-    --navy:      #1B2845;
-    --navy-dark: #101A30;
-    --sand:      #D9A86C;
-    --sand-dark: #B8884C;
-    --cream:     #F5EDD8;
-    --terra:     #B5482E;
-    --terra-lt:  #D87055;
-    --ink:       #1A1A1A;
-    --grey:      #555;
-    --white:     #FFFFFF;
-    --shadow:    0 4px 14px rgba(27,40,69,0.12);
-    --shadow-lg: 0 10px 30px rgba(27,40,69,0.18);
+  :root{
+    --ink:#1a2733; --paper:#ffffff; --bg:#eef2f6;
+    --accent:#00546b; --accent2:#8a1538; --ok:#1e7b45; --warn:#b06f00; --bad:#a12727;
+    --line:#c9d4dd;
   }
-
-  * { box-sizing: border-box; }
-  html, body { margin: 0; padding: 0; }
-  body {
-    font-family: Calibri, "Segoe UI", system-ui, -apple-system, sans-serif;
-    font-size: 18px;
-    color: var(--ink);
-    background: var(--cream);
-    line-height: 1.55;
-    min-height: 100vh;
-  }
-
-  /* ---- Top bar ---- */
-  header.topbar {
-    background: var(--navy);
-    color: var(--cream);
-    padding: 18px 32px;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 16px;
-    align-items: center;
-    justify-content: space-between;
-    box-shadow: var(--shadow);
-    position: sticky; top: 0; z-index: 10;
-  }
-  .brand {
-    display: flex; flex-direction: column; gap: 2px;
-  }
-  .brand .eyebrow {
-    color: var(--sand);
-    font-size: 14px;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    font-weight: 700;
-  }
-  .brand h1 {
-    margin: 0; font-size: 26px; font-weight: 700; color: var(--cream);
-  }
-  .brand h1 em {
-    color: var(--sand); font-style: normal;
-  }
-  .progress-wrap {
-    flex: 1; min-width: 200px; max-width: 420px;
-    display: flex; align-items: center; gap: 12px;
-  }
-  .progress-track {
-    flex: 1; height: 12px; background: rgba(245,237,216,0.18);
-    border-radius: 999px; overflow: hidden;
-  }
-  .progress-fill {
-    height: 100%; background: linear-gradient(90deg, var(--sand), var(--terra-lt));
-    width: 0%; transition: width 320ms ease;
-  }
-  .progress-label {
-    font-size: 14px; color: var(--cream); white-space: nowrap;
-    font-variant-numeric: tabular-nums;
-  }
-
-  .toolbar {
-    display: flex; gap: 8px; flex-wrap: wrap;
-  }
-  .btn {
-    background: var(--cream); color: var(--navy); border: none;
-    padding: 10px 16px; border-radius: 8px;
-    font-family: inherit; font-size: 15px; font-weight: 600;
-    cursor: pointer; transition: transform 120ms ease, box-shadow 120ms ease, background 120ms ease;
-    box-shadow: 0 2px 0 rgba(0,0,0,0.12);
-  }
-  .btn:hover { transform: translateY(-1px); box-shadow: 0 4px 0 rgba(0,0,0,0.12); }
-  .btn:active { transform: translateY(0); }
-  .btn.primary { background: var(--terra); color: var(--cream); }
-  .btn.primary:hover { background: var(--terra-lt); }
-  .btn.ghost { background: transparent; color: var(--cream); border: 1px solid rgba(245,237,216,0.45); }
-  .btn.ghost:hover { background: rgba(245,237,216,0.08); }
-  .btn.small { padding: 6px 12px; font-size: 14px; }
-
-  /* ---- Main ---- */
-  main {
-    max-width: 1100px; margin: 0 auto; padding: 28px 24px 80px;
-  }
-
-  .intro {
-    background: var(--white);
-    padding: 22px 26px;
-    border-radius: 14px;
-    border-left: 6px solid var(--terra);
-    box-shadow: var(--shadow);
-    margin-bottom: 24px;
-  }
-  .intro h2 {
-    margin: 0 0 8px; font-size: 22px; color: var(--navy);
-  }
-  .intro p { margin: 6px 0; color: var(--grey); font-size: 16px; }
-  .intro kbd {
-    background: var(--cream); border: 1px solid var(--sand-dark);
-    border-radius: 4px; padding: 1px 6px; font-family: Consolas, monospace;
-    font-size: 13px;
-  }
-
-  /* ---- Card ---- */
-  .card {
-    background: var(--white);
-    border-radius: 16px;
-    box-shadow: var(--shadow-lg);
-    overflow: hidden;
-    margin-bottom: 22px;
-  }
-  .card-header {
-    background: var(--navy);
-    color: var(--cream);
-    padding: 16px 26px;
-    display: flex; justify-content: space-between; align-items: center;
-    flex-wrap: wrap; gap: 10px;
-  }
-  .card-num {
-    background: var(--sand); color: var(--navy-dark);
-    border-radius: 999px; padding: 4px 14px;
-    font-size: 14px; font-weight: 700;
-    letter-spacing: 0.05em; text-transform: uppercase;
-  }
-  .card-meta {
-    font-size: 14px; color: var(--sand);
-    text-transform: uppercase; letter-spacing: 0.1em; font-weight: 600;
-  }
-  .card-body { padding: 26px; }
-
-  .question {
-    color: var(--terra);
-    font-size: 22px;
-    font-weight: 700;
-    margin: 0 0 18px;
-    line-height: 1.4;
-  }
-  .question::before {
-    content: "❓"; margin-right: 10px; font-size: 20px;
-  }
-
-  .field-label {
-    font-size: 14px; font-weight: 700; color: var(--navy);
-    text-transform: uppercase; letter-spacing: 0.1em;
-    margin: 18px 0 6px;
-  }
-  textarea.user-answer {
-    width: 100%;
-    min-height: 100px;
-    padding: 12px 14px;
-    border: 2px solid var(--sand);
-    border-radius: 8px;
-    font-family: inherit; font-size: 16px; line-height: 1.5;
-    color: var(--ink); background: #FFFEF9;
-    resize: vertical;
-    transition: border-color 160ms ease;
-  }
-  textarea.user-answer:focus {
-    outline: none; border-color: var(--terra);
-  }
-
-  /* Reveal */
-  .reveal-wrap {
-    margin-top: 16px;
-  }
-  .answer {
-    background: var(--cream);
-    border-left: 5px solid var(--sand-dark);
-    padding: 16px 20px;
-    border-radius: 0 8px 8px 0;
-    color: var(--ink);
-    font-size: 17px;
-    line-height: 1.6;
-    display: none;
-  }
-  .answer.visible { display: block; animation: slide-in 280ms ease; }
-  @keyframes slide-in {
-    from { opacity: 0; transform: translateY(-6px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
-  .answer-label {
-    font-size: 13px; font-weight: 700; color: var(--terra);
-    text-transform: uppercase; letter-spacing: 0.12em; margin-bottom: 6px;
-  }
-
-  /* Rating */
-  .rate-row {
-    display: flex; flex-wrap: wrap; gap: 10px; margin-top: 18px;
-    align-items: center;
-  }
-  .rate-row .rate-label {
-    font-size: 14px; font-weight: 700; color: var(--navy); margin-right: 4px;
-  }
-  .rate-btn {
-    border: 2px solid transparent;
-    border-radius: 999px;
-    padding: 8px 16px;
-    font-family: inherit; font-size: 14px; font-weight: 700;
-    cursor: pointer;
-    transition: transform 120ms ease, background 120ms ease;
-  }
-  .rate-btn:hover { transform: translateY(-1px); }
-  .rate-btn[data-rate="again"]    { background: #fde8e1; color: #8a2a13; }
-  .rate-btn[data-rate="medium"]   { background: #fdf2d6; color: #7a5a14; }
-  .rate-btn[data-rate="mastered"] { background: #d6efd9; color: #1e5a2c; }
-  .rate-btn.selected {
-    border-color: var(--navy); transform: translateY(-1px);
-    box-shadow: 0 3px 0 var(--navy);
-  }
-
-  /* Notes */
-  .notes-wrap textarea {
-    width: 100%; min-height: 70px; padding: 10px 12px;
-    border: 1px dashed var(--sand-dark); border-radius: 8px;
-    font-family: inherit; font-size: 15px; color: var(--ink);
-    background: #FFFAEC; resize: vertical;
-  }
-  .notes-wrap textarea:focus { outline: none; border-color: var(--terra); }
-
-  /* Nav */
-  .nav-row {
-    display: flex; justify-content: space-between; align-items: center;
-    margin-top: 18px; gap: 12px; flex-wrap: wrap;
-  }
-  .nav-pos {
-    color: var(--grey); font-size: 14px; font-variant-numeric: tabular-nums;
-  }
-
-  /* Stats */
-  .stats {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 12px;
-    margin-bottom: 22px;
-  }
-  .stat {
-    background: var(--white); padding: 14px 16px;
-    border-radius: 10px; box-shadow: var(--shadow);
-    border-top: 4px solid var(--navy);
-  }
-  .stat .v { font-size: 28px; font-weight: 700; color: var(--navy); }
-  .stat .l { font-size: 13px; color: var(--grey); text-transform: uppercase; letter-spacing: 0.08em; }
-  .stat.again    { border-top-color: var(--terra); }
-  .stat.medium   { border-top-color: var(--sand-dark); }
-  .stat.mastered { border-top-color: #2d8541; }
-  .stat.again    .v { color: var(--terra); }
-  .stat.medium   .v { color: var(--sand-dark); }
-  .stat.mastered .v { color: #2d8541; }
-  @media (max-width: 700px) {
-    .stats { grid-template-columns: repeat(2, 1fr); }
-  }
-
-  /* Footer */
-  footer {
-    text-align: center; color: var(--grey); font-size: 13px;
-    padding: 18px;
-  }
-  footer a { color: var(--navy); text-decoration: none; }
-
-  /* Toast */
-  .toast {
-    position: fixed; bottom: 24px; left: 50%;
-    transform: translateX(-50%) translateY(100px);
-    background: var(--navy); color: var(--cream);
-    padding: 12px 22px; border-radius: 999px;
-    box-shadow: var(--shadow-lg);
-    font-size: 15px; font-weight: 600;
-    transition: transform 280ms ease;
-    z-index: 50;
-  }
-  .toast.show { transform: translateX(-50%) translateY(0); }
-
-  /* Hide on print */
-  @media print {
-    header.topbar, .toolbar, .nav-row, .rate-row,
-    .stats, .reveal-wrap .btn { display: none !important; }
-    body { background: white; }
-    .card { break-inside: avoid; box-shadow: none; border: 1px solid #ccc; }
-    .answer { display: block !important; }
-  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:Calibri,'Segoe UI',Arial,sans-serif;font-size:17px;line-height:1.55;
+       color:var(--ink);background:var(--bg);padding:24px 16px 120px}
+  .wrap{max-width:880px;margin:0 auto;background:var(--paper);border:1px solid var(--line);
+        border-radius:8px;padding:28px 32px}
+  header{border-bottom:3px solid var(--accent);padding-bottom:12px;margin-bottom:18px}
+  h1{font-size:1.6em;color:var(--accent)}
+  .meta{color:#5a6a78;font-style:italic;margin-top:4px}
+  h2{font-size:1.25em;color:var(--accent);margin:28px 0 8px;border-left:5px solid var(--accent);padding-left:10px}
+  h2 .pts{font-size:.75em;color:#5a6a78;font-weight:normal}
+  .consigne{background:#f2f7fa;border-left:4px solid var(--accent);padding:10px 14px;margin:8px 0 14px;border-radius:0 6px 6px 0}
+  .name-row{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin:14px 0}
+  .name-row input{padding:9px 12px;font-size:1em;border:2px solid var(--accent);border-radius:6px;width:280px;font-family:inherit}
+  .item{margin:14px 0;padding:12px 14px;border:1px solid var(--line);border-radius:6px}
+  .item p.q{margin-bottom:8px}
+  .item input[type=text],.item textarea{width:100%;padding:8px 10px;font-size:1em;font-family:inherit;
+      border:1.5px solid var(--line);border-radius:5px;margin-top:4px}
+  .item textarea{min-height:90px;resize:vertical}
+  .opts label{display:block;padding:7px 10px;margin:5px 0;border:1.5px solid var(--line);border-radius:5px;cursor:pointer}
+  .opts label:hover{background:#f2f7fa}
+  details.aide{margin:8px 0 2px}
+  details.aide summary{cursor:pointer;color:var(--warn);font-weight:bold}
+  details.aide div{background:#fff8ec;border-left:4px solid var(--warn);padding:8px 12px;margin-top:6px;border-radius:0 6px 6px 0}
+  .fb{display:none;margin-top:8px;padding:9px 12px;border-radius:6px;font-size:.95em}
+  .fb.ok{display:block;background:#e9f5ee;border-left:4px solid var(--ok);color:var(--ok)}
+  .fb.almost{display:block;background:#fff8ec;border-left:4px solid var(--warn);color:var(--warn)}
+  .fb.bad{display:block;background:#fbeeee;border-left:4px solid var(--bad);color:var(--bad)}
+  .stretch{border:2px dashed var(--accent2);border-radius:8px;padding:16px;margin:26px 0;background:#fdf7f9}
+  .stretch h2{color:var(--accent2);border-left-color:var(--accent2)}
+  .btn{background:var(--accent);color:#fff;border:none;padding:11px 20px;font-size:1em;font-family:inherit;
+       border-radius:6px;cursor:pointer;margin:6px 6px 6px 0}
+  .btn:hover{filter:brightness(1.15)}
+  .btn.dl{background:var(--ok)}
+  .btn.second{background:#5a6a78}
+  .score-banner{display:none;margin:18px 0;padding:14px;border-radius:8px;background:#f2f7fa;
+       border:2px solid var(--accent);font-size:1.15em;font-weight:bold;color:var(--accent)}
+  /* ---------- Floating accent pad ---------- */
+  #accentPad{position:fixed;bottom:18px;right:18px;background:#fff;border:2px solid var(--accent);
+       border-radius:10px;box-shadow:0 6px 24px rgba(0,0,0,.25);padding:10px;z-index:1000;
+       display:flex;flex-wrap:wrap;gap:5px;max-width:340px;user-select:none}
+  #accentPad .drag{width:100%;cursor:move;font-size:.8em;color:#5a6a78;text-align:center;padding-bottom:4px}
+  #accentPad button{font-size:1.05em;font-family:inherit;min-width:34px;padding:6px 4px;border:1px solid var(--line);
+       border-radius:5px;background:#f2f7fa;cursor:pointer}
+  #accentPad button:hover{background:var(--accent);color:#fff}
+  #accentPad .maj{font-size:.8em;background:#e6e9ec}
+  #padToggle{position:fixed;bottom:18px;right:18px;z-index:999;background:var(--accent);color:#fff;
+       border:none;border-radius:50px;padding:12px 18px;font-size:1em;cursor:pointer;box-shadow:0 4px 14px rgba(0,0,0,.3)}
+  @media print{#accentPad,#padToggle{display:none}}
 </style>
 </head>
 <body>
+<div class="wrap">
+  <header>
+    <h1>L'Étranger — Quiz interactif noté</h1>
+    <p class="meta">A-Level French (Edexcel) · Albert Camus, <em>L'Étranger</em> (1942) · Durée conseillée : 40 min</p>
+  </header>
 
-<header class="topbar">
-  <div class="brand">
-    <span class="eyebrow">A-Level French · Edexcel</span>
-    <h1>L'<em>Étranger</em> — Quiz interactif</h1>
+  <div class="name-row">
+    <label for="studentName"><strong>Votre nom :</strong></label>
+    <input type="text" id="studentName" placeholder="Prénom NOM" maxlength="60">
   </div>
-  <div class="progress-wrap">
-    <div class="progress-track"><div class="progress-fill" id="progress-fill"></div></div>
-    <span class="progress-label" id="progress-label">0 / 9</span>
+
+  <div class="consigne"><strong>Consignes :</strong> Ce quiz noté comporte deux parties : Partie 1 (essentiel —
+  intrigue et personnages) et Partie 2 (exigeant — thèmes et style). Répondez à chaque question puis cliquez sur
+  « Vérifier ». Chaque explication cite le roman précisément : lisez-la même si vous avez juste. À la fin,
+  téléchargez vos résultats et déposez le fichier sur Teams/SharePoint.</div>
+
+  <!-- ============ PARTIE 1 : ESSENTIEL ============ -->
+  <h2>Partie 1 · Essentiel — intrigue et personnages <span class="pts">(14 points)</span></h2>
+  <div class="consigne">Questions à choix multiple et réponses courtes sur les faits du roman.</div>
+
+  <div class="item" data-type="mcq" data-a="MQ==" data-exp="TGUgcm9tYW4gZXN0IG5hcnLDqSDDoCBsYSBwcmVtacOocmUgcGVyc29ubmUgcGFyIE1ldXJzYXVsdCBsdWktbcOqbWUsIGNlIHF1aSBjcsOpZSB1biBlZmZldCBkZSBwcm94aW1pdMOpIHRvdXQgZW4gbWFpbnRlbmFudCBzb24gZMOpdGFjaGVtZW50IMOpbW90aW9ubmVsIGNhcmFjdMOpcmlzdGlxdWUu">
+    <p class="q">1. Qui est le narrateur de <em>L'Étranger</em> ?</p>
+    <div class="opts">
+      <label><input type="radio" name="p1q1" value="0"> A) Un narrateur omniscient extérieur</label>
+      <label><input type="radio" name="p1q1" value="1"> B) Meursault, qui raconte à la première personne</label>
+      <label><input type="radio" name="p1q1" value="2"> C) Marie Cardona</label>
+    </div>
+    <details class="aide"><summary>Indice</summary><div>Le roman est écrit au « je ».</div></details>
+    <div class="fb"></div>
   </div>
-  <div class="toolbar">
-    <button class="btn ghost small" id="btn-shuffle" title="Mélanger les cartes">🔀 Mélanger</button>
-    <button class="btn ghost small" id="btn-print"   title="Imprimer">🖨️ Imprimer</button>
-    <button class="btn ghost small" id="btn-reset"   title="Tout réinitialiser">↺ Reset</button>
-    <button class="btn primary small" id="btn-export">⬇ Exporter mes réponses</button>
+
+  <div class="item" data-type="mcq" data-a="MQ==" data-exp="Q2V0dGUgb3V2ZXJ0dXJlIGFicnVwdGUgZXQgbGUgdG9uIG5ldXRyZSAowqsgQXVqb3VyZCdodWksIG1hbWFuIGVzdCBtb3J0ZS4gT3UgcGV1dC3DqnRyZSBoaWVyLCBqZSBuZSBzYWlzIHBhcy4gwrspIGRvbm5lbnQgaW1tw6lkaWF0ZW1lbnQgbGUgdG9uIGluZGlmZsOpcmVudCBkZSBNZXVyc2F1bHQu">
+    <p class="q">2. Quelle est la célèbre première phrase du roman ?</p>
+    <div class="opts">
+      <label><input type="radio" name="p1q2" value="0"> A) « Il faisait très chaud sur la plage. »</label>
+      <label><input type="radio" name="p1q2" value="1"> B) « Aujourd'hui, maman est morte. »</label>
+      <label><input type="radio" name="p1q2" value="2"> C) « J'ai tué un homme sans le vouloir. »</label>
+    </div>
+    <details class="aide"><summary>Indice</summary><div>C'est l'une des ouvertures les plus célèbres de la littérature française.</div></details>
+    <div class="fb"></div>
   </div>
-</header>
 
-<main>
+  <div class="item" data-type="mcq" data-a="MQ==" data-exp="TWV1cnNhdWx0IGVzdCBlbXBsb3nDqSBkZSBidXJlYXUsIHVuIHBvc3RlIG1vZGVzdGUgcXUnaWwgb2NjdXBlIHNhbnMgYW1iaXRpb24gcGFydGljdWxpw6hyZSDigJQgc2lnbmUgc3VwcGzDqW1lbnRhaXJlIGRlIHNvbiBkw6l0YWNoZW1lbnQgdmlzLcOgLXZpcyBkZXMgY29udmVudGlvbnMgc29jaWFsZXMgZGUgcsOpdXNzaXRlLg==">
+    <p class="q">3. Où Meursault travaille-t-il à Alger ?</p>
+    <div class="opts">
+      <label><input type="radio" name="p1q3" value="0"> A) Dans un cabinet d'avocat</label>
+      <label><input type="radio" name="p1q3" value="1"> B) Dans un bureau (entreprise de courtage maritime)</label>
+      <label><input type="radio" name="p1q3" value="2"> C) Comme professeur</label>
+    </div>
+    <details class="aide"><summary>Indice</summary><div>C'est un poste d'employé modeste, sans ambition affichée.</div></details>
+    <div class="fb"></div>
+  </div>
 
-  <section class="intro">
-    <h2>Bienvenue dans cette activité</h2>
-    <p>9 questions clés sur <em>L'Étranger</em> d'Albert Camus. Pour chaque carte :
-       écrivez d'abord <strong>votre propre réponse</strong>, révélez la réponse modèle,
-       comparez, puis évaluez votre maîtrise.</p>
-    <p>Vos notes restent privées dans le navigateur. Cliquez sur
-       <kbd>⬇ Exporter</kbd> pour télécharger un fichier HTML imprimable de tout votre travail.</p>
-  </section>
+  <div class="item" data-type="mcq" data-a="MQ==" data-exp="TWFyaWUgQ2FyZG9uYSwgYW5jaWVubmUgY29sbMOoZ3VlIGRlIGJ1cmVhdSwgZGV2aWVudCBsYSBjb21wYWduZSBkZSBNZXVyc2F1bHQgOyBsZXVyIHJlbGF0aW9uIGVzdCBmb25kw6llIHN1ciBsZSBkw6lzaXIgcGh5c2lxdWUgcGx1dMO0dCBxdWUgc3VyIHVuIGF0dGFjaGVtZW50IHJvbWFudGlxdWUgY29udmVudGlvbm5lbC4=">
+    <p class="q">4. Comment s'appelle la femme que Meursault retrouve le lendemain de l'enterrement de sa mère ?</p>
+    <div class="opts">
+      <label><input type="radio" name="p1q4" value="0"> A) Céleste</label>
+      <label><input type="radio" name="p1q4" value="1"> B) Marie Cardona</label>
+      <label><input type="radio" name="p1q4" value="2"> C) Madame Masson</label>
+    </div>
+    <details class="aide"><summary>Indice</summary><div>C'est une ancienne collègue de bureau.</div></details>
+    <div class="fb"></div>
+  </div>
 
-  <section class="stats" id="stats">
-    <div class="stat"><div class="v" id="stat-total">0</div><div class="l">Cartes</div></div>
-    <div class="stat again"><div class="v" id="stat-again">0</div><div class="l">À revoir</div></div>
-    <div class="stat medium"><div class="v" id="stat-medium">0</div><div class="l">Bof</div></div>
-    <div class="stat mastered"><div class="v" id="stat-mastered">0</div><div class="l">Maîtrisées</div></div>
-  </section>
+  <div class="item" data-type="mcq" data-a="MA==" data-exp="UmF5bW9uZCwgdm9pc2luIHF1ZSBsYSBydW1ldXIgZGl0IMKrIHNvdXRlbmV1ciDCuywgZW50cmHDrm5lIE1ldXJzYXVsdCBkYW5zIGxlIGNvbmZsaXQgYXZlYyBsZSBmcsOocmUgZGUgc2EgbWHDrnRyZXNzZSwgY2UgcXVpIG3DqG5lIMOgIGwnYWZmcm9udGVtZW50IHN1ciBsYSBwbGFnZS4=">
+    <p class="q">5. Qui est Raymond Sintès ?</p>
+    <div class="opts">
+      <label><input type="radio" name="p1q5" value="0"> A) Le voisin de palier de Meursault, un homme que l'on soupçonne d'être souteneur</label>
+      <label><input type="radio" name="p1q5" value="1"> B) L'avocat de Meursault</label>
+      <label><input type="radio" name="p1q5" value="2"> C) Le patron de Meursault</label>
+    </div>
+    <details class="aide"><summary>Indice</summary><div>Il habite le même immeuble et entraîne Meursault dans son conflit.</div></details>
+    <div class="fb"></div>
+  </div>
 
-  <div id="card-container"></div>
+  <div class="item" data-type="mcq" data-a="MQ==" data-exp="UmF5bW9uZCBhIGJhdHR1IHNhIG1hw650cmVzc2UgOyBsZSBmcsOocmUgZGUgY2VsbGUtY2kgZXQgc2VzIGFtaXMgc3VpdmVudCBSYXltb25kIGV0IE1ldXJzYXVsdCwgY2UgcXVpIHByb3ZvcXVlIGwnYWZmcm9udGVtZW50IHN1ciBsYSBwbGFnZS4=">
+    <p class="q">6. Pourquoi Raymond entre-t-il en conflit avec un groupe d'hommes sur la plage ?</p>
+    <div class="opts">
+      <label><input type="radio" name="p1q6" value="0"> A) Un différend commercial</label>
+      <label><input type="radio" name="p1q6" value="1"> B) Il a maltraité sa maîtresse, dont le frère cherche à se venger</label>
+      <label><input type="radio" name="p1q6" value="2"> C) Une dette de jeu</label>
+    </div>
+    <details class="aide"><summary>Indice</summary><div>Pensez à la lettre que Meursault a écrite pour Raymond au début du roman.</div></details>
+    <div class="fb"></div>
+  </div>
 
-</main>
+  <div class="item" data-type="mcq" data-a="MQ==" data-exp="TGEgc2PDqG5lIGR1IG1ldXJ0cmUgc2UgZMOpcm91bGUgc3VyIGxhIHBsYWdlIMOpY3Jhc8OpZSBkZSBzb2xlaWwgOyBsYSBjaGFsZXVyIGV0IGxhIGx1bWnDqHJlIGF2ZXVnbGFudGUgam91ZW50IHVuIHLDtGxlIGNlbnRyYWwgZGFucyBsZSByw6ljaXQgcXVlIGZhaXQgTWV1cnNhdWx0IGRlIHNvbiBnZXN0ZS4=">
+    <p class="q">7. Où et dans quelles conditions Meursault tue-t-il « l'Arabe » ?</p>
+    <div class="opts">
+      <label><input type="radio" name="p1q7" value="0"> A) En ville, la nuit</label>
+      <label><input type="radio" name="p1q7" value="1"> B) Sur la plage, en plein soleil de midi</label>
+      <label><input type="radio" name="p1q7" value="2"> C) Chez Raymond, en fin de soirée</label>
+    </div>
+    <details class="aide"><summary>Indice</summary><div>La chaleur et l'éblouissement jouent un rôle décisif dans le récit du meurtre.</div></details>
+    <div class="fb"></div>
+  </div>
 
-<footer>
-  Quiz généré pour l'étude de <em>L'Étranger</em> (Camus, 1942) — A-Level French · Edexcel.
-  Activité interactive, hors-ligne, sans cookies.
-</footer>
+  <div class="item" data-type="text" data-a="Y2lucXw1" data-exp="SWwgdGlyZSB1bmUgcHJlbWnDqHJlIGJhbGxlLCBwdWlzLCBhcHLDqHMgdW4gaW5zdGFudCwgcXVhdHJlIGF1dHJlcyBjb3VwcyBzdXIgbGUgY29ycHMgaW1tb2JpbGUg4oCUIHVuIGTDqXRhaWwgcXVlIGwnYWNjdXNhdGlvbiB1dGlsaXNlcmEgcG91ciBwcm91dmVyIGxhIHByw6ltw6lkaXRhdGlvbi4=">
+    <p class="q">8. Combien de coups de feu Meursault tire-t-il en tout sur la victime ? (en toutes lettres ou en chiffre)</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Indice</summary><div>Une balle, puis un temps d'arrêt, puis plusieurs autres coups sur le corps déjà immobile.</div></details>
+    <div class="fb"></div>
+  </div>
 
-<div class="toast" id="toast"></div>
+  <div class="item" data-type="mcq" data-a="MQ==" data-exp="TGUgcHJvY3VyZXVyIGNvbnNhY3JlIHVuZSBncmFuZGUgcGFydGllIGRlIHNvbiByw6lxdWlzaXRvaXJlIGF1IGNvbXBvcnRlbWVudCBkZSBNZXVyc2F1bHQgw6AgbCdlbnRlcnJlbWVudCAoc29uIGFic2VuY2UgZGUgbGFybWVzLCBzYSBjaWdhcmV0dGUsIHNvbiBjYWbDqSBhdSBsYWl0KSwgc3VnZ8OpcmFudCB1bmUgwqsgw6JtZSBkZSBjcmltaW5lbCDCuyBpbmTDqXBlbmRhbW1lbnQgZHUgbWV1cnRyZS4=">
+    <p class="q">9. Sur quoi le procureur insiste-t-il beaucoup, en plus du meurtre lui-même, au tribunal ?</p>
+    <div class="opts">
+      <label><input type="radio" name="p1q9" value="0"> A) Le fait que Meursault n'ait pas payé son loyer</label>
+      <label><input type="radio" name="p1q9" value="1"> B) Le fait que Meursault n'ait pas pleuré à l'enterrement de sa mère</label>
+      <label><input type="radio" name="p1q9" value="2"> C) Le passé militaire de Meursault</label>
+    </div>
+    <details class="aide"><summary>Indice</summary><div>Pensez à la cigarette et au café au lait devant le cercueil.</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="mcq" data-a="MQ==" data-exp="TWV1cnNhdWx0IGVzdCBjb25kYW1uw6kgw6Agw6p0cmUgZMOpY2FwaXTDqSDCqyBlbiBwbGFjZSBwdWJsaXF1ZSBhdSBub20gZHUgcGV1cGxlIGZyYW7Dp2FpcyDCuyDigJQgdmVyZGljdCBxdWkgc2NlbGxlIHNvbiBzdGF0dXQgZGUgdmljdGltZSBkJ3VuIHN5c3TDqG1lIHF1aSBsZSBqdWdlIGRhdmFudGFnZSBzdXIgc2EgcGVyc29ubmFsaXTDqSBxdWUgc3VyIHNlcyBhY3Rlcy4=">
+    <p class="q">10. Quelle est la sentence finale prononcée contre Meursault ?</p>
+    <div class="opts">
+      <label><input type="radio" name="p1q10" value="0"> A) La prison à perpétuité</label>
+      <label><input type="radio" name="p1q10" value="1"> B) La peine de mort, par décapitation en place publique</label>
+      <label><input type="radio" name="p1q10" value="2"> C) L'exil hors d'Algérie</label>
+    </div>
+    <details class="aide"><summary>Indice</summary><div>C'est la sentence la plus sévère possible.</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="mcq" data-a="MQ==" data-exp="TCdhdW3DtG5pZXIgaW5zaXN0ZSBwb3VyIHBhcmxlciBkZSBEaWV1IGV0IGR1IHNhbHV0IDsgTWV1cnNhdWx0LCBleGPDqWTDqSwgbCdhdHRyYXBlIHBhciBsZSBjb2xsZXQgZXQgbGFpc3NlIGV4cGxvc2VyIHNhIHLDqXZvbHRlIGNvbnRyZSB0b3V0ZSB0ZW50YXRpdmUgZGUgZG9ubmVyIHVuIHNlbnMgcmVsaWdpZXV4IMOgIHNvbiBleGlzdGVuY2Uu">
+    <p class="q">11. Qui rend visite à Meursault dans sa cellule avant l'exécution et provoque finalement sa colère ?</p>
+    <div class="opts">
+      <label><input type="radio" name="p1q11" value="0"> A) Marie</label>
+      <label><input type="radio" name="p1q11" value="1"> B) L'aumônier</label>
+      <label><input type="radio" name="p1q11" value="2"> C) Le juge d'instruction</label>
+    </div>
+    <details class="aide"><summary>Indice</summary><div>Cette personne insiste pour parler de Dieu et du salut.</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="mcq" data-a="MQ==" data-exp="QmllbiBxdWUgU2FsYW1hbm8gbWFsdHJhaXRlIHZlcmJhbGVtZW50IHNvbiBjaGllbiwgc2EgZMOpdHJlc3NlIHF1YW5kIGwnYW5pbWFsIGRpc3BhcmHDrnQgcsOpdsOobGUgdW4gYXR0YWNoZW1lbnQgcsOpZWwg4oCUIHVuIHBhcmFsbMOobGUgZGlzY3JldCBhdmVjIGxhIHJlbGF0aW9uIGFtYmlndcOrIGRlIE1ldXJzYXVsdCDDoCBzYSBtw6hyZS4=">
+    <p class="q">12. Quel est le rapport entre Salamano et son chien, et quel est son rôle dans le roman ?</p>
+    <div class="opts">
+      <label><input type="radio" name="p1q12" value="0"> A) Une haine pure, sans aucun lien affectif</label>
+      <label><input type="radio" name="p1q12" value="1"> B) Une relation faite d'insultes mais aussi d'un attachement profond, révélé quand le chien disparaît</label>
+      <label><input type="radio" name="p1q12" value="2"> C) Salamano n'a en réalité aucun chien</label>
+    </div>
+    <details class="aide"><summary>Indice</summary><div>Sa réaction à la disparition du chien est un moment clé, entendu par Meursault à travers le mur.</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="mcq" data-a="MA==" data-exp="Q8OpbGVzdGUsIHJlc3RhdXJhdGV1ciBldCBhbWkgZGUgTWV1cnNhdWx0LCB0w6ltb2lnbmUgZW4gc2EgZmF2ZXVyIGF1IHByb2PDqHMsIGxlIGTDqWNyaXZhbnQgY29tbWUgwqsgdW4gaG9tbWUgwrssIG1haXMgc29uIHTDqW1vaWduYWdlIHNpbmPDqHJlIG5lIHN1ZmZpdCBwYXMgw6AgY29udHJlciBsJ2ltYWdlIGNvbnN0cnVpdGUgcGFyIGwnYWNjdXNhdGlvbi4=">
+    <p class="q">13. Qui est Céleste dans le roman ?</p>
+    <div class="opts">
+      <label><input type="radio" name="p1q13" value="0"> A) Le patron du restaurant où mange souvent Meursault, témoin à son procès</label>
+      <label><input type="radio" name="p1q13" value="1"> B) Le juge d'instruction</label>
+      <label><input type="radio" name="p1q13" value="2"> C) Le frère de Marie</label>
+    </div>
+    <details class="aide"><summary>Indice</summary><div>Meursault y mange régulièrement avant l'enterrement.</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="mcq" data-a="MQ==" data-exp="TCdhY3Rpb24gc2Ugc2l0dWUgw6AgQWxnZXIgZXQgc2VzIGVudmlyb25zIChwbGFnZSwgcXVhcnRpZXJzIHBvcHVsYWlyZXMpLCBkYW5zIGwnQWxnw6lyaWUgZnJhbsOnYWlzZSBkZXMgYW5uw6llcyAxOTQwLCBjYWRyZSBxdWkgZG9ubmUgYXUgcm9tYW4gc2EgbHVtacOocmUgZXQgc2EgY2hhbGV1ciBjYXJhY3TDqXJpc3RpcXVlcy4=">
+    <p class="q">14. Dans quelle ville se déroule principalement l'action du roman ?</p>
+    <div class="opts">
+      <label><input type="radio" name="p1q14" value="0"> A) Paris</label>
+      <label><input type="radio" name="p1q14" value="1"> B) Alger</label>
+      <label><input type="radio" name="p1q14" value="2"> C) Oran</label>
+    </div>
+    <details class="aide"><summary>Indice</summary><div>C'est l'Algérie française des années 1940, ville natale de Camus.</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <!-- ============ PARTIE 2 : EXIGEANT ============ -->
+  <h2>Partie 2 · Exigeant — thèmes, citations et style <span class="pts">(12 points)</span></h2>
+  <div class="consigne">Questions plus analytiques (B2/C1) : thèmes, citations précises et procédés littéraires.</div>
+
+  <div class="item" data-type="mcq" data-a="MQ==" data-exp="Q2FtdXMgZMOpdmVsb3BwZSBzYSBwaGlsb3NvcGhpZSBkZSBsJ2Fic3VyZGUgOiBsZSBkaXZvcmNlIGVudHJlIGxlIGTDqXNpciBodW1haW4gZGUgc2VucyBldCBsZSBzaWxlbmNlIGlycmF0aW9ubmVsIGR1IG1vbmRlLiBNZXVyc2F1bHQgaW5jYXJuZSBjZXR0ZSBsdWNpZGl0w6kgZmFjZSDDoCBsJ2Fic3VyZGUu">
+    <p class="q">15. Quel thème philosophique central Camus explore-t-il à travers Meursault ?</p>
+    <div class="opts">
+      <label><input type="radio" name="p2q1" value="0"> A) L'existentialisme religieux</label>
+      <label><input type="radio" name="p2q1" value="1"> B) L'absurde — l'absence de sens rationnel dans un monde indifférent</label>
+      <label><input type="radio" name="p2q1" value="2"> C) Le romantisme</label>
+    </div>
+    <details class="aide"><summary>Indice</summary><div>Pensez au titre d'un autre essai de Camus : <em>Le Mythe de Sisyphe</em>.</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="text" data-a="cG91cnF1b2k=" data-exp="Q2V0dGUgcGhyYXNlIGRlIGxhIHLDqXZvbHRlIGZpbmFsZSByw6lzdW1lIGxhIHByaXNlIGRlIGNvbnNjaWVuY2UgZGUgTWV1cnNhdWx0IDogZmFjZSDDoCBsYSBtb3J0LCB0b3V0IGRldmllbnQgw6lxdWl2YWxlbnQsIGV0IGlsIGNvbXByZW5kIGVuZmluIMKrIHBvdXJxdW9pIMK7IOKAlCBwYXJjZSBxdWUgcmllbiBuJ2EgZGUgc2VucyBmaXhlIGRhbnMgdW4gdW5pdmVycyBpbmRpZmbDqXJlbnQu">
+    <p class="q">16. Complétez la citation de la révolte finale : « Rien, rien n'avait d'importance et je savais bien
+    ______. »</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Indice</summary><div>Un seul mot interrogatif, qui clôt la phrase.</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="mcq" data-a="MQ==" data-exp="TGUgc29sZWlsLCBvbW5pcHLDqXNlbnQgbG9ycyBkZSBsJ2VudGVycmVtZW50IHB1aXMgc3VyIGxhIHBsYWdlLCBkZXZpZW50IHVuZSBmb3JjZSBxdWFzaSBhZ2lzc2FudGUgcXVpIGFsdMOocmUgbGEgcGVyY2VwdGlvbiBkZSBNZXVyc2F1bHQgZXQgY29udHJpYnVlIGF1IGdlc3RlIGZhdGFsIOKAlCDCqyDDoCBjYXVzZSBkdSBzb2xlaWwgwrssIGRpcmEtdC1pbCBhdSBwcm9jw6hzLg==">
+    <p class="q">17. Quel rôle joue le soleil dans le roman ?</p>
+    <div class="opts">
+      <label><input type="radio" name="p2q3" value="0"> A) Un simple élément décoratif</label>
+      <label><input type="radio" name="p2q3" value="1"> B) Une force physique oppressante qui influence les actes et perceptions de Meursault</label>
+      <label><input type="radio" name="p2q3" value="2"> C) Un symbole d'espoir religieux</label>
+    </div>
+    <details class="aide"><summary>Indice</summary><div>Pensez à l'enterrement et à la scène du meurtre.</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="mcq" data-a="MQ==" data-exp="TGUgc3R5bGUgcGFyYXRhY3RpcXVlIGRlIENhbXVzIOKAlCBwaHJhc2VzIGNvdXJ0ZXMgcmVsacOpZXMgcGFyIMKrIGV0IMK7LCBwZXUgZGUgc3Vib3JkaW5hdGlvbiDigJQgdHJhZHVpdCBsJ2Fic2VuY2UgZGUgaGnDqXJhcmNoaXNhdGlvbiDDqW1vdGlvbm5lbGxlIDogbGEgbW9ydCBkZSBsYSBtw6hyZSBldCB1bmUgYmFpZ25hZGUgc29udCByYXBwb3J0w6llcyBzdXIgbGUgbcOqbWUgdG9uIHBsYXQu">
+    <p class="q">18. Comment le style de Camus reflète-t-il l'indifférence de Meursault ?</p>
+    <div class="opts">
+      <label><input type="radio" name="p2q4" value="0"> A) Par de longues phrases lyriques et emphatiques</label>
+      <label><input type="radio" name="p2q4" value="1"> B) Par des phrases courtes, un ton neutre et une juxtaposition sans hiérarchie affective des événements</label>
+      <label><input type="radio" name="p2q4" value="2"> C) Par des dialogues très abondants</label>
+    </div>
+    <details class="aide"><summary>Indice</summary><div>Comparez la longueur des phrases de Camus à celles d'un roman romantique.</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="text" data-a="ZW5jb3Jl" data-exp="RGFucyBsZXMgZGVybmnDqHJlcyBwYWdlcywgTWV1cnNhdWx0IGFmZmlybWUgwqsgaidhdmFpcyDDqXTDqSBoZXVyZXV4LCBldCBxdWUgamUgbCfDqXRhaXMgZW5jb3JlIMK7IOKAlCBhY2NlcHRhdGlvbiBwYXJhZG94YWxlIGV0IHNlcmVpbmUgZGUgbCdhYnN1cmRlIHF1aSBjbMO0dCBzb24gcGFyY291cnMgZGUgcsOpdm9sdGUgbHVjaWRlLg==">
+    <p class="q">19. Complétez : « j'avais été heureux, et que je l'étais ______. » (dernières pages du roman)</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Indice</summary><div>Un adverbe de temps qui indique que ce bonheur persiste au présent.</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="mcq" data-a="MQ==" data-exp="TGUgcHJvY8OocyBkZSBNZXVyc2F1bHQgcsOpdsOobGUgcXVlIGxhIHNvY2nDqXTDqSBsZSBjb25kYW1uZSBtb2lucyBwb3VyIGxlIG1ldXJ0cmUgcXVlIHBvdXIgc29uIHJlZnVzIGRlIGpvdWVyIGxlIHLDtGxlIGF0dGVuZHUgKHBsZXVyZXIsIG1vbnRyZXIgZHUgcmVtb3Jkcykg4oCUIGNyaXRpcXVlIGltcGxpY2l0ZSBkZSBsJ2h5cG9jcmlzaWUgc29jaWFsZS4=">
+    <p class="q">20. Que représente la « justice » dans le roman, selon la critique implicite de Camus ?</p>
+    <div class="opts">
+      <label><input type="radio" name="p2q6" value="0"> A) Un système parfaitement rationnel et juste</label>
+      <label><input type="radio" name="p2q6" value="1"> B) Une machine sociale qui juge la conformité aux normes plutôt que les actes réels</label>
+      <label><input type="radio" name="p2q6" value="2"> C) Une institution purement religieuse</label>
+    </div>
+    <details class="aide"><summary>Indice</summary><div>Pensez à ce que le procureur retient contre Meursault.</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="mcq" data-a="MQ==" data-exp="Q2FtdXMgbXVsdGlwbGllIGxlcyBzZW5zYXRpb25zIHBoeXNpcXVlcyAowqsgbGUgc29sZWlsIGZhaXNhaXQgdmlicmVyIGwnYWlyIMK7LCBsYSBzdWV1ciwgbCfDqWJsb3Vpc3NlbWVudCkgcG91ciBtb250cmVyIGNvbWJpZW4gTWV1cnNhdWx0IGVzdCBzdWJtZXJnw6kgcGFyIGRlcyBzdGltdWxpIHBoeXNpcXVlcyBwbHV0w7R0IHF1ZSBndWlkw6kgcGFyIHVuZSBpbnRlbnRpb24gcmF0aW9ubmVsbGUu">
+    <p class="q">21. Quel procédé stylistique domine la description du meurtre sur la plage (chapitre 6, partie 1) ?</p>
+    <div class="opts">
+      <label><input type="radio" name="p2q7" value="0"> A) La litote (l'understatement)</label>
+      <label><input type="radio" name="p2q7" value="1"> B) L'accumulation d'images sensorielles (chaleur, lumière, sueur) traduisant la perte de contrôle de Meursault</label>
+      <label><input type="radio" name="p2q7" value="2"> C) Le registre comique</label>
+    </div>
+    <details class="aide"><summary>Indice</summary><div>Relisez les répétitions autour du soleil et de la sueur dans ce passage.</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="text" data-a="c3R5bGUgaW5kaXJlY3QgbGlicmU=" data-exp="Q2FtdXMgdXRpbGlzZSBwb25jdHVlbGxlbWVudCBsZSBzdHlsZSBpbmRpcmVjdCBsaWJyZSBwb3VyIGZ1c2lvbm5lciBsYSB2b2l4IGRlIE1ldXJzYXVsdCBhdmVjIGxlIHLDqWNpdCwgYnJvdWlsbGFudCBsYSBmcm9udGnDqHJlIGVudHJlIHBlbnPDqWUgaW50aW1lIGV0IG5hcnJhdGlvbiBvYmplY3RpdmUu">
+    <p class="q">22. Comment appelle-t-on le procédé narratif par lequel les pensées d'un personnage se fondent dans le récit
+    sans marques grammaticales explicites de discours rapporté ? (deux ou trois mots)</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Indice</summary><div>Ce procédé mélange la voix du narrateur et celle du personnage sans guillemets ni « que ».</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="mcq" data-a="MQ==" data-exp="TWV1cnNhdWx0IHJlZnVzZSBzeXN0w6ltYXRpcXVlbWVudCBkZSBmZWluZHJlIGRlcyBzZW50aW1lbnRzIHF1J2lsIG4nw6lwcm91dmUgcGFzIChyZWdyZXQsIGZvaSByZWxpZ2lldXNlKSA7IGNldHRlIGhvbm7DqnRldMOpIHJhZGljYWxlIGZhY2Ugw6AgbCdhYnN1cmRlLCBwbHV0w7R0IHF1ZSBzb24gY3JpbWUsIGZhaXQgZGUgbHVpIHVuIMKrIGjDqXJvcyBhYnN1cmRlIMK7IGF1IHNlbnMgY2FtdXNpZW4u">
+    <p class="q">23. Pourquoi peut-on qualifier Meursault de « héros absurde » plutôt que de simple criminel ?</p>
+    <div class="opts">
+      <label><input type="radio" name="p2q9" value="0"> A) Parce qu'il est en réalité innocent du meurtre</label>
+      <label><input type="radio" name="p2q9" value="1"> B) Parce qu'il refuse de mentir sur ses émotions, même si cela le condamne, assumant lucidement l'absurdité de l'existence</label>
+      <label><input type="radio" name="p2q9" value="2"> C) Parce qu'il est riche et influent</label>
+    </div>
+    <details class="aide"><summary>Indice</summary><div>Pensez à son refus de feindre le remords ou la foi religieuse.</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="mcq" data-a="MQ==" data-exp="Q2V0dGUgcsOpcG9uc2UgY8OpbMOoYnJlICjCqyBjZWxhIG5lIHZvdWxhaXQgcmllbiBkaXJlLCBtYWlzIHF1ZSBzYW5zIGRvdXRlIGplIG5lIGwnYWltYWlzIHBhcyDCuykgaWxsdXN0cmUgc29uIGTDqXRhY2hlbWVudCByYWRpY2FsIGZhY2UgYXV4IGluc3RpdHV0aW9ucyBzb2NpYWxlcyBldCBhZmZlY3RpdmVzIGNvbnZlbnRpb25uZWxsZXMu">
+    <p class="q">24. Quelle réponse de Meursault à Marie, qui lui demande s'il veut l'épouser, illustre le mieux son indifférence
+    aux institutions sociales ?</p>
+    <div class="opts">
+      <label><input type="radio" name="p2q10" value="0"> A) « Bien sûr que je t'aime. »</label>
+      <label><input type="radio" name="p2q10" value="1"> B) « Cela m'était égal, mais que si elle le voulait, nous pouvions nous marier. »</label>
+      <label><input type="radio" name="p2q10" value="2"> C) « Jamais, je ne me marierai. »</label>
+    </div>
+    <details class="aide"><summary>Indice</summary><div>Meursault dit clairement que le mariage « ne voulait rien dire ».</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="text" data-a="bCdhYnN1cmRlfGFic3VyZGU=" data-exp="TCdhYnN1cmRlIGVzdCBhdSBjxZN1ciBkdSDCqyBjeWNsZSDCuyBhdXF1ZWwgYXBwYXJ0aWVudCBMJ8OJdHJhbmdlciAoYXZlYyBMZSBNeXRoZSBkZSBTaXN5cGhlIGV0IENhbGlndWxhKSA6IGlsIGTDqXNpZ25lIGxhIGNvbmZyb250YXRpb24gZW50cmUgbGUgYmVzb2luIGh1bWFpbiBkZSBzZW5zIGV0IGxlIHNpbGVuY2UgZMOpcmFpc29ubmFibGUgZHUgbW9uZGUu">
+    <p class="q">25. Quel terme désigne la notion philosophique centrale développée par Camus, selon laquelle
+    l'existence humaine est en conflit avec un monde dépourvu de sens intrinsèque ? (un mot)</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Indice</summary><div>C'est aussi le titre d'un essai de Camus : <em>Le Mythe de Sisyphe</em>.</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="mcq" data-a="MQ==" data-exp="TGEgY29uZnJvbnRhdGlvbiBhdmVjIGwnYXVtw7RuaWVyIHBlcm1ldCDDoCBNZXVyc2F1bHQgZCdleHByaW1lciBzYSByw6l2b2x0ZSBjb250cmUgdG91dGUgZXNww6lyYW5jZSBtw6l0YXBoeXNpcXVlIGltcG9zw6llIDsgaWwgZW4gc29ydCDDqXB1aXPDqSBtYWlzIGVuZmluIHLDqWNvbmNpbGnDqSBhdmVjIMKrIGxhIHRlbmRyZSBpbmRpZmbDqXJlbmNlIGR1IG1vbmRlIMK7LCBjbMO0dHVyYW50IGwnYXJjIGRlIHNhIHByaXNlIGRlIGNvbnNjaWVuY2UgYWJzdXJkZS4=">
+    <p class="q">26. En quoi la scène finale avec l'aumônier constitue-t-elle le climax thématique du roman ?</p>
+    <div class="opts">
+      <label><input type="radio" name="p2q12" value="0"> A) Elle montre la conversion sincère de Meursault à la foi chrétienne</label>
+      <label><input type="radio" name="p2q12" value="1"> B) Elle cristallise sa révolte lucide contre tout sens transcendant imposé, et le mène à un apaisement face à « la tendre indifférence du monde »</label>
+      <label><input type="radio" name="p2q12" value="2"> C) Elle est un épisode purement comique, sans lien avec les thèmes du roman</label>
+    </div>
+    <details class="aide"><summary>Indice</summary><div>Pensez à la dernière phrase du roman, sur les cris de haine à son exécution.</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <button class="btn" onclick="checkAll()">✔ Vérifier mes réponses</button>
+  <button class="btn second" onclick="resetAll()">↺ Recommencer</button>
+  <div class="score-banner" id="scoreBanner"></div>
+
+  <!-- ============ DÉFI A* (stretch) ============ -->
+  <div class="stretch">
+    <h2>Défi A* — Pour aller plus loin</h2>
+    <div class="consigne">Tâche exigeante (C1) : « Dans quelle mesure Meursault est-il un personnage résolument
+    moderne ? » Rédigez une réponse argumentée (100 mots minimum) en utilisant au moins un subjonctif, un pronom
+    relatif complexe (« dont », « ce qui »/« ce que ») et une structure passive.</div>
+    <p><em>Amorces :</em> « Il est indéniable que Meursault… », « Ce qui frappe le lecteur, c'est… »,
+    « Contrairement au héros romantique traditionnel, dont… », « Force est de constater que… »</p>
+    <div class="item" data-type="free" data-min="100">
+      <textarea placeholder="Rédigez ici (100 mots minimum)…"></textarea>
+      <div class="fb"></div>
+    </div>
+    <details class="aide"><summary>Voir un modèle de réponse (après avoir écrit le vôtre)</summary>
+      <div id="modelAnswer" data-b64="TW9kw6hsZSAoZXh0cmFpdCkgOiBNZXVyc2F1bHQgZXN0IHVuIHBlcnNvbm5hZ2UgcsOpc29sdW1lbnQgbW9kZXJuZSBjYXIgaWwgaW5jYXJuZSBsYSBsdWNpZGl0w6kgZmFjZSDDoCBsJ2Fic2VuY2UgZGUgc2VucyB0cmFuc2NlbmRhbnQuIENvbnRyYWlyZW1lbnQgYXUgaMOpcm9zIHJvbWFudGlxdWUsIGlsIG5lIGNoZXJjaGUgbmkgZ2xvaXJlIG5pIHLDqWRlbXB0aW9uIDogaWwgdml0IMKrIGF1IHByw6lzZW50IMK7LCBmaWTDqGxlIMOgIHNlcyBzZW5zYXRpb25zLiBTYSBjb25kYW1uYXRpb24gcsOpdsOobGUgbCdoeXBvY3Jpc2llIGQndW5lIHNvY2nDqXTDqSBxdWkgZXhpZ2UgbGEgY29uZm9ybWl0w6kgw6ltb3Rpb25uZWxsZSBwbHV0w7R0IHF1ZSBsJ2F1dGhlbnRpY2l0w6kuIEVuIHJlZnVzYW50IGRlIG1lbnRpciDigJQgc3VyIHNvbiBjaGFncmluLCBzdXIgc2EgZm9pIOKAlCBpbCBkZXZpZW50IHVuZSBmaWd1cmUgZGUgbCdpbnTDqWdyaXTDqSBhYnN1cmRlLCBwcm9jaGUgZGVzIHByw6lvY2N1cGF0aW9ucyBleGlzdGVudGlhbGlzdGVzIGR1IFhYZSBzacOoY2xlIDogbCdpbmRpdmlkdSBzZXVsIGZhY2Ugw6AgdW4gbW9uZGUgaW5kaWZmw6lyZW50LCBkZXZhbnQgY29uc3RydWlyZSBzb24gcHJvcHJlIHNlbnMgc2FucyBsZSBzZWNvdXJzIGRlIERpZXUgbmkgZGUgbGEgbW9yYWxlIGNvbGxlY3RpdmUu"></div></details>
+  </div>
+
+  <button class="btn dl" onclick="downloadResults()">📥 Télécharger mes résultats</button>
+</div>
+
+<!-- ============ FLOATING ACCENT PAD ============ -->
+<button id="padToggle" onclick="togglePad()">é à ç — Accents</button>
+<div id="accentPad" style="display:none">
+  <div class="drag">⋮⋮ déplacer</div>
+</div>
 
 <script>
-/* ===========================================================
-   Données — 9 Q-R sur L'Étranger
-=========================================================== */
-const QUESTIONS = [
-  {
-    q: "Quel est le sujet principal de L'Étranger d'Albert Camus ?",
-    a: "Le sujet principal du roman tourne autour du personnage de Meursault — de sa personnalité, de sa vision de la vie et de la mort, et de l'interprétation de ses actions par la société. Le roman explore aussi les thèmes de l'absurde, de l'indifférence, de la justice et de la condition humaine."
-  },
-  {
-    q: "Comment Meursault est-il dépeint dans la première partie du roman ?",
-    a: "Dans la première partie, Meursault est dépeint comme un homme détaché, indifférent aux conventions sociales et vivant au jour le jour. Il a une sorte d'innocence enfantine : il suit ses impulsions immédiates et semble incapable de comprendre les attentes des autres ou de mesurer les conséquences de ses actes."
-  },
-  {
-    q: "Quelle est la signification de la mort de la mère de Meursault dans le roman ?",
-    a: "La mort de sa mère est l'événement central qui révèle le caractère de Meursault. Son apparente indifférence à l'enterrement choque le lecteur et sert de catalyseur à son jugement par la société. Malgré son détachement apparent, certains indices suggèrent qu'il aimait sa mère, même s'il réprime ses émotions."
-  },
-  {
-    q: "Quel rôle joue l'état physique de Meursault dans ses actions ?",
-    a: "L'état physique de Meursault — notamment sa sensibilité au soleil et à la chaleur — influence fortement ses émotions et ses actions. À l'enterrement de sa mère et sur la plage, le soleil devient un élément accablant qui affecte sa capacité à ressentir et à réagir de manière appropriée."
-  },
-  {
-    q: "Comment Meursault évolue-t-il dans la deuxième partie du roman ?",
-    a: "Dans la deuxième partie, emprisonné, Meursault est forcé de réfléchir à sa vie et à ses actions. Il développe une conscience de soi plus profonde, comprend les mécanismes de la société et devient capable d'analyser et de critiquer. Son style de narration change : il devient plus sélectif dans les détails qu'il choisit de rapporter."
-  },
-  {
-    q: "Quelle est l'intention de l'auteur, Albert Camus, à travers L'Étranger ?",
-    a: "Camus utilise L'Étranger pour critiquer la société et explorer la notion de l'absurde. Il dénonce la tendance de la société à juger les individus sur leur conformité aux normes sociales plutôt que sur leurs actes réels. Il explore aussi le sentiment de non-sens inhérent à la condition humaine dans un monde sans Dieu ni ordre supérieur."
-  },
-  {
-    q: "Comment Camus décrit-il l'absurde dans le contexte du roman ?",
-    a: "L'absurde est la contradiction entre le désir humain de trouver un sens à la vie et l'impossibilité de le trouver. Meursault, d'abord, vit inconsciemment cette absurdité, cherchant des expériences sensuelles pour combler le vide. Plus tard, confronté à la mort, il accepte l'absurdité de l'existence et trouve une forme de réconciliation avec le monde."
-  },
-  {
-    q: "Pourquoi Meursault tue-t-il l'Arabe ?",
-    a: "Le meurtre est la conséquence d'une combinaison de facteurs : la sensibilité physique de Meursault au soleil, l'accumulation de tensions et une situation incontrôlable. Le soleil devient un élément accablant qui le prive de sa capacité à penser et à agir rationnellement, le poussant à commettre l'acte de manière presque involontaire."
-  },
-  {
-    q: "Quels sont les moyens littéraires utilisés dans le chapitre 6 de la première partie pour décrire la scène du meurtre ?",
-    a: "Le chapitre 6 utilise de nombreux procédés pour créer une atmosphère de tension et de menace : métaphores, symboles et langage sensoriel intense décrivent la nature et son impact sur Meursault. La scène est surchargée d'images, soulignant la perte de contrôle de Meursault et sa soumission aux forces de la nature. Des répétitions et des parallélismes accentuent l'immobilité de la scène et la sensation d'inéluctabilité."
-  }
-];
+/* ================= HOUSE ENGINE — do not weaken ================= */
+/* Answers are base64-encoded (UTF-8 safe) so they never sit in plain text next to the inputs. */
+function d(b){try{return decodeURIComponent(escape(atob(b)))}catch(e){return""}}
+function e64(s){return btoa(unescape(encodeURIComponent(s)))} /* helper for authoring */
 
-/* ===========================================================
-   État
-=========================================================== */
-const state = {
-  order: QUESTIONS.map((_, i) => i),
-  data: QUESTIONS.map(() => ({
-    userAnswer: "",
-    notes: "",
-    rating: null,         // "again" | "medium" | "mastered" | null
-    revealed: false
-  }))
-};
+function norm(s){return (s||"").toLowerCase().replace(/['’]/g,"'").replace(/\s+/g," ").trim()}
+function deacc(s){return norm(s).normalize("NFD").replace(/[̀-ͯ]/g,"")}
 
-/* ===========================================================
-   Rendu
-=========================================================== */
-const container = document.getElementById("card-container");
-const toast = document.getElementById("toast");
-
-function showToast(msg) {
-  toast.textContent = msg;
-  toast.classList.add("show");
-  clearTimeout(showToast._t);
-  showToast._t = setTimeout(() => toast.classList.remove("show"), 1800);
+/* tolerant text check: returns "ok" | "accents" | "bad" ; accepted = array */
+function judge(val, accepted){
+  const v=norm(val);
+  if(accepted.some(a=>norm(a)===v)) return "ok";
+  if(accepted.some(a=>deacc(a)===deacc(val))) return "accents";
+  return "bad";
 }
 
-function renderAll() {
-  container.innerHTML = "";
-  state.order.forEach((origIdx, displayIdx) => {
-    const q = QUESTIONS[origIdx];
-    const d = state.data[origIdx];
-    const card = document.createElement("section");
-    card.className = "card";
-    card.dataset.origIdx = origIdx;
-    card.innerHTML = `
-      <div class="card-header">
-        <span class="card-num">Carte ${displayIdx + 1} / ${state.order.length}</span>
-        <span class="card-meta">L'Étranger · A-Level</span>
-      </div>
-      <div class="card-body">
-        <p class="question">${escapeHtml(q.q)}</p>
+let results=[]; /* {label, given, ok, expected} */
 
-        <div class="field-label">Votre réponse</div>
-        <textarea class="user-answer" data-field="userAnswer"
-          placeholder="Écrivez votre réponse en français…">${escapeHtml(d.userAnswer)}</textarea>
-
-        <div class="reveal-wrap">
-          <button class="btn primary" data-action="reveal">
-            ${d.revealed ? "🙈 Masquer la réponse modèle" : "👁 Révéler la réponse modèle"}
-          </button>
-          <div class="answer ${d.revealed ? "visible" : ""}">
-            <div class="answer-label">Réponse modèle</div>
-            <div>${escapeHtml(q.a)}</div>
-          </div>
-        </div>
-
-        <div class="rate-row">
-          <span class="rate-label">Auto-évaluation :</span>
-          <button class="rate-btn ${d.rating === "again"    ? "selected" : ""}" data-rate="again">À revoir</button>
-          <button class="rate-btn ${d.rating === "medium"   ? "selected" : ""}" data-rate="medium">Bof</button>
-          <button class="rate-btn ${d.rating === "mastered" ? "selected" : ""}" data-rate="mastered">Maîtrisé</button>
-        </div>
-
-        <div class="notes-wrap">
-          <div class="field-label">Mes notes (vocabulaire, idées, citations…)</div>
-          <textarea data-field="notes"
-            placeholder="Notez ici vocabulaire, citations clés, liens avec Sartre…">${escapeHtml(d.notes)}</textarea>
-        </div>
-      </div>
-    `;
-    container.appendChild(card);
+function checkAll(){
+  results=[]; let score=0, max=0;
+  document.querySelectorAll(".item").forEach((it,idx)=>{
+    const type=it.dataset.type, fb=it.querySelector(".fb");
+    const label=(it.querySelector(".q")?it.querySelector(".q").textContent.trim():("Défi "+(idx+1))).slice(0,90);
+    if(type==="mcq"){
+      max++;
+      const sel=it.querySelector("input[type=radio]:checked");
+      const correct=d(it.dataset.a), exp=d(it.dataset.exp||"");
+      if(!sel){fb.className="fb bad";fb.textContent="⚠ Répondez à la question.";results.push({label,given:"—",ok:false});return}
+      if(sel.value===correct){score++;fb.className="fb ok";fb.textContent="✔ Correct. "+exp;
+        results.push({label,given:sel.parentElement.textContent.trim(),ok:true});}
+      else{fb.className="fb bad";fb.textContent="✘ Incorrect. "+exp;
+        results.push({label,given:sel.parentElement.textContent.trim(),ok:false});}
+    }
+    if(type==="text"){
+      max++;
+      const inp=it.querySelector("input,textarea");
+      const accepted=d(it.dataset.a).split("|"), exp=d(it.dataset.exp||"");
+      const r=judge(inp.value,accepted);
+      if(r==="ok"){score++;fb.className="fb ok";fb.textContent="✔ Correct. "+exp;}
+      else if(r==="accents"){fb.className="fb almost";fb.textContent="≈ Presque ! Vérifiez les accents : "+accepted[0]+". "+exp;}
+      else{fb.className="fb bad";fb.textContent="✘ Réponse attendue : "+accepted[0]+". "+exp;}
+      results.push({label,given:inp.value||"—",ok:r==="ok"});
+    }
+    if(type==="free"){
+      const ta=it.querySelector("textarea"), min=parseInt(it.dataset.min||"40");
+      const words=(ta.value.trim().match(/\S+/g)||[]).length;
+      if(words===0){fb.className="fb";fb.textContent="";}
+      else if(words<min){fb.className="fb almost";fb.textContent="≈ "+words+" mots — visez au moins "+min+". Développez avec un connecteur (cependant, en revanche…).";}
+      else{fb.className="fb ok";fb.textContent="✔ "+words+" mots. Comparez maintenant avec le modèle, puis améliorez une phrase.";}
+      results.push({label,given:ta.value||"—",ok:words>=min});
+    }
   });
-  refreshStats();
+  const b=document.getElementById("scoreBanner");
+  b.style.display="block";
+  const pct=max?Math.round(100*score/max):0;
+  b.textContent="Score : "+score+" / "+max+" ("+pct+" %) — "+(pct>=80?"Excellent !":pct>=60?"Bien — corrigez les points signalés.":"Relisez les indices et réessayez.");
+  window._score={score,max};
 }
 
-function refreshStats() {
-  const counts = { again: 0, medium: 0, mastered: 0 };
-  state.data.forEach(d => { if (d.rating) counts[d.rating]++; });
-  document.getElementById("stat-total").textContent    = QUESTIONS.length;
-  document.getElementById("stat-again").textContent    = counts.again;
-  document.getElementById("stat-medium").textContent   = counts.medium;
-  document.getElementById("stat-mastered").textContent = counts.mastered;
-
-  const done = counts.again + counts.medium + counts.mastered;
-  const pct = (done / QUESTIONS.length) * 100;
-  document.getElementById("progress-fill").style.width = pct + "%";
-  document.getElementById("progress-label").textContent = `${done} / ${QUESTIONS.length}`;
+function resetAll(){
+  document.querySelectorAll(".item input[type=text], .item textarea").forEach(i=>i.value="");
+  document.querySelectorAll(".item input[type=radio]").forEach(r=>r.checked=false);
+  document.querySelectorAll(".fb").forEach(f=>{f.className="fb";f.textContent=""});
+  document.getElementById("scoreBanner").style.display="none";
+  results=[];window._score=null;window.scrollTo({top:0,behavior:"smooth"});
 }
 
-function escapeHtml(s) {
-  return String(s)
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&#39;");
+function downloadResults(){
+  const name=document.getElementById("studentName").value.trim();
+  if(!name){alert("Écrivez d'abord votre nom en haut de la page.");document.getElementById("studentName").focus();return}
+  if(!window._score){alert("Cliquez d'abord sur « Vérifier mes réponses ».");return}
+  let txt="RÉSULTATS — "+document.title+"\n";
+  txt+="Élève : "+name+"\nDate : "+new Date().toLocaleString("fr-FR")+"\n";
+  txt+="Score : "+window._score.score+" / "+window._score.max+"\n";
+  txt+="".padEnd(60,"=")+"\n\n";
+  results.forEach((r,i)=>{txt+=(i+1)+". "+r.label+"\n   Réponse : "+r.given+"\n   "+(r.ok?"✔ correct":"✘ à revoir")+"\n\n";});
+  const blob=new Blob([txt],{type:"text/plain;charset=utf-8"});
+  const a=document.createElement("a");
+  a.href=URL.createObjectURL(blob);
+  a.download=(document.title.split("—")[0].trim()||"resultats").replace(/\s+/g,"_")+"_"+name.replace(/\s+/g,"_")+".txt";
+  document.body.appendChild(a);a.click();document.body.removeChild(a);URL.revokeObjectURL(a.href);
 }
 
-/* ===========================================================
-   Interactions (event delegation)
-=========================================================== */
-container.addEventListener("click", (e) => {
-  const card = e.target.closest(".card");
-  if (!card) return;
-  const origIdx = parseInt(card.dataset.origIdx, 10);
-  const d = state.data[origIdx];
-
-  // Reveal toggle
-  if (e.target.matches('[data-action="reveal"]')) {
-    d.revealed = !d.revealed;
-    const btn = e.target;
-    const ans = card.querySelector(".answer");
-    btn.textContent = d.revealed ? "🙈 Masquer la réponse modèle" : "👁 Révéler la réponse modèle";
-    ans.classList.toggle("visible", d.revealed);
-  }
-
-  // Rating
-  if (e.target.matches(".rate-btn")) {
-    const rate = e.target.dataset.rate;
-    d.rating = (d.rating === rate) ? null : rate;
-    card.querySelectorAll(".rate-btn").forEach(b => b.classList.remove("selected"));
-    if (d.rating) e.target.classList.add("selected");
-    refreshStats();
-  }
+/* ---------- Accent pad ---------- */
+const CHARS=["é","è","ê","ë","à","â","î","ï","ô","ù","û","ü","ç","œ","æ","«","»","'","É","È","À","Ç","Œ"];
+let lastField=null;
+document.addEventListener("focusin",e=>{
+  if(e.target.matches("input[type=text],textarea") && e.target.id!=="studentName") lastField=e.target;
+  if(e.target.id==="studentName") lastField=e.target;
 });
-
-// Capture text into state on input
-container.addEventListener("input", (e) => {
-  if (!(e.target.matches("textarea[data-field]"))) return;
-  const card = e.target.closest(".card");
-  const origIdx = parseInt(card.dataset.origIdx, 10);
-  const field = e.target.dataset.field;
-  state.data[origIdx][field] = e.target.value;
-});
-
-/* ===========================================================
-   Toolbar : shuffle / print / reset / export
-=========================================================== */
-document.getElementById("btn-shuffle").addEventListener("click", () => {
-  for (let i = state.order.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [state.order[i], state.order[j]] = [state.order[j], state.order[i]];
-  }
-  renderAll();
-  showToast("Cartes mélangées !");
-});
-
-document.getElementById("btn-print").addEventListener("click", () => {
-  // Reveal all answers for printing
-  state.data.forEach(d => d.revealed = true);
-  renderAll();
-  setTimeout(() => window.print(), 120);
-});
-
-document.getElementById("btn-reset").addEventListener("click", () => {
-  if (!confirm("Effacer toutes vos réponses, notes et évaluations ?")) return;
-  state.order = QUESTIONS.map((_, i) => i);
-  state.data = QUESTIONS.map(() => ({ userAnswer: "", notes: "", rating: null, revealed: false }));
-  renderAll();
-  showToast("Réinitialisé.");
-});
-
-/* ----- Export : génère un blob HTML téléchargeable ----- */
-document.getElementById("btn-export").addEventListener("click", () => {
-  const dateStr = new Date().toLocaleDateString("fr-FR", {
-    year: "numeric", month: "long", day: "numeric"
+const pad=document.getElementById("accentPad");
+CHARS.forEach(c=>{
+  const b=document.createElement("button");
+  b.textContent=c; if(c===c.toUpperCase()&&c.toLowerCase()!==c) b.className="maj";
+  b.addEventListener("mousedown",ev=>{
+    ev.preventDefault(); /* keep focus in the field */
+    if(!lastField) return;
+    const s=lastField.selectionStart??lastField.value.length, t=lastField.selectionEnd??s;
+    lastField.value=lastField.value.slice(0,s)+c+lastField.value.slice(t);
+    lastField.selectionStart=lastField.selectionEnd=s+c.length;
+    lastField.focus();
   });
-  const counts = { again: 0, medium: 0, mastered: 0 };
-  state.data.forEach(d => { if (d.rating) counts[d.rating]++; });
-
-  const cards = state.data.map((d, i) => {
-    const q = QUESTIONS[i];
-    const ratingFr = { again: "À revoir", medium: "Bof", mastered: "Maîtrisé", null: "—" }[d.rating];
-    return `
-      <article class="export-card">
-        <h2>Q${i + 1}. ${escapeHtml(q.q)}</h2>
-        <h3>Ma réponse</h3>
-        <p class="user-text">${escapeHtml(d.userAnswer) || "<em>(non renseignée)</em>"}</p>
-        <h3>Réponse modèle</h3>
-        <p>${escapeHtml(q.a)}</p>
-        ${d.notes ? `<h3>Mes notes</h3><p class="notes-text">${escapeHtml(d.notes)}</p>` : ""}
-        <p class="rating">Auto-évaluation : <strong>${ratingFr || "—"}</strong></p>
-      </article>
-    `;
-  }).join("\n");
-
-  const html = `<!DOCTYPE html>
-<html lang="fr"><head><meta charset="UTF-8">
-<title>L'Étranger — Mes réponses (${dateStr})</title>
-<style>
-  body { font-family: Calibri, "Segoe UI", sans-serif; max-width: 800px;
-         margin: 32px auto; padding: 0 24px; color: #1A1A1A; line-height: 1.55; }
-  h1 { color: #1B2845; border-bottom: 3px solid #B5482E; padding-bottom: 8px; }
-  .export-card { border: 1px solid #ddd; padding: 18px 22px; border-radius: 8px;
-                 margin-bottom: 18px; background: #FFFEF9; }
-  .export-card h2 { color: #B5482E; font-size: 18px; margin: 0 0 10px; }
-  .export-card h3 { color: #1B2845; font-size: 14px; text-transform: uppercase;
-                    letter-spacing: 0.08em; margin: 14px 0 4px; }
-  .user-text { background: #F5EDD8; padding: 10px 14px; border-radius: 6px; }
-  .notes-text { background: #FFFAEC; padding: 10px 14px; border-radius: 6px;
-                border-left: 3px solid #D9A86C; }
-  .rating { font-size: 14px; color: #555; margin-top: 12px; }
-  .summary { background: #1B2845; color: #F5EDD8; padding: 14px 20px;
-             border-radius: 8px; margin: 18px 0; }
-  .summary span { display: inline-block; margin-right: 22px; }
-  .summary strong { color: #D9A86C; }
-  @media print { .export-card { break-inside: avoid; } }
-</style></head>
-<body>
-<h1>L'Étranger — Mes réponses</h1>
-<p><em>Exporté le ${dateStr} · A-Level French · Edexcel</em></p>
-<div class="summary">
-  <span><strong>${counts.again}</strong> à revoir</span>
-  <span><strong>${counts.medium}</strong> bof</span>
-  <span><strong>${counts.mastered}</strong> maîtrisées</span>
-  <span>sur <strong>${QUESTIONS.length}</strong> cartes</span>
-</div>
-${cards}
-</body></html>`;
-
-  const blob = new Blob([html], { type: "text/html;charset=utf-8" });
-  const url  = URL.createObjectURL(blob);
-  const a    = document.createElement("a");
-  a.href     = url;
-  const stamp = new Date().toISOString().slice(0, 10);
-  a.download = `LEtranger_mes_reponses_${stamp}.html`;
-  document.body.appendChild(a); a.click();
-  document.body.removeChild(a);
-  setTimeout(() => URL.revokeObjectURL(url), 0);
-  showToast("Téléchargement lancé !");
+  pad.appendChild(b);
 });
+function togglePad(){
+  const show=pad.style.display==="none";
+  pad.style.display=show?"flex":"none";
+  document.getElementById("padToggle").style.display=show?"none":"block";
+  if(show){ /* add close button once */
+    if(!pad.querySelector(".closer")){
+      const x=document.createElement("button");x.textContent="✕";x.className="closer";
+      x.addEventListener("mousedown",ev=>{ev.preventDefault();togglePad()});pad.appendChild(x);
+    }
+  }
+}
+/* drag the pad */
+(function(){
+  const h=pad.querySelector(".drag");let sx,sy,ox,oy,drag=false;
+  h.addEventListener("mousedown",e=>{drag=true;sx=e.clientX;sy=e.clientY;const r=pad.getBoundingClientRect();ox=r.left;oy=r.top;
+    pad.style.right="auto";pad.style.bottom="auto";e.preventDefault()});
+  document.addEventListener("mousemove",e=>{if(!drag)return;pad.style.left=(ox+e.clientX-sx)+"px";pad.style.top=(oy+e.clientY-sy)+"px"});
+  document.addEventListener("mouseup",()=>drag=false);
+})();
 
-/* ===========================================================
-   Init
-=========================================================== */
-renderAll();
+/* decode model-answer block on demand */
+(function(){
+  const m=document.getElementById("modelAnswer");
+  if(m && m.dataset.b64){ m.textContent = d(m.dataset.b64); }
+})();
 </script>
 </body>
 </html>

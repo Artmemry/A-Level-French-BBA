@@ -1,900 +1,456 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>A-Level French: Le Système Politique Français</title>
-    <style>
-        :root {
-            --primary: #0055A4;
-            --secondary: #EF4135;
-            --light: #F5F5F5;
-            --dark: #333;
-            --accent: #FFFFFF;
-            --text: #444;
-        }
-        
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-        
-        body {
-            background-color: var(--light);
-            color: var(--text);
-            line-height: 1.6;
-            padding: 20px;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-        
-        header {
-            text-align: center;
-            margin-bottom: 30px;
-            padding: 25px;
-            background: linear-gradient(135deg, var(--primary), #1a3d7c);
-            color: white;
-            border-radius: 10px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-        }
-        
-        h1 {
-            font-size: 2.2rem;
-            margin-bottom: 10px;
-        }
-        
-        .subtitle {
-            font-size: 1.1rem;
-            opacity: 0.9;
-        }
-        
-        h2 {
-            color: var(--primary);
-            margin: 25px 0 15px;
-            padding-bottom: 8px;
-            border-bottom: 2px solid var(--secondary);
-        }
-        
-        h3 {
-            color: var(--primary);
-            margin: 20px 0 10px;
-        }
-        
-        .exercise {
-            background-color: white;
-            padding: 25px;
-            border-radius: 10px;
-            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
-            margin-bottom: 25px;
-        }
-        
-        .question {
-            margin-bottom: 20px;
-            padding: 15px;
-            background-color: #f9f9f9;
-            border-radius: 8px;
-            border-left: 3px solid var(--secondary);
-        }
-        
-        textarea, input[type="text"], select {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid #ddd;
-            border-radius: 6px;
-            margin-top: 8px;
-            font-size: 1rem;
-            resize: vertical;
-        }
-        
-        textarea {
-            min-height: 100px;
-        }
-        
-        textarea:focus, input[type="text"]:focus, select:focus {
-            border-color: var(--primary);
-            outline: none;
-            box-shadow: 0 0 0 2px rgba(0, 85, 164, 0.2);
-        }
-        
-        button {
-            background-color: var(--primary);
-            color: white;
-            border: none;
-            padding: 12px 24px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 1rem;
-            transition: all 0.3s;
-            margin-top: 15px;
-            font-weight: bold;
-        }
-        
-        button:hover {
-            background-color: #1a3d7c;
-        }
-        
-        .result {
-            margin-top: 20px;
-            padding: 15px;
-            border-radius: 8px;
-            display: none;
-        }
-        
-        .success {
-            background-color: #e8f5e9;
-            color: #2e7d32;
-            border: 1px solid #c8e6c9;
-        }
-        
-        .hint {
-            font-size: 0.9rem;
-            color: #666;
-            font-style: italic;
-            margin-top: 5px;
-        }
-        
-        .reading-text {
-            background-color: #f8f8f8;
-            padding: 20px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-            line-height: 1.7;
-        }
-        
-        .accent-keyboard {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background: white;
-            border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-            padding: 10px;
-            z-index: 1000;
-            display: none;
-            flex-wrap: wrap;
-            gap: 5px;
-            max-width: 200px;
-        }
-        
-        .accent-keyboard button {
-            padding: 8px 12px;
-            margin: 2px;
-            font-size: 0.9rem;
-            background-color: #f0f0f0;
-            color: var(--dark);
-            border: 1px solid #ddd;
-        }
-        
-        .accent-keyboard button:hover {
-            background-color: #e0e0e0;
-        }
-        
-        .toggle-keyboard {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            z-index: 1001;
-            background-color: var(--primary);
-            color: white;
-            border: none;
-            border-radius: 50%;
-            width: 50px;
-            height: 50px;
-            font-size: 1.2rem;
-            cursor: pointer;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-        }
-        
-        .vocab-hint {
-            background-color: #fff3cd;
-            border: 1px solid #ffeaa7;
-            border-radius: 4px;
-            padding: 10px;
-            margin: 10px 0;
-            font-size: 0.9rem;
-        }
-        
-        .blank {
-            display: inline-block;
-            width: 150px;
-        }
-        
-        .progress-container {
-            width: 100%;
-            background-color: #e0e0e0;
-            border-radius: 5px;
-            margin: 20px 0;
-        }
-        
-        .progress-bar {
-            height: 20px;
-            background-color: var(--primary);
-            border-radius: 5px;
-            width: 0%;
-            transition: width 0.5s ease-in-out;
-        }
-        
-        .progress-text {
-            text-align: center;
-            margin-top: 5px;
-            font-weight: bold;
-            color: var(--primary);
-        }
-        
-        .download-btn {
-            background-color: var(--secondary);
-            margin-left: 10px;
-        }
-        
-        .download-btn:hover {
-            background-color: #d32f2f;
-        }
-        
-        .options {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            margin-top: 12px;
-        }
-        
-        .option {
-            padding: 10px 15px;
-            border: 1px solid #ddd;
-            border-radius: 6px;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-        
-        .option:hover {
-            background-color: #f0f0f0;
-        }
-        
-        .option.selected {
-            background-color: #e3f2fd;
-            border-color: var(--primary);
-        }
-        
-        .correct {
-            background-color: #e8f5e9;
-            border-color: #4caf50;
-        }
-        
-        .incorrect {
-            background-color: #ffebee;
-            border-color: #f44336;
-        }
-        
-        .timeline {
-            display: flex;
-            justify-content: space-between;
-            margin: 30px 0;
-            position: relative;
-        }
-        
-        .timeline::before {
-            content: "";
-            position: absolute;
-            top: 20px;
-            left: 0;
-            right: 0;
-            height: 3px;
-            background-color: var(--primary);
-            z-index: 1;
-        }
-        
-        .timeline-item {
-            text-align: center;
-            position: relative;
-            z-index: 2;
-        }
-        
-        .timeline-year {
-            background-color: var(--primary);
-            color: white;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 10px;
-            font-weight: bold;
-        }
-        
-        .timeline-content {
-            background-color: white;
-            padding: 10px;
-            border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            max-width: 150px;
-            font-size: 0.9rem;
-        }
-        
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 15px;
-            margin: 20px 0;
-        }
-        
-        .stat-card {
-            background-color: white;
-            padding: 15px;
-            border-radius: 8px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            text-align: center;
-        }
-        
-        .stat-value {
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: var(--primary);
-        }
-        
-        .stat-label {
-            font-size: 0.9rem;
-            color: #666;
-        }
-        
-        .electoral-system {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-            margin: 20px 0;
-        }
-        
-        .system-step {
-            background-color: #f0f7ff;
-            padding: 15px;
-            border-radius: 8px;
-            border-left: 4px solid var(--primary);
-        }
-        
-        .step-number {
-            background-color: var(--primary);
-            color: white;
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            margin-bottom: 10px;
-        }
-        
-        .mind-map {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 15px;
-            margin: 20px 0;
-        }
-        
-        .map-node {
-            background-color: white;
-            padding: 15px;
-            border-radius: 8px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            border: 2px solid transparent;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-        
-        .map-node:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
-        }
-        
-        .map-node.selected {
-            border-color: var(--primary);
-            background-color: #e3f2fd;
-        }
-        
-        .map-node.correct {
-            border-color: #4caf50;
-            background-color: #e8f5e9;
-        }
-        
-        .map-node.incorrect {
-            border-color: #f44336;
-            background-color: #ffebee;
-        }
-        
-        @media (max-width: 768px) {
-            .timeline {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-            
-            .timeline::before {
-                display: none;
-            }
-            
-            .timeline-item {
-                margin-bottom: 20px;
-                display: flex;
-                align-items: center;
-            }
-            
-            .timeline-year {
-                margin-right: 15px;
-                margin-bottom: 0;
-            }
-            
-            .stats-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .electoral-system {
-                grid-template-columns: 1fr;
-            }
-            
-            .mind-map {
-                grid-template-columns: 1fr;
-            }
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>L'évolution du vote FN/RN — 2002-2024</title>
+<style>
+  :root{
+    --ink:#1a2733; --paper:#ffffff; --bg:#eef2f6;
+    --accent:#00546b; --accent2:#8a1538; --ok:#1e7b45; --warn:#b06f00; --bad:#a12727;
+    --line:#c9d4dd;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:Calibri,'Segoe UI',Arial,sans-serif;font-size:17px;line-height:1.55;
+       color:var(--ink);background:var(--bg);padding:24px 16px 120px}
+  .wrap{max-width:880px;margin:0 auto;background:var(--paper);border:1px solid var(--line);
+        border-radius:8px;padding:28px 32px}
+  header{border-bottom:3px solid var(--accent);padding-bottom:12px;margin-bottom:18px}
+  h1{font-size:1.6em;color:var(--accent)}
+  .meta{color:#5a6a78;font-style:italic;margin-top:4px}
+  h2{font-size:1.25em;color:var(--accent);margin:28px 0 8px;border-left:5px solid var(--accent);padding-left:10px}
+  h2 .pts{font-size:.75em;color:#5a6a78;font-weight:normal}
+  .consigne{background:#f2f7fa;border-left:4px solid var(--accent);padding:10px 14px;margin:8px 0 14px;border-radius:0 6px 6px 0}
+  .name-row{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin:14px 0}
+  .name-row input{padding:9px 12px;font-size:1em;border:2px solid var(--accent);border-radius:6px;width:280px;font-family:inherit}
+  .item{margin:14px 0;padding:12px 14px;border:1px solid var(--line);border-radius:6px}
+  .item p.q{margin-bottom:8px}
+  .item input[type=text],.item textarea{width:100%;padding:8px 10px;font-size:1em;font-family:inherit;
+      border:1.5px solid var(--line);border-radius:5px;margin-top:4px}
+  .item textarea{min-height:90px;resize:vertical}
+  .opts label{display:block;padding:7px 10px;margin:5px 0;border:1.5px solid var(--line);border-radius:5px;cursor:pointer}
+  .opts label:hover{background:#f2f7fa}
+  details.aide{margin:8px 0 2px}
+  details.aide summary{cursor:pointer;color:var(--warn);font-weight:bold}
+  details.aide div{background:#fff8ec;border-left:4px solid var(--warn);padding:8px 12px;margin-top:6px;border-radius:0 6px 6px 0}
+  .fb{display:none;margin-top:8px;padding:9px 12px;border-radius:6px;font-size:.95em}
+  .fb.ok{display:block;background:#e9f5ee;border-left:4px solid var(--ok);color:var(--ok)}
+  .fb.almost{display:block;background:#fff8ec;border-left:4px solid var(--warn);color:var(--warn)}
+  .fb.bad{display:block;background:#fbeeee;border-left:4px solid var(--bad);color:var(--bad)}
+  .stretch{border:2px dashed var(--accent2);border-radius:8px;padding:16px;margin:26px 0;background:#fdf7f9}
+  .stretch h2{color:var(--accent2);border-left-color:var(--accent2)}
+  .btn{background:var(--accent);color:#fff;border:none;padding:11px 20px;font-size:1em;font-family:inherit;
+       border-radius:6px;cursor:pointer;margin:6px 6px 6px 0}
+  .btn:hover{filter:brightness(1.15)}
+  .btn.dl{background:var(--ok)}
+  .btn.second{background:#5a6a78}
+  .score-banner{display:none;margin:18px 0;padding:14px;border-radius:8px;background:#f2f7fa;
+       border:2px solid var(--accent);font-size:1.15em;font-weight:bold;color:var(--accent)}
+  .card{background:#f2f7fa;border:1.5px solid var(--accent);border-radius:8px;padding:14px 18px;margin:10px 0 16px}
+  .card h3{color:var(--accent);margin-bottom:8px;font-size:1.05em}
+  .timeline{display:flex;flex-wrap:wrap;gap:10px;margin:14px 0}
+  .timeline .yr{background:var(--paper);border:1.5px solid var(--accent);border-radius:8px;padding:8px 12px;min-width:140px;font-size:.92em}
+  .timeline .yr b{color:var(--accent)}
+  .stats{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px;margin:14px 0}
+  .stats .card2{background:#f2f7fa;border:1px solid var(--line);border-radius:8px;padding:10px;text-align:center}
+  .stats .card2 .v{font-size:1.3em;font-weight:bold;color:var(--accent)}
+  .stats .card2 .l{font-size:.82em;color:#5a6a78}
+  /* ---------- Floating accent pad ---------- */
+  #accentPad{position:fixed;bottom:18px;right:18px;background:#fff;border:2px solid var(--accent);
+       border-radius:10px;box-shadow:0 6px 24px rgba(0,0,0,.25);padding:10px;z-index:1000;
+       display:flex;flex-wrap:wrap;gap:5px;max-width:340px;user-select:none}
+  #accentPad .drag{width:100%;cursor:move;font-size:.8em;color:#5a6a78;text-align:center;padding-bottom:4px}
+  #accentPad button{font-size:1.05em;font-family:inherit;min-width:34px;padding:6px 4px;border:1px solid var(--line);
+       border-radius:5px;background:#f2f7fa;cursor:pointer}
+  #accentPad button:hover{background:var(--accent);color:#fff}
+  #accentPad .maj{font-size:.8em;background:#e6e9ec}
+  #padToggle{position:fixed;bottom:18px;right:18px;z-index:999;background:var(--accent);color:#fff;
+       border:none;border-radius:50px;padding:12px 18px;font-size:1em;cursor:pointer;box-shadow:0 4px 14px rgba(0,0,0,.3)}
+  @media print{#accentPad,#padToggle{display:none}}
+</style>
 </head>
 <body>
-    <header>
-        <h1>Le Système Politique Français: 2002-2024</h1>
-        <p class="subtitle">Comprendre l'évolution politique et le système électoral - A-Level French</p>
-    </header>
-    
-    <button class="toggle-keyboard" onclick="toggleKeyboard()">é</button>
-    <div class="accent-keyboard" id="accentKeyboard">
-        <button onclick="insertAccent('à')">à</button>
-        <button onclick="insertAccent('â')">â</button>
-        <button onclick="insertAccent('é')">é</button>
-        <button onclick="insertAccent('è')">è</button>
-        <button onclick="insertAccent('ê')">ê</button>
-        <button onclick="insertAccent('ë')">ë</button>
-        <button onclick="insertAccent('î')">î</button>
-        <button onclick="insertAccent('ï')">ï</button>
-        <button onclick="insertAccent('ô')">ô</button>
-        <button onclick="insertAccent('ù')">ù</button>
-        <button onclick="insertAccent('û')">û</button>
-        <button onclick="insertAccent('ü')">ü</button>
-        <button onclick="insertAccent('ç')">ç</button>
-        <button onclick="insertAccent('œ')">œ</button>
+<div class="wrap">
+  <header>
+    <h1>L'évolution du vote FN/RN — 2002-2024</h1>
+    <p class="meta">A-Level French (Edexcel) · Thème 3, La politique et l'immigration en France · Durée conseillée : 45 min</p>
+  </header>
+
+  <div class="name-row">
+    <label for="studentName"><strong>Votre nom :</strong></label>
+    <input type="text" id="studentName" placeholder="Prénom NOM" maxlength="60">
+  </div>
+
+  <div class="consigne"><strong>Consignes :</strong> Cette fiche étudie la progression électorale du
+  Front National, devenu Rassemblement National, de 2002 à 2024. Travaillez la chronologie, les
+  statistiques, les causes de cette progression, puis le vocabulaire politique. Complétez chaque
+  exercice et cliquez sur « Vérifier ». À la fin, téléchargez vos résultats et déposez le fichier sur
+  Teams/SharePoint.</div>
+
+  <div class="card">
+    <h3>Repères chronologiques</h3>
+    <div class="timeline">
+      <div class="yr"><b>2002</b> — J-M Le Pen : 17,79 % au 2<sup>nd</sup> tour</div>
+      <div class="yr"><b>2011</b> — Marine Le Pen prend la direction du parti</div>
+      <div class="yr"><b>2017</b> — M. Le Pen : 33,9 % au 2<sup>nd</sup> tour</div>
+      <div class="yr"><b>2018</b> — Le FN devient le RN</div>
+      <div class="yr"><b>2022</b> — M. Le Pen : 41,45 % au 2<sup>nd</sup> tour</div>
+      <div class="yr"><b>2024</b> — RN 1<sup>er</sup> parti en voix, mais pas en sièges</div>
     </div>
+  </div>
 
-    <div class="progress-container">
-        <div class="progress-bar" id="progressBar"></div>
+  <!-- ============ EXERCICE 1 : chronologie ============ -->
+  <h2>Exercice 1 · Chronologie — compréhension <span class="pts">(6 points)</span></h2>
+  <div class="consigne">À partir des repères ci-dessus, complétez les réponses suivantes.</div>
+
+  <div class="item" data-type="text" data-a="MTcsNzklfDE3Ljc5JXwxNyw3OXwxNy43OQ==" data-exp="SmVhbi1NYXJpZSBMZSBQZW4gYSBvYnRlbnUgMTcsNzkgJSBkZXMgdm9peCBhdSBzZWNvbmQgdG91ciBkZSBsYSBwcsOpc2lkZW50aWVsbGUgZGUgMjAwMiwgcHJvdm9xdWFudCBjZSBxdWUgbCdvbiBhIGFwcGVsw6kgdW4gwqsgc8OpaXNtZSDCuyBvdSB1biDCqyBjaG9jIGTDqW1vY3JhdGlxdWUgwrsu">
+    <p class="q">1. En 2002, Jean-Marie Le Pen a obtenu quel pourcentage des voix au second tour ?</p>
+    <input type="text" autocomplete="off" spellcheck="false" placeholder="XX,XX%">
+    <details class="aide"><summary>Indice</summary><div>Un score qui a créé un « choc démocratique ».</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="text" data-a="bGEgZMOpZGlhYm9saXNhdGlvbg==" data-exp="TGEgZMOpZGlhYm9saXNhdGlvbiBlc3QgbGEgc3RyYXTDqWdpZSBtZW7DqWUgcGFyIE1hcmluZSBMZSBQZW4gZGVwdWlzIDIwMTEgcG91ciBkb25uZXIgYXUgcGFydGkgdW5lIGltYWdlIHBsdXMgcmVzcGVjdGFibGUgZXQgw6lsYXJnaXIgc29uIMOpbGVjdG9yYXQgYXUtZGVsw6AgZGUgc2VzIGJhc3Rpb25zIHRyYWRpdGlvbm5lbHMu">
+    <p class="q">2. Comment appelle-t-on la stratégie menée par Marine Le Pen depuis 2011 pour donner au parti une image plus respectable ?</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Indice</summary><div>Le contraire de « diaboliser ».</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="text" data-a="MzMsOSV8MzMuOSV8MzMsOXwzMy45" data-exp="RW4gMjAxNywgTWFyaW5lIExlIFBlbiBvYnRpZW50IDMzLDkgJSBkZXMgdm9peCBhdSBzZWNvbmQgdG91ciBmYWNlIMOgIEVtbWFudWVsIE1hY3JvbiwgcHJlc3F1ZSBsZSBkb3VibGUgZHUgc2NvcmUgZGUgc29uIHDDqHJlIGVuIDIwMDIu">
+    <p class="q">3. En 2017, Marine Le Pen obtient quel pourcentage au second tour face à Emmanuel Macron ?</p>
+    <input type="text" autocomplete="off" spellcheck="false" placeholder="XX,X%">
+    <details class="aide"><summary>Indice</summary><div>Presque le double du score de son père en 2002.</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="text" data-a="NDEsNDUlfDQxLjQ1JXw0MSw0NXw0MS40NQ==" data-exp="RW4gMjAyMiwgTWFyaW5lIExlIFBlbiBhdHRlaW50IDQxLDQ1ICUgYXUgc2Vjb25kIHRvdXIsIGNvbmZpcm1hbnQgbGEgbm9ybWFsaXNhdGlvbiBjb250aW51ZSBkdSB2b3RlIFJOLg==">
+    <p class="q">4. En 2022, Marine Le Pen obtient quel pourcentage au second tour ?</p>
+    <input type="text" autocomplete="off" spellcheck="false" placeholder="XX,XX%">
+    <details class="aide"><summary>Indice</summary><div>Vingt ans après 2002 : un score plus de deux fois supérieur.</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="text" data-a="MjAxOA==" data-exp="TGUgRnJvbnQgTmF0aW9uYWwgZXN0IGRldmVudSBsZSBSYXNzZW1ibGVtZW50IE5hdGlvbmFsIGVuIGp1aW4gMjAxOCwgZGFucyBsZSBjYWRyZSBkZSBsYSBzdHJhdMOpZ2llIGRlIGTDqWRpYWJvbGlzYXRpb24u">
+    <p class="q">5. En quelle année le Front National a-t-il changé de nom pour devenir le Rassemblement National ?</p>
+    <input type="text" autocomplete="off" spellcheck="false" placeholder="AAAA">
+    <details class="aide"><summary>Indice</summary><div>Entre 2017 et 2022.</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="text" data-a="bGUgcmFzc2VtYmxlbWVudCBuYXRpb25hbHxsZSBybnxyYXNzZW1ibGVtZW50IG5hdGlvbmFs" data-exp="QXV4IGzDqWdpc2xhdGl2ZXMgZGUgMjAyNCwgbGUgUk4gZXN0IGFycml2w6kgZW4gdMOqdGUgZW4gbm9tYnJlIGRlIHZvaXggYXUgcHJlbWllciB0b3VyLCBtYWlzIGxlIHN5c3TDqG1lIMOgIGRldXggdG91cnMgZXQgbGUgZnJvbnQgcsOpcHVibGljYWluIGwnb250IGVtcMOqY2jDqSBkJ29idGVuaXIgbGEgbWFqb3JpdMOpIGRlcyBzacOoZ2VzLg==">
+    <p class="q">6. Aux élections législatives de 2024, quel parti est arrivé en tête en nombre de voix au premier tour (mais pas en nombre de sièges au final) ?</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Indice</summary><div>Le sigle en trois lettres.</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <!-- ============ EXERCICE 2 : statistiques ============ -->
+  <h2>Exercice 2 · Statistiques de 2024 <span class="pts">(5 points)</span></h2>
+  <div class="consigne">Choisissez la bonne réponse pour chaque question sur les résultats de 2024.</div>
+
+  <div class="stats">
+    <div class="card2"><div class="v">182</div><div class="l">Sièges NFP (gauche)</div></div>
+    <div class="card2"><div class="v">168</div><div class="l">Sièges Ensemble (centre)</div></div>
+    <div class="card2"><div class="v">143</div><div class="l">Sièges RN (extrême-droite)</div></div>
+    <div class="card2"><div class="v">289</div><div class="l">Majorité absolue nécessaire</div></div>
+  </div>
+
+  <div class="item" data-type="mcq" data-a="Mg==" data-exp="TGUgTm91dmVhdSBGcm9udCBQb3B1bGFpcmUgKE5GUCksIGNvYWxpdGlvbiBkZSBnYXVjaGUsIGEgb2J0ZW51IDE4MiBzacOoZ2VzIGVuIDIwMjQsIGRldmFuw6dhbnQgRW5zZW1ibGUgKDE2OCkgZXQgbGUgUk4gKDE0Myku">
+    <p class="q">7. Combien de sièges le Nouveau Front Populaire (NFP) a-t-il obtenus aux législatives de 2024 ?</p>
+    <div class="opts">
+      <label><input type="radio" name="e2q1" value="0"> A) 143</label>
+      <label><input type="radio" name="e2q1" value="1"> B) 168</label>
+      <label><input type="radio" name="e2q1" value="2"> C) 182</label>
     </div>
-    <div class="progress-text" id="progressText">Progression: 0%</div>
+    <details class="aide"><summary>Indice</summary><div>La coalition arrivée première en nombre de sièges, malgré le RN premier en voix.</div></details>
+    <div class="fb"></div>
+  </div>
 
-    <div class="exercise">
-        <h2>Contexte Historique: 2002-2024</h2>
-        
-        <div class="reading-text">
-            <p>Le Rassemblement National (RN), anciennement Front National (FN), a connu une transformation significative dans le paysage politique français entre 2002 et 2024. Fondé par Jean-Marie Le Pen, le parti a été repris par sa fille Marine Le Pen en 2011, qui a entrepris un processus de "dédiabolisation" pour élargir son électorat.</p>
-            
-            <p>En 2002, Jean-Marie Le Pen crée la surprise en accédant au second tour de l'élection présidentielle avec 17,79% des voix face à Jacques Chirac. Cet événement, qualifié de "choc démocratique", a marqué un tournant dans la vie politique française. Vingt ans plus tard, en 2022, Marine Le Pen obtient 41,45% des suffrages au second tour face à Emmanuel Macron, montrant la progression continue et la normalisation du parti dans le paysage politique.</p>
-            
-            <p>La stratégie de dédiabolisation a porté ses fruits : le RN a étendu son influence au-delà de ses bastions traditionnels du Sud-Est pour gagner des régions industrielles en déclin et des zones rurales périphériques. Cette progression s'est accompagnée d'un changement de nom en 2018 (de FN à RN) et d'un discours plus centré sur les questions socio-économiques.</p>
-        </div>
-        
-        <div class="timeline">
-            <div class="timeline-item">
-                <div class="timeline-year">2002</div>
-                <div class="timeline-content">J-M Le Pen: 17.79% au 2nd tour</div>
-            </div>
-            <div class="timeline-item">
-                <div class="timeline-year">2011</div>
-                <div class="timeline-content">Marine Le Pen prend la direction</div>
-            </div>
-            <div class="timeline-item">
-                <div class="timeline-year">2017</div>
-                <div class="timeline-content">M. Le Pen: 33.9% au 2nd tour</div>
-            </div>
-            <div class="timeline-item">
-                <div class="timeline-year">2022</div>
-                <div class="timeline-content">M. Le Pen: 41.45% au 2nd tour</div>
-            </div>
-            <div class="timeline-item">
-                <div class="timeline-year">2024</div>
-                <div class="timeline-content">RN: 1er parti en voix mais pas en sièges</div>
-            </div>
-        </div>
-        
-        <div class="stats-grid">
-            <div class="stat-card">
-                <div class="stat-value">17.79%</div>
-                <div class="stat-label">Score de J-M Le Pen (2002)</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-value">41.45%</div>
-                <div class="stat-label">Score de M. Le Pen (2022)</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-value">+7.7M</div>
-                <div class="stat-label">Voix gagnées (2002-2022)</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-value">143</div>
-                <div class="stat-label">Députés RN (2024)</div>
-            </div>
-        </div>
-        
-        <div class="question">
-            <p><strong>1. Complétez les phrases:</strong> Utilisez les informations du texte pour compléter les phrases suivantes.</p>
-            <p>En 2002, Jean-Marie Le Pen a obtenu <input type="text" id="q1a" placeholder="pourcentage"> des voix au second tour, créant un <input type="text" id="q1b" placeholder="terme"> démocratique.</p>
-            <p>Le processus de <input type="text" id="q1c" placeholder="terme"> entrepris par Marine Le Pen a permis d'élargir l'électorat du parti.</p>
-        </div>
+  <div class="item" data-type="mcq" data-a="MA==" data-exp="TGEgbWFqb3JpdMOpIGFic29sdWUgw6AgbCdBc3NlbWJsw6llIG5hdGlvbmFsZSBuw6ljZXNzaXRlIDI4OSBzacOoZ2VzIHN1ciA1Nzcu">
+    <p class="q">8. Combien de sièges sont nécessaires pour obtenir la majorité absolue à l'Assemblée nationale ?</p>
+    <div class="opts">
+      <label><input type="radio" name="e2q2" value="0"> A) 289</label>
+      <label><input type="radio" name="e2q2" value="1"> B) 350</label>
+      <label><input type="radio" name="e2q2" value="2"> C) 200</label>
     </div>
+    <details class="aide"><summary>Indice</summary><div>La moitié de 577 sièges, plus un.</div></details>
+    <div class="fb"></div>
+  </div>
 
-    <div class="exercise">
-        <h2>Le Système Électoral Français: Le Scrutin Majoritaire à Deux Tours</h2>
-        
-        <div class="reading-text">
-            <p>La France utilise un système électoral unique pour les élections présidentielles et législatives : le scrutin majoritaire à deux tours. Ce système a des implications profondes sur la vie politique française.</p>
-            
-            <p>Au premier tour, les électeurs votent pour leur candidat préféré. Pour être élu dès le premier tour, un candidat doit obtenir la majorité absolue des suffrages exprimés (plus de 50%). Si aucun candidat n'atteint ce seuil, un second tour est organisé deux semaines plus tard entre les deux candidats arrivés en tête.</p>
-            
-            <p>Ce système favorise le bipartisme et les coalitions. Il explique pourquoi, en 2024, le Rassemblement National est arrivé premier en voix au premier tour des législatives mais n'a pas obtenu la majorité des sièges. Les autres partis (Nouveau Front Populaire de gauche et Ensemble présidentiel) se sont retirés dans de nombreuses circonscriptions pour faire barrage au RN lors du second tour - une stratégie appelée "front républicain".</p>
-        </div>
-        
-        <div class="electoral-system">
-            <div class="system-step">
-                <div class="step-number">1</div>
-                <h4>Premier Tour</h4>
-                <p>Tous les candidats se présentent. Pour gagner, un candidat doit obtenir plus de 50% des voix.</p>
-            </div>
-            <div class="system-step">
-                <div class="step-number">2</div>
-                <h4>Seuil de Qualification</h4>
-                <p>Seuls les candidats avec plus de 12.5% des inscrits peuvent se maintenir au second tour.</p>
-            </div>
-            <div class="system-step">
-                <div class="step-number">3</div>
-                <h4>Second Tour</h4>
-                <p>Face-à-face entre les deux candidats qualifiés, ou triangulaire si trois candidats sont qualifiés.</p>
-            </div>
-            <div class="system-step">
-                <div class="step-number">4</div>
-                <h4>Majorité Relative</h4>
-                <p>Au second tour, le candidat avec le plus de voix l'emporte, même sans majorité absolue.</p>
-            </div>
-        </div>
-        
-        <div class="question">
-            <p><strong>2. Questions de compréhension:</strong></p>
-            <p>Quel pourcentage doit obtenir un candidat pour être élu au premier tour? <input type="text" id="q2a" placeholder="pourcentage"></p>
-            <p>Combien de temps sépare généralement les deux tours? <input type="text" id="q2b" placeholder="durée"></p>
-            <p>Quel est le nom de la stratégie utilisée par les autres partis pour empêcher la victoire du RN? <input type="text" id="q2c" placeholder="terme"></p>
-        </div>
+  <div class="item" data-type="mcq" data-a="MQ==" data-exp="TGUgwqsgZnJvbnQgcsOpcHVibGljYWluIMK7IGNvbnNpc3RlLCBhdSBzZWNvbmQgdG91ciwgw6AgcmV0aXJlciBsZXMgY2FuZGlkYXRzIGFycml2w6lzIHRyb2lzacOobWVzIGRhbnMgbGVzIHRyaWFuZ3VsYWlyZXMgcG91ciBjb25jZW50cmVyIGxlcyB2b2l4IGNvbnRyZSBsZSBSTi4=">
+    <p class="q">9. Quel est le nom de la stratégie consistant, au second tour, à retirer un candidat pour faire barrage au RN ?</p>
+    <div class="opts">
+      <label><input type="radio" name="e2q3" value="0"> A) la cohabitation</label>
+      <label><input type="radio" name="e2q3" value="1"> B) le front républicain</label>
+      <label><input type="radio" name="e2q3" value="2"> C) la dissolution</label>
     </div>
+    <details class="aide"><summary>Indice</summary><div>Une tradition politique française de désistement mutuel.</div></details>
+    <div class="fb"></div>
+  </div>
 
-    <div class="exercise">
-        <h2>Les Élections Législatives de 2024: Le "Front Républicain"</h2>
-        
-        <div class="reading-text">
-            <p>Les élections législatives de 2024 ont marqué un tournant dans l'histoire politique française. Après la dissolution de l'Assemblée nationale par Emmanuel Macron suite aux résultats des élections européennes, le Rassemblement National est arrivé en tête du premier tour avec 33% des voix.</p>
-            
-            <p>Cependant, le système des deux tours et la stratégie du "front républicain" ont empêché le RN d'obtenir la majorité absolue. Le front républicain est une tradition politique française où les partis démocratiques se retirent au profit du candidat le mieux placé pour battre le Rassemblement National.</p>
-            
-            <p>Résultat : alors que le RN était arrivé premier en voix au premier tour, c'est finalement la coalition de gauche (Nouveau Front Populaire) qui a obtenu le plus de sièges (182), suivie par Ensemble (168 sièges) et le RN (143 sièges). Aucune coalition n'ayant obtenu la majorité absolue (289 sièges), la France se trouve dans une situation de "cohabitation" ou même de "paralysie politique".</p>
-        </div>
-        
-        <div class="stats-grid">
-            <div class="stat-card">
-                <div class="stat-value">182</div>
-                <div class="stat-label">Sièges NFP (gauche)</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-value">168</div>
-                <div class="stat-label">Sièges Ensemble (centre)</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-value">143</div>
-                <div class="stat-label">Sièges RN (extrême-droite)</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-value">289</div>
-                <div class="stat-label">Majorité absolue nécessaire</div>
-            </div>
-        </div>
-        
-        <div class="question">
-            <p><strong>3. Vrai ou Faux:</strong> Indiquez si ces affirmations sont vraies ou fausses.</p>
-            <p>Le RN a obtenu la majorité absolue à l'Assemblée nationale en 2024. 
-            <select id="q3a">
-                <option value="">Choisissez</option>
-                <option value="Vrai">Vrai</option>
-                <option value="Faux">Faux</option>
-            </select>
-            </p>
-            
-            <p>Le front républicain a permis d'empêcher la victoire du RN.
-            <select id="q3b">
-                <option value="">Choisissez</option>
-                <option value="Vrai">Vrai</option>
-                <option value="Faux">Faux</option>
-            </select>
-            </p>
-            
-            <p>Le Nouveau Front Populaire a obtenu le plus de sièges grâce au système des deux tours.
-            <select id="q3c">
-                <option value="">Choisissez</option>
-                <option value="Vrai">Vrai</option>
-                <option value="Faux">Faux</option>
-            </select>
-            </p>
-        </div>
+  <div class="item" data-type="mcq" data-a="MQ==" data-exp="UG91ciBzZSBtYWludGVuaXIgYXUgc2Vjb25kIHRvdXIsIHVuIGNhbmRpZGF0IGRvaXQgb2J0ZW5pciBsZXMgdm9peCBkJ2F1IG1vaW5zIDEyLDUgJSBkZXMgw6lsZWN0ZXVycyBpbnNjcml0cyAoZXQgbm9uIGRlcyBzZXVscyB2b3RhbnRzKS4=">
+    <p class="q">10. Quel pourcentage minimum des inscrits un candidat doit-il obtenir au premier tour pour se maintenir au second tour ?</p>
+    <div class="opts">
+      <label><input type="radio" name="e2q4" value="0"> A) 5 %</label>
+      <label><input type="radio" name="e2q4" value="1"> B) 12,5 %</label>
+      <label><input type="radio" name="e2q4" value="2"> C) 25 %</label>
     </div>
+    <details class="aide"><summary>Indice</summary><div>Attention : c'est un pourcentage des inscrits, pas seulement des votants.</div></details>
+    <div class="fb"></div>
+  </div>
 
-    <div class="exercise">
-        <h2>Carte Mentale: La Géographie Électorale du RN</h2>
-        
-        <div class="reading-text">
-            <p>La progression du RN s'étend sur tout le territoire français, mais elle est particulièrement marquée dans certaines régions. On observe une "diagonale du non" qui s'étend du Nord-Est au Sud-Est, où le RN réalise ses meilleurs scores.</p>
-            
-            <p><strong>Sélectionnez les zones où le RN a particulièrement progressé:</strong></p>
-        </div>
-        
-        <div class="mind-map">
-            <div class="map-node" onclick="toggleMapNode(this)" data-correct="true">
-                <h4>Littoral Languedocien</h4>
-                <p>Montpellier, Nîmes, Perpignan - nouvelles zones de force</p>
-            </div>
-            <div class="map-node" onclick="toggleMapNode(this)" data-correct="false">
-                <h4>Centres-villes Parisiens</h4>
-                <p>Paris intra-muros - résistance au RN</p>
-            </div>
-            <div class="map-node" onclick="toggleMapNode(this)" data-correct="true">
-                <h4>Bassin Minier du Nord</h4>
-                <p>Régions industrielles en déclin</p>
-            </div>
-            <div class="map-node" onclick="toggleMapNode(this)" data-correct="true">
-                <h4>Zones Périurbaines</h4>
-                <p>Couronnes des grandes villes</p>
-            </div>
-            <div class="map-node" onclick="toggleMapNode(this)" data-correct="false">
-                <h4>Quartiers de l'Ouest Parisien</h4>
-                <p>Neuilly, Levallois - vote traditionnellement à droite</p>
-            </div>
-            <div class="map-node" onclick="toggleMapNode(this)" data-correct="true">
-                <h4>Régions Rurales Périphériques</h4>
-                <p>Zones éloignées des métropoles</p>
-            </div>
-        </div>
-        
-        <div class="question">
-            <p><strong>4. Analyse géographique:</strong> Après avoir sélectionné les zones de progression du RN, expliquez brièvement pourquoi ces zones sont particulièrement réceptives au discours du RN.</p>
-            <textarea id="q4" placeholder="Votre analyse..."></textarea>
-        </div>
-        
-        <button onclick="checkMapSelection()" style="margin-top: 15px;">Vérifier la sélection</button>
-        <div id="mapResult" class="result" style="display: none;"></div>
+  <div class="item" data-type="mcq" data-a="Mg==" data-exp="TGEgwqsgZGlhZ29uYWxlIGR1IG5vbiDCuyBkw6lzaWduZSB1bmUgYmFuZGUgZGUgdGVycml0b2lyZSBhbGxhbnQgZHUgTm9yZC1Fc3QgdmVycyBsZSBTdWQtT3Vlc3QvU3VkLUVzdCwgbWFycXXDqWUgcGFyIHVuIHZvdGUgZGUgcmVqZXQgZGVzIHBhcnRpcyB0cmFkaXRpb25uZWxzIGV0IHVuZSBmb3J0ZSBwcm9ncmVzc2lvbiBkdSBSTi4=">
+    <p class="q">11. Quelle expression désigne la bande de territoire, du Nord-Est vers le Sud, où le RN réalise ses meilleurs scores ?</p>
+    <div class="opts">
+      <label><input type="radio" name="e2q5" value="0"> A) la ceinture rouge</label>
+      <label><input type="radio" name="e2q5" value="1"> B) la diagonale du vide</label>
+      <label><input type="radio" name="e2q5" value="2"> C) la diagonale du non</label>
     </div>
+    <details class="aide"><summary>Indice</summary><div>Le mot final rime avec « rejet ».</div></details>
+    <div class="fb"></div>
+  </div>
 
-    <div class="exercise">
-        <h2>La Paralysie Politique Post-2024</h2>
-        
-        <div class="reading-text">
-            <p>L'absence de majorité claire à l'Assemblée nationale depuis les élections de 2024 a plongé la France dans une situation de paralysie politique inédite sous la Ve République. Plusieurs gouvernements se sont succédé, chacun étant renversé par des motions de censure.</p>
-            
-            <p>Les conséquences sont multiples :</p>
-            <ul>
-                <li><strong>Blocage législatif</strong> : Aucune majorité ne peut faire passer de lois importantes, créant une impasse sur des réformes cruciales comme celle des retraites.</li>
-                <li><strong>Budget en attente</strong> : Le pays fonctionne avec des budgets provisoires ("douzièmes provisoires") depuis des mois, ce qui affecte les services publics.</li>
-                <li><strong>Instabilité gouvernementale</strong> : Trois Premiers ministres se sont succédé en moins d'un an, chacun incapable de former une majorité stable.</li>
-                <li><strong>Cohabitation difficile</strong> : Le Président Macron doit composer avec une Assemblée nationale hostile à sa politique.</li>
-            </ul>
-            
-            <p>Cette situation reflète les profondes divisions de la société française et remet en question la capacité des institutions de la Ve République à fonctionner sans majorité claire.</p>
-        </div>
-        
-        <div class="question">
-            <p><strong>5. Conséquences de la paralysie:</strong> Identifiez trois conséquences de l'absence de majorité à l'Assemblée nationale.</p>
-            <textarea id="q5" placeholder="Listez trois conséquences..."></textarea>
-        </div>
+  <!-- ============ EXERCICE 3 : analyse des causes ============ -->
+  <h2>Exercice 3 · Analyse des causes <span class="pts">(4 points)</span></h2>
+  <div class="consigne">Complétez avec le terme sociologique ou économique approprié.</div>
+
+  <div class="item" data-type="text" data-a="bCfDqWxlY3RvcmF0IG91dnJpZXJ8w6lsZWN0b3JhdCBvdXZyaWVyfGxlcyBvdXZyaWVyc3xsYSBjbGFzc2Ugb3V2cmnDqHJl" data-exp="RGFucyBsZXMgYW5jaWVubmVzIHLDqWdpb25zIGluZHVzdHJpZWxsZXMsIHVuZSBwYXJ0IGNyb2lzc2FudGUgZGUgbCfDqWxlY3RvcmF0IG91dnJpZXIgdm90ZSBSTiwgZW4gcnVwdHVyZSBhdmVjIHNvbiB2b3RlIHRyYWRpdGlvbm5lbGxlbWVudCDDoCBnYXVjaGUu">
+    <p class="q">12. Quel terme désigne les travailleurs manuels et employés qui votent de plus en plus pour le RN dans les anciennes régions industrielles ?</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Indice</summary><div>Un groupe social qui votait traditionnellement à gauche.</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="text" data-a="bGEgZMOpc2luZHVzdHJpYWxpc2F0aW9u" data-exp="TGEgZMOpc2luZHVzdHJpYWxpc2F0aW9uIOKAlCBmZXJtZXR1cmVzIGQndXNpbmVzLCBkw6lsb2NhbGlzYXRpb25zLCBjaMO0bWFnZSDigJQgYSBmcmFnaWxpc8OpIGRlcyBiYXNzaW5zIGQnZW1wbG9pIGVudGllcnMgZGFucyBsZSBOb3JkIGV0IGwnRXN0LCB0ZXJyZWF1IGR1IHZvdGUgUk4u">
+    <p class="q">13. Quel phénomène économique — fermetures d'usines, délocalisations — explique en partie la progression du RN dans le Nord et l'Est ?</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Indice</summary><div>Le contraire d'« industrialisation ».</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="text" data-a="bGVzIHpvbmVzIHDDqXJpdXJiYWluZXN8bGEgcMOpcml1cmJhbmlzYXRpb24=" data-exp="TGVzIHpvbmVzIHDDqXJpdXJiYWluZXMsIG/DuSBsZXMgaGFiaXRhbnRzIGTDqXBlbmRlbnQgc291dmVudCBkZSBsYSB2b2l0dXJlIGV0IHNlIHNlbnRlbnQgw6lsb2lnbsOpcyBkZXMgc2VydmljZXMgcHVibGljcywgc29udCBkZXZlbnVlcyB1biBiYXN0aW9uIMOpbGVjdG9yYWwgZHUgUk4u">
+    <p class="q">14. Comment appelle-t-on les zones situées en périphérie des grandes villes, où le RN a beaucoup progressé ?</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Indice</summary><div>Ni le centre-ville, ni la campagne profonde : entre les deux.</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="text" data-a="bGUgc2VudGltZW50IGQnYWJhbmRvbnx1biBzZW50aW1lbnQgZCdhYmFuZG9ufGxlIHNlbnRpbWVudCBkZSByZWzDqWdhdGlvbnxsYSByZWzDqWdhdGlvbg==" data-exp="RGUgbm9tYnJldXggcG9saXRvbG9ndWVzIGV4cGxpcXVlbnQgbGUgdm90ZSBSTiBwYXIgdW4gc2VudGltZW50IGQnYWJhbmRvbiBvdSBkZSByZWzDqWdhdGlvbiBmYWNlIGF1eCBtw6l0cm9wb2xlcyBtb25kaWFsaXPDqWVzIGV0IGF1eCDDqWxpdGVzIHBlcsOndWVzIGNvbW1lIGTDqWNvbm5lY3TDqWVzLg==">
+    <p class="q">15. Quel sentiment, souvent cité par les politologues, pousse les habitants de ces zones à voter RN par réaction contre les élites urbaines ?</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Indice</summary><div>« le sentiment d'… » — être laissé de côté.</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <!-- ============ EXERCICE 4 : vocabulaire politique ============ -->
+  <h2>Exercice 4 · Vocabulaire politique <span class="pts">(6 points)</span></h2>
+  <div class="consigne">Traduisez les expressions suivantes en français.</div>
+
+  <div class="item" data-type="text" data-a="bGEgbW90aW9uIGRlIGNlbnN1cmU=" data-exp="wqsgTGEgbW90aW9uIGRlIGNlbnN1cmUgwrsgZXN0IGxlIG3DqWNhbmlzbWUgcGFybGVtZW50YWlyZSBwZXJtZXR0YW50IMOgIGwnQXNzZW1ibMOpZSBuYXRpb25hbGUgZGUgcmVudmVyc2VyIGxlIGdvdXZlcm5lbWVudC4=">
+    <p class="q">16. « vote of no confidence » → tapez la traduction en français.</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Indice</summary><div>« la motion de… »</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="text" data-a="bGEgY29oYWJpdGF0aW9u" data-exp="wqsgTGEgY29oYWJpdGF0aW9uIMK7IGTDqXNpZ25lIGxhIHNpdHVhdGlvbiBvw7kgbGUgcHLDqXNpZGVudCBldCBsZSBnb3V2ZXJuZW1lbnQvbCdBc3NlbWJsw6llIHNvbnQgZGUgYm9yZHMgcG9saXRpcXVlcyBvcHBvc8Opcy4=">
+    <p class="q">17. « power-sharing between a president and a PM/Assembly from opposing parties » → tapez le terme français.</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Indice</summary><div>Un mot très proche de l'anglais « cohabitation ».</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="text" data-a="dW4gYmFzdGlvbg==" data-exp="wqsgVW4gYmFzdGlvbiDCuyBlc3QgdW5lIHLDqWdpb24gb8O5IHVuIHBhcnRpIG9idGllbnQgdHJhZGl0aW9ubmVsbGVtZW50IGRlcyBzY29yZXMgdHLDqHMgw6lsZXbDqXMu">
+    <p class="q">18. « a political stronghold » → tapez le terme français.</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Indice</summary><div>Presque identique à l'anglais.</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="text" data-a="bGUgc2NydXRpbg==" data-exp="wqsgTGUgc2NydXRpbiDCuyBkw6lzaWduZSBsZSBtb2RlIG91IGwnYWN0ZSBkZSB2b3RlIGxvcnMgZCd1bmUgw6lsZWN0aW9uLg==">
+    <p class="q">19. « the poll / the ballot (act of voting) » → tapez le terme français.</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Indice</summary><div>« le scrutin majoritaire à deux tours »</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="text" data-a="bGVzIHN1ZmZyYWdlcw==" data-exp="wqsgTGVzIHN1ZmZyYWdlcyDCuyBkw6lzaWduZSBsZXMgdm9peCBleHByaW3DqWVzIGxvcnMgZCd1biB2b3RlLg==">
+    <p class="q">20. « the votes cast » → tapez le terme français (pluriel).</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Indice</summary><div>Synonyme soutenu de « les voix ».</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="text" data-a="bGEgcGFyYWx5c2llIHBvbGl0aXF1ZXxsYSBwYXJhbHlzaWU=" data-exp="wqsgTGEgcGFyYWx5c2llIHBvbGl0aXF1ZSDCuyBkw6ljcml0IHVuZSBzaXR1YXRpb24gZGUgYmxvY2FnZSBpbnN0aXR1dGlvbm5lbCwgY29tbWUgY2VsbGUgdsOpY3VlIGVuIEZyYW5jZSBhcHLDqHMgMjAyNCBlbiBsJ2Fic2VuY2UgZGUgbWFqb3JpdMOpIGNsYWlyZS4=">
+    <p class="q">21. « political paralysis / gridlock » → tapez le terme français.</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Indice</summary><div>Comme un corps qui ne peut plus bouger.</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <button class="btn" onclick="checkAll()">✔ Vérifier mes réponses</button>
+  <button class="btn second" onclick="resetAll()">↺ Recommencer</button>
+  <div class="score-banner" id="scoreBanner"></div>
+
+  <!-- ============ DÉFI A* (stretch) ============ -->
+  <div class="stretch">
+    <h2>Défi A* — Pour aller plus loin</h2>
+    <div class="consigne">Tâche exigeante (C1) : rédigez un paragraphe analytique (100 mots minimum)
+    expliquant pourquoi le vote pour le FN/RN a progressé entre 2002 et 2024, et quelles conséquences
+    cette progression a eues sur la vie politique française. Utilisez au moins un subjonctif, un pronom
+    relatif complexe (« ce dont », « dans lequel »…) et une structure comparative.</div>
+    <p><em>Amorces :</em> « Il n'est pas surprenant que… », « Ce dont on peut parler ici, c'est de… »,
+    « Alors qu'en 2002…, en 2024… », « Force est de constater que cette progression a entraîné… »</p>
+    <div class="item" data-type="free" data-min="100">
+      <textarea placeholder="Rédigez ici (100 mots minimum)…"></textarea>
+      <div class="fb"></div>
     </div>
+    <details class="aide"><summary>Voir un modèle de réponse (après avoir écrit le vôtre)</summary>
+      <div id="modelAnswer">Modèle : Il n'est pas surprenant que le vote pour le FN, devenu RN, ait
+      considérablement progressé entre 2002 et 2024. Ce dont il faut parler ici, c'est d'abord de la
+      stratégie de dédiabolisation menée par Marine Le Pen, qui a permis au parti de séduire un électorat
+      bien plus large que celui de son père. Alors qu'en 2002 Jean-Marie Le Pen n'obtenait que 17,79 % des
+      voix, en 2022 sa fille en réunissait plus du double, portée par la désindustrialisation des bassins
+      d'emploi du Nord et par un sentiment d'abandon dans les zones périurbaines et rurales. Force est de
+      constater que cette progression a entraîné, en 2024, une paralysie politique inédite : bien que le
+      RN soit arrivé en tête en voix, le front républicain et le scrutin à deux tours l'ont empêché
+      d'obtenir la majorité des sièges, plongeant la France dans une situation de blocage institutionnel.</div></details>
+  </div>
 
-    <div class="exercise">
-        <h2>Expression Écrite et Synthèse</h2>
-        
-        <div class="vocab-hint">
-            <p><strong>Vocabulaire utile:</strong> le scrutin (poll/election), les suffrages (votes), un bastion (stronghold), la dédiabolisation (detoxification), la périurbanisation (suburbanization), la motion de censure (vote of no confidence), la cohabitation (cohabitation), la paralysie (paralysis), le front républicain (republican front)</p>
-        </div>
-        
-        <div class="question">
-            <p><strong>6. Rédaction:</strong> En 200-250 mots, expliquez comment le système électoral français a influencé les résultats des législatives de 2024 et quelles en sont les conséquences politiques.</p>
-            <textarea id="redaction" placeholder="Votre rédaction ici..."></textarea>
-        </div>
-        
-        <div class="question">
-            <p><strong>7. Traduction:</strong> Traduisez cette phrase en anglais.</p>
-            <p>"Le scrutin majoritaire à deux tours, combiné à la stratégie du front républicain, a empêché le Rassemblement National d'obtenir la majorité absolue malgré son score élevé au premier tour des législatives de 2024."</p>
-            <textarea id="traduction" placeholder="Your translation here..."></textarea>
-        </div>
-    </div>
+  <button class="btn dl" onclick="downloadResults()">📥 Télécharger mes résultats</button>
+</div>
 
-    <button onclick="evaluateResponses()">Soumettre les réponses</button>
-    <button class="download-btn" onclick="downloadProgress()">Télécharger la progression</button>
-    <div id="evaluationResult" class="result"></div>
+<!-- ============ FLOATING ACCENT PAD ============ -->
+<button id="padToggle" onclick="togglePad()">é à ç — Accents</button>
+<div id="accentPad" style="display:none">
+  <div class="drag">⋮⋮ déplacer</div>
+</div>
 
-    <script>
-        let activeTextarea = null;
-        let activeInput = null;
-        let progress = 0;
-        
-        // Floating accent keyboard
-        function toggleKeyboard() {
-            const keyboard = document.getElementById('accentKeyboard');
-            keyboard.style.display = keyboard.style.display === 'flex' ? 'none' : 'flex';
-        }
-        
-        function insertAccent(accent) {
-            const activeElement = activeTextarea || activeInput;
-            if (activeElement) {
-                const start = activeElement.selectionStart;
-                const end = activeElement.selectionEnd;
-                const text = activeElement.value;
-                activeElement.value = text.substring(0, start) + accent + text.substring(end);
-                activeElement.focus();
-                activeElement.selectionStart = activeElement.selectionEnd = start + accent.length;
-            }
-        }
-        
-        // Set active textarea when focused
-        document.querySelectorAll('textarea').forEach(textarea => {
-            textarea.addEventListener('focus', function() {
-                activeTextarea = this;
-                activeInput = null;
-                updateProgress();
-            });
-        });
-        
-        // Set active input when focused
-        document.querySelectorAll('input[type="text"], select').forEach(input => {
-            input.addEventListener('focus', function() {
-                activeInput = this;
-                activeTextarea = null;
-            });
-            
-            input.addEventListener('change', function() {
-                updateProgress();
-            });
-        });
-        
-        // Mind map functionality
-        function toggleMapNode(element) {
-            element.classList.toggle('selected');
-            updateProgress();
-        }
-        
-        function checkMapSelection() {
-            const nodes = document.querySelectorAll('.map-node');
-            let correctCount = 0;
-            let totalCorrect = 0;
-            let selectedCount = 0;
-            
-            nodes.forEach(node => {
-                const isCorrect = node.getAttribute('data-correct') === 'true';
-                const isSelected = node.classList.contains('selected');
-                
-                if (isCorrect) totalCorrect++;
-                
-                if (isSelected) {
-                    selectedCount++;
-                    if (isCorrect) {
-                        correctCount++;
-                        node.classList.remove('incorrect');
-                        node.classList.add('correct');
-                    } else {
-                        node.classList.remove('correct');
-                        node.classList.add('incorrect');
-                    }
-                } else if (isCorrect) {
-                    node.classList.remove('correct', 'incorrect');
-                }
-            });
-            
-            const resultDiv = document.getElementById('mapResult');
-            resultDiv.style.display = 'block';
-            
-            if (correctCount === totalCorrect && selectedCount === totalCorrect) {
-                resultDiv.className = 'result success';
-                resultDiv.innerHTML = '<p>✓ Excellente sélection! Vous avez identifié toutes les zones où le RN a progressé.</p>';
-            } else {
-                resultDiv.className = 'result error';
-                resultDiv.innerHTML = `<p>Vous avez identifié ${correctCount} sur ${totalCorrect} zones correctes. Les zones en vert sont correctes, celles en rouge sont incorrectes.</p>`;
-            }
-        }
-        
-        // Update progress bar
-        function updateProgress() {
-            let completed = 0;
-            const total = 18; // Total number of questions/inputs
-            
-            // Check text inputs
-            const textInputs = document.querySelectorAll('input[type="text"]');
-            textInputs.forEach(input => {
-                if (input.value.trim() !== '') completed++;
-            });
-            
-            // Check selects
-            const selects = document.querySelectorAll('select');
-            selects.forEach(select => {
-                if (select.value !== '') completed++;
-            });
-            
-            // Check textareas (count as 2 each since they're longer)
-            const textareas = document.querySelectorAll('textarea');
-            textareas.forEach(textarea => {
-                if (textarea.value.trim().length > 50) completed += 2;
-            });
-            
-            // Check selected map nodes (count correct selections)
-            const selectedNodes = document.querySelectorAll('.map-node.selected[data-correct="true"]');
-            completed += selectedNodes.length;
-            
-            // Calculate percentage (capped at 100)
-            progress = Math.min(100, Math.round((completed / total) * 100));
-            
-            // Update progress bar and text
-            document.getElementById('progressBar').style.width = progress + '%';
-            document.getElementById('progressText').textContent = 'Progression: ' + progress + '%';
-        }
-        
-        // Evaluate responses
-        function evaluateResponses() {
-            const resultDiv = document.getElementById('evaluationResult');
-            
-            resultDiv.className = 'result success';
-            resultDiv.innerHTML = `
-                <p><strong>Merci pour votre participation!</strong></p>
-                <p>Vous avez complété ${progress}% de cette activité sur le système politique français.</p>
-                <div class="vocab-hint" style="margin-top: 15px;">
-                    <p><strong>Points clés à retenir:</strong></p>
-                    <ul>
-                        <li>Le RN a considérablement progressé entre 2002 (17,79%) et 2022 (41,45%)</li>
-                        <li>Le scrutin majoritaire à deux tours favorise les coalitions et le "front républicain"</li>
-                        <li>En 2024, le RN est arrivé premier en voix mais n'a pas obtenu la majorité des sièges</li>
-                        <li>L'absence de majorité claire a créé une paralysie politique</li>
-                        <li>La géographie électorale montre des fractures territoriales profondes</li>
-                    </ul>
-                </div>
-                ${progress < 70 ? '<p style="color: var(--primary); margin-top: 15px;"><strong>Conseil:</strong> Complétez les sections restantes pour mieux comprendre le système politique français.</p>' : ''}
-            `;
-            
-            resultDiv.style.display = 'block';
-        }
-        
-        // Download progress as blob
-        function downloadProgress() {
-            const content = `Progression: A-Level French - Le Système Politique Français\n\nDate: ${new Date().toLocaleDateString()}\nProgression: ${progress}%\n\nPoints abordés:\n- Évolution du RN 2002-2024\n- Système électoral à deux tours\n- Élections législatives 2024\n- Front républicain\n- Paralysie politique\n- Géographie électorale\n\nContinuez votre apprentissage!`;
-            const blob = new Blob([content], { type: 'text/plain' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = `progression-politique-francaise-${new Date().toISOString().slice(0,10)}.txt`;
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            URL.revokeObjectURL(url);
-        }
-        
-        // Close keyboard when clicking outside
-        document.addEventListener('click', function(event) {
-            const keyboard = document.getElementById('accentKeyboard');
-            const toggleBtn = document.querySelector('.toggle-keyboard');
-            
-            if (!keyboard.contains(event.target) && !toggleBtn.contains(event.target)) {
-                keyboard.style.display = 'none';
-            }
-        });
-        
-        // Initialize with some sample content for longer responses
-        document.getElementById('redaction').addEventListener('focus', function() {
-            if (this.value === '') {
-                this.value = 'Le système électoral français, basé sur le scrutin majoritaire à deux tours, a joué un rôle crucial lors des législatives de 2024. Bien que le Rassemblement National soit arrivé en tête du premier tour avec environ 33% des voix, le mécanisme des deux tours et la stratégie du "front républicain" ont empêché le parti d\'obtenir la majorité absolue. Les autres formations politiques (Nouveau Front Populaire à gauche et Ensemble présidentiel au centre) se sont retirées dans de nombreuses circonscriptions pour faire barrage au RN.';
-            }
-        });
-    </script>
+<script>
+/* ================= HOUSE ENGINE — do not weaken ================= */
+/* Answers are base64-encoded (UTF-8 safe) so they never sit in plain text next to the inputs. */
+function d(b){try{return decodeURIComponent(escape(atob(b)))}catch(e){return""}}
+function e64(s){return btoa(unescape(encodeURIComponent(s)))} /* helper for authoring */
+
+function norm(s){return (s||"").toLowerCase().replace(/['']/g,"'").replace(/\s+/g," ").trim()}
+function deacc(s){return norm(s).normalize("NFD").replace(/[̀-ͯ]/g,"")}
+
+/* tolerant text check: returns "ok" | "accents" | "bad" ; accepted = array */
+function judge(val, accepted){
+  const v=norm(val);
+  if(accepted.some(a=>norm(a)===v)) return "ok";
+  if(accepted.some(a=>deacc(a)===deacc(val))) return "accents";
+  return "bad";
+}
+
+let results=[]; /* {label, given, ok, expected} */
+
+function checkAll(){
+  results=[]; let score=0, max=0;
+  document.querySelectorAll(".item").forEach((it,idx)=>{
+    const type=it.dataset.type, fb=it.querySelector(".fb");
+    const label=(it.querySelector(".q")?it.querySelector(".q").textContent.trim():("Défi "+(idx+1))).slice(0,90);
+    if(type==="mcq"){
+      max++;
+      const sel=it.querySelector("input[type=radio]:checked");
+      const correct=d(it.dataset.a), exp=d(it.dataset.exp||"");
+      if(!sel){fb.className="fb bad";fb.textContent="⚠ Répondez à la question.";results.push({label,given:"—",ok:false});return}
+      if(sel.value===correct){score++;fb.className="fb ok";fb.textContent="✔ Correct. "+exp;
+        results.push({label,given:sel.parentElement.textContent.trim(),ok:true});}
+      else{fb.className="fb bad";fb.textContent="✘ Incorrect. "+exp;
+        results.push({label,given:sel.parentElement.textContent.trim(),ok:false});}
+    }
+    if(type==="text"){
+      max++;
+      const inp=it.querySelector("input,textarea");
+      const accepted=d(it.dataset.a).split("|"), exp=d(it.dataset.exp||"");
+      const r=judge(inp.value,accepted);
+      if(r==="ok"){score++;fb.className="fb ok";fb.textContent="✔ Correct. "+exp;}
+      else if(r==="accents"){fb.className="fb almost";fb.textContent="≈ Presque ! Vérifiez les accents : "+accepted[0]+". "+exp;}
+      else{fb.className="fb bad";fb.textContent="✘ Réponse attendue : "+accepted[0]+". "+exp;}
+      results.push({label,given:inp.value||"—",ok:r==="ok"});
+    }
+    if(type==="free"){
+      const ta=it.querySelector("textarea"), min=parseInt(it.dataset.min||"40");
+      const words=(ta.value.trim().match(/\S+/g)||[]).length;
+      if(words===0){fb.className="fb";fb.textContent="";}
+      else if(words<min){fb.className="fb almost";fb.textContent="≈ "+words+" mots — visez au moins "+min+". Développez avec un connecteur (cependant, en revanche…).";}
+      else{fb.className="fb ok";fb.textContent="✔ "+words+" mots. Comparez maintenant avec le modèle, puis améliorez une phrase.";}
+      results.push({label,given:ta.value||"—",ok:words>=min});
+    }
+  });
+  const b=document.getElementById("scoreBanner");
+  b.style.display="block";
+  const pct=max?Math.round(100*score/max):0;
+  b.textContent="Score : "+score+" / "+max+" ("+pct+" %) — "+(pct>=80?"Excellent !":pct>=60?"Bien — corrigez les points signalés.":"Relisez les indices et réessayez.");
+  window._score={score,max};
+}
+
+function resetAll(){
+  document.querySelectorAll(".item input[type=text], .item textarea").forEach(i=>i.value="");
+  document.querySelectorAll(".item input[type=radio]").forEach(r=>r.checked=false);
+  document.querySelectorAll(".fb").forEach(f=>{f.className="fb";f.textContent=""});
+  document.getElementById("scoreBanner").style.display="none";
+  results=[];window._score=null;window.scrollTo({top:0,behavior:"smooth"});
+}
+
+function downloadResults(){
+  const name=document.getElementById("studentName").value.trim();
+  if(!name){alert("Écrivez d'abord votre nom en haut de la page.");document.getElementById("studentName").focus();return}
+  if(!window._score){alert("Cliquez d'abord sur « Vérifier mes réponses ».");return}
+  let txt="RÉSULTATS — "+document.title+"\n";
+  txt+="Élève : "+name+"\nDate : "+new Date().toLocaleString("fr-FR")+"\n";
+  txt+="Score : "+window._score.score+" / "+window._score.max+"\n";
+  txt+="".padEnd(60,"=")+"\n\n";
+  results.forEach((r,i)=>{txt+=(i+1)+". "+r.label+"\n   Réponse : "+r.given+"\n   "+(r.ok?"✔ correct":"✘ à revoir")+"\n\n";});
+  const blob=new Blob([txt],{type:"text/plain;charset=utf-8"});
+  const a=document.createElement("a");
+  a.href=URL.createObjectURL(blob);
+  a.download=(document.title.split("—")[0].trim()||"resultats").replace(/\s+/g,"_")+"_"+name.replace(/\s+/g,"_")+".txt";
+  document.body.appendChild(a);a.click();document.body.removeChild(a);URL.revokeObjectURL(a.href);
+}
+
+/* ---------- Accent pad ---------- */
+const CHARS=["é","è","ê","ë","à","â","î","ï","ô","ù","û","ü","ç","œ","æ","«","»","'","É","È","À","Ç","Œ"];
+let lastField=null;
+document.addEventListener("focusin",e=>{
+  if(e.target.matches("input[type=text],textarea") && e.target.id!=="studentName") lastField=e.target;
+  if(e.target.id==="studentName") lastField=e.target;
+});
+const pad=document.getElementById("accentPad");
+CHARS.forEach(c=>{
+  const b=document.createElement("button");
+  b.textContent=c; if(c===c.toUpperCase()&&c.toLowerCase()!==c) b.className="maj";
+  b.addEventListener("mousedown",ev=>{
+    ev.preventDefault(); /* keep focus in the field */
+    if(!lastField) return;
+    const s=lastField.selectionStart??lastField.value.length, t=lastField.selectionEnd??s;
+    lastField.value=lastField.value.slice(0,s)+c+lastField.value.slice(t);
+    lastField.selectionStart=lastField.selectionEnd=s+c.length;
+    lastField.focus();
+  });
+  pad.appendChild(b);
+});
+function togglePad(){
+  const show=pad.style.display==="none";
+  pad.style.display=show?"flex":"none";
+  document.getElementById("padToggle").style.display=show?"none":"block";
+  if(show){ /* add close button once */
+    if(!pad.querySelector(".closer")){
+      const x=document.createElement("button");x.textContent="✕";x.className="closer";
+      x.addEventListener("mousedown",ev=>{ev.preventDefault();togglePad()});pad.appendChild(x);
+    }
+  }
+}
+/* drag the pad */
+(function(){
+  const h=pad.querySelector(".drag");let sx,sy,ox,oy,drag=false;
+  h.addEventListener("mousedown",e=>{drag=true;sx=e.clientX;sy=e.clientY;const r=pad.getBoundingClientRect();ox=r.left;oy=r.top;
+    pad.style.right="auto";pad.style.bottom="auto";e.preventDefault()});
+  document.addEventListener("mousemove",e=>{if(!drag)return;pad.style.left=(ox+e.clientX-sx)+"px";pad.style.top=(oy+e.clientY-sy)+"px"});
+  document.addEventListener("mouseup",()=>drag=false);
+})();
+</script>
 </body>
 </html>

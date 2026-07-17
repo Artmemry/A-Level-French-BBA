@@ -1,162 +1,440 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <title>Subjonctif – L'Étranger & La Haine</title>
-  <style>
-    body { font-family: Arial, sans-serif; padding: 20px; line-height: 1.6; }
-    .exercise { margin-bottom: 25px; padding-bottom: 10px; border-bottom: 1px solid #ddd; }
-    .prompt { margin-bottom: 8px; display: block; font-weight: bold; }
-    .inputs, .controls { margin-top: 6px; }
-    .correct { color: green; font-weight: bold; }
-    .incorrect { color: red; font-weight: bold; }
-    input[type="text"] { width: 160px; margin-right: 5px; margin-bottom: 5px; }
-    button { margin-top: 5px; display: inline-block; }
-    .hint { color: #555; font-style: italic; display: block; margin-top: 6px; }
-    .feedback { display: block; margin-top: 6px; }
-    #summary { margin-top: 40px; border-top: 2px solid #000; padding-top: 20px; }
-    .challenging { margin-top: 10px; }
-    .print-btn { margin-top: 10px; }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pratique du subjonctif — La Haine &amp; L'Étranger</title>
+<style>
+  :root{
+    --ink:#1a2733; --paper:#ffffff; --bg:#eef2f6;
+    --accent:#00546b; --accent2:#8a1538; --ok:#1e7b45; --warn:#b06f00; --bad:#a12727;
+    --line:#c9d4dd;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:Calibri,'Segoe UI',Arial,sans-serif;font-size:17px;line-height:1.55;
+       color:var(--ink);background:var(--bg);padding:24px 16px 120px}
+  .wrap{max-width:880px;margin:0 auto;background:var(--paper);border:1px solid var(--line);
+        border-radius:8px;padding:28px 32px}
+  header{border-bottom:3px solid var(--accent);padding-bottom:12px;margin-bottom:18px}
+  h1{font-size:1.6em;color:var(--accent)}
+  .meta{color:#5a6a78;font-style:italic;margin-top:4px}
+  h2{font-size:1.25em;color:var(--accent);margin:28px 0 8px;border-left:5px solid var(--accent);padding-left:10px}
+  h2 .pts{font-size:.75em;color:#5a6a78;font-weight:normal}
+  .consigne{background:#f2f7fa;border-left:4px solid var(--accent);padding:10px 14px;margin:8px 0 14px;border-radius:0 6px 6px 0}
+  .name-row{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin:14px 0}
+  .name-row input{padding:9px 12px;font-size:1em;border:2px solid var(--accent);border-radius:6px;width:280px;font-family:inherit}
+  .item{margin:14px 0;padding:12px 14px;border:1px solid var(--line);border-radius:6px}
+  .item p.q{margin-bottom:8px}
+  .item input[type=text],.item textarea{width:100%;padding:8px 10px;font-size:1em;font-family:inherit;
+      border:1.5px solid var(--line);border-radius:5px;margin-top:4px}
+  .item textarea{min-height:90px;resize:vertical}
+  .opts label{display:block;padding:7px 10px;margin:5px 0;border:1.5px solid var(--line);border-radius:5px;cursor:pointer}
+  .opts label:hover{background:#f2f7fa}
+  details.aide{margin:8px 0 2px}
+  details.aide summary{cursor:pointer;color:var(--warn);font-weight:bold}
+  details.aide div{background:#fff8ec;border-left:4px solid var(--warn);padding:8px 12px;margin-top:6px;border-radius:0 6px 6px 0}
+  .fb{display:none;margin-top:8px;padding:9px 12px;border-radius:6px;font-size:.95em}
+  .fb.ok{display:block;background:#e9f5ee;border-left:4px solid var(--ok);color:var(--ok)}
+  .fb.almost{display:block;background:#fff8ec;border-left:4px solid var(--warn);color:var(--warn)}
+  .fb.bad{display:block;background:#fbeeee;border-left:4px solid var(--bad);color:var(--bad)}
+  .stretch{border:2px dashed var(--accent2);border-radius:8px;padding:16px;margin:26px 0;background:#fdf7f9}
+  .stretch h2{color:var(--accent2);border-left-color:var(--accent2)}
+  .btn{background:var(--accent);color:#fff;border:none;padding:11px 20px;font-size:1em;font-family:inherit;
+       border-radius:6px;cursor:pointer;margin:6px 6px 6px 0}
+  .btn:hover{filter:brightness(1.15)}
+  .btn.dl{background:var(--ok)}
+  .btn.second{background:#5a6a78}
+  .score-banner{display:none;margin:18px 0;padding:14px;border-radius:8px;background:#f2f7fa;
+       border:2px solid var(--accent);font-size:1.15em;font-weight:bold;color:var(--accent)}
+  /* ---------- Floating accent pad ---------- */
+  #accentPad{position:fixed;bottom:18px;right:18px;background:#fff;border:2px solid var(--accent);
+       border-radius:10px;box-shadow:0 6px 24px rgba(0,0,0,.25);padding:10px;z-index:1000;
+       display:flex;flex-wrap:wrap;gap:5px;max-width:340px;user-select:none}
+  #accentPad .drag{width:100%;cursor:move;font-size:.8em;color:#5a6a78;text-align:center;padding-bottom:4px}
+  #accentPad button{font-size:1.05em;font-family:inherit;min-width:34px;padding:6px 4px;border:1px solid var(--line);
+       border-radius:5px;background:#f2f7fa;cursor:pointer}
+  #accentPad button:hover{background:var(--accent);color:#fff}
+  #accentPad .maj{font-size:.8em;background:#e6e9ec}
+  #padToggle{position:fixed;bottom:18px;right:18px;z-index:999;background:var(--accent);color:#fff;
+       border:none;border-radius:50px;padding:12px 18px;font-size:1em;cursor:pointer;box-shadow:0 4px 14px rgba(0,0,0,.3)}
+  @media print{#accentPad,#padToggle{display:none}}
+</style>
 </head>
 <body>
+<div class="wrap">
+  <header>
+    <h1>Pratique du subjonctif — La Haine &amp; L'Étranger</h1>
+    <p class="meta">A-Level French (Edexcel) · La Haine (Kassovitz) &amp; L'Étranger (Camus) · Durée conseillée : 45 min</p>
+  </header>
 
-<h1>Pratique du subjonctif – L'Étranger et La Haine</h1>
-<p>Complétez les phrases avec la bonne forme du subjonctif. Cliquez sur "Vérifier" pour chaque phrase, puis sur "Voir le score et les erreurs" à la fin.</p>
+  <div class="name-row">
+    <label for="studentName"><strong>Votre nom :</strong></label>
+    <input type="text" id="studentName" placeholder="Prénom NOM" maxlength="60">
+  </div>
 
-<div id="exercises"></div>
+  <div class="consigne"><strong>Consignes :</strong> Cet atelier vous entraîne à maîtriser le subjonctif (présent et passé) à travers des phrases portant sur <em>La Haine</em> et <em>L'Étranger</em> — un point grammatical essentiel pour obtenir les meilleures notes à l'écrit A-Level. Lisez le rappel, puis complétez chaque exercice et cliquez sur « Vérifier ».</div>
 
-<button onclick="showSummary()">Voir le score et les erreurs</button>
+  <!-- ============ RAPPEL : déclencheurs ============ -->
+  <h2>Rappel · Les déclencheurs du subjonctif</h2>
+<div class="consigne">
+<strong>Rappel — quand utiliser le subjonctif ?</strong> Le subjonctif s'emploie après certains déclencheurs qui expriment la volonté, le doute, le sentiment ou certaines conjonctions. Il exprime un fait envisagé, souhaité ou incertain — pas un fait constaté.
+<ul style="margin:10px 0 0 20px">
+<li><strong>Volonté / obligation :</strong> il faut que, il est nécessaire que, vouloir que, exiger que</li>
+<li><strong>Sentiment :</strong> il est regrettable/dommage que, avoir peur que, être content(e) que</li>
+<li><strong>Doute / possibilité :</strong> il est possible que, il semble que, douter que, il est peu probable que</li>
+<li><strong>Jugement :</strong> il est essentiel/important/normal que, il vaut mieux que</li>
+<li><strong>Conjonctions :</strong> bien que, quoique, pour que, afin que, avant que, à moins que, jusqu'à ce que, sans que</li>
+</ul>
+Attention : <strong>après que</strong> se construit avec l'<strong>indicatif</strong> (et non le subjonctif), contrairement à <strong>avant que</strong>.
+</div>
 
-<div id="summary" style="display:none;">
-  <h2>Résumé</h2>
-  <p id="score"></p>
-  <div id="challenging-answers" class="challenging"></div>
-  <button class="print-btn" onclick="window.print()">Imprimer</button>
+  <!-- ============ EXERCICE 1 : conjugaison en contexte ============ -->
+  <h2>Exercice 1 · Conjuguez au subjonctif présent <span class="pts">(14 points)</span></h2>
+  <div class="consigne">Complétez chaque phrase avec la forme correcte du subjonctif présent du verbe entre parenthèses. Ces phrases portent sur <em>La Haine</em> et <em>L'Étranger</em>.</div>
+
+  <div class="item" data-type="text" data-a="dmV1aWxsZQ==" data-exp="wqsgVm91bG9pciDCuyBhdSBzdWJqb25jdGlmIDogcXVlIGplIHZldWlsbGUsIHF1J2lsL2VsbGUgdmV1aWxsZSAocmFkaWNhbCBpcnLDqWd1bGllciB2ZXVpbGwtKS4=">
+    <p class="q">1. Bien que Vinz (vouloir) se venger de la police, Hubert essaie de le raisonner.</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Indice</summary><div>Radical irrégulier : veuill-</div></details>
+    <div class="fb"></div>
+  </div>
+  <div class="item" data-type="text" data-a="Y29tcHJlbm5l" data-exp="wqsgQ29tcHJlbmRyZSDCuyBzdWl0IGxlIG1vZMOobGUgZGUgwqsgcHJlbmRyZSDCuyA6IHJhZGljYWwgZGVzIGlscyBhdSBwcsOpc2VudCAoaWxzIGNvbXByZW5uZW50KSDihpIgY29tcHJlbm5lLg==">
+    <p class="q">2. Il est possible que Meursault (comprendre) trop tard la gravité de son geste.</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Indice</summary><div>Partez de la forme « ils comprennent ».</div></details>
+    <div class="fb"></div>
+  </div>
+  <div class="item" data-type="text" data-a="cmVuZGU=" data-exp="VmVyYmUgcsOpZ3VsaWVyIGVuIC1yZSA6IHJhZGljYWwgwqsgcmVuZC0gwrsgKGlscyByZW5kZW50KSArIHRlcm1pbmFpc29uIC1lLg==">
+    <p class="q">3. Il faut que la police (rendre) compte de la mort d'Abdel.</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <div class="fb"></div>
+  </div>
+  <div class="item" data-type="text" data-a="ZXhwcmltZW50" data-exp="VmVyYmUgcsOpZ3VsaWVyIGVuIC1lciA6IHJhZGljYWwgwqsgZXhwcmltZW50LSDCuyAoaWxzIGV4cHJpbWVudCkgKyB0ZXJtaW5haXNvbiAtZW50Lg==">
+    <p class="q">4. Il est essentiel que les jeunes de la cité (exprimer) leur colère autrement que par la violence.</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <div class="fb"></div>
+  </div>
+  <div class="item" data-type="text" data-a="ZXNzYWllfGVzc2F5ZQ==" data-exp="wqsgRXNzYXllciDCuyA6IHJhZGljYWwgZGVzIGlscyAoaWxzIGVzc2FpZW50L2Vzc2F5ZW50KSDihpIgZXNzYWllIG91IGVzc2F5ZSwgbGVzIGRldXggZm9ybWVzIHNvbnQgYWNjZXB0w6llcy4=">
+    <p class="q">5. Bien que Saïd (essayer) de calmer Vinz, la tension monte.</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <div class="fb"></div>
+  </div>
+  <div class="item" data-type="text" data-a="cmVqZXR0ZQ==" data-exp="wqsgUmVqZXRlciDCuyBkb3VibGUgbGUgdCBhdSBzaW5ndWxpZXIgZXQgw6AgbGEgM2UgcGVyc29ubmUgZHUgcGx1cmllbCA6IHF1ZSBqZS9pbCByZWpldHRlLg==">
+    <p class="q">6. Il est regrettable que la société (rejeter) les habitants des banlieues.</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <div class="fb"></div>
+  </div>
+  <div class="item" data-type="text" data-a="bmFpc3Nl" data-exp="wqsgTmHDrnRyZSDCuyA6IHJhZGljYWwgZGVzIGlscyAoaWxzIG5haXNzZW50KSDihpIgbmFpc3NlLg==">
+    <p class="q">7. Pour que le dialogue (naître) entre la police et les jeunes, il faut une vraie volonté politique.</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <div class="fb"></div>
+  </div>
+  <div class="item" data-type="text" data-a="Y2hhbmdl" data-exp="VmVyYmUgcsOpZ3VsaWVyIGVuIC1lciA6IHJhZGljYWwgwqsgY2hhbmctIMK7IChpbHMgY2hhbmdlbnQpICsgLWUu">
+    <p class="q">8. Il est peu probable que la situation (changer) du jour au lendemain.</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <div class="fb"></div>
+  </div>
+  <div class="item" data-type="text" data-a="ZMOpZmVuZGU=" data-exp="VmVyYmUgcsOpZ3VsaWVyIGVuIC1yZSA6IHJhZGljYWwgwqsgZMOpZmVuZC0gwrsgKGlscyBkw6lmZW5kZW50KSArIC1lLg==">
+    <p class="q">9. Quoique l'avocat (défendre) Meursault avec sérieux, le procès tourne autour de son absence d'émotion.</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <div class="fb"></div>
+  </div>
+  <div class="item" data-type="text" data-a="anVnZQ==" data-exp="VmVyYmUgcsOpZ3VsaWVyIGVuIC1lciA6IHJhZGljYWwgwqsganVnLSDCuyAoaWxzIGp1Z2VudCkgKyAtZS4=">
+    <p class="q">10. Il semble que la société (juger) Meursault non pour son crime, mais pour son indifférence.</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <div class="fb"></div>
+  </div>
+  <div class="item" data-type="text" data-a="cmV2aWVubmU=" data-exp="wqsgUmV2ZW5pciDCuyBzdWl0IGxlIG1vZMOobGUgZGUgwqsgdmVuaXIgwrsgOiByYWRpY2FsIGlycsOpZ3VsaWVyIMKrIHJldmllbm4tIMK7IChpbHMgcmV2aWVubmVudCkg4oaSIHJldmllbm5lLg==">
+    <p class="q">11. Avant que Vinz ne (revenir) sur ses résolutions, Hubert tente de lui reprendre l'arme.</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Indice</summary><div>Même famille que « venir ».</div></details>
+    <div class="fb"></div>
+  </div>
+  <div class="item" data-type="text" data-a="Z3JhbmRpc3Nl" data-exp="VmVyYmUgZW4gLWlyIHR5cGUgwqsgZmluaXIgwrsgOiByYWRpY2FsIGRlcyBpbHMgKGlscyBncmFuZGlzc2VudCkg4oaSIGdyYW5kaXNzZS4=">
+    <p class="q">12. Il est dommage que la haine (grandir) plus vite que l'espoir dans cette cité.</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <div class="fb"></div>
+  </div>
+  <div class="item" data-type="text" data-a="aW50ZXJ2aWVubmU=" data-exp="wqsgSW50ZXJ2ZW5pciDCuyBzdWl0IGxlIG1vZMOobGUgZGUgwqsgdmVuaXIgwrsgOiByYWRpY2FsIGlycsOpZ3VsaWVyIMKrIGludGVydmllbm4tIMK7IOKGkiBpbnRlcnZpZW5uZS4=">
+    <p class="q">13. À moins que quelqu'un (intervenir) rapidement, l'engrenage de la violence continuera.</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <div class="fb"></div>
+  </div>
+  <div class="item" data-type="text" data-a="csOpZmzDqWNoaXNzZQ==" data-exp="VmVyYmUgZW4gLWlyIHR5cGUgwqsgZmluaXIgwrsgOiByYWRpY2FsIGRlcyBpbHMgKGlscyByw6lmbMOpY2hpc3NlbnQpIOKGkiByw6lmbMOpY2hpc3NlLg==">
+    <p class="q">14. Il est nécessaire que le lecteur (réfléchir) au sens de l'absurde chez Camus.</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <div class="fb"></div>
+  </div>
+
+  <!-- ============ EXERCICE 2 : irréguliers ============ -->
+  <h2>Exercice 2 · Les six grands irréguliers <span class="pts">(6 points)</span></h2>
+  <div class="consigne">Ces six verbes (être, avoir, faire, aller, pouvoir, savoir) ont un radical du subjonctif totalement irrégulier — ils doivent être appris par cœur.</div>
+
+  <div class="item" data-type="text" data-a="c29pdA==" data-exp="wqsgw4p0cmUgwrsgYXUgc3Viam9uY3RpZiBlc3QgdG90YWxlbWVudCBpcnLDqWd1bGllciA6IHF1ZSBqZSBzb2lzLCB0dSBzb2lzLCBpbC9lbGxlIHNvaXQsIG5vdXMgc295b25zLCB2b3VzIHNveWV6LCBpbHMgc29pZW50Lg==">
+    <p class="q">1. Il est essentiel que Meursault (être) conscient des conséquences de son geste.</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Indice</summary><div>Un des verbes les plus irréguliers du français : sois, sois, soit…</div></details>
+    <div class="fb"></div>
+  </div>
+  <div class="item" data-type="text" data-a="YWl0" data-exp="wqsgQXZvaXIgwrsgYXUgc3Viam9uY3RpZiA6IHF1ZSBqJ2FpZSwgdHUgYWllcywgaWwvZWxsZSBhaXQsIG5vdXMgYXlvbnMsIHZvdXMgYXlleiwgaWxzIGFpZW50Lg==">
+    <p class="q">2. Il faut que la police (avoir) plus de comptes à rendre à la population.</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <div class="fb"></div>
+  </div>
+  <div class="item" data-type="text" data-a="ZmFzc2U=" data-exp="wqsgRmFpcmUgwrsgYXUgc3Viam9uY3RpZiA6IHF1ZSBqZSBmYXNzZSwgdHUgZmFzc2VzLCBpbC9lbGxlIGZhc3NlLCBub3VzIGZhc3Npb25zLCB2b3VzIGZhc3NpZXosIGlscyBmYXNzZW50Lg==">
+    <p class="q">3. Il est possible que Vinz (faire) un choix qu'il regrettera.</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <div class="fb"></div>
+  </div>
+  <div class="item" data-type="text" data-a="YWlsbGU=" data-exp="wqsgQWxsZXIgwrsgYXUgc3Viam9uY3RpZiA6IHF1ZSBqJ2FpbGxlLCB0dSBhaWxsZXMsIGlsL2VsbGUgYWlsbGUsIG5vdXMgYWxsaW9ucywgdm91cyBhbGxpZXosIGlscyBhaWxsZW50Lg==">
+    <p class="q">4. Bien qu'Hubert (aller) chercher son ami jusqu'au bout, il ne peut pas le sauver de lui-même.</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <div class="fb"></div>
+  </div>
+  <div class="item" data-type="text" data-a="cHVpc3Nl" data-exp="wqsgUG91dm9pciDCuyBhdSBzdWJqb25jdGlmIDogcXVlIGplIHB1aXNzZSwgdHUgcHVpc3NlcywgaWwvZWxsZSBwdWlzc2UsIG5vdXMgcHVpc3Npb25zLCB2b3VzIHB1aXNzaWV6LCBpbHMgcHVpc3NlbnQu">
+    <p class="q">5. Il est peu probable que Meursault (pouvoir) échapper à la peine de mort.</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <div class="fb"></div>
+  </div>
+  <div class="item" data-type="text" data-a="c2FjaGU=" data-exp="wqsgU2F2b2lyIMK7IGF1IHN1YmpvbmN0aWYgOiBxdWUgamUgc2FjaGUsIHR1IHNhY2hlcywgaWwvZWxsZSBzYWNoZSwgbm91cyBzYWNoaW9ucywgdm91cyBzYWNoaWV6LCBpbHMgc2FjaGVudC4=">
+    <p class="q">6. Il faut que le lecteur (savoir) replacer le roman dans le contexte de l'Algérie coloniale.</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <div class="fb"></div>
+  </div>
+
+  <!-- ============ EXERCICE 3 : subjonctif passé ============ -->
+  <h2>Exercice 3 · Le subjonctif passé <span class="pts">(5 points)</span></h2>
+  <div class="consigne">Le subjonctif passé exprime une action <strong>antérieure</strong> à celle de la proposition principale. Formation : auxiliaire (avoir/être) au subjonctif présent + participe passé. Conjuguez chaque verbe entre parenthèses au subjonctif passé.</div>
+
+  <div class="item" data-type="text" data-a="YWl0IHBlcmR1" data-exp="U3Viam9uY3RpZiBwYXNzw6kgPSBzdWJqb25jdGlmIHByw6lzZW50IGRlIGwnYXV4aWxpYWlyZSArIHBhcnRpY2lwZSBwYXNzw6kuIEljaSwgYWN0aW9uIGFudMOpcmlldXJlIGF1IGp1Z2VtZW50IGV4cHJpbcOpIDogYWl0IHBlcmR1Lg==">
+    <p class="q">1. Il est regrettable que Vinz (perdre — subjonctif passé) son calme avant la fin du film.</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Indice</summary><div>Auxiliaire avoir au subjonctif + participe passé de perdre.</div></details>
+    <div class="fb"></div>
+  </div>
+  <div class="item" data-type="text" data-a="YWl0IGFzc2lzdMOp" data-exp="TGUgc3Viam9uY3RpZiBwYXNzw6kgbWFycXVlIHF1ZSBsJ2FjdGlvbiAoYXNzaXN0ZXIgw6AgbCdlbnRlcnJlbWVudCkgZXN0IGFjaGV2w6llIGF2YW50IGxlIG1vbWVudCBkZSBsJ8Opbm9uY2lhdGlvbi4=">
+    <p class="q">2. Bien que Meursault (assister — subjonctif passé) à l'enterrement de sa mère, il semble détaché.</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <div class="fb"></div>
+  </div>
+  <div class="item" data-type="text" data-a="YWl0IGNvbW1pcw==" data-exp="UGFydGljaXBlIHBhc3PDqSBpcnLDqWd1bGllciBkZSDCqyBjb21tZXR0cmUgwrsgOiBjb21taXMuIEF1eGlsaWFpcmUgYXZvaXIgYXUgc3Viam9uY3RpZiA6IGFpdC4=">
+    <p class="q">3. Il se peut que la police (commettre — subjonctif passé) une bavure avant même le début du film.</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <div class="fb"></div>
+  </div>
+  <div class="item" data-type="text" data-a="YWl0IGNvbXByaXM=" data-exp="UGFydGljaXBlIHBhc3PDqSBkZSDCqyBjb21wcmVuZHJlIMK7IDogY29tcHJpcy4gTGUgZG91dGUgcG9ydGUgc3VyIHVuIGZhaXQgcGFzc8OpLCBkJ2/DuSBsZSBzdWJqb25jdGlmIHBhc3PDqS4=">
+    <p class="q">4. Je doute que Saïd (comprendre — subjonctif passé) toute la gravité de la situation à ce moment-là.</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <div class="fb"></div>
+  </div>
+  <div class="item" data-type="text" data-a="YWl0IHR1w6k=" data-exp="U3Viam9uY3RpZiBwYXNzw6kgcsOpZ3VsaWVyIDogYWl0ICsgcGFydGljaXBlIHBhc3PDqSDCqyB0dcOpIMK7Lg==">
+    <p class="q">5. Il est possible que Meursault (tuer — subjonctif passé) l'Arabe sans véritable préméditation.</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <div class="fb"></div>
+  </div>
+
+  <!-- ============ EXERCICE 4 : discrimination ============ -->
+  <h2>Exercice 4 · Indicatif ou subjonctif ? <span class="pts">(6 points)</span></h2>
+  <div class="consigne">Choisissez la forme correcte selon le déclencheur employé. Attention aux pièges (« penser que » à la forme négative, « après que »…).</div>
+
+  <div class="item" data-type="mcq" data-a="MA==" data-exp="QXByw6hzIMKrIHBlbnNlciBxdWUgwrsgw6AgbGEgZm9ybWUgYWZmaXJtYXRpdmUsIG9uIHV0aWxpc2UgbCdpbmRpY2F0aWYgY2FyIG9uIGV4cHJpbWUgdW5lIGNlcnRpdHVkZS4=">
+    <p class="q">1. « Je pense que Meursault ___ indifférent. »</p>
+    <div class="opts">
+      <label><input type="radio" name="b_ex5_q1" value="0"> A) est</label>
+      <label><input type="radio" name="b_ex5_q1" value="1"> B) soit</label>
+    </div>
+    <div class="fb"></div>
+  </div>
+  <div class="item" data-type="mcq" data-a="MQ==" data-exp="QXByw6hzIMKrIG5lIHBhcyBwZW5zZXIgcXVlIMK7IChmb3JtZSBuw6lnYXRpdmUpLCBsZSBkb3V0ZSBzJ2luc3RhbGxlIDogb24gZW1wbG9pZSBsZSBzdWJqb25jdGlmLg==">
+    <p class="q">2. « Je ne pense pas que Meursault ___ complètement innocent. »</p>
+    <div class="opts">
+      <label><input type="radio" name="b_ex5_q2" value="0"> A) est</label>
+      <label><input type="radio" name="b_ex5_q2" value="1"> B) soit</label>
+    </div>
+    <div class="fb"></div>
+  </div>
+  <div class="item" data-type="mcq" data-a="MA==" data-exp="wqsgSWwgZXN0IGNlcnRhaW4gcXVlIMK7IGV4cHJpbWUgdW5lIGNlcnRpdHVkZSBhZmZpcm3DqWUgOiBvbiB1dGlsaXNlIGwnaW5kaWNhdGlmLCBwYXMgbGUgc3Viam9uY3RpZi4=">
+    <p class="q">3. « Il est certain que la police ___ responsable. »</p>
+    <div class="opts">
+      <label><input type="radio" name="b_ex5_q3" value="0"> A) est</label>
+      <label><input type="radio" name="b_ex5_q3" value="1"> B) soit</label>
+    </div>
+    <div class="fb"></div>
+  </div>
+  <div class="item" data-type="mcq" data-a="MQ==" data-exp="wqsgSWwgZXN0IHBvc3NpYmxlIHF1ZSDCuyBleHByaW1lIGxlIGRvdXRlL2xhIHBvc3NpYmlsaXTDqSA6IG9uIHV0aWxpc2UgbGUgc3Viam9uY3RpZiAoYWl0LCBkZSBhdm9pciku">
+    <p class="q">4. « Il est possible que la société ___ une part de responsabilité. »</p>
+    <div class="opts">
+      <label><input type="radio" name="b_ex5_q4" value="0"> A) a</label>
+      <label><input type="radio" name="b_ex5_q4" value="1"> B) ait</label>
+    </div>
+    <div class="fb"></div>
+  </div>
+  <div class="item" data-type="mcq" data-a="MA==" data-exp="UGnDqGdlIGNsYXNzaXF1ZSA6IMKrIGFwcsOocyBxdWUgwrsgc2UgY29uc3RydWl0IGF2ZWMgbCdJTkRJQ0FUSUYgKGNvbnRyYWlyZW1lbnQgw6AgwqsgYXZhbnQgcXVlIMK7LCBxdWkgcHJlbmQgbGUgc3Viam9uY3RpZiku">
+    <p class="q">5. « Après que Vinz ___ perdu son ami, tout bascule. »</p>
+    <div class="opts">
+      <label><input type="radio" name="b_ex5_q5" value="0"> A) a</label>
+      <label><input type="radio" name="b_ex5_q5" value="1"> B) ait</label>
+    </div>
+    <div class="fb"></div>
+  </div>
+  <div class="item" data-type="mcq" data-a="MQ==" data-exp="wqsgQmllbiBxdWUgwrsgZXN0IHVuZSBjb25qb25jdGlvbiBxdWkgZMOpY2xlbmNoZSBzeXN0w6ltYXRpcXVlbWVudCBsZSBzdWJqb25jdGlmLg==">
+    <p class="q">6. « Bien que le film ___ triste, il reste plein d'espoir. »</p>
+    <div class="opts">
+      <label><input type="radio" name="b_ex5_q6" value="0"> A) est</label>
+      <label><input type="radio" name="b_ex5_q6" value="1"> B) soit</label>
+    </div>
+    <div class="fb"></div>
+  </div>
+
+  <button class="btn" onclick="checkAll()">✔ Vérifier mes réponses</button>
+  <button class="btn second" onclick="resetAll()">↺ Recommencer</button>
+  <div class="score-banner" id="scoreBanner"></div>
+
+  <div class="stretch">
+    <h2>Défi A* — Pour aller plus loin</h2>
+    <div class="consigne">Rédigez <strong>trois phrases</strong> que vous pourriez utiliser dans une dissertation sur <em>La Haine</em> ou <em>L'Étranger</em>, en employant chacune un subjonctif différent (présent ou passé). Variez les déclencheurs (bien que, il est indéniable que, il se peut que, quoique…).</div>
+    <p><em>Amorces :</em> « Bien que Vinz…», « Il est indéniable que la société… », « Quoique Meursault…», « Il se peut que le lecteur… »</p>
+    <div class="item" data-type="free" data-min="35">
+      <textarea placeholder="Rédigez vos trois phrases ici (35 mots minimum au total)…"></textarea>
+      <div class="fb"></div>
+    </div>
+    <details class="aide"><summary>Voir un modèle de réponse (après avoir écrit le vôtre)</summary>
+      <div id="modelAnswer">Modèle : « Bien que Vinz veuille venger Abdel, Hubert parvient à le raisonner in extremis. Il est indéniable que la société ait sa part de responsabilité dans l'engrenage de violence qui touche les cités. Quoique Meursault soit conscient de la gravité de son crime, il refuse de feindre un remords qu'il ne ressent pas. »</div></details>
+  </div>
+
+  <button class="btn dl" onclick="downloadResults()">📥 Télécharger mes résultats</button>
+</div>
+
+<!-- ============ FLOATING ACCENT PAD ============ -->
+<button id="padToggle" onclick="togglePad()">é à ç — Accents</button>
+<div id="accentPad" style="display:none">
+  <div class="drag">⋮⋮ déplacer</div>
 </div>
 
 <script>
-const phrases = [
-  { template: "Il est essentiel que Meursault [verbe] ses émotions.", type: "verb", answer: "comprenne", hint: "verbe : comprendre" },
-  { template: "Bien que Meursault [verbe] calme, il choque les autres.", type: "verb", answer: "soit", hint: "verbe : être" },
-  { template: "Il semble que la société [verbe] l’absurde.", type: "verb", answer: "rejette", hint: "verbe : rejeter" },
-  { template: "Il faut que l’avocat [verbe] Meursault correctement.", type: "verb", answer: "défende", hint: "verbe : défendre" },
-  { template: "Il est regrettable que la haine [verbe] autant.", type: "verb", answer: "grandisse", hint: "verbe : grandir" },
-  { template: "Il est normal que les autres [verbe] ses choix.", type: "verb", answer: "jugent", hint: "verbe : juger" },
-  { template: "Il est temps que Meursault [verbe] sa peine.", type: "verb", answer: "accepte", hint: "verbe : accepter" },
-  { template: "Il est peu probable que la prison [verbe] son comportement.", type: "verb", answer: "change", hint: "verbe : changer" },
-  { template: "Il est possible que Meursault [verbe] la mer.", type: "verb", answer: "regarde", hint: "verbe : regarder" },
-  { template: "Il est nécessaire que la société [verbe] plus humaine.", type: "verb", answer: "soit", hint: "verbe : être" },
+/* ================= HOUSE ENGINE — do not weaken ================= */
+/* Answers are base64-encoded (UTF-8 safe) so they never sit in plain text next to the inputs. */
+function d(b){try{return decodeURIComponent(escape(atob(b)))}catch(e){return""}}
+function e64(s){return btoa(unescape(encodeURIComponent(s)))} /* helper for authoring */
 
-  { template: "[déclencheur] Meursault [verbe] la réalité de la mort.", type: "both", answer: ["Il faut que", "accepte"], hint: "verbe : accepter, déclencheur : obligation" },
-  { template: "[déclencheur] la police [verbe] avec justice.", type: "both", answer: ["Il est important que", "agisse"], hint: "verbe : agir, déclencheur : importance" },
-  { template: "[déclencheur] Vinz [verbe] en arrière.", type: "both", answer: ["Il est peu probable que", "revienne"], hint: "verbe : revenir, déclencheur : doute" },
-  { template: "[déclencheur] les jeunes [verbe] un avenir.", type: "both", answer: ["Pour que", "aient"], hint: "verbe : avoir, déclencheur : but" },
-  { template: "[déclencheur] la société [verbe] de regard.", type: "both", answer: ["Il est nécessaire que", "change"], hint: "verbe : changer, déclencheur : nécessité" },
-  { template: "[déclencheur] Meursault [verbe] ses sentiments.", type: "both", answer: ["Il est rare que", "exprime"], hint: "verbe : exprimer, déclencheur : rareté" },
-  { template: "[déclencheur] le juge [verbe] ses propres valeurs.", type: "both", answer: ["Avant que", "impose"], hint: "verbe : imposer, déclencheur : temps" },
-  { template: "[déclencheur] la banlieue [verbe] écoutée.", type: "both", answer: ["Il faut que", "soit"], hint: "verbe : être, déclencheur : obligation" },
-  { template: "[déclencheur] les jeunes [verbe] leur colère.", type: "both", answer: ["Il est nécessaire que", "expliquent"], hint: "verbe : expliquer, déclencheur : nécessité" },
-  { template: "[déclencheur] les autorités [verbe] un vrai dialogue.", type: "both", answer: ["Il est temps que", "créent"], hint: "verbe : créer, déclencheur : temps" },
-];
+function norm(s){return (s||"").toLowerCase().replace(/['']/g,"'").replace(/\s+/g," ").trim()}
+function deacc(s){return norm(s).normalize("NFD").replace(/[̀-ͯ]/g,"")}
 
-const container = document.getElementById("exercises");
-const userAnswers = [];
+/* tolerant text check: returns "ok" | "accents" | "bad" ; accepted = array */
+function judge(val, accepted){
+  const v=norm(val);
+  if(accepted.some(a=>norm(a)===v)) return "ok";
+  if(accepted.some(a=>deacc(a)===deacc(val))) return "accents";
+  return "bad";
+}
 
-phrases.forEach((item, i) => {
-  const exDiv = document.createElement("div");
-  exDiv.className = "exercise";
+let results=[]; /* {label, given, ok, expected} */
 
-  const prompt = document.createElement("span");
-  prompt.className = "prompt";
-  prompt.innerHTML = `${i + 1}. ${item.template}`;
-
-  const inputsDiv = document.createElement("div");
-  inputsDiv.className = "inputs";
-
-  const triggerInput = document.createElement("input");
-  triggerInput.type = "text";
-  triggerInput.placeholder = "Déclencheur";
-  triggerInput.className = "trigger";
-
-  const verbInput = document.createElement("input");
-  verbInput.type = "text";
-  verbInput.placeholder = "Verbe";
-  verbInput.className = "verb";
-
-  if (item.type === "both") {
-    inputsDiv.appendChild(triggerInput);
-  }
-  inputsDiv.appendChild(verbInput);
-
-  const button = document.createElement("button");
-  button.textContent = "Vérifier";
-
-  const feedback = document.createElement("span");
-  feedback.className = "feedback";
-
-  const hint = document.createElement("span");
-  hint.className = "hint";
-  hint.textContent = item.hint;
-
-  button.onclick = () => {
-    const givenTrigger = triggerInput?.value.trim().toLowerCase();
-    const givenVerb = verbInput.value.trim().toLowerCase();
-
-    let correct = false;
-    let correctText = "";
-
-    if (item.type === "verb") {
-      correct = givenVerb === item.answer.toLowerCase();
-      correctText = item.answer;
-    } else {
-      const [expectedTrigger, expectedVerb] = item.answer.map(s => s.toLowerCase());
-      correct = givenTrigger === expectedTrigger && givenVerb === expectedVerb;
-      correctText = item.answer.join(" + ");
+function checkAll(){
+  results=[]; let score=0, max=0;
+  document.querySelectorAll(".item").forEach((it,idx)=>{
+    const type=it.dataset.type, fb=it.querySelector(".fb");
+    const label=(it.querySelector(".q")?it.querySelector(".q").textContent.trim():("Défi "+(idx+1))).slice(0,90);
+    if(type==="mcq"){
+      max++;
+      const sel=it.querySelector("input[type=radio]:checked");
+      const correct=d(it.dataset.a), exp=d(it.dataset.exp||"");
+      if(!sel){fb.className="fb bad";fb.textContent="⚠ Répondez à la question.";results.push({label,given:"—",ok:false});return}
+      if(sel.value===correct){score++;fb.className="fb ok";fb.textContent="✔ Correct. "+exp;
+        results.push({label,given:sel.parentElement.textContent.trim(),ok:true});}
+      else{fb.className="fb bad";fb.textContent="✘ Incorrect. "+exp;
+        results.push({label,given:sel.parentElement.textContent.trim(),ok:false});}
     }
-
-    userAnswers[i] = {
-      correct,
-      user: item.type === "verb" ? givenVerb : [givenTrigger, givenVerb],
-      expected: correctText,
-      prompt: item.template
-    };
-
-    feedback.textContent = correct ? "✔️ Correct" : `❌ Faux – réponse : ${correctText}`;
-    feedback.className = correct ? "feedback correct" : "feedback incorrect";
-  };
-
-  exDiv.appendChild(prompt);
-  exDiv.appendChild(inputsDiv);
-  exDiv.appendChild(button);
-  exDiv.appendChild(feedback);
-  exDiv.appendChild(hint);
-  container.appendChild(exDiv);
-});
-
-function showSummary() {
-  let correctCount = 0;
-  const summaryDiv = document.getElementById("summary");
-  const scoreDisplay = document.getElementById("score");
-  const challengesDiv = document.getElementById("challenging-answers");
-  challengesDiv.innerHTML = "";
-
-  userAnswers.forEach((entry, i) => {
-    if (entry?.correct) {
-      correctCount++;
-    } else if (entry) {
-      const div = document.createElement("div");
-      div.innerHTML = `<strong>${i + 1}. ${entry.prompt}</strong><br>
-        Votre réponse : ${Array.isArray(entry.user) ? entry.user.join(" + ") : entry.user}<br>
-        Réponse correcte : ${entry.expected}<br><br>`;
-      challengesDiv.appendChild(div);
+    if(type==="text"){
+      max++;
+      const inp=it.querySelector("input,textarea");
+      const accepted=d(it.dataset.a).split("|"), exp=d(it.dataset.exp||"");
+      const r=judge(inp.value,accepted);
+      if(r==="ok"){score++;fb.className="fb ok";fb.textContent="✔ Correct. "+exp;}
+      else if(r==="accents"){fb.className="fb almost";fb.textContent="≈ Presque ! Vérifiez les accents : "+accepted[0]+". "+exp;}
+      else{fb.className="fb bad";fb.textContent="✘ Réponse attendue : "+accepted[0]+". "+exp;}
+      results.push({label,given:inp.value||"—",ok:r==="ok"});
+    }
+    if(type==="free"){
+      const ta=it.querySelector("textarea"), min=parseInt(it.dataset.min||"40");
+      const words=(ta.value.trim().match(/\S+/g)||[]).length;
+      if(words===0){fb.className="fb";fb.textContent="";}
+      else if(words<min){fb.className="fb almost";fb.textContent="≈ "+words+" mots — visez au moins "+min+". Développez avec un connecteur (cependant, en revanche…).";}
+      else{fb.className="fb ok";fb.textContent="✔ "+words+" mots. Comparez maintenant avec le modèle, puis améliorez une phrase.";}
+      results.push({label,given:ta.value||"—",ok:words>=min});
     }
   });
-
-  scoreDisplay.textContent = `Score : ${correctCount} / ${phrases.length}`;
-  summaryDiv.style.display = "block";
+  const b=document.getElementById("scoreBanner");
+  b.style.display="block";
+  const pct=max?Math.round(100*score/max):0;
+  b.textContent="Score : "+score+" / "+max+" ("+pct+" %) — "+(pct>=80?"Excellent !":pct>=60?"Bien — corrigez les points signalés.":"Relisez les indices et réessayez.");
+  window._score={score,max};
 }
-</script>
 
+function resetAll(){
+  document.querySelectorAll(".item input[type=text], .item textarea").forEach(i=>i.value="");
+  document.querySelectorAll(".item input[type=radio]").forEach(r=>r.checked=false);
+  document.querySelectorAll(".fb").forEach(f=>{f.className="fb";f.textContent=""});
+  document.getElementById("scoreBanner").style.display="none";
+  results=[];window._score=null;window.scrollTo({top:0,behavior:"smooth"});
+}
+
+function downloadResults(){
+  const name=document.getElementById("studentName").value.trim();
+  if(!name){alert("Écrivez d'abord votre nom en haut de la page.");document.getElementById("studentName").focus();return}
+  if(!window._score){alert("Cliquez d'abord sur « Vérifier mes réponses ».");return}
+  let txt="RÉSULTATS — "+document.title+"\n";
+  txt+="Élève : "+name+"\nDate : "+new Date().toLocaleString("fr-FR")+"\n";
+  txt+="Score : "+window._score.score+" / "+window._score.max+"\n";
+  txt+="".padEnd(60,"=")+"\n\n";
+  results.forEach((r,i)=>{txt+=(i+1)+". "+r.label+"\n   Réponse : "+r.given+"\n   "+(r.ok?"✔ correct":"✘ à revoir")+"\n\n";});
+  const blob=new Blob([txt],{type:"text/plain;charset=utf-8"});
+  const a=document.createElement("a");
+  a.href=URL.createObjectURL(blob);
+  a.download=(document.title.split("—")[0].trim()||"resultats").replace(/\s+/g,"_")+"_"+name.replace(/\s+/g,"_")+".txt";
+  document.body.appendChild(a);a.click();document.body.removeChild(a);URL.revokeObjectURL(a.href);
+}
+
+/* ---------- Accent pad ---------- */
+const CHARS=["é","è","ê","ë","à","â","î","ï","ô","ù","û","ü","ç","œ","æ","«","»","'","É","È","À","Ç","Œ"];
+let lastField=null;
+document.addEventListener("focusin",e=>{
+  if(e.target.matches("input[type=text],textarea") && e.target.id!=="studentName") lastField=e.target;
+  if(e.target.id==="studentName") lastField=e.target;
+});
+const pad=document.getElementById("accentPad");
+CHARS.forEach(c=>{
+  const b=document.createElement("button");
+  b.textContent=c; if(c===c.toUpperCase()&&c.toLowerCase()!==c) b.className="maj";
+  b.addEventListener("mousedown",ev=>{
+    ev.preventDefault(); /* keep focus in the field */
+    if(!lastField) return;
+    const s=lastField.selectionStart??lastField.value.length, t=lastField.selectionEnd??s;
+    lastField.value=lastField.value.slice(0,s)+c+lastField.value.slice(t);
+    lastField.selectionStart=lastField.selectionEnd=s+c.length;
+    lastField.focus();
+  });
+  pad.appendChild(b);
+});
+function togglePad(){
+  const show=pad.style.display==="none";
+  pad.style.display=show?"flex":"none";
+  document.getElementById("padToggle").style.display=show?"none":"block";
+  if(show){ /* add close button once */
+    if(!pad.querySelector(".closer")){
+      const x=document.createElement("button");x.textContent="✕";x.className="closer";
+      x.addEventListener("mousedown",ev=>{ev.preventDefault();togglePad()});pad.appendChild(x);
+    }
+  }
+}
+/* drag the pad */
+(function(){
+  const h=pad.querySelector(".drag");let sx,sy,ox,oy,drag=false;
+  h.addEventListener("mousedown",e=>{drag=true;sx=e.clientX;sy=e.clientY;const r=pad.getBoundingClientRect();ox=r.left;oy=r.top;
+    pad.style.right="auto";pad.style.bottom="auto";e.preventDefault()});
+  document.addEventListener("mousemove",e=>{if(!drag)return;pad.style.left=(ox+e.clientX-sx)+"px";pad.style.top=(oy+e.clientY-sy)+"px"});
+  document.addEventListener("mouseup",()=>drag=false);
+})();
+</script>
 </body>
 </html>

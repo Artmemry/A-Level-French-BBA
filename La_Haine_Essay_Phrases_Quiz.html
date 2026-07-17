@@ -1,474 +1,398 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>La Haine – Essay Phrases Quiz</title>
-  <style>
-    :root {
-      --red: #d9232d;
-      --dark-bg: #0a0a14;
-      --panel: #16213e;
-      --panel2: #1a1a2e;
-      --border: #0f3460;
-      --text: #f0f0f0;
-      --muted: #c0c0c0;
-      --success: #4caf50;
-      --warning: #f39c12;
-      --info: #3498db;
-    }
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-    body { background: var(--dark-bg); color: var(--text); min-height: 100vh; padding: 20px; }
-    .container { max-width: 980px; margin: 0 auto; }
-
-    header {
-      text-align: center; padding: 30px 20px;
-      border-bottom: 3px solid var(--red); margin-bottom: 24px;
-      background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.85));
-      border-radius: 12px;
-    }
-    header h1 {
-      font-size: 2.4rem; color: var(--red);
-      text-transform: uppercase; letter-spacing: 3px;
-      text-shadow: 2px 2px 6px rgba(0,0,0,0.8); margin-bottom: 8px;
-    }
-    header p { font-size: 0.95rem; color: var(--muted); }
-
-    .tabs {
-      display: flex; flex-wrap: wrap;
-      background: var(--panel2); border-radius: 10px;
-      padding: 12px; gap: 8px; margin-bottom: 16px;
-    }
-    .tab {
-      flex: 1; min-width: 90px; padding: 10px 12px;
-      background: var(--panel); border: 2px solid var(--border);
-      color: var(--muted); border-radius: 6px; cursor: pointer;
-      font-weight: 700; font-size: 0.8rem; text-align: center;
-      transition: all 0.2s;
-    }
-    .tab:hover { background: var(--border); color: var(--text); transform: translateY(-2px); }
-    .tab.active { background: var(--red); border-color: var(--red); color: white; }
-
-    .controls-bar {
-      display: flex; align-items: center; justify-content: space-between;
-      background: var(--panel2); border-radius: 8px; padding: 12px 16px;
-      margin-bottom: 10px; flex-wrap: wrap; gap: 10px;
-    }
-    .mode-toggle { display: flex; gap: 8px; }
-    .mode-btn {
-      padding: 8px 18px; border: 2px solid var(--red);
-      border-radius: 20px; cursor: pointer; font-weight: 700;
-      font-size: 0.85rem; background: transparent; color: var(--red);
-      transition: all 0.2s;
-    }
-    .mode-btn.active { background: var(--red); color: white; }
-    .progress-info { font-size: 0.85rem; color: var(--muted); }
-
-    .progress-bar-wrap { height: 6px; background: var(--panel2); border-radius: 3px; margin-bottom: 20px; }
-    .progress-fill { height: 100%; background: linear-gradient(to right, var(--info), var(--red)); border-radius: 3px; transition: width 0.4s ease; }
-
-    /* FLASHCARD */
-    .flashcard-wrap { perspective: 1000px; max-width: 640px; margin: 0 auto 20px; height: 220px; }
-    .flashcard { width: 100%; height: 100%; position: relative; transform-style: preserve-3d; transition: transform 0.6s; cursor: pointer; }
-    .flashcard.flipped { transform: rotateY(180deg); }
-    .card-face {
-      position: absolute; width: 100%; height: 100%;
-      backface-visibility: hidden; border-radius: 14px;
-      display: flex; flex-direction: column; align-items: center; justify-content: center;
-      padding: 25px; text-align: center; box-shadow: 0 6px 20px rgba(0,0,0,0.5);
-    }
-    .card-front { background: linear-gradient(135deg, #0f3460, #16213e); border: 2px solid var(--border); }
-    .card-back { background: linear-gradient(135deg, #8b0000, #d9232d); transform: rotateY(180deg); }
-    .card-face .lang-label { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 1px; opacity: 0.65; margin-bottom: 10px; }
-    .card-face .phrase { font-size: 1.15rem; font-weight: 600; line-height: 1.55; color: white; }
-    .card-face .click-hint { font-size: 0.75rem; opacity: 0.5; margin-top: 14px; color: white; }
-    .flashcard-nav { display: flex; align-items: center; justify-content: center; gap: 14px; margin-bottom: 14px; }
-    .nav-btn { padding: 10px 22px; border: none; border-radius: 8px; cursor: pointer; font-weight: 700; font-size: 0.9rem; transition: all 0.2s; }
-    .prev-btn { background: var(--panel); color: var(--text); border: 1px solid var(--border); }
-    .prev-btn:hover { background: var(--border); }
-    .next-btn { background: var(--red); color: white; }
-    .next-btn:hover { background: #b71c1c; }
-    .card-counter { font-size: 0.9rem; color: var(--muted); min-width: 80px; text-align: center; }
-    .shuffle-btn {
-      display: block; margin: 0 auto;
-      padding: 8px 22px; border: 2px dashed var(--red); border-radius: 20px;
-      background: transparent; color: var(--red); cursor: pointer; font-size: 0.85rem; font-weight: 700;
-      transition: all 0.2s;
-    }
-    .shuffle-btn:hover { background: var(--red); color: white; }
-
-    /* QUIZ */
-    .question-card {
-      background: var(--panel); border: 1px solid var(--border);
-      border-radius: 10px; padding: 18px; margin-bottom: 16px;
-      transition: transform 0.2s, border-color 0.2s; box-shadow: 0 3px 10px rgba(0,0,0,0.3);
-    }
-    .question-card:hover { transform: translateY(-2px); border-color: #1a4a7a; }
-    .question-card.correct-border { border-left: 4px solid var(--success); }
-    .question-card.incorrect-border { border-left: 4px solid var(--red); }
-    .q-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px; }
-    .q-num { font-weight: 700; color: var(--red); font-size: 0.88rem; }
-    .q-cat { font-size: 0.72rem; background: #1a0a0e; color: #ff8a80; padding: 3px 8px; border-radius: 10px; font-weight: 700; border: 1px solid #5a1010; }
-    .q-english { font-size: 1rem; margin-bottom: 12px; line-height: 1.5; color: var(--text); }
-    .q-input-row { display: flex; gap: 8px; flex-wrap: wrap; }
-    .q-input {
-      flex: 1; min-width: 180px; padding: 10px 13px;
-      border: 2px solid var(--border); border-radius: 8px;
-      font-size: 0.92rem; background: var(--dark-bg); color: var(--text);
-      transition: border-color 0.2s;
-    }
-    .q-input:focus { outline: none; border-color: var(--red); box-shadow: 0 0 0 2px rgba(217,35,45,0.2); }
-    .q-input.correct-input { border-color: var(--success); background: #0a1f0a; }
-    .q-input.incorrect-input { border-color: #c62828; background: #1a0505; }
-    .check-btn-q, .hint-btn-q {
-      padding: 10px 14px; border: none; border-radius: 8px;
-      cursor: pointer; font-weight: 700; font-size: 0.82rem; transition: all 0.2s;
-    }
-    .check-btn-q { background: var(--red); color: white; }
-    .check-btn-q:hover { background: #b71c1c; }
-    .hint-btn-q { background: transparent; color: var(--warning); border: 1px solid var(--warning); }
-    .hint-btn-q:hover { background: var(--warning); color: var(--dark-bg); }
-    .q-feedback { margin-top: 8px; font-size: 0.88rem; font-weight: 700; }
-    .q-feedback.ok { color: var(--success); }
-    .q-feedback.bad { color: #ff5252; }
-    .q-answer-reveal {
-      margin-top: 8px; padding: 8px 12px;
-      background: #0a1a2e; border-left: 3px solid var(--info);
-      border-radius: 5px; font-size: 0.88rem; color: #90caf9; display: none;
-    }
-    .q-answer-reveal.show { display: block; }
-    .q-hint-box {
-      margin-top: 8px; padding: 8px 12px;
-      background: #1a1000; border-left: 3px solid var(--warning);
-      border-radius: 5px; font-size: 0.84rem; color: #ffcc80; display: none;
-    }
-    .q-hint-box.show { display: block; }
-    .attempts-label { font-size: 0.75rem; color: #666; margin-top: 4px; }
-
-    .result-panel {
-      margin: 20px 0; padding: 22px; background: var(--panel2);
-      border-radius: 10px; border: 2px dashed var(--red); display: none; text-align: center;
-    }
-    .result-panel.show { display: block; }
-    .result-panel h2 { color: var(--red); margin-bottom: 10px; font-size: 1.3rem; }
-    .result-panel .big-score { font-size: 2.8rem; font-weight: 900; color: var(--red); }
-
-    .bottom-btns { display: flex; justify-content: center; gap: 14px; flex-wrap: wrap; padding: 10px 0; }
-    .action-btn { padding: 12px 24px; border: none; border-radius: 8px; cursor: pointer; font-weight: 700; font-size: 0.92rem; transition: all 0.2s; }
-    .submit-btn { background: var(--red); color: white; }
-    .submit-btn:hover { background: #b71c1c; transform: translateY(-2px); }
-    .reset-btn { background: var(--panel); color: var(--text); border: 1px solid var(--border); }
-    .reset-btn:hover { background: var(--border); transform: translateY(-2px); }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>La Haine — Vocabulaire d'analyse pour la dissertation</title>
+<style>
+  :root{
+    --ink:#1a2733; --paper:#ffffff; --bg:#eef2f6;
+    --accent:#00546b; --accent2:#8a1538; --ok:#1e7b45; --warn:#b06f00; --bad:#a12727;
+    --line:#c9d4dd;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:Calibri,'Segoe UI',Arial,sans-serif;font-size:17px;line-height:1.55;
+       color:var(--ink);background:var(--bg);padding:24px 16px 120px}
+  .wrap{max-width:880px;margin:0 auto;background:var(--paper);border:1px solid var(--line);
+        border-radius:8px;padding:28px 32px}
+  header{border-bottom:3px solid var(--accent);padding-bottom:12px;margin-bottom:18px}
+  h1{font-size:1.6em;color:var(--accent)}
+  .meta{color:#5a6a78;font-style:italic;margin-top:4px}
+  h2{font-size:1.25em;color:var(--accent);margin:28px 0 8px;border-left:5px solid var(--accent);padding-left:10px}
+  h2 .pts{font-size:.75em;color:#5a6a78;font-weight:normal}
+  .consigne{background:#f2f7fa;border-left:4px solid var(--accent);padding:10px 14px;margin:8px 0 14px;border-radius:0 6px 6px 0}
+  .name-row{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin:14px 0}
+  .name-row input{padding:9px 12px;font-size:1em;border:2px solid var(--accent);border-radius:6px;width:280px;font-family:inherit}
+  .item{margin:14px 0;padding:12px 14px;border:1px solid var(--line);border-radius:6px}
+  .item p.q{margin-bottom:8px}
+  .item input[type=text],.item textarea{width:100%;padding:8px 10px;font-size:1em;font-family:inherit;
+      border:1.5px solid var(--line);border-radius:5px;margin-top:4px}
+  .item textarea{min-height:90px;resize:vertical}
+  .opts label{display:block;padding:7px 10px;margin:5px 0;border:1.5px solid var(--line);border-radius:5px;cursor:pointer}
+  .opts label:hover{background:#f2f7fa}
+  details.aide{margin:8px 0 2px}
+  details.aide summary{cursor:pointer;color:var(--warn);font-weight:bold}
+  details.aide div{background:#fff8ec;border-left:4px solid var(--warn);padding:8px 12px;margin-top:6px;border-radius:0 6px 6px 0}
+  .fb{display:none;margin-top:8px;padding:9px 12px;border-radius:6px;font-size:.95em}
+  .fb.ok{display:block;background:#e9f5ee;border-left:4px solid var(--ok);color:var(--ok)}
+  .fb.almost{display:block;background:#fff8ec;border-left:4px solid var(--warn);color:var(--warn)}
+  .fb.bad{display:block;background:#fbeeee;border-left:4px solid var(--bad);color:var(--bad)}
+  .stretch{border:2px dashed var(--accent2);border-radius:8px;padding:16px;margin:26px 0;background:#fdf7f9}
+  .stretch h2{color:var(--accent2);border-left-color:var(--accent2)}
+  .btn{background:var(--accent);color:#fff;border:none;padding:11px 20px;font-size:1em;font-family:inherit;
+       border-radius:6px;cursor:pointer;margin:6px 6px 6px 0}
+  .btn:hover{filter:brightness(1.15)}
+  .btn.dl{background:var(--ok)}
+  .btn.second{background:#5a6a78}
+  .score-banner{display:none;margin:18px 0;padding:14px;border-radius:8px;background:#f2f7fa;
+       border:2px solid var(--accent);font-size:1.15em;font-weight:bold;color:var(--accent)}
+  /* ---------- Floating accent pad ---------- */
+  #accentPad{position:fixed;bottom:18px;right:18px;background:#fff;border:2px solid var(--accent);
+       border-radius:10px;box-shadow:0 6px 24px rgba(0,0,0,.25);padding:10px;z-index:1000;
+       display:flex;flex-wrap:wrap;gap:5px;max-width:340px;user-select:none}
+  #accentPad .drag{width:100%;cursor:move;font-size:.8em;color:#5a6a78;text-align:center;padding-bottom:4px}
+  #accentPad button{font-size:1.05em;font-family:inherit;min-width:34px;padding:6px 4px;border:1px solid var(--line);
+       border-radius:5px;background:#f2f7fa;cursor:pointer}
+  #accentPad button:hover{background:var(--accent);color:#fff}
+  #accentPad .maj{font-size:.8em;background:#e6e9ec}
+  #padToggle{position:fixed;bottom:18px;right:18px;z-index:999;background:var(--accent);color:#fff;
+       border:none;border-radius:50px;padding:12px 18px;font-size:1em;cursor:pointer;box-shadow:0 4px 14px rgba(0,0,0,.3)}
+  @media print{#accentPad,#padToggle{display:none}}
+</style>
 </head>
 <body>
-<div class="container">
+<div class="wrap">
   <header>
-    <h1>La Haine – Essay Phrases Quiz</h1>
-    <p>Maîtrisez les expressions clés pour les dissertations A-Level — 66 expressions en 6 catégories</p>
+    <h1>La Haine — Vocabulaire d'analyse pour la dissertation</h1>
+    <p class="meta">A-Level French (Edexcel) · La Haine (Kassovitz, 1995) · Durée conseillée : 35 min</p>
   </header>
 
-  <div class="tabs" id="tabBar">
-    <button class="tab active" onclick="setCategory('all')">Tout (66)</button>
-    <button class="tab" onclick="setCategory('general')">Général (13)</button>
-    <button class="tab" onclick="setCategory('sophisticated')">Sophistiqué (14)</button>
-    <button class="tab" onclick="setCategory('plot')">Intrigue (10)</button>
-    <button class="tab" onclick="setCategory('character')">Personnage (10)</button>
-    <button class="tab" onclick="setCategory('setting')">Cadre (10)</button>
-    <button class="tab" onclick="setCategory('film')">Cinéma (9)</button>
+  <div class="name-row">
+    <label for="studentName"><strong>Votre nom :</strong></label>
+    <input type="text" id="studentName" placeholder="Prénom NOM" maxlength="60">
   </div>
 
-  <div class="controls-bar">
-    <div class="mode-toggle">
-      <button class="mode-btn active" id="flashBtn" onclick="setMode('flash')">🃏 Fiches</button>
-      <button class="mode-btn" id="quizBtn" onclick="setMode('quiz')">✏️ Quiz</button>
+  <div class="consigne"><strong>Consignes :</strong> Ce module vous entraîne à utiliser des expressions d'analyse soutenues pour vos dissertations sur <em>La Haine</em>. Complétez chaque exercice puis cliquez sur « Vérifier ». À la fin, téléchargez vos résultats et déposez le fichier sur Teams/SharePoint.</div>
+
+  <!-- ============ EXERCICE 1 : sens des expressions ============ -->
+  <h2>Exercice 1 · Le sens des expressions clés <span class="pts">(6 points)</span></h2>
+  <div class="consigne">Pour chaque expression tirée d'une analyse de <em>La Haine</em>, choisissez la reformulation qui en explique correctement le sens.</div>
+
+  <div class="item" data-type="mcq" data-a="MQ==" data-exp="wqsgTWV0dHJlIGVuIHNjw6huZSDCuyBzaWduaWZpZSBpY2kgcHLDqXNlbnRlciwgZmlsbWVyLCBjb25zdHJ1aXJlIMOgIGwnw6ljcmFuIChkZXMgcGVyc29ubmFnZXMsIHVuZSBzaXR1YXRpb24pIOKAlCBjJ2VzdCBsZSB2ZXJiZSBjbMOpIHBvdXIgcGFybGVyIGR1IHRyYXZhaWwgZHUgcsOpYWxpc2F0ZXVyLg==">
+    <p class="q">1. « Kassovitz <strong>met en scène</strong> trois amis de la cité. » Quel est le sens de « met en scène » ici ?</p>
+    <div class="opts">
+      <label><input type="radio" name="a_ex1_q1" value="0"> A) organise une pièce de théâtre avec les acteurs</label>
+      <label><input type="radio" name="a_ex1_q1" value="1"> B) présente et filme (des personnages, une situation)</label>
+      <label><input type="radio" name="a_ex1_q1" value="2"> C) critique ouvertement les acteurs</label>
     </div>
-    <div class="progress-info" id="progressInfo">66 expressions sélectionnées</div>
+    <div class="fb"></div>
   </div>
-  <div class="progress-bar-wrap"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
 
-  <div id="quizArea"></div>
+  <div class="item" data-type="mcq" data-a="MQ==" data-exp="wqsgRMOpbm9uY2VyIMK7ID0gY3JpdGlxdWVyIG91dmVydGVtZW50LCByw6l2w6lsZXIgYXUgZ3JhbmQgam91ciB1bmUgaW5qdXN0aWNlLiBDJ2VzdCB1biB2ZXJiZSBlbmdhZ8OpLCBwbHVzIGZvcnQgcXVlIMKrIG1vbnRyZXIgwrsgb3UgwqsgcGFybGVyIGRlIMK7Lg==">
+    <p class="q">2. « Le film <strong>dénonce</strong> les violences policières. » Quel est le sens de « dénonce » ?</p>
+    <div class="opts">
+      <label><input type="radio" name="a_ex1_q2" value="0"> A) décrit de façon neutre et sans jugement</label>
+      <label><input type="radio" name="a_ex1_q2" value="1"> B) critique et met en évidence une injustice</label>
+      <label><input type="radio" name="a_ex1_q2" value="2"> C) résume brièvement les faits</label>
+    </div>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="mcq" data-a="MA==" data-exp="wqsgw4AgdHJhdmVycyBsZSByZWdhcmQgZGUgwrsgPSBkdSBwb2ludCBkZSB2dWUgZGUsIHRlbCBxdWUgcGVyw6d1IHBhciAodW4gcGVyc29ubmFnZSkuIEV4cHJlc3Npb24gZXNzZW50aWVsbGUgcG91ciBhbmFseXNlciBsYSBmb2NhbGlzYXRpb24gZCd1biBmaWxtIG91IGQndW4gcm9tYW4u">
+    <p class="q">3. « Le spectateur découvre la cité <strong>à travers le regard de</strong> Vinz. » Quel est le sens de cette expression ?</p>
+    <div class="opts">
+      <label><input type="radio" name="a_ex1_q3" value="0"> A) du point de vue de Vinz, tel que Vinz le perçoit</label>
+      <label><input type="radio" name="a_ex1_q3" value="1"> B) en critiquant directement le personnage de Vinz</label>
+      <label><input type="radio" name="a_ex1_q3" value="2"> C) en ignorant complètement Vinz</label>
+    </div>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="mcq" data-a="MQ==" data-exp="wqsgTGEgZnJhY3R1cmUgc29jaWFsZSDCuyBkw6lzaWduZSBsYSBkaXZpc2lvbiBwcm9mb25kZSBldCBkdXJhYmxlIGVudHJlIGdyb3VwZXMgc29jaWF1eCDigJQgdW5lIGV4cHJlc3Npb24gY2zDqSBwb3VyIGFuYWx5c2VyIExhIEhhaW5lLCBmaWxtIHN1ciBsJ2V4Y2x1c2lvbiBkZXMgYmFubGlldWVzLg==">
+    <p class="q">4. Quel est le sens de « <strong>la fracture sociale</strong> » ?</p>
+    <div class="opts">
+      <label><input type="radio" name="a_ex1_q4" value="0"> A) une petite dispute passagère entre voisins</label>
+      <label><input type="radio" name="a_ex1_q4" value="1"> B) la profonde division entre les catégories sociales / les quartiers défavorisés et le reste de la société</label>
+      <label><input type="radio" name="a_ex1_q4" value="2"> C) une blessure physique subie par un personnage</label>
+    </div>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="mcq" data-a="MA==" data-exp="wqsgTGUgY2VyY2xlIHZpY2lldXggwrsgPSB1biBlbmNoYcOubmVtZW50IHLDqXDDqXRpdGlmIGRvbnQgb24gbmUgcGV1dCBzb3J0aXIuIEljaSwgbGEgdmlvbGVuY2UgcG9saWNpw6hyZSBlbnRyYcOubmUgbGEgdmlvbGVuY2UgZGVzIGpldW5lcywgcXVpIGVudHJhw65uZSDDoCBzb24gdG91ciB1bmUgcsOpcHJlc3Npb24gYWNjcnVlLg==">
+    <p class="q">5. Quel est le sens de « <strong>le cercle vicieux de la violence</strong> » ?</p>
+    <div class="opts">
+      <label><input type="radio" name="a_ex1_q5" value="0"> A) un cycle sans fin où la violence engendre la violence</label>
+      <label><input type="radio" name="a_ex1_q5" value="1"> B) une scène de bagarre filmée en caméra circulaire</label>
+      <label><input type="radio" name="a_ex1_q5" value="2"> C) la résolution pacifique du conflit à la fin du film</label>
+    </div>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="mcq" data-a="MQ==" data-exp="wqsgSW5jYXJuZXIgwrsgPSBkb25uZXIgY29ycHMgw6AgdW5lIGlkw6llIMOgIHRyYXZlcnMgdW4gcGVyc29ubmFnZS4gVmlueiBpbmNhcm5lIGxhIHRlbnRhdGlvbiBkZSByw6lwb25kcmUgw6AgbGEgdmlvbGVuY2UgcGFyIGxhIHZpb2xlbmNlLg==">
+    <p class="q">6. « Vinz <strong>incarne</strong> la tentation de la vengeance. » Quel est le sens de « incarne » ?</p>
+    <div class="opts">
+      <label><input type="radio" name="a_ex1_q6" value="0"> A) refuse totalement et catégoriquement</label>
+      <label><input type="radio" name="a_ex1_q6" value="1"> B) représente, personnifie (une idée, une tentation)</label>
+      <label><input type="radio" name="a_ex1_q6" value="2"> C) critique sévèrement</label>
+    </div>
+    <div class="fb"></div>
+  </div>
+
+  <!-- ============ EXERCICE 2 : complétion en contexte ============ -->
+  <h2>Exercice 2 · Complétez les phrases sur Vinz, Saïd et Hubert <span class="pts">(8 points)</span></h2>
+  <div class="consigne">Complétez chaque phrase avec l'expression indiquée entre parenthèses (en français). Attention à l'accord et à l'orthographe.</div>
+
+  <div class="item" data-type="text" data-a="bWV0IGVuIHNjw6huZQ==" data-exp="wqsgTWV0dHJlIGVuIHNjw6huZSDCuyBlc3QgbGUgdmVyYmUgc3RhbmRhcmQgcG91ciBwYXJsZXIgZGUgbGEgZmHDp29uIGRvbnQgdW4gcsOpYWxpc2F0ZXVyIGNvbnN0cnVpdCBldCBmaWxtZSBzZXMgcGVyc29ubmFnZXMu">
+    <p class="q">1. Kassovitz <em>______</em> (met en scène) trois amis de la cité dans les vingt-quatre heures qui suivent une émeute.</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Indice</summary><div>Verbe + « en scène » — pensez au théâtre, mais appliqué au cinéma.</div></details>
+    <div class="fb"></div>
+  </div>
+  <div class="item" data-type="text" data-a="ZMOpbm9uY2U=" data-exp="wqsgRMOpbm9uY2VyIMK7IGV4cHJpbWUgdW5lIGNyaXRpcXVlIGVuZ2Fnw6llIOKAlCBsZSBmaWxtIHByZW5kIGNsYWlyZW1lbnQgcG9zaXRpb24gY29udHJlIGxlcyB2aW9sZW5jZXMgcG9saWNpw6hyZXMu">
+    <p class="q">2. Le réalisateur <em>______</em> (dénonce) la bavure policière qui plonge Abdel dans le coma.</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <div class="fb"></div>
+  </div>
+  <div class="item" data-type="text" data-a="w6AgdHJhdmVycyBsZSByZWdhcmQgZGV8YSB0cmF2ZXJzIGxlIHJlZ2FyZCBkZQ==" data-exp="Q2V0dGUgZXhwcmVzc2lvbiBpbmRpcXVlIGxhIGZvY2FsaXNhdGlvbiA6IG9uIHZvaXQgbGVzIMOpdsOpbmVtZW50cyB0ZWxzIHF1ZSBsZSBwZXJzb25uYWdlIGxlcyBwZXLDp29pdC4=">
+    <p class="q">3. Le spectateur découvre la cité <em>______</em> (à travers le regard de) Hubert, le plus lucide des trois amis.</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <div class="fb"></div>
+  </div>
+  <div class="item" data-type="text" data-a="aW5jYXJuZQ==" data-exp="wqsgSW5jYXJuZXIgwrsgcmVsaWUgdW4gcGVyc29ubmFnZSBjb25jcmV0IMOgIHVuZSBpZMOpZSBhYnN0cmFpdGUgKGljaSwgbGEgdGVudGF0aW9uIGRlIGxhIHZlbmdlYW5jZSku">
+    <p class="q">4. Vinz <em>______</em> (incarne) la tentation de répondre à la violence par la violence.</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <div class="fb"></div>
+  </div>
+  <div class="item" data-type="text" data-a="c291bGlnbmV8bWV0IGVuIGx1bWnDqHJlfG1ldCBlbiDDqXZpZGVuY2U=" data-exp="wqsgU291bGlnbmVyIMK7IG91IMKrIG1ldHRyZSBlbiBsdW1pw6hyZSDCuyA9IGluc2lzdGVyIHN1ciB1biBhc3BlY3QsIGxlIHJlbmRyZSB2aXNpYmxlIHBvdXIgbGUgc3BlY3RhdGV1ci9sZWN0ZXVyLg==">
+    <p class="q">5. Le refrain « Jusqu'ici tout va bien » <em>______</em> (souligne) l'absurdité du compte à rebours vers la tragédie.</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Indice</summary><div>Deux réponses possibles : un verbe simple ou une expression avec « lumière ».</div></details>
+    <div class="fb"></div>
+  </div>
+  <div class="item" data-type="text" data-a="bGEgZnJhY3R1cmUgc29jaWFsZQ==" data-exp="U2HDr2QsIHBlcnNvbm5hZ2UgbcOpZGlhdGV1ciwgc3ltYm9saXNlIGxhIHBvc2l0aW9uIGluc3RhYmxlIGRlIGxhIGJhbmxpZXVlIHBhciByYXBwb3J0IGF1IHJlc3RlIGRlIGxhIHNvY2nDqXTDqSBmcmFuw6dhaXNlLg==">
+    <p class="q">6. La trajectoire de Saïd, toujours entre Vinz et Hubert, illustre <em>______</em> (la fracture sociale) qui sépare la banlieue du centre-ville.</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <div class="fb"></div>
+  </div>
+  <div class="item" data-type="text" data-a="bGUgY2VyY2xlIHZpY2lldXggZGUgbGEgdmlvbGVuY2U=" data-exp="TGUgZMOpbm91ZW1lbnQgYW1iaWd1IChvbiBuZSBzYWl0IHBhcyBxdWkgdGlyZSkgcmVuZm9yY2UgbCdpZMOpZSBkJ3VuIGN5Y2xlIHNhbnMgZmluIHBsdXTDtHQgcXUndW5lIHLDqXNvbHV0aW9uIGNsYWlyZS4=">
+    <p class="q">7. La fin ouverte du film suggère que <em>______</em> (le cercle vicieux de la violence) risque de se poursuivre.</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <div class="fb"></div>
+  </div>
+  <div class="item" data-type="text" data-a="Y29udHJpYnVlciDDoHxjb250cmlidWVyIGE=" data-exp="wqsgQ29udHJpYnVlciDDoCDCuyArIG5vbS9pbmZpbml0aWYgPSBwYXJ0aWNpcGVyIMOgLCBhbGltZW50ZXIgKHVuIHBow6lub23DqG5lKS4gVXRpbGUgcG91ciBudWFuY2VyIGxhIHJlc3BvbnNhYmlsaXTDqSBkJ3VuIHBlcnNvbm5hZ2Uu">
+    <p class="q">8. Hubert essaie en vain d'empêcher Vinz de <em>______</em> (contribuer à) cette spirale de haine.</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <div class="fb"></div>
+  </div>
+
+  <!-- ============ EXERCICE 3 : rehausser le registre ============ -->
+  <h2>Exercice 3 · Rehaussez le registre <span class="pts">(6 points)</span></h2>
+  <div class="consigne">Pour chaque phrase banale (registre trop simple pour une dissertation A-Level), choisissez la reformulation la plus soutenue et la plus analytique.</div>
+
+  <div class="item" data-type="mcq" data-a="MQ==" data-exp="T24gcmVtcGxhY2UgbGUgdmVyYmUgcGFzc2UtcGFydG91dCDCqyBwYXJsZXIgZGUgwrsgcGFyIHVuIHZlcmJlIGQnYW5hbHlzZSAowqsgZMOpbm9uY2VyIMK7KSBldCB1bmUgZXhwcmVzc2lvbiBpbWFnw6llICjCqyBnYW5ncmVuZXIgwrspLg==">
+    <p class="q">1. Phrase banale : « Le film parle de la violence. » Quelle est la meilleure reformulation soutenue ?</p>
+    <div class="opts">
+      <label><input type="radio" name="a_ex3_q1" value="0"> A) Le film montre la violence.</label>
+      <label><input type="radio" name="a_ex3_q1" value="1"> B) Le film dénonce la spirale de violence qui gangrène la banlieue.</label>
+      <label><input type="radio" name="a_ex3_q1" value="2"> C) Le film est sur la violence.</label>
+    </div>
+    <div class="fb"></div>
+  </div>
+  <div class="item" data-type="mcq" data-a="MA==" data-exp="wqsgTGUgc3BlY3RhdGV1ciBzdWl04oCmIMOgIHRyYXZlcnMgbGUgcmVnYXJkIGRlIMK7IGVzdCBiaWVuIHBsdXMgcHLDqWNpcyBldCBhbmFseXRpcXVlIHF1ZSBsZSBzaW1wbGUgwqsgb24gdm9pdCDCuy4=">
+    <p class="q">2. Phrase banale : « On voit la vie des trois amis. » Quelle est la meilleure reformulation soutenue ?</p>
+    <div class="opts">
+      <label><input type="radio" name="a_ex3_q2" value="0"> A) Le spectateur suit le quotidien des trois amis à travers le regard de Kassovitz.</label>
+      <label><input type="radio" name="a_ex3_q2" value="1"> B) On regarde les trois amis.</label>
+      <label><input type="radio" name="a_ex3_q2" value="2"> C) Il y a trois amis dans le film.</label>
+    </div>
+    <div class="fb"></div>
+  </div>
+  <div class="item" data-type="mcq" data-a="MQ==" data-exp="wqsgTWV0dHJlIGVuIGx1bWnDqHJlIGxhIGZyYWN0dXJlIHNvY2lhbGUgwrsgZXN0IHVuZSBleHByZXNzaW9uIGFuYWx5dGlxdWUgYmllbiBwbHVzIHByw6ljaXNlIHF1ZSDCqyBpbCB5IGEgdW4gcHJvYmzDqG1lIMK7Lg==">
+    <p class="q">3. Phrase banale : « Il y a un problème entre la police et les jeunes. » Quelle est la meilleure reformulation soutenue ?</p>
+    <div class="opts">
+      <label><input type="radio" name="a_ex3_q3" value="0"> A) Il y a un souci entre eux.</label>
+      <label><input type="radio" name="a_ex3_q3" value="1"> B) Le film met en lumière la fracture sociale entre les forces de l'ordre et la jeunesse des cités.</label>
+      <label><input type="radio" name="a_ex3_q3" value="2"> C) La police et les jeunes ne s'entendent pas très bien.</label>
+    </div>
+    <div class="fb"></div>
+  </div>
+  <div class="item" data-type="mcq" data-a="MQ==" data-exp="T24gcmVtcGxhY2UgbCdhZGplY3RpZiB2YWd1ZSDCqyB0cmlzdGUgwrsgcGFyIHVuZSBhbmFseXNlIHByw6ljaXNlIGR1IGTDqW5vdWVtZW50IGV0IGRlIHNhIHNpZ25pZmljYXRpb24gdGjDqW1hdGlxdWUu">
+    <p class="q">4. Phrase banale : « C'est triste à la fin. » Quelle est la meilleure reformulation soutenue ?</p>
+    <div class="opts">
+      <label><input type="radio" name="a_ex3_q4" value="0"> A) La fin est un peu triste.</label>
+      <label><input type="radio" name="a_ex3_q4" value="1"> B) Le dénouement tragique et ambigu du film souligne le cercle vicieux de la violence.</label>
+      <label><input type="radio" name="a_ex3_q4" value="2"> C) La fin n'est pas joyeuse.</label>
+    </div>
+    <div class="fb"></div>
+  </div>
+  <div class="item" data-type="mcq" data-a="MA==" data-exp="wqsgSW5jYXJuZXIgwrsgdHJhbnNmb3JtZSB1bmUgc2ltcGxlIG9ic2VydmF0aW9uIGRlIGwnaW50cmlndWUgZW4gYW5hbHlzZSBzeW1ib2xpcXVlIGR1IHBlcnNvbm5hZ2Uu">
+    <p class="q">5. Phrase banale : « Vinz veut se venger. » Quelle est la meilleure reformulation soutenue ?</p>
+    <div class="opts">
+      <label><input type="radio" name="a_ex3_q5" value="0"> A) Vinz incarne la tentation de la vengeance, symbole d'une jeunesse à bout.</label>
+      <label><input type="radio" name="a_ex3_q5" value="1"> B) Vinz veut faire du mal à quelqu'un.</label>
+      <label><input type="radio" name="a_ex3_q5" value="2"> C) Vinz est en colère et veut se venger.</label>
+    </div>
+    <div class="fb"></div>
+  </div>
+  <div class="item" data-type="mcq" data-a="MA==" data-exp="wqsgRMOpcGVpbmRyZSBhdmVjIHLDqWFsaXNtZSDCuyBldCDCqyBkw6lsYWlzc8OpZSBwYXIgbGVzIHBvdXZvaXJzIHB1YmxpY3Mgwrsgc29udCBkZXMgZm9ybXVsYXRpb25zIGJpZW4gcGx1cyBwcsOpY2lzZXMgZXQgc291dGVudWVzLg==">
+    <p class="q">6. Phrase banale : « Le film montre bien la vie en banlieue. » Quelle est la meilleure reformulation soutenue ?</p>
+    <div class="opts">
+      <label><input type="radio" name="a_ex3_q6" value="0"> A) Kassovitz dépeint avec réalisme le quotidien d'une banlieue délaissée par les pouvoirs publics.</label>
+      <label><input type="radio" name="a_ex3_q6" value="1"> B) Le film montre bien comment c'est en banlieue.</label>
+      <label><input type="radio" name="a_ex3_q6" value="2"> C) On voit bien la banlieue dans le film.</label>
+    </div>
+    <div class="fb"></div>
+  </div>
+
+  <button class="btn" onclick="checkAll()">✔ Vérifier mes réponses</button>
+  <button class="btn second" onclick="resetAll()">↺ Recommencer</button>
+  <div class="score-banner" id="scoreBanner"></div>
+
+  <div class="stretch">
+    <h2>Défi A* — Pour aller plus loin</h2>
+    <div class="consigne">Rédigez un paragraphe analytique cohérent (80&nbsp;mots minimum) sur <em>La Haine</em>, en intégrant <strong>au moins 4 des expressions travaillées ci-dessus</strong> (par exemple : <em>met en scène, dénonce, à travers le regard de, la fracture sociale, le cercle vicieux de la violence, incarne</em>). Soulignez mentalement les expressions que vous utilisez.</div>
+    <p><em>Amorces :</em> « Dès les premières images, Kassovitz met en scène… », « Le film dénonce avec force… », « C'est à travers le regard de… que le spectateur… », « Ce cercle vicieux de la violence trouve son origine dans… »</p>
+    <div class="item" data-type="free" data-min="80">
+      <textarea placeholder="Rédigez votre paragraphe ici (80 mots minimum, au moins 4 expressions)…"></textarea>
+      <div class="fb"></div>
+    </div>
+    <details class="aide"><summary>Voir un modèle de réponse (après avoir écrit le vôtre)</summary>
+      <div id="modelAnswer">Modèle : « Dans <em>La Haine</em>, Kassovitz met en scène trois amis de la cité, Vinz, Saïd et Hubert, dont le destin bascule après une bavure policière. Le réalisateur dénonce sans détour les violences institutionnelles qui frappent les habitants des banlieues, tout en révélant, à travers le regard d'Hubert, le plus lucide des trois, l'ampleur de la fracture sociale qui sépare la cité du reste de la société française. Vinz, en revanche, incarne la tentation de la vengeance : sa colère alimente un cercle vicieux de la violence dont le dénouement tragique et ambigu suggère qu'il pourrait se reproduire indéfiniment. »</div></details>
+  </div>
+
+  <button class="btn dl" onclick="downloadResults()">📥 Télécharger mes résultats</button>
+</div>
+
+<!-- ============ FLOATING ACCENT PAD ============ -->
+<button id="padToggle" onclick="togglePad()">é à ç — Accents</button>
+<div id="accentPad" style="display:none">
+  <div class="drag">⋮⋮ déplacer</div>
 </div>
 
 <script>
-const ALL_PHRASES = [
-  // GÉNÉRAL
-  { cat: 'general', en: 'as a result / consequently', fr: 'en conséquence / par conséquent' },
-  { cat: 'general', en: 'on the other hand', fr: 'en revanche' },
-  { cat: 'general', en: 'these days / nowadays', fr: 'de nos jours / à notre époque' },
-  { cat: 'general', en: "In my opinion, one can(not) believe that…", fr: "À mon avis, on (ne) peut (pas) croire que…" },
-  { cat: 'general', en: 'in fact / in reality', fr: 'en réalité / en fait' },
-  { cat: 'general', en: 'to sum up / in a nutshell', fr: 'en résumé / en bref' },
-  { cat: 'general', en: 'to begin / to finish…', fr: 'pour commencer / pour terminer…' },
-  { cat: 'general', en: 'finally / in the end', fr: 'enfin / pour finir' },
-  { cat: 'general', en: 'on the one hand… on the other…', fr: "d'un côté… de l'autre…" },
-  { cat: 'general', en: "Let's begin by examining…", fr: 'Commençons par examiner…' },
-  { cat: 'general', en: 'It is often said/claimed that…', fr: 'On affirme souvent que…' },
-  { cat: 'general', en: 'We must also consider that…', fr: 'Il faut également considérer que…' },
-  { cat: 'general', en: 'Watching the film, one realises that…', fr: "En regardant le film, on se rend compte que…" },
-  // SOPHISTIQUÉ
-  { cat: 'sophisticated', en: 'After all / In the end, one can conclude that…', fr: "En fin de compte, on peut conclure que…" },
-  { cat: 'sophisticated', en: 'As the film progresses…', fr: "Au fur et à mesure que le film avance…" },
-  { cat: 'sophisticated', en: 'Likewise, it should be stressed that…', fr: "Il convient également de souligner que…" },
-  { cat: 'sophisticated', en: 'As the director shows / makes clear…', fr: "Comme le montre le réalisateur…" },
-  { cat: 'sophisticated', en: 'It is a perfect backdrop', fr: "C'est un cadre parfait" },
-  { cat: 'sophisticated', en: 'One can even say that…', fr: "On peut même dire que…" },
-  { cat: 'sophisticated', en: 'The fact / truth is that…', fr: "Le fait est que… / La vérité est que…" },
-  { cat: 'sophisticated', en: "It cannot be denied that… / There's no denying…", fr: "On ne peut pas nier que… / Il est indéniable que…" },
-  { cat: 'sophisticated', en: "Let us take the example of…", fr: "Prenons l'exemple de…" },
-  { cat: 'sophisticated', en: 'It is difficult to believe that…', fr: "Il est difficile de croire que…" },
-  { cat: 'sophisticated', en: 'Be that as it may, one must acknowledge that…', fr: "Quoi qu'il en soit, force est de constater que…" },
-  { cat: 'sophisticated', en: 'One could even say that…', fr: "On pourrait même dire que…" },
-  { cat: 'sophisticated', en: "It is a question (of hatred and violence)", fr: "Il s'agit (de la haine et de la violence)" },
-  { cat: 'sophisticated', en: 'by way of example / a case in point is', fr: "à titre d'exemple / pour illustrer" },
-  // INTRIGUE
-  { cat: 'plot', en: 'the complexity of the plot', fr: "la complexité de l'intrigue" },
-  { cat: 'plot', en: 'the (non-)linear structure', fr: "la structure (non) linéaire" },
-  { cat: 'plot', en: 'plot / narrative development', fr: "le développement de l'intrigue / du récit" },
-  { cat: 'plot', en: 'a flashback', fr: "un retour en arrière / un flash-back" },
-  { cat: 'plot', en: 'at the end of the film', fr: "à la fin du film" },
-  { cat: 'plot', en: 'an unexpected twist', fr: "un rebondissement inattendu" },
-  { cat: 'plot', en: 'The work has a tragic ending.', fr: "L'œuvre a un dénouement tragique." },
-  { cat: 'plot', en: 'a summary of the plot', fr: "un résumé de l'intrigue" },
-  { cat: 'plot', en: 'the sequence of events', fr: "la succession des événements" },
-  { cat: 'plot', en: 'the time constraint (24 hours)', fr: "l'unité de temps (24 heures)" },
-  // PERSONNAGE
-  { cat: 'character', en: 'the development of a conflict between…', fr: "le développement d'un conflit entre…" },
-  { cat: 'character', en: 'The character (x) stands out / is remarkable', fr: "Le personnage de (x) se distingue / se démarque" },
-  { cat: 'character', en: "He/She is one of those characters you don't easily forget.", fr: "C'est un de ces personnages qu'on n'oublie pas facilement." },
-  { cat: 'character', en: "the character's development / arc", fr: "l'évolution du personnage" },
-  { cat: 'character', en: 'the main character / the protagonist', fr: "le personnage principal / le protagoniste" },
-  { cat: 'character', en: 'The characters are very alike / very different', fr: "Les personnages se ressemblent beaucoup / sont très différents" },
-  { cat: 'character', en: 'a portrait of the main character', fr: "un portrait du protagoniste" },
-  { cat: 'character', en: 'They are very different in character', fr: "Ils ont des caractères très différents" },
-  { cat: 'character', en: "the characters' inner life", fr: "la vie intérieure des personnages" },
-  { cat: 'character', en: 'a complex / ambiguous / archetypal character', fr: "un personnage complexe / ambigu / archétypal" },
-  // CADRE
-  { cat: 'setting', en: 'The action takes place in the Parisian suburbs', fr: "L'action se déroule dans la banlieue parisienne" },
-  { cat: 'setting', en: 'the atmosphere of the housing estate', fr: "l'atmosphère de la cité / de la banlieue" },
-  { cat: 'setting', en: 'to describe the urban environment', fr: "décrire l'environnement urbain" },
-  { cat: 'setting', en: 'description of the backdrop / setting', fr: "la description du cadre" },
-  { cat: 'setting', en: 'the historical / social context', fr: "le contexte historique / social" },
-  { cat: 'setting', en: 'The film reflects social reality.', fr: "Le film reflète la réalité sociale." },
-  { cat: 'setting', en: 'to recreate the period / era', fr: "recréer la période / l'époque" },
-  { cat: 'setting', en: 'a sense of place / belonging', fr: "un sentiment d'appartenance / de lieu" },
-  { cat: 'setting', en: 'to convey the impression of a place', fr: "transmettre l'impression d'un lieu" },
-  { cat: 'setting', en: 'the enclosed space of the housing estate', fr: "l'espace clos de la cité" },
-  // CINÉMA
-  { cat: 'film', en: 'performance in a role', fr: "la performance / l'interprétation d'un rôle" },
-  { cat: 'film', en: 'to shoot a film in black and white', fr: "tourner un film en noir et blanc" },
-  { cat: 'film', en: 'to alternate between wide shot / close-up / extreme close-up', fr: "alterner entre plan large / plan rapproché / gros plan" },
-  { cat: 'film', en: 'a committed / socially engaged film-maker', fr: "un cinéaste engagé" },
-  { cat: 'film', en: 'a moving / powerful scene', fr: "une scène poignante / bouleversante" },
-  { cat: 'film', en: 'a striking / effective image', fr: "une image percutante / efficace" },
-  { cat: 'film', en: 'The film grips you from the very first minute.', fr: "Le film bouleverse dès les premières minutes." },
-  { cat: 'film', en: 'the shooting of the film', fr: "le tournage du film" },
-  { cat: 'film', en: 'the editing / editing effects', fr: "le montage / les effets de montage" },
-];
+/* ================= HOUSE ENGINE — do not weaken ================= */
+/* Answers are base64-encoded (UTF-8 safe) so they never sit in plain text next to the inputs. */
+function d(b){try{return decodeURIComponent(escape(atob(b)))}catch(e){return""}}
+function e64(s){return btoa(unescape(encodeURIComponent(s)))} /* helper for authoring */
 
-const CAT_LABELS = {
-  general: 'Général',
-  sophisticated: 'Sophistiqué',
-  plot: 'Intrigue',
-  character: 'Personnage',
-  setting: 'Cadre',
-  film: 'Cinéma'
-};
+function norm(s){return (s||"").toLowerCase().replace(/['']/g,"'").replace(/\s+/g," ").trim()}
+function deacc(s){return norm(s).normalize("NFD").replace(/[̀-ͯ]/g,"")}
 
-let currentCategory = 'all';
-let currentMode = 'flash';
-let filteredPhrases = [];
-let flashIndex = 0;
-let flashFlipped = false;
-let quizAttempts = {};
-let quizCorrect = {};
-
-function normalize(s) {
-  return s.toLowerCase()
-    .replace(/[àâä]/g, 'a').replace(/[éèêë]/g, 'e')
-    .replace(/[îï]/g, 'i').replace(/[ôö]/g, 'o')
-    .replace(/[ùûü]/g, 'u').replace(/ç/g, 'c')
-    .replace(/œ/g, 'oe').replace(/æ/g, 'ae')
-    .replace(/[^a-z0-9\s]/g, '').trim();
+/* tolerant text check: returns "ok" | "accents" | "bad" ; accepted = array */
+function judge(val, accepted){
+  const v=norm(val);
+  if(accepted.some(a=>norm(a)===v)) return "ok";
+  if(accepted.some(a=>deacc(a)===deacc(val))) return "accents";
+  return "bad";
 }
 
-function shuffle(arr) {
-  const a = [...arr];
-  for (let i = a.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [a[i], a[j]] = [a[j], a[i]];
-  }
-  return a;
-}
+let results=[]; /* {label, given, ok, expected} */
 
-function setCategory(cat) {
-  currentCategory = cat;
-  const cats = ['all','general','sophisticated','plot','character','setting','film'];
-  document.querySelectorAll('.tab').forEach((t, i) => t.classList.toggle('active', cats[i] === cat));
-  filteredPhrases = cat === 'all' ? [...ALL_PHRASES] : ALL_PHRASES.filter(p => p.cat === cat);
-  flashIndex = 0; flashFlipped = false;
-  quizAttempts = {}; quizCorrect = {};
-  document.getElementById('progressInfo').textContent = `${filteredPhrases.length} expressions sélectionnées`;
-  render();
-}
-
-function setMode(mode) {
-  currentMode = mode;
-  document.getElementById('flashBtn').classList.toggle('active', mode === 'flash');
-  document.getElementById('quizBtn').classList.toggle('active', mode === 'quiz');
-  flashIndex = 0; flashFlipped = false;
-  render();
-}
-
-function render() {
-  if (currentMode === 'flash') renderFlash();
-  else renderQuiz();
-}
-
-function renderFlash() {
-  const p = filteredPhrases[flashIndex] || filteredPhrases[0];
-  document.getElementById('quizArea').innerHTML = `
-    <div class="flashcard-wrap">
-      <div class="flashcard" id="flashcard" onclick="flipCard()">
-        <div class="card-face card-front">
-          <div class="lang-label">🇬🇧 English</div>
-          <div class="phrase">${p.en}</div>
-          <div class="click-hint">Cliquez pour révéler le français</div>
-        </div>
-        <div class="card-face card-back">
-          <div class="lang-label">🇫🇷 Français · ${CAT_LABELS[p.cat]}</div>
-          <div class="phrase">${p.fr}</div>
-          <div class="click-hint">Cliquez pour retourner</div>
-        </div>
-      </div>
-    </div>
-    <div class="flashcard-nav">
-      <button class="nav-btn prev-btn" onclick="prevCard()">← Précédent</button>
-      <span class="card-counter">${flashIndex + 1} / ${filteredPhrases.length}</span>
-      <button class="nav-btn next-btn" onclick="nextCard()">Suivant →</button>
-    </div>
-    <button class="shuffle-btn" onclick="shuffleCards()">🔀 Mélanger les fiches</button>
-  `;
-  updateProgressBar(flashIndex + 1, filteredPhrases.length);
-}
-
-function flipCard() { flashFlipped = !flashFlipped; document.getElementById('flashcard').classList.toggle('flipped', flashFlipped); }
-function prevCard() { flashIndex = (flashIndex - 1 + filteredPhrases.length) % filteredPhrases.length; flashFlipped = false; renderFlash(); }
-function nextCard() { flashIndex = (flashIndex + 1) % filteredPhrases.length; flashFlipped = false; renderFlash(); }
-function shuffleCards() { filteredPhrases = shuffle(filteredPhrases); flashIndex = 0; flashFlipped = false; renderFlash(); }
-
-function renderQuiz() {
-  const correctCount = Object.values(quizCorrect).filter(Boolean).length;
-  updateProgressBar(correctCount, filteredPhrases.length);
-  let html = '';
-  filteredPhrases.forEach((p, i) => {
-    const att = quizAttempts[i] || 0;
-    const correct = quizCorrect[i] || false;
-    const disabled = correct || att >= 3 ? 'disabled' : '';
-    const borderClass = correct ? 'correct-border' : (att >= 3 ? 'incorrect-border' : '');
-    html += `
-      <div class="question-card ${borderClass}" id="qcard${i}">
-        <div class="q-header">
-          <span class="q-num">Q${i + 1}</span>
-          <span class="q-cat">${CAT_LABELS[p.cat]}</span>
-        </div>
-        <div class="q-english">${p.en}</div>
-        <div class="q-input-row">
-          <input class="q-input" id="qi${i}" type="text" placeholder="Écrivez en français…" ${disabled}
-            onkeydown="if(event.key==='Enter') checkQ(${i})">
-          <button class="check-btn-q" onclick="checkQ(${i})" ${disabled}>Vérifier</button>
-          <button class="hint-btn-q" onclick="toggleHint(${i})">Indice</button>
-        </div>
-        <div class="q-hint-box" id="hint${i}">Début : <strong>${p.fr.slice(0, Math.min(6, p.fr.indexOf(' ') > 0 ? p.fr.indexOf(' ') : 5))}…</strong></div>
-        <div class="q-feedback" id="fb${i}"></div>
-        <div class="q-answer-reveal" id="ans${i}">✅ Réponse : <strong>${p.fr}</strong></div>
-        <div class="attempts-label" id="att${i}">${att > 0 ? `Tentatives : ${att}/3` : ''}</div>
-      </div>`;
-  });
-  html += `
-    <div class="result-panel" id="resultPanel">
-      <h2>🎉 Toutes les questions répondues !</h2>
-      <div class="big-score">${correctCount} / ${filteredPhrases.length}</div>
-      <p style="margin-top:10px;color:var(--muted)">${Math.round(correctCount/filteredPhrases.length*100)}% — ${correctCount===filteredPhrases.length ? 'Score parfait !' : 'Continuez !'}</p>
-    </div>
-    <div class="bottom-btns">
-      <button class="action-btn submit-btn" onclick="submitAll()">Tout soumettre</button>
-      <button class="action-btn reset-btn" onclick="resetQuiz()">Réinitialiser</button>
-    </div>`;
-  document.getElementById('quizArea').innerHTML = html;
-  filteredPhrases.forEach((p, i) => {
-    const inp = document.getElementById('qi' + i);
-    if (!inp) return;
-    if (quizCorrect[i]) { inp.classList.add('correct-input'); document.getElementById('fb' + i).textContent = '✓ Correct !'; document.getElementById('fb' + i).className = 'q-feedback ok'; }
-    else if ((quizAttempts[i] || 0) >= 3) { inp.classList.add('incorrect-input'); document.getElementById('ans' + i).classList.add('show'); document.getElementById('fb' + i).textContent = '✗ Révélé après 3 tentatives.'; document.getElementById('fb' + i).className = 'q-feedback bad'; }
-  });
-}
-
-function checkQ(i) {
-  if (quizCorrect[i] || (quizAttempts[i] || 0) >= 3) return;
-  const inp = document.getElementById('qi' + i);
-  const val = inp.value.trim();
-  if (!val) return;
-  quizAttempts[i] = (quizAttempts[i] || 0) + 1;
-  const p = filteredPhrases[i];
-  // Check against all variants separated by /
-  const variants = p.fr.split(' / ').map(v => normalize(v.trim()));
-  const userNorm = normalize(val);
-  const correct = variants.some(v => userNorm === v) || normalize(p.fr) === userNorm;
-  const fb = document.getElementById('fb' + i);
-  const attEl = document.getElementById('att' + i);
-  const ansEl = document.getElementById('ans' + i);
-  const card = document.getElementById('qcard' + i);
-  attEl.textContent = `Tentatives : ${quizAttempts[i]}/3`;
-  if (correct) {
-    quizCorrect[i] = true;
-    inp.classList.add('correct-input'); inp.disabled = true;
-    document.querySelector(`#qcard${i} .check-btn-q`).disabled = true;
-    fb.textContent = '✓ Correct !'; fb.className = 'q-feedback ok';
-    card.classList.add('correct-border'); ansEl.classList.add('show');
-  } else {
-    inp.classList.add('incorrect-input');
-    fb.textContent = quizAttempts[i] >= 3 ? '✗ 3 tentatives — réponse révélée.' : `✗ Réessayez (${quizAttempts[i]}/3)`;
-    fb.className = 'q-feedback bad';
-    if (quizAttempts[i] >= 3) { inp.disabled = true; document.querySelector(`#qcard${i} .check-btn-q`).disabled = true; ansEl.classList.add('show'); card.classList.add('incorrect-border'); }
-  }
-  const cc = Object.values(quizCorrect).filter(Boolean).length;
-  updateProgressBar(cc, filteredPhrases.length);
-  document.getElementById('progressInfo').textContent = `${cc}/${filteredPhrases.length} corrects`;
-}
-
-function toggleHint(i) { document.getElementById('hint' + i).classList.toggle('show'); }
-
-function submitAll() {
-  filteredPhrases.forEach((p, i) => {
-    if (!quizCorrect[i] && !(quizAttempts[i] >= 3)) {
-      quizAttempts[i] = 3;
-      const ansEl = document.getElementById('ans' + i); if (ansEl) ansEl.classList.add('show');
-      const inp = document.getElementById('qi' + i); if (inp) { inp.disabled = true; inp.classList.add('incorrect-input'); }
-      const fb = document.getElementById('fb' + i); if (fb) { fb.textContent = '— Non répondu.'; fb.className = 'q-feedback bad'; }
+function checkAll(){
+  results=[]; let score=0, max=0;
+  document.querySelectorAll(".item").forEach((it,idx)=>{
+    const type=it.dataset.type, fb=it.querySelector(".fb");
+    const label=(it.querySelector(".q")?it.querySelector(".q").textContent.trim():("Défi "+(idx+1))).slice(0,90);
+    if(type==="mcq"){
+      max++;
+      const sel=it.querySelector("input[type=radio]:checked");
+      const correct=d(it.dataset.a), exp=d(it.dataset.exp||"");
+      if(!sel){fb.className="fb bad";fb.textContent="⚠ Répondez à la question.";results.push({label,given:"—",ok:false});return}
+      if(sel.value===correct){score++;fb.className="fb ok";fb.textContent="✔ Correct. "+exp;
+        results.push({label,given:sel.parentElement.textContent.trim(),ok:true});}
+      else{fb.className="fb bad";fb.textContent="✘ Incorrect. "+exp;
+        results.push({label,given:sel.parentElement.textContent.trim(),ok:false});}
+    }
+    if(type==="text"){
+      max++;
+      const inp=it.querySelector("input,textarea");
+      const accepted=d(it.dataset.a).split("|"), exp=d(it.dataset.exp||"");
+      const r=judge(inp.value,accepted);
+      if(r==="ok"){score++;fb.className="fb ok";fb.textContent="✔ Correct. "+exp;}
+      else if(r==="accents"){fb.className="fb almost";fb.textContent="≈ Presque ! Vérifiez les accents : "+accepted[0]+". "+exp;}
+      else{fb.className="fb bad";fb.textContent="✘ Réponse attendue : "+accepted[0]+". "+exp;}
+      results.push({label,given:inp.value||"—",ok:r==="ok"});
+    }
+    if(type==="free"){
+      const ta=it.querySelector("textarea"), min=parseInt(it.dataset.min||"40");
+      const words=(ta.value.trim().match(/\S+/g)||[]).length;
+      if(words===0){fb.className="fb";fb.textContent="";}
+      else if(words<min){fb.className="fb almost";fb.textContent="≈ "+words+" mots — visez au moins "+min+". Développez avec un connecteur (cependant, en revanche…).";}
+      else{fb.className="fb ok";fb.textContent="✔ "+words+" mots. Comparez maintenant avec le modèle, puis améliorez une phrase.";}
+      results.push({label,given:ta.value||"—",ok:words>=min});
     }
   });
-  const cc = Object.values(quizCorrect).filter(Boolean).length;
-  updateProgressBar(cc, filteredPhrases.length);
-  const rp = document.getElementById('resultPanel');
-  if (rp) { rp.innerHTML = `<h2>Résultats finaux</h2><div class="big-score">${cc} / ${filteredPhrases.length}</div><p style="margin-top:10px;color:var(--muted)">${Math.round(cc/filteredPhrases.length*100)}%</p>`; rp.classList.add('show'); }
-  document.getElementById('progressInfo').textContent = `${cc}/${filteredPhrases.length} corrects`;
+  const b=document.getElementById("scoreBanner");
+  b.style.display="block";
+  const pct=max?Math.round(100*score/max):0;
+  b.textContent="Score : "+score+" / "+max+" ("+pct+" %) — "+(pct>=80?"Excellent !":pct>=60?"Bien — corrigez les points signalés.":"Relisez les indices et réessayez.");
+  window._score={score,max};
 }
 
-function resetQuiz() {
-  quizAttempts = {}; quizCorrect = {};
-  filteredPhrases = currentCategory === 'all' ? [...ALL_PHRASES] : ALL_PHRASES.filter(p => p.cat === currentCategory);
-  document.getElementById('progressInfo').textContent = `${filteredPhrases.length} expressions sélectionnées`;
-  updateProgressBar(0, filteredPhrases.length);
-  renderQuiz();
+function resetAll(){
+  document.querySelectorAll(".item input[type=text], .item textarea").forEach(i=>i.value="");
+  document.querySelectorAll(".item input[type=radio]").forEach(r=>r.checked=false);
+  document.querySelectorAll(".fb").forEach(f=>{f.className="fb";f.textContent=""});
+  document.getElementById("scoreBanner").style.display="none";
+  results=[];window._score=null;window.scrollTo({top:0,behavior:"smooth"});
 }
 
-function updateProgressBar(done, total) {
-  document.getElementById('progressFill').style.width = total > 0 ? `${(done / total) * 100}%` : '0%';
+function downloadResults(){
+  const name=document.getElementById("studentName").value.trim();
+  if(!name){alert("Écrivez d'abord votre nom en haut de la page.");document.getElementById("studentName").focus();return}
+  if(!window._score){alert("Cliquez d'abord sur « Vérifier mes réponses ».");return}
+  let txt="RÉSULTATS — "+document.title+"\n";
+  txt+="Élève : "+name+"\nDate : "+new Date().toLocaleString("fr-FR")+"\n";
+  txt+="Score : "+window._score.score+" / "+window._score.max+"\n";
+  txt+="".padEnd(60,"=")+"\n\n";
+  results.forEach((r,i)=>{txt+=(i+1)+". "+r.label+"\n   Réponse : "+r.given+"\n   "+(r.ok?"✔ correct":"✘ à revoir")+"\n\n";});
+  const blob=new Blob([txt],{type:"text/plain;charset=utf-8"});
+  const a=document.createElement("a");
+  a.href=URL.createObjectURL(blob);
+  a.download=(document.title.split("—")[0].trim()||"resultats").replace(/\s+/g,"_")+"_"+name.replace(/\s+/g,"_")+".txt";
+  document.body.appendChild(a);a.click();document.body.removeChild(a);URL.revokeObjectURL(a.href);
 }
 
-filteredPhrases = [...ALL_PHRASES];
-render();
+/* ---------- Accent pad ---------- */
+const CHARS=["é","è","ê","ë","à","â","î","ï","ô","ù","û","ü","ç","œ","æ","«","»","'","É","È","À","Ç","Œ"];
+let lastField=null;
+document.addEventListener("focusin",e=>{
+  if(e.target.matches("input[type=text],textarea") && e.target.id!=="studentName") lastField=e.target;
+  if(e.target.id==="studentName") lastField=e.target;
+});
+const pad=document.getElementById("accentPad");
+CHARS.forEach(c=>{
+  const b=document.createElement("button");
+  b.textContent=c; if(c===c.toUpperCase()&&c.toLowerCase()!==c) b.className="maj";
+  b.addEventListener("mousedown",ev=>{
+    ev.preventDefault(); /* keep focus in the field */
+    if(!lastField) return;
+    const s=lastField.selectionStart??lastField.value.length, t=lastField.selectionEnd??s;
+    lastField.value=lastField.value.slice(0,s)+c+lastField.value.slice(t);
+    lastField.selectionStart=lastField.selectionEnd=s+c.length;
+    lastField.focus();
+  });
+  pad.appendChild(b);
+});
+function togglePad(){
+  const show=pad.style.display==="none";
+  pad.style.display=show?"flex":"none";
+  document.getElementById("padToggle").style.display=show?"none":"block";
+  if(show){ /* add close button once */
+    if(!pad.querySelector(".closer")){
+      const x=document.createElement("button");x.textContent="✕";x.className="closer";
+      x.addEventListener("mousedown",ev=>{ev.preventDefault();togglePad()});pad.appendChild(x);
+    }
+  }
+}
+/* drag the pad */
+(function(){
+  const h=pad.querySelector(".drag");let sx,sy,ox,oy,drag=false;
+  h.addEventListener("mousedown",e=>{drag=true;sx=e.clientX;sy=e.clientY;const r=pad.getBoundingClientRect();ox=r.left;oy=r.top;
+    pad.style.right="auto";pad.style.bottom="auto";e.preventDefault()});
+  document.addEventListener("mousemove",e=>{if(!drag)return;pad.style.left=(ox+e.clientX-sx)+"px";pad.style.top=(oy+e.clientY-sy)+"px"});
+  document.addEventListener("mouseup",()=>drag=false);
+})();
 </script>
 </body>
 </html>

@@ -1,919 +1,451 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Exercices de Négation - Les Médias Français</title>
-    <style>
-        * { margin:0; padding:0; box-sizing:border-box; }
-        body {
-            font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background:#f5f5f5;
-            padding:20px;
-            line-height:1.6;
-        }
-        .container {
-            max-width:900px;
-            margin:0 auto;
-            background:white;
-            padding:30px;
-            border-radius:8px;
-            box-shadow:0 2px 10px rgba(0,0,0,0.1);
-        }
-        h1 { color:#2c3e50; margin-bottom:10px; font-size:28px; }
-        h2 {
-            color:#34495e;
-            margin-top:30px;
-            margin-bottom:15px;
-            font-size:20px;
-            border-bottom:2px solid #e74c3c;
-            padding-bottom:5px;
-        }
-        .subtitle { color:#7f8c8d; margin-bottom:20px; font-style:italic; }
-        .name-input { margin:20px 0; }
-        .name-input label { display:block; margin-bottom:5px; font-weight:bold; }
-        .name-input input {
-            width:100%;
-            padding:10px;
-            border:1px solid #ddd;
-            border-radius:4px;
-            font-size:16px;
-        }
-        .exercise {
-            margin:25px 0;
-            padding:20px;
-            background:#f8f9fa;
-            border-radius:6px;
-            border-left:4px solid #e74c3c;
-        }
-        .question { margin:15px 0; }
-        .question-text { margin-bottom:8px; font-weight:500; }
-        .input-group {
-            display:flex;
-            align-items:center;
-            gap:10px;
-            flex-wrap:wrap;
-        }
-        input[type="text"] {
-            padding:8px 12px;
-            border:1px solid #ddd;
-            border-radius:4px;
-            font-size:15px;
-            min-width:250px;
-            flex:1;
-            transition:border-color 0.2s, background 0.2s;
-        }
-        input[type="text"]:focus {
-            outline:none;
-            border-color:#e74c3c;
-            box-shadow:0 0 0 2px rgba(231,76,60,0.1);
-        }
-        .accent-btn {
-            background:#e74c3c;
-            color:white;
-            border:none;
-            padding:6px 10px;
-            border-radius:4px;
-            cursor:pointer;
-            font-size:14px;
-            transition:background 0.2s;
-            flex-shrink:0;
-        }
-        .accent-btn:hover { background:#c0392b; }
-        .accent-keyboard {
-            display:none;
-            position:fixed;
-            bottom:20px;
-            right:20px;
-            background:white;
-            padding:15px;
-            border-radius:8px;
-            box-shadow:0 4px 20px rgba(0,0,0,0.2);
-            z-index:1000;
-            border:2px solid #e74c3c;
-        }
-        .accent-keyboard.active { display:block; }
-        .keyboard-header {
-            font-size:12px;
-            color:#7f8c8d;
-            margin-bottom:10px;
-            text-align:center;
-        }
-        .accent-keys {
-            display:grid;
-            grid-template-columns:repeat(6, 1fr);
-            gap:8px;
-        }
-        .accent-key {
-            background:#ecf0f1;
-            border:1px solid #bdc3c7;
-            padding:10px;
-            border-radius:4px;
-            cursor:pointer;
-            font-size:18px;
-            transition:all 0.2s;
-            min-width:40px;
-        }
-        .accent-key:hover {
-            background:#e74c3c;
-            color:white;
-            transform:scale(1.1);
-        }
-        .close-keyboard {
-            background:#95a5a6;
-            color:white;
-            border:none;
-            padding:5px 10px;
-            border-radius:4px;
-            cursor:pointer;
-            margin-bottom:10px;
-            width:100%;
-            font-size:14px;
-        }
-        .buttons {
-            margin-top:30px;
-            display:flex;
-            gap:15px;
-            flex-wrap:wrap;
-        }
-        button {
-            padding:12px 24px;
-            border:none;
-            border-radius:4px;
-            cursor:pointer;
-            font-size:16px;
-            transition:all 0.2s;
-        }
-        .submit-btn { background:#27ae60; color:white; }
-        .submit-btn:hover { background:#229954; }
-        .download-btn { background:#3498db; color:white; }
-        .download-btn:hover { background:#2980b9; }
-        .reset-btn { background:#95a5a6; color:white; }
-        .reset-btn:hover { background:#7f8c8d; }
-        .instructions {
-            background:#ffe8e8;
-            padding:15px;
-            border-radius:6px;
-            margin-bottom:20px;
-            border-left:4px solid #e74c3c;
-        }
-        .example {
-            font-style:italic;
-            color:#7f8c8d;
-            margin-top:5px;
-            font-size:14px;
-        }
-        .score {
-            font-size:18px;
-            font-weight:bold;
-            color:#27ae60;
-            margin-top:20px;
-            padding:15px;
-            background:#d5f4e6;
-            border-radius:6px;
-            display:none;
-        }
-        .grammar-box {
-            background:#fff3cd;
-            padding:15px;
-            border-radius:6px;
-            margin:20px 0;
-            border-left:4px solid #ffc107;
-        }
-        .grammar-box h3 { color:#856404; margin-bottom:10px; }
-        .grammar-box ul { margin-left:20px; }
-        .grammar-box li { margin:5px 0; }
-        .hint {
-            font-size:13px;
-            color:#7f8c8d;
-            margin-top:4px;
-            font-style:italic;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>La négation dans les médias — A-Level French</title>
+<style>
+  :root{
+    --ink:#1a2733; --paper:#ffffff; --bg:#eef2f6;
+    --accent:#00546b; --accent2:#8a1538; --ok:#1e7b45; --warn:#b06f00; --bad:#a12727;
+    --line:#c9d4dd;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:Calibri,'Segoe UI',Arial,sans-serif;font-size:17px;line-height:1.55;
+       color:var(--ink);background:var(--bg);padding:24px 16px 120px}
+  .wrap{max-width:880px;margin:0 auto;background:var(--paper);border:1px solid var(--line);
+        border-radius:8px;padding:28px 32px}
+  header{border-bottom:3px solid var(--accent);padding-bottom:12px;margin-bottom:18px}
+  h1{font-size:1.6em;color:var(--accent)}
+  .meta{color:#5a6a78;font-style:italic;margin-top:4px}
+  h2{font-size:1.25em;color:var(--accent);margin:28px 0 8px;border-left:5px solid var(--accent);padding-left:10px}
+  h2 .pts{font-size:.75em;color:#5a6a78;font-weight:normal}
+  .consigne{background:#f2f7fa;border-left:4px solid var(--accent);padding:10px 14px;margin:8px 0 14px;border-radius:0 6px 6px 0}
+  .name-row{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin:14px 0}
+  .name-row input{padding:9px 12px;font-size:1em;border:2px solid var(--accent);border-radius:6px;width:280px;font-family:inherit}
+  .item{margin:14px 0;padding:12px 14px;border:1px solid var(--line);border-radius:6px}
+  .item p.q{margin-bottom:8px}
+  .item input[type=text],.item textarea{width:100%;padding:8px 10px;font-size:1em;font-family:inherit;
+      border:1.5px solid var(--line);border-radius:5px;margin-top:4px}
+  .item textarea{min-height:90px;resize:vertical}
+  .opts label{display:block;padding:7px 10px;margin:5px 0;border:1.5px solid var(--line);border-radius:5px;cursor:pointer}
+  .opts label:hover{background:#f2f7fa}
+  details.aide{margin:8px 0 2px}
+  details.aide summary{cursor:pointer;color:var(--warn);font-weight:bold}
+  details.aide div{background:#fff8ec;border-left:4px solid var(--warn);padding:8px 12px;margin-top:6px;border-radius:0 6px 6px 0}
+  .fb{display:none;margin-top:8px;padding:9px 12px;border-radius:6px;font-size:.95em}
+  .fb.ok{display:block;background:#e9f5ee;border-left:4px solid var(--ok);color:var(--ok)}
+  .fb.almost{display:block;background:#fff8ec;border-left:4px solid var(--warn);color:var(--warn)}
+  .fb.bad{display:block;background:#fbeeee;border-left:4px solid var(--bad);color:var(--bad)}
+  .stretch{border:2px dashed var(--accent2);border-radius:8px;padding:16px;margin:26px 0;background:#fdf7f9}
+  .stretch h2{color:var(--accent2);border-left-color:var(--accent2)}
+  .btn{background:var(--accent);color:#fff;border:none;padding:11px 20px;font-size:1em;font-family:inherit;
+       border-radius:6px;cursor:pointer;margin:6px 6px 6px 0}
+  .btn:hover{filter:brightness(1.15)}
+  .btn.dl{background:var(--ok)}
+  .btn.second{background:#5a6a78}
+  .score-banner{display:none;margin:18px 0;padding:14px;border-radius:8px;background:#f2f7fa;
+       border:2px solid var(--accent);font-size:1.15em;font-weight:bold;color:var(--accent)}
+  /* ---------- Floating accent pad ---------- */
+  #accentPad{position:fixed;bottom:18px;right:18px;background:#fff;border:2px solid var(--accent);
+       border-radius:10px;box-shadow:0 6px 24px rgba(0,0,0,.25);padding:10px;z-index:1000;
+       display:flex;flex-wrap:wrap;gap:5px;max-width:340px;user-select:none}
+  #accentPad .drag{width:100%;cursor:move;font-size:.8em;color:#5a6a78;text-align:center;padding-bottom:4px}
+  #accentPad button{font-size:1.05em;font-family:inherit;min-width:34px;padding:6px 4px;border:1px solid var(--line);
+       border-radius:5px;background:#f2f7fa;cursor:pointer}
+  #accentPad button:hover{background:var(--accent);color:#fff}
+  #accentPad .maj{font-size:.8em;background:#e6e9ec}
+  #padToggle{position:fixed;bottom:18px;right:18px;z-index:999;background:var(--accent);color:#fff;
+       border:none;border-radius:50px;padding:12px 18px;font-size:1em;cursor:pointer;box-shadow:0 4px 14px rgba(0,0,0,.3)}
+  @media print{#accentPad,#padToggle{display:none}}
+</style>
 </head>
 <body>
-<div class="container">
-    <h1>Exercices de Négation</h1>
-    <p class="subtitle">Les médias français : gagnants et perdants économiques</p>
+<div class="wrap">
+  <header>
+    <h1>La négation dans les médias</h1>
+    <p class="meta">A-Level French (Edexcel) · La presse, les réseaux sociaux et la désinformation · Durée conseillée : 45 min</p>
+  </header>
 
-    <div class="name-input">
-        <label for="studentName">Nom de l'étudiant(e) : *</label>
-        <input type="text" id="studentName" placeholder="Entrez votre nom complet" required>
+  <div class="name-row">
+    <label for="studentName"><strong>Votre nom :</strong></label>
+    <input type="text" id="studentName" placeholder="Prénom NOM" maxlength="60">
+  </div>
+
+  <div class="consigne"><strong>Consignes :</strong> Complétez les quatre exercices sur la négation dans le contexte des médias,
+  puis relevez le Défi A*. Cliquez sur « Vérifier » pour obtenir un retour détaillé, puis téléchargez vos résultats et déposez
+  le fichier sur Teams/SharePoint.</div>
+
+  <div class="consigne"><strong>Rappel :</strong> ne...pas · ne...plus · ne...jamais · ne...rien · ne...personne ·
+  ne...aucun(e) · ne...ni...ni... · ne...que (= seulement) · ne...guère (registre soutenu, = très peu). Au passé composé,
+  « pas/plus/jamais/rien » encadrent l'auxiliaire (avant le participe passé) alors que « personne » et « aucun(e) » se placent
+  après le participe passé. Devant un infinitif, les deux mots de la négation restent groupés juste avant le verbe.</div>
+
+  <!-- ============ EXERCICE 1 : QCM — ordre des mots ============ -->
+  <h2>Exercice 1 · Choisissez la phrase correcte <span class="pts">(6 points)</span></h2>
+  <div class="consigne">Une seule option de chaque série respecte l'ordre correct des mots. Cochez-la.</div>
+
+  <div class="item" data-type="mcq" data-a="MQ==" data-exp="QXZlYyBsZXMgdmVyYmVzIHByb25vbWluYXV4IGV0IHRvdXMgbGVzIHZlcmJlcyBjb21wb3PDqXMsIGxhIG7DqWdhdGlvbiBzaW1wbGUgZW5jYWRyZSBsJ2F1eGlsaWFpcmUgOiBuZSArIGF1eGlsaWFpcmUgKyBwYXMgKyBwYXJ0aWNpcGUgcGFzc8OpLiDCqyBuZSBzJ2VzdCBwYXMgY29uZmlybcOpZSDCuyBlc3QgbGEgc2V1bGUgY29uc3RydWN0aW9uIGNvcnJlY3RlLg==">
+    <p class="q">1. Comment dit-on correctement, au passé composé, que cette rumeur ne s'est pas révélée vraie ?</p>
+    <div class="opts">
+      <label><input type="radio" name="e1q1" value="0"> A) Cette rumeur s'est ne pas confirmée.</label>
+      <label><input type="radio" name="e1q1" value="1"> B) Cette rumeur ne s'est pas confirmée.</label>
+      <label><input type="radio" name="e1q1" value="2"> C) Cette rumeur ne s'est confirmée pas.</label>
     </div>
+    <details class="aide"><summary>Indice</summary><div>Au passé composé, « ne » se place avant l'auxiliaire, « pas » juste après.</div></details>
+    <div class="fb"></div>
+  </div>
 
-    <div class="instructions">
-        <strong>Instructions :</strong> Transformez ou complétez les phrases pour pratiquer les différentes formes de négation en français.  
-        Tapez votre réponse puis appuyez sur Entrée pour vérifier chaque phrase individuellement.
+  <div class="item" data-type="mcq" data-a="Mg==" data-exp="RGV2YW50IHVuIGluZmluaXRpZiwgbGVzIGRldXggw6lsw6ltZW50cyBkZSBsYSBuw6lnYXRpb24gbmUgcydlbmNhZHJlbnQgcGFzIGF1dG91ciBkdSB2ZXJiZSA6IGlscyByZXN0ZW50IGdyb3Vww6lzIGltbcOpZGlhdGVtZW50IGF2YW50IGwnaW5maW5pdGlmIOKAlCDCqyBkZSBuZSBwYXMgcHVibGllciDCuy4=">
+    <p class="q">2. Quelle phrase respecte l'ordre correct pour une négation devant un infinitif ?</p>
+    <div class="opts">
+      <label><input type="radio" name="e1q2" value="0"> A) Le journaliste a promis de pas ne publier cette photo.</label>
+      <label><input type="radio" name="e1q2" value="1"> B) Le journaliste a promis de ne publier pas cette photo.</label>
+      <label><input type="radio" name="e1q2" value="2"> C) Le journaliste a promis de ne pas publier cette photo.</label>
     </div>
+    <details class="aide"><summary>Indice</summary><div>Devant un infinitif, les deux éléments de la négation restent collés ensemble, juste avant l'infinitif.</div></details>
+    <div class="fb"></div>
+  </div>
 
-    <div class="grammar-box">
-        <h3>📚 Rappel : Quelques formes de négation utiles</h3>
-        <ul>
-            <li><strong>ne... pas</strong> = négation simple</li>
-            <li><strong>ne... plus</strong> = ne... pas + plus (plus maintenant)</li>
-            <li><strong>ne... jamais</strong> = à aucun moment</li>
-            <li><strong>ne... rien</strong> = aucune chose</li>
-            <li><strong>ne... personne</strong> = aucun individu</li>
-            <li><strong>ne... aucun(e)</strong> = pas un seul / pas une seule</li>
-            <li><strong>ne... ni... ni...</strong> = ni l’un ni l’autre</li>
-            <li><strong>ne... que</strong> = seulement (restriction)</li>
-            <li><strong>ne... guère</strong> = très peu / presque pas (registre plutôt soutenu)</li>
-        </ul>
+  <div class="item" data-type="mcq" data-a="MA==" data-exp="Q29tbWUgwqsgcGFzIMK7LCDCqyBwbHVzIMK7IGV0IMKrIHJpZW4gwrssIGwnYWR2ZXJiZSDCqyBqYW1haXMgwrsgcydpbnPDqHJlIGVudHJlIGwnYXV4aWxpYWlyZSBldCBsZSBwYXJ0aWNpcGUgcGFzc8OpIDogbidhIGphbWFpcyB2w6lyaWZpw6ku">
+    <p class="q">3. Quelle phrase est correcte au passé composé avec « jamais » ?</p>
+    <div class="opts">
+      <label><input type="radio" name="e1q3" value="0"> A) Ce site d'information n'a jamais vérifié ses sources.</label>
+      <label><input type="radio" name="e1q3" value="1"> B) Ce site d'information a jamais pas vérifié ses sources.</label>
+      <label><input type="radio" name="e1q3" value="2"> C) Ce site d'information n'a vérifié jamais ses sources.</label>
     </div>
+    <details class="aide"><summary>Indice</summary><div>« jamais » se comporte comme « pas » : il se place entre l'auxiliaire et le participe passé.</div></details>
+    <div class="fb"></div>
+  </div>
 
-    <!-- SECTION A -->
-    <h2>Section A : Négation de phrases affirmatives</h2>
-    <div class="exercise">
-        <p><strong>Tâche :</strong> Mettez ces phrases à la forme négative la plus logique (ne... pas, ne... plus, ne... guère, etc.).</p>
-
-        <div class="question">
-            <div class="question-text">1. Les journaux papier génèrent encore beaucoup de revenus publicitaires.</div>
-            <div class="input-group">
-                <input type="text" id="a1" data-key="ne_plus">
-                <button class="accent-btn" onclick="showAccents('a1')">Accents</button>
-            </div>
-            <div class="hint" id="hint-a1"></div>
-        </div>
-
-        <div class="question">
-            <div class="question-text">2. La télévision domine totalement le marché publicitaire français.</div>
-            <div class="input-group">
-                <input type="text" id="a2" data-key="ne_plus">
-                <button class="accent-btn" onclick="showAccents('a2')">Accents</button>
-            </div>
-            <div class="hint" id="hint-a2"></div>
-        </div>
-
-        <div class="question">
-            <div class="question-text">3. Les médias traditionnels attirent les jeunes lecteurs.</div>
-            <div class="input-group">
-                <input type="text" id="a3" data-key="ne_pas">
-                <button class="accent-btn" onclick="showAccents('a3')">Accents</button>
-            </div>
-            <div class="hint" id="hint-a3"></div>
-        </div>
-
-        <div class="question">
-            <div class="question-text">4. La presse écrite peut survivre grâce aux revenus publicitaires.</div>
-            <div class="input-group">
-                <input type="text" id="a4" data-key="ne_pas">
-                <button class="accent-btn" onclick="showAccents('a4')">Accents</button>
-            </div>
-            <div class="hint" id="hint-a4"></div>
-        </div>
-
-        <div class="question">
-            <div class="question-text">5. Les plateformes numériques sont une menace pour les journaux.</div>
-            <div class="input-group">
-                <input type="text" id="a5" data-key="piège_ne_pas">
-                <button class="accent-btn" onclick="showAccents('a5')">Accents</button>
-            </div>
-            <div class="hint" id="hint-a5"></div>
-        </div>
+  <div class="item" data-type="mcq" data-a="MQ==" data-exp="wqsgcGVyc29ubmUgwrsgKGNvbW1lIMKrIGF1Y3VuKGUpIMK7IGV0IGxlcyBjb21wbMOpbWVudHMgZGUgbGlldS90ZW1wcykgc2UgcGxhY2UgYXByw6hzIGxlIHBhcnRpY2lwZSBwYXNzw6ksIGFsb3JzIHF1ZSDCqyByaWVuIMK7LCDCqyBwYXMgwrssIMKrIHBsdXMgwrsgZXQgwqsgamFtYWlzIMK7IHNlIHBsYWNlbnQgYXZhbnQgOiBuJ2EgY29udmFpbmN1IHBlcnNvbm5lLg==">
+    <p class="q">4. Quelle phrase place correctement « personne » au passé composé ?</p>
+    <div class="opts">
+      <label><input type="radio" name="e1q4" value="0"> A) Cette enquête n'a personne convaincu.</label>
+      <label><input type="radio" name="e1q4" value="1"> B) Cette enquête n'a convaincu personne.</label>
+      <label><input type="radio" name="e1q4" value="2"> C) Cette enquête ne convaincu personne a.</label>
     </div>
+    <details class="aide"><summary>Indice</summary><div>Contrairement à « rien », « personne » se place APRÈS le participe passé.</div></details>
+    <div class="fb"></div>
+  </div>
 
-    <!-- SECTION B -->
-    <h2>Section B : Ne... jamais / Ne... rien / Ne... guère</h2>
-    <div class="exercise">
-        <p><strong>Tâche :</strong> Complétez avec une négation appropriée (ne... jamais, ne... rien, ne... guère, etc.).</p>
-
-        <div class="question">
-            <div class="question-text">6. Les jeunes ________ lisent ________ les journaux papier.</div>
-            <div class="input-group">
-                <input type="text" id="b1" data-key="ne_jamais_compl">
-                <button class="accent-btn" onclick="showAccents('b1')">Accents</button>
-            </div>
-            <div class="hint" id="hint-b1"></div>
-        </div>
-
-        <div class="question">
-            <div class="question-text">7. Les plateformes numériques ________ paient ________ aux créateurs de contenu original.</div>
-            <div class="input-group">
-                <input type="text" id="b2" data-key="ne_rien_compl">
-                <button class="accent-btn" onclick="showAccents('b2')">Accents</button>
-            </div>
-            <div class="hint" id="hint-b2"></div>
-        </div>
-
-        <div class="question">
-            <div class="question-text">8. La radio ________ fait ________ pour attirer les publicitaires.</div>
-            <div class="input-group">
-                <input type="text" id="b3" data-key="ne_rien_compl">
-                <button class="accent-btn" onclick="showAccents('b3')">Accents</button>
-            </div>
-            <div class="hint" id="hint-b3"></div>
-        </div>
-
-        <div class="question">
-            <div class="question-text">9. Les médias traditionnels ________ investissent ________ dans le numérique.</div>
-            <div class="input-group">
-                <input type="text" id="b4" data-key="ne_guere_compl">
-                <button class="accent-btn" onclick="showAccents('b4')">Accents</button>
-            </div>
-            <div class="hint" id="hint-b4"></div>
-        </div>
+  <div class="item" data-type="mcq" data-a="Mg==" data-exp="wqsgcmllbiDCuyBldCDCqyBwZXJzb25uZSDCuyBzdWpldHMgc2UgcGxhY2VudCBlbiB0w6p0ZSBkZSBwaHJhc2UsIHN1aXZpcyBkZSDCqyBuZSDCuyArIHZlcmJlLCBzYW5zIGFqb3V0ZXIgwqsgcGFzIMK7IOKAlCBsYSBuw6lnYXRpb24gZXN0IGTDqWrDoCBjb21wbMOodGUgOiBSaWVuIG5lIHByb3V2ZeKApg==">
+    <p class="q">5. Quelle phrase utilise correctement « rien » comme sujet ?</p>
+    <div class="opts">
+      <label><input type="radio" name="e1q5" value="0"> A) Ne rien prouve que cette photo soit authentique.</label>
+      <label><input type="radio" name="e1q5" value="1"> B) Rien ne prouve pas que cette photo soit authentique.</label>
+      <label><input type="radio" name="e1q5" value="2"> C) Rien ne prouve que cette photo soit authentique.</label>
     </div>
+    <details class="aide"><summary>Indice</summary><div>Quand « rien » est sujet, il commence la phrase et « ne » suit juste avant le verbe — sans « pas » supplémentaire.</div></details>
+    <div class="fb"></div>
+  </div>
 
-    <!-- SECTION C -->
-    <h2>Section C : Ne... personne / Ne... aucun(e)</h2>
-    <div class="exercise">
-        <p><strong>Tâche :</strong> Transformez avec la négation demandée.</p>
-
-        <div class="question">
-            <div class="question-text">10. Quelqu'un fait confiance aux algorithmes des plateformes. (utilisez une négation avec « personne »)</div>
-            <div class="input-group">
-                <input type="text" id="c1" data-key="ne_personne">
-                <button class="accent-btn" onclick="showAccents('c1')">Accents</button>
-            </div>
-            <div class="hint" id="hint-c1"></div>
-        </div>
-
-        <div class="question">
-            <div class="question-text">11. La presse a des solutions pour résoudre sa crise économique. (utilisez une négation avec « aucun(e) »)</div>
-            <div class="input-group">
-                <input type="text" id="c2" data-key="ne_aucun">
-                <button class="accent-btn" onclick="showAccents('c2')">Accents</button>
-            </div>
-            <div class="hint" id="hint-c2"></div>
-        </div>
-
-        <div class="question">
-            <div class="question-text">12. Quelqu'un peut arrêter la domination d'Internet. (utilisez une négation avec « personne »)</div>
-            <div class="input-group">
-                <input type="text" id="c3" data-key="ne_personne">
-                <button class="accent-btn" onclick="showAccents('c3')">Accents</button>
-            </div>
-            <div class="hint" id="hint-c3"></div>
-        </div>
-
-        <div class="question">
-            <div class="question-text">13. Les journaux ont un avenir prometteur. (utilisez une négation avec « aucun »)</div>
-            <div class="input-group">
-                <input type="text" id="c4" data-key="ne_aucun">
-                <button class="accent-btn" onclick="showAccents('c4')">Accents</button>
-            </div>
-            <div class="hint" id="hint-c4"></div>
-        </div>
+  <div class="item" data-type="mcq" data-a="MA==" data-exp="TGVzIG7DqWdhdGlvbnMgY29tYmluw6llcyBjb21tZSDCqyBuZeKApiBwbHVzIGphbWFpcyDCuyBzZSBwbGFjZW50IGVuc2VtYmxlIGVudHJlIGwnYXV4aWxpYWlyZSBldCBsZSBwYXJ0aWNpcGUgcGFzc8OpLCBjb21tZSB1bmUgbsOpZ2F0aW9uIHNpbXBsZSA6IG4nYSBwbHVzIGphbWFpcyBwdWJsacOpLg==">
+    <p class="q">6. Quelle phrase respecte l'ordre de « ne… plus jamais » au passé composé ?</p>
+    <div class="opts">
+      <label><input type="radio" name="e1q6" value="0"> A) Ce journal n'a plus jamais publié de fausses nouvelles.</label>
+      <label><input type="radio" name="e1q6" value="1"> B) Ce journal n'a publié plus jamais de fausses nouvelles.</label>
+      <label><input type="radio" name="e1q6" value="2"> C) Ce journal a plus jamais pas publié de fausses nouvelles.</label>
     </div>
+    <details class="aide"><summary>Indice</summary><div>Les négations combinées restent groupées, entre l'auxiliaire et le participe passé, dans cet ordre.</div></details>
+    <div class="fb"></div>
+  </div>
 
-    <!-- SECTION D -->
-    <h2>Section D : Ne... ni... ni...</h2>
-    <div class="exercise">
-        <p><strong>Tâche :</strong> Combinez les phrases avec <strong>ne... ni... ni...</strong> ou une structure équivalente.</p>
+  <!-- ============ EXERCICE 2 : négations simples ============ -->
+  <h2>Exercice 2 · Négations simples <span class="pts">(6 points)</span></h2>
+  <div class="consigne">Mettez chaque phrase à la forme négative indiquée. Attention à l'article après la négation.</div>
 
-        <div class="question">
-            <div class="question-text">14. La presse papier n'a pas d'argent. La presse papier n'a pas de lecteurs.</div>
-            <div class="input-group">
-                <input type="text" id="d1" data-key="ne_ni_ni">
-                <button class="accent-btn" onclick="showAccents('d1')">Accents</button>
-            </div>
-            <div class="hint" id="hint-d1"></div>
-        </div>
+  <div class="item" data-type="text" data-a="bGVzIHJlc2VhdXggc29jaWF1eCBuZSB2ZXJpZmllbnQgamFtYWlzIGxlcyBpbmZvcm1hdGlvbnMgYXZhbnQgZGUgbGVzIHBhcnRhZ2Vy" data-exp="wqsgbmUuLi5qYW1haXMgwrsgZW5jYWRyZSBsZSB2ZXJiZSBjb25qdWd1w6kgOiBuZSB2w6lyaWZpZW50IGphbWFpcy4gTGUgY29tcGzDqW1lbnQgZCdvYmpldCBkaXJlY3QgZMOpZmluaSAobGVzIGluZm9ybWF0aW9ucykgbmUgY2hhbmdlIHBhcyBkZSBmb3JtZS4=">
+    <p class="q">7. Transformez avec <em>ne…jamais</em> : « Les réseaux sociaux vérifient les informations avant de les partager. »</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Indice</summary><div>« ne » avant le verbe conjugué, « jamais » juste après.</div></details>
+    <div class="fb"></div>
+  </div>
 
-        <div class="question">
-            <div class="question-text">15. Les médias traditionnels ne comprennent pas les jeunes. Les médias traditionnels ne les intéressent pas.</div>
-            <div class="input-group">
-                <input type="text" id="d2" data-key="ne_ni_double">
-                <button class="accent-btn" onclick="showAccents('d2')">Accents</button>
-            </div>
-            <div class="hint" id="hint-d2"></div>
-        </div>
+  <div class="item" data-type="text" data-a="bGEgdGVsZXZpc2lvbiBuZSBkb21pbmUgcGx1cyBsZSBtYXJjaGUgcHVibGljaXRhaXJl" data-exp="wqsgbmUuLi5wbHVzIMK7IGluZGlxdWUgcXUndW5lIHNpdHVhdGlvbiBxdWkgZXhpc3RhaXQgYSBjZXNzw6kgOiBuZSBkb21pbmUgcGx1cy4gTCdhcnRpY2xlIGTDqWZpbmkgwqsgbGUgwrsgcmVzdGUgaW5jaGFuZ8OpLCBjYXIgY2Ugbidlc3QgbmkgdW4gYXJ0aWNsZSBpbmTDqWZpbmkgbmkgdW4gcGFydGl0aWYu">
+    <p class="q">8. Transformez avec <em>ne…plus</em> : « La télévision domine le marché publicitaire. »</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Indice</summary><div>« ne » avant le verbe, « plus » juste après.</div></details>
+    <div class="fb"></div>
+  </div>
 
-        <div class="question">
-            <div class="question-text">16. La télévision n'attire pas les annonceurs. La radio n'attire pas les annonceurs.</div>
-            <div class="input-group">
-                <input type="text" id="d3" data-key="ni_ni_ne">
-                <button class="accent-btn" onclick="showAccents('d3')">Accents</button>
-            </div>
-            <div class="hint" id="hint-d3"></div>
-        </div>
+  <div class="item" data-type="text" data-a="bGVzIG1vZGVyYXRldXJzIG5lIGZvbnQgcmllbiBjb250cmUgbGEgZGVzaW5mb3JtYXRpb24=" data-exp="wqsgbmUuLi5yaWVuIMK7IG5pZSB1biBjb21wbMOpbWVudCBpbmTDqWZpbmkgKHF1ZWxxdWUgY2hvc2Ug4oaSIHJpZW4pIGV0IHNlIHBsYWNlLCBjb21tZSDCqyBwYXMgwrssIGltbcOpZGlhdGVtZW50IGFwcsOocyBsZSB2ZXJiZSBjb25qdWd1w6ku">
+    <p class="q">9. Transformez avec <em>ne…rien</em> : « Les modérateurs font quelque chose contre la désinformation. »</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Indice</summary><div>« rien » remplace le complément d'objet direct et se place après le verbe conjugué.</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="text" data-a="Y2Ugc2l0ZSBuZSBwcm9wb3NlIHBhcyBkZSBzb3VyY2VzIGZpYWJsZXM=" data-exp="UsOoZ2xlIGNsw6kgOiBhcHLDqHMgdW5lIG7DqWdhdGlvbiBhdmVjIMKrIHBhcyDCuyAob3UgcGx1cywgamFtYWlzLCByaWVu4oCmKSwgbCdhcnRpY2xlIGluZMOpZmluaSBvdSBwYXJ0aXRpZiBkZXZpZW50IMKrIGRlIMK7IOKAlCDCqyBkZXMgc291cmNlcyDCuyDihpIgwqsgcGFzIGRlIHNvdXJjZXMgwrsu">
+    <p class="q">10. Transformez avec <em>ne…pas</em> : « Ce site propose des sources fiables. »</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Indice</summary><div>Après « ne...pas », l'article indéfini/partitif (un, une, des, du, de la) devient « de ».</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="text" data-a="bGUgcmVkYWN0ZXVyIG4nYSBwYXMgY29ycmlnZSBsJ2VycmV1ciBhdmFudCBwdWJsaWNhdGlvbg==" data-exp="QXUgcGFzc8OpIGNvbXBvc8OpLCBsYSBuw6lnYXRpb24gc2ltcGxlIGVuY2FkcmUgbCdhdXhpbGlhaXJlIDogbidhIHBhcyBjb3JyaWfDqSDigJQgamFtYWlzIGxlIHBhcnRpY2lwZSBwYXNzw6kgc2V1bC4=">
+    <p class="q">11. Transformez au passé composé avec <em>ne…pas</em> : « Le rédacteur a corrigé l'erreur avant publication. »</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Indice</summary><div>« ne » avant l'auxiliaire, « pas » juste après, puis le participe passé.</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="text" data-a="aWwgZXN0IGVzc2VudGllbCBkZSBuZSBwYXMgY3JvaXJlIHRvdXQgY2UgcXUnb24gbGl0IGVuIGxpZ25l" data-exp="RGV2YW50IHVuIGluZmluaXRpZiwgbGVzIGRldXggw6lsw6ltZW50cyBkZSBsYSBuw6lnYXRpb24gbmUgcydlbmNhZHJlbnQgcGFzIDogwqsgZGUgbmUgcGFzIGNyb2lyZSDCuywgamFtYWlzIMKrIGRlIGNyb2lyZSBwYXMgwrsgbmkgwqsgZGUgcGFzIGNyb2lyZSDCuy4=">
+    <p class="q">12. Gardez l'idée mais rendez l'infinitif négatif : « Il est essentiel de croire tout ce qu'on lit en ligne. »</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Indice</summary><div>Devant l'infinitif, « ne pas » reste groupé, juste avant le verbe.</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <!-- ============ EXERCICE 3 : personne, aucun(e), ni...ni, que, guère ============ -->
+  <h2>Exercice 3 · Personne, aucun(e), ni…ni, que, guère <span class="pts">(6 points)</span></h2>
+  <div class="consigne">Transformez avec la négation demandée.</div>
+
+  <div class="item" data-type="text" data-a="cGVyc29ubmUgbidhIHZlcmlmaWUgY2V0dGUgc291cmNlIGF2YW50IHB1YmxpY2F0aW9u" data-exp="wqsgcGVyc29ubmUgwrsgcmVtcGxhY2UgdW4gc3VqZXQgaW5kw6lmaW5pIChxdWVscXUndW4g4oaSIHBlcnNvbm5lKSA7IGVuIHBvc2l0aW9uIHN1amV0LCBpbCBvdXZyZSBsYSBwaHJhc2UgOiBQZXJzb25uZSBuJ2EgdsOpcmlmacOp4oCm">
+    <p class="q">13. Transformez en utilisant <em>personne</em> comme sujet : « Quelqu'un a vérifié cette source avant publication. »</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Indice</summary><div>« Personne » sujet commence la phrase, suivi de « ne » + verbe.</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="text" data-a="Y2Ugam91cm5hbCBuJ2EgYXVjdW5lIHByZXV2ZSBkZSBzZXMgYWNjdXNhdGlvbnM=" data-exp="wqsgYXVjdW4oZSkgwrsgcmVtcGxhY2UgdW4gZ3JvdXBlIG5vbWluYWwgcGx1cmllbCBvdSBpbmTDqWZpbmkgcGFyIMKrIHBhcyB1bihlKSBzZXVsKGUpIMK7IDsgaWwgcydhY2NvcmRlIGVuIGdlbnJlIChwcmV1dmUg4oaSIGF1Y3VuZSkgZXQgc2UgbWV0IGF1IHNpbmd1bGllci4=">
+    <p class="q">14. Transformez avec <em>ne…aucun(e)</em> : « Ce journal a des preuves de ses accusations. »</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Indice</summary><div>« aucun(e) » s'accorde en genre avec le nom qu'il remplace et reste au singulier.</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="text" data-a="Y2V0dGUgY2hhaW5lIG5lIGRpZmZ1c2UgbmkgbGEgdmVyaXRlIG5pIGxlcyBmYWl0cyB2ZXJpZmllcw==" data-exp="wqsgbmUuLi5uaS4uLm5pLi4uIMK7IHJlbXBsYWNlIGRldXggbsOpZ2F0aW9ucyBhdmVjIMKrIHBhcyDCuyA6IG9uIGdhcmRlIHVuIHNldWwgwqsgbmUgwrsgZXQgb24gcsOpcMOodGUgwqsgbmkgwrsgZGV2YW50IGNoYXF1ZSDDqWzDqW1lbnQgbmnDqS4=">
+    <p class="q">15. Combinez avec <em>ne…ni…ni…</em> : « Cette chaîne ne diffuse pas la vérité. Cette chaîne ne diffuse pas les faits vérifiés. »</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Indice</summary><div>Un seul « ne », puis « ni » devant chaque élément nié ; « pas » disparaît.</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="text" data-a="Y2V0dGUgcGxhdGVmb3JtZSBuJ2EgbmkgY3JlZGliaWxpdGUgbmkgdHJhbnNwYXJlbmNl" data-exp="QXByw6hzIMKrIG5pIMK7LCBjb250cmFpcmVtZW50IMOgIMKrIHBhcyDCuyAocXVpIGRvbm5lIMKrIGRlIMK7KSwgbCdhcnRpY2xlIHBhcnRpdGlmIGRpc3BhcmHDrnQgdG90YWxlbWVudCA6IGRlIGxhIGNyw6lkaWJpbGl0w6kg4oaSIG5pIGNyw6lkaWJpbGl0w6ku">
+    <p class="q">16. Combinez avec <em>ne…ni…ni…</em> : « Cette plateforme a de la crédibilité. Cette plateforme a de la transparence. »</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Indice</summary><div>Après « ni », l'article partitif (du, de la, des) disparaît complètement.</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="text" data-a="Y2V0IGFydGljbGUgbmUgY29udGllbnQgcXVlIGRlcyBvcGluaW9ucw==" data-exp="wqsgbmUuLi5xdWUgwrsgZXhwcmltZSB1bmUgcmVzdHJpY3Rpb24gKD0gc2V1bGVtZW50KS4gQ29udHJhaXJlbWVudCDDoCDCqyBwYXMgwrssIGlsIG5lIHRyYW5zZm9ybWUgamFtYWlzIGwnYXJ0aWNsZSA6IGRlcyBvcGluaW9ucyByZXN0ZSBkZXMgb3BpbmlvbnMu">
+    <p class="q">17. Reformulez avec <em>ne…que</em> (idée de « seulement ») : « Cet article contient seulement des opinions. »</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Indice</summary><div>« ne » avant le verbe, « que » juste devant l'élément restrictif ; l'article ne change PAS après « que ».</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="text" data-a="bGVzIGpvdXJuYWxpc3RlcyBuZSBnYWduZW50IGd1ZXJlIGQnYXJnZW50IGF1am91cmQnaHVp" data-exp="wqsgbmUuLi5ndcOocmUgwrsgKHJlZ2lzdHJlIHNvdXRlbnUpID0gdHLDqHMgcGV1IC8gcHJlc3F1ZSBwYXMuIENvbW1lIMKrIHBhcyDCuywgaWwgcHJvdm9xdWUgbGUgcGFzc2FnZSBkZSBsJ2FydGljbGUgcGFydGl0aWYgw6AgwqsgZGUgwrsgOiBnYWduZW50IGd1w6hyZSBkJ2FyZ2VudC4=">
+    <p class="q">18. Transformez avec <em>ne…guère</em> (registre soutenu, = très peu) : « Les journalistes gagnent beaucoup d'argent aujourd'hui. »</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Indice</summary><div>« guère » se comporte comme « pas » : il encadre le verbe et l'article partitif devient « de ».</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <!-- ============ EXERCICE 4 : négations combinées ============ -->
+  <h2>Exercice 4 · Négations combinées et personne/rien sujet <span class="pts">(6 points)</span></h2>
+  <div class="consigne">Traduisez ou transformez en combinant plusieurs négations si nécessaire.</div>
+
+  <div class="item" data-type="text" data-a="cGVyc29ubmUgbmUgbGl0IHBsdXMgamFtYWlzIGNlIGpvdXJuYWx8cGVyc29ubmUgbmUgbGl0IGphbWFpcyBwbHVzIGNlIGpvdXJuYWw=" data-exp="wqsgUGVyc29ubmUgwrsgc3VqZXQgKyDCqyBuZSDCuyArIHZlcmJlICsgwqsgcGx1cyBqYW1haXMgwrsgKG91IMKrIGphbWFpcyBwbHVzIMK7KSA6IHRyb2lzIG7DqWdhdGlvbnMgY29tYmluw6llcyBzYW5zIMKrIHBhcyDCuyBzdXBwbMOpbWVudGFpcmUu">
+    <p class="q">19. Traduisez : « Nobody ever reads this newspaper anymore. »</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Indice</summary><div>Trois éléments à combiner : personne (sujet), plus, jamais — dans cet ordre autour du verbe.</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="text" data-a="Y2UgcmVzZWF1IG5lIHB1YmxpZSBwbHVzIHJpZW4gZGUgZmlhYmxl" data-exp="wqsgbmUuLi5wbHVzIHJpZW4gwrsgY29tYmluZSDCqyBuZS4uLnBsdXMgwrsgZXQgwqsgbmUuLi5yaWVuIMK7LiBBcHLDqHMgwqsgcmllbiDCuywgdW4gYWRqZWN0aWYgc2UgY29uc3RydWl0IGF2ZWMgwqsgZGUgwrsgOiByaWVuIGRlIGZpYWJsZS4=">
+    <p class="q">20. Traduisez : « This network no longer publishes anything reliable. »</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Indice</summary><div>« ne...plus rien » = plus aucune chose ; « de fiable » après rien, sans article.</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="text" data-a="cmllbiBuZSBqdXN0aWZpZSBjZXR0ZSBkZWNpc2lvbiBlZGl0b3JpYWxl" data-exp="wqsgcmllbiDCuyByZW1wbGFjZSB1biBzdWpldCBpbmTDqWZpbmkgcG9zaXRpZiAocXVlbHF1ZSBjaG9zZSDihpIgcmllbikgOyBlbiBwb3NpdGlvbiBzdWpldCwgaWwgcHLDqWPDqGRlIMKrIG5lIMK7ICsgdmVyYmUsIHNhbnMgYXV0cmUgbWFycXVlIGRlIG7DqWdhdGlvbi4=">
+    <p class="q">21. Transformez en utilisant <em>rien</em> comme sujet : « Quelque chose justifie cette décision éditoriale. »</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Indice</summary><div>« Rien » sujet ouvre la phrase, suivi de « ne » + verbe.</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="text" data-a="aWwgYSBkZWNpZGUgZGUgbmUgcGx1cyBjcm9pcmUgY2VzIHJ1bWV1cnM=" data-exp="RGV2YW50IGwnaW5maW5pdGlmLCB0b3V0ZXMgbGVzIG7DqWdhdGlvbnMgY29tcG9zw6llcyAobmUgcGx1cywgbmUgamFtYWlzLCBuZSByaWVu4oCmKSByZXN0ZW50IGdyb3Vww6llcyBqdXN0ZSBhdmFudCBsZSB2ZXJiZSA6IGRlIG5lIHBsdXMgY3JvaXJlLg==">
+    <p class="q">22. Transformez avec <em>ne…plus</em> + infinitif : « Il a décidé de croire encore ces rumeurs. »</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Indice</summary><div>« ne plus » reste groupé devant l'infinitif, comme « ne pas ».</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="text" data-a="Y2Ugc2NhbmRhbGUgbidhIGNob3F1ZSBwZXJzb25uZSBkYW5zIGxhIHJlZGFjdGlvbg==" data-exp="UmFwcGVsIDogY29udHJhaXJlbWVudCDDoCDCqyByaWVuIMK7LCDCqyBwZXJzb25uZSDCuyBjb21wbMOpbWVudCBzZSBwbGFjZSBhcHLDqHMgbGUgcGFydGljaXBlIHBhc3PDqSA6IG4nYSBjaG9xdcOpIHBlcnNvbm5lLg==">
+    <p class="q">23. Transformez au passé composé avec <em>ne…personne</em> : « Ce scandale a choqué quelqu'un dans la rédaction. »</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Indice</summary><div>Rappel : « personne » se place après le participe passé, pas avant.</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="text" data-a="Y2VzIGFsZ29yaXRobWVzIG5lIHZlcmlmaWVudCBqYW1haXMgcmllbiBhdmFudCBkZSBsZSBkaWZmdXNlcg==" data-exp="wqsgbmUuLi5qYW1haXMgcmllbiDCuyBjb21iaW5lIGRldXggbsOpZ2F0aW9ucyBwb3VyIGludGVuc2lmaWVyIDogbmUgdsOpcmlmaWVudCBqYW1haXMgcmllbiA9IG5lIHbDqXJpZmllbnQgYWJzb2x1bWVudCByaWVuLCDDoCBhdWN1biBtb21lbnQu">
+    <p class="q">24. Transformez avec <em>ne…jamais rien</em> : « Ces algorithmes vérifient toujours quelque chose avant de le diffuser. »</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Indice</summary><div>« jamais » et « rien » se combinent, dans cet ordre, autour du verbe conjugué.</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <button class="btn" onclick="checkAll()">✔ Vérifier mes réponses</button>
+  <button class="btn second" onclick="resetAll()">↺ Recommencer</button>
+  <div class="score-banner" id="scoreBanner"></div>
+
+  <!-- ============ DÉFI A* (stretch) ============ -->
+  <div class="stretch">
+    <h2>Défi A* — Pour aller plus loin</h2>
+    <div class="consigne">Rédigez un paragraphe (60 mots minimum) sur l'avenir de la presse écrite face aux réseaux sociaux,
+    en utilisant au moins <strong>CINQ formes de négation différentes</strong> (parmi : ne...pas, ne...plus, ne...jamais,
+    ne...rien, ne...personne, ne...aucun(e), ne...ni...ni..., ne...que, ne...guère).</div>
+    <p><em>Amorces :</em> « Il est indéniable que… », « Contrairement aux réseaux sociaux, la presse papier… »,
+    « On ne peut nier que… », « Cela dit, il ne faut pas oublier que… »</p>
+    <div class="item" data-type="free" data-min="60">
+      <textarea placeholder="Rédigez ici (60 mots minimum, au moins 5 négations différentes)…"></textarea>
+      <div class="fb"></div>
     </div>
+    <details class="aide"><summary>Voir un modèle de réponse (après avoir écrit le vôtre)</summary>
+      <div id="modelAnswer">Modèle : Il est indéniable que la presse papier ne séduit plus les jeunes lecteurs, qui ne lisent
+      presque jamais un journal imprimé. Pourtant, on ne peut nier que les réseaux sociaux n'offrent aucune garantie de
+      fiabilité : ils ne vérifient guère les sources et ne proposent que des contenus souvent superficiels. Personne ne peut
+      donc affirmer que les journalistes professionnels ne servent plus à rien, car ni les algorithmes ni les influenceurs ne
+      remplaceront jamais un vrai travail d'enquête rigoureux.</div></details>
+  </div>
 
-    <!-- SECTION E -->
-    <h2>Section E : Ne... que (restriction)</h2>
-    <div class="exercise">
-        <p><strong>Tâche :</strong> Reformulez avec <strong>ne... que</strong> (idée de « seulement »).</p>
-
-        <div class="question">
-            <div class="question-text">17. Internet capte seulement 70 % des revenus publicitaires.</div>
-            <div class="input-group">
-                <input type="text" id="e1" data-key="ne_que">
-                <button class="accent-btn" onclick="showAccents('e1')">Accents</button>
-            </div>
-            <div class="hint" id="hint-e1"></div>
-        </div>
-
-        <div class="question">
-            <div class="question-text">18. La radio maintient seulement 700 millions d'euros de recettes.</div>
-            <div class="input-group">
-                <input type="text" id="e2" data-key="ne_que">
-                <button class="accent-btn" onclick="showAccents('e2')">Accents</button>
-            </div>
-            <div class="hint" id="hint-e2"></div>
-        </div>
-
-        <div class="question">
-            <div class="question-text">19. Les jeunes font seulement confiance aux influenceurs.</div>
-            <div class="input-group">
-                <input type="text" id="e3" data-key="ne_que_conf">
-                <button class="accent-btn" onclick="showAccents('e3')">Accents</button>
-            </div>
-            <div class="hint" id="hint-e3"></div>
-        </div>
-
-        <div class="question">
-            <div class="question-text">20. Les plateformes pensent seulement aux profits.</div>
-            <div class="input-group">
-                <input type="text" id="e4" data-key="ne_que">
-                <button class="accent-btn" onclick="showAccents('e4')">Accents</button>
-            </div>
-            <div class="hint" id="hint-e4"></div>
-        </div>
-    </div>
-
-    <!-- SECTION F -->
-    <h2>Section F : Négations multiples (avancé)</h2>
-    <div class="exercise">
-        <p><strong>Tâche :</strong> Traduisez ou complétez en combinant plusieurs négations si nécessaire.</p>
-
-        <div class="question">
-            <div class="question-text">21. Traduisez : « The press no longer attracts anyone. »</div>
-            <div class="input-group">
-                <input type="text" id="f1" data-key="plus_personne">
-                <button class="accent-btn" onclick="showAccents('f1')">Accents</button>
-            </div>
-            <div class="hint" id="hint-f1"></div>
-        </div>
-
-        <div class="question">
-            <div class="question-text">22. Traduisez : « Nobody ever reads traditional newspapers anymore. »</div>
-            <div class="input-group">
-                <input type="text" id="f2" data-key="pers_jamais_plus">
-                <button class="accent-btn" onclick="showAccents('f2')">Accents</button>
-            </div>
-            <div class="hint" id="hint-f2"></div>
-        </div>
-
-        <div class="question">
-            <div class="question-text">23. Traduisez : « Internet platforms never give anything to journalists. »</div>
-            <div class="input-group">
-                <input type="text" id="f3" data-key="jamais_rien">
-                <button class="accent-btn" onclick="showAccents('f3')">Accents</button>
-            </div>
-            <div class="hint" id="hint-f3"></div>
-        </div>
-
-        <div class="question">
-            <div class="question-text">24. Complétez : « Sans publicité, les journaux ________ peuvent ________ survivre. »</div>
-            <div class="input-group">
-                <input type="text" id="f4" data-key="ne_pas_compl">
-                <button class="accent-btn" onclick="showAccents('f4')">Accents</button>
-            </div>
-            <div class="hint" id="hint-f4"></div>
-        </div>
-
-        <div class="question">
-            <div class="question-text">25. Écrivez une phrase négative originale sur la crise des médias (minimum 10 mots, avec au moins <em>deux</em> éléments de négation) :</div>
-            <div class="input-group">
-                <input type="text" id="f5">
-                <button class="accent-btn" onclick="showAccents('f5')">Accents</button>
-            </div>
-            <div class="hint" id="hint-f5"></div>
-        </div>
-    </div>
-
-    <div class="score" id="scoreDisplay"></div>
-
-    <div class="buttons">
-        <button class="submit-btn" onclick="checkAnswers()">Vérifier toutes les réponses</button>
-        <button class="download-btn" onclick="downloadResults()">Télécharger les résultats</button>
-        <button class="reset-btn" onclick="resetForm()">Réinitialiser</button>
-    </div>
+  <button class="btn dl" onclick="downloadResults()">📥 Télécharger mes résultats</button>
 </div>
 
-<div class="accent-keyboard" id="accentKeyboard">
-    <button class="close-keyboard" onclick="hideAccents()">✕ Fermer</button>
-    <div class="keyboard-header">Cliquez sur un caractère pour l'insérer</div>
-    <div class="accent-keys">
-        <button class="accent-key" onclick="insertAccent('à')">à</button>
-        <button class="accent-key" onclick="insertAccent('â')">â</button>
-        <button class="accent-key" onclick="insertAccent('é')">é</button>
-        <button class="accent-key" onclick="insertAccent('è')">è</button>
-        <button class="accent-key" onclick="insertAccent('ê')">ê</button>
-        <button class="accent-key" onclick="insertAccent('ë')">ë</button>
-        <button class="accent-key" onclick="insertAccent('î')">î</button>
-        <button class="accent-key" onclick="insertAccent('ï')">ï</button>
-        <button class="accent-key" onclick="insertAccent('ô')">ô</button>
-        <button class="accent-key" onclick="insertAccent('ù')">ù</button>
-        <button class="accent-key" onclick="insertAccent('û')">û</button>
-        <button class="accent-key" onclick="insertAccent('ç')">ç</button>
-        <button class="accent-key" onclick="insertAccent('À')">À</button>
-        <button class="accent-key" onclick="insertAccent('É')">É</button>
-        <button class="accent-key" onclick="insertAccent('È')">È</button>
-        <button class="accent-key" onclick="insertAccent('Ê')">Ê</button>
-        <button class="accent-key" onclick="insertAccent('Ç')">Ç</button>
-        <button class="accent-key" onclick="insertAccent(\"'\")">'</button>
-    </div>
+<!-- ============ FLOATING ACCENT PAD ============ -->
+<button id="padToggle" onclick="togglePad()">é à ç — Accents</button>
+<div id="accentPad" style="display:none">
+  <div class="drag">⋮⋮ déplacer</div>
 </div>
 
 <script>
-    let currentInputId = null;
+/* ================= HOUSE ENGINE — do not weaken ================= */
+/* Answers are base64-encoded (UTF-8 safe) so they never sit in plain text next to the inputs. */
+function d(b){try{return decodeURIComponent(escape(atob(b)))}catch(e){return""}}
+function e64(s){return btoa(unescape(encodeURIComponent(s)))} /* helper for authoring */
 
-    function showAccents(inputId) {
-        currentInputId = inputId;
-        const keyboard = document.getElementById('accentKeyboard');
-        keyboard.classList.add('active');
-        document.getElementById(inputId).focus();
-    }
+function norm(s){return (s||"").toLowerCase().replace(/['']/g,"'").replace(/\s+/g," ").trim()}
+function deacc(s){return norm(s).normalize("NFD").replace(/[̀-ͯ]/g,"")}
 
-    function hideAccents() {
-        const keyboard = document.getElementById('accentKeyboard');
-        keyboard.classList.remove('active');
-        currentInputId = null;
-    }
-
-    function insertAccent(char) {
-        if (currentInputId) {
-            const input = document.getElementById(currentInputId);
-            const start = input.selectionStart;
-            const end = input.selectionEnd;
-            const text = input.value;
-            input.value = text.substring(0, start) + char + text.substring(end);
-            const newPosition = start + char.length;
-            input.focus();
-            input.setSelectionRange(newPosition, newPosition);
-        }
-    }
-function normalize(text) {
-    return text
-        .normalize('NFD')               // sépare lettres et accents
-        .replace(/[\u0300-\u036f]/g, '')// supprime les accents
-        .toLowerCase()
-        .trim()
-        .replace(/\s+/g, ' ')
-        .replace(/\u00A0/g, ' ');
+/* tolerant text check: returns "ok" | "accents" | "bad" ; accepted = array */
+function judge(val, accepted){
+  const v=norm(val);
+  if(accepted.some(a=>norm(a)===v)) return "ok";
+  if(accepted.some(a=>deacc(a)===deacc(val))) return "accents";
+  return "bad";
 }
 
-// Réponse pour chaque question, avec une clé distincte
-const answerBank = {
-    // Section A
-    a1: [
-        "les journaux papier ne generent plus beaucoup de revenus publicitaires",
-        "les journaux papier ne generent plus de revenus publicitaires"
-    ],
-    a2: [
-        "la television ne domine plus le marche publicitaire francais"
-    ],
-    a3: [
-        "les medias traditionnels n attirent pas les jeunes lecteurs",
-        "les medias traditionnels n attirent pas les jeunes"
-    ],
-    a4: [
-        "la presse ecrite ne peut pas survivre sans revenus publicitaires",
-        "la presse ecrite ne peut pas survivre sans la publicite"
-    ],
-    a5: [
-        "les plateformes numeriques ne sont pas une menace pour les journaux"
-    ],
-    // ... puis b1, b2, etc. avec les mêmes principes
-};
+let results=[]; /* {label, given, ok, expected} */
 
-    function normalize(text) {
-        return text
-            .toLowerCase()
-            .trim()
-            .replace(/\s+/g, ' ')
-            .replace(/\u00A0/g, ' ');
+function checkAll(){
+  results=[]; let score=0, max=0;
+  document.querySelectorAll(".item").forEach((it,idx)=>{
+    const type=it.dataset.type, fb=it.querySelector(".fb");
+    const label=(it.querySelector(".q")?it.querySelector(".q").textContent.trim():("Défi "+(idx+1))).slice(0,90);
+    if(type==="mcq"){
+      max++;
+      const sel=it.querySelector("input[type=radio]:checked");
+      const correct=d(it.dataset.a), exp=d(it.dataset.exp||"");
+      if(!sel){fb.className="fb bad";fb.textContent="⚠ Répondez à la question.";results.push({label,given:"—",ok:false});return}
+      if(sel.value===correct){score++;fb.className="fb ok";fb.textContent="✔ Correct. "+exp;
+        results.push({label,given:sel.parentElement.textContent.trim(),ok:true});}
+      else{fb.className="fb bad";fb.textContent="✘ Incorrect. "+exp;
+        results.push({label,given:sel.parentElement.textContent.trim(),ok:false});}
     }
-
-    // Answer bank: multiple accepted solutions per key
-    const answerBank = {
-        // Section A
-        ne_plus: [
-            "les journaux papier ne génèrent plus beaucoup de revenus publicitaires",
-            "les journaux papier ne génèrent plus de revenus publicitaires",
-            "la télévision ne domine plus le marché publicitaire français"
-        ],
-        ne_pas: [
-            "les médias traditionnels n'attirent pas les jeunes lecteurs",
-            "la presse écrite ne peut pas survivre sans revenus publicitaires",
-            "la presse écrite ne peut pas survivre sans la publicité"
-        ],
-        piège_ne_pas: [
-            "les plateformes numériques ne sont pas une menace pour les journaux"
-        ],
-        // Section B
-        ne_jamais_compl: [
-            "les jeunes ne lisent jamais les journaux papier",
-            "les jeunes ne lisent jamais de journaux papier"
-        ],
-        ne_rien_compl: [
-            "les plateformes numériques ne paient rien aux créateurs de contenu original",
-            "la radio ne fait rien pour attirer les publicitaires"
-        ],
-        ne_guere_compl: [
-            "les médias traditionnels n'investissent guère dans le numérique",
-            "les médias traditionnels n'investissent presque pas dans le numérique"
-        ],
-        // Section C
-        ne_personne: [
-            "personne ne fait confiance aux algorithmes des plateformes",
-            "personne ne peut arrêter la domination d'internet",
-            "personne ne peut arrêter la domination d’internet"
-        ],
-        ne_aucun: [
-            "la presse n'a aucune solution pour résoudre sa crise économique",
-            "les journaux n'ont aucun avenir prometteur"
-        ],
-        // Section D
-        ne_ni_ni: [
-            "la presse papier n'a ni argent ni lecteurs"
-        ],
-        ne_ni_double: [
-            "les médias traditionnels ne comprennent ni n'intéressent les jeunes",
-            "les médias traditionnels ne comprennent pas les jeunes ni ne les intéressent"
-        ],
-        ni_ni_ne: [
-            "ni la télévision ni la radio n'attirent les annonceurs"
-        ],
-        // Section E
-        ne_que: [
-            "internet ne capte que 70% des revenus publicitaires",
-            "internet ne capte que soixante-dix pour cent des revenus publicitaires",
-            "la radio ne maintient que 700 millions d'euros de recettes",
-            "les plateformes ne pensent qu'aux profits"
-        ],
-        ne_que_conf: [
-            "les jeunes ne font que confiance aux influenceurs",
-            "les jeunes ne font confiance qu'aux influenceurs"
-        ],
-        // Section F
-        plus_personne: [
-            "la presse n'attire plus personne"
-        ],
-        pers_jamais_plus: [
-            "personne ne lit jamais plus les journaux traditionnels",
-            "personne ne lit plus jamais les journaux traditionnels"
-        ],
-        jamais_rien: [
-            "les plateformes internet ne donnent jamais rien aux journalistes",
-            "les plateformes numériques ne donnent jamais rien aux journalistes"
-        ],
-        ne_pas_compl: [
-            "ne peuvent pas survivre",
-            "ne peuvent pas survivre du tout"
-        ]
-    };
-
-    const hintTexts = {
-        ne_plus: "Pense à « ne... plus » autour du verbe.",
-        ne_pas: "Pense à « ne... pas » autour du verbe conjugué.",
-        piège_ne_pas: "Attention au sens : ici, la phrase négative doit inverser l'affirmation.",
-        ne_jamais_compl: "Tu dois entourer le verbe avec « ne » et « jamais ».",
-        ne_rien_compl: "Tu dois entourer le verbe avec « ne » et « rien ».",
-        ne_guere_compl: "Essaie d'utiliser « ne... guère » (= presque pas).",
-        ne_personne: "Souviens-toi : « personne » peut être sujet ou complément.",
-        ne_aucun: "« aucun(e) » remplace un groupe nominal : pas un seul / pas une seule.",
-        ne_ni_ni: "Il faut supprimer « pas » et utiliser « ni... ni... ».",
-        ne_ni_double: "Tu peux utiliser deux verbes après le même « ne » ou deux propositions.",
-        ni_ni_ne: "Commence par « Ni... ni... », puis le verbe au pluriel.",
-        ne_que: "« ne... que » = seulement : attention à la place de « que ».",
-        ne_que_conf: "Avec « faire confiance », n'oublie pas la préposition « à ». ",
-        plus_personne: "Combine « ne... plus » et « ne... personne » correctement.",
-        pers_jamais_plus: "Combine « personne », « jamais » et « plus » sans multiplier les verbes.",
-        jamais_rien: "Combine « ne... jamais » et « ne... rien » autour du verbe.",
-        ne_pas_compl: "Deux éléments séparés : « ne » avant le verbe, « pas » après.",
-        libre: "Vérifie que tu as au moins deux éléments de négation et un bon accord."
-    };
-
-function checkSingleInput(input) {
-    if (!input || input.id === 'studentName') return;
-
-    const id = input.id;
-    const hintEl = document.getElementById('hint-' + id);
-    const user = normalize(input.value);
-
-    if (!user) {
-        input.style.borderColor = '#ddd';
-        input.style.background = 'white';
-        if (hintEl) hintEl.textContent = '';
-        return;
+    if(type==="text"){
+      max++;
+      const inp=it.querySelector("input,textarea");
+      const accepted=d(it.dataset.a).split("|"), exp=d(it.dataset.exp||"");
+      const r=judge(inp.value,accepted);
+      if(r==="ok"){score++;fb.className="fb ok";fb.textContent="✔ Correct. "+exp;}
+      else if(r==="accents"){fb.className="fb almost";fb.textContent="≈ Presque ! Vérifiez les accents : "+accepted[0]+". "+exp;}
+      else{fb.className="fb bad";fb.textContent="✘ Réponse attendue : "+accepted[0]+". "+exp;}
+      results.push({label,given:inp.value||"—",ok:r==="ok"});
     }
-
-    if (id === 'f5') {
-        // logique libre comme avant...
-        return;
+    if(type==="free"){
+      const ta=it.querySelector("textarea"), min=parseInt(it.dataset.min||"40");
+      const words=(ta.value.trim().match(/\S+/g)||[]).length;
+      if(words===0){fb.className="fb";fb.textContent="";}
+      else if(words<min){fb.className="fb almost";fb.textContent="≈ "+words+" mots — visez au moins "+min+". Développez avec un connecteur (cependant, en revanche…).";}
+      else{fb.className="fb ok";fb.textContent="✔ "+words+" mots. Comparez maintenant avec le modèle, puis améliorez une phrase.";}
+      results.push({label,given:ta.value||"—",ok:words>=min});
     }
-
-    const solutions = answerBank[id] || [];
-    const correct = solutions.some(sol => normalize(sol) === user);
-
-    if (correct) {
-        input.style.borderColor = '#27ae60';
-        input.style.background = '#d5f4e6';
-        if (hintEl) hintEl.textContent = '';
-    } else {
-        input.style.borderColor = '#e74c3c';
-        input.style.background = '#fadbd8';
-        if (hintEl) hintEl.textContent = hintTexts[id] || "Réfléchis à la place de la négation.";
-    }
+  });
+  const b=document.getElementById("scoreBanner");
+  b.style.display="block";
+  const pct=max?Math.round(100*score/max):0;
+  b.textContent="Score : "+score+" / "+max+" ("+pct+" %) — "+(pct>=80?"Excellent !":pct>=60?"Bien — corrigez les points signalés.":"Relisez les indices et réessayez.");
+  window._score={score,max};
 }
 
-    function checkSingleInput(input) {
-        if (!input || input.id === 'studentName') return;
+function resetAll(){
+  document.querySelectorAll(".item input[type=text], .item textarea").forEach(i=>i.value="");
+  document.querySelectorAll(".item input[type=radio]").forEach(r=>r.checked=false);
+  document.querySelectorAll(".fb").forEach(f=>{f.className="fb";f.textContent=""});
+  document.getElementById("scoreBanner").style.display="none";
+  results=[];window._score=null;window.scrollTo({top:0,behavior:"smooth"});
+}
 
-        const id = input.id;
-        const key = input.dataset.key || 'libre';
-        const hintEl = document.getElementById('hint-' + id);
-        const user = normalize(input.value);
+function downloadResults(){
+  const name=document.getElementById("studentName").value.trim();
+  if(!name){alert("Écrivez d'abord votre nom en haut de la page.");document.getElementById("studentName").focus();return}
+  if(!window._score){alert("Cliquez d'abord sur « Vérifier mes réponses ».");return}
+  let txt="RÉSULTATS — "+document.title+"\n";
+  txt+="Élève : "+name+"\nDate : "+new Date().toLocaleString("fr-FR")+"\n";
+  txt+="Score : "+window._score.score+" / "+window._score.max+"\n";
+  txt+="".padEnd(60,"=")+"\n\n";
+  results.forEach((r,i)=>{txt+=(i+1)+". "+r.label+"\n   Réponse : "+r.given+"\n   "+(r.ok?"✔ correct":"✘ à revoir")+"\n\n";});
+  const blob=new Blob([txt],{type:"text/plain;charset=utf-8"});
+  const a=document.createElement("a");
+  a.href=URL.createObjectURL(blob);
+  a.download=(document.title.split("—")[0].trim()||"resultats").replace(/\s+/g,"_")+"_"+name.replace(/\s+/g,"_")+".txt";
+  document.body.appendChild(a);a.click();document.body.removeChild(a);URL.revokeObjectURL(a.href);
+}
 
-        if (!user) {
-            input.style.borderColor = '#ddd';
-            input.style.background = 'white';
-            if (hintEl) hintEl.textContent = '';
-            return;
-        }
-
-        if (id === 'f5') {
-            // Free production: at least 10 words and 2 negative elements
-            const words = user.split(' ');
-            const negCount = (user.match(/ne |n'|jamais|rien|personne|aucun|ni|plus|guere|guère/g) || []).length;
-            if (words.length >= 10 && negCount >= 2) {
-                input.style.borderColor = '#27ae60';
-                input.style.background = '#d5f4e6';
-                if (hintEl) hintEl.textContent = "Phrase bien formée et suffisamment complexe.";
-            } else {
-                input.style.borderColor = '#e74c3c';
-                input.style.background = '#fadbd8';
-                if (hintEl) hintEl.textContent = "Allonge ta phrase et/ou ajoute au moins deux éléments de négation.";
-            }
-            return;
-        }
-
-        const solutions = answerBank[key] || [];
-        const correct = solutions.some(sol => normalize(sol) === user);
-
-        if (correct) {
-            input.style.borderColor = '#27ae60';
-            input.style.background = '#d5f4e6';
-            if (hintEl) hintEl.textContent = '';
-        } else {
-            input.style.borderColor = '#e74c3c';
-            input.style.background = '#fadbd8';
-            if (hintEl) hintEl.textContent = hintTexts[key] || "Réfléchis à la place de la négation.";
-        }
+/* ---------- Accent pad ---------- */
+const CHARS=["é","è","ê","ë","à","â","î","ï","ô","ù","û","ü","ç","œ","æ","«","»","'","É","È","À","Ç","Œ"];
+let lastField=null;
+document.addEventListener("focusin",e=>{
+  if(e.target.matches("input[type=text],textarea") && e.target.id!=="studentName") lastField=e.target;
+  if(e.target.id==="studentName") lastField=e.target;
+});
+const pad=document.getElementById("accentPad");
+CHARS.forEach(c=>{
+  const b=document.createElement("button");
+  b.textContent=c; if(c===c.toUpperCase()&&c.toLowerCase()!==c) b.className="maj";
+  b.addEventListener("mousedown",ev=>{
+    ev.preventDefault(); /* keep focus in the field */
+    if(!lastField) return;
+    const s=lastField.selectionStart??lastField.value.length, t=lastField.selectionEnd??s;
+    lastField.value=lastField.value.slice(0,s)+c+lastField.value.slice(t);
+    lastField.selectionStart=lastField.selectionEnd=s+c.length;
+    lastField.focus();
+  });
+  pad.appendChild(b);
+});
+function togglePad(){
+  const show=pad.style.display==="none";
+  pad.style.display=show?"flex":"none";
+  document.getElementById("padToggle").style.display=show?"none":"block";
+  if(show){ /* add close button once */
+    if(!pad.querySelector(".closer")){
+      const x=document.createElement("button");x.textContent="✕";x.className="closer";
+      x.addEventListener("mousedown",ev=>{ev.preventDefault();togglePad()});pad.appendChild(x);
     }
-
-    function checkAnswers() {
-        const studentName = document.getElementById('studentName').value.trim();
-        if (!studentName) {
-            alert('Veuillez entrer votre nom avant de vérifier les réponses.');
-            document.getElementById('studentName').focus();
-            return;
-        }
-
-        const inputs = document.querySelectorAll('input[type="text"]:not(#studentName)');
-        let score = 0;
-        let total = 0;
-
-        inputs.forEach(input => {
-            if (input.id === 'f5') {
-                const id = input.id;
-                const hintEl = document.getElementById('hint-' + id);
-                const user = normalize(input.value);
-                const words = user.split(' ').filter(Boolean);
-                const negCount = (user.match(/ne |n'|jamais|rien|personne|aucun|ni|plus|guere|guère/g) || []).length;
-                if (words.length >= 10 && negCount >= 2) {
-                    input.style.borderColor = '#27ae60';
-                    input.style.background = '#d5f4e6';
-                    if (hintEl) hintEl.textContent = "Phrase bien formée et suffisamment complexe.";
-                    score++;
-                } else {
-                    input.style.borderColor = '#e74c3c';
-                    input.style.background = '#fadbd8';
-                    if (hintEl) hintEl.textContent = "Allonge ta phrase et/ou ajoute au moins deux éléments de négation.";
-                }
-                total++;
-            } else {
-                checkSingleInput(input);
-                const key = input.dataset.key || 'libre';
-                const user = normalize(input.value);
-                const sols = answerBank[key] || [];
-                if (sols.some(sol => normalize(sol) === user)) {
-                    score++;
-                }
-                total++;
-            }
-        });
-
-        const percentage = Math.round((score / total) * 100);
-        const scoreDisplay = document.getElementById('scoreDisplay');
-        scoreDisplay.textContent = `Score indicatif : ${score}/${total} (${percentage} %)`;
-        scoreDisplay.style.display = 'block';
-        scoreDisplay.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-    }
-
-    function resetForm() {
-        if (confirm('Êtes-vous sûr(e) de vouloir réinitialiser toutes les réponses ?')) {
-            const inputs = document.querySelectorAll('input[type="text"]');
-            inputs.forEach(input => {
-                input.value = '';
-                input.style.borderColor = '#ddd';
-                input.style.background = 'white';
-            });
-            const hints = document.querySelectorAll('.hint');
-            hints.forEach(h => h.textContent = '');
-            document.getElementById('scoreDisplay').style.display = 'none';
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-    }
-
-    function downloadResults() {
-        const studentName = document.getElementById('studentName').value.trim();
-        if (!studentName) {
-            alert('Veuillez entrer votre nom avant de télécharger.');
-            document.getElementById('studentName').focus();
-            return;
-        }
-
-        let content = `EXERCICES DE NÉGATION - LES MÉDIAS FRANÇAIS\n`;
-        content += `${'='.repeat(70)}\n\n`;
-        content += `Nom de l'étudiant(e) : ${studentName}\n`;
-        content += `Date : ${new Date().toLocaleDateString('fr-FR')}\n`;
-        content += `Heure : ${new Date().toLocaleTimeString('fr-FR')}\n`;
-        content += `\n${'='.repeat(70)}\n\n`;
-
-        const sections = [
-            { name:'Section A : Négation de phrases affirmatives', ids:['a1','a2','a3','a4','a5'] },
-            { name:'Section B : Ne... jamais / Ne... rien / Ne... guère', ids:['b1','b2','b3','b4'] },
-            { name:'Section C : Ne... personne / Ne... aucun(e)', ids:['c1','c2','c3','c4'] },
-            { name:'Section D : Ne... ni... ni...', ids:['d1','d2','d3'] },
-            { name:'Section E : Ne... que (restriction)', ids:['e1','e2','e3','e4'] },
-            { name:'Section F : Négations multiples (avancé)', ids:['f1','f2','f3','f4','f5'] }
-        ];
-
-        sections.forEach(section => {
-            content += `${section.name}\n`;
-            content += `${'-'.repeat(70)}\n\n`;
-            section.ids.forEach((id, idx) => {
-                const input = document.getElementById(id);
-                const answer = (input && input.value.trim()) || '[Pas de réponse]';
-                content += `Question ${idx + 1} :\n`;
-                content += `Réponse : ${answer}\n\n`;
-            });
-            content += '\n';
-        });
-
-        const scoreDisplay = document.getElementById('scoreDisplay');
-        if (scoreDisplay.style.display !== 'none') {
-            content += `\n${'='.repeat(70)}\n`;
-            content += `${scoreDisplay.textContent}\n`;
-            content += `${'='.repeat(70)}\n`;
-        }
-
-        const blob = new Blob([content], { type:'text/plain;charset=utf-8' });
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        const fileName = `Negation_${studentName.replace(/\s+/g, '_')}_${new Date().toISOString().split('T')[0]}.txt`;
-        a.download = fileName;
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-        URL.revokeObjectURL(url);
-        alert(`Résultats téléchargés : ${fileName}`);
-    }
-
-    document.addEventListener('click', function(event) {
-        const keyboard = document.getElementById('accentKeyboard');
-        const isAccentBtn = event.target.classList.contains('accent-btn');
-        const isInsideKeyboard = keyboard.contains(event.target);
-        if (!isAccentBtn && !isInsideKeyboard && keyboard.classList.contains('active')) {
-            hideAccents();
-        }
-    });
-
-    document.addEventListener('keydown', function(event) {
-        // Alt + lettre pour quelques accents rapides
-        if (event.altKey && currentInputId) {
-            const key = event.key.toLowerCase();
-            const accentMap = { 'e':'é', 'a':'à', 'u':'ù', 'c':'ç' };
-            if (accentMap[key]) {
-                event.preventDefault();
-                insertAccent(accentMap[key]);
-                return;
-            }
-        }
-
-        // Entrée = vérifier la réponse du champ courant
-        if (event.key === 'Enter') {
-            const target = event.target;
-            if (target && target.tagName === 'INPUT' && target.type === 'text') {
-                event.preventDefault();
-                checkSingleInput(target);
-            }
-        }
-    });
+  }
+}
+/* drag the pad */
+(function(){
+  const h=pad.querySelector(".drag");let sx,sy,ox,oy,drag=false;
+  h.addEventListener("mousedown",e=>{drag=true;sx=e.clientX;sy=e.clientY;const r=pad.getBoundingClientRect();ox=r.left;oy=r.top;
+    pad.style.right="auto";pad.style.bottom="auto";e.preventDefault()});
+  document.addEventListener("mousemove",e=>{if(!drag)return;pad.style.left=(ox+e.clientX-sx)+"px";pad.style.top=(oy+e.clientY-sy)+"px"});
+  document.addEventListener("mouseup",()=>drag=false);
+})();
 </script>
 </body>
 </html>

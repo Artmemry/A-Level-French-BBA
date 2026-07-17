@@ -1,542 +1,420 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Activité - L'Étranger de Camus</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            font-family: 'Georgia', serif;
-            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
-            min-height: 100vh;
-            padding: 20px;
-        }
-        
-        .container {
-            max-width: 900px;
-            margin: 0 auto;
-            background: #f9f9f9;
-            border-radius: 10px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
-            overflow: hidden;
-        }
-        
-        header {
-            background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
-            color: white;
-            padding: 30px;
-            text-align: center;
-        }
-        
-        h1 {
-            font-size: 2em;
-            margin-bottom: 10px;
-        }
-        
-        .subtitle {
-            opacity: 0.9;
-            font-style: italic;
-        }
-        
-        .main-content {
-            padding: 30px;
-        }
-        
-        .section {
-            margin-bottom: 30px;
-            background: white;
-            padding: 25px;
-            border-radius: 8px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-        }
-        
-        .section h2 {
-            color: #2c3e50;
-            margin-bottom: 20px;
-            border-bottom: 2px solid #3498db;
-            padding-bottom: 10px;
-        }
-        
-        .question {
-            margin-bottom: 20px;
-        }
-        
-        .question-text {
-            font-weight: bold;
-            margin-bottom: 10px;
-            color: #2c3e50;
-        }
-        
-        textarea, input[type="text"] {
-            width: 100%;
-            padding: 12px;
-            border: 2px solid #ddd;
-            border-radius: 6px;
-            font-family: 'Georgia', serif;
-            font-size: 1em;
-            transition: border-color 0.3s;
-        }
-        
-        textarea {
-            min-height: 100px;
-            resize: vertical;
-        }
-        
-        textarea:focus, input[type="text"]:focus {
-            outline: none;
-            border-color: #3498db;
-        }
-        
-        .checkbox-group {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-        
-        .checkbox-item {
-            display: flex;
-            align-items: center;
-            padding: 10px;
-            background: #f8f9fa;
-            border-radius: 4px;
-            cursor: pointer;
-            transition: background 0.3s;
-        }
-        
-        .checkbox-item:hover {
-            background: #e9ecef;
-        }
-        
-        .checkbox-item input {
-            margin-right: 10px;
-        }
-        
-        .accent-keyboard {
-            position: fixed;
-            display: none;
-            flex-wrap: wrap;
-            gap: 6px;
-            padding: 10px;
-            background: white;
-            border-radius: 8px;
-            box-shadow: 0 4px 16px rgba(0,0,0,0.2);
-            z-index: 1000;
-            max-width: 350px;
-            border: 2px solid #3498db;
-        }
-        
-        .accent-keyboard.show {
-            display: flex;
-        }
-        
-        .accent-btn {
-            padding: 6px 10px;
-            background: #3498db;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 0.95em;
-            transition: background 0.3s;
-        }
-        
-        .accent-btn:hover {
-            background: #2c3e50;
-        }
-        
-        .download-section {
-            margin-top: 30px;
-            background: #e8f4f8;
-            padding: 25px;
-            border-radius: 8px;
-            text-align: center;
-        }
-        
-        .student-name {
-            width: 100%;
-            max-width: 400px;
-            margin: 15px auto;
-            display: block;
-        }
-        
-        .btn {
-            padding: 12px 30px;
-            border: none;
-            border-radius: 6px;
-            font-size: 1em;
-            cursor: pointer;
-            transition: all 0.3s;
-            font-weight: 600;
-            margin: 10px;
-        }
-        
-        .btn-primary {
-            background: #3498db;
-            color: white;
-        }
-        
-        .btn-primary:hover {
-            background: #2c3e50;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(52,152,219,0.4);
-        }
-        
-        .quote {
-            font-style: italic;
-            padding: 15px;
-            background: #f8f9fa;
-            border-left: 4px solid #3498db;
-            margin: 15px 0;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>L'Étranger d'Albert Camus — Activité d'introduction</title>
+<style>
+  :root{
+    --ink:#1a2733; --paper:#ffffff; --bg:#eef2f6;
+    --accent:#00546b; --accent2:#8a1538; --ok:#1e7b45; --warn:#b06f00; --bad:#a12727;
+    --line:#c9d4dd;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:Calibri,'Segoe UI',Arial,sans-serif;font-size:17px;line-height:1.55;
+       color:var(--ink);background:var(--bg);padding:24px 16px 120px}
+  .wrap{max-width:880px;margin:0 auto;background:var(--paper);border:1px solid var(--line);
+        border-radius:8px;padding:28px 32px}
+  header{border-bottom:3px solid var(--accent);padding-bottom:12px;margin-bottom:18px}
+  h1{font-size:1.6em;color:var(--accent)}
+  .meta{color:#5a6a78;font-style:italic;margin-top:4px}
+  h2{font-size:1.25em;color:var(--accent);margin:28px 0 8px;border-left:5px solid var(--accent);padding-left:10px}
+  h2 .pts{font-size:.75em;color:#5a6a78;font-weight:normal}
+  .consigne{background:#f2f7fa;border-left:4px solid var(--accent);padding:10px 14px;margin:8px 0 14px;border-radius:0 6px 6px 0}
+  .name-row{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin:14px 0}
+  .name-row input{padding:9px 12px;font-size:1em;border:2px solid var(--accent);border-radius:6px;width:280px;font-family:inherit}
+  .item{margin:14px 0;padding:12px 14px;border:1px solid var(--line);border-radius:6px}
+  .item p.q{margin-bottom:8px}
+  .item input[type=text],.item textarea{width:100%;padding:8px 10px;font-size:1em;font-family:inherit;
+      border:1.5px solid var(--line);border-radius:5px;margin-top:4px}
+  .item textarea{min-height:90px;resize:vertical}
+  .opts label{display:block;padding:7px 10px;margin:5px 0;border:1.5px solid var(--line);border-radius:5px;cursor:pointer}
+  .opts label:hover{background:#f2f7fa}
+  details.aide{margin:8px 0 2px}
+  details.aide summary{cursor:pointer;color:var(--warn);font-weight:bold}
+  details.aide div{background:#fff8ec;border-left:4px solid var(--warn);padding:8px 12px;margin-top:6px;border-radius:0 6px 6px 0}
+  .fb{display:none;margin-top:8px;padding:9px 12px;border-radius:6px;font-size:.95em}
+  .fb.ok{display:block;background:#e9f5ee;border-left:4px solid var(--ok);color:var(--ok)}
+  .fb.almost{display:block;background:#fff8ec;border-left:4px solid var(--warn);color:var(--warn)}
+  .fb.bad{display:block;background:#fbeeee;border-left:4px solid var(--bad);color:var(--bad)}
+  .stretch{border:2px dashed var(--accent2);border-radius:8px;padding:16px;margin:26px 0;background:#fdf7f9}
+  .stretch h2{color:var(--accent2);border-left-color:var(--accent2)}
+  .btn{background:var(--accent);color:#fff;border:none;padding:11px 20px;font-size:1em;font-family:inherit;
+       border-radius:6px;cursor:pointer;margin:6px 6px 6px 0}
+  .btn:hover{filter:brightness(1.15)}
+  .btn.dl{background:var(--ok)}
+  .btn.second{background:#5a6a78}
+  .score-banner{display:none;margin:18px 0;padding:14px;border-radius:8px;background:#f2f7fa;
+       border:2px solid var(--accent);font-size:1.15em;font-weight:bold;color:var(--accent)}
+  /* ---------- Floating accent pad ---------- */
+  #accentPad{position:fixed;bottom:18px;right:18px;background:#fff;border:2px solid var(--accent);
+       border-radius:10px;box-shadow:0 6px 24px rgba(0,0,0,.25);padding:10px;z-index:1000;
+       display:flex;flex-wrap:wrap;gap:5px;max-width:340px;user-select:none}
+  #accentPad .drag{width:100%;cursor:move;font-size:.8em;color:#5a6a78;text-align:center;padding-bottom:4px}
+  #accentPad button{font-size:1.05em;font-family:inherit;min-width:34px;padding:6px 4px;border:1px solid var(--line);
+       border-radius:5px;background:#f2f7fa;cursor:pointer}
+  #accentPad button:hover{background:var(--accent);color:#fff}
+  #accentPad .maj{font-size:.8em;background:#e6e9ec}
+  #padToggle{position:fixed;bottom:18px;right:18px;z-index:999;background:var(--accent);color:#fff;
+       border:none;border-radius:50px;padding:12px 18px;font-size:1em;cursor:pointer;box-shadow:0 4px 14px rgba(0,0,0,.3)}
+  @media print{#accentPad,#padToggle{display:none}}
+</style>
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>L'Étranger d'Albert Camus</h1>
-            <p class="subtitle">Analyse littéraire - IB Language and Literature</p>
-        </header>
-        
-        <div class="main-content">
-            <div class="section">
-                <h2>1. Compréhension du texte</h2>
-                
-                <div class="question">
-                    <p class="question-text">Quel est le contexte historique de <em>L'Étranger</em> ?</p>
-                    <textarea id="q1" placeholder="Écrivez votre réponse ici..."></textarea>
-                </div>
-                
-                <div class="question">
-                    <p class="question-text">Expliquez la différence entre les titres <em>The Outsider</em> (Gilbert, 1946) et <em>The Stranger</em> (Ward, 1988). Quelle nuance chaque titre apporte-t-il ?</p>
-                    <textarea id="q2" placeholder="Écrivez votre réponse ici..."></textarea>
-                </div>
-            </div>
-            
-            <div class="section">
-                <h2>2. Le ton détaché de Meursault</h2>
-                
-                <div class="quote">
-                    « She then wanted to know if I loved her. I replied as I had done once already, that it didn't mean anything but that I probably didn't. »
-                </div>
-                
-                <div class="question">
-                    <p class="question-text">Analysez comment Camus crée un ton détaché dans cette citation. Considérez :</p>
-                    <textarea id="q3" placeholder="- La syntaxe\n- Le langage émotif (ou son absence)\n- Les modificateurs adjectivaux\n- Les verbes modaux..."></textarea>
-                </div>
-                
-                <div class="question">
-                    <p class="question-text">Identifiez les techniques stylistiques que Camus utilise pour créer le détachement émotionnel de Meursault :</p>
-                    <div class="checkbox-group">
-                        <label class="checkbox-item">
-                            <input type="checkbox" name="techniques" value="syntaxe">
-                            <span>Syntaxe épurée et minimaliste</span>
-                        </label>
-                        <label class="checkbox-item">
-                            <input type="checkbox" name="techniques" value="emotif">
-                            <span>Absence de langage émotif</span>
-                        </label>
-                        <label class="checkbox-item">
-                            <input type="checkbox" name="techniques" value="adjectifs">
-                            <span>Minimisation des adjectifs</span>
-                        </label>
-                        <label class="checkbox-item">
-                            <input type="checkbox" name="techniques" value="modaux">
-                            <span>Omission de verbes modaux</span>
-                        </label>
-                        <label class="checkbox-item">
-                            <input type="checkbox" name="techniques" value="distance">
-                            <span>Narration à distance, comme un observateur externe</span>
-                        </label>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="section">
-                <h2>3. La juxtaposition de l'ordinaire et du profond</h2>
-                
-                <div class="quote">
-                    « [the sun] was beginning to weigh down heavily on the earth and it was rapidly getting hotter. »
-                </div>
-                
-                <div class="question">
-                    <p class="question-text">Comment cette description du soleil lors des funérailles de la mère de Meursault reflète-t-elle l'exploration de l'absurde par Camus ? Pourquoi se concentre-t-il sur des sensations physiques plutôt que sur le chagrin ?</p>
-                    <textarea id="q4" placeholder="Écrivez votre réponse ici..."></textarea>
-                </div>
-                
-                <div class="question">
-                    <p class="question-text">Trouvez d'autres exemples dans le roman où Meursault juxtapose des observations banales avec des événements significatifs :</p>
-                    <textarea id="q5" placeholder="Exemples et analyse..."></textarea>
-                </div>
-            </div>
-            
-            <div class="section">
-                <h2>4. L'absurdité de la condition humaine</h2>
-                
-                <div class="question">
-                    <p class="question-text">Selon l'article, comment le style narratif de Camus reflète-t-il le concept philosophique de l'absurde ? Expliquez le « conflit entre le désir humain de sens et la nature indifférente de l'univers ».</p>
-                    <textarea id="q6" placeholder="Écrivez votre réponse ici..."></textarea>
-                </div>
-                
-                <div class="question">
-                    <p class="question-text">Zaretsky (2010) affirme que la narration de Meursault est « un acte littéraire de l'absurde, montrant comment la conscience humaine n'offre aucun sens inhérent ». Êtes-vous d'accord ? Justifiez votre réponse.</p>
-                    <textarea id="q7" placeholder="Écrivez votre réponse ici..."></textarea>
-                </div>
-            </div>
-            
-            <div class="section">
-                <h2>5. Analyse comparative</h2>
-                
-                <div class="question">
-                    <p class="question-text">Comparez le style de Camus dans <em>L'Étranger</em> avec un autre texte littéraire que vous avez étudié. Comment les auteurs utilisent-ils différemment (ou similairement) le style narratif pour transmettre des thèmes philosophiques ?</p>
-                    <textarea id="q8" placeholder="Texte comparé :\nSimilarités :\nDifférences :\nConclusion :"></textarea>
-                </div>
-            </div>
-            
-            <div class="section">
-                <h2>6. Réflexion critique</h2>
-                
-                <div class="question">
-                    <p class="question-text">L'article mentionne que Meursault « refuse de mentir, d'obscurcir ou de prétendre ». Dans quelle mesure cette honnêteté sans compromis fait-elle de lui un héros ou un anti-héros ? Considérez les implications sociales et éthiques.</p>
-                    <textarea id="q9" placeholder="Écrivez votre réponse ici..."></textarea>
-                </div>
-            </div>
-            
-            <div class="download-section">
-                <h2>Télécharger vos réponses</h2>
-                <p>Entrez votre nom pour télécharger un document avec vos réponses :</p>
-                <input type="text" id="studentName" class="student-name" placeholder="Votre nom complet">
-                <button class="btn btn-primary" onclick="downloadResponses()">Télécharger le document</button>
-            </div>
-        </div>
+<div class="wrap">
+  <header>
+    <h1>L'Étranger d'Albert Camus — Activité d'introduction</h1>
+    <p class="meta">A-Level French (Edexcel) · L'Étranger, Albert Camus (1942) · Durée conseillée : 40 min</p>
+  </header>
+
+  <div class="name-row">
+    <label for="studentName"><strong>Votre nom :</strong></label>
+    <input type="text" id="studentName" placeholder="Prénom NOM" maxlength="60">
+  </div>
+
+  <div class="consigne"><strong>Consignes :</strong> Cette activité d'introduction vous fait découvrir le contexte de <em>L'Étranger</em> et analyser ses premières lignes. Complétez chaque exercice puis cliquez sur « Vérifier ». À la fin, téléchargez vos résultats et déposez le fichier sur Teams/SharePoint.</div>
+
+  <!-- ============ EXERCICE 1 : contexte ============ -->
+  <h2>Exercice 1 · Contexte : Camus et l'Algérie coloniale <span class="pts">(6 points)</span></h2>
+  <div class="consigne">Répondez aux questions sur le contexte biographique et historique d'Albert Camus et de <em>L'Étranger</em>.</div>
+
+  <div class="item" data-type="mcq" data-a="MQ==" data-exp="Q2FtdXMgZXN0IG7DqSBlbiAxOTEzIMOgIE1vbmRvdmksIGVuIEFsZ8OpcmllIGZyYW7Dp2Fpc2UsIGRhbnMgdW5lIGZhbWlsbGUgcGF1dnJlIGQnb3JpZ2luZSBldXJvcMOpZW5uZSAowqsgcGllZC1ub2lyIMK7KSA7IHNvbiBww6hyZSBtZXVydCDDoCBsYSBndWVycmUgZW4gMTkxNCBldCBzYSBtw6hyZSwgaWxsZXR0csOpZSwgbCfDqWzDqHZlIHNldWxlLg==">
+    <p class="q">1. Où et dans quel milieu Albert Camus est-il né ?</p>
+    <div class="opts">
+      <label><input type="radio" name="c_ex1_q1" value="0"> A) À Paris, dans une famille bourgeoise</label>
+      <label><input type="radio" name="c_ex1_q1" value="1"> B) En Algérie française, dans une famille modeste (pied-noir)</label>
+      <label><input type="radio" name="c_ex1_q1" value="2"> C) Au Maroc, dans une famille d'enseignants</label>
     </div>
-    
-    <div class="accent-keyboard" id="accentKeyboard">
-        <button class="accent-btn" onclick="insertAccent('à')">à</button>
-        <button class="accent-btn" onclick="insertAccent('â')">â</button>
-        <button class="accent-btn" onclick="insertAccent('é')">é</button>
-        <button class="accent-btn" onclick="insertAccent('è')">è</button>
-        <button class="accent-btn" onclick="insertAccent('ê')">ê</button>
-        <button class="accent-btn" onclick="insertAccent('ë')">ë</button>
-        <button class="accent-btn" onclick="insertAccent('î')">î</button>
-        <button class="accent-btn" onclick="insertAccent('ï')">ï</button>
-        <button class="accent-btn" onclick="insertAccent('ô')">ô</button>
-        <button class="accent-btn" onclick="insertAccent('ù')">ù</button>
-        <button class="accent-btn" onclick="insertAccent('û')">û</button>
-        <button class="accent-btn" onclick="insertAccent('ü')">ü</button>
-        <button class="accent-btn" onclick="insertAccent('ç')">ç</button>
-        <button class="accent-btn" onclick="insertAccent('œ')">œ</button>
-        <button class="accent-btn" onclick="insertAccent('«')">«</button>
-        <button class="accent-btn" onclick="insertAccent('»')">»</button>
+    <div class="fb"></div>
+  </div>
+  <div class="item" data-type="mcq" data-a="MQ==" data-exp="TCfDiXRyYW5nZXIgZXN0IHB1Ymxpw6kgZW4gMTk0MiwgZW4gcGxlaW5lIE9jY3VwYXRpb24uICgxOTEzIGVzdCBsJ2FubsOpZSBkZSBuYWlzc2FuY2UgZGUgQ2FtdXMgOyAxOTU3IGNlbGxlIGRlIHNvbiBwcml4IE5vYmVsIGRlIGxpdHTDqXJhdHVyZS4p">
+    <p class="q">2. En quelle année <em>L'Étranger</em> est-il publié ?</p>
+    <div class="opts">
+      <label><input type="radio" name="c_ex1_q2" value="0"> A) 1913</label>
+      <label><input type="radio" name="c_ex1_q2" value="1"> B) 1942</label>
+      <label><input type="radio" name="c_ex1_q2" value="2"> C) 1957</label>
     </div>
+    <div class="fb"></div>
+  </div>
+  <div class="item" data-type="mcq" data-a="MQ==" data-exp="Q2FtdXMgb3JnYW5pc2Ugc29uIMWTdXZyZSBlbiBjeWNsZXMgcGhpbG9zb3BoaXF1ZXMgOiBMJ8OJdHJhbmdlciwgYXZlYyBMZSBNeXRoZSBkZSBTaXN5cGhlIGV0IENhbGlndWxhLCBhcHBhcnRpZW50IGF1IMKrIGN5Y2xlIGRlIGwnYWJzdXJkZSDCuy4gTGUgwqsgY3ljbGUgZGUgbGEgcsOpdm9sdGUgwrsgdmllbmRyYSBwbHVzIHRhcmQsIGF2ZWMgTGEgUGVzdGUgZXQgTCdIb21tZSByw6l2b2x0w6ku">
+    <p class="q">3. <em>L'Étranger</em> appartient à ce que Camus appelle :</p>
+    <div class="opts">
+      <label><input type="radio" name="c_ex1_q3" value="0"> A) le cycle du tragique</label>
+      <label><input type="radio" name="c_ex1_q3" value="1"> B) le cycle de l'absurde</label>
+      <label><input type="radio" name="c_ex1_q3" value="2"> C) le cycle de la révolte</label>
+    </div>
+    <div class="fb"></div>
+  </div>
+  <div class="item" data-type="mcq" data-a="MA==" data-exp="Q2FtdXMgZ3JhbmRpdCBkYW5zIGwnQWxnw6lyaWUgY29sb25pYWxlIGZyYW7Dp2Fpc2UsIG1hcnF1w6llIHBhciB1bmUgcHJvZm9uZGUgaW7DqWdhbGl0w6kgZW50cmUgY29sb25zIGV1cm9ww6llbnMgZXQgcG9wdWxhdGlvbiBhcmFiby1iZXJiw6hyZSDigJQgdW4gY29udGV4dGUgZXNzZW50aWVsIHBvdXIgY29tcHJlbmRyZSBsZSByb21hbiwgbm90YW1tZW50IGxlIG1ldXJ0cmUgZGUgwqsgbCdBcmFiZSDCuywgcGVyc29ubmFnZSBqYW1haXMgbm9tbcOpLg==">
+    <p class="q">4. Quel élément historique marque l'arrière-plan de l'Algérie où grandit Camus ?</p>
+    <div class="opts">
+      <label><input type="radio" name="c_ex1_q4" value="0"> A) La colonisation française et les tensions entre communauté européenne et population arabo-berbère</label>
+      <label><input type="radio" name="c_ex1_q4" value="1"> B) La guerre civile espagnole</label>
+      <label><input type="radio" name="c_ex1_q4" value="2"> C) L'indépendance immédiate de l'Algérie dès 1920</label>
+    </div>
+    <div class="fb"></div>
+  </div>
+  <div class="item" data-type="mcq" data-a="MQ==" data-exp="TWV1cnNhdWx0IHJhY29udGUgbGVzIMOpdsOpbmVtZW50cyDDoCBsYSBwcmVtacOocmUgcGVyc29ubmUsIGF2ZWMgdW5lIG5ldXRyYWxpdMOpIGRlIHRvbiBxdWkgZnJhcHBlIGxlIGxlY3RldXIgZMOocyBsYSBwcmVtacOocmUgcGhyYXNlIGR1IHJvbWFuLg==">
+    <p class="q">5. Le narrateur du roman, Meursault, s'exprime :</p>
+    <div class="opts">
+      <label><input type="radio" name="c_ex1_q5" value="0"> A) à la troisième personne, de façon omnisciente</label>
+      <label><input type="radio" name="c_ex1_q5" value="1"> B) à la première personne, avec un ton neutre et détaché</label>
+      <label><input type="radio" name="c_ex1_q5" value="2"> C) par une série de lettres échangées avec sa mère</label>
+    </div>
+    <div class="fb"></div>
+  </div>
+  <div class="item" data-type="mcq" data-a="MA==" data-exp="T24gcGFybGUgZCfCqyDDqWNyaXR1cmUgYmxhbmNoZSDCuyAodGVybWUgcG9wdWxhcmlzw6kgcGFyIFJvbGFuZCBCYXJ0aGVzKSBwb3VyIGTDqXNpZ25lciBjZSBzdHlsZSBkw6lwb3VpbGzDqSwgYXV4IHBocmFzZXMgY291cnRlcyBldCBhdSB0b24gbmV1dHJlLCBxdWkgcmVmbMOodGUgbCdpbmRpZmbDqXJlbmNlIGFwcGFyZW50ZSBkZSBNZXVyc2F1bHQu">
+    <p class="q">6. Le style d'écriture de Camus dans <em>L'Étranger</em> est souvent qualifié de :</p>
+    <div class="opts">
+      <label><input type="radio" name="c_ex1_q6" value="0"> A) « écriture blanche » — phrases courtes, ton neutre, peu d'affect</label>
+      <label><input type="radio" name="c_ex1_q6" value="1"> B) lyrique et emphatique, riche en métaphores</label>
+      <label><input type="radio" name="c_ex1_q6" value="2"> C) épistolaire et digressif</label>
+    </div>
+    <div class="fb"></div>
+  </div>
 
-    <script>
-        let currentInput = null;
-        
-        function positionKeyboard(input) {
-            const keyboard = document.getElementById('accentKeyboard');
-            const rect = input.getBoundingClientRect();
-            
-            let top = rect.bottom + 10;
-            let left = rect.left;
-            
-            const keyboardWidth = 350;
-            const keyboardHeight = 100;
-            const viewportWidth = window.innerWidth;
-            const viewportHeight = window.innerHeight;
-            
-            if (left + keyboardWidth > viewportWidth) {
-                left = viewportWidth - keyboardWidth - 20;
-            }
-            
-            if (left < 10) {
-                left = 10;
-            }
-            
-            if (top + keyboardHeight > viewportHeight) {
-                top = rect.top - keyboardHeight - 10;
-                if (top < 10) {
-                    top = viewportHeight - keyboardHeight - 10;
-                }
-            }
-            
-            keyboard.style.top = top + 'px';
-            keyboard.style.left = left + 'px';
-            keyboard.classList.add('show');
-        }
-        
-        function insertAccent(char) {
-            if (currentInput) {
-                const start = currentInput.selectionStart;
-                const end = currentInput.selectionEnd;
-                const text = currentInput.value;
-                currentInput.value = text.substring(0, start) + char + text.substring(end);
-                currentInput.selectionStart = currentInput.selectionEnd = start + char.length;
-                currentInput.focus();
-                positionKeyboard(currentInput);
-            }
-        }
-        
-        document.addEventListener('DOMContentLoaded', function() {
-            const textInputs = document.querySelectorAll('textarea, input[type="text"]');
-            
-            textInputs.forEach(input => {
-                if (input.id === 'studentName') return;
-                
-                input.addEventListener('focus', function() {
-                    currentInput = this;
-                    positionKeyboard(this);
-                });
-                
-                input.addEventListener('blur', function() {
-                    setTimeout(() => {
-                        const keyboard = document.getElementById('accentKeyboard');
-                        const activeEl = document.activeElement;
-                        
-                        if (activeEl.closest('.accent-keyboard') || 
-                            (activeEl.tagName === 'TEXTAREA' || (activeEl.tagName === 'INPUT' && activeEl.type === 'text' && activeEl.id !== 'studentName'))) {
-                            return;
-                        }
-                        keyboard.classList.remove('show');
-                    }, 100);
-                });
-            });
-            
-            window.addEventListener('scroll', function() {
-                if (currentInput && document.getElementById('accentKeyboard').classList.contains('show')) {
-                    positionKeyboard(currentInput);
-                }
-            });
-            
-            window.addEventListener('resize', function() {
-                if (currentInput && document.getElementById('accentKeyboard').classList.contains('show')) {
-                    positionKeyboard(currentInput);
-                }
-            });
-        });
-        
-        function downloadResponses() {
-            const studentName = document.getElementById('studentName').value.trim();
-            
-            if (!studentName) {
-                alert('Veuillez entrer votre nom.');
-                return;
-            }
-            
-            const date = new Date().toLocaleDateString('fr-FR');
-            let document = `═══════════════════════════════════════════════════════════
-ANALYSE LITTÉRAIRE - L'ÉTRANGER D'ALBERT CAMUS
-IB Language and Literature - Paper 2
-═══════════════════════════════════════════════════════════
+  <!-- ============ EXERCICE 2 : vocabulaire ============ -->
+  <h2>Exercice 2 · Vocabulaire du roman <span class="pts">(6 points)</span></h2>
+  <div class="consigne">Trouvez le mot ou l'expression du roman correspondant à chaque définition.</div>
 
-Étudiant(e) : ${studentName}
-Date : ${date}
+  <div class="item" data-type="text" data-a="bCdhc2lsZXxhc2lsZXxsJ2FzaWxlIGRlIHZpZWlsbGFyZHN8YXNpbGUgZGUgdmllaWxsYXJkcw==" data-exp="wqsgTCdhc2lsZSDCuyAoZGUgdmllaWxsYXJkcykgZXN0IGxlIG1vdCBlbXBsb3nDqSBkYW5zIGxlIHJvbWFuIHBvdXIgbGEgbWFpc29uIGRlIHJldHJhaXRlIG/DuSBNZXVyc2F1bHQgYXZhaXQgcGxhY8OpIHNhIG3DqHJlLg==">
+    <p class="q">1. Établissement où la mère de Meursault vivait avant sa mort (mot du roman) :</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <div class="fb"></div>
+  </div>
+  <div class="item" data-type="text" data-a="bCdhYnN1cmRlfGFic3VyZGU=" data-exp="wqsgTCdhYnN1cmRlIMK7IGVzdCBsZSBjb25jZXB0IHBoaWxvc29waGlxdWUgY2VudHJhbCBkZSBDYW11cyA6IGxlIGTDqWNhbGFnZSBlbnRyZSBsZSBiZXNvaW4gZGUgc2VucyBkZSBsJ8OqdHJlIGh1bWFpbiBldCBsZSBzaWxlbmNlIGluZGlmZsOpcmVudCBkZSBsJ3VuaXZlcnMu">
+    <p class="q">2. Sentiment de non-sens de l'existence humaine, thème central du roman :</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <div class="fb"></div>
+  </div>
+  <div class="item" data-type="text" data-a="bGUgdMOpbMOpZ3JhbW1lfHTDqWzDqWdyYW1tZXx1biB0w6lsw6lncmFtbWU=" data-exp="TGUgcm9tYW4gcydvdXZyZSBzdXIgbGEgcsOpY2VwdGlvbiBkJ3VuIHTDqWzDqWdyYW1tZSBhbm5vbsOnYW50IGxhIG1vcnQgZGUgbGEgbcOocmUgZGUgTWV1cnNhdWx0Lg==">
+    <p class="q">3. Message bref envoyé pour annoncer un décès, reçu par Meursault au tout début du roman :</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <div class="fb"></div>
+  </div>
+  <div class="item" data-type="text" data-a="bGUgbWV1cnRyZXx1biBtZXVydHJlfG1ldXJ0cmU=" data-exp="TWV1cnNhdWx0IHR1ZSDCqyBsJ0FyYWJlIMK7IHN1ciB1bmUgcGxhZ2Ugw6AgQWxnZXIsIGVuIHBsZWluIHNvbGVpbCDigJQgdW4gbWV1cnRyZSBwcmVzcXVlIHNhbnMgbW9iaWxlIGNsYWlyLCBjZW50cmFsIGRhbnMgbGEgZGV1eGnDqG1lIHBhcnRpZSBkdSByb21hbi4=">
+    <p class="q">4. Le crime commis par Meursault sur la plage :</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <div class="fb"></div>
+  </div>
+  <div class="item" data-type="text" data-a="dW4gcGllZC1ub2lyfHBpZWQtbm9pcnx1bmUgcGllZC1ub2ly" data-exp="wqsgUGllZC1ub2lyIMK7IGTDqXNpZ25lIGxlcyBFdXJvcMOpZW5zIChzb3V2ZW50IGZyYW7Dp2FpcywgZXNwYWdub2xzIG91IGl0YWxpZW5zKSBuw6lzIGVuIEFsZ8OpcmllIHBlbmRhbnQgbGEgcMOpcmlvZGUgY29sb25pYWxlLg==">
+    <p class="q">5. Personne d'origine européenne née en Algérie, comme Camus et Meursault :</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <div class="fb"></div>
+  </div>
+  <div class="item" data-type="text" data-a="cGxldXJlcnxpbCBuJ2EgcGFzIHBsZXVyw6l8bW9udHJlciBkZSBsJ8OpbW90aW9u" data-exp="TWV1cnNhdWx0IG4nYSBwYXMgcGxldXLDqSDDoCBsJ2VudGVycmVtZW50IGRlIHNhIG3DqHJlIOKAlCBjZSBkw6l0YWlsLCBwbHVzIHF1ZSBsZSBtZXVydHJlIGx1aS1tw6ptZSwgZGV2aWVudCBjZW50cmFsIGRhbnMgc29uIHByb2PDqHMgZXQgc2EgY29uZGFtbmF0aW9uLg==">
+    <p class="q">6. Ce que Meursault n'a pas fait à l'enterrement de sa mère, et qu'on lui reproche fortement au procès :</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <div class="fb"></div>
+  </div>
 
-═══════════════════════════════════════════════════════════
+  <!-- ============ EXERCICE 3 : l'incipit ============ -->
+  <h2>Exercice 3 · L'incipit — lecture et analyse <span class="pts">(6 points)</span></h2>
+  <div class="consigne">Lisez attentivement les premières lignes du roman, puis répondez aux questions.</div>
+  <div class="consigne" style="font-style:italic;background:#fff;border-left-color:#5a6a78">
+« Aujourd'hui, maman est morte. Ou peut-être hier, je ne sais pas. J'ai reçu un télégramme de l'asile : « Mère décédée. Enterrement demain. Sentiments distingués. » Cela ne veut rien dire. C'était peut-être hier. »<br>
+<span style="font-size:.85em;color:#5a6a78">— Albert Camus, <em>L'Étranger</em> (1942), incipit</span>
+</div>
 
-1. COMPRÉHENSION DU TEXTE
+  <div class="item" data-type="text" data-a="QXVqb3VyZCdodWl8YXVqb3VyZCdodWk=" data-exp="TGUgcm9tYW4gY29tbWVuY2UgZGlyZWN0ZW1lbnQgcGFyIMKrIEF1am91cmQnaHVpIMK7LCB1biBtb3QgdGVtcG9yZWwgYmFuYWwgcXVpIGluc3RhbGxlIGQnZW1ibMOpZSB1biB0b24gZmFjdHVlbCBwbHV0w7R0IHF1J8OpbW90aW9ubmVsLg==">
+    <p class="q">1. Quel est le tout premier mot du roman ?</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <div class="fb"></div>
+  </div>
+  <div class="item" data-type="mcq" data-a="MQ==" data-exp="TWV1cnNhdWx0IGjDqXNpdGUgZMOocyBsYSBwcmVtacOocmUgcGhyYXNlIDogwqsgQXVqb3VyZCdodWnigKYgT3UgcGV1dC3DqnRyZSBoaWVyLCBqZSBuZSBzYWlzIHBhcy4gwrsgQ2V0dGUgaW5jZXJ0aXR1ZGUgc3VyIHVuZSBkb25uw6llIGF1c3NpIGltcG9ydGFudGUgcXVlIGxhIGRhdGUgZGUgbGEgbW9ydCBkZSBzYSBtw6hyZSBzdXJwcmVuZCBldCBjaG9xdWUgbGUgbGVjdGV1ci4=">
+    <p class="q">2. Meursault sait-il précisément quand sa mère est morte ?</p>
+    <div class="opts">
+      <label><input type="radio" name="c_ex3_q2" value="0"> A) Oui, elle est morte hier</label>
+      <label><input type="radio" name="c_ex3_q2" value="1"> B) Non, il hésite entre aujourd'hui et hier</label>
+      <label><input type="radio" name="c_ex3_q2" value="2"> C) Oui, elle est morte ce matin</label>
+    </div>
+    <div class="fb"></div>
+  </div>
+  <div class="item" data-type="text" data-a="cGFyIHVuIHTDqWzDqWdyYW1tZXx1biB0w6lsw6lncmFtbWV8cGFyIHTDqWzDqWdyYW1tZQ==" data-exp="SWwgbCdhcHByZW5kIHBhciB1biB0w6lsw6lncmFtbWUgZGUgbCdhc2lsZSwgbWVzc2FnZSBpbXBlcnNvbm5lbCBldCBhZG1pbmlzdHJhdGlmIOKAlCBwYXMgcGFyIHVuIGFwcGVsIG91IHVuZSB2aXNpdGUu">
+    <p class="q">3. Comment Meursault a-t-il appris la mort de sa mère ?</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <div class="fb"></div>
+  </div>
+  <div class="item" data-type="mcq" data-a="MQ==" data-exp="Q2V0dGUgcGhyYXNlLCBhcHBhcmVtbWVudCBhbm9kaW5lLCByw6l2w6hsZSB1biBkw6l0YWNoZW1lbnQgZnJhcHBhbnQgOiBNZXVyc2F1bHQgY29tbWVudGUgbGEgZm9ybXVsYXRpb24gZHUgdMOpbMOpZ3JhbW1lIHBsdXTDtHQgcXVlIGQnZXhwcmltZXIgc29uIGNoYWdyaW4u">
+    <p class="q">4. Quel effet produit la phrase « Cela ne veut rien dire » ?</p>
+    <div class="opts">
+      <label><input type="radio" name="c_ex3_q4" value="0"> A) Elle renforce l'émotion du deuil</label>
+      <label><input type="radio" name="c_ex3_q4" value="1"> B) Elle souligne l'indifférence ou le détachement du narrateur</label>
+      <label><input type="radio" name="c_ex3_q4" value="2"> C) Elle indique la colère de Meursault contre l'asile</label>
+    </div>
+    <div class="fb"></div>
+  </div>
+  <div class="item" data-type="mcq" data-a="MQ==" data-exp="TGUgdG9uIGVzdCBuZXV0cmUgZXQgZmFjdHVlbCDigJQgYydlc3QgbCfCqyDDqWNyaXR1cmUgYmxhbmNoZSDCuyBjYXJhY3TDqXJpc3RpcXVlIGRlIENhbXVzLCBxdWkgY29udHJhc3RlIGZvcnRlbWVudCBhdmVjIGxhIGdyYXZpdMOpIGRlIGwnw6l2w6luZW1lbnQgcmFwcG9ydMOpIChsYSBtb3J0IGQndW5lIG3DqHJlKS4=">
+    <p class="q">5. Quel est le ton dominant de cet incipit ?</p>
+    <div class="opts">
+      <label><input type="radio" name="c_ex3_q5" value="0"> A) tragique et lyrique</label>
+      <label><input type="radio" name="c_ex3_q5" value="1"> B) neutre, factuel, presque clinique</label>
+      <label><input type="radio" name="c_ex3_q5" value="2"> C) ironique et moqueur</label>
+    </div>
+    <div class="fb"></div>
+  </div>
+  <div class="item" data-type="text" data-a="c2VudGltZW50cyBkaXN0aW5ndcOpc3xTZW50aW1lbnRzIGRpc3Rpbmd1w6lz" data-exp="wqsgU2VudGltZW50cyBkaXN0aW5ndcOpcyDCuyBlc3QgdW5lIGZvcm11bGUgZGUgcG9saXRlc3NlIGFkbWluaXN0cmF0aXZlIGJhbmFsZSwgcHJlc3F1ZSBhYnN1cmRlIGRhbnMgbGUgY29udGV4dGUgZCd1bmUgYW5ub25jZSBkZSBkw6ljw6hzLg==">
+    <p class="q">6. Quelle formule de politesse typique d'un télégramme officiel apparaît dans ce passage ?</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <div class="fb"></div>
+  </div>
 
-Question 1 : Quel est le contexte historique de L'Étranger ?
+  <!-- ============ EXERCICE 4 : premières impressions ============ -->
+  <h2>Exercice 4 · Premières impressions de Meursault <span class="pts">(6 points)</span></h2>
+  <div class="consigne">Approfondissez votre analyse du personnage de Meursault tel qu'il apparaît dès l'incipit.</div>
 
-${document.getElementById('q1').value || '[Pas de réponse]'}
+  <div class="item" data-type="mcq" data-a="MQ==" data-exp="TGUgZMOpdGFjaGVtZW50IGRlIE1ldXJzYXVsdCwgdmlzaWJsZSBkYW5zIHNvbiBpbmNlcnRpdHVkZSBzdXIgbGEgZGF0ZSBldCBzb24gY29tbWVudGFpcmUgbmV1dHJlIHN1ciBsZSB0w6lsw6lncmFtbWUsIGVzdCBsYSBwcmVtacOocmUgY2FyYWN0w6lyaXN0aXF1ZSBmcmFwcGFudGUgZHUgcGVyc29ubmFnZS4=">
+    <p class="q">1. Dès les premières lignes, quelle impression le lecteur a-t-il de Meursault ?</p>
+    <div class="opts">
+      <label><input type="radio" name="c_ex4_q1" value="0"> A) c'est un fils bouleversé par le chagrin</label>
+      <label><input type="radio" name="c_ex4_q1" value="1"> B) c'est un narrateur étrangement détaché de l'événement qu'il rapporte</label>
+      <label><input type="radio" name="c_ex4_q1" value="2"> C) c'est un homme en colère contre l'administration de l'asile</label>
+    </div>
+    <div class="fb"></div>
+  </div>
+  <div class="item" data-type="text" data-a="bWF0w6lyaWVsc3xwcmF0aXF1ZXN8bWF0w6lyaWVscy9wcmF0aXF1ZXN8bG9naXN0aXF1ZXM=" data-exp="TWV1cnNhdWx0IHNlIGNvbmNlbnRyZSBzdXIgZGVzIGTDqXRhaWxzIG1hdMOpcmllbHMgZXQgcHJhdGlxdWVzIChsYSBkYXRlLCBsZSB0cmFqZXQsIGwnb3JnYW5pc2F0aW9uKSBwbHV0w7R0IHF1ZSBzdXIgbCdleHByZXNzaW9uIGQndW4gY2hhZ3JpbiBhdHRlbmR1Lg==">
+    <p class="q">2. Meursault semble plus préoccupé par des détails ______ que par ses émotions.</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <div class="fb"></div>
+  </div>
+  <div class="item" data-type="mcq" data-a="MQ==" data-exp="UGx1dMO0dCBxdSd1biBzaW1wbGUgbWFucXVlIGQnYW1vdXIgZmlsaWFsLCBjZXR0ZSBpbmNlcnRpdHVkZSByw6l2w6hsZSB1biByYXBwb3J0IHNpbmd1bGllciBkZSBNZXVyc2F1bHQgYXUgdGVtcHMgZXQgw6AgbGEgbWVzdXJlIGRlcyDDqXbDqW5lbWVudHMg4oCUIHVuIHRyYWl0IGRlIGNhcmFjdMOocmUgY2VudHJhbCBkw6l2ZWxvcHDDqSB0b3V0IGF1IGxvbmcgZHUgcm9tYW4u">
+    <p class="q">3. Cette incertitude sur la date de la mort de sa mère peut suggérer que Meursault :</p>
+    <div class="opts">
+      <label><input type="radio" name="c_ex4_q3" value="0"> A) est un fils indigne qui ne se soucie de rien</label>
+      <label><input type="radio" name="c_ex4_q3" value="1"> B) vit dans un rapport particulier au temps, où les dates n'ont pas d'importance émotionnelle</label>
+      <label><input type="radio" name="c_ex4_q3" value="2"> C) souffre d'amnésie</label>
+    </div>
+    <div class="fb"></div>
+  </div>
+  <div class="item" data-type="text" data-a="YWN0aW9uc3xnZXN0ZXN8YWN0ZXM=" data-exp="TGUgc3R5bGUgZGUgQ2FtdXMgcHJpdmlsw6lnaWUgbCdvYnNlcnZhdGlvbiBleHTDqXJpZXVyZSBldCBsJ2FjdGlvbiBjb25jcsOodGUgcGx1dMO0dCBxdWUgbCdpbnRyb3NwZWN0aW9uIHBzeWNob2xvZ2lxdWUg4oCUIG9uIMKrIHZvaXQgwrsgTWV1cnNhdWx0IHBsdXMgcXUnb24gbmUgbGUgwqsgY29tcHJlbmQgwrsu">
+    <p class="q">4. Le lecteur découvre Meursault non pas à travers ses pensées intimes, mais à travers ses ______ et ses observations.</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <div class="fb"></div>
+  </div>
+  <div class="item" data-type="mcq" data-a="MQ==" data-exp="VHJhZGl0aW9ubmVsbGVtZW50LCBsJ2Fubm9uY2UgZCd1bmUgbW9ydCBkYW5zIHVuIHJvbWFuIHMnYWNjb21wYWduZSBkJ3VuZSBzY8OobmUgcGF0aMOpdGlxdWUgZXQgZGUgbWFuaWZlc3RhdGlvbnMgZGUgZG91bGV1ci4gSWNpLCByaWVuIGRlIHRlbCA6IGxhIG5ldXRyYWxpdMOpIGR1IHRvbiBjcsOpZSB1biBlZmZldCBkZSBydXB0dXJlIGltbcOpZGlhdC4=">
+    <p class="q">5. En quoi ce début surprend-il le lecteur habitué aux romans classiques ?</p>
+    <div class="opts">
+      <label><input type="radio" name="c_ex4_q5" value="0"> A) il n'y a pas de description du décor</label>
+      <label><input type="radio" name="c_ex4_q5" value="1"> B) l'annonce d'une mort ne suscite ni pathos ni effusion de tristesse</label>
+      <label><input type="radio" name="c_ex4_q5" value="2"> C) le roman commence par un dialogue</label>
+    </div>
+    <div class="fb"></div>
+  </div>
+  <div class="item" data-type="text" data-a="bCdhYnN1cmRlfGwnYWJzdXJkZSBkZSBsJ2V4aXN0ZW5jZXxsJ2Fic3VyZGl0w6k=" data-exp="Q2UgZMOpY2FsYWdlIGVudHJlIGdyYXZpdMOpIGRlIGwnw6l2w6luZW1lbnQgZXQgbmV1dHJhbGl0w6kgZHUgdG9uIGVzdCBsYSBwcmVtacOocmUgbWFuaWZlc3RhdGlvbiBkdSB0aMOobWUgZGUgbCdhYnN1cmRlIHF1aSB0cmF2ZXJzZSB0b3V0IGxlIHJvbWFuLg==">
+    <p class="q">6. Ce décalage entre l'événement (la mort d'une mère) et le ton employé installe, dès l'incipit, le thème central du roman : ______.</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <div class="fb"></div>
+  </div>
 
-${'─'.repeat(60)}
+  <button class="btn" onclick="checkAll()">✔ Vérifier mes réponses</button>
+  <button class="btn second" onclick="resetAll()">↺ Recommencer</button>
+  <div class="score-banner" id="scoreBanner"></div>
 
-Question 2 : Expliquez la différence entre les titres The Outsider (Gilbert, 1946) et The Stranger (Ward, 1988).
+  <div class="stretch">
+    <h2>Défi A* — Pour aller plus loin</h2>
+    <div class="consigne">Rédigez une <strong>réaction personnelle guidée</strong> (60&nbsp;mots minimum) à l'incipit de <em>L'Étranger</em>. Répondez notamment aux questions suivantes : Quelle a été votre première réaction en lisant ces lignes ? Le détachement de Meursault vous semble-t-il choquant, dérangeant, ou au contraire compréhensible ? En quoi ce début vous donne-t-il envie (ou non) de continuer la lecture ?</div>
+    <p><em>Amorces :</em> « Dès les premières lignes, j'ai été frappé(e) par… », « Ce qui me semble le plus troublant, c'est… », « Contrairement à ce que j'attendais… », « Cela m'amène à me demander si… »</p>
+    <div class="item" data-type="free" data-min="60">
+      <textarea placeholder="Rédigez votre réaction personnelle ici (60 mots minimum)…"></textarea>
+      <div class="fb"></div>
+    </div>
+    <details class="aide"><summary>Voir un modèle de réponse (après avoir écrit le vôtre)</summary>
+      <div id="modelAnswer">Modèle : « Dès les premières lignes, j'ai été frappé(e) par l'incertitude de Meursault quant à la date de la mort de sa mère — un détail qui semble presque choquant venant d'un fils. Ce qui me semble le plus troublant, c'est l'absence totale de pathos : la phrase « Cela ne veut rien dire » traite un événement tragique avec une froideur déconcertante. Contrairement à ce que j'attendais d'un roman sur le deuil, ce début neutre et clinique m'a immédiatement intrigué(e) plutôt qu'ému(e), et cela m'amène à me demander si Meursault est incapable d'aimer ou simplement d'exprimer ses sentiments selon les codes attendus par la société. Cette ambiguïté me donne très envie de poursuivre ma lecture. »</div></details>
+  </div>
 
-${document.getElementById('q2').value || '[Pas de réponse]'}
+  <button class="btn dl" onclick="downloadResults()">📥 Télécharger mes résultats</button>
+</div>
 
-═══════════════════════════════════════════════════════════
+<!-- ============ FLOATING ACCENT PAD ============ -->
+<button id="padToggle" onclick="togglePad()">é à ç — Accents</button>
+<div id="accentPad" style="display:none">
+  <div class="drag">⋮⋮ déplacer</div>
+</div>
 
-2. LE TON DÉTACHÉ DE MEURSAULT
+<script>
+/* ================= HOUSE ENGINE — do not weaken ================= */
+/* Answers are base64-encoded (UTF-8 safe) so they never sit in plain text next to the inputs. */
+function d(b){try{return decodeURIComponent(escape(atob(b)))}catch(e){return""}}
+function e64(s){return btoa(unescape(encodeURIComponent(s)))} /* helper for authoring */
 
-Question 3 : Analysez comment Camus crée un ton détaché dans la citation sur l'amour.
+function norm(s){return (s||"").toLowerCase().replace(/['']/g,"'").replace(/\s+/g," ").trim()}
+function deacc(s){return norm(s).normalize("NFD").replace(/[̀-ͯ]/g,"")}
 
-${document.getElementById('q3').value || '[Pas de réponse]'}
+/* tolerant text check: returns "ok" | "accents" | "bad" ; accepted = array */
+function judge(val, accepted){
+  const v=norm(val);
+  if(accepted.some(a=>norm(a)===v)) return "ok";
+  if(accepted.some(a=>deacc(a)===deacc(val))) return "accents";
+  return "bad";
+}
 
-${'─'.repeat(60)}
+let results=[]; /* {label, given, ok, expected} */
 
-Question 4 : Techniques stylistiques identifiées :
+function checkAll(){
+  results=[]; let score=0, max=0;
+  document.querySelectorAll(".item").forEach((it,idx)=>{
+    const type=it.dataset.type, fb=it.querySelector(".fb");
+    const label=(it.querySelector(".q")?it.querySelector(".q").textContent.trim():("Défi "+(idx+1))).slice(0,90);
+    if(type==="mcq"){
+      max++;
+      const sel=it.querySelector("input[type=radio]:checked");
+      const correct=d(it.dataset.a), exp=d(it.dataset.exp||"");
+      if(!sel){fb.className="fb bad";fb.textContent="⚠ Répondez à la question.";results.push({label,given:"—",ok:false});return}
+      if(sel.value===correct){score++;fb.className="fb ok";fb.textContent="✔ Correct. "+exp;
+        results.push({label,given:sel.parentElement.textContent.trim(),ok:true});}
+      else{fb.className="fb bad";fb.textContent="✘ Incorrect. "+exp;
+        results.push({label,given:sel.parentElement.textContent.trim(),ok:false});}
+    }
+    if(type==="text"){
+      max++;
+      const inp=it.querySelector("input,textarea");
+      const accepted=d(it.dataset.a).split("|"), exp=d(it.dataset.exp||"");
+      const r=judge(inp.value,accepted);
+      if(r==="ok"){score++;fb.className="fb ok";fb.textContent="✔ Correct. "+exp;}
+      else if(r==="accents"){fb.className="fb almost";fb.textContent="≈ Presque ! Vérifiez les accents : "+accepted[0]+". "+exp;}
+      else{fb.className="fb bad";fb.textContent="✘ Réponse attendue : "+accepted[0]+". "+exp;}
+      results.push({label,given:inp.value||"—",ok:r==="ok"});
+    }
+    if(type==="free"){
+      const ta=it.querySelector("textarea"), min=parseInt(it.dataset.min||"40");
+      const words=(ta.value.trim().match(/\S+/g)||[]).length;
+      if(words===0){fb.className="fb";fb.textContent="";}
+      else if(words<min){fb.className="fb almost";fb.textContent="≈ "+words+" mots — visez au moins "+min+". Développez avec un connecteur (cependant, en revanche…).";}
+      else{fb.className="fb ok";fb.textContent="✔ "+words+" mots. Comparez maintenant avec le modèle, puis améliorez une phrase.";}
+      results.push({label,given:ta.value||"—",ok:words>=min});
+    }
+  });
+  const b=document.getElementById("scoreBanner");
+  b.style.display="block";
+  const pct=max?Math.round(100*score/max):0;
+  b.textContent="Score : "+score+" / "+max+" ("+pct+" %) — "+(pct>=80?"Excellent !":pct>=60?"Bien — corrigez les points signalés.":"Relisez les indices et réessayez.");
+  window._score={score,max};
+}
 
-`;
-            
-            const checkboxes = document.querySelectorAll('input[name="techniques"]:checked');
-            if (checkboxes.length > 0) {
-                checkboxes.forEach(cb => {
-                    document += `✓ ${cb.nextElementSibling.textContent}\n`;
-                });
-            } else {
-                document += '[Aucune technique sélectionnée]\n';
-            }
-            
-            document += `
-═══════════════════════════════════════════════════════════
+function resetAll(){
+  document.querySelectorAll(".item input[type=text], .item textarea").forEach(i=>i.value="");
+  document.querySelectorAll(".item input[type=radio]").forEach(r=>r.checked=false);
+  document.querySelectorAll(".fb").forEach(f=>{f.className="fb";f.textContent=""});
+  document.getElementById("scoreBanner").style.display="none";
+  results=[];window._score=null;window.scrollTo({top:0,behavior:"smooth"});
+}
 
-3. LA JUXTAPOSITION DE L'ORDINAIRE ET DU PROFOND
+function downloadResults(){
+  const name=document.getElementById("studentName").value.trim();
+  if(!name){alert("Écrivez d'abord votre nom en haut de la page.");document.getElementById("studentName").focus();return}
+  if(!window._score){alert("Cliquez d'abord sur « Vérifier mes réponses ».");return}
+  let txt="RÉSULTATS — "+document.title+"\n";
+  txt+="Élève : "+name+"\nDate : "+new Date().toLocaleString("fr-FR")+"\n";
+  txt+="Score : "+window._score.score+" / "+window._score.max+"\n";
+  txt+="".padEnd(60,"=")+"\n\n";
+  results.forEach((r,i)=>{txt+=(i+1)+". "+r.label+"\n   Réponse : "+r.given+"\n   "+(r.ok?"✔ correct":"✘ à revoir")+"\n\n";});
+  const blob=new Blob([txt],{type:"text/plain;charset=utf-8"});
+  const a=document.createElement("a");
+  a.href=URL.createObjectURL(blob);
+  a.download=(document.title.split("—")[0].trim()||"resultats").replace(/\s+/g,"_")+"_"+name.replace(/\s+/g,"_")+".txt";
+  document.body.appendChild(a);a.click();document.body.removeChild(a);URL.revokeObjectURL(a.href);
+}
 
-Question 5 : Comment la description du soleil reflète-t-elle l'exploration de l'absurde ?
-
-${document.getElementById('q4').value || '[Pas de réponse]'}
-
-${'─'.repeat(60)}
-
-Question 6 : Autres exemples de juxtaposition dans le roman :
-
-${document.getElementById('q5').value || '[Pas de réponse]'}
-
-═══════════════════════════════════════════════════════════
-
-4. L'ABSURDITÉ DE LA CONDITION HUMAINE
-
-Question 7 : Comment le style narratif reflète-t-il le concept philosophique de l'absurde ?
-
-${document.getElementById('q6').value || '[Pas de réponse]'}
-
-${'─'.repeat(60)}
-
-Question 8 : Analyse de la citation de Zaretsky (2010) :
-
-${document.getElementById('q7').value || '[Pas de réponse]'}
-
-═══════════════════════════════════════════════════════════
-
-5. ANALYSE COMPARATIVE
-
-Question 9 : Comparaison avec un autre texte littéraire :
-
-${document.getElementById('q8').value || '[Pas de réponse]'}
-
-═══════════════════════════════════════════════════════════
-
-6. RÉFLEXION CRITIQUE
-
-Question 10 : Meursault comme héros ou anti-héros ?
-
-${document.getElementById('q9').value || '[Pas de réponse]'}
-
-═══════════════════════════════════════════════════════════
-
-FIN DU DOCUMENT
-
-`;
-            
-            const blob = new Blob([document], { type: 'text/plain;charset=utf-8' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = `Analyse_Camus_${studentName.replace(/\s+/g, '_')}.txt`;
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            URL.revokeObjectURL(url);
-            
-            alert('Votre document a été téléchargé avec succès !');
-        }
-    </script>
+/* ---------- Accent pad ---------- */
+const CHARS=["é","è","ê","ë","à","â","î","ï","ô","ù","û","ü","ç","œ","æ","«","»","'","É","È","À","Ç","Œ"];
+let lastField=null;
+document.addEventListener("focusin",e=>{
+  if(e.target.matches("input[type=text],textarea") && e.target.id!=="studentName") lastField=e.target;
+  if(e.target.id==="studentName") lastField=e.target;
+});
+const pad=document.getElementById("accentPad");
+CHARS.forEach(c=>{
+  const b=document.createElement("button");
+  b.textContent=c; if(c===c.toUpperCase()&&c.toLowerCase()!==c) b.className="maj";
+  b.addEventListener("mousedown",ev=>{
+    ev.preventDefault(); /* keep focus in the field */
+    if(!lastField) return;
+    const s=lastField.selectionStart??lastField.value.length, t=lastField.selectionEnd??s;
+    lastField.value=lastField.value.slice(0,s)+c+lastField.value.slice(t);
+    lastField.selectionStart=lastField.selectionEnd=s+c.length;
+    lastField.focus();
+  });
+  pad.appendChild(b);
+});
+function togglePad(){
+  const show=pad.style.display==="none";
+  pad.style.display=show?"flex":"none";
+  document.getElementById("padToggle").style.display=show?"none":"block";
+  if(show){ /* add close button once */
+    if(!pad.querySelector(".closer")){
+      const x=document.createElement("button");x.textContent="✕";x.className="closer";
+      x.addEventListener("mousedown",ev=>{ev.preventDefault();togglePad()});pad.appendChild(x);
+    }
+  }
+}
+/* drag the pad */
+(function(){
+  const h=pad.querySelector(".drag");let sx,sy,ox,oy,drag=false;
+  h.addEventListener("mousedown",e=>{drag=true;sx=e.clientX;sy=e.clientY;const r=pad.getBoundingClientRect();ox=r.left;oy=r.top;
+    pad.style.right="auto";pad.style.bottom="auto";e.preventDefault()});
+  document.addEventListener("mousemove",e=>{if(!drag)return;pad.style.left=(ox+e.clientX-sx)+"px";pad.style.top=(oy+e.clientY-sy)+"px"});
+  document.addEventListener("mouseup",()=>drag=false);
+})();
+</script>
 </body>
 </html>

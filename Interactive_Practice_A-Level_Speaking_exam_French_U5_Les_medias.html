@@ -1,1041 +1,456 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pratique: Les Médias dans le Monde Francophone</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            padding: 20px;
-            min-height: 100vh;
-        }
-        
-        .container {
-            max-width: 900px;
-            margin: 0 auto;
-            background: white;
-            border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.2);
-            overflow: hidden;
-        }
-        
-        .header {
-            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
-            color: white;
-            padding: 30px;
-            text-align: center;
-        }
-        
-        .header h1 {
-            font-size: 2em;
-            margin-bottom: 10px;
-        }
-        
-        .timer {
-            background: rgba(255,255,255,0.2);
-            padding: 10px 20px;
-            border-radius: 25px;
-            display: inline-block;
-            margin-top: 15px;
-            font-size: 1.2em;
-            font-weight: bold;
-        }
-        
-        .content {
-            padding: 30px;
-        }
-        
-        .section {
-            margin-bottom: 40px;
-            padding: 25px;
-            background: #f8f9fa;
-            border-radius: 15px;
-            border-left: 5px solid #1e3c72;
-        }
-        
-        .section h2 {
-            color: #1e3c72;
-            margin-bottom: 20px;
-            font-size: 1.5em;
-        }
-        
-        .question {
-            margin-bottom: 25px;
-            padding: 20px;
-            background: white;
-            border-radius: 10px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
-        
-        .question-number {
-            display: inline-block;
-            background: #1e3c72;
-            color: white;
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            text-align: center;
-            line-height: 30px;
-            font-weight: bold;
-            margin-right: 10px;
-        }
-        
-        .question p {
-            margin-bottom: 15px;
-            color: #333;
-            line-height: 1.6;
-        }
-        
-        input[type="text"], textarea {
-            width: 100%;
-            padding: 12px;
-            border: 2px solid #e0e0e0;
-            border-radius: 8px;
-            font-size: 1em;
-            transition: border-color 0.3s;
-            font-family: inherit;
-        }
-        
-        input[type="text"]:focus, textarea:focus {
-            outline: none;
-            border-color: #1e3c72;
-        }
-        
-        textarea {
-            min-height: 80px;
-            resize: vertical;
-        }
-        
-        .clue {
-            background: #f8f9fa;
-            padding: 10px 15px;
-            border-radius: 8px;
-            margin-top: 10px;
-            font-size: 0.85em;
-            color: #6c757d;
-            border-left: 3px solid #e0e0e0;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-        
-        .clue:hover {
-            background: #fff3cd;
-            border-left-color: #ffc107;
-            color: #856404;
-        }
-        
-        .clue::before {
-            content: "💡 ";
-            opacity: 0.5;
-        }
-        
-        .clue.revealed {
-            background: #fff3cd;
-            border-left-color: #ffc107;
-            color: #856404;
-        }
-        
-        .clue.revealed::before {
-            opacity: 1;
-        }
-        
-        .checkbox-group {
-            margin-top: 10px;
-        }
-        
-        .checkbox-item {
-            display: block;
-            padding: 10px;
-            margin: 8px 0;
-            background: white;
-            border: 2px solid #e0e0e0;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-        
-        .checkbox-item:hover {
-            border-color: #1e3c72;
-            background: #f8f9ff;
-        }
-        
-        .checkbox-item input {
-            margin-right: 10px;
-        }
-        
-        .submit-btn {
-            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
-            color: white;
-            border: none;
-            padding: 15px 40px;
-            font-size: 1.1em;
-            border-radius: 25px;
-            cursor: pointer;
-            display: block;
-            margin: 30px auto;
-            box-shadow: 0 4px 15px rgba(30, 60, 114, 0.4);
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
-        
-        .submit-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(30, 60, 114, 0.6);
-        }
-        
-        .result {
-            display: none;
-            padding: 20px;
-            border-radius: 10px;
-            margin-top: 20px;
-            font-weight: bold;
-            text-align: center;
-        }
-        
-        .result.show {
-            display: block;
-        }
-        
-        .result.correct {
-            background: #d4edda;
-            color: #155724;
-            border: 2px solid #c3e6cb;
-        }
-        
-        .result.partial {
-            background: #fff3cd;
-            color: #856404;
-            border: 2px solid #ffc107;
-        }
-        
-        .progress-bar {
-            width: 100%;
-            height: 8px;
-            background: #e0e0e0;
-            border-radius: 10px;
-            overflow: hidden;
-            margin-top: 15px;
-        }
-        
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, #1e3c72 0%, #2a5298 100%);
-            width: 0%;
-            transition: width 0.5s;
-        }
-        
-        .vocab-highlight {
-            background: #e3f2fd;
-            padding: 2px 6px;
-            border-radius: 4px;
-            font-weight: 500;
-        }
-        
-        #finalScore {
-            display: none;
-            margin-top: 20px;
-            padding: 30px;
-            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
-            color: white;
-            border-radius: 15px;
-            text-align: center;
-        }
-        
-        #finalScore h2 {
-            margin-bottom: 15px;
-            color: white;
-        }
-        
-        #scoreText {
-            font-size: 2em;
-            font-weight: bold;
-            margin: 20px 0;
-        }
-        
-        .speaking-card {
-            background: #fff;
-            border-radius: 10px;
-            padding: 20px;
-            margin-bottom: 25px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            border-left: 4px solid #1e3c72;
-        }
-        
-        .speaking-card h3 {
-            color: #1e3c72;
-            margin-bottom: 15px;
-        }
-        
-        .speaking-card ul {
-            padding-left: 20px;
-        }
-        
-        .speaking-card li {
-            margin-bottom: 8px;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Préparation à l'oral — Unité 5 : Les médias</title>
+<style>
+  :root{
+    --ink:#1a2733; --paper:#ffffff; --bg:#eef2f6;
+    --accent:#00546b; --accent2:#8a1538; --ok:#1e7b45; --warn:#b06f00; --bad:#a12727;
+    --line:#c9d4dd;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:Calibri,'Segoe UI',Arial,sans-serif;font-size:17px;line-height:1.55;
+       color:var(--ink);background:var(--bg);padding:24px 16px 120px}
+  .wrap{max-width:880px;margin:0 auto;background:var(--paper);border:1px solid var(--line);
+        border-radius:8px;padding:28px 32px}
+  header{border-bottom:3px solid var(--accent);padding-bottom:12px;margin-bottom:18px}
+  h1{font-size:1.6em;color:var(--accent)}
+  .meta{color:#5a6a78;font-style:italic;margin-top:4px}
+  h2{font-size:1.25em;color:var(--accent);margin:28px 0 8px;border-left:5px solid var(--accent);padding-left:10px}
+  h2 .pts{font-size:.75em;color:#5a6a78;font-weight:normal}
+  .consigne{background:#f2f7fa;border-left:4px solid var(--accent);padding:10px 14px;margin:8px 0 14px;border-radius:0 6px 6px 0}
+  .name-row{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin:14px 0}
+  .name-row input{padding:9px 12px;font-size:1em;border:2px solid var(--accent);border-radius:6px;width:280px;font-family:inherit}
+  .item{margin:14px 0;padding:12px 14px;border:1px solid var(--line);border-radius:6px}
+  .item p.q{margin-bottom:8px}
+  .item input[type=text],.item textarea{width:100%;padding:8px 10px;font-size:1em;font-family:inherit;
+      border:1.5px solid var(--line);border-radius:5px;margin-top:4px}
+  .item textarea{min-height:90px;resize:vertical}
+  .opts label{display:block;padding:7px 10px;margin:5px 0;border:1.5px solid var(--line);border-radius:5px;cursor:pointer}
+  .opts label:hover{background:#f2f7fa}
+  details.aide{margin:8px 0 2px}
+  details.aide summary{cursor:pointer;color:var(--warn);font-weight:bold}
+  details.aide div{background:#fff8ec;border-left:4px solid var(--warn);padding:8px 12px;margin-top:6px;border-radius:0 6px 6px 0}
+  .fb{display:none;margin-top:8px;padding:9px 12px;border-radius:6px;font-size:.95em}
+  .fb.ok{display:block;background:#e9f5ee;border-left:4px solid var(--ok);color:var(--ok)}
+  .fb.almost{display:block;background:#fff8ec;border-left:4px solid var(--warn);color:var(--warn)}
+  .fb.bad{display:block;background:#fbeeee;border-left:4px solid var(--bad);color:var(--bad)}
+  .stretch{border:2px dashed var(--accent2);border-radius:8px;padding:16px;margin:26px 0;background:#fdf7f9}
+  .stretch h2{color:var(--accent2);border-left-color:var(--accent2)}
+  .btn{background:var(--accent);color:#fff;border:none;padding:11px 20px;font-size:1em;font-family:inherit;
+       border-radius:6px;cursor:pointer;margin:6px 6px 6px 0}
+  .btn:hover{filter:brightness(1.15)}
+  .btn.dl{background:var(--ok)}
+  .btn.second{background:#5a6a78}
+  .score-banner{display:none;margin:18px 0;padding:14px;border-radius:8px;background:#f2f7fa;
+       border:2px solid var(--accent);font-size:1.15em;font-weight:bold;color:var(--accent)}
+  .card{background:#f2f7fa;border:1.5px solid var(--accent);border-radius:8px;padding:14px 18px;margin:10px 0 16px}
+  .card h3{color:var(--accent);margin-bottom:8px;font-size:1.05em}
+  .card ul{margin:8px 0 0 20px}
+  /* ---------- Floating accent pad ---------- */
+  #accentPad{position:fixed;bottom:18px;right:18px;background:#fff;border:2px solid var(--accent);
+       border-radius:10px;box-shadow:0 6px 24px rgba(0,0,0,.25);padding:10px;z-index:1000;
+       display:flex;flex-wrap:wrap;gap:5px;max-width:340px;user-select:none}
+  #accentPad .drag{width:100%;cursor:move;font-size:.8em;color:#5a6a78;text-align:center;padding-bottom:4px}
+  #accentPad button{font-size:1.05em;font-family:inherit;min-width:34px;padding:6px 4px;border:1px solid var(--line);
+       border-radius:5px;background:#f2f7fa;cursor:pointer}
+  #accentPad button:hover{background:var(--accent);color:#fff}
+  #accentPad .maj{font-size:.8em;background:#e6e9ec}
+  #padToggle{position:fixed;bottom:18px;right:18px;z-index:999;background:var(--accent);color:#fff;
+       border:none;border-radius:50px;padding:12px 18px;font-size:1em;cursor:pointer;box-shadow:0 4px 14px rgba(0,0,0,.3)}
+  @media print{#accentPad,#padToggle{display:none}}
+</style>
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <h1>📰 Les Médias dans le Monde Francophone</h1>
-            <p>Pratique pour A-Level French Edexcel</p>
-            <div class="timer" id="timer">⏱️ 45:00</div>
-            <div class="progress-bar">
-                <div class="progress-fill" id="progress"></div>
-            </div>
-        </div>
-        
-        <div class="content">
-            <!-- Speaking Card Simulation -->
-            <div class="speaking-card">
-                <h3>Carte d'Étudiant - Thème: Les Médias</h3>
-                <p><strong>Les médias bénéficient de la liberté d'expression dans les pays francophones.</strong></p>
-                <p>Vous devez considérer :</p>
-                <ul>
-                    <li>L'importance de la liberté d'expression</li>
-                    <li>Les avantages d'une presse libre</li>
-                </ul>
-            </div>
-            
-            <!-- Section 1: Vrai ou Faux -->
-            <div class="section">
-                <h2>Section 1: Vrai ou Faux (5 minutes)</h2>
-                
-                <div class="question">
-                    <p><span class="question-number">1</span> La France a des lois très strictes sur la protection de la vie privée des personnalités publiques.</p>
-                    <div class="checkbox-group">
-                        <label class="checkbox-item">
-                            <input type="radio" name="q1" value="vrai"> Vrai
-                        </label>
-                        <label class="checkbox-item">
-                            <input type="radio" name="q1" value="faux"> Faux
-                        </label>
-                    </div>
-                    <div class="result" id="result1"></div>
-                </div>
-                
-                <div class="question">
-                    <p><span class="question-number">2</span> Le Canard Enchaîné est un journal satirique français très populaire.</p>
-                    <div class="checkbox-group">
-                        <label class="checkbox-item">
-                            <input type="radio" name="q2" value="vrai"> Vrai
-                        </label>
-                        <label class="checkbox-item">
-                            <input type="radio" name="q2" value="faux"> Faux
-                        </label>
-                    </div>
-                    <div class="result" id="result2"></div>
-                </div>
-                
-                <div class="question">
-                    <p><span class="question-number">3</span> La part des revenus publicitaires de la presse écrite française dépasse celle des médias numériques.</p>
-                    <div class="checkbox-group">
-                        <label class="checkbox-item">
-                            <input type="radio" name="q3" value="faux"> Faux
-                        </label>
-                        <label class="checkbox-item">
-                            <input type="radio" name="q3" value="vrai"> Vrai
-                        </label>
-                    </div>
-                    <div class="result" id="result3"></div>
-                </div>
-            </div>
-            
-            <!-- Section 2: Remplir les blancs -->
-            <div class="section">
-                <h2>Section 2: Complétez les phrases (10 minutes)</h2>
-                
-                <div class="question">
-                    <p><span class="question-number">4</span> ___________ est un célèbre festival de cinéma qui se déroule en France chaque année.</p>
-                    <input type="text" id="q4" placeholder="Tapez votre réponse...">
-                    <div class="clue" onclick="revealClue(this)">Cliquez pour l'indice</div>
-                    <div class="clue-content" style="display:none;">Il a lieu sur la Croisette</div>
-                    <div class="result" id="result4"></div>
-                </div>
-                
-                <div class="question">
-                    <p><span class="question-number">5</span> La ___________ d'expression est un droit fondamental dans les démocraties francophones.</p>
-                    <input type="text" id="q5" placeholder="Tapez votre réponse...">
-                    <div class="clue" onclick="revealClue(this)">Cliquez pour l'indice</div>
-                    <div class="clue-content" style="display:none;">liberté</div>
-                    <div class="result" id="result5"></div>
-                </div>
-                
-                <div class="question">
-                    <p><span class="question-number">6</span> ___________ est le groupe de télévision publique français.</p>
-                    <input type="text" id="q6" placeholder="Tapez votre réponse...">
-                    <div class="clue" onclick="revealClue(this)">Cliquez pour l'indice</div>
-                    <div class="clue-content" style="display:none;">France Télévisions</div>
-                    <div class="result" id="result6"></div>
-                </div>
-            </div>
-            
-            <!-- Section 3: Questions à choix multiples -->
-            <div class="section">
-                <h2>Section 3: Choix Multiples (8 minutes)</h2>
-                
-                <div class="question">
-                    <p><span class="question-number">7</span> Quels sont les médias français qui bénéficient d'une large confiance du public? (Sélectionnez toutes les bonnes réponses)</p>
-                    <div class="checkbox-group">
-                        <label class="checkbox-item">
-                            <input type="checkbox" name="q7" value="a"> Le Canard Enchaîné
-                        </label>
-                        <label class="checkbox-item">
-                            <input type="checkbox" name="q7" value="b"> Mediapart
-                        </label>
-                        <label class="checkbox-item">
-                            <input type="checkbox" name="q7" value="c"> Charlie Hebdo
-                        </label>
-                        <label class="checkbox-item">
-                            <input type="checkbox" name="q7" value="d"> Les chaînes de télé-réalité
-                        </label>
-                    </div>
-                    <div class="result" id="result7"></div>
-                </div>
-                
-                <div class="question">
-                    <p><span class="question-number">8</span> Quels sont les défis actuels du cinéma français? (Sélectionnez toutes les bonnes réponses)</p>
-                    <div class="checkbox-group">
-                        <label class="checkbox-item">
-                            <input type="checkbox" name="q8" value="a"> Baisse de la fréquentation des salles
-                        </label>
-                        <label class="checkbox-item">
-                            <input type="checkbox" name="q8" value="b"> Crise du secteur de l'animation
-                        </label>
-                        <label class="checkbox-item">
-                            <input type="checkbox" name="q8" value="c"> Manque de production de films
-                        </label>
-                        <label class="checkbox-item">
-                            <input type="checkbox" name="q8" value="d"> Absence de festivals internationaux
-                        </label>
-                    </div>
-                    <div class="result" id="result8"></div>
-                </div>
-            </div>
-            
-            <!-- Section 4: Vocabulaire -->
-            <div class="section">
-                <h2>Section 4: Vocabulaire Clé (7 minutes)</h2>
-                
-                <div class="question">
-                    <p><span class="question-number">9</span> Traduisez en français: "freedom of expression"</p>
-                    <input type="text" id="q9" placeholder="Tapez votre réponse...">
-                    <div class="clue" onclick="revealClue(this)">Cliquez pour l'indice</div>
-                    <div class="clue-content" style="display:none;">la liberté d'___________</div>
-                    <div class="result" id="result9"></div>
-                </div>
-                
-                <div class="question">
-                    <p><span class="question-number">10</span> Traduisez en français: "hate speech"</p>
-                    <input type="text" id="q10" placeholder="Tapez votre réponse...">
-                    <div class="clue" onclick="revealClue(this)">Cliquez pour l'indice</div>
-                    <div class="clue-content" style="display:none;">les discours de ___________</div>
-                    <div class="result" id="result10"></div>
-                </div>
-                
-                <div class="question">
-                    <p><span class="question-number">11</span> Traduisez en français: "digital divide"</p>
-                    <input type="text" id="q11" placeholder="Tapez votre réponse...">
-                    <div class="clue" onclick="revealClue(this)">Cliquez pour l'indice</div>
-                    <div class="clue-content" style="display:none;">la fracture ___________</div>
-                    <div class="result" id="result11"></div>
-                </div>
-                
-                <div class="question">
-                    <p><span class="question-number">12</span> Que signifie "la presse écrite" en anglais?</p>
-                    <input type="text" id="q12" placeholder="Tapez votre réponse...">
-                    <div class="clue" onclick="revealClue(this)">Cliquez pour l'indice</div>
-                    <div class="clue-content" style="display:none;">___________ press</div>
-                    <div class="result" id="result12"></div>
-                </div>
-            </div>
-            
-            <!-- Section 5: Matching -->
-            <div class="section">
-                <h2>Section 5: Associez les Concepts (5 minutes)</h2>
-                
-                <div class="question">
-                    <p><span class="question-number">13</span> Associez les médias avec leurs caractéristiques:</p>
-                    <p style="margin: 15px 0;"><strong>A.</strong> Le Canard Enchaîné</p>
-                    <input type="text" id="q13a" placeholder="Numéro...">
-                    
-                    <p style="margin: 15px 0;"><strong>B.</strong> France Télévisions</p>
-                    <input type="text" id="q13b" placeholder="Numéro...">
-                    
-                    <p style="margin: 15px 0;"><strong>C.</strong> Mediapart</p>
-                    <input type="text" id="q13c" placeholder="Numéro...">
-                    
-                    <p style="margin: 15px 0;"><strong>D.</strong> Festival de Cannes</p>
-                    <input type="text" id="q13d" placeholder="Numéro...">
-                    
-                    <div style="margin-top: 20px; padding: 15px; background: white; border-radius: 8px;">
-                        <p><strong>Caractéristiques:</strong></p>
-                        <p>1. Service public de télévision</p>
-                        <p>2. Journal d'investigation en ligne</p>
-                        <p>3. Journal satirique hebdomadaire</p>
-                        <p>4. Festival international de cinéma</p>
-                    </div>
-                    <div class="result" id="result13"></div>
-                </div>
-            </div>
-            
-            <!-- Section 6: Questions courtes -->
-            <div class="section">
-                <h2>Section 6: Réponses Courtes (15 minutes)</h2>
-                
-                <div class="question">
-                    <p><span class="question-number">14</span> Expliquez DEUX avantages d'une presse libre dans une démocratie.</p>
-                    <textarea id="q14" placeholder="Écrivez votre réponse en français..."></textarea>
-                    <div class="clue" onclick="revealClue(this)">Cliquez pour l'indice</div>
-                    <div class="clue-content" style="display:none;">Pensez à la transparence, au contrôle du pouvoir</div>
-                    <div class="result" id="result14"></div>
-                </div>
-                
-                <div class="question">
-                    <p><span class="question-number">15</span> Décrivez DEUX défis auxquels fait face la presse écrite française aujourd'hui.</p>
-                    <textarea id="q15" placeholder="Écrivez votre réponse en français..."></textarea>
-                    <div class="clue" onclick="revealClue(this)">Cliquez pour l'indice</div>
-                    <div class="clue-content" style="display:none;">Revenus publicitaires, concurrence numérique</div>
-                    <div class="result" id="result15"></div>
-                </div>
-                
-                <div class="question">
-                    <p><span class="question-number">16</span> Expliquez pourquoi les lois françaises sur la vie privée sont considérées comme strictes. (2-3 phrases)</p>
-                    <textarea id="q16" placeholder="Écrivez votre réponse en français..."></textarea>
-                    <div class="clue" onclick="revealClue(this)">Cliquez pour l'indice</div>
-                    <div class="clue-content" style="display:none;">Protection des personnalités, infraction pénale</div>
-                    <div class="result" id="result16"></div>
-                </div>
-                
-                <div class="question">
-                    <p><span class="question-number">17</span> Quels sont les impacts positifs et négatifs d'Internet dans le monde francophone? (2-3 phrases)</p>
-                    <textarea id="q17" placeholder="Écrivez votre réponse en français..."></textarea>
-                    <div class="clue" onclick="revealClue(this)">Cliquez pour l'indice</div>
-                    <div class="clue-content" style="display:none;">Accès à l'information, fracture numérique</div>
-                    <div class="result" id="result17"></div>
-                </div>
-            </div>
-            
-            <!-- Section 7: Analyse critique -->
-            <div class="section">
-                <h2>Section 7: Analyse Critique (10 minutes)</h2>
-                
-                <div class="question">
-                    <p><span class="question-number">18</span> Selon vous, la télévision française remplit-elle correctement son rôle éducatif et culturel? Justifiez votre réponse avec TROIS arguments.</p>
-                    <textarea id="q18" placeholder="Écrivez votre réponse en français..."></textarea>
-                    <div class="clue" onclick="revealClue(this)">Cliquez pour l'indice</div>
-                    <div class="clue-content" style="display:none;">Pensez aux programmes culturels, éducatifs, de débat</div>
-                    <div class="result" id="result18"></div>
-                </div>
-                
-                <div class="question">
-                    <p><span class="question-number">19</span> Comparez la situation de la liberté de la presse en France avec celle d'autres pays francophones. Mentionnez au moins DEUX similitudes et DEUX différences.</p>
-                    <textarea id="q19" placeholder="Écrivez votre réponse en français..."></textarea>
-                    <div class="clue" onclick="revealClue(this)">Cliquez pour l'indice</div>
-                    <div class="clue-content" style="display:none;">Protections légales, pratiques journalistiques, contexte politique</div>
-                    <div class="result" id="result19"></div>
-                </div>
-                
-                <div class="question">
-                    <p><span class="question-number">20</span> Quelles mesures proposeriez-vous pour soutenir le cinéma français face à la concurrence internationale? (2-3 propositions concrètes)</p>
-                    <textarea id="q20" placeholder="Écrivez votre réponse en français..."></textarea>
-                    <div class="clue" onclick="revealClue(this)">Cliquez pour l'indice</div>
-                    <div class="clue-content" style="display:none;">Pensez aux subventions, à la promotion, à l'éducation cinématographique</div>
-                    <div class="result" id="result20"></div>
-                </div>
-            </div>
-            
-            <button class="submit-btn" onclick="checkAnswers()">Vérifier mes réponses ✓</button>
-            
-            <div id="finalScore">
-                <h2>📊 Résultat Final</h2>
-                <p id="scoreText"></p>
-                <button class="submit-btn" onclick="downloadResults()" style="background: white; color: #1e3c72; margin-top: 20px;">📥 Télécharger mes résultats</button>
-            </div>
-        </div>
+<div class="wrap">
+  <header>
+    <h1>Préparation à l'oral — Unité 5 : Les médias</h1>
+    <p class="meta">A-Level French (Edexcel) · Thème 2, Sous-thème « L'évolution de la société française » · Les médias · Durée conseillée : 40 min</p>
+  </header>
+
+  <div class="name-row">
+    <label for="studentName"><strong>Votre nom :</strong></label>
+    <input type="text" id="studentName" placeholder="Prénom NOM" maxlength="60">
+  </div>
+
+  <div class="consigne"><strong>Consignes :</strong> Cette fiche vous prépare à la partie discussion de
+  l'épreuve orale sur le thème des médias. Travaillez d'abord le vocabulaire clé, puis la compréhension
+  d'une carte-stimulus, les questions d'opinion, et enfin les réponses longues. Complétez chaque exercice
+  puis cliquez sur « Vérifier ». À la fin, téléchargez vos résultats et déposez le fichier sur Teams/SharePoint.</div>
+
+  <!-- ============ EXERCICE 1 : vocabulaire clé ============ -->
+  <h2>Exercice 1 · Vocabulaire clé <span class="pts">(8 points)</span></h2>
+  <div class="consigne">Traduisez les expressions suivantes en français. Utilisez l'article correct (le / la / les / l').</div>
+
+  <div class="item" data-type="text" data-a="bGEgcHJlc3NlIMOpY3JpdGU=" data-exp="wqsgTGEgcHJlc3NlIMOpY3JpdGUgwrsgZMOpc2lnbmUgbGVzIGpvdXJuYXV4IGV0IG1hZ2F6aW5lcyBpbXByaW3DqXMsIHBhciBvcHBvc2l0aW9uIMOgIGxhIHByZXNzZSBudW3DqXJpcXVlLg==">
+    <p class="q">1. « the written press » → tapez la traduction en français.</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Indice</summary><div>Deux mots : article féminin + adjectif « écrit(e) ».</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="text" data-a="bGVzIHLDqXNlYXV4IHNvY2lhdXg=" data-exp="QXUgc2luZ3VsaWVyIDogdW4gcsOpc2VhdSBzb2NpYWwgKEZhY2Vib29rLCBJbnN0YWdyYW0sIFRpa1Rva+KApikgOyBhdSBwbHVyaWVsIDogbGVzIHLDqXNlYXV4IHNvY2lhdXgu">
+    <p class="q">2. « social media / social networks » → tapez la traduction en français (pluriel).</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Indice</summary><div>Pensez à Facebook, Instagram, TikTok : ce sont des « réseaux… ».</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="text" data-a="bGEgZMOpc2luZm9ybWF0aW9u" data-exp="TGEgZMOpc2luZm9ybWF0aW9uIGTDqXNpZ25lIGxhIGRpZmZ1c2lvbiB2b2xvbnRhaXJlIGRlIGZhdXNzZXMgaW5mb3JtYXRpb25zIHBvdXIgdHJvbXBlciBsJ29waW5pb24gcHVibGlxdWUu">
+    <p class="q">3. « disinformation » (diffusion volontaire de fausses informations) → tapez la traduction en français.</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Indice</summary><div>Le préfixe « dés- » + « information ».</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="text" data-a="bGEgbGliZXJ0w6kgZCdleHByZXNzaW9u" data-exp="RHJvaXQgZm9uZGFtZW50YWwgZ2FyYW50aSBwYXIgbCdhcnRpY2xlIDExIGRlIGxhIETDqWNsYXJhdGlvbiBkZXMgZHJvaXRzIGRlIGwnaG9tbWUgZXQgZHUgY2l0b3llbiBkZSAxNzg5Lg==">
+    <p class="q">4. « freedom of expression » → tapez la traduction en français.</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Indice</summary><div>« la liberté de/d'… »</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="text" data-a="bGUgZGlzY291cnMgZGUgaGFpbmV8bGVzIGRpc2NvdXJzIGRlIGhhaW5l" data-exp="UHJvcG9zIHF1aSBpbmNpdGVudCDDoCBsYSBoYWluZSBvdSDDoCBsYSB2aW9sZW5jZSBlbnZlcnMgdW5lIHBlcnNvbm5lIG91IHVuIGdyb3VwZS4=">
+    <p class="q">5. « hate speech » → tapez la traduction en français.</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Indice</summary><div>« le discours de… »</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="text" data-a="bGVzIGluZm94fGxlcyBmYXVzc2VzIG5vdXZlbGxlcw==" data-exp="wqsgSW5mb3ggwrsgZXN0IGxlIHRlcm1lIG9mZmljaWVsIHJlY29tbWFuZMOpIHBhciBsYSBDb21taXNzaW9uIGQnZW5yaWNoaXNzZW1lbnQgZGUgbGEgbGFuZ3VlIGZyYW7Dp2Fpc2UgcG91ciByZW1wbGFjZXIgbCdhbmdsaWNpc21lIMKrIGZha2UgbmV3cyDCuy4=">
+    <p class="q">6. « fake news » → tapez la traduction officielle en français (recommandée par l'Académie française).</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Indice</summary><div>Un mot-valise de 5 lettres, ou l'expression « les fausses… ».</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="text" data-a="bGEgZnJhY3R1cmUgbnVtw6lyaXF1ZQ==" data-exp="SW7DqWdhbGl0w6kgZCdhY2PDqHMgYXV4IG91dGlscyBldCBjb21ww6l0ZW5jZXMgbnVtw6lyaXF1ZXMgc2Vsb24gbCfDomdlLCBsZSByZXZlbnUgb3UgbGEgcsOpZ2lvbi4=">
+    <p class="q">7. « the digital divide » → tapez la traduction en français.</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Indice</summary><div>« la fracture… »</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="text" data-a="bCfDqWR1Y2F0aW9uIGF1eCBtw6lkaWFzfGwnw6lkdWNhdGlvbiDDoCBsJ2luZm9ybWF0aW9u" data-exp="Q29tcMOpdGVuY2Ugw6AgYW5hbHlzZXIgZXQgw6AgdsOpcmlmaWVyIGRlIGZhw6dvbiBjcml0aXF1ZSBsZXMgc291cmNlcyBkJ2luZm9ybWF0aW9uLg==">
+    <p class="q">8. « media literacy » → tapez la traduction en français.</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Indice</summary><div>« l'éducation… » + aux médias / à l'information.</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <!-- ============ EXERCICE 2 : carte-stimulus ============ -->
+  <h2>Exercice 2 · Carte-stimulus — compréhension <span class="pts">(5 points)</span></h2>
+  <div class="consigne">Lisez la carte-stimulus ci-dessous, puis répondez aux questions en vous appuyant
+  sur vos connaissances du sujet.</div>
+
+  <div class="card">
+    <h3>Carte-stimulus — Les médias</h3>
+    <p><strong>Les réseaux sociaux ont bouleversé la manière dont les jeunes Français s'informent, mais
+    cette évolution soulève aussi de nombreuses inquiétudes.</strong></p>
+    <p style="margin-top:8px">Vous devez considérer :</p>
+    <ul>
+      <li>les avantages et les limites des réseaux sociaux comme source d'information</li>
+      <li>la place de la presse traditionnelle face à la concurrence numérique</li>
+      <li>les mesures prises pour lutter contre la désinformation en ligne</li>
+    </ul>
+  </div>
+
+  <div class="item" data-type="mcq" data-a="MQ==" data-exp="TCdBcmNvbSAoQXV0b3JpdMOpIGRlIHLDqWd1bGF0aW9uIGRlIGxhIGNvbW11bmljYXRpb24gYXVkaW92aXN1ZWxsZSBldCBudW3DqXJpcXVlKSBlc3QgbsOpZSBlbiAyMDIyIGRlIGxhIGZ1c2lvbiBkdSBDU0EgZXQgZGUgbGEgSGFkb3BpLg==">
+    <p class="q">9. Quel organisme français est chargé de réguler les médias audiovisuels et numériques depuis 2022 ?</p>
+    <div class="opts">
+      <label><input type="radio" name="e2q1" value="0"> A) le CSA</label>
+      <label><input type="radio" name="e2q1" value="1"> B) l'Arcom</label>
+      <label><input type="radio" name="e2q1" value="2"> C) la CNIL</label>
     </div>
+    <details class="aide"><summary>Indice</summary><div>C'est le résultat d'une fusion entre deux anciens organismes.</div></details>
+    <div class="fb"></div>
+  </div>
 
-    <script>
-        // Timer functionality
-        let timeLeft = 45 * 60;
-        const timerElement = document.getElementById('timer');
-        let timeTaken = 0;
-        
-        function updateTimer() {
-            const minutes = Math.floor(timeLeft / 60);
-            const seconds = timeLeft % 60;
-            timerElement.textContent = `⏱️ ${minutes}:${seconds.toString().padStart(2, '0')}`;
-            timeTaken++;
-            
-            if (timeLeft > 0) {
-                timeLeft--;
-                setTimeout(updateTimer, 1000);
-            } else {
-                timerElement.textContent = '⏱️ Temps écoulé!';
-                timerElement.style.background = 'rgba(255,0,0,0.3)';
-            }
-        }
-        
-        updateTimer();
-        
-        // Clue reveal function
-        function revealClue(element) {
-            const clueContent = element.nextElementSibling;
-            if (clueContent && clueContent.className === 'clue-content') {
-                clueContent.style.display = 'block';
-                element.classList.add('revealed');
-                element.textContent = clueContent.textContent;
-                element.onclick = null;
-            }
-        }
-        
-        // Progress tracking
-        function updateProgress() {
-            const totalQuestions = 20;
-            let answered = 0;
-            
-            document.querySelectorAll('input[type="text"], textarea').forEach(input => {
-                if (input.value.trim() !== '') answered++;
-            });
-            
-            for (let i = 1; i <= 3; i++) {
-                if (document.querySelector(`input[name="q${i}"]:checked`)) answered++;
-            }
-            
-            if (document.querySelector('input[name="q7"]:checked')) answered++;
-            if (document.querySelector('input[name="q8"]:checked')) answered++;
-            
-            const percentage = (answered / totalQuestions) * 100;
-            document.getElementById('progress').style.width = percentage + '%';
-        }
-        
-        document.querySelectorAll('input, textarea').forEach(element => {
-            element.addEventListener('input', updateProgress);
-            element.addEventListener('change', updateProgress);
-        });
-        
-        function checkAnswers() {
-            let score = 0;
-            const total = 20;
-            let detailedResults = [];
-            
-            // Q1
-            const q1 = document.querySelector('input[name="q1"]:checked');
-            const result1 = document.getElementById('result1');
-            if (q1 && q1.value === 'vrai') {
-                result1.textContent = '✓ Correct! La France a des lois très strictes sur la vie privée';
-                result1.className = 'result correct show';
-                score++;
-                detailedResults.push({q: 1, correct: true, answer: 'Vrai'});
-            } else {
-                result1.textContent = '✗ Faux. La France a effectivement des lois très strictes sur la protection de la vie privée.';
-                result1.className = 'result partial show';
-                detailedResults.push({q: 1, correct: false, answer: q1 ? q1.value : 'Non répondu', correctAnswer: 'Vrai'});
-            }
-            
-            // Q2
-            const q2 = document.querySelector('input[name="q2"]:checked');
-            const result2 = document.getElementById('result2');
-            if (q2 && q2.value === 'vrai') {
-                result2.textContent = '✓ Correct! Le Canard Enchaîné est un journal satirique influent';
-                result2.className = 'result correct show';
-                score++;
-                detailedResults.push({q: 2, correct: true, answer: 'Vrai'});
-            } else {
-                result2.textContent = '✗ Faux. Le Canard Enchaîné est effectivement un journal satirique très populaire.';
-                result2.className = 'result partial show';
-                detailedResults.push({q: 2, correct: false, answer: q2 ? q2.value : 'Non répondu', correctAnswer: 'Vrai'});
-            }
-            
-            // Q3
-            const q3 = document.querySelector('input[name="q3"]:checked');
-            const result3 = document.getElementById('result3');
-            if (q3 && q3.value === 'faux') {
-                result3.textContent = '✓ Correct! Les médias numériques ont une plus grande part des revenus publicitaires';
-                result3.className = 'result correct show';
-                score++;
-                detailedResults.push({q: 3, correct: true, answer: 'Faux'});
-            } else {
-                result3.textContent = '✗ Faux. Les médias numériques ont une plus grande part (70%) que la presse écrite (moins de 10%).';
-                result3.className = 'result partial show';
-                detailedResults.push({q: 3, correct: false, answer: q3 ? q3.value : 'Non répondu', correctAnswer: 'Faux'});
-            }
-            
-            // Q4
-            const q4 = document.getElementById('q4').value.trim().toLowerCase();
-            const result4 = document.getElementById('result4');
-            if (q4.includes('cannes')) {
-                result4.textContent = '✓ Correct! Festival de Cannes';
-                result4.className = 'result correct show';
-                score++;
-                detailedResults.push({q: 4, correct: true, answer: q4});
-            } else {
-                result4.textContent = '✗ La réponse correcte est: Festival de Cannes';
-                result4.className = 'result partial show';
-                detailedResults.push({q: 4, correct: false, answer: q4 || 'Non répondu', correctAnswer: 'Cannes'});
-            }
-            
-            // Q5
-            const q5 = document.getElementById('q5').value.trim().toLowerCase();
-            const result5 = document.getElementById('result5');
-            if (q5.includes('liberté')) {
-                result5.textContent = '✓ Correct! liberté d\'expression';
-                result5.className = 'result correct show';
-                score++;
-                detailedResults.push({q: 5, correct: true, answer: q5});
-            } else {
-                result5.textContent = '✗ La réponse correcte est: liberté';
-                result5.className = 'result partial show';
-                detailedResults.push({q: 5, correct: false, answer: q5 || 'Non répondu', correctAnswer: 'liberté'});
-            }
-            
-            // Q6
-            const q6 = document.getElementById('q6').value.trim().toLowerCase();
-            const result6 = document.getElementById('result6');
-            if (q6.includes('france') && q6.includes('télévisions')) {
-                result6.textContent = '✓ Correct! France Télévisions';
-                result6.className = 'result correct show';
-                score++;
-                detailedResults.push({q: 6, correct: true, answer: q6});
-            } else {
-                result6.textContent = '✗ La réponse correcte est France Télévisions';
-                result6.className = 'result partial show';
-                detailedResults.push({q: 6, correct: false, answer: q6 || 'Non répondu', correctAnswer: 'France Télévisions'});
-            }
-            
-            // Q7
-            const q7Checked = document.querySelectorAll('input[name="q7"]:checked');
-            const result7 = document.getElementById('result7');
-            let q7Correct = true;
-            
-            q7Checked.forEach(checkbox => {
-                if (checkbox.value === 'd') {
-                    q7Correct = false;
-                }
-            });
-            
-            if (q7Checked.length === 3 && q7Correct) {
-                result7.textContent = '✓ Correct! A, B et C sont les bonnes réponses';
-                result7.className = 'result correct show';
-                score++;
-                detailedResults.push({q: 7, correct: true, answer: 'A, B, C'});
-            } else if (q7Checked.length > 0 && q7Correct) {
-                result7.textContent = `⚠ Partiellement correct (${q7Checked.length}/3). Les réponses A, B et C sont correctes.`;
-                result7.className = 'result partial show';
-                score += q7Checked.length * 0.33;
-                detailedResults.push({q: 7, correct: false, answer: `${q7Checked.length}/3`, correctAnswer: 'A, B, C'});
-            } else {
-                result7.textContent = '✗ Les réponses A, B et C sont correctes';
-                result7.className = 'result partial show';
-                detailedResults.push({q: 7, correct: false, answer: 'Non répondu ou incorrect', correctAnswer: 'A, B, C'});
-            }
-            
-            // Q8
-            const q8Checked = document.querySelectorAll('input[name="q8"]:checked');
-            const result8 = document.getElementById('result8");
-            let q8Correct = true;
-            
-            q8Checked.forEach(checkbox => {
-                if (checkbox.value === 'c' || checkbox.value === 'd') {
-                    q8Correct = false;
-                }
-            });
-            
-            if (q8Checked.length === 2 && q8Correct) {
-                result8.textContent = '✓ Correct! A et B sont les bonnes réponses';
-                result8.className = 'result correct show';
-                score++;
-                detailedResults.push({q: 8, correct: true, answer: 'A, B'});
-            } else if (q8Checked.length > 0 && q8Correct) {
-                result8.textContent = `⚠ Partiellement correct (${q8Checked.length}/2). Les réponses A et B sont correctes.`;
-                result8.className = 'result partial show';
-                score += q8Checked.length * 0.5;
-                detailedResults.push({q: 8, correct: false, answer: `${q8Checked.length}/2`, correctAnswer: 'A, B'});
-            } else {
-                result8.textContent = '✗ Les réponses A et B sont correctes';
-                result8.className = 'result partial show';
-                detailedResults.push({q: 8, correct: false, answer: 'Non répondu ou incorrect', correctAnswer: 'A, B'});
-            }
-            
-            // Q9
-            const q9 = document.getElementById('q9').value.trim().toLowerCase();
-            const result9 = document.getElementById('result9');
-            if (q9.includes('liberté') && q9.includes('expression')) {
-                result9.textContent = '✓ Correct! la liberté d\'expression';
-                result9.className = 'result correct show';
-                score++;
-                detailedResults.push({q: 9, correct: true, answer: q9});
-            } else {
-                result9.textContent = '✗ La réponse correcte est: la liberté d\'expression';
-                result9.className = 'result partial show';
-                detailedResults.push({q: 9, correct: false, answer: q9 || 'Non répondu', correctAnswer: 'expression'});
-            }
-            
-            // Q10
-            const q10 = document.getElementById('q10').value.trim().toLowerCase();
-            const result10 = document.getElementById('result10');
-            if (q10.includes('discours') && q10.includes('haine')) {
-                result10.textContent = '✓ Correct! les discours de haine';
-                result10.className = 'result correct show';
-                score++;
-                detailedResults.push({q: 10, correct: true, answer: q10});
-            } else {
-                result10.textContent = '✗ La réponse correcte est: les discours de haine';
-                result10.className = 'result partial show';
-                detailedResults.push({q: 10, correct: false, answer: q10 || 'Non répondu', correctAnswer: 'haine'});
-            }
-            
-            // Q11
-            const q11 = document.getElementById('q11').value.trim().toLowerCase();
-            const result11 = document.getElementById('result11');
-            if (q11.includes('fracture') && q11.includes('numérique')) {
-                result11.textContent = '✓ Correct! la fracture numérique';
-                result11.className = 'result correct show';
-                score++;
-                detailedResults.push({q: 11, correct: true, answer: q11});
-            } else {
-                result11.textContent = '✗ La réponse correcte est: la fracture numérique';
-                result11.className = 'result partial show';
-                detailedResults.push({q: 11, correct: false, answer: q11 || 'Non répondu', correctAnswer: 'numérique'});
-            }
-            
-            // Q12
-            const q12 = document.getElementById('q12').value.trim().toLowerCase();
-            const result12 = document.getElementById('result12');
-            if (q12.includes('print') || q12.includes('written')) {
-                result12.textContent = '✓ Correct! print/written press';
-                result12.className = 'result correct show';
-                score++;
-                detailedResults.push({q: 12, correct: true, answer: q12});
-            } else {
-                result12.textContent = '✗ La réponse correcte est: print/written press';
-                result12.className = 'result partial show';
-                detailedResults.push({q: 12, correct: false, answer: q12 || 'Non répondu', correctAnswer: 'print/written'});
-            }
-            
-            // Q13 - Matching
-            const q13a = document.getElementById('q13a').value.trim();
-            const q13b = document.getElementById('q13b').value.trim();
-            const q13c = document.getElementById('q13c').value.trim();
-            const q13d = document.getElementById('q13d').value.trim();
-            const result13 = document.getElementById('result13');
-            
-            let matchScore = 0;
-            if (q13a === '3') matchScore++;
-            if (q13b === '1') matchScore++;
-            if (q13c === '2') matchScore++;
-            if (q13d === '4') matchScore++;
-            
-            if (matchScore === 4) {
-                result13.textContent = '✓ Correct! Toutes les associations sont correctes';
-                result13.className = 'result correct show';
-                score++;
-                detailedResults.push({q: 13, correct: true, answer: 'Tout correct'});
-            } else {
-                result13.textContent = `⚠ ${matchScore}/4 correct. Réponses: A=3, B=1, C=2, D=4`;
-                result13.className = 'result partial show';
-                score += matchScore * 0.25;
-                detailedResults.push({q: 13, correct: false, answer: `${matchScore}/4`, correctAnswer: 'A=3, B=1, C=2, D=4'});
-            }
-            
-            // Q14-20 - Short answers and critical analysis
-            const q14 = document.getElementById('q14').value.trim();
-            const result14 = document.getElementById('result14');
-            if (q14.length > 40) {
-                result14.textContent = '✓ Réponse enregistrée. Vérifiez que vous avez mentionné deux avantages.';
-                result14.className = 'result correct show';
-                score++;
-                detailedResults.push({q: 14, correct: true, answer: q14.substring(0, 50) + '...'});
-            } else {
-                result14.textContent = '⚠ Réponse trop courte. Deux avantages requis.';
-                result14.className = 'result partial show';
-                detailedResults.push({q: 14, correct: false, answer: q14 || 'Non répondu', correctAnswer: 'Deux avantages détaillés requis'});
-            }
-            
-            const q15 = document.getElementById('q15').value.trim();
-            const result15 = document.getElementById('result15');
-            if (q15.length > 35) {
-                result15.textContent = '✓ Réponse enregistrée. Vérifiez que vous avez mentionné deux défis.';
-                result15.className = 'result correct show';
-                score++;
-                detailedResults.push({q: 15, correct: true, answer: q15.substring(0, 50) + '...'});
-            } else {
-                result15.textContent = '⚠ Réponse trop courte. Deux défis requis.';
-                result15.className = 'result partial show';
-                detailedResults.push({q: 15, correct: false, answer: q15 || 'Non répondu', correctAnswer: 'Deux défis détaillés requis'});
-            }
-            
-            const q16 = document.getElementById('q16').value.trim();
-            const result16 = document.getElementById('result16');
-            if (q16.length > 40) {
-                result16.textContent = '✓ Réponse enregistrée. Vérifiez que vous avez expliqué le caractère strict.';
-                result16.className = 'result correct show';
-                score++;
-                detailedResults.push({q: 16, correct: true, answer: q16.substring(0, 50) + '...'});
-            } else {
-                result16.textContent = '⚠ Réponse trop courte. Développez davantage (2-3 phrases).';
-                result16.className = 'result partial show';
-                detailedResults.push({q: 16, correct: false, answer: q16 || 'Non répondu', correctAnswer: '2-3 phrases requises'});
-            }
-            
-            const q17 = document.getElementById('q17').value.trim();
-            const result17 = document.getElementById('result17');
-            if (q17.length > 40) {
-                result17.textContent = '✓ Réponse enregistrée. Vérifiez que vous avez mentionné impacts positifs et négatifs.';
-                result17.className = 'result correct show';
-                score++;
-                detailedResults.push({q: 17, correct: true, answer: q17.substring(0, 50) + '...'});
-            } else {
-                result17.textContent = '⚠ Réponse trop courte. Développez davantage (2-3 phrases).';
-                result17.className = 'result partial show';
-                detailedResults.push({q: 17, correct: false, answer: q17 || 'Non répondu', correctAnswer: '2-3 phrases requises'});
-            }
-            
-            const q18 = document.getElementById('q18').value.trim();
-            const result18 = document.getElementById('result18');
-            if (q18.length > 50) {
-                result18.textContent = '✓ Réponse enregistrée. Vérifiez que vous avez donné trois arguments.';
-                result18.className = 'result correct show';
-                score++;
-                detailedResults.push({q: 18, correct: true, answer: q18.substring(0, 50) + '...'});
-            } else {
-                result18.textContent = '⚠ Réponse trop courte. Trois arguments requis avec justification.';
-                result18.className = 'result partial show';
-                detailedResults.push({q: 18, correct: false, answer: q18 || 'Non répondu', correctAnswer: 'Trois arguments avec justification'});
-            }
-            
-            const q19 = document.getElementById('q19').value.trim();
-            const result19 = document.getElementById('result19');
-            if (q19.length > 40) {
-                result19.textContent = '✓ Réponse enregistrée. Vérifiez que vous avez mentionné similitudes et différences.';
-                result19.className = 'result correct show';
-                score++;
-                detailedResults.push({q: 19, correct: true, answer: q19.substring(0, 50) + '...'});
-            } else {
-                result19.textContent = '⚠ Réponse trop courte. Deux similitudes et deux différences requises.';
-                result19.className = 'result partial show';
-                detailedResults.push({q: 19, correct: false, answer: q19 || 'Non répondu', correctAnswer: 'Similitudes et différences requises'});
-            }
-            
-            const q20 = document.getElementById('q20').value.trim();
-            const result20 = document.getElementById('result20');
-            if (q20.length > 50) {
-                result20.textContent = '✓ Réponse enregistrée. Vérifiez que vous avez proposé des mesures concrètes.';
-                result20.className = 'result correct show';
-                score++;
-                detailedResults.push({q: 20, correct: true, answer: q20.substring(0, 50) + '...'});
-            } else {
-                result20.textContent = '⚠ Réponse trop courte. Mesures concrètes requises.';
-                result20.className = 'result partial show';
-                detailedResults.push({q: 20, correct: false, answer: q20 || 'Non répondu', correctAnswer: 'Mesures concrètes requises'});
-            }
-            
-            // Show final score
-            const percentage = ((score / total) * 100).toFixed(1);
-            const finalScore = document.getElementById('finalScore');
-            const scoreText = document.getElementById('scoreText');
-            scoreText.textContent = `${score.toFixed(1)}/${total} (${percentage}%)`;
-            finalScore.style.display = 'block';
-            
-            // Store results for download
-            window.testResults = {
-                score: score.toFixed(1),
-                total: total,
-                percentage: percentage,
-                timeTaken: Math.floor(timeTaken / 60) + ':' + (timeTaken % 60).toString().padStart(2, '0'),
-                date: new Date().toLocaleDateString('fr-FR'),
-                details: detailedResults
-            };
-            
-            // Scroll to results
-            finalScore.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        }
-        
-        function downloadResults() {
-            const results = window.testResults;
-            let content = `RÉSULTATS - Pratique A-Level French: Les Médias dans le Monde Francophone
-====================================================================
+  <div class="item" data-type="mcq" data-a="MQ==" data-exp="TGUgRFNBIGltcG9zZSBhdXggZ3JhbmRlcyBwbGF0ZWZvcm1lcyAoTWV0YSwgVGlrVG9rLCBY4oCmKSBkZXMgb2JsaWdhdGlvbnMgZGUgdHJhbnNwYXJlbmNlIGV0IGRlIG1vZMOpcmF0aW9uIGRlcyBjb250ZW51cyBpbGxpY2l0ZXMsIHNvdXMgcGVpbmUgZGUgbG91cmRlcyBhbWVuZGVzLg==">
+    <p class="q">10. Que vise principalement le Digital Services Act (DSA), en vigueur dans l'Union européenne depuis 2024 ?</p>
+    <div class="opts">
+      <label><input type="radio" name="e2q2" value="0"> A) Baisser les impôts des médias</label>
+      <label><input type="radio" name="e2q2" value="1"> B) Obliger les grandes plateformes à mieux modérer les contenus illégaux</label>
+      <label><input type="radio" name="e2q2" value="2"> C) Interdire les réseaux sociaux aux mineurs</label>
+    </div>
+    <details class="aide"><summary>Indice</summary><div>Pensez à la responsabilité des plateformes envers les contenus qu'elles hébergent.</div></details>
+    <div class="fb"></div>
+  </div>
 
-Date: ${results.date}
-Temps passé: ${results.timeTaken}
-Score: ${results.score}/${results.total} (${results.percentage}%)
+  <div class="item" data-type="mcq" data-a="MA==" data-exp="TGUgQ29uc2VpbCBjb25zdGl0dXRpb25uZWwgYSBqdWfDqSBlbiAyMDIwIHF1ZSBsZSBkw6lsYWkgZGUgMjRoIHBvdXIgcmV0aXJlciBjZXJ0YWlucyBjb250ZW51cywgc291cyBwZWluZSBkZSBzYW5jdGlvbiBww6luYWxlLCByaXNxdWFpdCBkZSBwb3Vzc2VyIGxlcyBwbGF0ZWZvcm1lcyDDoCB1bmUgY2Vuc3VyZSBleGNlc3NpdmUgOiBsYSBsb2kgQXZpYSBhIGRvbmMgw6l0w6kgdHLDqHMgbGFyZ2VtZW50IGNlbnN1csOpZS4=">
+    <p class="q">11. Pourquoi la loi Avia de 2020 contre la haine en ligne a-t-elle été en grande partie censurée par le Conseil constitutionnel ?</p>
+    <div class="opts">
+      <label><input type="radio" name="e2q3" value="0"> A) Elle portait une atteinte disproportionnée à la liberté d'expression</label>
+      <label><input type="radio" name="e2q3" value="1"> B) Elle coûtait trop cher à l'État</label>
+      <label><input type="radio" name="e2q3" value="2"> C) Elle ne concernait pas Internet</label>
+    </div>
+    <details class="aide"><summary>Indice</summary><div>Un délai très court pour retirer des contenus, sous peine de sanction, peut pousser à une censure excessive.</div></details>
+    <div class="fb"></div>
+  </div>
 
-DÉTAIL DES RÉPONSES:
---------------------------------------------------------------------
+  <div class="item" data-type="mcq" data-a="MQ==" data-exp="UmVwb3J0ZXJzIHNhbnMgZnJvbnRpw6hyZXMgKFJTRikgcHVibGllIGRlcHVpcyAyMDAyIHVuIGNsYXNzZW1lbnQgYW5udWVsIMOpdmFsdWFudCBsYSBsaWJlcnTDqSBkZSBsYSBwcmVzc2UgZGFucyBlbnZpcm9uIDE4MCBwYXlzLg==">
+    <p class="q">12. Quelle organisation publie chaque année un classement mondial de la liberté de la presse ?</p>
+    <div class="opts">
+      <label><input type="radio" name="e2q4" value="0"> A) l'ONU</label>
+      <label><input type="radio" name="e2q4" value="1"> B) Reporters sans frontières</label>
+      <label><input type="radio" name="e2q4" value="2"> C) l'UNESCO seule</label>
+    </div>
+    <details class="aide"><summary>Indice</summary><div>Une ONG dont le sigle est RSF.</div></details>
+    <div class="fb"></div>
+  </div>
 
-`;
+  <div class="item" data-type="mcq" data-a="Mg==" data-exp="TGEgcHVibGljaXTDqSBzJ2VzdCBtYXNzaXZlbWVudCBkw6lwbGFjw6llIHZlcnMgbGVzIHBsYXRlZm9ybWVzIG51bcOpcmlxdWVzIChHb29nbGUsIE1ldGHigKYpLCBmcmFnaWxpc2FudCBsZSBtb2TDqGxlIMOpY29ub21pcXVlIGRlIGxhIHByZXNzZSBwYXBpZXIu">
+    <p class="q">13. Quelle est la tendance générale des revenus publicitaires de la presse écrite française depuis les années 2000 ?</p>
+    <div class="opts">
+      <label><input type="radio" name="e2q5" value="0"> A) Ils ont fortement augmenté</label>
+      <label><input type="radio" name="e2q5" value="1"> B) Ils sont restés stables</label>
+      <label><input type="radio" name="e2q5" value="2"> C) Ils ont fortement chuté au profit du numérique</label>
+    </div>
+    <details class="aide"><summary>Indice</summary><div>Pensez à où vont désormais les budgets publicitaires de Google et Meta.</div></details>
+    <div class="fb"></div>
+  </div>
 
-            results.details.forEach((item) => {
-                content += `Question ${item.q}: ${item.correct ? '✓ CORRECT' : '✗ INCORRECT'}\n`;
-                content += `Votre réponse: ${item.answer}\n`;
-                if (!item.correct && item.correctAnswer) {
-                    content += `Réponse correcte: ${item.correctAnswer}\n`;
-                }
-                content += `\n`;
-            });
+  <!-- ============ EXERCICE 3 : questions d'opinion — réponses courtes ============ -->
+  <h2>Exercice 3 · Questions d'opinion — réponses courtes <span class="pts">(4 points)</span></h2>
+  <div class="consigne">À l'oral, on vous demande souvent de justifier une opinion en citant d'abord un
+  mot-clé ou une courte expression avant de développer. Tapez une réponse courte et précise.</div>
 
-            content += `
-====================================================================
-RECOMMANDATIONS:
+  <div class="item" data-type="text" data-a="bGEgZMOpc2luZm9ybWF0aW9ufGxlcyBmYXVzc2VzIGluZm9ybWF0aW9uc3xsZSBtYW5xdWUgZGUgdsOpcmlmaWNhdGlvbnxsYSBwcm9wYWdhdGlvbiBkZSBydW1ldXJzfGxlcyBpbmZveA==" data-exp="U3VyIGxlcyByw6lzZWF1eCBzb2NpYXV4LCBsJ2Fic2VuY2UgZGUgZmlsdHJlIMOpZGl0b3JpYWwgZmF2b3Jpc2UgbGEgY2lyY3VsYXRpb24gcmFwaWRlIGQnaW5mb3JtYXRpb25zIG5vbiB2w6lyaWZpw6llcy4=">
+    <p class="q">14. Citez UN inconvénient majeur des réseaux sociaux comme source d'information.</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Indice</summary><div>Pensez à ce qui circule sans vérification.</div></details>
+    <div class="fb"></div>
+  </div>
 
-`;
-            
-            if (results.percentage >= 80) {
-                content += `Excellent travail! Vous maîtrisez bien le sujet des médias francophones.\n`;
-            } else if (results.percentage >= 60) {
-                content += `Bon travail! Révisez les points où vous avez perdu des points.\n`;
-            } else {
-                content += `Continuez à pratiquer. Relisez le matériel sur les médias et réessayez.\n`;
-            }
+  <div class="item" data-type="text" data-a="bGlicmV8aW5kw6lwZW5kYW50ZQ==" data-exp="T24gcGFybGUgZGUgwqsgcHJlc3NlIGxpYnJlIMK7IG91IGRlIMKrIHByZXNzZSBpbmTDqXBlbmRhbnRlIMK7LCBnYXJhbnRlIGR1IHBsdXJhbGlzbWUgZMOpbW9jcmF0aXF1ZS4=">
+    <p class="q">15. Quel adjectif qualifie une presse qui n'est contrôlée ni par l'État ni par de grands intérêts privés ?</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Indice</summary><div>Le contraire de « censurée » ou « contrôlée ».</div></details>
+    <div class="fb"></div>
+  </div>
 
-            content += `
-VOCABULAIRE CLÉ À RÉVISER:
-- la liberté d'expression
-- la presse écrite/numérique
-- les lois sur la vie privée
-- les discours de haine
-- la fracture numérique
-- les infox (fake news)
-- la télé-réalité
-- les documentaires culturels
-- le service public
+  <div class="item" data-type="text" data-a="bGUgcsOoZ2xlbWVudCBzdXIgbGVzIHNlcnZpY2VzIG51bcOpcmlxdWVzfGxlIGRzYQ==" data-exp="TGUgRFNBIChEaWdpdGFsIFNlcnZpY2VzIEFjdCksIHRyYWR1aXQgwqsgcsOoZ2xlbWVudCBzdXIgbGVzIHNlcnZpY2VzIG51bcOpcmlxdWVzIMK7LCBlc3QgcGxlaW5lbWVudCBlbnRyw6kgZW4gdmlndWV1ciBlbiBmw6l2cmllciAyMDI0Lg==">
+    <p class="q">16. Quel est le nom, en français, du règlement européen qui encadre les grandes plateformes numériques depuis 2024 ? (donnez le nom complet ou le sigle)</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Indice</summary><div>Sigle de trois lettres, ou traduction littérale de l'anglais.</div></details>
+    <div class="fb"></div>
+  </div>
 
-MÉDIAS IMPORTANTS:
-- Le Canard Enchaîné (journal satirique)
-- Charlie Hebdo (journal satirique)
-- Mediapart (journal d'investigation en ligne)
-- France Télévisions (service public)
-- Le Monde (journal de référence)
-- Festival de Cannes (cinéma)
+  <div class="item" data-type="text" data-a="bnVtw6lyaXF1ZXxudW3DqXJpcXVlc3xlbiBsaWduZQ==" data-exp="T24gb3Bwb3NlIGxhIHByZXNzZSDCqyBwYXBpZXIgwrsgw6AgbGEgcHJlc3NlIMKrIG51bcOpcmlxdWUgwrsgb3UgwqsgZW4gbGlnbmUgwrsu">
+    <p class="q">17. Quel adjectif désigne les articles publiés uniquement sur Internet, sans version imprimée ?</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Indice</summary><div>Le contraire de « papier ».</div></details>
+    <div class="fb"></div>
+  </div>
 
-THÈMES IMPORTANTS:
-- La liberté de la presse dans les démocraties francophones
-- Les défis de la presse écrite face au numérique
-- La protection de la vie privée vs l'intérêt public
-- Le rôle culturel et éducatif de la télévision
-- L'impact d'Internet dans le monde francophone
-- Les enjeux du cinéma français
-`;
+  <!-- ============ EXERCICE 4 : réponses développées ============ -->
+  <h2>Exercice 4 · Réponses développées <span class="pts">(3 x réponse longue)</span></h2>
+  <div class="consigne">Rédigez des réponses complètes et structurées, comme à l'oral. Utilisez des
+  connecteurs logiques (d'une part… d'autre part…, cependant, par ailleurs…).</div>
 
-            // Create download
-            const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
-            const url = window.URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = `Resultats_Medias_Francophones_${new Date().toISOString().slice(0,10)}.txt`;
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            window.URL.revokeObjectURL(url);
-        }
-    </script>
+  <div class="item" data-type="free" data-min="40">
+    <p class="q">18. Expliquez deux avantages et deux inconvénients des réseaux sociaux comme source d'information.</p>
+    <textarea placeholder="Rédigez ici (40 mots minimum)…"></textarea>
+    <details class="aide"><summary>Indice</summary><div>Avantages : rapidité, accès gratuit, diversité des voix. Inconvénients : désinformation, absence de vérification, chambres d'écho.</div></details>
+    <div class="fb"></div>
+    <details class="aide"><summary>Voir un modèle de réponse (après avoir écrit le vôtre)</summary>
+      <div>Modèle : D'une part, les réseaux sociaux permettent un accès rapide et gratuit à l'information,
+      et donnent la parole à des voix habituellement peu entendues. D'autre part, ils favorisent la
+      désinformation, car les contenus circulent sans vérification préalable, et ils enferment souvent
+      l'utilisateur dans une « chambre d'écho » qui ne reflète que ses propres opinions.</div></details>
+  </div>
+
+  <div class="item" data-type="free" data-min="40">
+    <p class="q">19. Décrivez le rôle de la presse écrite traditionnelle face à la concurrence des médias numériques.</p>
+    <textarea placeholder="Rédigez ici (40 mots minimum)…"></textarea>
+    <details class="aide"><summary>Indice</summary><div>Pensez au travail d'enquête, à la crédibilité, mais aussi à la baisse des ventes et des revenus publicitaires.</div></details>
+    <div class="fb"></div>
+    <details class="aide"><summary>Voir un modèle de réponse (après avoir écrit le vôtre)</summary>
+      <div>Modèle : La presse écrite conserve un rôle essentiel grâce à un travail d'enquête approfondi et
+      à une exigence de vérification des sources, ce qui lui confère davantage de crédibilité que
+      certains contenus en ligne. Cependant, elle souffre d'une baisse continue de ses ventes et de ses
+      revenus publicitaires, largement captés désormais par les géants du numérique.</div></details>
+  </div>
+
+  <div class="item" data-type="free" data-min="50">
+    <p class="q">20. Pensez-vous que les gouvernements devraient réguler davantage les réseaux sociaux ? Justifiez votre réponse avec au moins deux arguments.</p>
+    <textarea placeholder="Rédigez ici (50 mots minimum)…"></textarea>
+    <details class="aide"><summary>Indice</summary><div>Pesez le pour (protection des citoyens contre la haine et l'infox) et le contre (risque pour la liberté d'expression).</div></details>
+    <div class="fb"></div>
+    <details class="aide"><summary>Voir un modèle de réponse (après avoir écrit le vôtre)</summary>
+      <div>Modèle : À mon avis, une certaine régulation est nécessaire, car les plateformes doivent rendre
+      des comptes lorsqu'elles laissent circuler des discours de haine ou de la désinformation qui peuvent
+      mettre en danger la cohésion sociale. Toutefois, cette régulation doit rester proportionnée : comme
+      l'a montré la censure partielle de la loi Avia, un excès de contrôle risquerait de porter atteinte à
+      la liberté d'expression, pilier de toute démocratie.</div></details>
+  </div>
+
+  <button class="btn" onclick="checkAll()">✔ Vérifier mes réponses</button>
+  <button class="btn second" onclick="resetAll()">↺ Recommencer</button>
+  <div class="score-banner" id="scoreBanner"></div>
+
+  <!-- ============ DÉFI A* (stretch) ============ -->
+  <div class="stretch">
+    <h2>Défi A* — Pour aller plus loin</h2>
+    <div class="consigne">Tâche exigeante (C1) : en vous appuyant sur des exemples précis (l'Arcom, le DSA,
+    la loi Avia), rédigez une réponse développée (90 mots minimum) à la question suivante :
+    « La régulation des réseaux sociaux menace-t-elle la liberté d'expression, ou est-elle indispensable
+    pour protéger les citoyens ? » Utilisez au moins un subjonctif, un pronom relatif « dont » et une
+    structure passive.</div>
+    <p><em>Amorces :</em> « Il est indéniable que… », « Ce dont il s'agit ici, c'est de trouver un
+    équilibre entre… », « Force est de constater que les plateformes ont été contraintes de… »,
+    « Bien qu'il soit nécessaire de…, il ne faudrait pas que… »</p>
+    <div class="item" data-type="free" data-min="90">
+      <textarea placeholder="Rédigez ici (90 mots minimum)…"></textarea>
+      <div class="fb"></div>
+    </div>
+    <details class="aide"><summary>Voir un modèle de réponse (après avoir écrit le vôtre)</summary>
+      <div id="modelAnswer">Modèle : Il est indéniable que les réseaux sociaux, en l'absence de tout
+      contrôle, peuvent devenir des vecteurs de désinformation et de discours de haine, ce dont les
+      récentes campagnes électorales ont montré les effets. C'est pourquoi des textes comme le DSA
+      européen ont été adoptés afin que les plateformes soient enfin tenues responsables des contenus
+      qu'elles diffusent. Force est de constater, cependant, que toute régulation comporte un risque :
+      la loi Avia, dont l'objectif était pourtant louable, a été largement censurée par le Conseil
+      constitutionnel car elle portait une atteinte disproportionnée à la liberté d'expression. Bien
+      qu'il soit nécessaire de protéger les citoyens contre les abus en ligne, il ne faudrait pas que
+      cette protection soit détournée pour museler le débat démocratique.</div></details>
+  </div>
+
+  <button class="btn dl" onclick="downloadResults()">📥 Télécharger mes résultats</button>
+</div>
+
+<!-- ============ FLOATING ACCENT PAD ============ -->
+<button id="padToggle" onclick="togglePad()">é à ç — Accents</button>
+<div id="accentPad" style="display:none">
+  <div class="drag">⋮⋮ déplacer</div>
+</div>
+
+<script>
+/* ================= HOUSE ENGINE — do not weaken ================= */
+/* Answers are base64-encoded (UTF-8 safe) so they never sit in plain text next to the inputs. */
+function d(b){try{return decodeURIComponent(escape(atob(b)))}catch(e){return""}}
+function e64(s){return btoa(unescape(encodeURIComponent(s)))} /* helper for authoring */
+
+function norm(s){return (s||"").toLowerCase().replace(/['']/g,"'").replace(/\s+/g," ").trim()}
+function deacc(s){return norm(s).normalize("NFD").replace(/[̀-ͯ]/g,"")}
+
+/* tolerant text check: returns "ok" | "accents" | "bad" ; accepted = array */
+function judge(val, accepted){
+  const v=norm(val);
+  if(accepted.some(a=>norm(a)===v)) return "ok";
+  if(accepted.some(a=>deacc(a)===deacc(val))) return "accents";
+  return "bad";
+}
+
+let results=[]; /* {label, given, ok, expected} */
+
+function checkAll(){
+  results=[]; let score=0, max=0;
+  document.querySelectorAll(".item").forEach((it,idx)=>{
+    const type=it.dataset.type, fb=it.querySelector(".fb");
+    const label=(it.querySelector(".q")?it.querySelector(".q").textContent.trim():("Défi "+(idx+1))).slice(0,90);
+    if(type==="mcq"){
+      max++;
+      const sel=it.querySelector("input[type=radio]:checked");
+      const correct=d(it.dataset.a), exp=d(it.dataset.exp||"");
+      if(!sel){fb.className="fb bad";fb.textContent="⚠ Répondez à la question.";results.push({label,given:"—",ok:false});return}
+      if(sel.value===correct){score++;fb.className="fb ok";fb.textContent="✔ Correct. "+exp;
+        results.push({label,given:sel.parentElement.textContent.trim(),ok:true});}
+      else{fb.className="fb bad";fb.textContent="✘ Incorrect. "+exp;
+        results.push({label,given:sel.parentElement.textContent.trim(),ok:false});}
+    }
+    if(type==="text"){
+      max++;
+      const inp=it.querySelector("input,textarea");
+      const accepted=d(it.dataset.a).split("|"), exp=d(it.dataset.exp||"");
+      const r=judge(inp.value,accepted);
+      if(r==="ok"){score++;fb.className="fb ok";fb.textContent="✔ Correct. "+exp;}
+      else if(r==="accents"){fb.className="fb almost";fb.textContent="≈ Presque ! Vérifiez les accents : "+accepted[0]+". "+exp;}
+      else{fb.className="fb bad";fb.textContent="✘ Réponse attendue : "+accepted[0]+". "+exp;}
+      results.push({label,given:inp.value||"—",ok:r==="ok"});
+    }
+    if(type==="free"){
+      const ta=it.querySelector("textarea"), min=parseInt(it.dataset.min||"40");
+      const words=(ta.value.trim().match(/\S+/g)||[]).length;
+      if(words===0){fb.className="fb";fb.textContent="";}
+      else if(words<min){fb.className="fb almost";fb.textContent="≈ "+words+" mots — visez au moins "+min+". Développez avec un connecteur (cependant, en revanche…).";}
+      else{fb.className="fb ok";fb.textContent="✔ "+words+" mots. Comparez maintenant avec le modèle, puis améliorez une phrase.";}
+      results.push({label,given:ta.value||"—",ok:words>=min});
+    }
+  });
+  const b=document.getElementById("scoreBanner");
+  b.style.display="block";
+  const pct=max?Math.round(100*score/max):0;
+  b.textContent="Score : "+score+" / "+max+" ("+pct+" %) — "+(pct>=80?"Excellent !":pct>=60?"Bien — corrigez les points signalés.":"Relisez les indices et réessayez.");
+  window._score={score,max};
+}
+
+function resetAll(){
+  document.querySelectorAll(".item input[type=text], .item textarea").forEach(i=>i.value="");
+  document.querySelectorAll(".item input[type=radio]").forEach(r=>r.checked=false);
+  document.querySelectorAll(".fb").forEach(f=>{f.className="fb";f.textContent=""});
+  document.getElementById("scoreBanner").style.display="none";
+  results=[];window._score=null;window.scrollTo({top:0,behavior:"smooth"});
+}
+
+function downloadResults(){
+  const name=document.getElementById("studentName").value.trim();
+  if(!name){alert("Écrivez d'abord votre nom en haut de la page.");document.getElementById("studentName").focus();return}
+  if(!window._score){alert("Cliquez d'abord sur « Vérifier mes réponses ».");return}
+  let txt="RÉSULTATS — "+document.title+"\n";
+  txt+="Élève : "+name+"\nDate : "+new Date().toLocaleString("fr-FR")+"\n";
+  txt+="Score : "+window._score.score+" / "+window._score.max+"\n";
+  txt+="".padEnd(60,"=")+"\n\n";
+  results.forEach((r,i)=>{txt+=(i+1)+". "+r.label+"\n   Réponse : "+r.given+"\n   "+(r.ok?"✔ correct":"✘ à revoir")+"\n\n";});
+  const blob=new Blob([txt],{type:"text/plain;charset=utf-8"});
+  const a=document.createElement("a");
+  a.href=URL.createObjectURL(blob);
+  a.download=(document.title.split("—")[0].trim()||"resultats").replace(/\s+/g,"_")+"_"+name.replace(/\s+/g,"_")+".txt";
+  document.body.appendChild(a);a.click();document.body.removeChild(a);URL.revokeObjectURL(a.href);
+}
+
+/* ---------- Accent pad ---------- */
+const CHARS=["é","è","ê","ë","à","â","î","ï","ô","ù","û","ü","ç","œ","æ","«","»","'","É","È","À","Ç","Œ"];
+let lastField=null;
+document.addEventListener("focusin",e=>{
+  if(e.target.matches("input[type=text],textarea") && e.target.id!=="studentName") lastField=e.target;
+  if(e.target.id==="studentName") lastField=e.target;
+});
+const pad=document.getElementById("accentPad");
+CHARS.forEach(c=>{
+  const b=document.createElement("button");
+  b.textContent=c; if(c===c.toUpperCase()&&c.toLowerCase()!==c) b.className="maj";
+  b.addEventListener("mousedown",ev=>{
+    ev.preventDefault(); /* keep focus in the field */
+    if(!lastField) return;
+    const s=lastField.selectionStart??lastField.value.length, t=lastField.selectionEnd??s;
+    lastField.value=lastField.value.slice(0,s)+c+lastField.value.slice(t);
+    lastField.selectionStart=lastField.selectionEnd=s+c.length;
+    lastField.focus();
+  });
+  pad.appendChild(b);
+});
+function togglePad(){
+  const show=pad.style.display==="none";
+  pad.style.display=show?"flex":"none";
+  document.getElementById("padToggle").style.display=show?"none":"block";
+  if(show){ /* add close button once */
+    if(!pad.querySelector(".closer")){
+      const x=document.createElement("button");x.textContent="✕";x.className="closer";
+      x.addEventListener("mousedown",ev=>{ev.preventDefault();togglePad()});pad.appendChild(x);
+    }
+  }
+}
+/* drag the pad */
+(function(){
+  const h=pad.querySelector(".drag");let sx,sy,ox,oy,drag=false;
+  h.addEventListener("mousedown",e=>{drag=true;sx=e.clientX;sy=e.clientY;const r=pad.getBoundingClientRect();ox=r.left;oy=r.top;
+    pad.style.right="auto";pad.style.bottom="auto";e.preventDefault()});
+  document.addEventListener("mousemove",e=>{if(!drag)return;pad.style.left=(ox+e.clientX-sx)+"px";pad.style.top=(oy+e.clientY-sy)+"px"});
+  document.addEventListener("mouseup",()=>drag=false);
+})();
+</script>
 </body>
 </html>

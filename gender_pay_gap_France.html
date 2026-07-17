@@ -3,563 +3,493 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Les inégalités salariales – Fiche B2</title>
+<title>Les inégalités salariales femmes-hommes en France</title>
 <style>
-  *{box-sizing:border-box;margin:0;padding:0}
-  body{font-family:'Segoe UI',sans-serif;background:#f4f1ec;color:#2d2d2d;min-height:100vh}
-  header{background:#3a5a8a;color:#fff;padding:24px 32px}
-  header h1{font-size:1.4rem;font-weight:700;margin-bottom:4px}
-  header p{font-size:.85rem;opacity:.8}
-  .container{max-width:820px;margin:0 auto;padding:24px 16px 120px}
-
-  /* Sign-in */
-  #signin-overlay{position:fixed;inset:0;background:rgba(0,0,0,.55);display:flex;align-items:center;justify-content:center;z-index:999}
-  #signin-box{background:#fff;border-radius:12px;padding:36px 32px;width:360px;text-align:center;box-shadow:0 8px 32px rgba(0,0,0,.2)}
-  #signin-box h2{margin-bottom:8px;color:#3a5a8a}
-  #signin-box p{font-size:.85rem;color:#666;margin-bottom:20px}
-  #signin-box input{width:100%;padding:10px 14px;border:1px solid #ccc;border-radius:8px;font-size:1rem;margin-bottom:14px}
-  #signin-box button{width:100%;padding:11px;background:#3a5a8a;color:#fff;border:none;border-radius:8px;font-size:1rem;cursor:pointer}
-  #signin-box button:hover{background:#2d4a74}
-
-  /* Card */
-  .card{background:#fff;border-radius:12px;padding:24px;margin-bottom:20px;box-shadow:0 2px 8px rgba(0,0,0,.07)}
-  .card h2{font-size:1rem;font-weight:700;color:#3a5a8a;margin-bottom:14px;display:flex;align-items:center;gap:8px}
-  .badge{background:#e8f0fb;color:#3a5a8a;font-size:.72rem;padding:2px 8px;border-radius:20px;font-weight:600}
-
-  /* Summary */
-  .summary-text{line-height:1.75;font-size:.95rem;color:#333}
-
-  /* Vocab */
-  .vocab-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-  .vocab-word{background:#f0f4ff;border-radius:8px;padding:10px 14px;cursor:grab;font-weight:600;font-size:.9rem;text-align:center;border:2px solid transparent;user-select:none}
-  .vocab-word.dragging{opacity:.4}
-  .vocab-def{background:#fafafa;border:2px dashed #ccc;border-radius:8px;padding:10px 14px;font-size:.88rem;min-height:48px;transition:border-color .2s}
-  .vocab-def.over{border-color:#3a5a8a;background:#e8f0fb}
-  .vocab-def .dropped{font-weight:700;color:#3a5a8a;font-size:.9rem;display:block;margin-bottom:4px}
-  .vocab-left{display:flex;flex-direction:column;gap:10px}
-  .vocab-right{display:flex;flex-direction:column;gap:10px}
-  .vocab-match-wrap{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-
-  /* MCQ */
-  .mcq-item{margin-bottom:18px}
-  .mcq-item p{font-size:.92rem;margin-bottom:8px;font-weight:500}
-  .mcq-options{display:flex;flex-direction:column;gap:6px}
-  .mcq-options label{display:flex;align-items:center;gap:8px;font-size:.88rem;cursor:pointer;padding:7px 10px;border-radius:7px;border:1px solid #e0e0e0;transition:background .15s}
-  .mcq-options label:hover{background:#f0f4ff}
-  .mcq-options input[type=radio]{accent-color:#3a5a8a}
-  .mcq-options label.correct{background:#d4edda;border-color:#28a745;color:#155724}
-  .mcq-options label.wrong{background:#f8d7da;border-color:#dc3545;color:#721c24}
-
-  /* Gap fill */
-  .gap-sentence{font-size:.92rem;line-height:2;margin-bottom:10px}
-  .gap-input{border:none;border-bottom:2px solid #3a5a8a;background:transparent;width:120px;font-size:.92rem;padding:2px 4px;outline:none;color:#2d2d2d;font-family:inherit}
-  .gap-input.correct{border-color:#28a745;color:#155724}
-  .gap-input.wrong{border-color:#dc3545;color:#721c24}
-  .gap-bank{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px;padding:12px;background:#f0f4ff;border-radius:8px}
-  .gap-chip{background:#fff;border:1px solid #3a5a8a;border-radius:20px;padding:4px 12px;font-size:.85rem;cursor:pointer;transition:background .15s}
-  .gap-chip:hover{background:#e8f0fb}
-  .gap-chip.used{opacity:.35;pointer-events:none}
-
-  /* Feedback */
-  .feedback{margin-top:10px;font-size:.85rem;font-weight:600;padding:8px 12px;border-radius:7px}
-  .feedback.ok{background:#d4edda;color:#155724}
-  .feedback.bad{background:#f8d7da;color:#721c24}
-
-  /* Check buttons */
-  .btn{padding:9px 20px;border:none;border-radius:8px;font-size:.88rem;cursor:pointer;font-weight:600;transition:background .2s}
-  .btn-check{background:#3a5a8a;color:#fff}
-  .btn-check:hover{background:#2d4a74}
-  .btn-reset{background:#e0e0e0;color:#333}
-  .btn-reset:hover{background:#ccc}
-  .btn-row{display:flex;gap:10px;margin-top:14px}
-
-  /* Writing */
-  .writing-prompt{background:#fff8e1;border-left:4px solid #f0a500;padding:12px 16px;border-radius:0 8px 8px 0;font-size:.9rem;margin-bottom:12px;line-height:1.6}
-  .writing-area{width:100%;border:1px solid #ccc;border-radius:8px;padding:12px;font-size:.92rem;font-family:inherit;resize:vertical;min-height:140px;line-height:1.7}
-  .writing-area:focus{outline:none;border-color:#3a5a8a}
-  .word-count{font-size:.78rem;color:#888;margin-top:4px;text-align:right}
-
-  /* Floating accent keyboard */
-  #accent-kb{position:fixed;bottom:24px;right:24px;background:#2d2d2d;border-radius:12px;padding:10px 14px;display:flex;gap:8px;flex-wrap:wrap;max-width:260px;box-shadow:0 4px 16px rgba(0,0,0,.35);z-index:100;transition:opacity .2s}
-  #accent-kb.hidden{opacity:0;pointer-events:none}
-  .ak-btn{background:#444;color:#fff;border:none;border-radius:6px;padding:6px 10px;font-size:1rem;cursor:pointer;transition:background .15s}
-  .ak-btn:hover{background:#3a5a8a}
-  #accent-kb .ak-label{color:#aaa;font-size:.7rem;width:100%;text-align:center;margin-bottom:2px}
-
-  /* Download bar */
-  #dl-bar{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid #e0e0e0;padding:12px 24px;display:flex;align-items:center;justify-content:space-between;z-index:98;box-shadow:0 -2px 8px rgba(0,0,0,.08)}
-  #dl-bar span{font-size:.85rem;color:#555}
-  #dl-bar .btn-dl{background:#3a5a8a;color:#fff;padding:9px 22px;border:none;border-radius:8px;cursor:pointer;font-weight:600;font-size:.88rem}
-  #dl-bar .btn-dl:hover{background:#2d4a74}
-
-  /* Score */
-  #score-bar{background:#e8f0fb;border-radius:8px;padding:12px 16px;margin-bottom:16px;font-size:.9rem;display:none}
-  #score-bar strong{color:#3a5a8a}
-
-  @media(max-width:600px){
-    .vocab-match-wrap{grid-template-columns:1fr}
-    .vocab-grid{grid-template-columns:1fr}
+  :root{
+    --ink:#1a2733; --paper:#ffffff; --bg:#eef2f6;
+    --accent:#00546b; --accent2:#8a1538; --ok:#1e7b45; --warn:#b06f00; --bad:#a12727;
+    --line:#c9d4dd;
   }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:Calibri,'Segoe UI',Arial,sans-serif;font-size:17px;line-height:1.55;
+       color:var(--ink);background:var(--bg);padding:24px 16px 120px}
+  .wrap{max-width:880px;margin:0 auto;background:var(--paper);border:1px solid var(--line);
+        border-radius:8px;padding:28px 32px}
+  header{border-bottom:3px solid var(--accent);padding-bottom:12px;margin-bottom:18px}
+  h1{font-size:1.6em;color:var(--accent)}
+  .meta{color:#5a6a78;font-style:italic;margin-top:4px}
+  h2{font-size:1.25em;color:var(--accent);margin:28px 0 8px;border-left:5px solid var(--accent);padding-left:10px}
+  h2 .pts{font-size:.75em;color:#5a6a78;font-weight:normal}
+  .consigne{background:#f2f7fa;border-left:4px solid var(--accent);padding:10px 14px;margin:8px 0 14px;border-radius:0 6px 6px 0}
+  .name-row{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin:14px 0}
+  .name-row input{padding:9px 12px;font-size:1em;border:2px solid var(--accent);border-radius:6px;width:280px;font-family:inherit}
+  .item{margin:14px 0;padding:12px 14px;border:1px solid var(--line);border-radius:6px}
+  .item p.q{margin-bottom:8px}
+  .item input[type=text],.item textarea{width:100%;padding:8px 10px;font-size:1em;font-family:inherit;
+      border:1.5px solid var(--line);border-radius:5px;margin-top:4px}
+  .item textarea{min-height:90px;resize:vertical}
+  .opts label{display:block;padding:7px 10px;margin:5px 0;border:1.5px solid var(--line);border-radius:5px;cursor:pointer}
+  .opts label:hover{background:#f2f7fa}
+  details.aide{margin:8px 0 2px}
+  details.aide summary{cursor:pointer;color:var(--warn);font-weight:bold}
+  details.aide div{background:#fff8ec;border-left:4px solid var(--warn);padding:8px 12px;margin-top:6px;border-radius:0 6px 6px 0}
+  .fb{display:none;margin-top:8px;padding:9px 12px;border-radius:6px;font-size:.95em}
+  .fb.ok{display:block;background:#e9f5ee;border-left:4px solid var(--ok);color:var(--ok)}
+  .fb.almost{display:block;background:#fff8ec;border-left:4px solid var(--warn);color:var(--warn)}
+  .fb.bad{display:block;background:#fbeeee;border-left:4px solid var(--bad);color:var(--bad)}
+  .stretch{border:2px dashed var(--accent2);border-radius:8px;padding:16px;margin:26px 0;background:#fdf7f9}
+  .stretch h2{color:var(--accent2);border-left-color:var(--accent2)}
+  .btn{background:var(--accent);color:#fff;border:none;padding:11px 20px;font-size:1em;font-family:inherit;
+       border-radius:6px;cursor:pointer;margin:6px 6px 6px 0}
+  .btn:hover{filter:brightness(1.15)}
+  .btn.dl{background:var(--ok)}
+  .btn.second{background:#5a6a78}
+  .score-banner{display:none;margin:18px 0;padding:14px;border-radius:8px;background:#f2f7fa;
+       border:2px solid var(--accent);font-size:1.15em;font-weight:bold;color:var(--accent)}
+  .card{background:#f2f7fa;border:1.5px solid var(--accent);border-radius:8px;padding:14px 18px;margin:10px 0 16px}
+  .card h3{color:var(--accent);margin-bottom:8px;font-size:1.05em}
+  .stats{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px;margin:14px 0}
+  .stats .card2{background:#f2f7fa;border:1px solid var(--line);border-radius:8px;padding:10px;text-align:center}
+  .stats .card2 .v{font-size:1.3em;font-weight:bold;color:var(--accent)}
+  .stats .card2 .l{font-size:.82em;color:#5a6a78}
+  /* ---------- Floating accent pad ---------- */
+  #accentPad{position:fixed;bottom:18px;right:18px;background:#fff;border:2px solid var(--accent);
+       border-radius:10px;box-shadow:0 6px 24px rgba(0,0,0,.25);padding:10px;z-index:1000;
+       display:flex;flex-wrap:wrap;gap:5px;max-width:340px;user-select:none}
+  #accentPad .drag{width:100%;cursor:move;font-size:.8em;color:#5a6a78;text-align:center;padding-bottom:4px}
+  #accentPad button{font-size:1.05em;font-family:inherit;min-width:34px;padding:6px 4px;border:1px solid var(--line);
+       border-radius:5px;background:#f2f7fa;cursor:pointer}
+  #accentPad button:hover{background:var(--accent);color:#fff}
+  #accentPad .maj{font-size:.8em;background:#e6e9ec}
+  #padToggle{position:fixed;bottom:18px;right:18px;z-index:999;background:var(--accent);color:#fff;
+       border:none;border-radius:50px;padding:12px 18px;font-size:1em;cursor:pointer;box-shadow:0 4px 14px rgba(0,0,0,.3)}
+  @media print{#accentPad,#padToggle{display:none}}
 </style>
 </head>
 <body>
+<div class="wrap">
+  <header>
+    <h1>Les inégalités salariales femmes-hommes en France</h1>
+    <p class="meta">A-Level French (Edexcel) · Thème 1, La vie sociale — égalité des genres · Durée conseillée : 45 min</p>
+  </header>
 
-<!-- SIGN-IN -->
-<div id="signin-overlay">
-  <div id="signin-box">
-    <h2>Bienvenue 👋</h2>
-    <p>Entrez votre prénom et nom pour commencer la fiche.</p>
-    <input type="text" id="student-name" placeholder="Prénom Nom" />
-    <button onclick="startApp()">Commencer</button>
+  <div class="name-row">
+    <label for="studentName"><strong>Votre nom :</strong></label>
+    <input type="text" id="studentName" placeholder="Prénom NOM" maxlength="60">
   </div>
+
+  <div class="consigne"><strong>Consignes :</strong> Lisez le texte ci-dessous puis complétez les
+  exercices sur les inégalités salariales en France : compréhension, statistiques, vocabulaire et
+  comparatifs. Cliquez sur « Vérifier » à la fin de chaque section. À la fin, téléchargez vos résultats
+  et déposez le fichier sur Teams/SharePoint.</div>
+
+  <div class="card">
+    <h3>Texte — Les inégalités salariales femmes-hommes</h3>
+    <p>En France, l'écart de salaire entre femmes et hommes reste important malgré des progrès
+    réguliers. Selon les dernières données de l'Insee, les femmes salariées du secteur privé gagnent en
+    moyenne <strong>22 % de moins</strong> que les hommes sur une année, tous temps de travail confondus.
+    Si l'on compare uniquement les salaires à temps de travail égal (« équivalent temps plein », EQTP),
+    l'écart tombe à environ <strong>14 %</strong>. Une partie de cet écart — environ <strong>4 points</strong>
+    — persiste même à poste, âge, expérience et secteur identiques : on parle alors de « part inexpliquée »
+    de l'écart, souvent attribuée à des discriminations.</p>
+    <p style="margin-top:10px">Cet écart s'explique par plusieurs facteurs : le temps partiel, très
+    majoritairement féminin, la ségrégation professionnelle (femmes et hommes n'occupent pas les mêmes
+    métiers), le « plafond de verre » qui limite l'accès des femmes aux postes de direction, et le
+    ralentissement de carrière lié à la maternité.</p>
+    <p style="margin-top:10px">Pour réduire ces inégalités, la France a mis en place plusieurs outils.
+    Depuis 2019, l'index de l'égalité professionnelle oblige les entreprises de plus de 50 salariés à
+    calculer chaque année une note sur 100 points, fondée sur cinq indicateurs (écart de rémunération,
+    écart d'augmentations, retour de congé maternité, nombre de femmes parmi les plus hautes
+    rémunérations…). Une entreprise qui obtient moins de 75 points doit prendre des mesures correctives,
+    sous peine de sanction financière pouvant atteindre 1 % de sa masse salariale.</p>
+    <p style="margin-top:10px">En 2021, la loi Rixain est allée plus loin en imposant des quotas de
+    femmes dans les postes de direction : les entreprises de plus de 1 000 salariés devront compter au
+    moins 30 % de femmes parmi leurs cadres dirigeants d'ici 2027, puis 40 % d'ici 2030, sous peine de
+    pénalités financières.</p>
+    <p style="margin-top:10px">Malgré ces mesures, l'écart salarial ne diminue que d'environ 0,3 à
+    0,4 point par an. À ce rythme, plusieurs décennies seront encore nécessaires avant d'atteindre une
+    égalité salariale réelle entre femmes et hommes.</p>
+  </div>
+
+  <!-- ============ EXERCICE 1 : compréhension ============ -->
+  <h2>Exercice 1 · Compréhension — QCM <span class="pts">(6 points)</span></h2>
+  <div class="consigne">D'après le texte, choisissez la bonne réponse.</div>
+
+  <div class="item" data-type="mcq" data-a="MQ==" data-exp="U2Vsb24gbCdJbnNlZSwgbGVzIGZlbW1lcyBzYWxhcmnDqWVzIGR1IHNlY3RldXIgcHJpdsOpIGdhZ25lbnQgZW4gbW95ZW5uZSAyMiAlIGRlIG1vaW5zIHF1ZSBsZXMgaG9tbWVzIHN1ciB1bmUgYW5uw6llLCB0b3VzIHRlbXBzIGRlIHRyYXZhaWwgY29uZm9uZHVzLg==">
+    <p class="q">1. À combien s'élève l'écart de salaire global (tous temps de travail confondus) entre femmes et hommes en France ?</p>
+    <div class="opts">
+      <label><input type="radio" name="e1q1" value="0"> A) 14 %</label>
+      <label><input type="radio" name="e1q1" value="1"> B) 22 %</label>
+      <label><input type="radio" name="e1q1" value="2"> C) 4 %</label>
+    </div>
+    <details class="aide"><summary>Indice</summary><div>C'est le chiffre le plus souvent cité dans les médias.</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="mcq" data-a="MQ==" data-exp="w4AgdGVtcHMgZGUgdHJhdmFpbCDDqWdhbCAow6lxdWl2YWxlbnQgdGVtcHMgcGxlaW4sIEVRVFApLCBsJ8OpY2FydCB0b21iZSDDoCBlbnZpcm9uIDE0ICUu">
+    <p class="q">2. À temps de travail égal (EQTP), l'écart tombe à environ...</p>
+    <div class="opts">
+      <label><input type="radio" name="e1q2" value="0"> A) 22 %</label>
+      <label><input type="radio" name="e1q2" value="1"> B) 14 %</label>
+      <label><input type="radio" name="e1q2" value="2"> C) 30 %</label>
+    </div>
+    <details class="aide"><summary>Indice</summary><div>Ce chiffre neutralise la différence liée au temps partiel.</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="mcq" data-a="MA==" data-exp="TcOqbWUgw6AgcG9zdGUsIMOiZ2UsIGV4cMOpcmllbmNlIGV0IHNlY3RldXIgaWRlbnRpcXVlcywgdW4gw6ljYXJ0IGQnZW52aXJvbiA0IHBvaW50cyBwZXJzaXN0ZSA6IGMnZXN0IGxhIMKrIHBhcnQgaW5leHBsaXF1w6llIMK7LCBzb3V2ZW50IGF0dHJpYnXDqWUgw6AgZGVzIGRpc2NyaW1pbmF0aW9ucy4=">
+    <p class="q">3. La part de l'écart qui persiste « toutes choses égales par ailleurs » (poste, âge, expérience identiques) est d'environ...</p>
+    <div class="opts">
+      <label><input type="radio" name="e1q3" value="0"> A) 4 points</label>
+      <label><input type="radio" name="e1q3" value="1"> B) 14 points</label>
+      <label><input type="radio" name="e1q3" value="2"> C) 22 points</label>
+    </div>
+    <details class="aide"><summary>Indice</summary><div>C'est la « part inexpliquée » de l'écart.</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="mcq" data-a="MQ==" data-exp="TCdpbmRleCBkZSBsJ8OpZ2FsaXTDqSBwcm9mZXNzaW9ubmVsbGUgZXN0IG9ibGlnYXRvaXJlIGRlcHVpcyAyMDE5IHBvdXIgbGVzIGVudHJlcHJpc2VzIGRlIHBsdXMgZGUgNTAgc2FsYXJpw6lzLg==">
+    <p class="q">4. Depuis quelle année l'index de l'égalité professionnelle est-il obligatoire pour les entreprises de plus de 50 salariés ?</p>
+    <div class="opts">
+      <label><input type="radio" name="e1q4" value="0"> A) 2015</label>
+      <label><input type="radio" name="e1q4" value="1"> B) 2019</label>
+      <label><input type="radio" name="e1q4" value="2"> C) 2021</label>
+    </div>
+    <details class="aide"><summary>Indice</summary><div>Deux ans avant la loi Rixain.</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="mcq" data-a="MQ==" data-exp="VW5lIGVudHJlcHJpc2UgcXVpIG9idGllbnQgbW9pbnMgZGUgNzUgcG9pbnRzIHN1ciAxMDAgw6AgbCdpbmRleCBkb2l0IHByZW5kcmUgZGVzIG1lc3VyZXMgY29ycmVjdGl2ZXMsIHNvdXMgcGVpbmUgZGUgc2FuY3Rpb24gZmluYW5jacOocmUu">
+    <p class="q">5. Quelle note minimum une entreprise doit-elle obtenir à l'index de l'égalité professionnelle pour éviter des mesures correctives ?</p>
+    <div class="opts">
+      <label><input type="radio" name="e1q5" value="0"> A) 50/100</label>
+      <label><input type="radio" name="e1q5" value="1"> B) 75/100</label>
+      <label><input type="radio" name="e1q5" value="2"> C) 90/100</label>
+    </div>
+    <details class="aide"><summary>Indice</summary><div>Trois quarts de la note maximale.</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="mcq" data-a="MQ==" data-exp="TGEgbG9pIFJpeGFpbiAoMjAyMSkgaW1wb3NlIGF1eCBlbnRyZXByaXNlcyBkZSBwbHVzIGRlIDEgMDAwIHNhbGFyacOpcyB1biBxdW90YSBkZSBmZW1tZXMgY2FkcmVzIGRpcmlnZWFudGVzIDogMzAgJSBkJ2ljaSAyMDI3LCA0MCAlIGQnaWNpIDIwMzAu">
+    <p class="q">6. Que prévoit la loi Rixain de 2021 pour les entreprises de plus de 1 000 salariés ?</p>
+    <div class="opts">
+      <label><input type="radio" name="e1q6" value="0"> A) Interdire le temps partiel</label>
+      <label><input type="radio" name="e1q6" value="1"> B) Imposer des quotas de femmes cadres dirigeantes</label>
+      <label><input type="radio" name="e1q6" value="2"> C) Supprimer immédiatement l'écart salarial</label>
+    </div>
+    <details class="aide"><summary>Indice</summary><div>Pensez à un pourcentage minimum de femmes parmi les dirigeants.</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <!-- ============ EXERCICE 2 : statistiques ============ -->
+  <h2>Exercice 2 · Statistiques clés <span class="pts">(4 points)</span></h2>
+  <div class="consigne">Complétez avec le chiffre exact tiré du texte.</div>
+
+  <div class="stats">
+    <div class="card2"><div class="v">22 %</div><div class="l">Écart brut global</div></div>
+    <div class="card2"><div class="v">14 %</div><div class="l">Écart EQTP</div></div>
+    <div class="card2"><div class="v">2019</div><div class="l">Index de l'égalité pro.</div></div>
+    <div class="card2"><div class="v">2021</div><div class="l">Loi Rixain</div></div>
+  </div>
+
+  <div class="item" data-type="text" data-a="MTQlfDE0ICV8cXVhdG9yemUgcG91ciBjZW50" data-exp="TCfDqWNhcnQgw6AgdGVtcHMgZGUgdHJhdmFpbCDDqWdhbCAoRVFUUCkgZXN0IGQnZW52aXJvbiAxNCAlLCBjb250cmUgMjIgJSBwb3VyIGwnw6ljYXJ0IGJydXQgZ2xvYmFsLg==">
+    <p class="q">7. Quel est le pourcentage de l'écart salarial une fois neutralisé le temps de travail (EQTP) ?</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Indice</summary><div>Inférieur à l'écart brut de 22 %.</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="text" data-a="MzAlfDMwICV8dHJlbnRlIHBvdXIgY2VudA==" data-exp="TGEgbG9pIFJpeGFpbiBpbXBvc2UgdW4gcXVvdGEgZGUgMzAgJSBkZSBmZW1tZXMgY2FkcmVzIGRpcmlnZWFudGVzIGQnaWNpIDIwMjcu">
+    <p class="q">8. Quel quota de femmes cadres dirigeantes la loi Rixain impose-t-elle d'ici 2027 ?</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Indice</summary><div>Moins d'un tiers.</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="text" data-a="NDAlfDQwICV8cXVhcmFudGUgcG91ciBjZW50" data-exp="TGUgcXVvdGEgcGFzc2Ugw6AgNDAgJSBkJ2ljaSAyMDMwLCBwb3VyIGxlcyBlbnRyZXByaXNlcyBkZSBwbHVzIGRlIDEgMDAwIHNhbGFyacOpcy4=">
+    <p class="q">9. Quel quota est prévu pour 2030 ?</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Indice</summary><div>Un peu moins de la moitié.</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="text" data-a="NzV8NzUvMTAwfDc1IHBvaW50cw==" data-exp="RW4gZGVzc291cyBkZSA3NSBwb2ludHMgc3VyIDEwMCDDoCBsJ2luZGV4IGRlIGwnw6lnYWxpdMOpIHByb2Zlc3Npb25uZWxsZSwgbCdlbnRyZXByaXNlIGRvaXQgcHJlbmRyZSBkZXMgbWVzdXJlcyBjb3JyZWN0aXZlcyBzb3VzIHBlaW5lIGRlIHNhbmN0aW9uIGZpbmFuY2nDqHJlLg==">
+    <p class="q">10. En dessous de quelle note sur 100 une entreprise risque-t-elle une sanction financière à l'index de l'égalité professionnelle ?</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Indice</summary><div>Trois quarts de la note maximale.</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <!-- ============ EXERCICE 3 : vocabulaire ============ -->
+  <h2>Exercice 3 · Vocabulaire clé <span class="pts">(6 points)</span></h2>
+  <div class="consigne">Traduisez les expressions suivantes en français.</div>
+
+  <div class="item" data-type="text" data-a="bCfDqWNhcnQgc2FsYXJpYWx8bCfDqWNhcnQgZGUgc2FsYWlyZXxsJ8OpY2FydCBkZSByw6ltdW7DqXJhdGlvbg==" data-exp="wqsgTCfDqWNhcnQgc2FsYXJpYWwgwrsgKG91IMKrIMOpY2FydCBkZSByw6ltdW7DqXJhdGlvbiDCuykgZMOpc2lnbmUgbGEgZGlmZsOpcmVuY2UgZGUgc2FsYWlyZSBlbnRyZSBmZW1tZXMgZXQgaG9tbWVzLg==">
+    <p class="q">11. « the gender pay gap » → tapez la traduction en français.</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Indice</summary><div>« l'écart… salarial » ou « l'écart de… »</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="text" data-a="bGUgcGxhZm9uZCBkZSB2ZXJyZQ==" data-exp="wqsgTGUgcGxhZm9uZCBkZSB2ZXJyZSDCuyBkw6lzaWduZSBsZXMgb2JzdGFjbGVzIGludmlzaWJsZXMgcXVpIGZyZWluZW50IGwnYWNjw6hzIGRlcyBmZW1tZXMgYXV4IHBvc3RlcyBkZSBkaXJlY3Rpb24u">
+    <p class="q">12. « the glass ceiling » → tapez la traduction en français.</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Indice</summary><div>Traduction littérale : « le plafond de… »</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="text" data-a="bGUgdGVtcHMgcGFydGllbA==" data-exp="wqsgTGUgdGVtcHMgcGFydGllbCDCuyBlc3QgdW4gdGVtcHMgZGUgdHJhdmFpbCBpbmbDqXJpZXVyIGF1IHRlbXBzIHBsZWluIDsgaWwgZXN0IG1ham9yaXRhaXJlbWVudCBvY2N1cMOpIHBhciBkZXMgZmVtbWVzLg==">
+    <p class="q">13. « part-time work » → tapez la traduction en français.</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Indice</summary><div>Le contraire de « temps plein ».</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="text" data-a="bGEgc8OpZ3LDqWdhdGlvbiBwcm9mZXNzaW9ubmVsbGU=" data-exp="wqsgTGEgc8OpZ3LDqWdhdGlvbiBwcm9mZXNzaW9ubmVsbGUgwrsgZMOpc2lnbmUgbGUgZmFpdCBxdWUgZmVtbWVzIGV0IGhvbW1lcyBuJ29jY3VwZW50IHBhcyBsZXMgbcOqbWVzIG3DqXRpZXJzIG5pIGxlcyBtw6ptZXMgc2VjdGV1cnMu">
+    <p class="q">14. « occupational segregation » → tapez la traduction en français.</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Indice</summary><div>« la … professionnelle »</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="text" data-a="dW4gcXVvdGE=" data-exp="wqsgVW4gcXVvdGEgwrsgZXN0IHVuZSBwcm9wb3J0aW9uIG1pbmltYWxlIGltcG9zw6llIHBhciBsYSBsb2ksIGNvbW1lIGRhbnMgbGEgbG9pIFJpeGFpbi4=">
+    <p class="q">15. « a quota » → tapez la traduction en français.</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Indice</summary><div>Presque identique à l'anglais.</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="text" data-a="bGEgdHJhbnNwYXJlbmNlIHNhbGFyaWFsZXxsYSB0cmFuc3BhcmVuY2UgZGVzIHNhbGFpcmVz" data-exp="wqsgTGEgdHJhbnNwYXJlbmNlIHNhbGFyaWFsZSDCuyBjb25zaXN0ZSDDoCByZW5kcmUgdmlzaWJsZXMgbGVzIG5pdmVhdXggZGUgcsOpbXVuw6lyYXRpb24sIG5vdGFtbWVudCBkYW5zIGxlcyBvZmZyZXMgZCdlbXBsb2ku">
+    <p class="q">16. « pay transparency » → tapez la traduction en français.</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Indice</summary><div>« la … salariale »</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <!-- ============ EXERCICE 4 : comparatifs en contexte ============ -->
+  <h2>Exercice 4 · Comparatifs en contexte <span class="pts">(4 points)</span></h2>
+  <div class="consigne">Traduisez chaque phrase en français en utilisant une structure comparative ou superlative.</div>
+
+  <div class="item" data-type="text" data-a="bGVzIGZlbW1lcyBnYWduZW50IG1vaW5zIHF1ZSBsZXMgaG9tbWVz" data-exp="wqsgTW9pbnMgcXVlIMK7IGVzdCBsZSBjb21wYXJhdGlmIGQnaW5mw6lyaW9yaXTDqSA6IMKrIGdhZ25lciBtb2lucyBxdWUgcXVlbHF1J3VuIMK7Lg==">
+    <p class="q">17. « Women earn less than men. » → tapez la phrase en français (comparatif d'infériorité).</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Indice</summary><div>« … gagnent moins… »</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="text" data-a="bCfDqWNhcnQgZXF0cCBlc3QgcGx1cyBwZXRpdCBxdWUgbCfDqWNhcnQgZ2xvYmFsfGwnw6ljYXJ0IGVuIGVxdHAgZXN0IHBsdXMgcGV0aXQgcXVlIGwnw6ljYXJ0IGdsb2JhbHxsJ8OpY2FydCBlcXRwIGVzdCBpbmbDqXJpZXVyIMOgIGwnw6ljYXJ0IGdsb2JhbHxsJ8OpY2FydCBlbiBlcXRwIGVzdCBpbmbDqXJpZXVyIMOgIGwnw6ljYXJ0IGdsb2JhbA==" data-exp="T24gcGV1dCBkaXJlIMKrIHBsdXMgcGV0aXQgcXVlIMK7IG91IMKrIGluZsOpcmlldXIgw6AgwrsgcG91ciBjb21wYXJlciBsZXMgZGV1eCDDqWNhcnRzLg==">
+    <p class="q">18. « The EQTP gap is smaller than the overall gap. » → tapez la phrase en français.</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Indice</summary><div>« plus petit que » ou « inférieur à »</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="text" data-a="cGx1cyBsZSBwb3N0ZSBlc3Qgw6lsZXbDqSBwbHVzIGwnw6ljYXJ0IGVzdCBncmFuZHxwbHVzIGxlIHBvc3RlIGVzdCDDqWxldsOpLCBwbHVzIGwnw6ljYXJ0IGVzdCBncmFuZHxwbHVzIGxlIHBvc3RlIGVzdCDDqWxldsOpIHBsdXMgbCfDqWNhcnQgZXN0IGltcG9ydGFudHxwbHVzIGxlIHBvc3RlIGVzdCDDqWxldsOpLCBwbHVzIGwnw6ljYXJ0IGVzdCBpbXBvcnRhbnQ=" data-exp="TGEgc3RydWN0dXJlIGNvcnLDqWxhdGl2ZSDCqyBwbHVz4oCmIHBsdXPigKYgwrsgZXhwcmltZSB1bmUgcHJvZ3Jlc3Npb24gcGFyYWxsw6hsZSBlbnRyZSBkZXV4IHBow6lub23DqG5lcy4=">
+    <p class="q">19. « The more senior the position, the greater the gap. » → tapez la phrase en français en utilisant « plus… plus… ».</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Indice</summary><div>« plus le poste est élevé, plus… »</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <div class="item" data-type="text" data-a="Yydlc3QgbCfDqWNhcnQgbGUgcGx1cyBncmFuZCBkZXMgcGF5cyBldXJvcMOpZW5zfGMnZXN0IGxlIHBsdXMgZ3JhbmQgw6ljYXJ0IHBhcm1pIGxlcyBwYXlzIGV1cm9ww6llbnN8Yydlc3QgbCfDqWNhcnQgbGUgcGx1cyBpbXBvcnRhbnQgZCdldXJvcGV8Yydlc3QgbCfDqWNhcnQgbGUgcGx1cyBpbXBvcnRhbnQgZGVzIHBheXMgZXVyb3DDqWVucw==" data-exp="TGUgc3VwZXJsYXRpZiDCqyBsZSBwbHVzIOKApiDCuyAoaWNpIMKrIGxlIHBsdXMgZ3JhbmQvaW1wb3J0YW50IMK7KSBleHByaW1lIHVuIGV4dHLDqm1lIGRhbnMgdW4gZ3JvdXBlIGRvbm7DqS4=">
+    <p class="q">20. « This is the largest gap among European countries. » → tapez la phrase en français (superlatif).</p>
+    <input type="text" autocomplete="off" spellcheck="false">
+    <details class="aide"><summary>Indice</summary><div>« c'est l'écart le plus… »</div></details>
+    <div class="fb"></div>
+  </div>
+
+  <!-- ============ EXERCICE 5 : réponses développées ============ -->
+  <h2>Exercice 5 · Réponses développées <span class="pts">(2 x réponse longue)</span></h2>
+
+  <div class="item" data-type="free" data-min="40">
+    <p class="q">21. Expliquez, avec vos propres mots, la différence entre l'écart salarial « brut » et l'écart salarial « à temps de travail égal (EQTP) ».</p>
+    <textarea placeholder="Rédigez ici (40 mots minimum)…"></textarea>
+    <details class="aide"><summary>Indice</summary><div>Pensez à ce que le temps partiel, très féminin, change dans le calcul.</div></details>
+    <div class="fb"></div>
+    <details class="aide"><summary>Voir un modèle de réponse (après avoir écrit le vôtre)</summary>
+      <div>Modèle : L'écart « brut » (22 %) compare les salaires annuels de toutes les femmes et de tous
+      les hommes, sans tenir compte du temps de travail ; il est donc gonflé par le fait que les femmes
+      travaillent plus souvent à temps partiel. L'écart « EQTP » (14 %) neutralise cette différence en
+      ne comparant que des salaires ramenés à un temps plein équivalent, ce qui donne une mesure plus
+      juste des inégalités liées au poste et à la carrière.</div></details>
+  </div>
+
+  <div class="item" data-type="free" data-min="50">
+    <p class="q">22. Résumez le rôle de l'index de l'égalité professionnelle et de la loi Rixain dans la réduction des inégalités salariales.</p>
+    <textarea placeholder="Rédigez ici (50 mots minimum)…"></textarea>
+    <details class="aide"><summary>Indice</summary><div>L'un mesure et sanctionne, l'autre impose des quotas dans les postes de direction.</div></details>
+    <div class="fb"></div>
+    <details class="aide"><summary>Voir un modèle de réponse (après avoir écrit le vôtre)</summary>
+      <div>Modèle : L'index de l'égalité professionnelle, obligatoire depuis 2019, oblige les entreprises
+      de plus de 50 salariés à évaluer chaque année leurs pratiques sur une échelle de 100 points et à
+      corriger leur situation si la note est inférieure à 75, sous peine de sanction financière. La loi
+      Rixain de 2021 va plus loin en imposant, dans les grandes entreprises, des quotas de femmes cadres
+      dirigeantes (30 % en 2027, 40 % en 2030), afin de s'attaquer directement au « plafond de verre ».</div></details>
+  </div>
+
+  <button class="btn" onclick="checkAll()">✔ Vérifier mes réponses</button>
+  <button class="btn second" onclick="resetAll()">↺ Recommencer</button>
+  <div class="score-banner" id="scoreBanner"></div>
+
+  <!-- ============ DÉFI A* (stretch) ============ -->
+  <div class="stretch">
+    <h2>Défi A* — Pour aller plus loin</h2>
+    <div class="consigne">Tâche exigeante (C1) : rédigez une réponse argumentée (100 mots minimum) à la
+    question suivante : « Les quotas, comme ceux imposés par la loi Rixain, sont-ils le meilleur moyen de
+    réduire les inégalités salariales, ou existe-t-il de meilleures solutions ? » Utilisez au moins un
+    subjonctif, un pronom relatif « dont » et une structure comparative ou superlative.</div>
+    <p><em>Amorces :</em> « On peut légitimement se demander si… », « Ce dont il est question ici, c'est
+    de savoir si… », « Bien que les quotas soient critiqués, il n'en demeure pas moins que… »,
+    « Il serait sans doute plus efficace de… »</p>
+    <div class="item" data-type="free" data-min="100">
+      <textarea placeholder="Rédigez ici (100 mots minimum)…"></textarea>
+      <div class="fb"></div>
+    </div>
+    <details class="aide"><summary>Voir un modèle de réponse (après avoir écrit le vôtre)</summary>
+      <div id="modelAnswer">Modèle : On peut légitimement se demander si les quotas imposés par la loi
+      Rixain constituent la solution la plus efficace contre les inégalités salariales. Ce dont il est
+      question ici, c'est de savoir si l'on doit imposer des résultats — un pourcentage de femmes
+      dirigeantes — ou plutôt s'attaquer aux causes profondes de l'écart, comme la répartition inégale du
+      temps partiel ou le ralentissement de carrière lié à la maternité, dont on ne parle pas assez. Bien
+      que les quotas soient critiqués par certains chefs d'entreprise, il n'en demeure pas moins qu'ils
+      ont permis d'accélérer, en quelques années seulement, une évolution plus rapide que celle observée
+      pendant les vingt années précédentes. Il serait sans doute plus efficace de combiner quotas
+      contraignants et transparence salariale systématique.</div></details>
+  </div>
+
+  <button class="btn dl" onclick="downloadResults()">📥 Télécharger mes résultats</button>
 </div>
 
-<header>
-  <h1>Les inégalités salariales femmes-hommes</h1>
-  <p>Fiche de compréhension et d'expression – Niveau B2</p>
-</header>
-
-<div class="container">
-  <div id="score-bar"></div>
-
-  <!-- SUMMARY -->
-  <div class="card">
-    <h2>📰 Résumé de l'article <span class="badge">Lecture</span></h2>
-    <p class="summary-text">
-      En France, les femmes gagnent en moyenne <strong>22 % de moins</strong> que les hommes dans le secteur privé. Cet écart s'explique principalement par le travail à temps partiel, les inégalités de carrière et la ségrégation professionnelle — c'est-à-dire le fait que les femmes et les hommes n'occupent pas les mêmes postes ni les mêmes secteurs. Si l'on compare à temps de travail égal, l'écart tombe à <strong>14 %</strong>, mais il reste significatif. Cet écart augmente avec l'âge et avec le nombre d'enfants, car la maternité ralentit souvent la progression salariale des femmes. Depuis 1995, la situation s'améliore lentement : l'écart diminue d'environ <strong>0,3 point par an</strong>. À ce rythme, il faudra encore environ <strong>46 ans</strong> pour atteindre l'égalité parfaite. Pour accélérer les choses, le gouvernement prépare une nouvelle loi sur la transparence des salaires, qui obligera les entreprises à afficher une fourchette de rémunération dans les offres d'emploi.
-    </p>
-  </div>
-
-  <!-- VOCAB MATCHING -->
-  <div class="card" id="vocab-section">
-    <h2>📚 Vocabulaire – Association <span class="badge">Exercice 1</span></h2>
-    <p style="font-size:.85rem;color:#666;margin-bottom:14px">Faites glisser chaque mot vers sa définition.</p>
-    <div class="vocab-match-wrap">
-      <div class="vocab-left" id="word-pool">
-        <div class="vocab-word" draggable="true" data-word="ségrégation professionnelle">ségrégation professionnelle</div>
-        <div class="vocab-word" draggable="true" data-word="équivalent temps plein">équivalent temps plein (EQTP)</div>
-        <div class="vocab-word" draggable="true" data-word="revenu salarial">revenu salarial</div>
-        <div class="vocab-word" draggable="true" data-word="transparence salariale">transparence salariale</div>
-        <div class="vocab-word" draggable="true" data-word="inégalités hiérarchiques">inégalités hiérarchiques</div>
-      </div>
-      <div class="vocab-right" id="def-pool">
-        <div class="vocab-def" data-answer="équivalent temps plein"><em>Mesure qui permet de comparer les salaires comme si tout le monde travaillait à temps complet.</em></div>
-        <div class="vocab-def" data-answer="inégalités hiérarchiques"><em>Les différences de statut et de pouvoir entre employés, notamment le fait que les femmes accèdent moins aux postes de direction.</em></div>
-        <div class="vocab-def" data-answer="revenu salarial"><em>L'ensemble des gains tirés de toutes les activités rémunérées sur une année.</em></div>
-        <div class="vocab-def" data-answer="ségrégation professionnelle"><em>Le fait que femmes et hommes exercent des métiers différents et travaillent dans des entreprises différentes.</em></div>
-        <div class="vocab-def" data-answer="transparence salariale"><em>Le fait de rendre les informations sur les salaires accessibles et visibles pour tous.</em></div>
-      </div>
-    </div>
-    <div class="btn-row">
-      <button class="btn btn-check" onclick="checkVocab()">Vérifier</button>
-      <button class="btn btn-reset" onclick="resetVocab()">Réinitialiser</button>
-    </div>
-    <div id="vocab-fb" class="feedback" style="display:none"></div>
-  </div>
-
-  <!-- MCQ -->
-  <div class="card">
-    <h2>❓ Compréhension – QCM <span class="badge">Exercice 2</span></h2>
-    <div id="mcq-container"></div>
-    <div class="btn-row">
-      <button class="btn btn-check" onclick="checkMCQ()">Vérifier</button>
-      <button class="btn btn-reset" onclick="resetMCQ()">Réinitialiser</button>
-    </div>
-    <div id="mcq-fb" class="feedback" style="display:none"></div>
-  </div>
-
-  <!-- GAP FILL -->
-  <div class="card">
-    <h2>✏️ Texte à trous <span class="badge">Exercice 3</span></h2>
-    <p style="font-size:.85rem;color:#666;margin-bottom:10px">Cliquez sur un mot de la banque pour le placer dans le trou correspondant.</p>
-    <div class="gap-bank" id="gap-bank"></div>
-    <div id="gap-sentences"></div>
-    <div class="btn-row">
-      <button class="btn btn-check" onclick="checkGaps()">Vérifier</button>
-      <button class="btn btn-reset" onclick="resetGaps()">Réinitialiser</button>
-    </div>
-    <div id="gap-fb" class="feedback" style="display:none"></div>
-  </div>
-
-  <!-- GAP FILL 2 -->
-  <div class="card">
-    <h2>✏️ Texte à trous – Les causes de l'écart <span class="badge">Exercice 4</span></h2>
-    <p style="font-size:.85rem;color:#666;margin-bottom:10px">Cliquez sur un mot de la banque, puis sur le trou correspondant.</p>
-    <div class="gap-bank" id="gap-bank2"></div>
-    <div id="gap-sentences2"></div>
-    <div class="btn-row">
-      <button class="btn btn-check" onclick="checkGaps2()">Vérifier</button>
-      <button class="btn btn-reset" onclick="resetGaps2()">Réinitialiser</button>
-    </div>
-    <div id="gap-fb2" class="feedback" style="display:none"></div>
-  </div>
-
-  <!-- GAP FILL 3 -->
-  <div class="card">
-    <h2>✏️ Texte à trous – La loi et l'avenir <span class="badge">Exercice 5</span></h2>
-    <p style="font-size:.85rem;color:#666;margin-bottom:10px">Cliquez sur un mot de la banque, puis sur le trou correspondant.</p>
-    <div class="gap-bank" id="gap-bank3"></div>
-    <div id="gap-sentences3"></div>
-    <div class="btn-row">
-      <button class="btn btn-check" onclick="checkGaps3()">Vérifier</button>
-      <button class="btn btn-reset" onclick="resetGaps3()">Réinitialiser</button>
-    </div>
-    <div id="gap-fb3" class="feedback" style="display:none"></div>
-  </div>
-
-</div>
-
-<!-- FLOATING ACCENT KEYBOARD -->
-<div id="accent-kb">
-  <div class="ak-label">Accents français</div>
-  <button class="ak-btn" onclick="ins('à')">à</button>
-  <button class="ak-btn" onclick="ins('â')">â</button>
-  <button class="ak-btn" onclick="ins('é')">é</button>
-  <button class="ak-btn" onclick="ins('è')">è</button>
-  <button class="ak-btn" onclick="ins('ê')">ê</button>
-  <button class="ak-btn" onclick="ins('ë')">ë</button>
-  <button class="ak-btn" onclick="ins('î')">î</button>
-  <button class="ak-btn" onclick="ins('ï')">ï</button>
-  <button class="ak-btn" onclick="ins('ô')">ô</button>
-  <button class="ak-btn" onclick="ins('ù')">ù</button>
-  <button class="ak-btn" onclick="ins('û')">û</button>
-  <button class="ak-btn" onclick="ins('ü')">ü</button>
-  <button class="ak-btn" onclick="ins('ç')">ç</button>
-  <button class="ak-btn" onclick="ins('œ')">œ</button>
-  <button class="ak-btn" onclick="ins('æ')">æ</button>
-</div>
-
-<!-- DOWNLOAD BAR -->
-<div id="dl-bar">
-  <span id="dl-student-label">Élève : —</span>
-  <button class="btn-dl" onclick="downloadResults()">⬇ Télécharger mes réponses</button>
+<!-- ============ FLOATING ACCENT PAD ============ -->
+<button id="padToggle" onclick="togglePad()">é à ç — Accents</button>
+<div id="accentPad" style="display:none">
+  <div class="drag">⋮⋮ déplacer</div>
 </div>
 
 <script>
-// ── State ──────────────────────────────────────────────────────────────────
-let studentName = '';
-let focusedTA = null;
+/* ================= HOUSE ENGINE — do not weaken ================= */
+/* Answers are base64-encoded (UTF-8 safe) so they never sit in plain text next to the inputs. */
+function d(b){try{return decodeURIComponent(escape(atob(b)))}catch(e){return""}}
+function e64(s){return btoa(unescape(encodeURIComponent(s)))} /* helper for authoring */
 
-function startApp(){
-  const v = document.getElementById('student-name').value.trim();
-  if(!v){alert('Veuillez entrer votre nom.');return;}
-  studentName = v;
-  document.getElementById('signin-overlay').style.display='none';
-  document.getElementById('dl-student-label').textContent='Élève : '+studentName;
+function norm(s){return (s||"").toLowerCase().replace(/['']/g,"'").replace(/\s+/g," ").trim()}
+function deacc(s){return norm(s).normalize("NFD").replace(/[̀-ͯ]/g,"")}
+
+/* tolerant text check: returns "ok" | "accents" | "bad" ; accepted = array */
+function judge(val, accepted){
+  const v=norm(val);
+  if(accepted.some(a=>norm(a)===v)) return "ok";
+  if(accepted.some(a=>deacc(a)===deacc(val))) return "accents";
+  return "bad";
 }
 
-// ── Accent keyboard hidden (no writing tasks) ──────────────────────────────
-document.getElementById('accent-kb').classList.add('hidden');
+let results=[]; /* {label, given, ok, expected} */
 
-// ── MCQ Data ───────────────────────────────────────────────────────────────
-const mcqs=[
-  {
-    q:"En 2024, de combien est l'écart de salaire net moyen entre femmes et hommes à temps de travail égal (EQTP) ?",
-    opts:["8 %","14 %","22 %","34 %"],
-    a:1
-  },
-  {
-    q:"À quel rythme l'écart salarial diminue-t-il chaque année ?",
-    opts:["0,1 point","0,4 point","0,3 point","1 point"],
-    a:2
-  },
-  {
-    q:"Selon le résumé, pourquoi l'écart salarial augmente-t-il avec le nombre d'enfants ?",
-    opts:["Les pères reçoivent une prime familiale","La maternité ralentit la progression salariale des femmes","Les femmes changent de secteur après la naissance","Les hommes travaillent moins après la naissance"],
-    a:1
-  },
-  {
-    q:"Quelle mesure la nouvelle loi sur la transparence des salaires imposera-t-elle aux entreprises ?",
-    opts:["Publier les salaires de tous les employés sur internet","Augmenter automatiquement les salaires des femmes","Afficher une fourchette de rémunération dans les offres d'emploi","Interdire le travail à temps partiel"],
-    a:2
-  }
-];
+function checkAll(){
+  results=[]; let score=0, max=0;
+  document.querySelectorAll(".item").forEach((it,idx)=>{
+    const type=it.dataset.type, fb=it.querySelector(".fb");
+    const label=(it.querySelector(".q")?it.querySelector(".q").textContent.trim():("Défi "+(idx+1))).slice(0,90);
+    if(type==="mcq"){
+      max++;
+      const sel=it.querySelector("input[type=radio]:checked");
+      const correct=d(it.dataset.a), exp=d(it.dataset.exp||"");
+      if(!sel){fb.className="fb bad";fb.textContent="⚠ Répondez à la question.";results.push({label,given:"—",ok:false});return}
+      if(sel.value===correct){score++;fb.className="fb ok";fb.textContent="✔ Correct. "+exp;
+        results.push({label,given:sel.parentElement.textContent.trim(),ok:true});}
+      else{fb.className="fb bad";fb.textContent="✘ Incorrect. "+exp;
+        results.push({label,given:sel.parentElement.textContent.trim(),ok:false});}
+    }
+    if(type==="text"){
+      max++;
+      const inp=it.querySelector("input,textarea");
+      const accepted=d(it.dataset.a).split("|"), exp=d(it.dataset.exp||"");
+      const r=judge(inp.value,accepted);
+      if(r==="ok"){score++;fb.className="fb ok";fb.textContent="✔ Correct. "+exp;}
+      else if(r==="accents"){fb.className="fb almost";fb.textContent="≈ Presque ! Vérifiez les accents : "+accepted[0]+". "+exp;}
+      else{fb.className="fb bad";fb.textContent="✘ Réponse attendue : "+accepted[0]+". "+exp;}
+      results.push({label,given:inp.value||"—",ok:r==="ok"});
+    }
+    if(type==="free"){
+      const ta=it.querySelector("textarea"), min=parseInt(it.dataset.min||"40");
+      const words=(ta.value.trim().match(/\S+/g)||[]).length;
+      if(words===0){fb.className="fb";fb.textContent="";}
+      else if(words<min){fb.className="fb almost";fb.textContent="≈ "+words+" mots — visez au moins "+min+". Développez avec un connecteur (cependant, en revanche…).";}
+      else{fb.className="fb ok";fb.textContent="✔ "+words+" mots. Comparez maintenant avec le modèle, puis améliorez une phrase.";}
+      results.push({label,given:ta.value||"—",ok:words>=min});
+    }
+  });
+  const b=document.getElementById("scoreBanner");
+  b.style.display="block";
+  const pct=max?Math.round(100*score/max):0;
+  b.textContent="Score : "+score+" / "+max+" ("+pct+" %) — "+(pct>=80?"Excellent !":pct>=60?"Bien — corrigez les points signalés.":"Relisez les indices et réessayez.");
+  window._score={score,max};
+}
 
-function buildMCQ(){
-  const c=document.getElementById('mcq-container');
-  mcqs.forEach((m,i)=>{
-    const d=document.createElement('div');d.className='mcq-item';
-    d.innerHTML=`<p>${i+1}. ${m.q}</p><div class="mcq-options">${m.opts.map((o,j)=>`<label id="mcql-${i}-${j}"><input type="radio" name="mcq${i}" value="${j}"> ${o}</label>`).join('')}</div>`;
-    c.appendChild(d);
-  });
-}
-function checkMCQ(){
-  let ok=0;
-  mcqs.forEach((m,i)=>{
-    const sel=document.querySelector(`input[name="mcq${i}"]:checked`);
-    m.opts.forEach((_,j)=>{
-      const lbl=document.getElementById(`mcql-${i}-${j}`);
-      lbl.classList.remove('correct','wrong');
-      if(j===m.a)lbl.classList.add('correct');
-      else if(sel&&parseInt(sel.value)===j)lbl.classList.add('wrong');
-    });
-    if(sel&&parseInt(sel.value)===m.a)ok++;
-  });
-  const fb=document.getElementById('mcq-fb');
-  fb.style.display='block';fb.className='feedback '+(ok===mcqs.length?'ok':'bad');
-  fb.textContent=`${ok} / ${mcqs.length} bonne${ok>1?'s':''} réponse${ok>1?'s':''}`;
-}
-function resetMCQ(){
-  document.querySelectorAll('.mcq-options label').forEach(l=>l.classList.remove('correct','wrong'));
-  document.querySelectorAll('.mcq-options input').forEach(i=>i.checked=false);
-  document.getElementById('mcq-fb').style.display='none';
-}
-buildMCQ();
-
-// ── Gap Fill ───────────────────────────────────────────────────────────────
-const gapData=[
-  {id:'g1',sentence:"Les entreprises devront afficher une ___ de rémunération dans leurs offres d'emploi.",answer:"fourchette",before:"Les entreprises devront afficher une ",after:" de rémunération dans leurs offres d'emploi."},
-  {id:'g2',sentence:"À ce rythme, il faudra encore ___ ans pour parvenir à l'égalité parfaite.",answer:"46",before:"À ce rythme, il faudra encore ",after:" ans pour parvenir à l'égalité parfaite."},
-  {id:'g3',sentence:"La ___ professionnelle explique l'essentiel de l'écart salarial.",answer:"ségrégation",before:"La ",after:" professionnelle explique l'essentiel de l'écart salarial."},
-  {id:'g4',sentence:"L'écart de salaire en EQTP était de 14 % en 2024, contre ___ % en 1995.",answer:"22,1",before:"L'écart de salaire en EQTP était de 14 % en 2024, contre ",after:" % en 1995."},
-  {id:'g5',sentence:"Les écarts de salaires augmentent avec le nombre d'___ .",answer:"enfants",before:"Les écarts de salaires augmentent avec le nombre d'",after:" ."},
-];
-const bankWords=["22,1","ségrégation","enfants","fourchette","46","cadres","rythme","maternité"];
-let activeGap=null;
-
-function buildGaps(){
-  const bank=document.getElementById('gap-bank');
-  bankWords.forEach(w=>{
-    const chip=document.createElement('button');
-    chip.className='gap-chip';chip.textContent=w;chip.dataset.word=w;
-    chip.onclick=()=>insertChip(w,chip);
-    bank.appendChild(chip);
-  });
-  const cont=document.getElementById('gap-sentences');
-  gapData.forEach(g=>{
-    const p=document.createElement('p');p.className='gap-sentence';
-    p.innerHTML=`${g.before}<input class="gap-input" id="${g.id}" data-answer="${g.answer}" readonly placeholder="___" onclick="setActiveGap(this)"> ${g.after}`;
-    cont.appendChild(p);
-  });
-}
-function setActiveGap(inp){
-  document.querySelectorAll('.gap-input').forEach(i=>i.style.background='');
-  inp.style.background='#e8f0fb';
-  activeGap=inp;
-}
-function insertChip(word,chip){
-  if(!activeGap){alert('Cliquez d\'abord sur un trou pour le sélectionner.');return;}
-  // Return old word to bank if present
-  const old=activeGap.value;
-  if(old){
-    document.querySelectorAll('.gap-chip').forEach(c=>{if(c.dataset.word===old)c.classList.remove('used');});
-  }
-  activeGap.value=word;
-  chip.classList.add('used');
-  activeGap.style.background='';
-  activeGap=null;
-}
-function checkGaps(){
-  let ok=0;
-  document.querySelectorAll('.gap-input').forEach(inp=>{
-    inp.classList.remove('correct','wrong');
-    if(inp.value.trim()===inp.dataset.answer){inp.classList.add('correct');ok++;}
-    else if(inp.value)inp.classList.add('wrong');
-  });
-  const fb=document.getElementById('gap-fb');
-  fb.style.display='block';fb.className='feedback '+(ok===gapData.length?'ok':'bad');
-  fb.textContent=`${ok} / ${gapData.length} bonne${ok>1?'s':''} réponse${ok>1?'s':''}`;
-}
-function resetGaps(){
-  document.querySelectorAll('.gap-input').forEach(i=>{i.value='';i.classList.remove('correct','wrong');i.style.background='';});
-  document.querySelectorAll('.gap-chip').forEach(c=>c.classList.remove('used'));
-  document.getElementById('gap-fb').style.display='none';
-  activeGap=null;
-}
-buildGaps();
-
-// ── Vocab Drag & Drop ──────────────────────────────────────────────────────
-let dragWord=null;
-function initDrag(){
-  document.querySelectorAll('.vocab-word').forEach(el=>{
-    el.addEventListener('dragstart',e=>{dragWord=el.dataset.word;el.classList.add('dragging');});
-    el.addEventListener('dragend',e=>{el.classList.remove('dragging');});
-  });
-  document.querySelectorAll('.vocab-def').forEach(el=>{
-    el.addEventListener('dragover',e=>{e.preventDefault();el.classList.add('over');});
-    el.addEventListener('dragleave',()=>el.classList.remove('over'));
-    el.addEventListener('drop',e=>{
-      e.preventDefault();el.classList.remove('over');
-      const prev=el.querySelector('.dropped');if(prev)el.removeChild(prev);
-      const s=document.createElement('span');s.className='dropped';s.textContent=dragWord;
-      el.insertBefore(s,el.firstChild);
-    });
-  });
-}
-function checkVocab(){
-  let ok=0;
-  document.querySelectorAll('.vocab-def').forEach(el=>{
-    const s=el.querySelector('.dropped');
-    if(s&&s.textContent===el.dataset.answer){s.style.color='#155724';ok++;}
-    else if(s)s.style.color='#721c24';
-  });
-  const fb=document.getElementById('vocab-fb');
-  fb.style.display='block';fb.className='feedback '+(ok===5?'ok':'bad');
-  fb.textContent=`${ok} / 5 bonne${ok>1?'s':''} réponse${ok>1?'s':''}`;
-}
-function resetVocab(){
-  document.querySelectorAll('.vocab-def .dropped').forEach(s=>s.remove());
-  document.getElementById('vocab-fb').style.display='none';
-}
-initDrag();
-
-// ── Gap Fill 2 ─────────────────────────────────────────────────────────────
-const gapData2=[
-  {id:'h1',sentence:"La maternité ___ souvent la progression salariale des femmes.",answer:"ralentit",before:"La maternité ",after:" souvent la progression salariale des femmes."},
-  {id:'h2',sentence:"Même à temps de travail ___, un écart de 14 % subsiste entre femmes et hommes.",answer:"égal",before:"Même à temps de travail ",after:", un écart de 14 % subsiste entre femmes et hommes."},
-  {id:'h3',sentence:"L'écart salarial s'explique surtout par le travail à temps ___ et les inégalités de carrière.",answer:"partiel",before:"L'écart salarial s'explique surtout par le travail à temps ",after:" et les inégalités de carrière."},
-  {id:'h4',sentence:"L'écart salarial augmente avec l'___ et avec le nombre d'enfants.",answer:"âge",before:"L'écart salarial augmente avec l'",after:" et avec le nombre d'enfants."},
-  {id:'h5',sentence:"La ségrégation professionnelle signifie que femmes et hommes n'occupent pas les mêmes ___ ni les mêmes secteurs.",answer:"postes",before:"La ségrégation professionnelle signifie que femmes et hommes n'occupent pas les mêmes ",after:" ni les mêmes secteurs."},
-];
-const bankWords2=["partiel","postes","âge","ralentit","égal","total","accélère","secteurs"];
-let activeGap2=null;
-
-function buildGaps2(){
-  const bank=document.getElementById('gap-bank2');
-  bankWords2.forEach(w=>{
-    const chip=document.createElement('button');
-    chip.className='gap-chip';chip.textContent=w;chip.dataset.word=w;
-    chip.onclick=()=>insertChip2(w,chip);
-    bank.appendChild(chip);
-  });
-  const cont=document.getElementById('gap-sentences2');
-  gapData2.forEach(g=>{
-    const p=document.createElement('p');p.className='gap-sentence';
-    p.innerHTML=`${g.before}<input class="gap-input" id="${g.id}" data-answer="${g.answer}" readonly placeholder="___" onclick="setActiveGap2(this)"> ${g.after}`;
-    cont.appendChild(p);
-  });
-}
-function setActiveGap2(inp){
-  document.querySelectorAll('#gap-sentences2 .gap-input').forEach(i=>i.style.background='');
-  inp.style.background='#e8f0fb'; activeGap2=inp;
-}
-function insertChip2(word,chip){
-  if(!activeGap2){alert('Cliquez d\'abord sur un trou.');return;}
-  const old=activeGap2.value;
-  if(old) document.querySelectorAll('#gap-bank2 .gap-chip').forEach(c=>{if(c.dataset.word===old)c.classList.remove('used');});
-  activeGap2.value=word; chip.classList.add('used');
-  activeGap2.style.background=''; activeGap2=null;
-}
-function checkGaps2(){
-  let ok=0;
-  document.querySelectorAll('#gap-sentences2 .gap-input').forEach(inp=>{
-    inp.classList.remove('correct','wrong');
-    if(inp.value.trim()===inp.dataset.answer){inp.classList.add('correct');ok++;}
-    else if(inp.value)inp.classList.add('wrong');
-  });
-  const fb=document.getElementById('gap-fb2');
-  fb.style.display='block';fb.className='feedback '+(ok===gapData2.length?'ok':'bad');
-  fb.textContent=`${ok} / ${gapData2.length} bonne${ok>1?'s':''} réponse${ok>1?'s':''}`;
-}
-function resetGaps2(){
-  document.querySelectorAll('#gap-sentences2 .gap-input').forEach(i=>{i.value='';i.classList.remove('correct','wrong');i.style.background='';});
-  document.querySelectorAll('#gap-bank2 .gap-chip').forEach(c=>c.classList.remove('used'));
-  document.getElementById('gap-fb2').style.display='none'; activeGap2=null;
-}
-buildGaps2();
-
-// ── Gap Fill 3 ─────────────────────────────────────────────────────────────
-const gapData3=[
-  {id:'j1',sentence:"Cette loi ___ les entreprises à afficher une fourchette de rémunération dans les offres d'emploi.",answer:"obligera",before:"Cette loi ",after:" les entreprises à afficher une fourchette de rémunération dans les offres d'emploi."},
-  {id:'j2',sentence:"La situation s'améliore ___, mais des inégalités importantes persistent.",answer:"lentement",before:"La situation s'améliore ",after:", mais des inégalités importantes persistent."},
-  {id:'j3',sentence:"À ce rythme, il faudra encore environ 46 ans pour ___ l'égalité parfaite.",answer:"atteindre",before:"À ce rythme, il faudra encore environ 46 ans pour ",after:" l'égalité parfaite."},
-  {id:'j4',sentence:"Pour accélérer les choses, le gouvernement prépare une nouvelle ___ sur la transparence des salaires.",answer:"loi",before:"Pour accélérer les choses, le gouvernement prépare une nouvelle ",after:" sur la transparence des salaires."},
-  {id:'j5',sentence:"Depuis 1995, l'écart salarial ___ d'environ 0,3 point par an.",answer:"diminue",before:"Depuis 1995, l'écart salarial ",after:" d'environ 0,3 point par an."},
-];
-const bankWords3=["diminue","atteindre","loi","obligera","lentement","augmente","permettra","directive"];
-let activeGap3=null;
-
-function buildGaps3(){
-  const bank=document.getElementById('gap-bank3');
-  bankWords3.forEach(w=>{
-    const chip=document.createElement('button');
-    chip.className='gap-chip';chip.textContent=w;chip.dataset.word=w;
-    chip.onclick=()=>insertChip3(w,chip);
-    bank.appendChild(chip);
-  });
-  const cont=document.getElementById('gap-sentences3');
-  gapData3.forEach(g=>{
-    const p=document.createElement('p');p.className='gap-sentence';
-    p.innerHTML=`${g.before}<input class="gap-input" id="${g.id}" data-answer="${g.answer}" readonly placeholder="___" onclick="setActiveGap3(this)"> ${g.after}`;
-    cont.appendChild(p);
-  });
-}
-function setActiveGap3(inp){
-  document.querySelectorAll('#gap-sentences3 .gap-input').forEach(i=>i.style.background='');
-  inp.style.background='#e8f0fb'; activeGap3=inp;
-}
-function insertChip3(word,chip){
-  if(!activeGap3){alert('Cliquez d\'abord sur un trou.');return;}
-  const old=activeGap3.value;
-  if(old) document.querySelectorAll('#gap-bank3 .gap-chip').forEach(c=>{if(c.dataset.word===old)c.classList.remove('used');});
-  activeGap3.value=word; chip.classList.add('used');
-  activeGap3.style.background=''; activeGap3=null;
-}
-function checkGaps3(){
-  let ok=0;
-  document.querySelectorAll('#gap-sentences3 .gap-input').forEach(inp=>{
-    inp.classList.remove('correct','wrong');
-    if(inp.value.trim()===inp.dataset.answer){inp.classList.add('correct');ok++;}
-    else if(inp.value)inp.classList.add('wrong');
-  });
-  const fb=document.getElementById('gap-fb3');
-  fb.style.display='block';fb.className='feedback '+(ok===gapData3.length?'ok':'bad');
-  fb.textContent=`${ok} / ${gapData3.length} bonne${ok>1?'s':''} réponse${ok>1?'s':''}`;
-}
-function resetGaps3(){
-  document.querySelectorAll('#gap-sentences3 .gap-input').forEach(i=>{i.value='';i.classList.remove('correct','wrong');i.style.background='';});
-  document.querySelectorAll('#gap-bank3 .gap-chip').forEach(c=>c.classList.remove('used'));
-  document.getElementById('gap-fb3').style.display='none'; activeGap3=null;
-}
-buildGaps3();
-function getMCQAnswers(){
-  return mcqs.map((m,i)=>{
-    const sel=document.querySelector(`input[name="mcq${i}"]:checked`);
-    const chosen=sel?m.opts[parseInt(sel.value)]:'(sans réponse)';
-    const correct=m.opts[m.a];
-    return `Q${i+1}: ${m.q}\n  Votre réponse : ${chosen}\n  Bonne réponse : ${correct}`;
-  }).join('\n\n');
-}
-function getVocabAnswers(){
-  return Array.from(document.querySelectorAll('.vocab-def')).map(el=>{
-    const s=el.querySelector('.dropped');
-    return `Définition : ${el.querySelector('em').textContent}\n  Votre association : ${s?s.textContent:'(vide)'}\n  Bonne réponse : ${el.dataset.answer}`;
-  }).join('\n\n');
-}
-function getGapAnswers(){
-  return gapData.map(g=>{
-    const inp=document.getElementById(g.id);
-    return `"${g.sentence}"\n  Votre réponse : ${inp.value||'(vide)'} | Bonne réponse : ${g.answer}`;
-  }).join('\n\n');
-}
-function getMCQScore(){
-  let ok=0;mcqs.forEach((m,i)=>{const s=document.querySelector(`input[name="mcq${i}"]:checked`);if(s&&parseInt(s.value)===m.a)ok++;});return ok+'/'+mcqs.length;
-}
-function getGapScore(){
-  let ok=0;gapData.forEach(g=>{const i=document.getElementById(g.id);if(i.value.trim()===g.answer)ok++;});return ok+'/'+gapData.length;
-}
-function getVocabScore(){
-  let ok=0;document.querySelectorAll('.vocab-def').forEach(el=>{const s=el.querySelector('.dropped');if(s&&s.textContent===el.dataset.answer)ok++;});return ok+'/5';
+function resetAll(){
+  document.querySelectorAll(".item input[type=text], .item textarea").forEach(i=>i.value="");
+  document.querySelectorAll(".item input[type=radio]").forEach(r=>r.checked=false);
+  document.querySelectorAll(".fb").forEach(f=>{f.className="fb";f.textContent=""});
+  document.getElementById("scoreBanner").style.display="none";
+  results=[];window._score=null;window.scrollTo({top:0,behavior:"smooth"});
 }
 
 function downloadResults(){
-  if(!studentName){alert('Veuillez d\'abord entrer votre nom.');return;}
-  const now=new Date();
-  const ts=now.toLocaleString('fr-FR');
-  let out=`=== FICHE B2 – Les inégalités salariales ===\n`;
-  out+=`Élève : ${studentName}\nDate : ${ts}\n\n`;
-  out+=`══ SCORES ══\nVocabulaire : ${getVocabScore()}\nQCM : ${getMCQScore()}\nTexte à trous 1 : ${getGapScore()}\nTexte à trous 2 : ${getGap2Score()}\nTexte à trous 3 : ${getGap3Score()}\n\n`;
-  out+=`══ EX. 1 – VOCABULAIRE ══\n${getVocabAnswers()}\n\n`;
-  out+=`══ EX. 2 – QCM ══\n${getMCQAnswers()}\n\n`;
-  out+=`══ EX. 3 – TEXTE À TROUS ══\n${getGapAnswers()}\n\n`;
-  out+=`══ EX. 4 – TEXTE À TROUS ══\n${getGap2Answers()}\n\n`;
-  out+=`══ EX. 5 – TEXTE À TROUS ══\n${getGap3Answers()}`;
-  const blob=new Blob([out],{type:'text/plain;charset=utf-8'});
-  const url=URL.createObjectURL(blob);
-  const a=document.createElement('a');
-  a.href=url;a.download=`${studentName.replace(/\s+/g,'_')}_fiche_B2_salaires.txt`;
-  a.click();URL.revokeObjectURL(url);
+  const name=document.getElementById("studentName").value.trim();
+  if(!name){alert("Écrivez d'abord votre nom en haut de la page.");document.getElementById("studentName").focus();return}
+  if(!window._score){alert("Cliquez d'abord sur « Vérifier mes réponses ».");return}
+  let txt="RÉSULTATS — "+document.title+"\n";
+  txt+="Élève : "+name+"\nDate : "+new Date().toLocaleString("fr-FR")+"\n";
+  txt+="Score : "+window._score.score+" / "+window._score.max+"\n";
+  txt+="".padEnd(60,"=")+"\n\n";
+  results.forEach((r,i)=>{txt+=(i+1)+". "+r.label+"\n   Réponse : "+r.given+"\n   "+(r.ok?"✔ correct":"✘ à revoir")+"\n\n";});
+  const blob=new Blob([txt],{type:"text/plain;charset=utf-8"});
+  const a=document.createElement("a");
+  a.href=URL.createObjectURL(blob);
+  a.download=(document.title.split("—")[0].trim()||"resultats").replace(/\s+/g,"_")+"_"+name.replace(/\s+/g,"_")+".txt";
+  document.body.appendChild(a);a.click();document.body.removeChild(a);URL.revokeObjectURL(a.href);
 }
+
+/* ---------- Accent pad ---------- */
+const CHARS=["é","è","ê","ë","à","â","î","ï","ô","ù","û","ü","ç","œ","æ","«","»","'","É","È","À","Ç","Œ"];
+let lastField=null;
+document.addEventListener("focusin",e=>{
+  if(e.target.matches("input[type=text],textarea") && e.target.id!=="studentName") lastField=e.target;
+  if(e.target.id==="studentName") lastField=e.target;
+});
+const pad=document.getElementById("accentPad");
+CHARS.forEach(c=>{
+  const b=document.createElement("button");
+  b.textContent=c; if(c===c.toUpperCase()&&c.toLowerCase()!==c) b.className="maj";
+  b.addEventListener("mousedown",ev=>{
+    ev.preventDefault(); /* keep focus in the field */
+    if(!lastField) return;
+    const s=lastField.selectionStart??lastField.value.length, t=lastField.selectionEnd??s;
+    lastField.value=lastField.value.slice(0,s)+c+lastField.value.slice(t);
+    lastField.selectionStart=lastField.selectionEnd=s+c.length;
+    lastField.focus();
+  });
+  pad.appendChild(b);
+});
+function togglePad(){
+  const show=pad.style.display==="none";
+  pad.style.display=show?"flex":"none";
+  document.getElementById("padToggle").style.display=show?"none":"block";
+  if(show){ /* add close button once */
+    if(!pad.querySelector(".closer")){
+      const x=document.createElement("button");x.textContent="✕";x.className="closer";
+      x.addEventListener("mousedown",ev=>{ev.preventDefault();togglePad()});pad.appendChild(x);
+    }
+  }
+}
+/* drag the pad */
+(function(){
+  const h=pad.querySelector(".drag");let sx,sy,ox,oy,drag=false;
+  h.addEventListener("mousedown",e=>{drag=true;sx=e.clientX;sy=e.clientY;const r=pad.getBoundingClientRect();ox=r.left;oy=r.top;
+    pad.style.right="auto";pad.style.bottom="auto";e.preventDefault()});
+  document.addEventListener("mousemove",e=>{if(!drag)return;pad.style.left=(ox+e.clientX-sx)+"px";pad.style.top=(oy+e.clientY-sy)+"px"});
+  document.addEventListener("mouseup",()=>drag=false);
+})();
 </script>
 </body>
 </html>
