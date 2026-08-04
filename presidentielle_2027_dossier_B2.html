@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Présidentielle 2027 : qui ira au second tour ? · A-Level French BBA</title>
+<meta name="description" content="Thème 3 · La réaction politique. Dossier B2 : les trois dilemmes de la présidentielle française de 2027, avec simulateur de premier tour.">
+<style>
+:root{
+  --paper:#FBFAF6;--card:#FFF;--ink:#1A2440;--ink-soft:#4A5570;--muted:#8A8F9E;
+  --rouge:#C0142E;--bleu:#2B4C9B;--bleu-pale:#EDF1FA;--vert:#2E7D52;--vert-pale:#EAF4EE;
+  --or:#B8860B;--rouge-pale:#FBEDEE;--ambre-pale:#FFF7E6;--line:#E5E2D8;--line-strong:#CFCBBD;
+  --radius:12px;--shadow:0 1px 2px rgba(26,36,64,.06),0 4px 16px rgba(26,36,64,.05);
+  --serif:Georgia,'Times New Roman',serif;
+  --sans:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+  --mono:ui-monospace,'SF Mono',Menlo,Consolas,monospace;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.55}
+:focus-visible{outline:2px solid var(--bleu);outline-offset:2px;border-radius:4px}
+header.site{border-bottom:3px solid var(--ink);background:var(--card);padding:0 20px}
+.site-inner{max-width:940px;margin:0 auto;padding:17px 0 13px;display:flex;align-items:baseline;gap:16px;flex-wrap:wrap}
+.brand{font-family:var(--serif);font-weight:700;font-size:1.35rem}.brand span{color:var(--bleu)}
+.brand-sub{font-family:var(--mono);font-size:.68rem;color:var(--muted);text-transform:uppercase;letter-spacing:.09em}
+.tag{margin-left:auto;font-family:var(--mono);font-size:.66rem;letter-spacing:.08em;text-transform:uppercase;
+  background:var(--bleu);color:#fff;padding:4px 10px;border-radius:99px}
+main{max-width:940px;margin:0 auto;padding:24px 20px 120px}
+h1{font-family:var(--serif);font-size:1.85rem;line-height:1.18;margin:0 0 8px}
+.lede{color:var(--ink-soft);margin:0 0 6px;max-width:66ch;font-size:1.02rem}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:20px;margin-bottom:16px}
+.section-label{font-family:var(--mono);font-size:.7rem;text-transform:uppercase;letter-spacing:.11em;color:var(--rouge);
+  font-weight:700;margin:34px 0 10px;display:flex;align-items:center;gap:10px}
+.section-label::after{content:"";flex:1;height:1px;background:var(--line-strong)}
+.hint{font-size:.85rem;color:var(--muted);margin:4px 0 12px}
+.uk{background:var(--ambre-pale);border:1px solid var(--or);border-radius:var(--radius);padding:15px 18px;margin:18px 0}
+.uk p{margin:0;font-size:.95rem;color:#5C4506}
+.uk b{color:#7A5B08}
+.dilemme{background:var(--card);border:1px solid var(--line-strong);border-left:5px solid var(--rouge);
+  border-radius:var(--radius);box-shadow:var(--shadow);padding:20px 22px;margin-bottom:16px}
+.dilemme h2{font-family:var(--serif);font-size:1.22rem;margin:0 0 3px}
+.dilemme .sous{font-family:var(--mono);font-size:.66rem;text-transform:uppercase;letter-spacing:.08em;color:var(--rouge);margin-bottom:11px}
+.dilemme p{font-family:var(--serif);font-size:1.05rem;line-height:1.7;margin:0 0 10px}
+.dilemme p:last-of-type{margin-bottom:0}
+.gloss{border-bottom:1px dotted var(--rouge);cursor:help}
+.tension{display:flex;gap:12px;flex-wrap:wrap;margin-top:14px}
+.tension div{flex:1;min-width:200px;background:var(--paper);border:1px solid var(--line);border-radius:9px;padding:10px 13px;font-size:.9rem}
+.tension b{display:block;font-family:var(--mono);font-size:.63rem;text-transform:uppercase;letter-spacing:.07em;color:var(--bleu);margin-bottom:3px}
+.who{display:grid;gap:12px;grid-template-columns:repeat(auto-fill,minmax(158px,1fr));margin:14px 0 6px}
+.p-card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden}
+.p-photo{width:100%;aspect-ratio:3/4;object-fit:cover;object-position:center top;display:block;background:var(--bleu-pale)}
+.p-ph{width:100%;aspect-ratio:3/4;display:flex;align-items:center;justify-content:center;background:var(--bleu-pale);
+  font-family:var(--serif);font-size:2rem;font-weight:700;color:var(--bleu)}
+.p-body{padding:9px 11px}
+.p-name{font-weight:700;font-size:.95rem;line-height:1.25}
+.p-role{font-size:.8rem;color:var(--ink-soft);margin-top:2px}
+.p-score{font-family:var(--mono);font-size:.72rem;margin-top:5px;display:inline-block;padding:2px 7px;border-radius:4px}
+.s-rn{background:#EFE7EA;color:#7A0A18}.s-c{background:var(--bleu-pale);color:var(--bleu)}
+.s-g{background:#F0EAF6;color:#5B3A87}.s-d{background:#E9EEF7;color:#26417F}
+.credits{font-family:var(--mono);font-size:.64rem;color:var(--muted);line-height:1.7}
+.credits b{color:var(--ink-soft)}
+.sim{background:var(--card);border:1px solid var(--line-strong);border-radius:var(--radius);box-shadow:var(--shadow);padding:20px}
+.sim-row{display:flex;align-items:center;gap:11px;margin-bottom:9px;flex-wrap:wrap}
+.sim-name{min-width:132px;font-size:.9rem;font-weight:600}
+.sim-track{flex:1;min-width:170px;height:26px;background:var(--paper);border-radius:6px;overflow:hidden}
+.sim-fill{height:100%;border-radius:6px;transition:width .45s cubic-bezier(.4,0,.2,1);display:flex;align-items:center;
+  justify-content:flex-end;padding-right:8px;color:#fff;font-family:var(--mono);font-size:.75rem;font-weight:700}
+.sim-q{font-family:var(--mono);font-size:.7rem;min-width:76px;text-align:right}
+.sim-q.in{color:var(--vert);font-weight:700}
+.sim-q.out{color:var(--muted)}
+.toggles{display:flex;gap:9px;flex-wrap:wrap;margin:4px 0 18px}
+.tog{border:1.5px solid var(--line-strong);background:var(--card);border-radius:9px;padding:9px 14px;cursor:pointer;
+  font-family:var(--sans);font-size:.88rem;text-align:left;line-height:1.3}
+.tog:hover{border-color:var(--bleu)}
+.tog.on{border-color:var(--vert);background:var(--vert-pale)}
+.tog small{display:block;font-family:var(--mono);font-size:.65rem;color:var(--muted);margin-top:2px}
+.tog.on small{color:#1D5A3A}
+.verdict{margin-top:15px;padding:13px 16px;border-radius:9px;background:var(--bleu-pale);border:1px solid var(--bleu);
+  font-size:1rem;color:#1E3A75}
+.verdict b{color:var(--ink)}
+.btn{font-family:var(--sans);font-size:.92rem;font-weight:600;border-radius:9px;border:1.5px solid var(--ink);
+  background:var(--card);color:var(--ink);padding:9px 16px;cursor:pointer}
+.btn:hover{background:var(--bleu-pale)}
+.btn.primary{background:var(--bleu);border-color:var(--bleu);color:#fff}
+.btn.primary:hover{background:#233F82}
+.btn.ghost{border-color:var(--line-strong);font-weight:500}
+.btn.small{padding:5px 11px;font-size:.83rem}
+.btn:disabled{opacity:.45;cursor:default}
+.btn-row{display:flex;gap:9px;flex-wrap:wrap;margin-top:13px}
+.q{padding:14px 0;border-bottom:1px solid var(--line)}.q:last-child{border-bottom:none}
+.q-num{font-family:var(--mono);font-size:.72rem;color:var(--rouge);font-weight:700}
+.q-text{font-weight:600;margin:2px 0 8px}
+input.typed,textarea.typed{font-family:var(--sans);font-size:1rem;width:100%;border:1.5px solid var(--line-strong);
+  border-radius:9px;padding:10px 13px;background:var(--card);color:var(--ink)}
+textarea.typed{min-height:110px;line-height:1.6;resize:vertical}
+input.typed:focus,textarea.typed:focus{border-color:var(--bleu)}
+.opts{display:flex;gap:8px;flex-wrap:wrap;margin-top:6px}
+.opt{font-size:.9rem;border:1.5px solid var(--line-strong);border-radius:99px;background:var(--card);
+  color:var(--ink);padding:7px 15px;cursor:pointer;font-family:var(--sans)}
+.opt:hover{border-color:var(--bleu)}
+.opt.good{border-color:var(--vert);background:var(--vert-pale);color:#1D5A3A}
+.opt.bad{border-color:var(--rouge);background:var(--rouge-pale);color:#8A1020}
+.fb{margin-top:9px;padding:10px 13px;border-radius:9px;font-size:.92rem;display:none}
+.fb.show{display:block}
+.fb.good{background:var(--vert-pale);border:1px solid var(--vert);color:#1D5A3A}
+.fb.bad{background:var(--rouge-pale);border:1px solid var(--rouge);color:#8A1020}
+.fb.info{background:var(--ambre-pale);border:1px solid var(--or);color:#7A5B08}
+select.typed{font-size:1rem;border:1.5px solid var(--line-strong);border-radius:9px;padding:9px 12px;
+  background:var(--card);color:var(--ink);max-width:100%;font-family:var(--sans)}
+.lex{display:grid;gap:10px}
+@media(min-width:640px){.lex{grid-template-columns:1fr 1fr}}
+.lex-row{display:flex;gap:10px;align-items:center;flex-wrap:wrap;padding:9px 12px;border:1px solid var(--line);
+  border-radius:9px;background:var(--card)}
+.lex-row .def{flex:1;min-width:160px;font-size:.93rem}
+.lex-row select{min-width:150px}
+.kpi-row{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));margin:14px 0}
+.kpi{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:13px 15px;text-align:center}
+.kpi .n{font-family:var(--serif);font-size:1.7rem;font-weight:700;line-height:1}
+.kpi .l{font-family:var(--mono);font-size:.64rem;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);margin-top:4px}
+.bar{height:7px;background:var(--line);border-radius:4px;overflow:hidden;margin-top:8px}
+.bar i{display:block;height:100%;background:var(--vert);transition:width .3s}
+.bar i.warn{background:var(--or)}.bar i.low{background:var(--rouge)}
+.wc{font-family:var(--mono);font-size:.78rem;color:var(--muted);margin-top:6px}
+.wc.ok{color:var(--vert);font-weight:700}
+.check-list{list-style:none;padding:0;margin:10px 0 0}
+.check-list li{padding:6px 0;display:flex;gap:9px;align-items:flex-start;font-size:.93rem;border-bottom:1px solid var(--line)}
+.check-list li:last-child{border-bottom:none}
+.check-list input{margin-top:4px;accent-color:var(--bleu);flex-shrink:0}
+.accent-pad{position:fixed;left:50%;transform:translateX(-50%);bottom:max(14px,env(safe-area-inset-bottom));
+  display:flex;gap:5px;flex-wrap:wrap;justify-content:center;background:var(--card);border:1.5px solid var(--ink);
+  border-radius:13px;box-shadow:0 6px 26px rgba(26,36,64,.2);padding:9px 11px;z-index:60;max-width:min(96vw,560px)}
+.accent-pad button{font-family:var(--serif);font-size:1.2rem;line-height:1;min-width:38px;padding:9px 6px;
+  border:1px solid var(--line-strong);border-radius:9px;background:var(--paper);color:var(--ink);cursor:pointer}
+.accent-pad .fermer{font-family:var(--sans);font-size:.9rem;min-width:34px;color:var(--muted)}
+body.pad-on{padding-bottom:120px}
+.hidden{display:none!important}
+footer.site{max-width:940px;margin:0 auto;padding:18px 20px 40px;border-top:1px solid var(--line);
+  font-family:var(--mono);font-size:.68rem;color:var(--muted);line-height:1.7}
+@media print{.accent-pad,.btn,.no-print{display:none!important}body{background:#fff}
+  .card,.dilemme,.sim{box-shadow:none;break-inside:avoid}}
+</style>
+</head>
+<body>
+<header class="site">
+  <div class="site-inner">
+    <div>
+      <div class="brand">Dossier <span>·</span> A-Level French</div>
+      <div class="brand-sub">Edexcel 9FR0 · BBA Sixth Form</div>
+    </div>
+    <div class="tag">Thème 3 · La réaction politique</div>
+  </div>
+</header>
+
+<main>
+  <h1>Présidentielle 2027 : qui ira au second tour ?</h1>
+  <p class="lede">Le Rassemblement national est donné à plus de 30 % : il est presque certain d'être au second tour. Tous les autres se disputent la deuxième place — et c'est là que tout se joue. Trois camps, trois dilemmes, une seule question d'arithmétique.</p>
+
+  <div class="uk">
+    <p><b>Pour un élève britannique :</b> au Royaume-Uni, on vote une fois et celui qui arrive en tête gagne (<i>first past the post</i>). En France, il y a deux tours : on vote « avec le cœur » au premier, puis souvent « contre quelqu'un » au second. D'où le piège : si un camp présente quatre candidats, ses voix se divisent et <b>aucun</b> n'atteint le second tour — même si ce camp représente un tiers du pays.</p>
+  </div>
+
+  <div class="card no-print">
+    <label for="nom" style="font-weight:600;font-size:.9rem">Ton nom</label>
+    <input id="nom" class="typed" style="margin-top:7px" placeholder="Prénom + initiale, ex. Sophie K." autocomplete="off">
+  </div>
+
+  <div class="section-label">Qui est qui ?</div>
+  <div class="who" id="who"></div>
+  <p class="credits" id="credits"></p>
+
+  <div class="section-label">Dilemme 1 · Le centre et la droite</div>
+  <div class="dilemme">
+    <h2>Quatre candidats pour une place</h2>
+    <div class="sous">« Si nous y allons tous, nous perdons tous »</div>
+    <p><b>Édouard Philippe</b>, ancien Premier ministre et maire du Havre, est candidat depuis 2024. <b>Gabriel Attal</b>, lui aussi ancien Premier ministre et patron de Renaissance, s'est déclaré en mai 2026. Les deux hommes viennent du même camp et visent le même électorat. Ils ont donc passé un accord : celui qui sera le moins bien placé dans les sondages en février 2027 <span class="gloss" title="abandonner, renoncer">jettera l'éponge</span>.</p>
+    <p>À droite, <b>Bruno Retailleau</b> a été désigné candidat par les adhérents des Républicains. Mais sa campagne peine à décoller et les <span class="gloss" title="figures importantes d'un parti">ténors</span> du parti n'ont pas renoncé : <b>Xavier Bertrand</b> sillonne la France, <b>Michel Barnier</b> se dit « capable d'être président », <b>David Lisnard</b> est déjà candidat. <b>Laurent Wauquiez</b>, lui, réclame une grande <span class="gloss" title="vote pour désigner le candidat d'un camp">primaire</span>.</p>
+    <p>Même <b>Gérald Darmanin</b>, ministre de la Justice, l'a dit publiquement : « Il faut un seul candidat. » Personne ne le conteste. Personne ne veut être celui qui se retire.</p>
+    <div class="tension">
+      <div><b>L'argument de l'union</b>Divisés, ils finissent troisièmes et laissent la finale à d'autres.</div>
+      <div><b>L'argument de la fierté</b>Chacun se croit le meilleur — et se retirer, c'est disparaître pour cinq ans.</div>
+    </div>
+  </div>
+
+  <div class="section-label">Dilemme 2 · La gauche</div>
+  <div class="dilemme">
+    <h2>Deux primaires et un homme seul</h2>
+    <div class="sous">Unité ou identité</div>
+    <p><b>Jean-Luc Mélenchon</b> (La France insoumise) est candidat pour la quatrième fois, autour de 14 %. Sa position est simple : il est le seul à gauche à pouvoir gagner, donc les autres devraient <span class="gloss" title="ne pas se présenter">s'effacer</span>. « Ceux qui n'ont aucune chance d'accéder au second tour devraient se garder de nous empêcher d'essayer de le gagner. »</p>
+    <p>Le reste de la gauche refuse cette logique — sans réussir à s'organiser. Le Parti socialiste a choisi une primaire <span class="gloss" title="limitée à">réservée à</span> ses seuls adhérents, ce qui a fait <span class="gloss" title="abandonner définitivement">enterrer</span> la « primaire de la gauche unitaire » prévue en octobre. <b>Raphaël Glucksmann</b>, crédité de 13 %, ne s'est toujours pas déclaré. <b>François Hollande</b> attend son heure en <span class="gloss" title="solution de dernier recours">recours</span>. <b>Bernard Cazeneuve</b> refuse toute primaire.</p>
+    <p>Et <b>Marine Tondelier</b>, patronne des Écologistes, résume le piège en une phrase : « Je ne serai jamais le bulletin de vote qui fait gagner le Rassemblement national. »</p>
+    <div class="tension">
+      <div><b>Le calcul de Mélenchon</b>14 % plus le vote utile = une place en finale, si la gauche se rallie à lui.</div>
+      <div><b>Le refus des autres</b>Se rallier à LFI, c'est perdre les électeurs modérés — donc perdre aussi.</div>
+    </div>
+  </div>
+
+  <div class="section-label">Dilemme 3 · Le Rassemblement national</div>
+  <div class="dilemme">
+    <h2>Un procès, puis une candidature</h2>
+    <div class="sous">Le tribunal a tranché avant les électeurs</div>
+    <p>Pendant des mois, le RN n'a pas su qui serait son candidat : <b>Marine Le Pen</b> ou son jeune président, <b>Jordan Bardella</b>. Tout s'est joué le 7 juillet 2026. La cour d'appel de Paris a reconnu Marine Le Pen coupable de <span class="gloss" title="usage illégal d'argent public">détournement de fonds publics</span> dans l'affaire des assistants parlementaires européens — mais ne l'a condamnée qu'à 45 mois d'<span class="gloss" title="interdiction de se présenter à une élection">inéligibilité</span>, dont 30 avec <span class="gloss" title="peine qui ne s'applique pas immédiatement">sursis</span>.</p>
+    <p>Autrement dit : elle peut se présenter. Elle a annoncé sa candidature le jour même et s'est <span class="gloss" title="a saisi la plus haute juridiction">pourvue en cassation</span>, ce qui suspend sa peine. La Cour de cassation statuera « au plus tard début avril 2027 » — quelques jours avant le premier tour du 18 avril.</p>
+    <p>Bardella, préparé depuis deux ans, se retrouve sur le banc de touche. Et le RN, lui, reste au-dessus de 30 %.</p>
+  </div>
+
+  <div class="section-label">À toi de jouer · le simulateur du premier tour</div>
+  <p class="hint">Clique pour unir ou diviser chaque camp, puis regarde qui atteint le second tour. Les chiffres sont des ordres de grandeur inspirés des sondages de l'été 2026.</p>
+  <div class="sim">
+    <div class="toggles" id="toggles"></div>
+    <div id="bars"></div>
+    <div class="verdict" id="verdict"></div>
+  </div>
+
+  <div class="btn-row no-print" style="margin-bottom:8px">
+    <button class="btn small ghost" id="btnLire">🔊 Écouter les dilemmes</button>
+    <button class="btn small ghost" id="btnImprimer">Imprimer</button>
+  </div>
+
+  <div class="section-label">A · Vrai, faux ou non mentionné ?</div>
+  <div class="card" id="secA"></div>
+
+  <div class="section-label">B · Comprendre les enjeux</div>
+  <p class="hint">Réponds en français, par des phrases complètes.</p>
+  <div class="card" id="secB"></div>
+
+  <div class="section-label">C · Lexique politique</div>
+  <div class="card"><div class="lex" id="secC"></div>
+    <div class="btn-row"><button class="btn primary" id="btnC">Vérifier le lexique</button></div>
+    <div class="fb" id="fbC"></div></div>
+
+  <div class="section-label">D · Production écrite</div>
+  <div class="card">
+    <p class="q-text">Marine Tondelier a dit : « Je ne serai jamais le bulletin de vote qui fait gagner le Rassemblement national. » Un candidat doit-il se retirer pour empêcher l'extrême droite de gagner ?</p>
+    <p class="hint">Écris entre 90 et 120 mots. Emploie un subjonctif, deux connecteurs et une donnée chiffrée du dossier.</p>
+    <textarea class="typed" id="redaction" placeholder="Écris ta réponse ici…"></textarea>
+    <div class="wc" id="wc">0 mot</div>
+    <p style="font-weight:600;font-size:.9rem;margin:14px 0 0">Auto-évaluation</p>
+    <ul class="check-list" id="checklist"></ul>
+  </div>
+
+  <div class="section-label">Résultats</div>
+  <div class="card">
+    <div class="kpi-row">
+      <div class="kpi"><div class="n" id="kA">–</div><div class="l">Section A</div></div>
+      <div class="kpi"><div class="n" id="kB">–</div><div class="l">Section B</div></div>
+      <div class="kpi"><div class="n" id="kC">–</div><div class="l">Section C</div></div>
+      <div class="kpi"><div class="n" id="kT">–</div><div class="l">Total</div></div>
+    </div>
+    <div class="bar"><i id="barT" style="width:0%"></i></div>
+    <div class="btn-row">
+      <button class="btn primary" id="btnTelecharger">⬇ Télécharger mes réponses</button>
+      <button class="btn ghost" id="btnReinit">Recommencer</button>
+    </div>
+  </div>
+</main>
+
+<footer class="site">
+  Thème 3 · La réaction de la société et de l'État. Textes originaux rédigés pour cette activité à partir de faits
+  publiés par Les Echos (juillet–août 2026). Les pourcentages sont des ordres de grandeur issus des sondages de l'été 2026,
+  destinés à illustrer le mécanisme du scrutin, non des prévisions. Fonctionne sans connexion.
+</footer>
+
+<script>
+(function(){
+"use strict";
+var $=function(s){return document.querySelector(s);};
+function el(tag,attrs){
+  var n=document.createElement(tag),k;
+  if(attrs) for(k in attrs){
+    if(k==="class")n.className=attrs[k];
+    else if(k==="html")n.innerHTML=attrs[k];
+    else if(k.indexOf("on")===0)n.addEventListener(k.slice(2),attrs[k]);
+    else n.setAttribute(k,attrs[k]);
+  }
+  for(var i=2;i<arguments.length;i++){var c=arguments[i]; if(c==null)continue;
+    n.appendChild(c.nodeType?c:document.createTextNode(c));}
+  return n;
+}
+function norm(s){return String(s||"").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"")
+  .replace(/[«»!?.,;:"']/g," ").replace(/\s+/g," ").trim();}
+
+/* ───── portraits : fichiers locaux img/, repli élégant si absents ───── */
+var GENS=[
+ {n:"Marine Le Pen",r:"Rassemblement national",s:"> 30 %",c:"s-rn",img:"img/le-pen.jpg"},
+ {n:"Jean-Luc Mélenchon",r:"La France insoumise",s:"≈ 14 %",c:"s-g",img:"img/melenchon.jpg"},
+ {n:"Gabriel Attal",r:"Renaissance · ancien PM",s:"centre",c:"s-c",img:"img/attal.jpg"},
+ {n:"Bruno Retailleau",r:"Les Républicains",s:"droite",c:"s-d",img:"img/retailleau.jpg"},
+ {n:"Édouard Philippe",r:"Horizons · ancien PM",s:"centre droit",c:"s-c",img:null},
+ {n:"Raphaël Glucksmann",r:"Place publique",s:"≈ 13 %",c:"s-g",img:null}
+];
+var who=$("#who");
+GENS.forEach(function(g){
+  var card=el("div",{class:"p-card"});
+  var ini=g.n.split(" ").map(function(w){return w.charAt(0);}).join("").slice(0,3);
+  if(g.img){
+    var im=el("img",{class:"p-photo",src:g.img,alt:"Portrait de "+g.n,loading:"lazy"});
+    im.addEventListener("error",function(){
+      if(im.parentNode) im.parentNode.replaceChild(el("div",{class:"p-ph"},ini),im);
+    });
+    card.appendChild(im);
+  } else card.appendChild(el("div",{class:"p-ph"},ini));
+  card.appendChild(el("div",{class:"p-body"},
+    el("div",{class:"p-name"},g.n),
+    el("div",{class:"p-role"},g.r),
+    el("span",{class:"p-score "+g.c},g.s)));
+  who.appendChild(card);
+});
+$("#credits").innerHTML =
+  "<b>Portraits — Wikimedia Commons.</b> "
+ +"Bruno Retailleau : « Bruno Retailleau - Ministre de l'Intérieur français (cropped).jpg », CC BY 4.0. "
+ +"Marine Le Pen : « Marine Le Pen VIVA 24 (cropped).jpg ». "
+ +"Gabriel Attal : « Gabriel Attal 2025 (close crop).jpg ». "
+ +"Jean-Luc Mélenchon : « Jean-Luc Mélenchon en 2021.jpg ». "
+ +"Auteur et licence de chaque fichier : voir sa page sur Wikimedia Commons.";
+
+/* ───── simulateur du premier tour ─────
+   Trois décisions réelles du moment : le centre présente-t-il un ou deux candidats ?
+   la droite se rallie-t-elle ? la gauche social-démocrate fait-elle une primaire unique ? */
+var CHOIX={centreUni:false, droiteRallie:false, gaucheUnie:false};
+var QUESTIONS=[
+ {k:"centreUni", nom:"Le centre",
+  oui:"UN SEUL candidat (Philippe ou Attal)", non:"DEUX candidats rivaux"},
+ {k:"droiteRallie", nom:"La droite (LR)",
+  oui:"SE RALLIE au candidat du centre", non:"présente Bruno Retailleau"},
+ {k:"gaucheUnie", nom:"La gauche social-démocrate",
+  oui:"UN SEUL candidat (primaire)", non:"DISPERSÉE (PS, Glucksmann, Écologistes)"}
+];
+var togWrap=$("#toggles");
+QUESTIONS.forEach(function(q){
+  var t=el("button",{class:"tog",type:"button"});
+  function paint(){
+    t.className="tog"+(CHOIX[q.k]?" on":"");
+    t.innerHTML="<span>"+q.nom+"</span><small>"+(CHOIX[q.k]?q.oui:q.non)+"</small>";
+  }
+  t.addEventListener("click",function(){ CHOIX[q.k]=!CHOIX[q.k]; paint(); dessiner(); });
+  paint(); togWrap.appendChild(t);
+});
+var C_RN="#7A0A18", C_CEN="#2B4C9B", C_DR="#26417F", C_GS="#5B3A87", C_LFI="#8E2B5E";
+function calculer(){
+  var l=[];
+  l.push({n:"Marine Le Pen",v:32,coul:C_RN});
+  var bonusDroite = CHOIX.droiteRallie ? 9 : 0;
+  if(CHOIX.centreUni){
+    l.push({n:"Philippe ou Attal"+(bonusDroite?" + LR":""),v:21+bonusDroite,coul:C_CEN});
+  } else {
+    l.push({n:"Édouard Philippe"+(bonusDroite?" + LR":""),v:12+bonusDroite,coul:C_CEN});
+    l.push({n:"Gabriel Attal",v:9,coul:C_CEN});
+  }
+  if(!CHOIX.droiteRallie) l.push({n:"Bruno Retailleau",v:9,coul:C_DR});
+  if(CHOIX.gaucheUnie){
+    l.push({n:"Candidat unique de la gauche",v:15,coul:C_GS});
+  } else {
+    l.push({n:"Raphaël Glucksmann",v:8,coul:C_GS});
+    l.push({n:"Candidat PS",v:4,coul:C_GS});
+    l.push({n:"Écologistes",v:3,coul:C_GS});
+  }
+  l.push({n:"Jean-Luc Mélenchon",v:14,coul:C_LFI});
+  l.sort(function(a,b){return b.v-a.v;});
+  return l;
+}
+function dessiner(){
+  var liste=calculer();
+  var bars=$("#bars"); bars.innerHTML="";
+  var max=liste[0].v;
+  liste.forEach(function(c,i){
+    var ok=(i<2);
+    bars.appendChild(el("div",{class:"sim-row"},
+      el("div",{class:"sim-name"},c.n),
+      el("div",{class:"sim-track"},
+        el("div",{class:"sim-fill",style:"width:"+(100*c.v/max)+"%;background:"+c.coul+";opacity:"+(ok?1:.4)},c.v+" %")),
+      el("div",{class:"sim-q "+(ok?"in":"out")},ok?"2ᵈ tour ✓":"éliminé")));
+  });
+  var a=liste[0],b=liste[1];
+  var txt="<b>Second tour :</b> "+a.n+" ("+a.v+" %) contre "+b.n+" ("+b.v+" %).";
+  var ecart=a.v-b.v;
+  if(a.n.indexOf("Le Pen")>=0){
+    if(ecart<=3) txt+="<br>L'écart n'est que de "+ecart+" point"+(ecart>1?"s":"")+" : le RN n'est plus assuré d'arriver en tête.";
+    else txt+="<br>Le RN arrive largement en tête, avec "+ecart+" points d'avance sur son adversaire.";
+  }
+  var unis=0; QUESTIONS.forEach(function(q){ if(CHOIX[q.k]) unis++; });
+  if(unis===3) txt+="<br><b>Tous les camps se sont rassemblés</b> — le scénario le plus difficile pour le RN.";
+  if(unis===0) txt+="<br><b>Personne ne s'est rassemblé</b> — et c'est Mélenchon, avec 14 %, qui profite de la division des autres.";
+  $("#verdict").innerHTML=txt;
+}
+dessiner();
+
+/* ───── clavier d'accents ───── */
+var ACCENTS=["é","è","à","ê","ç","ô","î","œ","ï","â","û","ë","ù","«","»"];
+var padTarget=null;
+var pad=(function(){
+  var p=el("div",{class:"accent-pad hidden",role:"toolbar","aria-label":"Accents français"});
+  ACCENTS.forEach(function(ch){
+    var b=el("button",{type:"button",tabindex:"-1"},ch);
+    b.addEventListener("mousedown",function(ev){ev.preventDefault();});
+    b.addEventListener("click",function(){
+      if(!padTarget)return;
+      var st=padTarget.selectionStart,en=padTarget.selectionEnd;
+      if(st==null){padTarget.value+=ch;}
+      else{padTarget.value=padTarget.value.slice(0,st)+ch+padTarget.value.slice(en);
+        padTarget.selectionStart=padTarget.selectionEnd=st+ch.length;}
+      padTarget.dispatchEvent(new Event("input",{bubbles:true}));
+      padTarget.focus();
+    });
+    p.appendChild(b);
+  });
+  var x=el("button",{class:"fermer",type:"button",tabindex:"-1",title:"Masquer"},"✕");
+  x.addEventListener("mousedown",function(ev){ev.preventDefault();});
+  x.addEventListener("click",function(){hidePad();});
+  p.appendChild(x); document.body.appendChild(p); return p;
+})();
+function showPad(i){padTarget=i;pad.classList.remove("hidden");document.body.classList.add("pad-on");}
+function hidePad(){padTarget=null;pad.classList.add("hidden");document.body.classList.remove("pad-on");}
+function attachPad(i){i.addEventListener("focus",function(){showPad(i);});}
+
+/* ───── exercices ───── */
+var A=[
+ {t:"Philippe et Attal ont prévu que l'un des deux se retire avant le premier tour.",r:"V",
+  x:"Le moins bien placé dans les sondages en février 2027 doit jeter l'éponge."},
+ {t:"Bruno Retailleau a été désigné candidat par les adhérents des Républicains.",r:"V",
+  x:"Mais cette désignation n'a pas fait taire les ambitions rivales."},
+ {t:"La cour d'appel de Paris a déclaré Marine Le Pen innocente.",r:"F",
+  x:"Elle a été reconnue coupable ; c'est l'aménagement de la peine qui lui permet de se présenter."},
+ {t:"Jean-Luc Mélenchon demande aux autres candidats de gauche de s'effacer.",r:"V",
+  x:"Selon lui, ceux qui ne peuvent pas gagner ne devraient pas l'empêcher d'essayer."},
+ {t:"Le dossier indique quel candidat le Parti socialiste a finalement choisi.",r:"NM",
+  x:"Il décrit la primaire réservée aux adhérents, mais n'en donne aucun résultat."},
+ {t:"Jordan Bardella sera le candidat du RN en 2027.",r:"F",
+  x:"Marine Le Pen s'est déclarée le jour de la décision ; Bardella est écarté."},
+ {t:"La Cour de cassation doit se prononcer peu avant le premier tour.",r:"V",
+  x:"Au plus tard début avril 2027, quelques jours avant le 18 avril."},
+ {t:"Le dossier précise le montant des fonds européens détournés.",r:"NM",
+  x:"L'affaire est nommée, mais aucun montant n'est donné."}
+];
+var B=[
+ {q:"Pourquoi Édouard Philippe et Gabriel Attal ont-ils conclu un accord ?",
+  cles:[["meme camp","meme electorat","memes electeurs","rivaux","concurrents","divise"],["fevrier","retire","eponge","abandonne","moins bien place"]],
+  modele:"Ils visent le même électorat et risquent de diviser leurs voix ; ils ont donc convenu qu'en février 2027 le moins bien placé dans les sondages se retirerait."},
+ {q:"Pourquoi la décision du 7 juillet 2026 a-t-elle été décisive pour le Rassemblement national ?",
+  cles:[["coupable","condamnee","detournement"],["peut se presenter","eligible","sursis","candidature","candidate"]],
+  modele:"Le Pen a été reconnue coupable, mais l'essentiel de la peine d'inéligibilité était avec sursis : elle pouvait donc se présenter, ce qu'elle a annoncé aussitôt."},
+ {q:"Résume le désaccord entre Jean-Luc Mélenchon et le reste de la gauche.",
+  cles:[["seul","unique","s effacer","effacer","se rallier","retirer"],["refuse","refusent","moderes","identite","desaccord","pas d accord"]],
+  modele:"Mélenchon estime être le seul à pouvoir gagner et demande aux autres de s'effacer, mais le reste de la gauche refuse de se rallier à lui."},
+ {q:"Sers-toi du simulateur : qu'arrive-t-il au centre droit s'il présente deux candidats au lieu d'un ?",
+  cles:[["divise","separe","partage","deux"],["elimine","pas au second","second tour","qualifie","perd"]],
+  modele:"Ses voix se divisent entre Philippe et Attal, si bien qu'aucun des deux n'atteint le second tour, alors qu'un candidat unique y parviendrait."}
+];
+var C=[
+ {def:"interdiction de se présenter à une élection",r:"l'inéligibilité"},
+ {def:"peine qui ne s'applique pas immédiatement",r:"le sursis"},
+ {def:"abandonner, renoncer à la compétition",r:"jeter l'éponge"},
+ {def:"les personnalités les plus importantes d'un parti",r:"les ténors"},
+ {def:"vote interne pour désigner le candidat d'un camp",r:"une primaire"},
+ {def:"usage illégal de l'argent public",r:"le détournement de fonds"}
+];
+var C_OPC=["l'inéligibilité","le sursis","jeter l'éponge","les ténors","une primaire","le détournement de fonds","le scrutin","le bulletin de vote"];
+var CHECK=[
+ "J'ai écrit entre 90 et 120 mots.",
+ "J'ai employé au moins un subjonctif (bien que, pour que, il faut que…).",
+ "J'ai utilisé deux connecteurs logiques (cependant, en revanche, par conséquent…).",
+ "J'ai cité une donnée chiffrée du dossier (30 %, 14 %, 45 mois…).",
+ "J'ai donné un avis clair, pas seulement un résumé."
+];
+var etat={A:{},B:{},C:{},pointsA:0,pointsB:0,pointsC:0};
+
+var wrapA=$("#secA");
+A.forEach(function(item,i){
+  var fb=el("div",{class:"fb"}),opts=el("div",{class:"opts"});
+  var et=[["V","Vrai"],["F","Faux"],["NM","Non mentionné"]],bs=[];
+  et.forEach(function(p){
+    var b=el("button",{class:"opt",type:"button"},p[1]);
+    b.addEventListener("click",function(){
+      if(etat.A[i]!=null)return;
+      etat.A[i]=p[0];
+      var bon=(p[0]===item.r);
+      bs.forEach(function(x,k){x.disabled=true; if(et[k][0]===item.r)x.className="opt good";});
+      if(!bon)b.className="opt bad";
+      fb.className="fb show "+(bon?"good":"bad");
+      fb.innerHTML=(bon?"<b>Exact.</b> ":"<b>Non.</b> La réponse est « "+
+        (item.r==="V"?"vrai":item.r==="F"?"faux":"non mentionné")+" ». ")+item.x;
+      if(bon)etat.pointsA++;
+      peindre();
+    });
+    bs.push(b);opts.appendChild(b);
+  });
+  wrapA.appendChild(el("div",{class:"q"},el("div",{class:"q-num"},"A"+(i+1)),
+    el("div",{class:"q-text"},item.t),opts,fb));
+});
+
+var wrapB=$("#secB");
+B.forEach(function(item,i){
+  var inp=el("textarea",{class:"typed",style:"min-height:70px",placeholder:"Ta réponse en français…"});
+  attachPad(inp);
+  var fb=el("div",{class:"fb"});
+  var btn=el("button",{class:"btn small primary",type:"button"},"Vérifier");
+  var moi=el("button",{class:"btn small ghost hidden",type:"button"},"Ma réponse est aussi valable");
+  btn.addEventListener("click",function(){
+    var txt=norm(inp.value); if(!txt)return;
+    var n=0;
+    item.cles.forEach(function(g){
+      for(var k=0;k<g.length;k++){ if(txt.indexOf(norm(g[k]))>=0){n++;return;} }
+    });
+    var note=(n===item.cles.length)?2:(n>0?1:0);
+    etat.B[i]=note; btn.disabled=true; inp.readOnly=true;
+    fb.className="fb show "+(note===2?"good":note===1?"info":"bad");
+    fb.innerHTML=(note===2?"<b>Très bien.</b> ":note===1?"<b>Sur la bonne voie</b>, mais il manque une idée. ":"<b>Relis le dilemme concerné.</b> ")
+      +"<br><b>Réponse modèle :</b> "+item.modele;
+    if(note<2)moi.classList.remove("hidden");
+    etat.pointsB+=note; peindre();
+  });
+  moi.addEventListener("click",function(){
+    etat.pointsB+=2-etat.B[i]; etat.B[i]=2;
+    moi.disabled=true; moi.textContent="Acceptée ✓"; fb.className="fb show good"; peindre();
+  });
+  wrapB.appendChild(el("div",{class:"q"},el("div",{class:"q-num"},"B"+(i+1)),
+    el("div",{class:"q-text"},item.q),inp,el("div",{class:"btn-row"},btn,moi),fb));
+  item._inp=inp;
+});
+
+var wrapC=$("#secC");
+C.forEach(function(item,i){
+  var sel=el("select",{class:"typed"});
+  sel.appendChild(el("option",{value:""},"— choisis —"));
+  C_OPC.forEach(function(o){sel.appendChild(el("option",{value:o},o));});
+  item._sel=sel;
+  wrapC.appendChild(el("div",{class:"lex-row"},
+    el("div",{class:"def"},el("b",null,"C"+(i+1)+". "),item.def),sel));
+});
+$("#btnC").addEventListener("click",function(){
+  var bons=0;
+  C.forEach(function(item,i){
+    var v=item._sel.value; etat.C[i]=v; item._sel.disabled=true;
+    var l=item._sel.parentNode;
+    if(v===item.r){bons++;l.style.borderColor="var(--vert)";l.style.background="var(--vert-pale)";}
+    else{l.style.borderColor="var(--rouge)";l.style.background="var(--rouge-pale)";
+      l.appendChild(el("div",{style:"font-size:.8rem;color:#8A1020;width:100%"},"→ "+item.r));}
+  });
+  etat.pointsC=bons; $("#btnC").disabled=true;
+  var fb=$("#fbC");
+  fb.className="fb show "+(bons===C.length?"good":(bons>=C.length/2?"info":"bad"));
+  fb.innerHTML="<b>"+bons+" sur "+C.length+"</b> bonnes réponses.";
+  peindre();
+});
+
+var redaction=$("#redaction");
+attachPad(redaction);
+redaction.addEventListener("input",function(){
+  var n=redaction.value.trim().split(/\s+/).filter(function(w){return w.length;}).length;
+  var wc=$("#wc");
+  wc.textContent=n+" mot"+(n===1?"":"s")+(n<90?" · il en manque "+(90-n):(n>120?" · "+(n-120)+" de trop":" ✓"));
+  wc.className="wc"+((n>=90&&n<=120)?" ok":"");
+});
+var liste=$("#checklist");
+CHECK.forEach(function(t,i){
+  var cb=el("input",{type:"checkbox",id:"chk"+i});
+  liste.appendChild(el("li",null,cb,el("label",{for:"chk"+i},t)));
+});
+function peindre(){
+  var mA=A.length,mB=B.length*2,mC=C.length;
+  $("#kA").textContent=etat.pointsA+"/"+mA;
+  $("#kB").textContent=etat.pointsB+"/"+mB;
+  $("#kC").textContent=etat.pointsC+"/"+mC;
+  var t=etat.pointsA+etat.pointsB+etat.pointsC,max=mA+mB+mC;
+  var pc=Math.round(100*t/max);
+  $("#kT").textContent=pc+" %";
+  var b=$("#barT"); b.style.width=pc+"%";
+  b.className=(pc<50?"low":(pc<75?"warn":""));
+}
+peindre();
+
+$("#btnLire").addEventListener("click",function(){
+  if(!("speechSynthesis" in window)){alert("Ton navigateur ne propose pas de voix.");return;}
+  var texte=Array.prototype.slice.call(document.querySelectorAll(".dilemme p"))
+    .map(function(p){return p.textContent;}).join(" ");
+  var u=new SpeechSynthesisUtterance(texte);
+  var vs=speechSynthesis.getVoices()||[],best=null,bp=-1;
+  vs.forEach(function(v){
+    if(!v.lang||v.lang.toLowerCase().indexOf("fr")!==0)return;
+    var p=0,n=(v.name||"").toLowerCase();
+    if(v.lang.replace("_","-")==="fr-FR")p+=40;
+    if(/natural|neural|premium|enhanced|siri/.test(n))p+=45;
+    if(/google/.test(n))p+=30;
+    if(v.localService===false)p+=20;
+    if(/espeak|compact/.test(n))p-=60;
+    if(p>bp){bp=p;best=v;}
+  });
+  if(best)u.voice=best;
+  u.lang="fr-FR";u.rate=0.9;
+  speechSynthesis.cancel();speechSynthesis.speak(u);
+});
+$("#btnImprimer").addEventListener("click",function(){window.print();});
+
+$("#btnTelecharger").addEventListener("click",function(){
+  var nom=$("#nom").value.trim()||"(sans nom)",d=new Date(),L=[];
+  L.push("A-LEVEL FRENCH · BBA — Thème 3 · La réaction politique");
+  L.push("Présidentielle 2027 : qui ira au second tour ? — dossier B2");
+  L.push("Élève : "+nom);
+  L.push("Date : "+d.toLocaleDateString("fr-FR")+" "+d.toLocaleTimeString("fr-FR"));
+  L.push("");
+  L.push("NOTES");
+  L.push("  Section A : "+etat.pointsA+"/"+A.length);
+  L.push("  Section B : "+etat.pointsB+"/"+(B.length*2));
+  L.push("  Section C : "+etat.pointsC+"/"+C.length);
+  var tot=etat.pointsA+etat.pointsB+etat.pointsC,max=A.length+B.length*2+C.length;
+  L.push("  TOTAL : "+tot+"/"+max+" ("+Math.round(100*tot/max)+" %)");
+  L.push("");
+  L.push("SECTION A");
+  A.forEach(function(item,i){
+    var r=etat.A[i];
+    L.push("  A"+(i+1)+". "+item.t);
+    L.push("      réponse : "+(r?(r==="V"?"vrai":(r==="F"?"faux":"non mentionné")):"(sans réponse)")
+      +"  ·  correcte : "+(item.r==="V"?"vrai":(item.r==="F"?"faux":"non mentionné")));
+  });
+  L.push("");
+  L.push("SECTION B");
+  B.forEach(function(item,i){
+    L.push("  B"+(i+1)+". "+item.q);
+    L.push("      réponse : "+(item._inp.value.trim()||"(sans réponse)"));
+    L.push("      note : "+(etat.B[i]!=null?etat.B[i]:0)+"/2");
+  });
+  L.push("");
+  L.push("SECTION C");
+  C.forEach(function(item,i){
+    L.push("  C"+(i+1)+". "+item.def+" → "+(etat.C[i]||"(sans réponse)")+"  ·  correcte : "+item.r);
+  });
+  L.push("");
+  L.push("SECTION D · PRODUCTION ÉCRITE");
+  var mots=redaction.value.trim().split(/\s+/).filter(function(w){return w.length;}).length;
+  L.push("  ("+mots+" mots)");
+  L.push("  "+(redaction.value.trim()||"(sans réponse)"));
+  L.push("");
+  L.push("  Auto-évaluation :");
+  CHECK.forEach(function(t,i){
+    var c=document.getElementById("chk"+i);
+    L.push("    ["+((c&&c.checked)?"x":" ")+"] "+t);
+  });
+  var blob=new Blob([L.join("\n")],{type:"text/plain;charset=utf-8"});
+  var url=URL.createObjectURL(blob),a=document.createElement("a");
+  a.href=url;
+  a.download="Presidentielle2027_"+nom.replace(/[^\wàâçéèêëîïôûùüœ]+/g,"_")+".txt";
+  document.body.appendChild(a);a.click();document.body.removeChild(a);
+  setTimeout(function(){URL.revokeObjectURL(url);},1500);
+});
+$("#btnReinit").addEventListener("click",function(){
+  if(confirm("Effacer toutes tes réponses et recommencer ?"))location.reload();
+});
+})();
+</script>
+</body>
+</html>
