@@ -1,0 +1,1036 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Entraîneur de grammaire · Base A-Level · A-Level Français</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Narrow:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --tinta:#16242F;--tinta-70:rgba(22,36,47,.70);--tinta-45:rgba(22,36,47,.45);
+  --plano:#E7EBED;--plano-alto:#F5F7F8;
+  --verde:#2F5D50;--verde-claro:#DCE8E2;
+  --azulejo:#3D6E8C;--azulejo-claro:#E3ECF2;
+  --ambar:#B8862F;--ambar-claro:#FAF1DE;
+  --rojo:#A4382C;
+  --linea:rgba(22,36,47,.16);
+  --display:'Archivo Narrow',system-ui,sans-serif;
+  --cuerpo:'Source Serif 4',Georgia,serif;
+  --dato:'IBM Plex Mono',ui-monospace,monospace;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+body{
+  margin:0;background:var(--plano);
+  background-image:linear-gradient(var(--linea) 1px,transparent 1px),linear-gradient(90deg,var(--linea) 1px,transparent 1px);
+  background-size:44px 44px;
+  color:var(--tinta);font-family:var(--cuerpo);font-size:18px;line-height:1.62;padding-bottom:7rem;
+}
+.envoltorio{max-width:900px;margin:0 auto;padding:0 1.1rem}
+
+header.cabecera{background:var(--tinta);color:var(--plano-alto);border-bottom:5px solid var(--verde)}
+.cabecera .envoltorio{padding-top:2.2rem;padding-bottom:1.5rem}
+.eyebrow{font-family:var(--dato);font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;color:#9FB4A9;margin:0 0 .8rem}
+h1{font-family:var(--display);font-weight:700;font-size:clamp(2rem,6.2vw,3.2rem);line-height:1.02;margin:0 0 .7rem;text-transform:uppercase}
+h1 em{font-style:normal;color:#8FBFAE}
+.sumario{margin:0;max-width:56ch;color:#CBD6DA;font-size:1rem}
+
+/* barra de bloques */
+.mapa{margin-top:1.6rem;border-top:1px solid rgba(255,255,255,.18);padding-top:1.1rem}
+.chips{display:flex;flex-wrap:wrap;gap:5px}
+.chips a{
+  font-family:var(--dato);font-size:.72rem;text-decoration:none;color:#CBD6DA;
+  border:1px solid rgba(255,255,255,.25);border-radius:2px;padding:.25rem .55rem;min-width:2.1rem;text-align:center
+}
+.chips a:hover{border-color:#8FBFAE;color:#fff}
+.chips a.parcial{background:var(--ambar);border-color:var(--ambar);color:#1a1204}
+.chips a.completa{background:#8FBFAE;border-color:#8FBFAE;color:#12241d;font-weight:600}
+.leyenda{font-family:var(--dato);font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:#9FB4A9;margin:.75rem 0 0}
+
+/* identidad */
+.identidad{background:var(--tinta);border-bottom:1px solid rgba(255,255,255,.15)}
+.identidad .envoltorio{display:flex;align-items:center;gap:.75rem;flex-wrap:wrap;padding-top:.7rem;padding-bottom:.7rem}
+.identidad label{font-family:var(--dato);font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:#9FB4A9}
+.identidad input{
+  font-family:var(--cuerpo);font-size:.95rem;background:rgba(255,255,255,.09);color:#fff;
+  border:1px solid rgba(255,255,255,.3);border-radius:2px;padding:.35rem .6rem;width:min(100%,17rem)
+}
+.identidad input::placeholder{color:rgba(255,255,255,.42)}
+.identidad .aviso{font-family:var(--dato);font-size:.68rem;color:#9FB4A9;margin-left:auto}
+
+/* secciones */
+section{margin-top:2.8rem;scroll-margin-top:.8rem}
+.rotulo{display:flex;align-items:baseline;gap:.7rem;border-bottom:2px solid var(--tinta);padding-bottom:.4rem;margin-bottom:1rem;flex-wrap:wrap}
+.rotulo .clave{font-family:var(--dato);font-size:.74rem;letter-spacing:.12em;color:var(--verde);text-transform:uppercase;white-space:nowrap}
+.rotulo .marcador{margin-left:auto;font-family:var(--dato);font-size:.8rem;color:var(--verde);font-weight:500}
+h2{font-family:var(--display);font-weight:600;font-size:1.45rem;text-transform:uppercase;margin:0;line-height:1.1}
+.consigna{font-size:.95rem;color:var(--tinta-70);margin:0 0 1.1rem;font-style:italic}
+
+/* regla */
+.regla{background:var(--azulejo-claro);border:1px solid var(--linea);border-left:4px solid var(--azulejo);border-radius:3px;padding:1rem 1.1rem;margin:0 0 1.2rem}
+.regla h3{font-family:var(--dato);font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:var(--azulejo);margin:0 0 .5rem;font-weight:500}
+.regla p{margin:0 0 .6rem;font-size:.98rem}
+.regla p:last-child{margin-bottom:0}
+.regla b{font-weight:600}
+.regla code{font-family:var(--dato);font-size:.88rem;background:#fff;padding:.05rem .3rem;border-radius:2px}
+table.conj{border-collapse:collapse;font-family:var(--dato);font-size:.82rem;margin:.2rem 0 .7rem;background:#fff;width:100%}
+table.conj th,table.conj td{border:1px solid var(--linea);padding:.28rem .5rem;text-align:left}
+table.conj th{background:var(--plano);font-weight:500;color:var(--tinta-70)}
+table.conj td:first-child{color:var(--tinta-45)}
+.truco{font-family:var(--dato);font-size:.8rem;background:var(--ambar-claro);border-left:3px solid var(--ambar);padding:.5rem .65rem;border-radius:2px;margin:.6rem 0 0}
+
+.tarjeta{background:var(--plano-alto);border:1px solid var(--linea);border-radius:3px;padding:1.2rem 1.15rem}
+.tarjeta.excepciones{border-left:4px solid var(--ambar)}
+.tarjeta.ampliacion{border-left:4px solid var(--verde)}
+
+ol.items{list-style:none;counter-reset:it;margin:0;padding:0}
+ol.items>li{
+  counter-increment:it;display:grid;grid-template-columns:1.9rem 1fr;gap:.2rem .6rem;
+  padding:.75rem 0;border-top:1px solid var(--linea);align-items:start
+}
+ol.items>li:first-child{border-top:0;padding-top:0}
+ol.items>li::before{content:counter(it) ".";font-family:var(--dato);font-size:.85rem;color:var(--tinta-45);padding-top:.2rem}
+.enunciado{margin:0}
+.etiqueta{font-family:var(--dato);font-size:.72rem;color:var(--azulejo);margin-left:.35rem}
+.respuesta{grid-column:2;margin-top:.5rem;display:flex;flex-wrap:wrap;gap:.45rem;align-items:center}
+.pista{grid-column:2;font-family:var(--dato);font-size:.78rem;margin:.4rem 0 0;line-height:1.55}
+.pista.mal{color:var(--rojo)}
+.pista.bien{color:var(--verde)}
+.pista.tilde{color:var(--ambar)}
+.modelo{grid-column:2;margin:.5rem 0 0;font-size:.95rem;background:var(--verde-claro);border-left:3px solid var(--verde);padding:.55rem .7rem;border-radius:2px}
+.modelo strong{font-family:var(--dato);font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;display:block;color:var(--verde);margin-bottom:.2rem}
+
+input[type=text],textarea,select{
+  font-family:var(--cuerpo);font-size:1rem;color:var(--tinta);background:#fff;
+  border:1px solid var(--tinta-45);border-radius:2px;padding:.4rem .55rem
+}
+input.corto{width:9rem;text-align:center;font-family:var(--dato);font-size:.95rem}
+input.largo{width:min(100%,26rem)}
+textarea{width:100%;min-height:4.2rem;line-height:1.55;resize:vertical}
+select{width:min(100%,20rem);cursor:pointer}
+input:focus-visible,textarea:focus-visible,select:focus-visible,button:focus-visible,a:focus-visible{outline:3px solid var(--azulejo);outline-offset:1px}
+li.acierto input,li.acierto select,li.acierto textarea{border-color:var(--verde);background:#F1F7F4}
+li.fallo input,li.fallo select,li.fallo textarea{border-color:var(--rojo);background:#FCF3F2}
+
+.opciones{display:flex;flex-wrap:wrap;gap:.4rem}
+.opcion{position:relative}
+.opcion input{position:absolute;opacity:0;width:100%;height:100%;left:0;top:0;margin:0;cursor:pointer}
+.opcion span{
+  display:block;font-family:var(--dato);font-size:.8rem;padding:.32rem .7rem;
+  border:1px solid var(--tinta-45);border-radius:2px;background:#fff
+}
+.opcion input:checked+span{background:var(--tinta);color:var(--plano-alto);border-color:var(--tinta)}
+.opcion input:focus-visible+span{outline:3px solid var(--azulejo);outline-offset:1px}
+
+.banco{display:flex;flex-wrap:wrap;gap:.35rem;margin:0 0 1.1rem;padding:.75rem .8rem;background:#fff;border:1px dashed var(--tinta-45);border-radius:3px}
+.banco b{font-family:var(--dato);font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:var(--tinta-45);width:100%;font-weight:500}
+.banco span{font-family:var(--dato);font-size:.85rem;background:var(--plano);padding:.15rem .5rem;border-radius:2px}
+
+.barra{display:flex;flex-wrap:wrap;gap:.6rem;align-items:center;margin-top:1.2rem}
+button{
+  font-family:var(--dato);font-size:.78rem;letter-spacing:.08em;text-transform:uppercase;
+  padding:.55rem .95rem;border-radius:2px;cursor:pointer;border:1px solid var(--tinta);
+  background:var(--tinta);color:var(--plano-alto);transition:transform .12s ease
+}
+button:hover{transform:translateY(-1px)}
+button.secundario{background:transparent;color:var(--tinta)}
+button.peligro{background:transparent;color:var(--rojo);border-color:var(--rojo)}
+button[hidden]{display:none}
+
+/* informe */
+.resumen{display:grid;gap:.7rem;grid-template-columns:repeat(auto-fit,minmax(118px,1fr));margin:0 0 1.2rem}
+.cifra{background:#fff;border:1px solid var(--linea);border-radius:3px;padding:.7rem .5rem;text-align:center}
+.cifra b{display:block;font-family:var(--display);font-size:1.75rem;line-height:1;font-weight:700}
+.cifra span{font-family:var(--dato);font-size:.62rem;letter-spacing:.07em;text-transform:uppercase;color:var(--tinta-45)}
+table.desglose{width:100%;border-collapse:collapse;font-size:.9rem}
+table.desglose th{text-align:left;font-family:var(--dato);font-size:.66rem;letter-spacing:.08em;text-transform:uppercase;color:var(--tinta-45);border-bottom:2px solid var(--tinta);padding:.4rem .5rem;font-weight:500}
+table.desglose td{border-bottom:1px solid var(--linea);padding:.4rem .5rem}
+table.desglose td.n{font-family:var(--dato);text-align:right;white-space:nowrap}
+table.desglose tr.pendiente td{color:var(--tinta-45)}
+table.desglose td .mini{display:inline-block;height:6px;width:64px;background:var(--linea);border-radius:3px;overflow:hidden;vertical-align:middle;margin-right:.4rem}
+table.desglose td .mini i{display:block;height:100%;background:var(--verde)}
+.nota-guardado{font-family:var(--dato);font-size:.72rem;color:var(--tinta-45);margin:.8rem 0 0}
+
+.teclado{
+  position:fixed;left:0;right:0;bottom:0;z-index:40;background:var(--tinta);
+  border-top:1px solid rgba(255,255,255,.2);padding:.5rem .6rem;
+  display:flex;gap:.35rem;justify-content:center;flex-wrap:wrap;
+  transform:translateY(120%);transition:transform .25s ease
+}
+.teclado.visible{transform:translateY(0)}
+.teclado button{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.28);color:#fff;font-size:1rem;padding:.4rem .75rem;text-transform:none;letter-spacing:0}
+
+footer{margin-top:3.2rem;border-top:1px solid var(--linea);padding-top:1.1rem;font-family:var(--dato);font-size:.72rem;color:var(--tinta-45);line-height:1.6}
+
+@media (max-width:560px){
+  body{font-size:17px}
+  ol.items>li{grid-template-columns:1.5rem 1fr}
+  .identidad .aviso{margin-left:0;width:100%}
+  input.corto{width:7.5rem}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}html{scroll-behavior:auto}}
+@media print{body{background:#fff;padding:0}.teclado,.barra,.mapa,.identidad,.chips{display:none}section{break-inside:avoid}}
+</style>
+</head>
+<body>
+
+<header class="cabecera">
+  <div class="envoltorio">
+    <p class="eyebrow">A-Level Français · Edexcel 9FR0 · Entraînement de base</p>
+    <h1>La grammaire<br><em>qui porte tout</em></h1>
+    <p class="sumario">Douze blocs qui couvrent exactement la grammaire du test de positionnement d'entrée. Chaque bloc commence par la règle et un exemple résolu ; ensuite tu pratiques. Tout se corrige seul et fonctionne sans connexion.</p>
+    <div class="mapa">
+      <div class="chips" id="chips"></div>
+      <p class="leyenda" id="leyenda">12 blocs · aucun corrigé pour l'instant</p>
+    </div>
+  </div>
+</header>
+
+<div class="identidad">
+  <div class="envoltorio">
+    <label for="nombre">Ton nom</label>
+    <input id="nombre" type="text" placeholder="Prénom + initiale, ex. Sophie K." autocomplete="off" spellcheck="false">
+    <span class="aviso" id="avisoGuardado">tes réponses sont enregistrées sur cet appareil</span>
+  </div>
+</div>
+
+<main class="envoltorio">
+  <div id="bloques"></div>
+
+  <section id="MIX">
+    <div class="rotulo"><span class="clave">Révision mêlée</span><h2>Tout mélangé</h2>
+      <span class="marcador" id="marcMix" aria-live="polite"></span></div>
+    <div class="regla">
+      <h3>Pourquoi mélanger</h3>
+      <p>Enchaîner un bloc entier est confortable et trompeur : tu réussis parce que tu sais déjà quel type de question arrive. Quand les questions sont mêlées, il faut d'abord <b>décider quelle règle s'applique</b> — et c'est exactement ce que l'examen demande.</p>
+      <p class="truco">↳ Fais les blocs une fois, puis n'utilise plus que cette section. Génère une nouvelle série à chaque fois.</p>
+    </div>
+    <p class="consigna">Quinze questions au hasard, tous blocs confondus. Elles ne sont pas enregistrées : c'est de l'entraînement, pas une note.</p>
+    <div class="tarjeta">
+      <div id="zonaMix"></div>
+      <div class="barra">
+        <button id="btnGenerar">Générer 15 questions</button>
+        <button class="secundario" id="btnCompMix" hidden>Vérifier</button>
+        <button class="secundario" id="btnVerMix" hidden>Voir les corrigés</button>
+      </div>
+      <p class="nota-guardado" id="notaMix"></p>
+    </div>
+  </section>
+
+  <section id="informe">
+    <div class="rotulo"><span class="clave">Bilan</span><h2>Ton travail</h2></div>
+    <p class="consigna">Télécharge ton bilan et transmets-le à ton professeur. Il porte ton nom, le score de chaque bloc et ce que tu as écrit.</p>
+    <div class="tarjeta">
+      <div class="resumen">
+        <div class="cifra"><b id="cBloques">0</b><span>blocs corrigés</span></div>
+        <div class="cifra"><b id="cPunt">—</b><span>points</span></div>
+        <div class="cifra"><b id="cPct">0 %</b><span>de réussite</span></div>
+        <div class="cifra"><b id="cFlojo">—</b><span>bloc le plus faible</span></div>
+      </div>
+      <table class="desglose">
+        <thead><tr><th>Bloc</th><th style="text-align:right">Résultat</th></tr></thead>
+        <tbody id="tbDesglose"></tbody>
+      </table>
+      <div class="barra">
+        <button id="btnInforme">Télécharger mon bilan</button>
+        <button class="secundario" onclick="window.print()">Imprimer / PDF</button>
+        <button class="peligro" id="btnBorrar">Effacer mes réponses</button>
+      </div>
+      <p class="nota-guardado" id="notaGuardado"></p>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <p>Entraîneur de grammaire de base · Edexcel A-Level Français (9FR0) · BBA Sixth Form. Les blocs A–J sont de la grammaire à règle : tout s'y déduit. Le bloc K rassemble les exceptions et le dit ; le bloc L va au-delà de ce qu'on attend à l'entrée. Tes réponses restent dans ce navigateur et ne sont envoyées nulle part.</p>
+</footer>
+
+<div class="teclado" id="teclado" role="toolbar" aria-label="Clavier d'accents"></div>
+
+<script>
+/* ============================================================
+   CONTENIDO
+   Bloques A–J: solo gramática con regla. Ningún verbo irregular
+   ni género irregular aparece como respuesta antes del bloque K.
+   ============================================================ */
+const BLOQUES = [
+{
+ id:'A', clave:'Bloc A', titulo:'Le présent : les verbes réguliers',
+ regla:{
+   texto:'<p>On enlève la terminaison de l\'infinitif (<code>-er</code>, <code>-ir</code>, <code>-re</code>) et on ajoute celle de la personne. Les verbes en <code>-ir</code> intercalent <code>-iss-</code> au pluriel.</p>',
+   tabla:[['','parler (-er)','finir (-ir)','attendre (-re)'],
+          ['je','parl<b>e</b>','fin<b>is</b>','attend<b>s</b>'],
+          ['tu','parl<b>es</b>','fin<b>is</b>','attend<b>s</b>'],
+          ['il / elle','parl<b>e</b>','fin<b>it</b>','attend <i>(rien)</i>'],
+          ['nous','parl<b>ons</b>','fin<b>issons</b>','attend<b>ons</b>'],
+          ['vous','parl<b>ez</b>','fin<b>issez</b>','attend<b>ez</b>'],
+          ['ils / elles','parl<b>ent</b>','fin<b>issent</b>','attend<b>ent</b>']],
+   truco:'Piège d\'oreille : -e, -es et -ent ne s\'entendent pas. « je parle », « tu parles » et « ils parlent » se prononcent pareil — seule l\'écriture les distingue. Écoute la personne, pas le verbe.'
+ },
+ consigna:'Écris le verbe à la personne demandée. L\'orthographe compte.',
+ tipo:'hueco',
+ items:[
+  {texto:'Je ________ français tous les jours.', inf:'parler, je', ok:['parle'], nota:'-er à la 1re personne : parl + e.'},
+  {texto:'Ils ________ beaucoup de fruits.', inf:'manger, ils', ok:['mangent'], nota:'-er à la 3e du pluriel : -ent, muet.'},
+  {texto:'Nous ________ à Manchester.', inf:'habiter, nous', ok:['habitons'], nota:'-er à la 1re du pluriel : -ons.'},
+  {texto:'Tu ________ le week-end ?', inf:'travailler, tu', ok:['travailles'], nota:'-er à la 2e personne : -es, muet lui aussi.'},
+  {texto:'Nous ________ toujours avant midi.', inf:'finir, nous', ok:['finissons'], nota:'Les verbes en -ir prennent -iss- au pluriel : finissons.'},
+  {texto:'Elle ________ à la question.', inf:'répondre, elle', ok:['répond'], nota:'-re à la 3e du singulier : aucune terminaison, juste le radical.'},
+  {texto:'Les élèves ________ leur option.', inf:'choisir, ils', ok:['choisissent'], nota:'-ir au pluriel : chois + issent.'},
+  {texto:'Nous ________ le bus depuis dix minutes.', inf:'attendre, nous', ok:['attendons'], nota:'-re à la 1re du pluriel : -ons.'}
+ ]
+},
+{
+ id:'B', clave:'Bloc B', titulo:'Les noms et les adjectifs : l\'accord',
+ regla:{
+   texto:'<p>L\'adjectif copie le <b>genre</b> et le <b>nombre</b> du nom : on ajoute <code>-e</code> au féminin, <code>-s</code> au pluriel. Certaines terminaisons ont leur propre règle, mais c\'est bien une règle.</p>',
+   tabla:[['terminaison','masculin','féminin'],
+          ['normale','grand','grand<b>e</b>'],
+          ['déjà en -e','difficile','difficile <i>(rien)</i>'],
+          ['-f','sporti<b>f</b>','sporti<b>ve</b>'],
+          ['-eux','heur<b>eux</b>','heur<b>euse</b>'],
+          ['-er','premi<b>er</b>','premi<b>ère</b>']],
+   truco:'Un adjectif déjà terminé par -e ne bouge pas au féminin : « un exercice difficile », « une question difficile ». Il prend quand même le -s du pluriel.'
+ },
+ consigna:'Écris l\'adjectif à la forme demandée par le nom.',
+ tipo:'hueco',
+ items:[
+  {texto:'J\'ai deux frères ________.', inf:'grand', ok:['grands'], nota:'Masculin pluriel : + s.'},
+  {texto:'Les maisons du village sont ________.', inf:'petit', ok:['petites'], nota:'Féminin pluriel : + e puis + s.'},
+  {texto:'C\'est une histoire très ________.', inf:'intéressant', ok:['intéressante'], nota:'Féminin singulier : + e.'},
+  {texto:'Ma sœur est très ________.', inf:'sportif', ok:['sportive'], nota:'Les adjectifs en -f font -ve au féminin.'},
+  {texto:'Ce sont des filles ________.', inf:'heureux', ok:['heureuses'], nota:'Les adjectifs en -eux font -euse, puis -euses au pluriel.'},
+  {texto:'C\'est la ________ fois que je viens.', inf:'premier', ok:['première'], nota:'Les adjectifs en -er font -ère au féminin.'},
+  {texto:'Ce sont des exercices ________.', inf:'difficile', ok:['difficiles'], nota:'Déjà en -e : seul le pluriel change.'},
+  {texto:'Nous avons pris une décision ________.', inf:'important', ok:['importante'], nota:'Féminin singulier : + e.'}
+ ]
+},
+{
+ id:'C', clave:'Bloc C', titulo:'La négation, les questions et l\'ordre des mots',
+ regla:{
+   texto:'<p><b>La négation encadre le verbe conjugué :</b> <code>ne</code> devant, <code>pas</code> derrière. Au passé composé, elle encadre l\'<b>auxiliaire</b>, pas le participe : <i>je <b>n\'</b>ai <b>pas</b> mangé</i>.</p><p><b>Les questions :</b> à l\'inversion, on intercale un <code>-t-</code> quand deux voyelles se rencontrent — <i>habite-<b>t</b>-elle</i>.</p>',
+   tabla:[['sens','forme'],
+          ['pas du tout','ne … pas'],
+          ['rien','ne … rien'],
+          ['personne','ne … personne'],
+          ['jamais','ne … jamais'],
+          ['plus (fini)','ne … plus']],
+   truco:'Quand la négation est le sujet, elle passe devant et le « ne » reste : « Personne n\'est venu », « Rien ne marche ».'
+ },
+ consigna:'Choisis la forme correcte.',
+ tipo:'opcion',
+ items:[
+  {texto:'« I don\'t speak Italian. »', opciones:['Je ne parle pas italien.','Je parle ne pas italien.','Je ne pas parle italien.'], ok:'Je ne parle pas italien.', nota:'« ne » devant le verbe conjugué, « pas » derrière.'},
+  {texto:'Elle n\'a ________ compris. (nothing)', opciones:['rien','personne','aucun'], ok:'rien', nota:'Au passé composé, « rien » se place entre l\'auxiliaire et le participe.'},
+  {texto:'________ n\'est venu à la réunion.', opciones:['Personne','Rien','Jamais'], ok:'Personne', nota:'Sujet négatif : il passe devant et « ne » reste.'},
+  {texto:'Quelle question est correctement construite ?', opciones:['Où habite-t-elle ?','Où habite-elle ?','Où habite elle ?'], ok:'Où habite-t-elle ?', nota:'Deux voyelles se rencontrent : on intercale un -t- euphonique.'},
+  {texto:'Je ne vois ________. (nobody)', opciones:['personne','rien','plus'], ok:'personne', nota:'« personne » pour les gens, « rien » pour les choses.'},
+  {texto:'Laquelle est correcte au passé composé ?', opciones:['Je n\'ai pas mangé.','Je n\'ai mangé pas.','Je ne mangé pas ai.'], ok:'Je n\'ai pas mangé.', nota:'La négation encadre l\'auxiliaire, jamais le participe.'},
+  {texto:'________ penses-tu de ce film ?', opciones:['Que','Quoi','Qui'], ok:'Que', nota:'« Que penses-tu de… ? » — « quoi » ne s\'emploie pas devant le verbe.'},
+  {texto:'Il ne fume ________. (no longer)', opciones:['plus','pas','jamais'], ok:'plus', nota:'« ne … plus » marque l\'arrêt de quelque chose.'}
+ ]
+},
+{
+ id:'D', clave:'Bloc D', titulo:'Le passé composé : la formation régulière',
+ regla:{
+   texto:'<p>Deux morceaux : l\'auxiliaire <code>avoir</code> au présent, puis le <b>participe passé</b>. Le participe régulier se déduit de l\'infinitif.</p>',
+   tabla:[['infinitif','participe','exemple'],
+          ['-er → -<b>é</b>','parlé','j\'ai parlé'],
+          ['-ir → -<b>i</b>','fini','j\'ai fini'],
+          ['-re → -<b>u</b>','attendu','j\'ai attendu']],
+   truco:'Écris les deux mots. L\'erreur la plus fréquente est de conjuguer le verbe et d\'oublier l\'auxiliaire : « j\'ai parlé », jamais « je parlé ». Une franchise : « avoir » est lui-même irrégulier, et c\'est le seul irrégulier de ce bloc — impossible de faire un passé composé sans lui. Si ses formes ne sont pas encore automatiques, va voir le bloc K.'
+ },
+ consigna:'Écris le passé composé complet, auxiliaire compris.',
+ tipo:'hueco', largo:true,
+ items:[
+  {texto:'Hier, j\'________ avec mes amis.', inf:'parler, je', ok:['ai parlé'], nota:'avoir + participe en -é.'},
+  {texto:'Nous ________ le musée du Louvre.', inf:'visiter, nous', ok:['avons visité'], nota:'nous avons + visité.'},
+  {texto:'Ils ________ leurs devoirs à dix heures.', inf:'finir, ils', ok:['ont fini'], nota:'Verbe en -ir : participe en -i.'},
+  {texto:'Tu ________ le travail hier soir ?', inf:'terminer, tu', ok:['as terminé'], nota:'tu as + terminé.'},
+  {texto:'Elle ________ sa voiture le mois dernier.', inf:'vendre, elle', ok:['a vendu'], nota:'Verbe en -re : participe en -u.'},
+  {texto:'Vous ________ la question ?', inf:'entendre, vous', ok:['avez entendu'], nota:'vous avez + entendu.'},
+  {texto:'J\'________ ce livre à la bibliothèque.', inf:'choisir, je', ok:['ai choisi'], nota:'Verbe en -ir : participe en -i.'},
+  {texto:'Nous ________ longtemps devant le cinéma.', inf:'attendre, nous', ok:['avons attendu'], nota:'nous avons + attendu.'}
+ ]
+},
+{
+ id:'E', clave:'Bloc E', titulo:'Passé composé ou imparfait',
+ regla:{
+   texto:'<p>Les deux racontent le passé, mais pas le même travail.</p><p><b>Passé composé</b> — un fait terminé, qu\'on peut compter : <i>hier, soudain, l\'été dernier</i>.</p><p><b>Imparfait</b> — une habitude, une description, ou le décor sur lequel autre chose arrive : <i>tous les jours, pendant que, quand j\'étais petit</i>.</p>',
+   tabla:[['','imparfait'],
+          ['je / tu','parl<b>ais</b>'],
+          ['il / elle','parl<b>ait</b>'],
+          ['nous','parl<b>ions</b>'],
+          ['vous','parl<b>iez</b>'],
+          ['ils / elles','parl<b>aient</b>']],
+   truco:'L\'imparfait se fabrique sur la forme « nous » du présent : nous parl<b>ons</b> → je parl<b>ais</b>. Ça marche pour presque tous les verbes, même irréguliers.'
+ },
+ consigna:'Choisis le temps que la phrase demande.',
+ tipo:'opcion',
+ items:[
+  {texto:'Hier soir, j\'________ avec mes amis.', opciones:['ai dîné','dînais'], ok:'ai dîné', nota:'« Hier soir » marque un fait unique et terminé.'},
+  {texto:'Quand j\'étais petit, je ________ souvent au parc.', opciones:['jouais','ai joué'], ok:'jouais', nota:'Habitude répétée dans le passé : imparfait.'},
+  {texto:'Tous les étés, nous ________ en Espagne.', opciones:['voyagions','avons voyagé'], ok:'voyagions', nota:'« Tous les étés » signale l\'habitude.'},
+  {texto:'Elle ________ la télévision quand le téléphone a sonné.', opciones:['regardait','a regardé'], ok:'regardait', nota:'C\'est le décor, interrompu par autre chose : imparfait.'},
+  {texto:'Soudain, il ________ à pleuvoir.', opciones:['a commencé','commençait'], ok:'a commencé', nota:'« Soudain » marque la rupture : passé composé.'},
+  {texto:'Pendant que je ________, ma sœur a préparé le dîner.', opciones:['travaillais','ai travaillé'], ok:'travaillais', nota:'« Pendant que » introduit l\'arrière-plan.'},
+  {texto:'L\'été dernier, j\'________ trois romans.', opciones:['ai terminé','terminais'], ok:'ai terminé', nota:'« L\'été dernier » + quantité précise : fait terminé.'},
+  {texto:'Le samedi, elle ________ toujours tard.', opciones:['travaillait','a travaillé'], ok:'travaillait', nota:'« Le samedi » au sens de « tous les samedis » : habitude.'}
+ ]
+},
+{
+ id:'F', clave:'Bloc F', titulo:'Les articles et les partitifs',
+ regla:{
+   texto:'<p>Pour une quantité indéterminée, le français met un <b>partitif</b> : <code>du</code>, <code>de la</code>, <code>de l\'</code>, <code>des</code>. L\'anglais, lui, ne met souvent rien — d\'où l\'oubli.</p><p>Trois situations le font basculer en <code>de</code> tout court :</p>',
+   tabla:[['situation','exemple'],
+          ['après une négation','je n\'ai pas <b>de</b> frères'],
+          ['après une quantité','beaucoup <b>d\'</b>étudiants'],
+          ['adjectif pluriel devant le nom','<b>de</b> bons amis']],
+   truco:'Devant une voyelle, « de la » et « du » deviennent « de l\' » : de l\'eau, de l\'argent. Et pour parler en général, on met l\'article défini : « j\'aime le café » (le café en général), « je bois du café » (une certaine quantité).'
+ },
+ consigna:'Choisis l\'article correct.',
+ tipo:'opcion',
+ items:[
+  {texto:'Je bois ________ eau minérale.', opciones:['de l\'','de la','du'], ok:'de l\'', nota:'« eau » commence par une voyelle : de l\'.'},
+  {texto:'Elle mange ________ viande.', opciones:['de la','du','des'], ok:'de la', nota:'Nom féminin singulier : de la.'},
+  {texto:'Je n\'ai pas ________ frères.', opciones:['de','des','les'], ok:'de', nota:'Après une négation, le partitif devient « de ».'},
+  {texto:'Il y a beaucoup ________ étudiants ici.', opciones:['d\'','des','de les'], ok:'d\'', nota:'Après une quantité : « de », élidé devant la voyelle.'},
+  {texto:'Je voudrais ________ pain, s\'il vous plaît.', opciones:['du','de la','des'], ok:'du', nota:'Nom masculin singulier : du.'},
+  {texto:'Les jeunes s\'intéressent à ________ politique.', opciones:['la','de la','une'], ok:'la', nota:'Sens général : article défini, pas partitif.'},
+  {texto:'Il n\'y a plus ________ lait.', opciones:['de','du','le'], ok:'de', nota:'« ne … plus » est une négation : de.'},
+  {texto:'J\'ai ________ bons amis à Paris.', opciones:['de','des','du'], ok:'de', nota:'Adjectif pluriel devant le nom : « des » devient « de ».'}
+ ]
+},
+{
+ id:'G', clave:'Bloc G', titulo:'Le système des pronoms',
+ regla:{
+   texto:'<p>Le pronom remplace ce qu\'on a déjà nommé et se place <b>devant le verbe conjugué</b>.</p>',
+   tabla:[['','COD (sans préposition)','COI (à quelqu\'un)'],
+          ['me / te','me, te','me, te'],
+          ['il / elle','le, la','lui'],
+          ['nous / vous','nous, vous','nous, vous'],
+          ['ils / elles','les','leur'],
+          ['choses','y <i>(= à …)</i>','en <i>(= de …)</i>']],
+   truco:'Le test : si le verbe se construit avec « à » → COI (lui, leur, y). Avec « de » → en. Sans préposition → COD (le, la, les).'
+ },
+ consigna:'Choisis le pronom correct.',
+ tipo:'opcion',
+ items:[
+  {texto:'Tu as vu Marie ? — Oui, je ________ ai vue.', opciones:['l\'','lui','y'], ok:'l\'', nota:'« voir quelqu\'un » sans préposition : COD, élidé devant la voyelle.'},
+  {texto:'J\'écris à mes parents. → Je ________ écris.', opciones:['leur','les','y'], ok:'leur', nota:'« écrire à » : COI pluriel.'},
+  {texto:'Il pense à son avenir. → Il ________ pense.', opciones:['y','le','lui'], ok:'y', nota:'« à » + chose : y.'},
+  {texto:'Elle a besoin d\'argent. → Elle ________ a besoin.', opciones:['en','y','le'], ok:'en', nota:'« de » + chose : en.'},
+  {texto:'Le livre ________ je t\'ai parlé est excellent.', opciones:['dont','que','qui'], ok:'dont', nota:'« parler de » : le relatif est « dont ».'},
+  {texto:'La ville ________ j\'habite est petite.', opciones:['où','que','dont'], ok:'où', nota:'Lieu : « où ».'},
+  {texto:'Comment dit-on « Give it to me! » ?', opciones:['Donne-le-moi !','Donne-moi-le !','Donne-me-le !'], ok:'Donne-le-moi !', nota:'À l\'impératif affirmatif : COD puis COI, avec « moi ».'},
+  {texto:'________ que je préfère, c\'est la musique.', opciones:['Ce','Ça','Cela'], ok:'Ce', nota:'« ce que » introduit la chose que l\'on précise ensuite.'}
+ ]
+},
+{
+ id:'H', clave:'Bloc H', titulo:'Le futur et le conditionnel',
+ regla:{
+   texto:'<p>Les temps les plus réguliers du français : on ajoute la terminaison à l\'<b>infinitif entier</b>. Pour les verbes en <code>-re</code>, on enlève d\'abord le <code>-e</code> final.</p>',
+   tabla:[['','futur','conditionnel'],
+          ['je','parler<b>ai</b>','parler<b>ais</b>'],
+          ['tu','parler<b>as</b>','parler<b>ais</b>'],
+          ['il / elle','parler<b>a</b>','parler<b>ait</b>'],
+          ['nous','parler<b>ons</b>','parler<b>ions</b>'],
+          ['vous','parler<b>ez</b>','parler<b>iez</b>'],
+          ['ils / elles','parler<b>ont</b>','parler<b>aient</b>']],
+   truco:'Avec « si » : si + présent → futur (si tu viens, nous dînerons). Si + imparfait → conditionnel (si j\'avais le temps, je travaillerais). Jamais de futur juste après « si ».'
+ },
+ consigna:'Écris le verbe au temps demandé.',
+ tipo:'hueco',
+ items:[
+  {texto:'Demain, je ________ avec ma professeure.', inf:'parler, futur', ok:['parlerai'], nota:'Infinitif entier + ai.'},
+  {texto:'L\'année prochaine, nous ________ à Paris.', inf:'habiter, futur', ok:['habiterons'], nota:'habiter + ons.'},
+  {texto:'Si j\'avais le temps, je ________ davantage.', inf:'travailler, conditionnel', ok:['travaillerais'], nota:'Si + imparfait appelle le conditionnel.'},
+  {texto:'Si tu viens ce soir, nous ________ ensemble.', inf:'dîner, futur', ok:['dînerons'], nota:'Si + présent appelle le futur, pas le conditionnel.'},
+  {texto:'Elle m\'a dit qu\'elle ________ à huit heures.', inf:'arriver, conditionnel', ok:['arriverait'], nota:'Après un verbe de parole au passé, le futur devient conditionnel.'},
+  {texto:'Quand tu ________ ce livre, tu comprendras mieux.', inf:'finir, futur', ok:['finiras'], nota:'Après « quand », le français met le futur — l\'anglais met le présent.'},
+  {texto:'Vous ________ bientôt votre option.', inf:'choisir, futur', ok:['choisirez'], nota:'choisir + ez.'},
+  {texto:'À ta place, nous ________ la voiture.', inf:'vendre, conditionnel', ok:['vendrions'], nota:'Verbe en -re : on retire le -e, puis + ions.'}
+ ]
+},
+{
+ id:'I', clave:'Bloc I', titulo:'Les prépositions et les contractions',
+ regla:{
+   texto:'<p><code>à</code> et <code>de</code> fusionnent avec l\'article défini masculin et pluriel. Ce n\'est pas facultatif : « à le cinéma » n\'existe pas.</p>',
+   tabla:[['','+ le','+ la','+ l\'','+ les'],
+          ['à','<b>au</b>','à la','à l\'','<b>aux</b>'],
+          ['de','<b>du</b>','de la','de l\'','<b>des</b>']],
+   truco:'Pays : « en » devant un nom féminin ou une voyelle (en France, en Italie), « au » devant un masculin (au Portugal), « aux » devant un pluriel (aux États-Unis).'
+ },
+ consigna:'Choisis la forme correcte.',
+ tipo:'opcion',
+ items:[
+  {texto:'Je vais ________ cinéma ce soir.', opciones:['au','à le','à la'], ok:'au', nota:'à + le = au. « à le » n\'existe pas.'},
+  {texto:'Nous parlons ________ professeurs.', opciones:['aux','à les','à des'], ok:'aux', nota:'à + les = aux.'},
+  {texto:'C\'est le livre ________ élève.', opciones:['de l\'','du','de la'], ok:'de l\'', nota:'Devant une voyelle : de l\'.'},
+  {texto:'Je reviens ________ Portugal.', opciones:['du','de le','de la'], ok:'du', nota:'de + le = du.'},
+  {texto:'Ma correspondante habite ________ Espagne.', opciones:['en','au','à la'], ok:'en', nota:'Pays féminin : en.'},
+  {texto:'Il part ________ Portugal cet été.', opciones:['au','en','à'], ok:'au', nota:'Pays masculin : au.'},
+  {texto:'Elle va ________ États-Unis.', opciones:['aux','en','au'], ok:'aux', nota:'Pays au pluriel : aux.'},
+  {texto:'Je rentre ________ piscine.', opciones:['de la','du','des'], ok:'de la', nota:'Nom féminin : pas de contraction, de la.'}
+ ]
+},
+{
+ id:'J', clave:'Bloc J', titulo:'Précision écrite',
+ regla:{
+   texto:'<p>Ici, on ne choisit plus : on produit. Ce sont les structures des blocs précédents, mais écrites en entier.</p>',
+   truco:'Écris la phrase complète, majuscule et point compris. Un accent oublié ne t\'enlève pas toute la réponse, mais il te sera signalé.'
+ },
+ consigna:'Écris ta réponse en français. Plusieurs versions correctes sont acceptées.',
+ tipo:'hueco', largo:true,
+ items:[
+  {texto:'Complète : « Quand j\'étais petite, ma mère __________ (travailler) dans une école. »', ok:['travaillait'], nota:'Habitude passée : imparfait.'},
+  {texto:'Complète : « L\'année dernière, nous __________ (visiter) le musée du Louvre. »', ok:['avons visité'], nota:'Fait terminé : passé composé avec avoir.'},
+  {texto:'Traduis : « I speak French every day. »', ok:['je parle français tous les jours','je parle le français tous les jours'], nota:'Présent régulier en -er, 1re personne.'},
+  {texto:'Traduis : « She promised me that she would study medicine. »', ok:['elle m\'a promis qu\'elle étudierait la médecine','elle m\'a promis qu\'elle ferait médecine'], nota:'Verbe de parole au passé → conditionnel dans la subordonnée.'},
+  {texto:'Réécris avec des pronoms : « J\'ai donné le livre à Paul. »', ok:['je le lui ai donné'], nota:'COD puis COI, tous deux devant l\'auxiliaire.'},
+  {texto:'Mets au négatif, au sens de « He has not finished yet » : « Il a déjà fini. »', ok:['il n\'a pas encore fini'], nota:'La négation encadre l\'auxiliaire : n\'a pas encore fini.'}
+ ]
+},
+{
+ id:'K', clave:'Bloc K', titulo:'Les irréguliers et les exceptions', estilo:'excepciones',
+ regla:{
+   texto:'<p>Tout ce qui précède suivait une règle. <b>Pas ici.</b> Le français a une poignée de mots très fréquents qui cassent le modèle. Soit tu les as déjà croisés, soit non : ne pas les savoir indique ce qu\'il faut t\'enseigner, pas la qualité de ton français.</p><p>Chaque question te dit quelle règle est enfreinte. Si tu choisis la forme régulière, tu as bien raisonné — c\'est le mot qui n\'obéit pas.</p>',
+   truco:'Ce sont les plus fréquents. Apprends-les par cœur et cesse de te battre avec : il n\'y a aucune logique à trouver.'
+ },
+ consigna:'De la mémoire, rien d\'autre. Si tu te trompes, note-le et continue.',
+ tipo:'opcion',
+ items:[
+  {texto:'J\'________ raison. (avoir — la forme régulière serait « avais »)', opciones:['ai','ais','avai'], ok:'ai', nota:'avoir : ai, as, a, avons, avez, ont. À apprendre en bloc.'},
+  {texto:'Nous ________ français. (être)', opciones:['sommes','êtons','étons'], ok:'sommes', nota:'être : suis, es, est, sommes, êtes, sont.'},
+  {texto:'Ils ________ au cinéma tous les samedis. (aller)', opciones:['vont','allent','vaient'], ok:'vont', nota:'aller : vais, vas, va, allons, allez, vont.'},
+  {texto:'J\'ai ________ un gâteau. (faire — le participe régulier serait « fairu »)', opciones:['fait','fais','faisu'], ok:'fait', nota:'Participes irréguliers à mémoriser : fait, eu, pris, mis, écrit, ouvert.'},
+  {texto:'Elle est ________ à Paris hier. (aller — et pourquoi « est » et non « a » ?)', opciones:['allée','allé','allés'], ok:'allée', nota:'Aller fait son passé composé avec être, et le participe s\'accorde avec le sujet féminin.'},
+  {texto:'C\'est un ________ homme. (vieux, devant une voyelle)', opciones:['vieil','vieux','vieille'], ok:'vieil', nota:'Devant une voyelle : vieil, bel, nouvel. Question de prononciation, pas de genre.'},
+  {texto:'J\'ai commencé ________ apprendre le français.', opciones:['à','de','—'], ok:'à', nota:'La préposition dépend du verbe et ne se déduit pas : commencer à, décider de, espérer sans rien.'},
+  {texto:'Quand j\'________ dix-huit ans, je passerai mon permis. (avoir, futur)', opciones:['aurai','avrai','airai'], ok:'aurai', nota:'Radical de futur irrégulier : aur-. De même ser-, fer-, ir-, viendr-.'}
+ ]
+},
+{
+ id:'L', clave:'Bloc L', titulo:'Approfondissement : le subjonctif', estilo:'ampliacion',
+ regla:{
+   texto:'<p>On va au-delà de ce qu\'on attend à l\'entrée. Essaie si tu peux ; laisser en blanc ne compte pas contre toi.</p><p>Le subjonctif présent se fabrique sur la forme <b>ils</b> du présent, moins <code>-ent</code>, plus les terminaisons <code>-e, -es, -e, -ions, -iez, -ent</code>.</p>',
+   tabla:[['','indicatif','subjonctif'],
+          ['ils','ils finiss<b>ent</b>','—'],
+          ['que je','','que je finiss<b>e</b>'],
+          ['que tu','','que tu finiss<b>es</b>'],
+          ['qu\'il','','qu\'il finiss<b>e</b>'],
+          ['que nous','','que nous finiss<b>ions</b>']],
+   truco:'C\'est ce qui précède qui déclenche : il faut que, bien que, pour que, vouloir que, avant que, et « je ne pense pas que ». Après « je pense que » affirmatif, on reste à l\'indicatif.'
+ },
+ consigna:'Choisis la forme correcte. Toutes ne demandent pas le subjonctif.',
+ tipo:'opcion',
+ items:[
+  {texto:'Il faut que tu ________ avec nous.', opciones:['viennes','viens','viendras'], ok:'viennes', nota:'« Il faut que » impose le subjonctif.'},
+  {texto:'Bien qu\'il ________ très fatigué, il a continué.', opciones:['soit','est','était'], ok:'soit', nota:'« Bien que » impose toujours le subjonctif.'},
+  {texto:'Je ne pense pas qu\'elle ________ raison.', opciones:['ait','a','aura'], ok:'ait', nota:'« penser » à la forme négative introduit le doute : subjonctif.'},
+  {texto:'Je pense qu\'elle ________ raison.', opciones:['a','ait','aurait'], ok:'a', nota:'À l\'affirmatif, « je pense que » garde l\'indicatif. Attention à l\'automatisme.'},
+  {texto:'Pour que les élèves ________ mieux, il faut des exemples.', opciones:['travaillent','travaillons','travailleront'], ok:'travaillent', nota:'« Pour que » impose le subjonctif.'},
+  {texto:'Je veux que tu ________ tes devoirs ce soir.', opciones:['finisses','finis','finiras'], ok:'finisses', nota:'« vouloir que » impose le subjonctif : finiss- + es.'},
+  {texto:'« Il naquit à Paris en 1802. » Quel est l\'équivalent moderne ?', opciones:['Il est né à Paris en 1802.','Il a né à Paris en 1802.','Il était né à Paris en 1802.'], ok:'Il est né à Paris en 1802.', nota:'C\'est un passé simple, réservé à l\'écrit littéraire. À l\'oral et à l\'écrit courant : passé composé, avec être.'},
+  {texto:'C\'est le projet sur ________ nous travaillons depuis six mois.', opciones:['lequel','que','qui'], ok:'lequel', nota:'Après une préposition et pour une chose : lequel.'}
+ ]
+}
+];
+
+/* ============================================================
+   ESTADO
+   ============================================================ */
+const LS = 'entraineur-gram-fr-v1';
+let S = {nombre:'', resp:{}, marcas:{}, creado:Date.now()};
+try{
+  const c = localStorage.getItem(LS);
+  if(c){ const p = JSON.parse(c); S = Object.assign(S,p); S.resp=S.resp||{}; S.marcas=S.marcas||{}; }
+}catch(e){}
+let guardadoOk = true;
+function guardar(){
+  try{ localStorage.setItem(LS, JSON.stringify(S)); }
+  catch(e){ guardadoOk=false; document.getElementById('avisoGuardado').textContent='impossible d\'enregistrer dans ce navigateur'; }
+}
+
+/* ============================================================
+   UTILIDADES
+   ============================================================ */
+const norm = s => (s||'').toString().toLowerCase().trim()
+  .replace(/[.,;:!¡?¿"'»«]+$/g,'').replace(/\s+/g,' ');
+const sinTilde = s => norm(s).normalize('NFD').replace(/[\u0300-\u036f]/g,'');
+const dosCifras = n => String(n).padStart(2,'0');
+function el(t,c,h){ const n=document.createElement(t); if(c)n.className=c; if(h!==undefined)n.innerHTML=h; return n; }
+
+function reg(nodo,clave){
+  nodo.dataset.k = clave;
+  const v = S.resp[clave];
+  if(v===undefined) return nodo;
+  if(nodo.type==='radio'){ if(nodo.value===v) nodo.checked=true; }
+  else nodo.value = v;
+  return nodo;
+}
+document.addEventListener('input', e=>{
+  const k = e.target.dataset && e.target.dataset.k;
+  if(k){ S.resp[k]=e.target.value; guardar(); }
+});
+document.addEventListener('change', e=>{
+  const k = e.target.dataset && e.target.dataset.k;
+  if(k){ S.resp[k]=e.target.value; guardar(); }
+});
+
+/* ============================================================
+   MAPA DE BLOQUES
+   ============================================================ */
+const chips = document.getElementById('chips');
+BLOQUES.forEach(b=>{
+  const a = el('a',null,b.id);
+  a.href = '#'+b.id; a.id = 'chip-'+b.id;
+  a.title = b.titulo;
+  chips.appendChild(a);
+});
+function pintarMapa(){
+  let corregidos=0, perfectos=0;
+  BLOQUES.forEach(b=>{
+    const m = S.marcas[b.id];
+    const c = document.getElementById('chip-'+b.id);
+    if(!m){ c.className=''; return; }
+    corregidos++;
+    const todo = m.aciertos===m.total;
+    if(todo) perfectos++;
+    c.className = todo ? 'completa' : 'parcial';
+  });
+  document.getElementById('leyenda').textContent = corregidos===0
+    ? BLOQUES.length+' blocs · aucun corrigé pour l\'instant'
+    : `${corregidos} sur ${BLOQUES.length} corrigés · ${perfectos} sans aucune erreur`;
+}
+
+/* ============================================================
+   CONSTRUCCIÓN
+   ============================================================ */
+const zona = document.getElementById('bloques');
+
+BLOQUES.forEach(bl=>{
+  const sec = el('section'); sec.id = bl.id;
+  const rot = el('div','rotulo');
+  rot.appendChild(el('span','clave',bl.clave));
+  rot.appendChild(el('h2',null,bl.titulo));
+  const marc = el('span','marcador',''); marc.setAttribute('aria-live','polite');
+  rot.appendChild(marc);
+  sec.appendChild(rot);
+
+  /* --- la regla --- */
+  const reglaCaja = el('div','regla');
+  reglaCaja.appendChild(el('h3',null,'La règle'));
+  reglaCaja.insertAdjacentHTML('beforeend', bl.regla.texto);
+  if(bl.regla.tabla){
+    const t = el('table','conj');
+    bl.regla.tabla.forEach((fila,i)=>{
+      const tr = el('tr');
+      fila.forEach(celda=> tr.appendChild(el(i===0?'th':'td',null,celda)));
+      t.appendChild(tr);
+    });
+    reglaCaja.appendChild(t);
+  }
+  if(bl.regla.truco) reglaCaja.appendChild(el('p','truco','↳ '+bl.regla.truco));
+  sec.appendChild(reglaCaja);
+
+  sec.appendChild(el('p','consigna',bl.consigna));
+
+  const caja = el('div','tarjeta'+(bl.estilo?' '+bl.estilo:''));
+  const lista = el('ol','items');
+
+  bl.items.forEach((it,j)=>{
+    const li = el('li'); li.dataset.i = j;
+    const tipo = it.opciones ? 'opcion' : bl.tipo;
+    const clave = `${bl.id}i${j}`;
+
+    if(tipo==='opcion'){
+      const p = el('p','enunciado', it.texto);
+      li.appendChild(p);
+      const r = el('div','respuesta');
+      const g = el('div','opciones');
+      it.opciones.forEach(op=>{
+        const lab = el('label','opcion');
+        const inp = el('input'); inp.type='radio'; inp.name=clave; inp.value=op;
+        reg(inp, clave);
+        lab.appendChild(inp); lab.appendChild(el('span',null,op)); g.appendChild(lab);
+      });
+      r.appendChild(g); li.appendChild(r);
+
+    } else {                                   /* hueco */
+      const p = el('p','enunciado', it.texto);
+      if(it.inf) p.appendChild(el('span','etiqueta','('+it.inf+')'));
+      li.appendChild(p);
+      const r = el('div','respuesta');
+      const inp = el('input'); inp.type='text';
+      inp.className = bl.largo ? 'largo' : 'corto';
+      inp.setAttribute('aria-label','Tu respuesta');
+      inp.autocapitalize='off'; inp.spellcheck=false;
+      reg(inp, clave);
+      r.appendChild(inp); li.appendChild(r);
+    }
+    lista.appendChild(li);
+  });
+
+  caja.appendChild(lista);
+
+  const barra = el('div','barra');
+  const bComp = el('button',null,'Vérifier');
+  const bFall = el('button','secundario','Refaire seulement les erreurs'); bFall.hidden = true;
+  const bVer  = el('button','secundario','Voir les corrigés');
+  barra.appendChild(bComp); barra.appendChild(bFall); barra.appendChild(bVer);
+  caja.appendChild(barra);
+  sec.appendChild(caja);
+  zona.appendChild(sec);
+
+  if(S.marcas[bl.id]) marc.textContent = `${S.marcas[bl.id].aciertos} / ${S.marcas[bl.id].total}`;
+
+  function limpiar(li){
+    li.classList.remove('acierto','fallo');
+    li.querySelectorAll('.pista,.modelo').forEach(n=>n.remove());
+  }
+
+  bComp.addEventListener('click',()=>{
+    let aciertos = 0;
+    lista.querySelectorAll('li').forEach(li=>{
+      const j = +li.dataset.i, it = bl.items[j];
+      limpiar(li);
+      const tipo = it.opciones ? 'opcion' : bl.tipo;
+      let bien = false, aviso = null, casi = false;
+
+      if(tipo==='opcion'){
+        const sel = li.querySelector('input:checked');
+        if(!sel) aviso = 'Pas de réponse. C\'était : '+it.ok;
+        else { bien = sel.value===it.ok; if(!bien) aviso = it.nota; }
+      } else {
+        const v = li.querySelector('input').value;
+        if(!v.trim()) aviso = 'Pas de réponse. C\'était : '+it.ok[0];
+        else {
+          bien = it.ok.some(o=>norm(v)===norm(o));
+          if(!bien && it.ok.some(o=>sinTilde(v)===sinTilde(o))){ casi = true; }
+          else if(!bien) aviso = it.nota;
+        }
+      }
+
+      if(bien){ li.classList.add('acierto'); aciertos++; li.appendChild(el('p','pista bien','✓ Correct.')); }
+      else if(casi){ li.classList.add('fallo'); li.appendChild(el('p','pista tilde','⌃ Presque : le mot est bon, vérifie l\'accent.')); }
+      else { li.classList.add('fallo'); li.appendChild(el('p','pista mal','✗ '+aviso)); }
+    });
+    const total = bl.items.length;
+    marc.textContent = `${aciertos} / ${total}`;
+    S.marcas[bl.id] = {aciertos, total, titulo: bl.clave+' — '+bl.titulo};
+    guardar(); pintarMapa(); pintarInforme();
+    bFall.hidden = (aciertos === total);
+  });
+
+  bFall.addEventListener('click',()=>{
+    lista.querySelectorAll('li.fallo').forEach(li=>{
+      li.querySelectorAll('input').forEach(inp=>{
+        if(inp.type==='radio') inp.checked = false; else inp.value = '';
+        if(inp.dataset.k) delete S.resp[inp.dataset.k];
+      });
+      limpiar(li);
+    });
+    guardar();
+    bFall.hidden = true;
+    const primero = lista.querySelector('input');
+    if(primero) primero.focus();
+  });
+
+  bVer.addEventListener('click',()=>{
+    lista.querySelectorAll('li').forEach(li=>{
+      const j = +li.dataset.i, it = bl.items[j];
+      li.querySelectorAll('.modelo').forEach(n=>n.remove());
+      const sol = it.opciones ? it.ok : it.ok.join('  /  ');
+      li.appendChild(el('div','modelo','<strong>Corrigé</strong>'+sol+(it.nota?' <em style="color:var(--tinta-70)">— '+it.nota+'</em>':'')));
+    });
+  });
+});
+
+/* ============================================================
+   REPASO MIXTO — práctica intercalada
+   ============================================================ */
+(function(){
+  const zonaMix = document.getElementById('zonaMix');
+  const bGen = document.getElementById('btnGenerar');
+  const bComp = document.getElementById('btnCompMix');
+  const bVer = document.getElementById('btnVerMix');
+  const marc = document.getElementById('marcMix');
+  const nota = document.getElementById('notaMix');
+  const CUANTOS = 15;
+  let tanda = [];
+
+  /* todos los ítems, cada uno recordando de qué bloque viene */
+  const POZO = [];
+  BLOQUES.forEach(bl=>bl.items.forEach(it=>POZO.push({it, bl})));
+
+  function generar(){
+    const copia = POZO.slice();
+    for(let i=copia.length-1;i>0;i--){
+      const j = Math.floor(Math.random()*(i+1));
+      [copia[i],copia[j]] = [copia[j],copia[i]];
+    }
+    tanda = copia.slice(0,CUANTOS);
+
+    zonaMix.innerHTML = '';
+    const lista = el('ol','items');
+    tanda.forEach((par,j)=>{
+      const {it, bl} = par;
+      const li = el('li'); li.dataset.i = j;
+      const tipo = it.opciones ? 'opcion' : bl.tipo;
+      const p = el('p','enunciado', it.texto);
+      p.appendChild(el('span','etiqueta','['+bl.id+(it.inf?' · '+it.inf:'')+']'));
+      li.appendChild(p);
+      const r = el('div','respuesta');
+      if(tipo==='opcion'){
+        const g = el('div','opciones');
+        it.opciones.forEach(op=>{
+          const lab = el('label','opcion');
+          const inp = el('input'); inp.type='radio'; inp.name='mix'+j; inp.value=op;
+          lab.appendChild(inp); lab.appendChild(el('span',null,op)); g.appendChild(lab);
+        });
+        r.appendChild(g);
+      } else {
+        const inp = el('input'); inp.type='text';
+        inp.className = bl.largo ? 'largo' : 'corto';
+        inp.setAttribute('aria-label','Tu respuesta');
+        inp.autocapitalize='off'; inp.spellcheck=false;
+        r.appendChild(inp);
+      }
+      li.appendChild(r);
+      lista.appendChild(li);
+    });
+    zonaMix.appendChild(lista);
+    bComp.hidden = false; bVer.hidden = false;
+    marc.textContent = ''; nota.textContent = '';
+    bGen.textContent = 'Générer 15 autres';
+  }
+
+  bGen.addEventListener('click', generar);
+
+  bComp.addEventListener('click',()=>{
+    let aciertos = 0;
+    const falladosPorBloque = {};
+    zonaMix.querySelectorAll('li').forEach(li=>{
+      const j = +li.dataset.i, {it, bl} = tanda[j];
+      li.classList.remove('acierto','fallo');
+      li.querySelectorAll('.pista,.modelo').forEach(n=>n.remove());
+      const tipo = it.opciones ? 'opcion' : bl.tipo;
+      let bien=false, aviso=null, casi=false;
+
+      if(tipo==='opcion'){
+        const sel = li.querySelector('input:checked');
+        if(!sel) aviso='Pas de réponse. C\'était : '+it.ok;
+        else { bien = sel.value===it.ok; if(!bien) aviso = it.nota; }
+      } else {
+        const v = li.querySelector('input').value;
+        if(!v.trim()) aviso='Pas de réponse. C\'était : '+it.ok[0];
+        else {
+          bien = it.ok.some(o=>norm(v)===norm(o));
+          if(!bien && it.ok.some(o=>sinTilde(v)===sinTilde(o))) casi = true;
+          else if(!bien) aviso = it.nota;
+        }
+      }
+
+      if(bien){ li.classList.add('acierto'); aciertos++; li.appendChild(el('p','pista bien','✓ Correct.')); }
+      else{
+        li.classList.add('fallo');
+        falladosPorBloque[bl.id] = (falladosPorBloque[bl.id]||0)+1;
+        if(casi) li.appendChild(el('p','pista tilde','⌃ Presque : vérifie l\'accent.'));
+        else li.appendChild(el('p','pista mal','✗ '+aviso));
+      }
+    });
+    marc.textContent = `${aciertos} / ${tanda.length}`;
+    const ids = Object.keys(falladosPorBloque).sort((a,b)=>falladosPorBloque[b]-falladosPorBloque[a]);
+    nota.textContent = ids.length
+      ? 'Les erreurs viennent surtout de : ' + ids.map(i=>i+' ('+falladosPorBloque[i]+')').join(', ') + '. Retourne à ces blocs et relis la règle.'
+      : 'Aucune erreur. Génère une autre série.';
+  });
+
+  bVer.addEventListener('click',()=>{
+    zonaMix.querySelectorAll('li').forEach(li=>{
+      const j = +li.dataset.i, {it} = tanda[j];
+      li.querySelectorAll('.modelo').forEach(n=>n.remove());
+      const sol = it.opciones ? it.ok : it.ok.join('  /  ');
+      li.appendChild(el('div','modelo','<strong>Corrigé</strong>'+sol+(it.nota?' <em style="color:var(--tinta-70)">— '+it.nota+'</em>':'')));
+    });
+  });
+})();
+
+/* ============================================================
+   INFORME
+   ============================================================ */
+const campoNombre = document.getElementById('nombre');
+campoNombre.value = S.nombre || '';
+campoNombre.addEventListener('input', e=>{ S.nombre = e.target.value.trim(); guardar(); pintarInforme(); });
+
+function pintarInforme(){
+  let puntos=0, maximo=0, corregidos=0, flojo=null, flojoPct=101;
+  BLOQUES.forEach(b=>{
+    const m = S.marcas[b.id];
+    if(!m) return;
+    corregidos++; puntos += m.aciertos; maximo += m.total;
+    const pct = 100*m.aciertos/m.total;
+    if(pct < flojoPct){ flojoPct = pct; flojo = b.id; }
+  });
+  document.getElementById('cBloques').textContent = corregidos;
+  document.getElementById('cPunt').textContent = maximo ? puntos+' / '+maximo : '—';
+  document.getElementById('cPct').textContent = maximo ? Math.round(100*puntos/maximo)+' %' : '0 %';
+  document.getElementById('cFlojo').textContent = (flojo && flojoPct<100) ? flojo : '—';
+
+  const tb = document.getElementById('tbDesglose');
+  tb.innerHTML = '';
+  BLOQUES.forEach(b=>{
+    const m = S.marcas[b.id];
+    const tr = el('tr', m ? null : 'pendiente');
+    tr.appendChild(el('td',null,'<b>'+b.id+'</b>  '+b.titulo));
+    if(m){
+      const pct = Math.round(100*m.aciertos/m.total);
+      tr.appendChild(el('td','n','<span class="mini"><i style="width:'+pct+'%"></i></span>'+m.aciertos+' / '+m.total));
+    } else {
+      tr.appendChild(el('td','n','non fait'));
+    }
+    tb.appendChild(tr);
+  });
+
+  const nota = document.getElementById('notaGuardado');
+  nota.textContent = guardadoOk
+    ? (S.nombre ? `Le bilan sera téléchargé au nom de ${S.nombre}.` : 'Écris ton nom en haut avant de télécharger le bilan.')
+    : 'Ce navigateur n\'enregistre rien : télécharge le bilan avant de fermer la page.';
+}
+
+function sello(){
+  const d=new Date();
+  return `${dosCifras(d.getDate())}/${dosCifras(d.getMonth()+1)}/${d.getFullYear()} ${dosCifras(d.getHours())}:${dosCifras(d.getMinutes())}`;
+}
+function fechaArchivo(){ const d=new Date(); return `${d.getFullYear()}-${dosCifras(d.getMonth()+1)}-${dosCifras(d.getDate())}`; }
+function paraArchivo(t){
+  return (t||'sin-nombre').normalize('NFD').replace(/[\u0300-\u036f]/g,'')
+    .replace(/[^A-Za-z0-9]+/g,'-').replace(/^-+|-+$/g,'').slice(0,40) || 'sin-nombre';
+}
+
+function construirInforme(){
+  const L=[], raya='='.repeat(64);
+  L.push(raya);
+  L.push('ENTRAÎNEUR DE GRAMMAIRE DE BASE');
+  L.push('A-Level Français · Edexcel 9FR0 · BBA Sixth Form');
+  L.push(raya); L.push('');
+  L.push('Élève  : '+(S.nombre||'(sans nom)'));
+  L.push('Date   : '+sello()); L.push('');
+
+  let puntos=0, maximo=0, corregidos=0;
+  BLOQUES.forEach(b=>{ const m=S.marcas[b.id]; if(!m)return; corregidos++; puntos+=m.aciertos; maximo+=m.total; });
+
+  L.push('BILAN'); L.push('-'.repeat(64));
+  L.push(`Blocs corrigés : ${corregidos} sur ${BLOQUES.length}`);
+  L.push(`Score          : ${maximo ? puntos+' / '+maximo+'  ('+Math.round(100*puntos/maximo)+' %)' : 'non corrigé'}`);
+  L.push('');
+
+  L.push('PAR BLOC'); L.push('-'.repeat(64));
+  BLOQUES.forEach(b=>{
+    const m = S.marcas[b.id];
+    const nom = (b.id+'  '+b.titulo).padEnd(50,' ');
+    L.push(nom+'  '+(m ? `${m.aciertos} / ${m.total}` : 'non fait'));
+  });
+  L.push('');
+
+  /* qué repasar */
+  const flojos = BLOQUES.filter(b=>{ const m=S.marcas[b.id]; return m && m.aciertos < m.total; });
+  if(flojos.length){
+    L.push('À REVOIR'); L.push('-'.repeat(64));
+    flojos.forEach(b=>{
+      const m = S.marcas[b.id];
+      L.push(`· ${b.titulo} (${m.aciertos}/${m.total})`);
+      b.items.forEach((it,j)=>{
+        const v = S.resp[`${b.id}i${j}`];
+        const bien = it.opciones ? v===it.ok : (v!==undefined && it.ok.some(o=>norm(v)===norm(o)));
+        if(!bien){
+          const correcta = it.opciones ? it.ok : it.ok[0];
+          L.push(`    ${j+1}. ta réponse : ${v && v.trim() ? v : '(vide)'}   →  ${correcta}`);
+        }
+      });
+      L.push('');
+    });
+  }
+
+  /* bloque J: producción escrita, se transcribe entera */
+  const bJ = BLOQUES.find(b=>b.id==='J');
+  if(bJ && bJ.items.some((_,j)=>(S.resp['Ji'+j]||'').trim())){
+    L.push('BLOC J · CE QUE TU AS ÉCRIT'); L.push('-'.repeat(64));
+    bJ.items.forEach((it,j)=>{
+      L.push(`${j+1}. ${it.texto}`);
+      L.push(`   > ${(S.resp['Ji'+j]||'').trim() || '(pas de réponse)'}`);
+      L.push('');
+    });
+  }
+
+  L.push(raya);
+  L.push('Blocs A–J : grammaire à règle. Bloc K : exceptions. Bloc L : approfondissement.');
+  return L.join('\n');
+}
+
+document.getElementById('btnInforme').addEventListener('click',()=>{
+  if(!S.nombre){
+    campoNombre.focus();
+    campoNombre.scrollIntoView({block:'center'});
+    document.getElementById('notaGuardado').textContent='Écris ton nom avant de télécharger : le bilan le porte en première ligne.';
+    return;
+  }
+  const blob = new Blob([construirInforme()],{type:'text/plain;charset=utf-8'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `grammaire-base_${paraArchivo(S.nombre)}_${fechaArchivo()}.txt`;
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  setTimeout(()=>URL.revokeObjectURL(url),1000);
+});
+
+document.getElementById('btnBorrar').addEventListener('click',()=>{
+  if(!confirm('Effacer toutes tes réponses et tes scores sur cet appareil ? C\'est définitif.')) return;
+  try{ localStorage.removeItem(LS); }catch(e){}
+  location.reload();
+});
+
+/* ============================================================
+   TECLADO DE TILDES
+   ============================================================ */
+const teclado = document.getElementById('teclado');
+let foco = null;
+['é','è','ê','ë','à','â','ä','î','ï','ô','ö','ù','û','ü','ç','œ','«','»'].forEach(ch=>{
+  const b = el('button',null,ch); b.type='button';
+  b.addEventListener('mousedown',e=>e.preventDefault());
+  b.addEventListener('click',()=>{
+    if(!foco) return;
+    const s=foco.selectionStart, e=foco.selectionEnd, v=foco.value;
+    foco.value = v.slice(0,s)+ch+v.slice(e);
+    foco.selectionStart = foco.selectionEnd = s+1;
+    foco.focus();
+    foco.dispatchEvent(new Event('input',{bubbles:true}));
+  });
+  teclado.appendChild(b);
+});
+document.addEventListener('focusin',e=>{
+  if(e.target.matches('input[type=text],textarea')){ foco=e.target; teclado.classList.add('visible'); }
+});
+document.addEventListener('focusout',()=>{
+  setTimeout(()=>{
+    if(!document.activeElement || !document.activeElement.matches('input[type=text],textarea')){
+      teclado.classList.remove('visible');
+    }
+  },120);
+});
+document.addEventListener('keydown',e=>{
+  if(e.key==='Enter' && e.target.matches('input[type=text]')){
+    e.preventDefault();
+    const todos=[...document.querySelectorAll('input[type=text]')];
+    const n=todos[todos.indexOf(e.target)+1]; if(n) n.focus();
+  }
+});
+
+pintarMapa();
+pintarInforme();
+</script>
+</body>
+</html>
