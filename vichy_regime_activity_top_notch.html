@@ -634,6 +634,149 @@
     </div>
 
     <script>
+/* =====================================================================
+   MOTEUR DE CORRECTION MAISON — tolérance aux fautes de frappe
+   Verdicts : ok | typo | accent | morph | bad
+     ok     : réponse exacte                                → vert, compte juste
+     typo   : faute de frappe tolérée (distance de Levenshtein) → vert, l'orthographe correcte est affichée
+     accent : bon mot, accents manquants ou fautifs          → orange, NE compte PAS juste
+     morph  : la différence porte sur une terminaison
+              grammaticale (-s, -e, -es, -ent, -é/-er/-ez…)  → rouge, message ciblé
+     bad    : autre                                          → rouge
+   La tolérance ne s'applique jamais à ce qui porte la grammaire :
+   « parlé / parler / parlez » ou « élève / élèves » restent des erreurs.
+   ===================================================================== */
+const MARK = (function () {
+  function norm(s) {
+    return (s == null ? '' : String(s))
+      .toLowerCase()
+      .replace(/[’‘`´]/g, "'")
+      .replace(/[«»"]/g, ' ')
+      .replace(/\s+/g, ' ')
+      .replace(/^[\s.,;:!?]+|[\s.,;:!?]+$/g, '')
+      .trim();
+  }
+  function deacc(s) { return norm(s).normalize('NFD').replace(/[̀-ͯ]/g, ''); }
+
+  function lev(a, b) {
+    if (a === b) return 0;
+    const m = a.length, n = b.length;
+    if (!m) return n; if (!n) return m;
+    let prev = new Array(n + 1), cur = new Array(n + 1);
+    for (let j = 0; j <= n; j++) prev[j] = j;
+    for (let i = 1; i <= m; i++) {
+      cur[0] = i;
+      for (let j = 1; j <= n; j++) {
+        const cost = a[i - 1] === b[j - 1] ? 0 : 1;
+        cur[j] = Math.min(cur[j - 1] + 1, prev[j] + 1, prev[j - 1] + cost);
+      }
+      const t = prev; prev = cur; cur = t;
+    }
+    return prev[n];
+  }
+
+  /* terminaisons porteuses de grammaire (sur la forme désaccentuée) */
+  const SUFFIXES = ['aient', 'ees', 'ent', 'ais', 'ait', 'ons', 'ont', 'ees', 'es', 'er', 'ez', 'ee', 'es', 'ie', 'ies', 'aux', 's', 'x', 'e', 'a', ''];
+  function stems(w) {
+    const out = new Set();
+    SUFFIXES.forEach(suf => {
+      if (suf === '') { out.add(w); return; }
+      if (w.length - suf.length >= 3 && w.slice(-suf.length) === suf) out.add(w.slice(0, w.length - suf.length));
+    });
+    return out;
+  }
+  function isMorph(a, b) {
+    if (a === b) return false;
+    const A = stems(a), B = stems(b);
+    for (const s of A) if (B.has(s)) return true;
+    return false;
+  }
+
+  function tolerance(n) { return n <= 4 ? 0 : n <= 8 ? 1 : n <= 14 ? 2 : 3; }
+
+  /* article défini/indéfini en tête de réponse : facultatif, mais s'il est là il doit être juste */
+  const ART = /^(de la|de l'|l'|le|la|les|un|une|des|du)\s*/;
+  function article(s) { const m = norm(s).match(ART); return m ? m[0].trim() : ''; }
+  function stripArt(s) { return norm(s).replace(ART, ''); }
+
+  /* une différence d'accent qui change la grammaire (parlé / parle) n'est pas une étourderie */
+  function accentIsGrammatical(a, g) {
+    const pa = /(é|ée|és|ées)$/.test(norm(a)), pg = /(é|ée|és|ées)$/.test(norm(g));
+    return pa !== pg;
+  }
+
+  /* given : la réponse de l'élève ; accepted : chaîne ou tableau de variantes */
+  function judge(given, accepted) {
+    const list = Array.isArray(accepted) ? accepted : [accepted];
+    const g = norm(given), gd = deacc(given);
+    if (!g) return { verdict: 'bad', expected: list[0], empty: true };
+
+    for (const a of list) if (norm(a) === g) return { verdict: 'ok', expected: a };
+
+    /* même réponse, article omis (accepté) ou article faux (erreur de genre) */
+    for (const a of list) {
+      if (stripArt(a) === stripArt(given)) {
+        const ga = article(given), aa = article(a);
+        if (!ga || ga === aa) return { verdict: 'ok', expected: a };
+        return { verdict: 'morph', expected: a, article: true };
+      }
+    }
+
+    for (const a of list) {
+      if (deacc(a) === gd || deacc(stripArt(a)) === deacc(stripArt(given))) {
+        return accentIsGrammatical(a, given)
+          ? { verdict: 'morph', expected: a }
+          : { verdict: 'accent', expected: a };
+      }
+    }
+
+    /* la différence n'est-elle qu'une terminaison grammaticale ? */
+    for (const a of list) {
+      const ad = deacc(a);
+      const aw = ad.split(' '), gw = gd.split(' ');
+      if (aw.length === gw.length) {
+        let morphOnly = true, someDiff = false;
+        for (let i = 0; i < aw.length; i++) {
+          if (aw[i] === gw[i]) continue;
+          someDiff = true;
+          if (!isMorph(aw[i], gw[i])) { morphOnly = false; break; }
+        }
+        if (someDiff && morphOnly) return { verdict: 'morph', expected: a };
+      } else if (isMorph(ad, gd)) return { verdict: 'morph', expected: a };
+    }
+
+    /* faute de frappe ? */
+    let best = null;
+    for (const a of list) {
+      const ad = deacc(a);
+      const d = lev(ad, gd);
+      const tol = tolerance(ad.length);
+      const sameStart = ad.charAt(0) === gd.charAt(0);
+      if (d > 0 && d <= tol && sameStart && d / Math.max(ad.length, 1) <= 0.34) {
+        if (!best || d < best.d) best = { d: d, a: a };
+      }
+    }
+    if (best) return { verdict: 'typo', expected: best.a, distance: best.d };
+
+    return { verdict: 'bad', expected: list[0] };
+  }
+
+  const MSG = {
+    ok:     () => '✓ Correct.',
+    typo:   r => '✓ Correct — petite faute de frappe, l\'orthographe exacte est « <strong>' + r.expected + '</strong> ».',
+    accent: r => '≈ Le mot est juste, mais les accents ne le sont pas : « <strong>' + r.expected + '</strong> ». À l\'examen, l\'accent compte.',
+    morph:  r => r.article
+              ? '✗ Presque — c\'est l\'<strong>article</strong> qui ne va pas : « <strong>' + r.expected + '</strong> ». Vérifiez le genre.'
+              : '✗ Presque — c\'est la <strong>terminaison</strong> qui ne va pas : « <strong>' + r.expected + '</strong> ». Une terminaison change le nombre, le genre ou le temps : elle ne se corrige pas toute seule.',
+    bad:    r => '✗ Réponse attendue : « <strong>' + r.expected + '</strong> ».'
+  };
+  function message(r) { return (MSG[r.verdict] || MSG.bad)(r); }
+  function isRight(r) { return r.verdict === 'ok' || r.verdict === 'typo'; }
+  function cssClass(r) { return isRight(r) ? 'ok' : (r.verdict === 'accent' ? 'near' : 'bad'); }
+
+  return { judge, message, isRight, cssClass, norm, deacc, lev };
+})();
+
         let lastFocusedInput = null;
         let studentData = {
             comprehension: {},
@@ -764,12 +907,14 @@
         }
         
         // ---------- Activity 3 : cloze ----------
+        /* Formes canoniques uniquement : le moteur MARK distingue lui-même
+           la faute de frappe (tolérée), l'accent manquant et l'erreur de terminaison. */
         const clozeAnswers = {
-            1: { accept: ['défaite', 'defaite'], model: 'défaite' },
+            1: { accept: ['défaite'], model: 'défaite' },
             2: { accept: ['autoritaire'], model: 'autoritaire' },
-            3: { accept: ['collabore', 'collabora'], model: 'collabore' },
-            4: { accept: ['antisémites', 'antisemites', 'antisémite', 'antisemite'], model: 'antisémites' },
-            5: { accept: ['déportés', 'deportes', 'déporté', 'deporte'], model: 'déportés' },
+            3: { accept: ['collabore'], model: 'collabore' },
+            4: { accept: ['antisémites'], model: 'antisémites' },
+            5: { accept: ['déportés'], model: 'déportés' },
             6: { accept: ['trahison', 'haute trahison'], model: 'trahison' }
         };
         
@@ -787,13 +932,12 @@
                 const input = document.getElementById('cloze' + i);
                 const val = input.value;
                 const a = clozeAnswers[i];
-                let state;
-                if (a.accept.some(x => normalise(x) === normalise(val))) { state = 'ok'; correct++; }
-                else if (a.accept.some(x => deaccent(x) === deaccent(val))) { state = 'accents'; almost++; }
-                else { state = 'bad'; }
-                input.style.borderColor = state === 'ok' ? '#28a745' : (state === 'accents' ? '#ffc107' : '#dc3545');
-                studentData.cloze[i] = { answer: val, correct: state === 'ok', expected: a.model };
-                if (state !== 'ok') details.push(`n° ${i} → <strong>${a.model}</strong>`);
+                const r = MARK.judge(val, a.accept);
+                if (MARK.isRight(r)) correct++;
+                else if (r.verdict === 'accent') almost++;
+                input.style.borderColor = MARK.isRight(r) ? '#28a745' : (r.verdict === 'accent' ? '#ffc107' : '#dc3545');
+                studentData.cloze[i] = { answer: val, correct: MARK.isRight(r), verdict: r.verdict, expected: a.model };
+                if (!MARK.isRight(r)) details.push(`n° ${i} : ` + MARK.message(r));
             }
             const feedback = document.getElementById('clozeFeedback');
             feedback.className = correct === 6 ? 'feedback correct' : 'feedback incorrect';
@@ -813,22 +957,22 @@
         
         // ---------- Activity 4 : dependent & past infinitives ----------
         const grammarAnswers = {
-            1: { accept: ['avoir protégé', 'avoir protege'], model: 'avoir protégé',
+            1: { accept: ['avoir protégé'], model: 'avoir protégé',
                  rule: '« prétendre » + infinitif <strong>passé</strong> (l\'action est antérieure).',
                  hint: 'Pétain parle en 1945 d\'une action de 1940-44 : il faut un infinitif PASSÉ (avoir + participe).' },
-            2: { accept: ['avoir joué', 'avoir joue'], model: 'avoir joué',
+            2: { accept: ['avoir joué'], model: 'avoir joué',
                  rule: '« affirmer » + infinitif passé, sans préposition.',
                  hint: 'Même structure que la question 1 : « affirmer » se construit sans préposition.' },
-            3: { accept: ["d'accepter", 'd accepter', 'daccepter'], model: "d'accepter",
+            3: { accept: ["d'accepter"], model: "d'accepter",
                  rule: '« refuser <strong>de</strong> » + infinitif présent.',
                  hint: 'Le verbe « refuser » exige la préposition DE.' },
-            4: { accept: ['de ne pas être parti', 'de ne pas etre parti', 'de n\'être pas parti'], model: 'de ne pas être parti',
+            4: { accept: ['de ne pas être parti', 'de n\'être pas parti'], model: 'de ne pas être parti',
                  rule: '« regretter <strong>de</strong> » + infinitif passé ; la négation encadre l\'auxiliaire : <em>ne pas être parti</em>.',
                  hint: 'Deux difficultés : la préposition DE, et « ne pas » qui se place AVANT l\'auxiliaire.' },
-            5: { accept: ['à transformer', 'a transformer'], model: 'à transformer',
+            5: { accept: ['à transformer'], model: 'à transformer',
                  rule: '« chercher <strong>à</strong> » + infinitif présent.',
                  hint: 'Ce verbe se construit avec À, pas avec DE.' },
-            6: { accept: ['de menacer', "d'avoir menacé", 'd avoir menacé', "d'avoir menace"], model: 'de menacer (ou : d\'avoir menacé)',
+            6: { accept: ['de menacer', "d'avoir menacé"], model: 'de menacer (ou : d\'avoir menacé)',
                  rule: '« être accusé <strong>de</strong> » + infinitif ; l\'infinitif passé insiste sur l\'antériorité.',
                  hint: 'Après « accusé », la préposition est DE. Les deux temps de l\'infinitif sont acceptés.' }
         };
@@ -841,22 +985,13 @@
             
             studentData.attempts['gram' + num] = (studentData.attempts['gram' + num] || 0) + 1;
             
-            if (a.accept.some(x => normalise(x) === normalise(val))) {
-                feedback.className = 'feedback correct';
-                feedback.innerHTML = '✓ Correct ! ' + a.rule;
-                input.style.borderColor = '#28a745';
-                studentData.grammar[num] = { answer: val, correct: true, expected: a.model };
-            } else if (a.accept.some(x => deaccent(x) === deaccent(val))) {
-                feedback.className = 'feedback hint';
-                feedback.innerHTML = '≈ Presque ! Vérifiez les accents : <strong>' + a.model + '</strong>. ' + a.rule;
-                input.style.borderColor = '#ffc107';
-                studentData.grammar[num] = { answer: val, correct: false, expected: a.model };
-            } else {
-                feedback.className = 'feedback incorrect';
-                feedback.innerHTML = '✗ Réponse attendue : <strong>' + a.model + '</strong>. ' + a.rule;
-                input.style.borderColor = '#dc3545';
-                studentData.grammar[num] = { answer: val, correct: false, expected: a.model };
-            }
+            const r = MARK.judge(val, a.accept);
+            /* Sur les infinitifs, la terminaison EST la question : aucune tolérance ici. */
+            const right = MARK.isRight(r) && r.verdict !== 'morph';
+            feedback.className = right ? 'feedback correct' : (r.verdict === 'accent' ? 'feedback hint' : 'feedback incorrect');
+            feedback.innerHTML = MARK.message(r) + ' ' + a.rule;
+            input.style.borderColor = right ? '#28a745' : (r.verdict === 'accent' ? '#ffc107' : '#dc3545');
+            studentData.grammar[num] = { answer: val, correct: right, verdict: r.verdict, expected: a.model };
             updateProgress();
         }
         

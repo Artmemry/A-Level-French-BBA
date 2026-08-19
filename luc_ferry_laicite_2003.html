@@ -407,6 +407,149 @@ details.speech > div { padding-bottom:10px; max-height:460px; overflow-y:auto; }
 </div>
 
 <script>
+/* =====================================================================
+   MOTEUR DE CORRECTION MAISON — tolérance aux fautes de frappe
+   Verdicts : ok | typo | accent | morph | bad
+     ok     : réponse exacte                                → vert, compte juste
+     typo   : faute de frappe tolérée (distance de Levenshtein) → vert, l'orthographe correcte est affichée
+     accent : bon mot, accents manquants ou fautifs          → orange, NE compte PAS juste
+     morph  : la différence porte sur une terminaison
+              grammaticale (-s, -e, -es, -ent, -é/-er/-ez…)  → rouge, message ciblé
+     bad    : autre                                          → rouge
+   La tolérance ne s'applique jamais à ce qui porte la grammaire :
+   « parlé / parler / parlez » ou « élève / élèves » restent des erreurs.
+   ===================================================================== */
+const MARK = (function () {
+  function norm(s) {
+    return (s == null ? '' : String(s))
+      .toLowerCase()
+      .replace(/[’‘`´]/g, "'")
+      .replace(/[«»"]/g, ' ')
+      .replace(/\s+/g, ' ')
+      .replace(/^[\s.,;:!?]+|[\s.,;:!?]+$/g, '')
+      .trim();
+  }
+  function deacc(s) { return norm(s).normalize('NFD').replace(/[̀-ͯ]/g, ''); }
+
+  function lev(a, b) {
+    if (a === b) return 0;
+    const m = a.length, n = b.length;
+    if (!m) return n; if (!n) return m;
+    let prev = new Array(n + 1), cur = new Array(n + 1);
+    for (let j = 0; j <= n; j++) prev[j] = j;
+    for (let i = 1; i <= m; i++) {
+      cur[0] = i;
+      for (let j = 1; j <= n; j++) {
+        const cost = a[i - 1] === b[j - 1] ? 0 : 1;
+        cur[j] = Math.min(cur[j - 1] + 1, prev[j] + 1, prev[j - 1] + cost);
+      }
+      const t = prev; prev = cur; cur = t;
+    }
+    return prev[n];
+  }
+
+  /* terminaisons porteuses de grammaire (sur la forme désaccentuée) */
+  const SUFFIXES = ['aient', 'ees', 'ent', 'ais', 'ait', 'ons', 'ont', 'ees', 'es', 'er', 'ez', 'ee', 'es', 'ie', 'ies', 'aux', 's', 'x', 'e', 'a', ''];
+  function stems(w) {
+    const out = new Set();
+    SUFFIXES.forEach(suf => {
+      if (suf === '') { out.add(w); return; }
+      if (w.length - suf.length >= 3 && w.slice(-suf.length) === suf) out.add(w.slice(0, w.length - suf.length));
+    });
+    return out;
+  }
+  function isMorph(a, b) {
+    if (a === b) return false;
+    const A = stems(a), B = stems(b);
+    for (const s of A) if (B.has(s)) return true;
+    return false;
+  }
+
+  function tolerance(n) { return n <= 4 ? 0 : n <= 8 ? 1 : n <= 14 ? 2 : 3; }
+
+  /* article défini/indéfini en tête de réponse : facultatif, mais s'il est là il doit être juste */
+  const ART = /^(de la|de l'|l'|le|la|les|un|une|des|du)\s*/;
+  function article(s) { const m = norm(s).match(ART); return m ? m[0].trim() : ''; }
+  function stripArt(s) { return norm(s).replace(ART, ''); }
+
+  /* une différence d'accent qui change la grammaire (parlé / parle) n'est pas une étourderie */
+  function accentIsGrammatical(a, g) {
+    const pa = /(é|ée|és|ées)$/.test(norm(a)), pg = /(é|ée|és|ées)$/.test(norm(g));
+    return pa !== pg;
+  }
+
+  /* given : la réponse de l'élève ; accepted : chaîne ou tableau de variantes */
+  function judge(given, accepted) {
+    const list = Array.isArray(accepted) ? accepted : [accepted];
+    const g = norm(given), gd = deacc(given);
+    if (!g) return { verdict: 'bad', expected: list[0], empty: true };
+
+    for (const a of list) if (norm(a) === g) return { verdict: 'ok', expected: a };
+
+    /* même réponse, article omis (accepté) ou article faux (erreur de genre) */
+    for (const a of list) {
+      if (stripArt(a) === stripArt(given)) {
+        const ga = article(given), aa = article(a);
+        if (!ga || ga === aa) return { verdict: 'ok', expected: a };
+        return { verdict: 'morph', expected: a, article: true };
+      }
+    }
+
+    for (const a of list) {
+      if (deacc(a) === gd || deacc(stripArt(a)) === deacc(stripArt(given))) {
+        return accentIsGrammatical(a, given)
+          ? { verdict: 'morph', expected: a }
+          : { verdict: 'accent', expected: a };
+      }
+    }
+
+    /* la différence n'est-elle qu'une terminaison grammaticale ? */
+    for (const a of list) {
+      const ad = deacc(a);
+      const aw = ad.split(' '), gw = gd.split(' ');
+      if (aw.length === gw.length) {
+        let morphOnly = true, someDiff = false;
+        for (let i = 0; i < aw.length; i++) {
+          if (aw[i] === gw[i]) continue;
+          someDiff = true;
+          if (!isMorph(aw[i], gw[i])) { morphOnly = false; break; }
+        }
+        if (someDiff && morphOnly) return { verdict: 'morph', expected: a };
+      } else if (isMorph(ad, gd)) return { verdict: 'morph', expected: a };
+    }
+
+    /* faute de frappe ? */
+    let best = null;
+    for (const a of list) {
+      const ad = deacc(a);
+      const d = lev(ad, gd);
+      const tol = tolerance(ad.length);
+      const sameStart = ad.charAt(0) === gd.charAt(0);
+      if (d > 0 && d <= tol && sameStart && d / Math.max(ad.length, 1) <= 0.34) {
+        if (!best || d < best.d) best = { d: d, a: a };
+      }
+    }
+    if (best) return { verdict: 'typo', expected: best.a, distance: best.d };
+
+    return { verdict: 'bad', expected: list[0] };
+  }
+
+  const MSG = {
+    ok:     () => '✓ Correct.',
+    typo:   r => '✓ Correct — petite faute de frappe, l\'orthographe exacte est « <strong>' + r.expected + '</strong> ».',
+    accent: r => '≈ Le mot est juste, mais les accents ne le sont pas : « <strong>' + r.expected + '</strong> ». À l\'examen, l\'accent compte.',
+    morph:  r => r.article
+              ? '✗ Presque — c\'est l\'<strong>article</strong> qui ne va pas : « <strong>' + r.expected + '</strong> ». Vérifiez le genre.'
+              : '✗ Presque — c\'est la <strong>terminaison</strong> qui ne va pas : « <strong>' + r.expected + '</strong> ». Une terminaison change le nombre, le genre ou le temps : elle ne se corrige pas toute seule.',
+    bad:    r => '✗ Réponse attendue : « <strong>' + r.expected + '</strong> ».'
+  };
+  function message(r) { return (MSG[r.verdict] || MSG.bad)(r); }
+  function isRight(r) { return r.verdict === 'ok' || r.verdict === 'typo'; }
+  function cssClass(r) { return isRight(r) ? 'ok' : (r.verdict === 'accent' ? 'near' : 'bad'); }
+
+  return { judge, message, isRight, cssClass, norm, deacc, lev };
+})();
+
 /* =============== state =============== */
 let lastField = null;
 let activeGap = null;
@@ -574,13 +717,11 @@ function checkCloze(){
   let ok=0, near=0; const misses=[];
   document.querySelectorAll('.gap').forEach(g=>{
     const n = Number(g.dataset.n), acc = clozeKey[n], v = g.value;
-    let state;
-    if(acc.some(a=>norm(a)===norm(v))) { state='ok'; ok++; }
-    else if(acc.some(a=>deacc(a)===deacc(v)) && v.trim()) { state='near'; near++; }
-    else state='bad';
-    g.className = 'gap ' + state;
-    data.cloze[n] = { answer:v, correct:state==='ok', expected:acc[0] };
-    if(state!=='ok') misses.push(n+' → <strong>'+acc[0]+'</strong>');
+    const r = MARK.judge(v, acc);
+    if(MARK.isRight(r)) ok++; else if(r.verdict==='accent') near++;
+    g.className = 'gap ' + MARK.cssClass(r);
+    data.cloze[n] = { answer:v, correct:MARK.isRight(r), verdict:r.verdict, expected:acc[0] };
+    if(!MARK.isRight(r)) misses.push(n+' → <strong>'+acc[0]+'</strong>' + (r.verdict==='accent' ? ' (accents)' : r.verdict==='morph' ? ' (terminaison)' : ''));
   });
   let msg = ok+' / 15 correct'+(near?' — et '+near+' réponse(s) juste(s) mais mal accentuée(s) : l\'accent compte à l\'examen.':'.');
   if(misses.length) msg += '<br>Réponses attendues : ' + misses.join(' · ');
