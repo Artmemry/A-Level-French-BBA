@@ -708,5 +708,54 @@ ${text}`;
             }
         });
     </script>
+<script>
+/* === Fiabilité de la lecture audio (maintenance 2026) ===
+   1. Sélectionne explicitement une voix française si le navigateur en propose une.
+   2. Prévient l'élève, à l'écran, quand aucune voix n'est installée sur le poste
+      (auparavant le bouton semblait simplement « ne rien faire »). */
+(function () {
+  if (!('speechSynthesis' in window)) return;
+
+  function frenchVoice() {
+    var vs = window.speechSynthesis.getVoices() || [];
+    return vs.filter(function (v) { return /^fr(-|_|$)/i.test(v.lang || ''); })[0] || null;
+  }
+
+  function notice(msg) {
+    var box = document.getElementById('tts-notice');
+    if (!box) {
+      box = document.createElement('div');
+      box.id = 'tts-notice';
+      box.style.cssText = 'position:fixed;left:12px;bottom:12px;max-width:340px;z-index:99999;' +
+        'background:#fff3cd;color:#856404;border:2px solid #ffc107;border-radius:8px;' +
+        'padding:10px 12px;font:600 14px/1.4 Calibri,Segoe UI,sans-serif;box-shadow:0 4px 14px rgba(0,0,0,.2)';
+      box.onclick = function () { box.remove(); };
+      document.body.appendChild(box);
+    }
+    box.textContent = msg + ' (cliquez pour fermer)';
+  }
+
+  var origSpeak = window.speechSynthesis.speak.bind(window.speechSynthesis);
+  window.speechSynthesis.speak = function (u) {
+    try {
+      if (u && !u.voice) {
+        var v = frenchVoice();
+        if (v) u.voice = v;
+        else if ((window.speechSynthesis.getVoices() || []).length === 0) {
+          notice("Aucune voix n'est installée sur cet ordinateur : la lecture audio est indisponible. Utilisez le texte écrit, ou installez une voix française dans les paramètres de Windows.");
+        } else {
+          notice("Aucune voix française n'est installée : la lecture se fera avec un accent étranger.");
+        }
+      }
+      if (u) u.onerror = u.onerror || function () {
+        if (!document.getElementById('tts-notice')) notice("La lecture audio a été interrompue par le navigateur.");
+      };
+    } catch (e) {}
+    return origSpeak(u);
+  };
+
+  window.speechSynthesis.onvoiceschanged = window.speechSynthesis.onvoiceschanged || function () {};
+})();
+</script>
 </body>
 </html>

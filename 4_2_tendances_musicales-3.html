@@ -321,5 +321,35 @@ function downloadPage(){
 }
 </script>
 
+<script>
+/* === Correctif clavier d'accents (maintenance 2026) ===
+   Sous Chrome/Edge, cliquer un bouton déplace le focus : document.activeElement
+   n'était plus le champ de l'élève et l'accent n'était jamais inséré.
+   On empêche le vol de focus et on garde en mémoire le dernier champ utilisé. */
+(function () {
+  var last = null;
+  function isField(el) {
+    return !!el && (el.tagName === 'TEXTAREA' ||
+      (el.tagName === 'INPUT' && /^(text|search|email|)$/i.test(el.type || '')));
+  }
+  ['focus','focusin'].forEach(function(ev){ document.addEventListener(ev, function (e) { if (isField(e.target)) last = e.target; }, true); });
+  function isPadButton(b) {
+    if (!b || b.tagName !== 'BUTTON') return false;
+    var t = (b.textContent || '').trim();
+    if (t.length > 2) return false;
+    return /[À-ſŒœ«»']/.test(t) ||
+           (typeof b.className === 'string' && /accent|accent-key|accent-btn/i.test(b.className));
+  }
+  document.addEventListener('mousedown', function (e) {
+    var b = e.target && e.target.closest ? e.target.closest('button') : null;
+    if (isPadButton(b)) e.preventDefault();           /* le champ conserve le curseur */
+  }, true);
+  document.addEventListener('click', function (e) {
+    var b = e.target && e.target.closest ? e.target.closest('button') : null;
+    if (!isPadButton(b)) return;
+    if (!isField(document.activeElement) && last) last.focus();   /* filet de sécurité */
+  }, true);
+})();
+</script>
 </body>
 </html>

@@ -211,22 +211,77 @@
             display: block;
         }
         
-        .accent-keyboard {
-            position: sticky;
-            top: 10px;
-            background: white;
-            padding: 15px;
+        .name-box {
+            background: #eef1ff;
+            border: 2px solid #667eea;
             border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            padding: 15px;
             margin-bottom: 20px;
-            z-index: 100;
+        }
+        .name-box label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #2c3e50;
+        }
+        .name-warning {
+            display: none;
+            margin-top: 8px;
+            padding: 8px 10px;
+            background: #f8d7da;
+            color: #721c24;
+            border-radius: 5px;
+            font-weight: 600;
+        }
+
+        /* Floating accent pad */
+        .accent-keyboard {
+            position: fixed;
+            bottom: 18px;
+            right: 18px;
+            width: 250px;
+            background: white;
+            padding: 12px;
+            border-radius: 10px;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.25);
+            z-index: 9999;
             border: 2px solid #667eea;
         }
-        
+
         .accent-keyboard h3 {
             font-size: 0.9em;
             margin-bottom: 10px;
             color: #555;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .pad-toggle {
+            background: #667eea;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            padding: 2px 8px;
+            font-size: 0.9em;
+            cursor: pointer;
+        }
+
+        .accent-keyboard.collapsed {
+            width: auto;
+        }
+
+        .accent-keyboard.collapsed .accent-btn {
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            .accent-keyboard {
+                left: 10px;
+                right: 10px;
+                width: auto;
+                bottom: 8px;
+            }
         }
         
         .accent-btn {
@@ -320,8 +375,14 @@
     <div class="container">
         <h1>Le Régime de Vichy (1940-1944)</h1>
         
+        <div class="name-box">
+            <label for="studentName">Votre nom (obligatoire pour télécharger vos résultats) :</label>
+            <input type="text" id="studentName" placeholder="Prénom et nom — ex. Léa Martin" autocomplete="name" maxlength="60">
+            <div id="nameWarning" class="name-warning">⚠ Écrivez votre nom avant de télécharger : il apparaîtra en tête du fichier.</div>
+        </div>
+
         <div class="accent-keyboard" id="accentKeyboard">
-            <h3>Clavier des accents :</h3>
+            <h3>Clavier des accents <button id="padToggle" class="pad-toggle" title="Réduire / agrandir">▾</button></h3>
             <button class="accent-btn" data-char="é">é</button>
             <button class="accent-btn" data-char="è">è</button>
             <button class="accent-btn" data-char="ê">ê</button>
@@ -548,6 +609,23 @@
             </div>
         </div>
         
+        <!-- Activity 5: Stretch task -->
+        <div class="activity-section">
+            <h2>Défi supplémentaire (A*/C1) <span class="difficulty-badge diff-hard">Extension</span></h2>
+            <p id="stretchTask" style="margin-bottom:15px;">
+                « Le mythe du bouclier ne résiste pas à l'examen des faits. » Rédigez un paragraphe de 80 à 100 mots
+                qui évalue cette affirmation. Employez au moins <strong>un infinitif passé</strong>
+                (ex. <em>avoir prétendu, s'être servi de</em>), <strong>un connecteur de concession</strong>
+                (<em>bien que + subjonctif, quoique, certes… néanmoins</em>) et <strong>une donnée chiffrée</strong> du texte.
+            </p>
+            <textarea id="stretchAnswer" rows="6" style="width:100%; padding:10px; border:2px solid #ddd; border-radius:5px; font-size:1em; font-family:inherit;" placeholder="Rédigez ici — votre texte sera inclus dans le fichier téléchargé..."></textarea>
+            <div class="btn-container">
+                <button class="btn-check" onclick="checkStretch()">Compter les mots</button>
+                <button class="btn-hint" onclick="showStretchHint()">Indice</button>
+            </div>
+            <div class="feedback" id="stretchFeedback"></div>
+        </div>
+
         <!-- Download Button -->
         <div style="text-align: center; margin-top: 40px;">
             <button class="btn-download" onclick="downloadResults()">📥 Télécharger mes résultats</button>
@@ -676,4 +754,273 @@
             feedback.textContent = `Vous avez ${correct} réponse(s) correcte(s) sur ${total}.`;
             
             updateProgress();
+                }
         
+        function showMatchingHint() {
+            const feedback = document.getElementById('matchingFeedback');
+            feedback.className = 'feedback hint';
+            feedback.innerHTML = '💡 Attention aux pièges : « collaborer » ne veut pas dire « résister », et « déporter » implique la <strong>force</strong>. Relisez le 3<sup>e</sup> paragraphe du texte.';
+            if (!studentData.hintsUsed.includes('matching')) studentData.hintsUsed.push('matching');
+        }
+        
+        // ---------- Activity 3 : cloze ----------
+        const clozeAnswers = {
+            1: { accept: ['défaite', 'defaite'], model: 'défaite' },
+            2: { accept: ['autoritaire'], model: 'autoritaire' },
+            3: { accept: ['collabore', 'collabora'], model: 'collabore' },
+            4: { accept: ['antisémites', 'antisemites', 'antisémite', 'antisemite'], model: 'antisémites' },
+            5: { accept: ['déportés', 'deportes', 'déporté', 'deporte'], model: 'déportés' },
+            6: { accept: ['trahison', 'haute trahison'], model: 'trahison' }
+        };
+        
+        function normalise(s) {
+            return (s || '').toLowerCase().trim().replace(/\s+/g, ' ').replace(/['']/g, "'");
+        }
+        function deaccent(s) {
+            return normalise(s).normalize('NFD').replace(/[̀-ͯ]/g, '');
+        }
+        
+        function checkCloze() {
+            let correct = 0, almost = 0;
+            const details = [];
+            for (let i = 1; i <= 6; i++) {
+                const input = document.getElementById('cloze' + i);
+                const val = input.value;
+                const a = clozeAnswers[i];
+                let state;
+                if (a.accept.some(x => normalise(x) === normalise(val))) { state = 'ok'; correct++; }
+                else if (a.accept.some(x => deaccent(x) === deaccent(val))) { state = 'accents'; almost++; }
+                else { state = 'bad'; }
+                input.style.borderColor = state === 'ok' ? '#28a745' : (state === 'accents' ? '#ffc107' : '#dc3545');
+                studentData.cloze[i] = { answer: val, correct: state === 'ok', expected: a.model };
+                if (state !== 'ok') details.push(`n° ${i} → <strong>${a.model}</strong>`);
+            }
+            const feedback = document.getElementById('clozeFeedback');
+            feedback.className = correct === 6 ? 'feedback correct' : 'feedback incorrect';
+            let msg = `Vous avez ${correct} réponse(s) correcte(s) sur 6.`;
+            if (almost) msg += ` ${almost} réponse(s) juste(s) mais mal accentuée(s) — l'accent compte à l'examen.`;
+            if (details.length) msg += '<br>Réponses attendues : ' + details.join(' · ');
+            feedback.innerHTML = msg;
+            updateProgress();
+        }
+        
+        function showClozeHint() {
+            const feedback = document.getElementById('clozeFeedback');
+            feedback.className = 'feedback hint';
+            feedback.innerHTML = '💡 Les six mots se trouvent tous dans le texte, aux paragraphes 1 à 4. Attention aux terminaisons : deux réponses sont au <strong>pluriel</strong> et une est un <strong>verbe conjugué</strong>.';
+            if (!studentData.hintsUsed.includes('cloze')) studentData.hintsUsed.push('cloze');
+        }
+        
+        // ---------- Activity 4 : dependent & past infinitives ----------
+        const grammarAnswers = {
+            1: { accept: ['avoir protégé', 'avoir protege'], model: 'avoir protégé',
+                 rule: '« prétendre » + infinitif <strong>passé</strong> (l\'action est antérieure).',
+                 hint: 'Pétain parle en 1945 d\'une action de 1940-44 : il faut un infinitif PASSÉ (avoir + participe).' },
+            2: { accept: ['avoir joué', 'avoir joue'], model: 'avoir joué',
+                 rule: '« affirmer » + infinitif passé, sans préposition.',
+                 hint: 'Même structure que la question 1 : « affirmer » se construit sans préposition.' },
+            3: { accept: ["d'accepter", 'd accepter', 'daccepter'], model: "d'accepter",
+                 rule: '« refuser <strong>de</strong> » + infinitif présent.',
+                 hint: 'Le verbe « refuser » exige la préposition DE.' },
+            4: { accept: ['de ne pas être parti', 'de ne pas etre parti', 'de n\'être pas parti'], model: 'de ne pas être parti',
+                 rule: '« regretter <strong>de</strong> » + infinitif passé ; la négation encadre l\'auxiliaire : <em>ne pas être parti</em>.',
+                 hint: 'Deux difficultés : la préposition DE, et « ne pas » qui se place AVANT l\'auxiliaire.' },
+            5: { accept: ['à transformer', 'a transformer'], model: 'à transformer',
+                 rule: '« chercher <strong>à</strong> » + infinitif présent.',
+                 hint: 'Ce verbe se construit avec À, pas avec DE.' },
+            6: { accept: ['de menacer', "d'avoir menacé", 'd avoir menacé', "d'avoir menace"], model: 'de menacer (ou : d\'avoir menacé)',
+                 rule: '« être accusé <strong>de</strong> » + infinitif ; l\'infinitif passé insiste sur l\'antériorité.',
+                 hint: 'Après « accusé », la préposition est DE. Les deux temps de l\'infinitif sont acceptés.' }
+        };
+        
+        function checkGrammar(num) {
+            const input = document.getElementById('gram' + num);
+            const val = input.value;
+            const feedback = document.getElementById('gramFeedback' + num);
+            const a = grammarAnswers[num];
+            
+            studentData.attempts['gram' + num] = (studentData.attempts['gram' + num] || 0) + 1;
+            
+            if (a.accept.some(x => normalise(x) === normalise(val))) {
+                feedback.className = 'feedback correct';
+                feedback.innerHTML = '✓ Correct ! ' + a.rule;
+                input.style.borderColor = '#28a745';
+                studentData.grammar[num] = { answer: val, correct: true, expected: a.model };
+            } else if (a.accept.some(x => deaccent(x) === deaccent(val))) {
+                feedback.className = 'feedback hint';
+                feedback.innerHTML = '≈ Presque ! Vérifiez les accents : <strong>' + a.model + '</strong>. ' + a.rule;
+                input.style.borderColor = '#ffc107';
+                studentData.grammar[num] = { answer: val, correct: false, expected: a.model };
+            } else {
+                feedback.className = 'feedback incorrect';
+                feedback.innerHTML = '✗ Réponse attendue : <strong>' + a.model + '</strong>. ' + a.rule;
+                input.style.borderColor = '#dc3545';
+                studentData.grammar[num] = { answer: val, correct: false, expected: a.model };
+            }
+            updateProgress();
+        }
+        
+        function showGrammarHint(num) {
+            const feedback = document.getElementById('gramFeedback' + num);
+            feedback.className = 'feedback hint';
+            feedback.textContent = '💡 ' + grammarAnswers[num].hint;
+            if (!studentData.hintsUsed.includes('gram' + num)) studentData.hintsUsed.push('gram' + num);
+        }
+        
+        // ---------- Progress ----------
+        function totalScore() {
+            let score = 0;
+            const max = 3 + 6 + 6 + 6;
+            Object.values(studentData.comprehension).forEach(v => { if (v.correct) score++; });
+            Object.values(studentData.matching).forEach(v => { if (v.correct) score++; });
+            Object.values(studentData.cloze).forEach(v => { if (v.correct) score++; });
+            Object.values(studentData.grammar).forEach(v => { if (v.correct) score++; });
+            return { score, max };
+        }
+        
+        function updateProgress() {
+            const { score, max } = totalScore();
+            const pct = Math.round(100 * score / max);
+            const bar = document.getElementById('progressBar');
+            bar.style.width = Math.max(pct, 6) + '%';
+            bar.textContent = pct + '% (' + score + '/' + max + ')';
+        }
+        
+        // ---------- Download ----------
+        function downloadResults() {
+            const nameField = document.getElementById('studentName');
+            const name = (nameField.value || '').trim();
+            if (!name) {
+                nameField.style.borderColor = '#dc3545';
+                nameField.focus();
+                nameField.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                document.getElementById('nameWarning').style.display = 'block';
+                return;
+            }
+            document.getElementById('nameWarning').style.display = 'none';
+            const { score, max } = totalScore();
+            const now = new Date();
+            const L = [];
+            L.push('LE RÉGIME DE VICHY (1940-1944) — RÉSULTATS');
+            L.push(''.padEnd(58, '='));
+            L.push('Élève : ' + name);
+            L.push('Date : ' + now.toLocaleString('fr-FR'));
+            L.push('Score : ' + score + ' / ' + max + ' (' + Math.round(100 * score / max) + ' %)');
+            L.push('Indices utilisés : ' + (studentData.hintsUsed.length || 0));
+            L.push('');
+            L.push('ACTIVITÉ 1 — COMPRÉHENSION');
+            L.push(''.padEnd(58, '-'));
+            for (let i = 1; i <= 3; i++) {
+                const q = document.querySelectorAll('.activity-section')[0].querySelectorAll('.question-text')[i - 1].textContent;
+                const r = studentData.comprehension[i];
+                L.push(q);
+                L.push('   Réponse : ' + (r ? r.answer : '—'));
+                L.push('   ' + (r && r.correct ? '✔ correct' : '✘ à revoir'));
+                L.push('   Modèle : ' + comprehensionAnswers[i].model);
+                L.push('');
+            }
+            L.push('ACTIVITÉ 2 — VOCABULAIRE');
+            L.push(''.padEnd(58, '-'));
+            for (let i = 1; i <= 6; i++) {
+                const label = document.querySelectorAll('.matching-left')[i - 1].textContent;
+                const r = studentData.matching[i];
+                const sel = document.getElementById('match' + i);
+                const chosen = sel.selectedIndex > 0 ? sel.options[sel.selectedIndex].text : '—';
+                L.push(label + ' → ' + chosen + '  ' + (r && r.correct ? '✔' : '✘'));
+            }
+            L.push('');
+            L.push('ACTIVITÉ 3 — TEXTE À TROUS');
+            L.push(''.padEnd(58, '-'));
+            for (let i = 1; i <= 6; i++) {
+                const r = studentData.cloze[i];
+                L.push(i + '. ' + (r ? r.answer || '—' : '—') + '   (attendu : ' + clozeAnswers[i].model + ')' + (r && r.correct ? '  ✔' : '  ✘'));
+            }
+            L.push('');
+            L.push('ACTIVITÉ 4 — INFINITIFS DÉPENDANTS ET PASSÉS');
+            L.push(''.padEnd(58, '-'));
+            for (let i = 1; i <= 6; i++) {
+                const q = document.querySelectorAll('.activity-section')[3].querySelectorAll('.question-text')[i - 1].textContent;
+                const r = studentData.grammar[i];
+                L.push(q);
+                L.push('   Réponse : ' + (r ? r.answer || '—' : '—') + '   (attendu : ' + grammarAnswers[i].model + ')' + (r && r.correct ? '  ✔' : '  ✘'));
+            }
+            L.push('');
+            L.push('DÉFI SUPPLÉMENTAIRE (à rendre à l\'écrit)');
+            L.push(''.padEnd(58, '-'));
+            L.push(document.getElementById('stretchTask').textContent.replace(/\s+/g, ' ').trim());
+            L.push('   Réponse : ' + (document.getElementById('stretchAnswer').value || '—'));
+            L.push('');
+            L.push('Déposez ce fichier sur Teams / SharePoint.');
+            
+            const blob = new Blob([L.join('\n')], { type: 'text/plain;charset=utf-8' });
+            const a = document.createElement('a');
+            a.href = URL.createObjectURL(blob);
+            a.download = 'Vichy_' + name.replace(/[^\wÀ-ÿ]+/g, '_') + '_' + now.toISOString().slice(0, 10) + '.txt';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            setTimeout(() => URL.revokeObjectURL(a.href), 2000);
+        }
+        
+        function resetAll() {
+            document.querySelectorAll('input[type="text"]').forEach(i => { i.value = ''; i.style.borderColor = '#ddd'; });
+            document.querySelectorAll('textarea').forEach(t => { t.value = ''; });
+            document.querySelectorAll('select').forEach(s => { s.selectedIndex = 0; s.style.borderColor = '#ddd'; });
+            document.querySelectorAll('.feedback').forEach(f => { f.className = 'feedback'; f.textContent = ''; });
+            studentData = { comprehension: {}, matching: {}, cloze: {}, grammar: {}, attempts: {}, hintsUsed: [] };
+            document.getElementById('nameWarning').style.display = 'none';
+            updateProgress();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+        
+        // ---------- Activity 5 : stretch ----------
+        function checkStretch() {
+            const ta = document.getElementById('stretchAnswer');
+            const fb = document.getElementById('stretchFeedback');
+            const words = (ta.value.trim().match(/\S+/g) || []).length;
+            const hasPastInf = /\b(avoir|être|s'être|d'avoir|d'être)\s+\S+(é|és|ée|ées|i|is|it|u|us|ue)\b/i.test(ta.value);
+            const hasConcession = /(bien que|quoique|certes|néanmoins|toutefois|en dépit de|malgré)/i.test(ta.value);
+            const hasFigure = /(75\s?000|5\s?%|1940|1942|1944|1945|1951)/.test(ta.value);
+            const missing = [];
+            if (!hasPastInf) missing.push('un infinitif passé');
+            if (!hasConcession) missing.push('un connecteur de concession');
+            if (!hasFigure) missing.push('une donnée chiffrée');
+            if (words < 80) {
+                fb.className = 'feedback hint';
+                fb.innerHTML = '≈ ' + words + ' mots — visez 80 à 100.' + (missing.length ? ' Il manque encore : ' + missing.join(', ') + '.' : '');
+            } else if (missing.length) {
+                fb.className = 'feedback hint';
+                fb.innerHTML = '✔ ' + words + ' mots. Il manque encore : <strong>' + missing.join(', ') + '</strong>.';
+            } else {
+                fb.className = 'feedback correct';
+                fb.innerHTML = '✓ ' + words + ' mots, et les trois exigences sont présentes. Relisez maintenant les accords de participe passé avant de télécharger.';
+            }
+        }
+
+        function showStretchHint() {
+            const fb = document.getElementById('stretchFeedback');
+            fb.className = 'feedback hint';
+            fb.innerHTML = '💡 Ossature possible : « Certes, Pétain prétend <em>avoir protégé</em> les Français… Néanmoins, les 75 000 déportés, dont 5 % seulement ont survécu, contredisent… Bien que sa défense <em>soit</em> habile, les historiens ont démontré… »';
+        }
+
+        // ---------- Accent pad : keep the caret in the field ----------
+        document.addEventListener('mousedown', function (e) {
+            const b = e.target.closest ? e.target.closest('.accent-btn') : null;
+            if (b) e.preventDefault();
+        }, true);
+        ['focus', 'focusin'].forEach(function (ev) {
+            document.addEventListener(ev, function (e) {
+                if (e.target.matches && e.target.matches('input[type="text"], textarea')) lastFocusedInput = e.target;
+            }, true);
+        });
+        
+        document.getElementById('padToggle').addEventListener('click', function () {
+            const pad = document.getElementById('accentKeyboard');
+            pad.classList.toggle('collapsed');
+            this.textContent = pad.classList.contains('collapsed') ? '⌨' : '▾';
+        });
+        
+        updateProgress();
+    </script>
+</body>
+</html>

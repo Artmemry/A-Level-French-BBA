@@ -1691,7 +1691,11 @@ function showModel(compare = false) {
 
 function renderModelContent() {
   const t = TITLES[state.titleIdx];
+  /* Correctif : la case « Comparer » pouvait être cochée avant le choix d'un sujet
+     (ou sur un sujet sans essai modèle), ce qui bloquait le script de la page. */
+  if (!t || !t.models || t.models.length === 0) return;
   const m = t.models[state.modelChoice];
+  if (!m) return;
   const cmp = document.getElementById("compare-toggle").checked;
   const studentEssay = [
     state.sections.intro, state.sections.peel1, state.sections.peel2,
