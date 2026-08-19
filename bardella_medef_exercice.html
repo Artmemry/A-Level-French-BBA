@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Bardella au Medef — Exercice B2</title>
+<style>
+  * { box-sizing: border-box; }
+  body {
+    font-family: "Segoe UI", Arial, sans-serif;
+    background: #f4f6fa;
+    color: #222;
+    margin: 0;
+    padding: 20px;
+    line-height: 1.6;
+  }
+  .container {
+    max-width: 860px;
+    margin: 0 auto;
+    background: #fff;
+    padding: 30px 40px;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+  }
+  h1 { color: #1a3e72; margin-top: 0; }
+  h2 { color: #1a3e72; margin-top: 30px; font-size: 1.15em; border-bottom: 2px solid #1a3e72; padding-bottom: 4px; }
+  .subtitle { color: #666; font-style: italic; margin-top: -10px; }
+  .name-row {
+    background: #eef3fb;
+    padding: 12px 16px;
+    border-radius: 6px;
+    margin: 20px 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .name-row label { font-weight: bold; }
+  .name-row input { flex: 1; padding: 6px 10px; border: 1px solid #bbb; border-radius: 4px; font-size: 1em; }
+  .note {
+    background: #fff7dc;
+    border-left: 4px solid #e0b400;
+    padding: 10px 14px;
+    margin: 18px 0;
+    font-size: 0.95em;
+    border-radius: 4px;
+  }
+  .original {
+    background: #fafafa;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    padding: 14px 20px;
+    font-size: 0.92em;
+    max-height: 360px;
+    overflow-y: auto;
+    margin-top: 10px;
+  }
+  .original p { margin: 8px 0; }
+  .wordbank {
+    background: #eef3fb;
+    border: 1px dashed #1a3e72;
+    border-radius: 6px;
+    padding: 12px 16px;
+    margin: 14px 0 18px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
+  }
+  .wordbank .chip {
+    background: #fff;
+    border: 1px solid #1a3e72;
+    color: #1a3e72;
+    padding: 4px 10px;
+    border-radius: 14px;
+    font-size: 0.95em;
+    user-select: none;
+  }
+  .text p { margin: 12px 0; }
+  input.gap {
+    width: 130px;
+    padding: 3px 6px;
+    margin: 0 2px;
+    font-family: inherit;
+    font-size: 1em;
+    border: 1px solid #aaa;
+    border-radius: 4px;
+    text-align: center;
+  }
+  input.gap.correct { background: #d4f5d4; border-color: #2e8b3e; }
+  input.gap.wrong   { background: #fbd4d4; border-color: #c0392b; }
+  .actions { margin-top: 25px; display: flex; gap: 10px; flex-wrap: wrap; }
+  button {
+    padding: 10px 18px;
+    border: none;
+    border-radius: 5px;
+    font-size: 1em;
+    cursor: pointer;
+    font-weight: bold;
+  }
+  .btn-check { background: #1a3e72; color: #fff; }
+  .btn-reset { background: #777; color: #fff; }
+  .btn-download { background: #2e8b3e; color: #fff; }
+  .btn-shuffle { background: #e0b400; color: #222; }
+  #score {
+    margin-top: 15px;
+    font-size: 1.15em;
+    font-weight: bold;
+  }
+  /* Floating keyboard */
+  #keyboard {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: #1a3e72;
+    border-radius: 8px;
+    padding: 8px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    max-width: 260px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+    z-index: 999;
+    cursor: move;
+  }
+  #keyboard .khead {
+    width: 100%;
+    color: #fff;
+    font-size: 0.75em;
+    padding: 2px 4px;
+    text-align: center;
+    user-select: none;
+  }
+  #keyboard button {
+    background: #fff;
+    color: #1a3e72;
+    padding: 6px 10px;
+    font-size: 0.95em;
+    border-radius: 4px;
+    min-width: 34px;
+    font-weight: normal;
+  }
+  #keyboard button:hover { background: #d4e0f5; }
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>Bardella en opération séduction au Medef</h1>
+  <p class="subtitle">Compréhension écrite — niveau B2 (d’après Anne Feitz, 20 avril 2026)</p>
+
+  <div class="name-row">
+    <label for="studentName">Nom / Name :</label>
+    <input type="text" id="studentName" placeholder="Entrez votre nom…">
+  </div>
+
+  <div class="note">
+    <strong>Vocabulaire clé — Key vocabulary:</strong><br>
+    <strong>cordon sanitaire</strong> (utilisé dans l’article) ≈ <strong>front républicain</strong> — le refus des partis démocratiques de s’allier à l’extrême droite.<br>
+    <em>In English political discourse, the same concept is kept as</em> “cordon sanitaire” <em>or translated as</em> “republican front” / “political quarantine”.
+  </div>
+
+  <h2>1. Texte original / Original article</h2>
+  <div class="original">
+    <p><em>Des échanges « courtois » et « nécessaires », « à quelques mois d’échéances électorales qui vont être absolument majeures pour l’avenir de la France » : à sa sortie de son déjeuner au Medef, ce lundi, le président du Rassemblement national, Jordan Bardella, ne s’est pas montré très disert sur le contenu de ses échanges avec la douzaine de participants, membres du bureau de l’organisation patronale, qui ont duré plus de deux heures.</em></p>
+    <p>Initialement prévu le 2 mars, reporté en raison de la guerre en Iran, ce déjeuner avait été très commenté. Car c’est la première fois que le Medef recevait officiellement un dirigeant du parti à la flamme. Laurence Parisot, qui a précédé Patrick Martin à la tête de l’organisation patronale, s’était toujours refusée à de telles rencontres, au nom du cordon sanitaire à opposer à l’extrême droite.</p>
+    <p>L’entrée en force du RN à l’Assemblée nationale a changé la donne aux yeux du patronat. « Peut-on exclure le Rassemblement national de nos contacts politiques ? Evidemment non, parce que c’est une formation qui pèse lourd au Parlement », avait justifié Patrick Martin la semaine dernière, tout en se défendant d’avoir « massivement pris parti pour le RN ».</p>
+    <p>Les rencontres entre les chefs d’entreprise et les dirigeants du RN sont longtemps restées taboues. Soucieuse de séduire son électorat populaire, Marine Le Pen considérait volontiers les grandes entreprises comme parties d’un « système » à combattre. Aujourd’hui encore, certains de ses lieutenants estiment vains les efforts déployés pour séduire le patronat.</p>
+    <p>En quête d’une crédibilité qui leur manque sur le plan économique, les dirigeants du RN se sont entourés de conseillers aux diplômes prestigieux, et pour certains passés par le monde de l’entreprise — à l’instar de François Durvye.</p>
+    <p>Le parti à la flamme se défend de tout renoncement à son programme économique, dont certains volets (sur l’Union européenne ou la réforme des retraites, par exemple) restent profondément urticants aux yeux des milieux d’affaires. Mais Jordan Bardella a sensiblement infléchi le discours : « Je crois dans la liberté d’entreprendre, […] je n’ai pas l’entreprise honteuse ». Il s’est dit « fier » des grands groupes français qui « créent des milliers d’emplois ».</p>
+    <p>Le président du RN espère même « coconstruire un projet de redressement de l’économie française » avec les entreprises : un grand projet d’ordonnance de simplification, à publier « dès le début du mandat ». Certains patrons ont trouvé Jordan Bardella « plus solide » mais aussi « plus malléable » que Marine Le Pen.</p>
+  </div>
+
+  <h2>2. Exercice à trous (max 150 mots) / Gap-fill exercise</h2>
+  <p>Utilisez les mots ci-dessous (mélangés au hasard) pour compléter le texte simplifié. Chaque mot ne s’emploie qu’une seule fois.</p>
+
+  <div class="wordbank" id="wordbank"></div>
+
+  <div class="text" id="text">
+    <p>Jordan Bardella, président du <input class="gap" data-answer="Rassemblement">
+    National, a <input class="gap" data-answer="déjeuné">
+    lundi avec le Medef. C’était la première fois qu’un dirigeant du RN était officiellement <input class="gap" data-answer="reçu">
+    par cette organisation <input class="gap" data-answer="patronale">.
+    Avant, les patrons <input class="gap" data-answer="refusaient">
+    de rencontrer l’extrême droite au nom du cordon sanitaire.</p>
+
+    <p>Depuis que le RN a beaucoup de <input class="gap" data-answer="députés">
+    à l’Assemblée, la situation a <input class="gap" data-answer="changé">.
+    On ne peut plus <input class="gap" data-answer="ignorer">
+    un parti qui pèse lourd au <input class="gap" data-answer="Parlement">.</p>
+
+    <p>Bardella veut gagner la <input class="gap" data-answer="confiance">
+    des entreprises avant la <input class="gap" data-answer="présidentielle">
+    de 2027. Il a dit qu’il <input class="gap" data-answer="croit">
+    dans la liberté d’entreprendre. Il s’est montré <input class="gap" data-answer="fier">
+    des grandes entreprises qui <input class="gap" data-answer="créent">
+    des emplois.</p>
+
+    <p>Cependant, son <input class="gap" data-answer="programme">
+    sur l’Europe et la <input class="gap" data-answer="réforme">
+    des retraites inquiète toujours les patrons. Bardella propose de <input class="gap" data-answer="simplifier">
+    les règles et de <input class="gap" data-answer="réduire">
+    la bureaucratie.</p>
+  </div>
+
+  <div class="actions">
+    <button class="btn-check" onclick="checkAnswers()">Vérifier / Check</button>
+    <button class="btn-shuffle" onclick="shuffleBank()">Mélanger / Shuffle</button>
+    <button class="btn-reset" onclick="resetAll()">Effacer / Reset</button>
+    <button class="btn-download" onclick="downloadWork()">Télécharger / Download</button>
+  </div>
+  <div id="score"></div>
+</div>
+
+<!-- Floating French keyboard -->
+<div id="keyboard">
+  <div class="khead">Clavier français — glissez pour déplacer</div>
+  <button data-char="é">é</button>
+  <button data-char="è">è</button>
+  <button data-char="ê">ê</button>
+  <button data-char="ë">ë</button>
+  <button data-char="à">à</button>
+  <button data-char="â">â</button>
+  <button data-char="ç">ç</button>
+  <button data-char="ô">ô</button>
+  <button data-char="î">î</button>
+  <button data-char="ï">ï</button>
+  <button data-char="ù">ù</button>
+  <button data-char="û">û</button>
+  <button data-char="œ">œ</button>
+  <button data-char="«">«</button>
+  <button data-char="»">»</button>
+  <button data-char="’">’</button>
+</div>
+
+<script>
+  // Collect answers from the inputs and build the word bank
+  const answers = Array.from(document.querySelectorAll('input.gap'))
+                       .map(i => i.dataset.answer);
+
+  function shuffle(arr){
+    const a = arr.slice();
+    for (let i = a.length - 1; i > 0; i--){
+      const j = Math.floor(Math.random() * (i + 1));
+      [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
+  }
+
+  function renderBank(){
+    const bank = document.getElementById('wordbank');
+    bank.innerHTML = '';
+    shuffle(answers).forEach(w => {
+      const chip = document.createElement('span');
+      chip.className = 'chip';
+      chip.textContent = w;
+      bank.appendChild(chip);
+    });
+  }
+  function shuffleBank(){ renderBank(); }
+  renderBank();
+
+  // Floating keyboard — track last focused field
+  let lastFocused = null;
+  document.querySelectorAll('input.gap').forEach(inp => {
+    inp.addEventListener('focus', () => lastFocused = inp);
+  });
+  document.getElementById('studentName').addEventListener('focus', e => lastFocused = e.target);
+
+  document.querySelectorAll('#keyboard button').forEach(btn => {
+    btn.addEventListener('click', e => {
+      e.preventDefault();
+      const ch = btn.dataset.char;
+      if (!lastFocused) return;
+      const el = lastFocused;
+      const start = el.selectionStart || 0;
+      const end = el.selectionEnd || 0;
+      el.value = el.value.slice(0, start) + ch + el.value.slice(end);
+      el.focus();
+      el.selectionStart = el.selectionEnd = start + ch.length;
+    });
+  });
+
+  // Draggable keyboard
+  (function makeDraggable(){
+    const kb = document.getElementById('keyboard');
+    let sx, sy, ox, oy, dragging = false;
+    kb.addEventListener('mousedown', e => {
+      if (e.target.tagName === 'BUTTON') return;
+      dragging = true;
+      sx = e.clientX; sy = e.clientY;
+      const r = kb.getBoundingClientRect();
+      ox = r.left; oy = r.top;
+      kb.style.left = ox + 'px';
+      kb.style.top = oy + 'px';
+      kb.style.right = 'auto';
+      kb.style.bottom = 'auto';
+    });
+    document.addEventListener('mousemove', e => {
+      if (!dragging) return;
+      kb.style.left = (ox + e.clientX - sx) + 'px';
+      kb.style.top  = (oy + e.clientY - sy) + 'px';
+    });
+    document.addEventListener('mouseup', () => dragging = false);
+  })();
+
+  function normalise(s){
+    return s.trim().toLowerCase()
+      .replace(/[’']/g, "'")
+      .replace(/\s+/g, ' ');
+  }
+
+  function checkAnswers(){
+    let correct = 0, total = 0;
+    document.querySelectorAll('input.gap').forEach(inp => {
+      total++;
+      const expected = normalise(inp.dataset.answer);
+      const given = normalise(inp.value);
+      if (given === expected){
+        inp.classList.add('correct'); inp.classList.remove('wrong'); correct++;
+      } else {
+        inp.classList.add('wrong'); inp.classList.remove('correct');
+      }
+    });
+    const pct = Math.round(correct / total * 100);
+    const name = document.getElementById('studentName').value.trim() || 'Élève';
+    document.getElementById('score').textContent =
+      `${name} : ${correct} / ${total} — ${pct}%`;
+  }
+
+  function resetAll(){
+    document.querySelectorAll('input.gap').forEach(inp => {
+      inp.value = '';
+      inp.classList.remove('correct','wrong');
+    });
+    document.getElementById('score').textContent = '';
+    renderBank();
+  }
+
+  function downloadWork(){
+    const name = document.getElementById('studentName').value.trim() || 'eleve';
+    const date = new Date().toLocaleString('fr-FR');
+    let out = `EXERCICE — Bardella au Medef (B2)\n`;
+    out += `Nom : ${name}\n`;
+    out += `Date : ${date}\n\n--- Réponses ---\n`;
+    let correct = 0, total = 0;
+    document.querySelectorAll('input.gap').forEach((inp, i) => {
+      total++;
+      const expected = inp.dataset.answer;
+      const given = inp.value.trim();
+      const ok = normalise(given) === normalise(expected);
+      if (ok) correct++;
+      out += `${i+1}. "${given}"  |  attendu : "${expected}"  |  ${ok ? 'OK' : 'X'}\n`;
+    });
+    out += `\nScore : ${correct} / ${total} (${Math.round(correct/total*100)}%)\n`;
+    const blob = new Blob([out], { type: 'text/plain;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `bardella_medef_${name.replace(/\s+/g,'_')}.txt`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  }
+</script>
+<!-- ============================================================
+     COMPLÉMENT MAISON — clavier d'accents flottant + nom obligatoire
+     Ajouté lors de la mise aux normes du site (août 2026).
+     Ne dépend d'aucune bibliothèque : tout est dans ce bloc.
+     ============================================================ -->
+<style>
+#housePad{position:fixed;right:16px;bottom:16px;z-index:99999;background:#fff;border:2px solid #2a5298;
+  border-radius:10px;box-shadow:0 6px 20px rgba(0,0,0,.25);padding:10px;width:238px;
+  font-family:Calibri,'Segoe UI',Tahoma,sans-serif;color:#1f2933;}
+#housePad h4{font-size:.84em;color:#42536b;margin:0 0 8px;display:flex;justify-content:space-between;
+  align-items:center;font-weight:700;}
+#housePad .keys{display:flex;flex-wrap:wrap;gap:5px;}
+#housePad button{font-family:inherit;background:#2a5298;color:#fff;border:none;border-radius:4px;
+  padding:6px 10px;font-size:1em;font-weight:600;cursor:pointer;line-height:1.1;}
+#housePad button:hover{background:#1e3c72;}
+#housePadToggle{padding:2px 9px;font-size:.85em;}
+#housePad.collapsed{width:auto;}
+#housePad.collapsed .keys,#housePad.collapsed .hint{display:none;}
+#housePad .hint{font-size:.76em;color:#7d8ba1;margin-top:7px;line-height:1.35;}
+#houseNameBar{background:#eef3fb;border:2px solid #2a5298;border-radius:8px;padding:13px 15px;
+  margin:0 auto 18px;max-width:1000px;font-family:Calibri,'Segoe UI',Tahoma,sans-serif;color:#1f2933;}
+#houseNameBar label{font-weight:700;display:block;margin-bottom:6px;font-size:.98rem;}
+#houseNameBar input{width:100%;max-width:430px;padding:9px 10px;border:2px solid #c3cfe2;border-radius:5px;
+  font-size:1rem;font-family:inherit;background:#fff;color:#1f2933;}
+#houseNameBar input:focus{outline:none;border-color:#2a5298;}
+#houseNameWarn{display:none;margin-top:9px;padding:8px 10px;background:#fdecea;color:#8a1c13;
+  border-radius:5px;font-weight:700;font-size:.95rem;}
+#houseDlBtn{display:inline-block;margin:26px auto;padding:12px 22px;background:#2e7d32;color:#fff;border:none;
+  border-radius:6px;font-family:Calibri,'Segoe UI',Tahoma,sans-serif;font-size:1rem;font-weight:700;cursor:pointer;}
+#houseDlBtn:hover{background:#256428;}
+@media (max-width:820px){#housePad{left:10px;right:10px;width:auto;bottom:8px;}}
+</style>
+<script>
+window.HOUSE = { noPad:true };
+(function () {
+  "use strict";
+  var CFG = window.HOUSE || {};
+  var KEYS = ['é','è','ê','ë','à','â','ù','û','ô','î','ï','ç','œ','«','»','É','È','À','Ç'];
+  var last = null;
+
+  function isField(el) {
+    return !!el && (el.tagName === 'TEXTAREA' ||
+      (el.tagName === 'INPUT' && /^(text|search|email|)$/i.test(el.type || '')));
+  }
+
+  /* ---------- 1. name bar (reuse the page's own field if it has one) ---------- */
+  var nameInput = document.querySelector('input[id*="name" i], input[id*="nom" i]');
+  if (!nameInput) {
+    var bar = document.createElement('div');
+    bar.id = 'houseNameBar';
+    bar.innerHTML =
+      '<label for="houseName">Votre nom / Your name — obligatoire pour télécharger votre travail</label>' +
+      '<input type="text" id="houseName" placeholder="Prénom et nom — ex. Léa Martin" autocomplete="name" maxlength="60">' +
+      '<div id="houseNameWarn">⚠ Écrivez votre nom avant de télécharger : il apparaîtra en tête du fichier.</div>';
+    var host = document.querySelector('main, .page, .container, .wrap, body');
+    host.insertBefore(bar, host.firstChild);
+    nameInput = document.getElementById('houseName');
+  } else if (!document.getElementById('houseNameWarn')) {
+    var warn = document.createElement('div');
+    warn.id = 'houseNameWarn';
+    warn.textContent = '⚠ Écrivez votre nom avant de télécharger : il apparaîtra en tête du fichier.';
+    nameInput.parentNode.insertBefore(warn, nameInput.nextSibling);
+  }
+  function studentName() { return (nameInput.value || '').trim(); }
+  function demandName() {
+    var w = document.getElementById('houseNameWarn');
+    if (w) w.style.display = 'block';
+    nameInput.style.borderColor = '#b3261e';
+    nameInput.focus();
+    nameInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+
+  /* ---------- 2. the download button must not fire without a name ---------- */
+  document.addEventListener('click', function (e) {
+    var b = e.target && e.target.closest ? e.target.closest('button, a') : null;
+    if (!b || b.id === 'housePadToggle') return;
+    var t = (b.textContent || '').toLowerCase();
+    if (!/t[ée]l[ée]charg|download|export|\.txt|\.pdf/.test(t)) return;
+    if (!studentName()) { e.preventDefault(); e.stopImmediatePropagation(); demandName(); }
+    else { var w = document.getElementById('houseNameWarn'); if (w) w.style.display = 'none'; }
+  }, true);
+
+  /* ---------- 3. floating accent pad (skipped if the page already has a good one) ---------- */
+  var pad = null;
+  if (!CFG.noPad) {
+  pad = document.createElement('div');
+  pad.id = 'housePad';
+  pad.innerHTML = '<h4><span>Clavier des accents</span><button type="button" id="housePadToggle">▾</button></h4>' +
+                  '<div class="keys"></div>' +
+                  '<div class="hint">Cliquez d\'abord dans une case, puis sur une touche.</div>';
+  document.body.appendChild(pad);
+  var keyBox = pad.querySelector('.keys');
+  KEYS.forEach(function (ch) {
+    var b = document.createElement('button');
+    b.type = 'button'; b.textContent = ch;
+    b.addEventListener('mousedown', function (ev) { ev.preventDefault(); });  /* garde le curseur dans la case */
+    b.addEventListener('click', function () { insert(ch); });
+    keyBox.appendChild(b);
+  });
+  document.getElementById('housePadToggle').addEventListener('click', function () {
+    pad.classList.toggle('collapsed');
+    this.textContent = pad.classList.contains('collapsed') ? '⌨' : '▾';
+  });
+  }
+  function insert(ch) {
+    if (!last) { if (pad) pad.querySelector('.hint').textContent = "Cliquez d'abord dans une case, puis sur une touche."; return; }
+    var s = last.selectionStart, e = last.selectionEnd;
+    if (s == null) { s = e = last.value.length; }
+    last.value = last.value.slice(0, s) + ch + last.value.slice(e);
+    last.dispatchEvent(new Event('input', { bubbles: true }));
+    last.focus();
+    try { last.setSelectionRange(s + ch.length, s + ch.length); } catch (err) {}
+  }
+  trackFields();
+  function trackFields() {
+    ['focus', 'focusin'].forEach(function (ev) {
+      document.addEventListener(ev, function (e) {
+        if (isField(e.target) && e.target !== nameInput) {
+          last = e.target;
+          var h = document.querySelector('#housePad .hint');
+          if (h) h.textContent = 'Case active : votre texte ira au bon endroit.';
+        }
+      }, true);
+    });
+    /* les pavés d'accents déjà présents ne doivent pas voler le focus */
+    document.addEventListener('mousedown', function (e) {
+      var b = e.target && e.target.closest ? e.target.closest('button') : null;
+      if (!b) return;
+      var t = (b.textContent || '').trim();
+      if (t.length <= 2 && /[À-ſŒœ«»]/.test(t)) e.preventDefault();
+    }, true);
+  }
+
+  /* ---------- 4. generic download, only where the page has none ---------- */
+  if (CFG.addDownload) {
+    var btn = document.createElement('button');
+    btn.id = 'houseDlBtn'; btn.type = 'button';
+    btn.textContent = '📥 Télécharger mes réponses';
+    var wrap = document.createElement('div');
+    wrap.style.textAlign = 'center';
+    wrap.appendChild(btn);
+    (document.querySelector('main, .page, .container, .wrap') || document.body).appendChild(wrap);
+
+    btn.addEventListener('click', function () {
+      var name = studentName();
+      if (!name) { demandName(); return; }
+      var L = [], now = new Date();
+      L.push((CFG.title || document.title).toUpperCase());
+      L.push(''.padEnd(64, '='));
+      L.push('Élève / Student : ' + name);
+      L.push('Date : ' + now.toLocaleString('fr-FR'));
+      L.push('');
+      var n = 0;
+      document.querySelectorAll('input[type=text], textarea, select').forEach(function (f) {
+        if (f === nameInput || f.id === 'houseName') return;
+        var val = (f.value || '').trim();
+        if (f.tagName === 'SELECT') val = f.selectedIndex > 0 ? f.options[f.selectedIndex].text : '';
+        n++;
+        L.push(n + '. ' + label(f));
+        L.push('   Réponse : ' + (val || '—'));
+        L.push('');
+      });
+      document.querySelectorAll('input[type=radio]:checked, input[type=checkbox]:checked').forEach(function (f) {
+        L.push('✔ ' + label(f));
+      });
+      L.push('');
+      L.push('Déposez ce fichier sur Teams / SharePoint.');
+      var blob = new Blob([L.join('\n')], { type: 'text/plain;charset=utf-8' });
+      var a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = (CFG.filePrefix || 'mes_reponses') + '_' + name.replace(/[^\wÀ-ÿ]+/g, '_') + '_' +
+                   now.toISOString().slice(0, 10) + '.txt';
+      document.body.appendChild(a); a.click(); document.body.removeChild(a);
+      setTimeout(function () { URL.revokeObjectURL(a.href); }, 2000);
+    });
+
+    function label(f) {
+      if (f.getAttribute('aria-label')) return f.getAttribute('aria-label');
+      var lab = f.id && document.querySelector('label[for="' + f.id + '"]');
+      if (lab) return clean(lab.textContent);
+      var box = f.closest('li, td, .question, .item, .card, .exercise, .q-block, div');
+      var hops = 0;
+      while (box && hops < 4) {
+        var t = clean(box.textContent);
+        if (t.length > 8) return t.slice(0, 140);
+        box = box.parentElement; hops++;
+      }
+      return f.placeholder || f.name || f.id || 'Réponse';
+    }
+    function clean(s) { return (s || '').replace(/\s+/g, ' ').trim(); }
+  }
+})();
+</script>
+</body>
+</html>

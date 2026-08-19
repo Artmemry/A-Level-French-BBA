@@ -1,0 +1,1030 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>L'Étranger - Chapitre 4 Analyse</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Georgia', serif;
+            line-height: 1.6;
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            color: #333;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 2.2em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.95;
+        }
+        
+        .text-toggle {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 15px 25px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 1em;
+            box-shadow: 0 5px 20px rgba(52, 152, 219, 0.5);
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+        
+        .text-toggle:hover {
+            background: #2980b9;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(52, 152, 219, 0.6);
+        }
+        
+        .floating-text {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            max-width: 800px;
+            max-height: 80vh;
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+            overflow-y: auto;
+            z-index: 999;
+            display: none;
+        }
+        
+        .floating-text.show {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        .floating-text h2 {
+            color: #3498db;
+            margin-bottom: 20px;
+            font-size: 1.8em;
+        }
+        
+        .floating-text p {
+            margin-bottom: 15px;
+            line-height: 1.8;
+            text-align: justify;
+        }
+        
+        .close-text {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            background: #e74c3c;
+            color: white;
+            border: none;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+        
+        .close-text:hover {
+            background: #c0392b;
+        }
+        
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            z-index: 998;
+            display: none;
+        }
+        
+        .overlay.show {
+            display: block;
+        }
+        
+        .content {
+            padding: 40px;
+        }
+        
+        .section {
+            margin-bottom: 40px;
+            padding: 30px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            border-left: 5px solid #3498db;
+            display: none;
+        }
+        
+        .section.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .section h2 {
+            color: #3498db;
+            margin-bottom: 20px;
+            font-size: 1.8em;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+        }
+        
+        .question {
+            background: white;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .question-text {
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-size: 1.1em;
+        }
+        
+        .options {
+            margin: 15px 0;
+        }
+        
+        .option {
+            padding: 12px 15px;
+            margin: 8px 0;
+            background: #f8f9fa;
+            border: 2px solid #e9ecef;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .option:hover {
+            background: #e9ecef;
+            border-color: #3498db;
+            transform: translateX(5px);
+        }
+        
+        .option.selected {
+            background: #3498db;
+            color: white;
+            border-color: #3498db;
+        }
+        
+        .option.correct {
+            background: #27ae60;
+            color: white;
+            border-color: #27ae60;
+        }
+        
+        .option.incorrect {
+            background: #e74c3c;
+            color: white;
+            border-color: #e74c3c;
+        }
+        
+        textarea {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e9ecef;
+            border-radius: 6px;
+            font-family: inherit;
+            font-size: 1em;
+            resize: vertical;
+            min-height: 100px;
+        }
+        
+        textarea:focus {
+            outline: none;
+            border-color: #3498db;
+        }
+        
+        .btn {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: all 0.3s ease;
+            margin: 10px 5px;
+        }
+        
+        .btn:hover {
+            background: #2980b9;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.4);
+        }
+        
+        .btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .feedback {
+            margin-top: 15px;
+            padding: 15px;
+            border-radius: 6px;
+            display: none;
+        }
+        
+        .feedback.show {
+            display: block;
+            animation: slideIn 0.3s ease;
+        }
+        
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .feedback.correct {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .feedback.incorrect {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        
+        .feedback.info {
+            background: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+        
+        .nav-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 2px solid #e9ecef;
+        }
+        
+        .progress {
+            background: #e9ecef;
+            height: 8px;
+            border-radius: 10px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+        
+        .progress-bar {
+            background: linear-gradient(90deg, #3498db 0%, #2980b9 100%);
+            height: 100%;
+            transition: width 0.3s ease;
+            border-radius: 10px;
+        }
+        
+        .quote {
+            background: #fff3cd;
+            border-left: 4px solid #f39c12;
+            padding: 15px;
+            margin: 15px 0;
+            font-style: italic;
+            color: #856404;
+        }
+        
+        .hint {
+            background: #e7f3ff;
+            border-left: 4px solid #3498db;
+            padding: 12px;
+            margin: 10px 0;
+            font-size: 0.95em;
+            color: #014361;
+        }
+        
+        .score-display {
+            text-align: center;
+            font-size: 1.5em;
+            color: #3498db;
+            margin: 20px 0;
+            font-weight: bold;
+        }
+        
+        .theme-box {
+            background: #ecf0f1;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+            border-left: 4px solid #3498db;
+        }
+        
+        .theme-title {
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 8px;
+            font-size: 1.1em;
+        }
+        
+        .theme-desc {
+            color: #7f8c8d;
+        }
+    </style>
+</head>
+<body>
+    <button class="text-toggle" onclick="toggleText()">📖 Voir le texte intégral</button>
+    
+    <div class="overlay" id="overlay" onclick="toggleText()"></div>
+    
+    <div class="floating-text" id="floatingText">
+        <button class="close-text" onclick="toggleText()">×</button>
+        <h2>L'Étranger - Chapitre 4 (Deuxième Partie)</h2>
+        <p>Même sur un banc d'accusé, il est toujours intéressant d'entendre parler de soi. Pendant les plaidoiries du procureur et de mon avocat, je peux dire qu'on a beaucoup parlé de moi et peut-être plus de moi que de mon crime. Étaient-elles si différentes, d'ailleurs, ces plaidoiries ? L'avocat levait les bras et plaidait coupable, mais avec excuses. Le procureur tendait ses mains et dénonçait la culpabilité, mais sans excuses. Une chose pourtant me gênait vaguement. Malgré mes préoccupations, j'étais parfois tenté d'intervenir et mon avocat me disait alors : « Taisez-vous, cela vaut mieux pour votre affaire. » En quelque sorte, on avait l'air de traiter cette affaire en dehors de moi. Tout se déroulait sans mon intervention. Mon sort se réglait sans qu'on prenne mon avis. De temps en temps, j'avais envie d'interrompre tout le monde et de dire : « Mais tout de même, qui est l'accusé ? C'est important d'être l'accusé. Et j'ai quelque chose à dire ! » Mais réflexion faite, je n'avais rien à dire.</p>
+        
+        <p>D'ailleurs, je dois reconnaître que l'intérêt qu'on trouve à occuper les gens ne dure pas longtemps. Par exemple, la plaidoirie du procureur m'a très vite lassé. Ce sont seulement des fragments, des gestes ou des tirades entières, mais détachées de l'ensemble, qui m'ont frappé ou ont éveillé mon intérêt.</p>
+        
+        <p>Le fond de sa pensée, si j'ai bien compris, c'est que j'avais prémédité mon crime. Du moins, il a essayé de le démontrer. Comme il le disait lui-même : « J'en ferai la preuve, Messieurs, et je la ferai doublement. Sous l'aveuglante clarté des faits d'abord et ensuite dans l'éclairage sombre que me fournira la psychologie de cette âme criminelle. »</p>
+        
+        <p>Il a résumé les faits à partir de la mort de maman. Il a rappelé mon insensibilité, l'ignorance où j'étais de l'âge de maman, mon bain du lendemain, avec une femme, le cinéma, Fernandel et enfin la rentrée avec Marie. J'ai mis du temps à le comprendre, à ce moment, parce qu'il disait « sa maîtresse » et pour moi, elle était Marie. Ensuite, il en est venu à l'histoire de Raymond.</p>
+        
+        <p>« Et voilà, Messieurs, a dit l'avocat général. J'ai retracé devant vous le fil d'événements qui a conduit cet homme à tuer en pleine connaissance de cause. J'insiste là-dessus, a-t-il dit. Car il ne s'agit pas d'un assassinat ordinaire, d'un acte irréfléchi que vous pourriez estimer atténué par les circonstances. Cet homme, Messieurs, cet homme est intelligent. Vous l'avez entendu, n'est-ce pas ? Il sait répondre. Il connaît la valeur des mots. Et l'on ne peut pas dire qu'il a agi sans se rendre compte de ce qu'il faisait. »</p>
+        
+        <p>Moi j'écoutais et j'entendais qu'on me jugeait intelligent. Mais je ne comprenais pas bien comment les qualités d'un homme ordinaire pouvaient devenir des charges écrasantes contre un coupable.</p>
+    </div>
+    
+    <div class="container">
+        <div class="header">
+            <h1>L'Étranger - Albert Camus</h1>
+            <p>Chapitre 4, Deuxième Partie : L'exclusion de Meursault à son propre procès</p>
+        </div>
+        
+        <div class="content">
+            <div class="progress">
+                <div class="progress-bar" id="progressBar"></div>
+            </div>
+            <div class="score-display" id="scoreDisplay">Score : 0/0</div>
+            
+            <!-- Key Themes Overview -->
+            <div class="theme-box">
+                <div class="theme-title">Thèmes Clés de ce Chapitre</div>
+                <div class="theme-desc">
+                    • L'exclusion et l'aliénation • Le regard détaché de Meursault • 
+                    L'absurdité du système judiciaire • Le décalage entre la réalité et le langage
+                </div>
+            </div>
+            
+            <!-- Section 1: Point de vue narratif -->
+            <div class="section active" id="section1">
+                <h2>I. Le Point de Vue Narratif</h2>
+                
+                <div class="quote">
+                    "Même sur un banc d'accusé, il est toujours intéressant d'entendre parler de soi."
+                </div>
+                
+                <div class="question">
+                    <div class="question-text">1. Quel est le point de vue narratif utilisé dans cet extrait ?</div>
+                    <div class="options">
+                        <div class="option" data-answer="a">a) Narration à la troisième personne omnisciente</div>
+                        <div class="option" data-answer="b">b) Narration à la première personne (point de vue interne de Meursault)</div>
+                        <div class="option" data-answer="c">c) Narration à la deuxième personne</div>
+                        <div class="option" data-answer="d">d) Plusieurs points de vue mélangés</div>
+                    </div>
+                    <button class="btn" onclick="checkAnswer(this, 'b', 5)">Vérifier</button>
+                    <div class="feedback"></div>
+                </div>
+                
+                <div class="question">
+                    <div class="question-text">2. Quel effet produit ce point de vue narratif sur notre compréhension du procès ?</div>
+                    <div class="options">
+                        <div class="option" data-answer="a">a) Il donne des faits objectifs et neutres sur le procès</div>
+                        <div class="option" data-answer="b">b) Il montre le décalage entre ce qui est dit et comment Meursault le perçoit</div>
+                        <div class="option" data-answer="c">c) Il rend le procureur sympathique au lecteur</div>
+                        <div class="option" data-answer="d">d) Il cache les vrais sentiments de Meursault</div>
+                    </div>
+                    <button class="btn" onclick="checkAnswer(this, 'b', 5)">Vérifier</button>
+                    <div class="feedback"></div>
+                </div>
+                
+                <div class="question">
+                    <div class="question-text">3. Réponse courte : En quoi le titre « L'Étranger » s'applique-t-il à Meursault dans cette scène de procès ? (50-100 mots)</div>
+                    <textarea id="answer3" placeholder="Écrivez votre réponse ici..."></textarea>
+                    <button class="btn" onclick="showModelAnswer(3)">Voir un exemple de réponse</button>
+                    <div class="feedback"></div>
+                </div>
+            </div>
+            
+            <!-- Section 2: Le regard détaché de Meursault -->
+            <div class="section" id="section2">
+                <h2>II. Le Regard Détaché de Meursault</h2>
+                
+                <div class="hint">
+                    💡 Observez comment Meursault décrit les événements avec distance et analyse.
+                </div>
+                
+                <div class="question">
+                    <div class="question-text">4. Quels mots ou expressions montrent que Meursault a du mal à comprendre ou à s'engager dans le procès ?</div>
+                    <div class="options">
+                        <div class="option" data-answer="a">a) « vraiment », « absolument », « certainement »</div>
+                        <div class="option" data-answer="b">b) « peut-être », « en quelque sorte », « si j'ai bien compris »</div>
+                        <div class="option" data-answer="c">c) « toujours », « jamais », « souvent »</div>
+                        <div class="option" data-answer="d">d) « rapidement », « lentement », « heureusement »</div>
+                    </div>
+                    <button class="btn" onclick="checkAnswer(this, 'b', 5)">Vérifier</button>
+                    <div class="feedback"></div>
+                </div>
+                
+                <div class="question">
+                    <div class="question-text">5. Comment Meursault décrit-il la différence entre son avocat et le procureur ?</div>
+                    <div class="options">
+                        <div class="option" data-answer="a">a) Ils utilisent des stratégies complètement opposées</div>
+                        <div class="option" data-answer="b">b) Ils font les mêmes gestes et parlent tous les deux de culpabilité</div>
+                        <div class="option" data-answer="c">c) Ils ne se ressemblent en rien</div>
+                        <div class="option" data-answer="d">d) L'un parle de crime, l'autre d'innocence</div>
+                    </div>
+                    <button class="btn" onclick="checkAnswer(this, 'b', 5)">Vérifier</button>
+                    <div class="feedback"></div>
+                </div>
+                
+                <div class="question">
+                    <div class="question-text">6. Analyse : Expliquez comment le point de vue interne crée un effet de distanciation. Citez des expressions précises du texte. (150-200 mots)</div>
+                    <textarea id="answer6" placeholder="Développez votre analyse..."></textarea>
+                    <button class="btn" onclick="showModelAnswer(6)">Voir un exemple de réponse</button>
+                    <div class="feedback"></div>
+                </div>
+            </div>
+            
+            <!-- Section 3: L'exclusion de Meursault -->
+            <div class="section" id="section3">
+                <h2>III. L'Exclusion de Meursault</h2>
+                
+                <div class="quote">
+                    "On avait l'air de traiter cette affaire en dehors de moi. Tout se déroulait sans mon intervention."
+                </div>
+                
+                <div class="question">
+                    <div class="question-text">7. Que dit l'avocat de Meursault quand celui-ci veut intervenir ?</div>
+                    <div class="options">
+                        <div class="option" data-answer="a">a) « Parlez librement »</div>
+                        <div class="option" data-answer="b">b) « Taisez-vous, cela vaut mieux pour votre affaire »</div>
+                        <div class="option" data-answer="c">c) « Dites ce que vous pensez »</div>
+                        <div class="option" data-answer="d">d) « Vous avez raison de vous défendre »</div>
+                    </div>
+                    <button class="btn" onclick="checkAnswer(this, 'b', 5)">Vérifier</button>
+                    <div class="feedback"></div>
+                </div>
+                
+                <div class="question">
+                    <div class="question-text">8. Quelle phrase montre que Meursault n'a pas de contrôle sur son propre procès ?</div>
+                    <div class="options">
+                        <div class="option" data-answer="a">a) « Je peux dire qu'on a beaucoup parlé de moi »</div>
+                        <div class="option" data-answer="b">b) « Mon sort se réglait sans qu'on prenne mon avis »</div>
+                        <div class="option" data-answer="c">c) « L'avocat levait les bras »</div>
+                        <div class="option" data-answer="d">d) « C'est important d'être l'accusé »</div>
+                    </div>
+                    <button class="btn" onclick="checkAnswer(this, 'b', 5)">Vérifier</button>
+                    <div class="feedback"></div>
+                </div>
+                
+                <div class="question">
+                    <div class="question-text">9. Pourquoi Meursault ne dit-il finalement rien quand il veut intervenir ?</div>
+                    <div class="options">
+                        <div class="option" data-answer="a">a) Il a peur du jugement</div>
+                        <div class="option" data-answer="b">b) Il réalise qu'il n'a rien à dire</div>
+                        <div class="option" data-answer="c">c) Il est trop en colère pour parler</div>
+                        <div class="option" data-answer="d">d) Il veut protéger quelqu'un d'autre</div>
+                    </div>
+                    <button class="btn" onclick="checkAnswer(this, 'b', 5)">Vérifier</button>
+                    <div class="feedback"></div>
+                </div>
+                
+                <div class="question">
+                    <div class="question-text">10. Réponse développée : Analysez le paradoxe de la situation de Meursault - comment peut-il être simultanément au centre (comme accusé) et exclu de son propre procès ? (200-250 mots)</div>
+                    <textarea id="answer10" placeholder="Rédigez votre réponse..."></textarea>
+                    <button class="btn" onclick="showModelAnswer(10)">Voir un exemple de réponse</button>
+                    <div class="feedback"></div>
+                </div>
+            </div>
+            
+            <!-- Section 4: Le discours du procureur -->
+            <div class="section" id="section4">
+                <h2>IV. Le Discours du Procureur</h2>
+                
+                <div class="question">
+                    <div class="question-text">11. Selon le texte, de quoi parle-t-on le plus pendant le procès ?</div>
+                    <div class="options">
+                        <div class="option" data-answer="a">a) Uniquement du crime</div>
+                        <div class="option" data-answer="b">b) De la victime</div>
+                        <div class="option" data-answer="c">c) De Meursault comme personne, peut-être plus que de son crime</div>
+                        <div class="option" data-answer="d">d) Des témoins</div>
+                    </div>
+                    <button class="btn" onclick="checkAnswer(this, 'c', 5)">Vérifier</button>
+                    <div class="feedback"></div>
+                </div>
+                
+                <div class="question">
+                    <div class="question-text">12. Quels comportements de Meursault après la mort de sa mère le procureur utilise-t-il contre lui ?</div>
+                    <div class="options">
+                        <div class="option" data-answer="a">a) Son insensibilité, ne pas connaître l'âge de sa mère, aller se baigner avec une femme, aller au cinéma voir Fernandel</div>
+                        <div class="option" data-answer="b">b) Seulement le fait qu'il ait tué un homme</div>
+                        <div class="option" data-answer="c">c) Ses relations avec Raymond uniquement</div>
+                        <div class="option" data-answer="d">d) Son refus de pleurer au tribunal</div>
+                    </div>
+                    <button class="btn" onclick="checkAnswer(this, 'a', 5)">Vérifier</button>
+                    <div class="feedback"></div>
+                </div>
+                
+                <div class="question">
+                    <div class="question-text">13. Pourquoi le procureur dit-il que Meursault est "intelligent" et comment Meursault réagit-il à cela ?</div>
+                    <div class="options">
+                        <div class="option" data-answer="a">a) Pour le complimenter, et Meursault est fier</div>
+                        <div class="option" data-answer="b">b) Pour montrer qu'il a prémédité son crime, et Meursault ne comprend pas pourquoi c'est une accusation</div>
+                        <div class="option" data-answer="c">c) Pour montrer qu'il est éduqué, et Meursault est d'accord</div>
+                        <div class="option" data-answer="d">d) Pour le comparer à d'autres criminels, et Meursault est en colère</div>
+                    </div>
+                    <button class="btn" onclick="checkAnswer(this, 'b', 5)">Vérifier</button>
+                    <div class="feedback"></div>
+                </div>
+                
+                <div class="question">
+                    <div class="question-text">14. Analyse stylistique : Pourquoi Meursault met-il certains mots entre guillemets (par exemple "sa maîtresse") ? Que montre cela sur son rapport au langage ? (150-200 mots)</div>
+                    <textarea id="answer14" placeholder="Analysez le rapport au langage..."></textarea>
+                    <button class="btn" onclick="showModelAnswer(14)">Voir un exemple de réponse</button>
+                    <div class="feedback"></div>
+                </div>
+            </div>
+            
+            <!-- Section 5: Le décalage langagier -->
+            <div class="section" id="section5">
+                <h2>V. Le Décalage Langagier</h2>
+                
+                <div class="question">
+                    <div class="question-text">15. Quand le procureur dit "sa maîtresse", comment Meursault le comprend-il ?</div>
+                    <div class="options">
+                        <div class="option" data-answer="a">a) Il comprend exactement la même chose</div>
+                        <div class="option" data-answer="b">b) Pour lui, "elle était Marie" - il ne comprend pas cette étiquette morale</div>
+                        <div class="option" data-answer="c">c) Il pense à une autre personne</div>
+                        <div class="option" data-answer="d">d) Il ne comprend pas le mot "maîtresse"</div>
+                    </div>
+                    <button class="btn" onclick="checkAnswer(this, 'b', 5)">Vérifier</button>
+                    <div class="feedback"></div>
+                </div>
+                
+                <div class="question">
+                    <div class="question-text">16. Comment Camus montre-t-il que Meursault et le procureur ne parlent pas le même langage ?</div>
+                    <div class="options">
+                        <div class="option" data-answer="a">a) Ils parlent des langues différentes</div>
+                        <div class="option" data-answer="b">b) Le procureur utilise un langage moral et dramatique, Meursault un langage simple et factuel</div>
+                        <div class="option" data-answer="c">c) Meursault ne comprend pas le français</div>
+                        <div class="option" data-answer="d">d) Il n'y a aucun décalage</div>
+                    </div>
+                    <button class="btn" onclick="checkAnswer(this, 'b', 5)">Vérifier</button>
+                    <div class="feedback"></div>
+                </div>
+                
+                <div class="question">
+                    <div class="question-text">17. Réponse de synthèse : Comment Camus utilise-t-il le langage pour montrer l'aliénation de Meursault ? Analysez avec des exemples du texte. (200-250 mots)</div>
+                    <textarea id="answer17" placeholder="Analysez l'utilisation du langage..."></textarea>
+                    <button class="btn" onclick="showModelAnswer(17)">Voir un exemple de réponse</button>
+                    <div class="feedback"></div>
+                </div>
+            </div>
+            
+            <!-- Section 6: Synthèse et réflexion -->
+            <div class="section" id="section6">
+                <h2>VI. Synthèse et Réflexion</h2>
+                
+                <div class="question">
+                    <div class="question-text">18. Quelle est la réaction finale de Meursault face au discours du procureur qui le qualifie d'intelligent ?</div>
+                    <div class="options">
+                        <div class="option" data-answer="a">a) Il est flatté</div>
+                        <div class="option" data-answer="b">b) Il ne comprend pas comment les qualités d'un homme ordinaire peuvent devenir des accusations</div>
+                        <div class="option" data-answer="c">c) Il est en colère contre cette accusation</div>
+                        <div class="option" data-answer="d">d) Il accepte totalement l'accusation</div>
+                    </div>
+                    <button class="btn" onclick="checkAnswer(this, 'b', 5)">Vérifier</button>
+                    <div class="feedback"></div>
+                </div>
+                
+                <div class="question">
+                    <div class="question-text">19. Pourquoi peut-on dire que Meursault est condamné pour son refus des conventions sociales plutôt que pour le meurtre lui-même ?</div>
+                    <textarea id="answer19" placeholder="Réfléchissez à cette question centrale..."></textarea>
+                    <button class="btn" onclick="showModelAnswer(19)">Voir un exemple de réponse</button>
+                    <div class="feedback"></div>
+                </div>
+                
+                <div class="question">
+                    <div class="question-text">20. Dissertation courte : Comment ce passage illustre-t-il les thèmes de l'aliénation et de l'incompréhension dans L'Étranger ? Rédigez une réponse structurée. (300-400 mots)</div>
+                    <div class="hint">💡 Pensez à structurer votre réponse : I. L'aliénation de Meursault face au langage / II. L'exclusion du procès / III. Le refus des conventions sociales</div>
+                    <textarea id="answer20" style="min-height: 200px;" placeholder="Rédigez votre dissertation..."></textarea>
+                    <button class="btn" onclick="showModelAnswer(20)">Voir un exemple de réponse</button>
+                    <div class="feedback"></div>
+                </div>
+                
+                <div class="question">
+                    <div class="question-text">21. Réflexion personnelle : Pensez-vous que Meursault est vraiment "étranger" à son procès, ou au contraire, est-ce le procès qui est "étranger" à la réalité ?</div>
+                    <textarea id="answer21" placeholder="Réflexion personnelle..."></textarea>
+                    <div class="feedback info show">
+                        <strong>💭 Réflexion libre :</strong> Il n'y a pas de "bonne" réponse unique. Pensez à qui est vraiment l'étranger dans cette scène : Meursault ou le système judiciaire ?
+                    </div>
+                </div>
+            </div>
+            
+            <div class="nav-buttons">
+                <button class="btn" id="prevBtn" onclick="changeSection(-1)">← Précédent</button>
+                <button class="btn" id="nextBtn" onclick="changeSection(1)">Suivant →</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentSection = 1;
+        const totalSections = 6;
+        let scores = {};
+        let totalQuestions = 0;
+        let correctAnswers = 0;
+
+        function toggleText() {
+            const floatingText = document.getElementById('floatingText');
+            const overlay = document.getElementById('overlay');
+            
+            if (floatingText.classList.contains('show')) {
+                floatingText.classList.remove('show');
+                overlay.classList.remove('show');
+            } else {
+                floatingText.classList.add('show');
+                overlay.classList.add('show');
+            }
+        }
+
+        function updateProgress() {
+            const progress = (currentSection / totalSections) * 100;
+            document.getElementById('progressBar').style.width = progress + '%';
+        }
+
+        function updateScore() {
+            document.getElementById('scoreDisplay').textContent = 
+                `Score : ${correctAnswers}/${totalQuestions} questions correctes`;
+        }
+
+        function changeSection(direction) {
+            const sections = document.querySelectorAll('.section');
+            sections[currentSection - 1].classList.remove('active');
+            
+            currentSection += direction;
+            
+            if (currentSection < 1) currentSection = 1;
+            if (currentSection > totalSections) currentSection = totalSections;
+            
+            sections[currentSection - 1].classList.add('active');
+            
+            document.getElementById('prevBtn').disabled = currentSection === 1;
+            document.getElementById('nextBtn').disabled = currentSection === totalSections;
+            
+            updateProgress();
+            window.scrollTo({top: 0, behavior: 'smooth'});
+        }
+
+        function checkAnswer(button, correctAnswer, points) {
+            const question = button.closest('.question');
+            const options = question.querySelectorAll('.option');
+            const feedback = question.querySelector('.feedback');
+            
+            let selectedAnswer = null;
+            options.forEach(option => {
+                if (option.classList.contains('selected')) {
+                    selectedAnswer = option.dataset.answer;
+                }
+            });
+            
+            if (!selectedAnswer) {
+                feedback.className = 'feedback show incorrect';
+                feedback.innerHTML = '⚠️ Veuillez sélectionner une réponse.';
+                return;
+            }
+            
+            const questionId = button.closest('.question').querySelector('.question-text').textContent.split('.')[0];
+            
+            if (!scores[questionId]) {
+                totalQuestions++;
+            }
+            
+            if (selectedAnswer === correctAnswer) {
+                feedback.className = 'feedback show correct';
+                feedback.innerHTML = '✓ Excellent ! Réponse correcte.';
+                options.forEach(option => {
+                    if (option.dataset.answer === correctAnswer) {
+                        option.classList.add('correct');
+                    }
+                });
+                
+                if (!scores[questionId]) {
+                    correctAnswers++;
+                    scores[questionId] = true;
+                }
+            } else {
+                feedback.className = 'feedback show incorrect';
+                feedback.innerHTML = '✗ Pas tout à fait. Relisez le texte et réfléchissez à nouveau.';
+                options.forEach(option => {
+                    if (option.dataset.answer === correctAnswer) {
+                        option.classList.add('correct');
+                    }
+                    if (option.dataset.answer === selectedAnswer) {
+                        option.classList.add('incorrect');
+                    }
+                });
+                
+                if (scores[questionId]) {
+                    correctAnswers--;
+                }
+                scores[questionId] = false;
+            }
+            
+            button.disabled = true;
+            updateScore();
+        }
+
+        function showModelAnswer(questionNum) {
+            const question = document.getElementById(`answer${questionNum}`).closest('.question');
+            const feedback = question.querySelector('.feedback');
+            
+            const modelAnswers = {
+                3: `<strong>Exemple de réponse :</strong><br><br>
+                Meursault est « étranger » à son propre procès car il en est exclu. Bien qu'il soit l'accusé, il se perçoit comme un spectateur externe qui observe sans vraiment comprendre. Les expressions « en dehors de moi », « sans mon intervention » montrent cette distance. De plus, il ne se reconnaît pas dans le portrait que dresse le procureur : le vocabulaire utilisé (« maîtresse », « moralité douteuse ») lui est étranger. Cette étrangeté illustre son refus des codes sociaux et moraux qui régissent la société.`,
+                
+                6: `<strong>Exemple de réponse :</strong><br><br>
+                Le point de vue interne crée un effet de distanciation remarquable. En filtrant tous les événements à travers la conscience de Meursault, Camus nous fait percevoir l'absurdité du procès. Les adverbes d'approximation (« peut-être », « en quelque sorte », « si j'ai bien compris ») révèlent un narrateur qui a des difficultés à saisir la logique judiciaire. Cette incompréhension n'est pas due à une faiblesse intellectuelle, mais à une distance fondamentale entre la vision morale du procureur et la perception simple de Meursault. Quand il note que l'avocat « levait les bras et plaidait coupable, mais avec excuses » tandis que « le procureur tendait ses mains et dénonçait la culpabilité, mais sans excuses », les phrases parallèles soulignent l'absurdité : les deux hommes défendent la même thèse (la culpabilité), seule l'intensité diffère.`,
+                
+                10: `<strong>Exemple de réponse :</strong><br><br>
+                Le paradoxe de la situation de Meursault réside dans sa double position contradictoire : il est à la fois le centre apparent du procès (l'accusé) et totalement exclu. Physiquement, il occupe le « banc d'accusé », position centrale qui devrait lui conférer un rôle principal. Pourtant, il est absent : « On avait l'air de traiter cette affaire en dehors de moi », « mon sort se réglait sans qu'on prenne mon avis ». Le passage à la voix passive (« tout se déroulait ») et l'utilisation du pronom impersonnel « on » effacent Meursault comme sujet actif de son procès. Ce paradoxe révèle la nature même du procès : il ne s'agit pas de juger les actes de Meursault, mais de plaquer sur lui une interprétation morale préétablie.`,
+                
+                14: `<strong>Exemple de réponse :</strong><br><br>
+                Meursault met certains mots entre guillemets (comme « sa maîtresse » ou « pour être sûr que la besogne était bien faite ») pour montrer sa distance par rapport à ce langage. Ces guillemets indiquent que ces termes ne sont pas les siens, qu'ils lui sont étrangers. Quand le procureur dit « sa maîtresse », Meursault précise : « pour moi, elle était Marie ». Cette distinction est cruciale : le procureur utilise un vocabulaire chargé de jugements moraux, tandis que Meursault utilise des noms propres, simples et concrets. Ce décalage langagier montre que Meursault et le système judiciaire ne partagent pas le même rapport au langage ni à la réalité.`,
+                
+                17: `<strong>Exemple de réponse :</strong><br><br>
+                Camus utilise le langage pour montrer l'aliénation de Meursault de plusieurs façons. D'abord, par les guillemets que Meursault place autour des termes du procureur (« maîtresse », « moralité douteuse »), signalant son étrangeté à ce vocabulaire. Ensuite, par le contraste entre le langage dramatique et moralisateur du procureur (« l'aveuglante clarté », « l'âme criminelle ») et le langage simple, factuel de Meursault. Enfin, par les hésitations de Meursault (« peut-être », « en quelque sorte », « si j'ai bien compris ») qui montrent sa difficulté à comprendre le langage codé du tribunal. Ce décalage langagier révèle une aliénation plus profonde : Meursault est étranger aux codes sociaux et moraux que le langage du tribunal véhicule.`,
+                
+                19: `<strong>Exemple de réponse :</strong><br><br>
+                Meursault est condamné pour son refus des conventions sociales car le procureur construit son réquisitoire non sur le meurtre, mais sur le comportement de Meursault après la mort de sa mère. Le texte le dit explicitement : « on a beaucoup parlé de moi et peut-être plus de moi que de mon crime ». Les « preuves » citées sont révélatrices : « mon insensibilité, l'ignorance où j'étais de l'âge de maman, mon bain du lendemain, avec une femme, le cinéma, Fernandel ». Ces éléments n'ont aucun rapport juridique avec le meurtre, mais ils violent les codes sociaux du deuil et de la piété filiale. Meursault est coupable de ne pas avoir joué la comédie de la tendresse filiale, de ne pas avoir pleuré, de ne pas avoir respecté les rituels attendus.`,
+                
+                20: `<strong>Exemple de dissertation :</strong><br><br>
+                <strong>Introduction :</strong> Dans L'Étranger, Albert Camus met en scène le procès de Meursault, un homme accusé de meurtre mais étrangement détaché de son propre jugement. Ce passage illustre parfaitement les thèmes de l'aliénation et de l'incompréhension.<br><br>
+                
+                <strong>I. L'aliénation face au langage</strong><br>
+                Meursault vit une aliénation linguistique totale. Le langage du procureur lui est fondamentalement étranger. L'écart apparaît quand le procureur parle de « sa maîtresse » alors que pour Meursault « elle était Marie ». Ce n'est pas qu'une question de vocabulaire : c'est toute une vision morale du monde qui sépare les deux hommes. Le procureur utilise un langage chargé de jugements moraux, que Meursault met entre guillemets pour marquer sa distance.<br><br>
+                
+                <strong>II. L'exclusion du procès</strong><br>
+                Meursault est physiquement présent mais exclu de son propre procès. Il observe : « On avait l'air de traiter cette affaire en dehors de moi. Tout se déroulait sans mon intervention ». Quand il veut intervenir, son avocat le fait taire. Il n'est plus qu'un objet sur lequel s'exerce la mécanique judiciaire, réduit au silence dans son propre jugement.<br><br>
+                
+                <strong>III. Le refus des conventions sociales</strong><br>
+                Finalement, ce n'est pas le meurtre qui est jugé mais l'homme lui-même et son refus des conventions sociales. Le procureur liste les comportements de Meursault après la mort de sa mère : son insensibilité apparente, le fait qu'il ne connaisse pas l'âge de sa mère, qu'il soit allé se baigner et au cinéma. Ces éléments n'ont aucun lien juridique avec le meurtre mais violent les codes du deuil. Meursault est condamné pour n'avoir pas pleuré, pour ne pas avoir feint une émotion qu'il ne ressentait pas.<br><br>
+                
+                <strong>Conclusion :</strong> Ce passage illustre magistralement l'aliénation de l'individu face aux institutions. Meursault, aliéné de son propre jugement par le langage et les conventions, devient la figure de l'homme moderne face aux institutions qui prétendent le définir sans le comprendre.`
+            };
+            
+            feedback.className = 'feedback show info';
+            feedback.innerHTML = modelAnswers[questionNum];
+        }
+
+        // Event listeners pour les options
+        document.addEventListener('click', function(e) {
+            if (e.target.classList.contains('option')) {
+                const question = e.target.closest('.question');
+                const options = question.querySelectorAll('.option');
+                options.forEach(opt => opt.classList.remove('selected'));
+                e.target.classList.add('selected');
+            }
+        });
+
+        // Initialisation
+        updateProgress();
+        updateScore();
+        document.getElementById('prevBtn').disabled = true;
+    </script>
+<!-- ============================================================
+     COMPLÉMENT MAISON — clavier d'accents flottant + nom obligatoire
+     Ajouté lors de la mise aux normes du site (août 2026).
+     Ne dépend d'aucune bibliothèque : tout est dans ce bloc.
+     ============================================================ -->
+<style>
+#housePad{position:fixed;right:16px;bottom:16px;z-index:99999;background:#fff;border:2px solid #2a5298;
+  border-radius:10px;box-shadow:0 6px 20px rgba(0,0,0,.25);padding:10px;width:238px;
+  font-family:Calibri,'Segoe UI',Tahoma,sans-serif;color:#1f2933;}
+#housePad h4{font-size:.84em;color:#42536b;margin:0 0 8px;display:flex;justify-content:space-between;
+  align-items:center;font-weight:700;}
+#housePad .keys{display:flex;flex-wrap:wrap;gap:5px;}
+#housePad button{font-family:inherit;background:#2a5298;color:#fff;border:none;border-radius:4px;
+  padding:6px 10px;font-size:1em;font-weight:600;cursor:pointer;line-height:1.1;}
+#housePad button:hover{background:#1e3c72;}
+#housePadToggle{padding:2px 9px;font-size:.85em;}
+#housePad.collapsed{width:auto;}
+#housePad.collapsed .keys,#housePad.collapsed .hint{display:none;}
+#housePad .hint{font-size:.76em;color:#7d8ba1;margin-top:7px;line-height:1.35;}
+#houseNameBar{background:#eef3fb;border:2px solid #2a5298;border-radius:8px;padding:13px 15px;
+  margin:0 auto 18px;max-width:1000px;font-family:Calibri,'Segoe UI',Tahoma,sans-serif;color:#1f2933;}
+#houseNameBar label{font-weight:700;display:block;margin-bottom:6px;font-size:.98rem;}
+#houseNameBar input{width:100%;max-width:430px;padding:9px 10px;border:2px solid #c3cfe2;border-radius:5px;
+  font-size:1rem;font-family:inherit;background:#fff;color:#1f2933;}
+#houseNameBar input:focus{outline:none;border-color:#2a5298;}
+#houseNameWarn{display:none;margin-top:9px;padding:8px 10px;background:#fdecea;color:#8a1c13;
+  border-radius:5px;font-weight:700;font-size:.95rem;}
+#houseDlBtn{display:inline-block;margin:26px auto;padding:12px 22px;background:#2e7d32;color:#fff;border:none;
+  border-radius:6px;font-family:Calibri,'Segoe UI',Tahoma,sans-serif;font-size:1rem;font-weight:700;cursor:pointer;}
+#houseDlBtn:hover{background:#256428;}
+@media (max-width:820px){#housePad{left:10px;right:10px;width:auto;bottom:8px;}}
+</style>
+<script>
+window.HOUSE = { addDownload:true, filePrefix:"LEtranger_Meursault_exclu", title:"L'Étranger — Meursault exclu de son propre procès" };
+(function () {
+  "use strict";
+  var CFG = window.HOUSE || {};
+  var KEYS = ['é','è','ê','ë','à','â','ù','û','ô','î','ï','ç','œ','«','»','É','È','À','Ç'];
+  var last = null;
+
+  function isField(el) {
+    return !!el && (el.tagName === 'TEXTAREA' ||
+      (el.tagName === 'INPUT' && /^(text|search|email|)$/i.test(el.type || '')));
+  }
+
+  /* ---------- 1. name bar (reuse the page's own field if it has one) ---------- */
+  var nameInput = document.querySelector('input[id*="name" i], input[id*="nom" i]');
+  if (!nameInput) {
+    var bar = document.createElement('div');
+    bar.id = 'houseNameBar';
+    bar.innerHTML =
+      '<label for="houseName">Votre nom / Your name — obligatoire pour télécharger votre travail</label>' +
+      '<input type="text" id="houseName" placeholder="Prénom et nom — ex. Léa Martin" autocomplete="name" maxlength="60">' +
+      '<div id="houseNameWarn">⚠ Écrivez votre nom avant de télécharger : il apparaîtra en tête du fichier.</div>';
+    var host = document.querySelector('main, .page, .container, .wrap, body');
+    host.insertBefore(bar, host.firstChild);
+    nameInput = document.getElementById('houseName');
+  } else if (!document.getElementById('houseNameWarn')) {
+    var warn = document.createElement('div');
+    warn.id = 'houseNameWarn';
+    warn.textContent = '⚠ Écrivez votre nom avant de télécharger : il apparaîtra en tête du fichier.';
+    nameInput.parentNode.insertBefore(warn, nameInput.nextSibling);
+  }
+  function studentName() { return (nameInput.value || '').trim(); }
+  function demandName() {
+    var w = document.getElementById('houseNameWarn');
+    if (w) w.style.display = 'block';
+    nameInput.style.borderColor = '#b3261e';
+    nameInput.focus();
+    nameInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+
+  /* ---------- 2. the download button must not fire without a name ---------- */
+  document.addEventListener('click', function (e) {
+    var b = e.target && e.target.closest ? e.target.closest('button, a') : null;
+    if (!b || b.id === 'housePadToggle') return;
+    var t = (b.textContent || '').toLowerCase();
+    if (!/t[ée]l[ée]charg|download|export|\.txt|\.pdf/.test(t)) return;
+    if (!studentName()) { e.preventDefault(); e.stopImmediatePropagation(); demandName(); }
+    else { var w = document.getElementById('houseNameWarn'); if (w) w.style.display = 'none'; }
+  }, true);
+
+  /* ---------- 3. floating accent pad (skipped if the page already has a good one) ---------- */
+  var pad = null;
+  if (!CFG.noPad) {
+  pad = document.createElement('div');
+  pad.id = 'housePad';
+  pad.innerHTML = '<h4><span>Clavier des accents</span><button type="button" id="housePadToggle">▾</button></h4>' +
+                  '<div class="keys"></div>' +
+                  '<div class="hint">Cliquez d\'abord dans une case, puis sur une touche.</div>';
+  document.body.appendChild(pad);
+  var keyBox = pad.querySelector('.keys');
+  KEYS.forEach(function (ch) {
+    var b = document.createElement('button');
+    b.type = 'button'; b.textContent = ch;
+    b.addEventListener('mousedown', function (ev) { ev.preventDefault(); });  /* garde le curseur dans la case */
+    b.addEventListener('click', function () { insert(ch); });
+    keyBox.appendChild(b);
+  });
+  document.getElementById('housePadToggle').addEventListener('click', function () {
+    pad.classList.toggle('collapsed');
+    this.textContent = pad.classList.contains('collapsed') ? '⌨' : '▾';
+  });
+  }
+  function insert(ch) {
+    if (!last) { if (pad) pad.querySelector('.hint').textContent = "Cliquez d'abord dans une case, puis sur une touche."; return; }
+    var s = last.selectionStart, e = last.selectionEnd;
+    if (s == null) { s = e = last.value.length; }
+    last.value = last.value.slice(0, s) + ch + last.value.slice(e);
+    last.dispatchEvent(new Event('input', { bubbles: true }));
+    last.focus();
+    try { last.setSelectionRange(s + ch.length, s + ch.length); } catch (err) {}
+  }
+  trackFields();
+  function trackFields() {
+    ['focus', 'focusin'].forEach(function (ev) {
+      document.addEventListener(ev, function (e) {
+        if (isField(e.target) && e.target !== nameInput) {
+          last = e.target;
+          var h = document.querySelector('#housePad .hint');
+          if (h) h.textContent = 'Case active : votre texte ira au bon endroit.';
+        }
+      }, true);
+    });
+    /* les pavés d'accents déjà présents ne doivent pas voler le focus */
+    document.addEventListener('mousedown', function (e) {
+      var b = e.target && e.target.closest ? e.target.closest('button') : null;
+      if (!b) return;
+      var t = (b.textContent || '').trim();
+      if (t.length <= 2 && /[À-ſŒœ«»]/.test(t)) e.preventDefault();
+    }, true);
+  }
+
+  /* ---------- 4. generic download, only where the page has none ---------- */
+  if (CFG.addDownload) {
+    var btn = document.createElement('button');
+    btn.id = 'houseDlBtn'; btn.type = 'button';
+    btn.textContent = '📥 Télécharger mes réponses';
+    var wrap = document.createElement('div');
+    wrap.style.textAlign = 'center';
+    wrap.appendChild(btn);
+    (document.querySelector('main, .page, .container, .wrap') || document.body).appendChild(wrap);
+
+    btn.addEventListener('click', function () {
+      var name = studentName();
+      if (!name) { demandName(); return; }
+      var L = [], now = new Date();
+      L.push((CFG.title || document.title).toUpperCase());
+      L.push(''.padEnd(64, '='));
+      L.push('Élève / Student : ' + name);
+      L.push('Date : ' + now.toLocaleString('fr-FR'));
+      L.push('');
+      var n = 0;
+      document.querySelectorAll('input[type=text], textarea, select').forEach(function (f) {
+        if (f === nameInput || f.id === 'houseName') return;
+        var val = (f.value || '').trim();
+        if (f.tagName === 'SELECT') val = f.selectedIndex > 0 ? f.options[f.selectedIndex].text : '';
+        n++;
+        L.push(n + '. ' + label(f));
+        L.push('   Réponse : ' + (val || '—'));
+        L.push('');
+      });
+      document.querySelectorAll('input[type=radio]:checked, input[type=checkbox]:checked').forEach(function (f) {
+        L.push('✔ ' + label(f));
+      });
+      L.push('');
+      L.push('Déposez ce fichier sur Teams / SharePoint.');
+      var blob = new Blob([L.join('\n')], { type: 'text/plain;charset=utf-8' });
+      var a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = (CFG.filePrefix || 'mes_reponses') + '_' + name.replace(/[^\wÀ-ÿ]+/g, '_') + '_' +
+                   now.toISOString().slice(0, 10) + '.txt';
+      document.body.appendChild(a); a.click(); document.body.removeChild(a);
+      setTimeout(function () { URL.revokeObjectURL(a.href); }, 2000);
+    });
+
+    function label(f) {
+      if (f.getAttribute('aria-label')) return f.getAttribute('aria-label');
+      var lab = f.id && document.querySelector('label[for="' + f.id + '"]');
+      if (lab) return clean(lab.textContent);
+      var box = f.closest('li, td, .question, .item, .card, .exercise, .q-block, div');
+      var hops = 0;
+      while (box && hops < 4) {
+        var t = clean(box.textContent);
+        if (t.length > 8) return t.slice(0, 140);
+        box = box.parentElement; hops++;
+      }
+      return f.placeholder || f.name || f.id || 'Réponse';
+    }
+    function clean(s) { return (s || '').replace(/\s+/g, ' ').trim(); }
+  }
+})();
+</script>
+</body>
+</html>

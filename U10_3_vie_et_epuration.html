@@ -1,0 +1,937 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>U10.3 — Vivre l'Occupation, puis solder les comptes | A-Level French</title>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family: Calibri, 'Segoe UI', Tahoma, sans-serif; font-size:17px; line-height:1.6;
+       background:#eef2f7; color:#1f2933; padding:18px 14px 96px; }
+.container { max-width:1020px; margin:0 auto; background:#fff; border-radius:10px;
+             box-shadow:0 6px 24px rgba(0,0,0,.12); overflow:hidden; }
+.header { background:linear-gradient(135deg,#1e3c72,#2a5298); color:#fff; padding:24px 34px 20px; }
+.header h1 { font-size:1.6em; line-height:1.25; margin-bottom:5px; }
+.header p { opacity:.92; font-size:.95em; }
+.content { padding:24px 34px 34px; }
+
+h2 { color:#1e3c72; font-size:1.28em; margin:34px 0 12px; padding-left:11px; border-left:5px solid #2a5298; }
+h3 { color:#1e3c72; font-size:1.04em; margin:16px 0 7px; }
+
+.progress-bar { width:100%; height:24px; background:rgba(255,255,255,.25); border-radius:12px; overflow:hidden; margin-top:12px; }
+.progress-fill { height:100%; width:0%; background:#8fd19e; color:#123; font-weight:700; font-size:.82em;
+                 display:flex; align-items:center; justify-content:center; transition:width .45s ease; }
+
+.namebar { background:#eef3fb; border:2px solid #2a5298; border-radius:8px; padding:13px 15px; margin-bottom:16px; }
+.namebar label { font-weight:700; display:block; margin-bottom:6px; }
+.namebar input { width:100%; max-width:430px; }
+.name-warning { display:none; margin-top:9px; padding:8px 10px; background:#fdecea; color:#8a1c13; border-radius:5px; font-weight:700; }
+
+.task { background:#eaf3ea; border-left:5px solid #2e7d32; border-radius:8px; padding:11px 15px; margin:14px 0; }
+.stretch { background:#fdf3e3; border-left:5px solid #e08a00; border-radius:8px; padding:11px 15px; margin:14px 0; }
+.concept { background:#eef3fb; border-left:5px solid #2a5298; border-radius:8px; padding:12px 16px; margin:14px 0; }
+.concept b { color:#1e3c72; }
+
+.legend { display:flex; gap:14px; flex-wrap:wrap; font-size:.86em; color:#42536b; margin:10px 0 4px; }
+.legend span { display:flex; align-items:center; gap:6px; }
+.dot { width:13px; height:13px; border-radius:3px; display:inline-block; }
+.dot.g{background:#2e7d32}.dot.o{background:#e08a00}.dot.r{background:#b3261e}
+
+.reading { background:#f7f9fc; border:1px solid #d9e2ee; border-radius:8px; padding:20px 22px; }
+.reading p { margin-bottom:13px; }
+.reading p:last-child { margin-bottom:0; }
+.reading .lede { font-weight:700; color:#1e3c72; }
+.reading .src { font-size:.85em; color:#5b6b7f; margin-top:12px; }
+.gl { border-bottom:1px dotted #2a5298; cursor:help; }
+.glossary { margin-top:14px; background:#eef3fb; border-radius:8px; padding:13px 16px; font-size:.94em; }
+.glossary div { margin-bottom:5px; }
+.glossary dt { font-weight:700; color:#1e3c72; display:inline; }
+.glossary dd { display:inline; margin:0 0 0 4px; }
+
+.item { background:#f7f9fc; border:1px solid #e2e8f2; border-left:4px solid #c3cfe2; border-radius:8px;
+        padding:14px 16px; margin-bottom:13px; transition:border-color .2s, background .2s; }
+.item.done-ok { border-left-color:#2e7d32; background:#f2f9f3; }
+.item.done-near { border-left-color:#e08a00; background:#fffaf0; }
+.item.done-bad { border-left-color:#b3261e; background:#fdf5f4; }
+.q { font-weight:700; color:#1e3c72; margin-bottom:9px; line-height:1.9; }
+.qn { display:inline-block; background:#2a5298; color:#fff; border-radius:50%; width:26px; height:26px;
+      line-height:26px; text-align:center; font-size:.85em; margin-right:8px; font-weight:700; }
+
+input[type=text], textarea, select { font-family:inherit; font-size:1em; padding:9px 10px;
+  border:2px solid #c3cfe2; border-radius:5px; width:100%; background:#fff; color:inherit; }
+textarea { min-height:92px; resize:vertical; }
+input[type=text]:focus, textarea:focus, select:focus { outline:none; border-color:#2a5298; }
+input.ok, select.ok, textarea.ok { border-color:#2e7d32; background:#eaf6ec; }
+input.near, select.near { border-color:#e08a00; background:#fff7e8; }
+input.bad, select.bad, textarea.bad { border-color:#b3261e; background:#fdeeec; }
+input[type=text].gapin { display:inline-block; width:auto; min-width:190px; margin:0 5px; padding:5px 9px;
+  text-align:center; font-weight:600; vertical-align:baseline; }
+
+.opts { display:flex; flex-direction:column; gap:7px; }
+.opt { display:flex; align-items:flex-start; gap:9px; background:#fff; border:2px solid #dfe6f1;
+       border-radius:6px; padding:9px 11px; cursor:pointer; }
+.opt:hover { border-color:#2a5298; }
+.opt input { width:auto; margin-top:4px; }
+.opt.ok { border-color:#2e7d32; background:#eaf6ec; }
+.opt.bad { border-color:#b3261e; background:#fdeeec; }
+.opt.missed { border-color:#e08a00; background:#fff7e8; }
+.tag { margin-left:auto; font-size:.8em; font-weight:700; padding:1px 8px; border-radius:10px; white-space:nowrap; }
+.tag.ok{background:#2e7d32;color:#fff}.tag.bad{background:#b3261e;color:#fff}.tag.missed{background:#e08a00;color:#fff}
+
+.pair { display:grid; grid-template-columns:1fr 1fr; gap:12px; align-items:center; margin-bottom:9px; }
+.pair .left { background:#eaf0f9; padding:9px 11px; border-radius:5px; font-weight:600; }
+
+.btn-row { display:flex; gap:9px; flex-wrap:wrap; margin-top:11px; }
+button { font-family:inherit; font-size:.96em; font-weight:600; border:none; border-radius:5px;
+         padding:9px 15px; cursor:pointer; transition:background .15s, transform .1s; }
+button:active { transform:translateY(1px); }
+.btn-check{background:#2a5298;color:#fff}.btn-check:hover{background:#1e3c72}
+.btn-hint{background:#f0b323;color:#3a2c00}.btn-hint:hover{background:#dda311}
+.btn-ghost{background:#e4eaf3;color:#1e3c72}.btn-ghost:hover{background:#d3ddec}
+.btn-download{background:#2e7d32;color:#fff}.btn-download:hover{background:#256428}
+.btn-reset{background:#b3261e;color:#fff}.btn-reset:hover{background:#8f1e17}
+.mode-btn{background:#e4eaf3;color:#1e3c72}.mode-btn.on{background:#2a5298;color:#fff}
+
+.fb { display:none; margin-top:10px; padding:10px 12px; border-radius:6px; font-weight:600; }
+.fb.correct{display:block;background:#e7f4e8;color:#1b5e20;border:1px solid #b6dcb9}
+.fb.incorrect{display:block;background:#fdecea;color:#8a1c13;border:1px solid #f2c2bd}
+.fb.near,.fb.hint{display:block;background:#fff6e0;color:#7a5600;border:1px solid #f0d79a}
+
+.bank { background:#f2f6fc; border:2px dashed #8fa9cf; border-radius:8px; padding:13px 14px; margin:12px 0 16px; }
+.bank-title { font-weight:700; color:#1e3c72; margin-bottom:9px; font-size:.95em; }
+.chips { display:flex; flex-wrap:wrap; gap:7px; }
+.chip { background:#fff; border:2px solid #2a5298; color:#1e3c72; border-radius:16px; padding:6px 13px;
+        font-size:.97em; font-weight:600; cursor:pointer; }
+.chip:hover { background:#2a5298; color:#fff; }
+.chip.used { opacity:.32; background:#e6ebf3; border-color:#adbdd4; color:#6b7a8f;
+             cursor:default; text-decoration:line-through; }
+
+.card3 { background:#fff7e6; border:2px solid #e0a800; border-radius:8px; padding:16px 18px; margin-bottom:14px; }
+.card3 h3 { color:#7a5600; margin-top:0; }
+.card3 ul { margin:8px 0 0 20px; }
+.stim { display:none; }
+.stim.on { display:block; }
+
+#accentPad { position:fixed; right:16px; bottom:16px; z-index:9999; background:#fff; border:2px solid #2a5298;
+  border-radius:10px; box-shadow:0 6px 20px rgba(0,0,0,.25); padding:10px; width:238px; }
+#accentPad h4 { font-size:.84em; color:#42536b; margin-bottom:8px; display:flex; justify-content:space-between; align-items:center; }
+#accentPad .keys { display:flex; flex-wrap:wrap; gap:5px; }
+#accentPad button.key { background:#2a5298; color:#fff; border-radius:4px; padding:6px 10px; font-size:1em; }
+#accentPad button.key:hover { background:#1e3c72; }
+#padToggle { background:#2a5298; color:#fff; padding:2px 9px; font-size:.85em; }
+#accentPad.collapsed { width:auto; }
+#accentPad.collapsed .keys, #accentPad.collapsed #padHint { display:none; }
+#padHint { font-size:.78em; color:#7d8ba1; margin-top:7px; }
+#tts-notice { position:fixed; left:12px; bottom:12px; max-width:340px; z-index:99999; background:#fff3cd;
+  color:#856404; border:2px solid #ffc107; border-radius:8px; padding:10px 12px; font-weight:600;
+  font-size:.9em; box-shadow:0 4px 14px rgba(0,0,0,.2); cursor:pointer; }
+
+@media (max-width:820px){
+  body{font-size:16px;padding-bottom:120px}
+  .header,.content{padding-left:18px;padding-right:18px}
+  .pair{grid-template-columns:1fr}
+  input[type=text].gapin{min-width:140px}
+  #accentPad{left:10px;right:10px;width:auto;bottom:8px}
+}
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <h1>U10.3 · La vie sous l'Occupation et les représailles d'après-guerre</h1>
+    <p>Thème 4 : L'Occupation et la Résistance · Edexcel 9FR0 · Paper 1 (lecture) et Paper 3 (oral)</p>
+    <div class="progress-bar"><div class="progress-fill" id="progressBar">0%</div></div>
+  </div>
+  <div class="content">
+
+    <div class="namebar">
+      <label for="studentName">Votre nom / Your name — obligatoire pour télécharger votre travail</label>
+      <input type="text" id="studentName" placeholder="Prénom et nom — ex. Léa Martin" autocomplete="name" maxlength="60">
+      <div class="name-warning" id="nameWarning">⚠ Écrivez votre nom avant de télécharger : il apparaîtra en tête du fichier.</div>
+    </div>
+
+    <div class="legend">
+      <span><i class="dot g"></i> juste (les fautes de frappe sont tolérées)</span>
+      <span><i class="dot o"></i> bon mot, mauvais accent — ne compte pas juste</span>
+      <span><i class="dot r"></i> erreur de terminaison ou réponse fausse</span>
+    </div>
+
+    <!-- A. TEXTE -->
+    <h2>A. Texte de compréhension</h2>
+    <div class="task"><b>Tâche.</b> Lisez le texte une première fois sans dictionnaire. Soulignez mentalement tous les <strong>subjonctifs</strong> employés par les témoins : ils reviennent dans la partie E.</div>
+    <div class="btn-row" style="margin-bottom:10px;">
+      <button class="btn-ghost" onclick="speak()">🔊 Écouter le texte</button>
+      <button class="btn-ghost" onclick="stopSpeak()">⏹ Arrêter</button>
+      <button class="btn-ghost" onclick="toggleGlossary()" id="glossBtn">📖 Afficher le lexique</button>
+    </div>
+    <div class="reading" id="reading">
+      
+<p class="lede">La faim, le froid, la peur — puis les comptes</p>
+
+<p>Au début, la présence allemande est vécue comme plus légère qu'attendue. Mais peu à peu, son omniprésence et les difficultés quotidiennes provoquent une hostilité croissante. « On ne pouvait pas avoir des sentiments normaux, généreux vis-à-vis d'eux, parce qu'ils étaient quand même les ennemis. »</p>
+
+<p>Les villes souffrent de la faim, <span class="gl" title="whereas">tandis que</span> les campagnes ont accès à une alimentation suffisante. Les citadins tombent plus facilement malades ; le nombre de morts dues à la tuberculose double. « Nous vivions près d'Orléans et, par rapport à ce que vivaient mes cousins à Paris, on s'en sortait pas trop mal. Il y avait des fermes autour de chez nous. On apportait quelque chose quand on montait à Paris, afin qu'ils <strong>puissent</strong> mieux se nourrir. »</p>
+
+<p>Les villes changent d'allure : panneaux en allemand, drapeaux nazis, et même l'heure française alignée sur le méridien de Berlin. Le <span class="gl" title="curfew">couvre-feu</span> restreint les sorties du soir. Les hivers sont rudes et l'obsession commune devient la faim et le froid. « Il faut que je vous <strong>dise</strong> que les gens avaient parfois recours au <span class="gl" title="black market">marché noir</span>, mais il a fallu qu'on <strong>paye</strong> très cher. Bien qu'il y <strong>eût</strong> des tickets de <span class="gl" title="rationing">rationnement</span>, il était très difficile de trouver suffisamment à manger. La falsification des tickets, quoique cela <strong>fût</strong> hors la loi, n'était pas hors du commun. »</p>
+
+<p>À la <span class="gl" title="shortage">pénurie</span> s'ajoute la peur. En janvier 1943, Vichy crée la <strong>Milice</strong>, organisation politique et paramilitaire chargée de combattre la Résistance : quelques dizaines de milliers d'hommes, dirigés par Joseph Darnand. Comme les nazis, les <span class="gl" title="militiamen">miliciens</span> emploient la <span class="gl" title="informing, denunciation">délation</span>, la torture et les exécutions sommaires. « La Milice, c'était terrible. Il faut que je vous <strong>avoue</strong> que ma famille a beaucoup souffert. Mon père était complètement contre, mais mon frère est devenu milicien ; mon père ne lui a jamais pardonné. » — « J'ai connu une famille où le fils, résistant, a été dénoncé par son voisin milicien. Nous, on écoutait de Gaulle à la BBC, mais il fallait qu'on le <strong>fasse</strong> en secret, de peur que l'on ne nous <strong>dénonce</strong>. »</p>
+
+<p>Puis vient la Libération, et l'heure des comptes : l'<strong>épuration</strong>. Elle a deux visages. L'épuration dite sauvage, d'abord : les travaux de l'Institut d'histoire du temps présent recensent environ <strong>8 775 exécutions sommaires</strong>. Ensuite l'épuration légale, devant les cours de justice, qui prononcent près de <strong>1 500 condamnations à mort</strong>, dont environ 767 sont exécutées. À cela s'ajoutent quelque <strong>20 000 femmes tondues</strong> en public, accusées de « collaboration horizontale » — un châtiment qui visait les femmes seules et laissait tranquilles bien des <span class="gl" title="holders">détenteurs</span> de responsabilités réelles.</p>
+
+<p>Reste la question que pose aujourd'hui tout musée de la Résistance, avec ses vitrines, ses documents et parfois ses <span class="gl" title="casts, moulds">moulages</span> : à qui la France a-t-elle vraiment demandé des comptes ? Aux plus visibles, ou aux plus responsables ?</p>
+
+<p class="src">Sources : témoignages recueillis dans le manuel de l'unité ; chiffres de l'épuration : Institut d'histoire du temps présent et travaux de Fabrice Virgili sur les femmes tondues.</p>
+
+      <div class="glossary" id="glossary" style="display:none;">
+<div><dt>vis-à-vis de</dt><dd>— towards, in relation to</dd></div>
+<div><dt>s'en sortir</dt><dd>— to manage, to get by</dd></div>
+<div><dt>avoir recours à</dt><dd>— to resort to</dd></div>
+<div><dt>hors la loi</dt><dd>— outside the law, illegal</dd></div>
+<div><dt>une exécution sommaire</dt><dd>— a summary execution (without trial)</dd></div>
+<div><dt>tondre / tondu(e)</dt><dd>— to shave someone's head / shaven</dd></div>
+<div><dt>un châtiment</dt><dd>— a punishment</dd></div>
+<div><dt>demander des comptes à</dt><dd>— to call someone to account</dd></div>
+</div>
+    </div>
+
+    <div class="concept"><b>Le point conceptuel de la leçon.</b> Deux idées à retenir. D'abord, l'Occupation se vit d'abord <strong>au ventre</strong> — la faim, le froid, le couvre-feu — et non dans les grands choix politiques ; la géographie compte autant que l'idéologie (ville contre campagne). Ensuite, l'épuration a frappé <strong>les plus visibles plutôt que les plus responsables</strong> : 20 000 femmes tondues, mais 767 exécutions après jugement.</div>
+
+    <!-- B. VOCABULAIRE -->
+    <h2>B. Vocabulaire — la liste de l'unité</h2>
+    <div class="task"><b>Tâche.</b> Traduisez. L'article est facultatif, mais s'il est là il doit être juste. Deux sens : cliquez pour changer de direction.</div>
+    <div class="btn-row" style="margin-bottom:10px;">
+      <button class="mode-btn on" id="modeFR" onclick="setVocDir('fr')">Français → anglais</button>
+      <button class="mode-btn" id="modeEN" onclick="setVocDir('en')">Anglais → français (plus difficile)</button>
+      <button class="btn-ghost" onclick="shuffleVocab()">🔀 Remélanger</button>
+    </div>
+    <div id="vocWrap"></div>
+    <div class="stretch"><b>Défi (A*/C1).</b> Écrivez <strong>une seule phrase</strong> de 25 mots minimum qui emploie trois mots de la liste et un connecteur de contraste ou de concession (<em>tandis que, bien que + subjonctif, certes… néanmoins</em>).
+      <textarea id="stretchB" placeholder="Votre phrase…" style="margin-top:9px;"></textarea>
+      <div class="btn-row"><button class="btn-check" onclick="checkStretchB()">Vérifier ma phrase</button></div>
+      <div class="fb" id="stretchBFb"></div>
+    </div>
+
+    <!-- C. COMPRÉHENSION -->
+    <h2>C. Compréhension — vrai, faux ou non mentionné</h2>
+    <div class="task"><b>Tâche.</b> Répondez d'après le texte seul. Chaque question se corrige immédiatement.</div>
+    <div id="tfWrap"></div>
+
+    <!-- D. CONCEPTS -->
+    <h2>D. Concepts clés — ce que l'examinateur veut entendre</h2>
+    <div class="task"><b>Tâche.</b> Associez chaque notion à sa définition. Ces six briques structurent une réponse sur la vie quotidienne et sur l'après-guerre.</div>
+    <div id="cnWrap"></div>
+    <div class="btn-row">
+      <button class="btn-check" onclick="checkConcepts()">Vérifier</button>
+      <button class="btn-hint" onclick="hintConcepts()">Indice</button>
+    </div>
+    <div class="fb" id="cnFb"></div>
+    <div class="concept"><b>Pourquoi ces six notions ?</b> Elles permettent de sortir du récit et de <strong>comparer</strong> — ce que l'examinateur récompense. Une réponse forte oppose le vécu (faim, froid, peur) au jugement d'après-guerre, et remarque que l'épuration a été à la fois <em>violente</em> (8 775 exécutions sommaires) et <em>sélective</em> (20 000 femmes tondues, 767 exécutions légales).</div>
+
+    <!-- E. GRAMMAIRE -->
+    <h2>E. Grammaire — le subjonctif après les conjonctions</h2>
+    <div class="concept"><b>La règle — et le piège.</b> Certaines conjonctions <u>exigent</u> le subjonctif, quel que soit le sens : <strong>bien que, quoique, pour que, afin que, avant que, sans que, de peur que, à condition que</strong>. De même après <em>il faut que</em>, <em>s'étonner que</em>, <em>regretter que</em>, <em>réclamer que</em>, <em>supposons que</em>. <span style="color:#8a1c13;"><strong>Attention :</strong></span> une phrase peut être au passé <em>et</em> au subjonctif — c'est le <strong>subjonctif passé</strong> (<em>qu'ils aient fait</em>), non le plus-que-parfait (<em>qu'ils avaient fait</em>). Dans les textes littéraires, vous rencontrerez aussi le <strong>subjonctif imparfait</strong> (<em>bien qu'il y eût</em>, <em>quoique cela fût</em>) : à reconnaître, pas à produire.</div>
+    <div class="task"><b>Tâche.</b> Cliquez sur une case, puis sur un mot de la banque : il s'insère tout seul. Cliquez sur une case remplie pour la vider.</div>
+    <div class="btn-row" style="margin-bottom:6px;">
+      <button class="mode-btn on" id="gEasy" onclick="setGapMode('easy')">Mode guidé — banque de mots</button>
+      <button class="mode-btn" id="gHard" onclick="setGapMode('hard')">Mode défi — sans banque (A*/C1)</button>
+      <button class="btn-ghost" onclick="shuffleBank()">🔀 Remélanger</button>
+    </div>
+    <div class="bank" id="bank">
+      <div class="bank-title">Banque de formes (dans le désordre) — cliquez pour insérer</div>
+      <div class="chips" id="chips"></div>
+    </div>
+    <div id="gapWrap"></div>
+    <div class="btn-row">
+      <button class="btn-check" onclick="checkGaps()">Tout vérifier</button>
+      <button class="btn-hint" onclick="hintGaps()">Indice</button>
+      <button class="btn-ghost" onclick="clearGaps()">Tout effacer</button>
+    </div>
+    <div class="fb" id="gapFb"></div>
+
+    <!-- F. RÉPONSES COURTES -->
+    <h2>F. Réponses courtes (en français)</h2>
+    <div class="task"><b>Tâche.</b> 40–60 mots par réponse, en phrases complètes. La correction indique les idées qui manquent — elle ne note pas le style.</div>
+    <div id="shWrap"></div>
+
+    <!-- G. PAPER 3 -->
+    <h2>G. Paper 3 — carte de discussion</h2>
+    <div class="task"><b>Tâche.</b> Choisissez UNE des deux déclarations et préparez une réponse d'environ une minute. Complétez ensuite le plan : il sera dans votre fichier téléchargé.</div>
+    <div class="btn-row" style="margin-bottom:12px;">
+      <button class="mode-btn on" id="stimA" onclick="setStim('A')">Déclaration A</button>
+      <button class="mode-btn" id="stimB" onclick="setStim('B')">Déclaration B</button>
+    </div>
+    <div id="stimWrap"></div>
+
+    <h3>Mon plan de réponse</h3>
+    <div class="item">
+      <label style="font-weight:700;display:block;margin-bottom:4px;">Ma thèse (une phrase)</label>
+      <textarea id="planThese" rows="2"></textarea>
+      <label style="font-weight:700;display:block;margin:10px 0 4px;">Argument 1 + une donnée précise (date, chiffre, institution)</label>
+      <textarea id="planArg1" rows="3"></textarea>
+      <label style="font-weight:700;display:block;margin:10px 0 4px;">Argument 2 + une donnée précise</label>
+      <textarea id="planArg2" rows="3"></textarea>
+      <label style="font-weight:700;display:block;margin:10px 0 4px;">Concession (« Certes… néanmoins… », « Bien que + subjonctif »)</label>
+      <textarea id="planConc" rows="3"></textarea>
+      <div class="btn-row">
+        <button class="btn-check" onclick="checkPlan()">Vérifier mon plan</button>
+        <button class="btn-hint" onclick="hintPlan()">Ossature / indice</button>
+      </div>
+      <div class="fb" id="planFb"></div>
+    </div>
+    <div class="stretch"><b>Défi (A*/C1).</b> Votre plan doit contenir au moins un subjonctif <em>déclenché par une conjonction</em> (<em>bien que, de peur que, afin que</em>) et un chiffre précis de l'épuration. Puis relisez : avez-vous écrit « bien que c'était » ? Si oui, corrigez — c'est l'erreur la plus coûteuse de ce thème.</div>
+
+    <div style="text-align:center; margin-top:32px;">
+      <button class="btn-check" onclick="checkAll()">✔ Tout vérifier</button>
+      <button class="btn-download" onclick="downloadResults()">📥 Télécharger mon travail</button>
+      <button class="btn-reset" onclick="resetAll()">🔄 Recommencer</button>
+    </div>
+  </div>
+</div>
+
+<div id="accentPad">
+  <h4><span>Clavier des accents</span><button id="padToggle" type="button">▾</button></h4>
+  <div class="keys" id="accentKeys"></div>
+  <div id="padHint">Cliquez d'abord dans une case, puis sur une touche.</div>
+</div>
+
+<script>
+/* =====================================================================
+   MOTEUR DE CORRECTION MAISON — tolérance aux fautes de frappe
+   Verdicts : ok | typo | accent | morph | bad
+     ok     : réponse exacte                                → vert, compte juste
+     typo   : faute de frappe tolérée (distance de Levenshtein) → vert, l'orthographe correcte est affichée
+     accent : bon mot, accents manquants ou fautifs          → orange, NE compte PAS juste
+     morph  : la différence porte sur une terminaison
+              grammaticale (-s, -e, -es, -ent, -é/-er/-ez…)  → rouge, message ciblé
+     bad    : autre                                          → rouge
+   La tolérance ne s'applique jamais à ce qui porte la grammaire :
+   « parlé / parler / parlez » ou « élève / élèves » restent des erreurs.
+   ===================================================================== */
+const MARK = (function () {
+  function norm(s) {
+    return (s == null ? '' : String(s))
+      .toLowerCase()
+      .replace(/[’‘`´]/g, "'")
+      .replace(/[«»"]/g, ' ')
+      .replace(/\s+/g, ' ')
+      .replace(/^[\s.,;:!?]+|[\s.,;:!?]+$/g, '')
+      .trim();
+  }
+  function deacc(s) { return norm(s).normalize('NFD').replace(/[̀-ͯ]/g, ''); }
+
+  function lev(a, b) {
+    if (a === b) return 0;
+    const m = a.length, n = b.length;
+    if (!m) return n; if (!n) return m;
+    let prev = new Array(n + 1), cur = new Array(n + 1);
+    for (let j = 0; j <= n; j++) prev[j] = j;
+    for (let i = 1; i <= m; i++) {
+      cur[0] = i;
+      for (let j = 1; j <= n; j++) {
+        const cost = a[i - 1] === b[j - 1] ? 0 : 1;
+        cur[j] = Math.min(cur[j - 1] + 1, prev[j] + 1, prev[j - 1] + cost);
+      }
+      const t = prev; prev = cur; cur = t;
+    }
+    return prev[n];
+  }
+
+  /* terminaisons porteuses de grammaire (sur la forme désaccentuée) */
+  const SUFFIXES = ['aient', 'ees', 'ent', 'ais', 'ait', 'ons', 'ont', 'ees', 'es', 'er', 'ez', 'ee', 'es', 'ie', 'ies', 'aux', 's', 'x', 'e', 'a', ''];
+  function stems(w) {
+    const out = new Set();
+    SUFFIXES.forEach(suf => {
+      if (suf === '') { out.add(w); return; }
+      if (w.length - suf.length >= 3 && w.slice(-suf.length) === suf) out.add(w.slice(0, w.length - suf.length));
+    });
+    return out;
+  }
+  function isMorph(a, b) {
+    if (a === b) return false;
+    const A = stems(a), B = stems(b);
+    for (const s of A) if (B.has(s)) return true;
+    return false;
+  }
+
+  function tolerance(n) { return n <= 4 ? 0 : n <= 8 ? 1 : n <= 14 ? 2 : 3; }
+
+  /* article défini/indéfini en tête de réponse : facultatif, mais s'il est là il doit être juste */
+  const ART = /^(de la|de l'|l'|le|la|les|un|une|des|du)\s*/;
+  function article(s) { const m = norm(s).match(ART); return m ? m[0].trim() : ''; }
+  function stripArt(s) { return norm(s).replace(ART, ''); }
+
+  /* une différence d'accent qui change la grammaire (parlé / parle) n'est pas une étourderie */
+  function accentIsGrammatical(a, g) {
+    const pa = /(é|ée|és|ées)$/.test(norm(a)), pg = /(é|ée|és|ées)$/.test(norm(g));
+    return pa !== pg;
+  }
+
+  /* given : la réponse de l'élève ; accepted : chaîne ou tableau de variantes
+     opts.strict : désactive la tolérance aux fautes de frappe. À employer dès que
+     la forme du mot EST l'objet de l'exercice (conjugaison, auxiliaire, terminaison) :
+     sinon « avaient fait » passerait pour « aient fait » à deux caractères près. */
+  function judge(given, accepted, opts) {
+    const strict = !!(opts && opts.strict);
+    const list = Array.isArray(accepted) ? accepted : [accepted];
+    const g = norm(given), gd = deacc(given);
+    if (!g) return { verdict: 'bad', expected: list[0], empty: true };
+
+    for (const a of list) if (norm(a) === g) return { verdict: 'ok', expected: a };
+
+    /* même réponse, article omis (accepté) ou article faux (erreur de genre) */
+    for (const a of list) {
+      if (stripArt(a) === stripArt(given)) {
+        const ga = article(given), aa = article(a);
+        if (!ga || ga === aa) return { verdict: 'ok', expected: a };
+        return { verdict: 'morph', expected: a, article: true };
+      }
+    }
+
+    for (const a of list) {
+      if (deacc(a) === gd || deacc(stripArt(a)) === deacc(stripArt(given))) {
+        return accentIsGrammatical(a, given)
+          ? { verdict: 'morph', expected: a }
+          : { verdict: 'accent', expected: a };
+      }
+    }
+
+    /* la différence n'est-elle qu'une terminaison grammaticale ? */
+    for (const a of list) {
+      const ad = deacc(a);
+      const aw = ad.split(' '), gw = gd.split(' ');
+      if (aw.length === gw.length) {
+        let morphOnly = true, someDiff = false;
+        for (let i = 0; i < aw.length; i++) {
+          if (aw[i] === gw[i]) continue;
+          someDiff = true;
+          if (!isMorph(aw[i], gw[i])) { morphOnly = false; break; }
+        }
+        if (someDiff && morphOnly) return { verdict: 'morph', expected: a };
+      } else if (isMorph(ad, gd)) return { verdict: 'morph', expected: a };
+    }
+
+    /* faute de frappe ? (jamais en mode strict) */
+    if (strict) return { verdict: 'bad', expected: list[0], strict: true };
+    let best = null;
+    for (const a of list) {
+      const ad = deacc(a);
+      const d = lev(ad, gd);
+      const tol = tolerance(ad.length);
+      const sameStart = ad.charAt(0) === gd.charAt(0);
+      if (d > 0 && d <= tol && sameStart && d / Math.max(ad.length, 1) <= 0.34) {
+        if (!best || d < best.d) best = { d: d, a: a };
+      }
+    }
+    if (best) return { verdict: 'typo', expected: best.a, distance: best.d };
+
+    return { verdict: 'bad', expected: list[0] };
+  }
+
+  const MSG = {
+    ok:     () => '✓ Correct.',
+    typo:   r => '✓ Correct — petite faute de frappe, l\'orthographe exacte est « <strong>' + r.expected + '</strong> ».',
+    accent: r => '≈ Le mot est juste, mais les accents ne le sont pas : « <strong>' + r.expected + '</strong> ». À l\'examen, l\'accent compte.',
+    morph:  r => r.article
+              ? '✗ Presque — c\'est l\'<strong>article</strong> qui ne va pas : « <strong>' + r.expected + '</strong> ». Vérifiez le genre.'
+              : '✗ Presque — c\'est la <strong>terminaison</strong> qui ne va pas : « <strong>' + r.expected + '</strong> ». Une terminaison change le nombre, le genre ou le temps : elle ne se corrige pas toute seule.',
+    bad:    r => '✗ Réponse attendue : « <strong>' + r.expected + '</strong> ».'
+  };
+  function message(r) { return (MSG[r.verdict] || MSG.bad)(r); }
+  function isRight(r) { return r.verdict === 'ok' || r.verdict === 'typo'; }
+  function cssClass(r) { return isRight(r) ? 'ok' : (r.verdict === 'accent' ? 'near' : 'bad'); }
+
+  return { judge, message, isRight, cssClass, norm, deacc, lev };
+})();
+
+
+/* ================= données de l'activité ================= */
+const META   = {"fileTitle": "U10.3 — VIVRE L'OCCUPATION, PUIS SOLDER LES COMPTES", "filePrefix": "U10_3_vie_quotidienne_epuration", "gramTitle": "le subjonctif après les conjonctions", "conceptHint": "Ne confondez pas les deux épurations : la <em>sauvage</em> se fait sans jugement, la <em>légale</em> devant les cours de justice. Et « collaboration horizontale » est l'accusation, pas la sanction.", "gapHint": "Repérez d'abord la conjonction : <em>bien que, afin que, de peur que, il fallait que, s'étonner que, réclamer que, regretter que, supposons que</em> — toutes exigent le subjonctif. Une seule phrase n'a pas de déclencheur : elle reste à l'indicatif. Les intrus de la banque sont précisément les formes de l'indicatif."};
+const VOCAB  = [{"fr": "le couvre-feu", "en": "the curfew", "enAcc": ["the curfew", "curfew", "a curfew"], "frAcc": ["le couvre-feu", "couvre-feu", "un couvre-feu"], "hint": "Mot composé avec un trait d'union ; littéralement « couvre le feu »."}, {"fr": "le marché noir", "en": "the black market", "enAcc": ["the black market", "black market"], "frAcc": ["le marché noir", "marché noir"], "hint": "Deux mots ; l'adjectif se place après le nom."}, {"fr": "le rationnement", "en": "rationing", "enAcc": ["rationing", "the rationing", "food rationing"], "frAcc": ["le rationnement", "rationnement"], "hint": "Nom masculin ; les « tickets » en étaient l'instrument."}, {"fr": "la pénurie", "en": "the shortage", "enAcc": ["the shortage", "shortage", "scarcity", "the scarcity"], "frAcc": ["la pénurie", "pénurie", "une pénurie"], "hint": "Nom féminin avec un accent aigu ; le contraire de l'abondance."}, {"fr": "la délation", "en": "informing / denunciation", "enAcc": ["informing", "denunciation", "denouncing", "informing on people", "the denunciation"], "frAcc": ["la délation", "délation"], "hint": "Nom féminin. Ce n'est pas « delay » : c'est l'acte de dénoncer quelqu'un."}, {"fr": "un milicien", "en": "a militiaman", "enAcc": ["a militiaman", "militiaman", "a member of the Milice", "militia member"], "frAcc": ["un milicien", "milicien"], "hint": "Membre de la Milice, créée en janvier 1943."}, {"fr": "l'épuration (f)", "en": "the purge", "enAcc": ["the purge", "purge", "the purges", "purging", "the post-war purge"], "frAcc": ["l'épuration", "épuration", "une épuration"], "hint": "Nom féminin ; le verbe est « épurer ». Ne pas confondre avec « épuisement »."}, {"fr": "distraire", "en": "to entertain / to distract", "enAcc": ["to entertain", "entertain", "to amuse", "amuse", "to distract", "distract", "to entertain, amuse"], "frAcc": ["distraire"], "hint": "Verbe irrégulier ; deux sens, « amuser » et « détourner l'attention »."}, {"fr": "le détenteur", "en": "the holder", "enAcc": ["the holder", "holder", "a holder", "the keeper", "keeper"], "frAcc": ["le détenteur", "détenteur", "un détenteur"], "hint": "Nom masculin, formé sur « détenir » ; féminin : « la détentrice »."}, {"fr": "le moulage", "en": "the cast / the mould", "enAcc": ["the cast", "cast", "the mould", "mould", "the mold", "plaster cast"], "frAcc": ["le moulage", "moulage", "un moulage"], "hint": "Nom masculin ; on en trouve dans les musées, à côté des vitrines."}];
+const TF     = [{"t": "Les campagnes souffraient de la faim autant que les villes.", "a": "F", "why": "Faux : le texte oppose explicitement les deux — les villes souffrent, « tandis que les campagnes ont accès à une alimentation suffisante »."}, {"t": "L'heure française a été alignée sur celle de Berlin.", "a": "V", "why": "Vrai : « l'heure française alignée sur le méridien de Berlin ». C'est un détail précieux à l'oral, parce qu'il est concret et peu connu."}, {"t": "Falsifier les tickets de rationnement était courant, bien que ce fût illégal.", "a": "V", "why": "Vrai : « La falsification des tickets, quoique cela fût hors la loi, n'était pas hors du commun. » Notez le subjonctif imparfait après « quoique »."}, {"t": "La Milice a été créée par les Allemands.", "a": "F", "why": "Faux : elle est créée par Vichy en janvier 1943, sous la direction de Joseph Darnand. C'est une organisation française."}, {"t": "Le texte indique combien de miliciens ont été jugés après la guerre.", "a": "NM", "why": "Non mentionné : le texte donne les chiffres globaux de l'épuration, mais rien sur les miliciens en particulier."}, {"t": "Plus de femmes ont été tondues qu'il n'y a eu d'exécutions après jugement.", "a": "V", "why": "Vrai, et c'est le cœur de la leçon : environ 20 000 femmes tondues contre 767 exécutions après jugement. La sanction la plus visible n'a pas frappé les plus responsables."}];
+const CONCEPTS = [{"l": "Le couvre-feu", "a": 1}, {"l": "Le marché noir", "a": 2}, {"l": "La Milice (janvier 1943)", "a": 3}, {"l": "L'épuration sauvage", "a": 4}, {"l": "L'épuration légale", "a": 5}, {"l": "La « collaboration horizontale »", "a": 6}];
+const CONCEPT_DEFS = {"1": "1. L'interdiction de sortir le soir, qui rétrécit la vie sociale", "2": "2. Le recours illégal et coûteux pour se procurer ce que le rationnement ne fournit pas", "3": "3. L'organisation paramilitaire française chargée de combattre la Résistance", "4": "4. Environ 8 775 exécutions sommaires, sans jugement, à la Libération", "5": "5. Les cours de justice : près de 1 500 condamnations à mort, dont 767 exécutées", "6": "6. L'accusation portée contre les femmes tondues en public, environ 20 000"};
+const GAPS   = [{"before": "Au début, la présence allemande", "after": "plus légère qu'attendue. <em>(être — imparfait de l'indicatif)</em>", "a": ["était"], "why": "Indicatif : il n'y a ici aucune conjonction déclenchant le subjonctif. Toutes les cases ne sont pas au subjonctif — c'est le piège de l'exercice."}, {"before": "Bien qu'il y", "after": "des tickets de rationnement, il était très difficile de se nourrir. <em>(avoir — subjonctif)</em>", "a": ["ait eu", "eût"], "why": "« Bien que » exige le subjonctif : <em>ait eu</em> (subjonctif passé) ou <em>eût</em> (subjonctif imparfait, littéraire, comme dans le texte). <strong>Jamais</strong> « avait »."}, {"before": "Il fallait qu'on", "after": "la BBC en secret. <em>(écouter — subjonctif présent)</em>", "a": ["écoute"], "why": "« Il faut / il fallait que » + subjonctif. Même quand la principale est au passé, le subjonctif présent suffit en français courant."}, {"before": "Les paysans envoyaient des colis afin que leurs cousins parisiens", "after": "mieux se nourrir. <em>(pouvoir — subjonctif présent)</em>", "a": ["puissent"], "why": "« Afin que » exige le subjonctif. Forme irrégulière : <em>puissent</em>, à ne pas confondre avec l'indicatif <em>peuvent</em>."}, {"before": "On écoutait de Gaulle de peur que l'on ne nous", "after": ". <em>(dénoncer — subjonctif présent)</em>", "a": ["dénonce"], "why": "« De peur que » + subjonctif, avec le « ne » explétif, qui n'est pas une négation."}, {"before": "Qui s'étonne que Pétain", "after": "à créer une jeunesse à la française ? <em>(se décider — subjonctif passé)</em>", "a": ["se soit décidé"], "why": "« S'étonner que » exige le subjonctif ; l'action étant achevée, on emploie le subjonctif passé : <em>se soit décidé</em>, pas <em>s'est décidé</em>."}, {"before": "À la Libération, le public a réclamé que les collaboratrices", "after": "tondues en public. <em>(être — subjonctif présent)</em>", "a": ["soient"], "why": "« Réclamer que » + subjonctif. <em>Soient</em>, jamais <em>étaient</em> ni <em>ont été</em>."}, {"before": "Aux procès de Nuremberg, les accusés n'ont pas regretté qu'ils", "after": "des choses aussi déplorables. <em>(faire — subjonctif passé)</em>", "a": ["aient fait"], "why": "« Regretter que » + subjonctif ; l'action est antérieure, donc subjonctif passé <em>aient fait</em> — et non le plus-que-parfait <em>avaient fait</em>."}, {"before": "Supposons que les nazis", "after": "pardon : leurs peines auraient-elles été différentes ? <em>(demander — subjonctif passé)</em>", "a": ["aient demandé"], "why": "« Supposons que » introduit une hypothèse : subjonctif passé <em>aient demandé</em>. Le plus-que-parfait <em>avaient demandé</em> serait une erreur."}];
+const DISTRACTORS = ["avait", "saviez", "s'est décidé", "étaient", "avaient fait", "avaient demandé", "peuvent"];
+const SHORT  = [{"q": "Pourquoi la vie sous l'Occupation était-elle plus dure en ville qu'à la campagne ? Donnez deux raisons.", "keys": [["faim", "nourriture", "alimentation", "se nourrir", "ravitaill"], ["ferme", "campagne", "cousins", "colis", "paysan", "produire"], ["maladie", "tuberculose", "malade", "santé", "sante"]], "need": 3, "labels": ["les villes souffraient de la faim", "les campagnes produisaient ou envoyaient de la nourriture", "les citadins tombaient malades (tuberculose)"], "model": "Parce que les villes dépendaient entièrement du rationnement, alors que les campagnes avaient les fermes à portée de main : des familles envoyaient des colis à leurs cousins parisiens afin qu'ils puissent mieux se nourrir. La sous-alimentation avait aussi des effets sanitaires directs : le nombre de morts dues à la tuberculose a doublé."}, {"q": "Dans quelle mesure l'épuration a-t-elle été une justice équitable ? Appuyez-vous sur des chiffres.", "keys": [["8 775", "8775", "sommaire", "sauvage", "sans jugement"], ["767", "1 500", "1500", "cours de justice", "légale", "legale"], ["20 000", "20000", "tondues", "femmes", "horizontale", "visible", "sélect", "select"]], "need": 3, "labels": ["l'épuration sauvage : environ 8 775 exécutions sommaires", "l'épuration légale : près de 1 500 condamnations, 767 exécutions", "les 20 000 femmes tondues : une sanction visible mais sélective"], "model": "Elle a été à la fois violente et sélective. L'épuration sauvage a fait environ 8 775 victimes sans aucun jugement, tandis que les cours de justice ont prononcé près de 1 500 condamnations à mort, dont 767 seulement ont été exécutées. Surtout, quelque 20 000 femmes ont été tondues en public : la sanction la plus spectaculaire a frappé les plus vulnérables plutôt que les plus responsables."}, {"q": "Quel rôle la Milice a-t-elle joué, et pourquoi son souvenir est-il particulièrement douloureux en France ?", "keys": [["1943", "janvier", "darnand", "vichy", "créée", "creee", "française", "francaise"], ["résistance", "resistance", "délation", "delation", "torture", "exécutions", "executions"], ["famille", "voisin", "frère", "frere", "français contre", "guerre civile", "divis"]], "need": 3, "labels": ["créée par Vichy en janvier 1943", "ses méthodes : délation, torture, exécutions sommaires", "elle opposait des Français entre eux, parfois dans la même famille"], "model": "Créée par Vichy en janvier 1943 sous Joseph Darnand, la Milice était chargée de combattre la Résistance et employait la délation, la torture et les exécutions sommaires. Son souvenir est douloureux parce qu'elle était française : elle a dressé des voisins et parfois des frères les uns contre les autres, ce qui rapproche l'Occupation d'une guerre civile."}];
+const STIMS  = {"A": {"claim": "Sous l'Occupation, la vie quotidienne des Français a été dominée par la faim et la peur plutôt que par la politique.", "consider": ["Les difficultés matérielles de la vie quotidienne entre 1940 et 1944.", "La place réelle des choix politiques dans la vie des Français ordinaires."]}, "B": {"claim": "L'épuration de 1944-1945 a rendu la justice que la France devait à ses victimes.", "consider": ["Les différentes formes qu'a prises l'épuration.", "Les personnes qui ont réellement été punies, et celles qui ne l'ont pas été."]}};
+const PLAN_HINT = "Ossature possible : « <em>Certes, il serait injuste de reprocher leur passivité à des gens qui avaient faim et froid. Néanmoins, bien que la survie <strong>ait occupé</strong> l'essentiel des journées, le couvre-feu et la délation rendaient tout geste politique. Il suffit de rappeler qu'il fallait qu'on <strong>écoute</strong> la BBC en secret, de peur que l'on ne vous <strong>dénonce</strong>…</em> »";
+const STRETCH_B_TERMS = ["couvre-feu", "marché noir", "rationnement", "pénurie", "délation", "milicien", "épuration", "distraire", "détenteur", "moulage"];
+
+/* ================= état ================= */
+let lastField = null, activeGap = null, gapMode = 'easy', vocDir = 'fr';
+let data = { voc:{}, tf:{}, cn:{}, gap:{}, sh:{}, hints:[] };
+const $ = id => document.getElementById(id);
+const words = s => (String(s||'').trim().match(/\S+/g)||[]).length;
+function setFb(id, cls, html){ const e=$(id); e.className='fb '+cls; e.innerHTML=html; }
+function markItem(el, state){ el.classList.remove('done-ok','done-near','done-bad'); el.classList.add('done-'+state); }
+
+/* ================= B. vocabulaire ================= */
+let vocOrder = VOCAB.map((_,i)=>i);
+function shuffleVocab(){
+  for(let i=vocOrder.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [vocOrder[i],vocOrder[j]]=[vocOrder[j],vocOrder[i]]; }
+  buildVocab();
+}
+function setVocDir(d){
+  vocDir=d;
+  $('modeFR').classList.toggle('on', d==='fr');
+  $('modeEN').classList.toggle('on', d==='en');
+  data.voc={}; buildVocab(); progress();
+}
+function buildVocab(){
+  const w=$('vocWrap'); w.innerHTML='';
+  vocOrder.forEach((idx,pos)=>{
+    const v=VOCAB[idx], n=pos+1;
+    const prompt = vocDir==='fr' ? v.fr : v.en;
+    const d=document.createElement('div'); d.className='item'; d.id='vocItem'+n;
+    d.innerHTML =
+      '<div class="q"><span class="qn">'+n+'</span>'+
+      (vocDir==='fr' ? 'Traduisez en anglais : <em>'+prompt+'</em>' : 'Traduisez en français : <em>'+prompt+'</em>')+'</div>'+
+      '<input type="text" id="voc'+n+'" data-i="'+idx+'" placeholder="Votre réponse…">'+
+      '<div class="btn-row"><button class="btn-check" onclick="checkVoc('+n+')">Vérifier</button>'+
+      '<button class="btn-hint" onclick="hintVoc('+n+')">Indice</button></div>'+
+      '<div class="fb" id="vocFb'+n+'"></div>';
+    w.appendChild(d);
+  });
+}
+function vocAnswers(idx){
+  const v=VOCAB[idx];
+  return vocDir==='fr' ? (v.enAcc||[v.en]) : (v.frAcc||[v.fr]);
+}
+function checkVoc(n){
+  const inp=$('voc'+n), idx=Number(inp.dataset.i);
+  if(!inp.value.trim()){ setFb('vocFb'+n,'incorrect','Écrivez une réponse.'); return; }
+  const r=MARK.judge(inp.value, vocAnswers(idx));
+  inp.classList.remove('ok','near','bad'); inp.classList.add(MARK.cssClass(r));
+  markItem($('vocItem'+n), MARK.isRight(r)?'ok':(r.verdict==='accent'?'near':'bad'));
+  setFb('vocFb'+n, MARK.isRight(r)?'correct':(r.verdict==='accent'?'near':'incorrect'), MARK.message(r));
+  data.voc[n]={answer:inp.value, correct:MARK.isRight(r), verdict:r.verdict, expected:vocAnswers(idx)[0], idx:idx};
+  progress();
+}
+function hintVoc(n){
+  const idx=Number($('voc'+n).dataset.i), v=VOCAB[idx];
+  setFb('vocFb'+n,'hint','💡 '+(v.hint || 'Cherchez le mot dans le texte : il y apparaît en contexte.'));
+  if(!data.hints.includes('voc'+n)) data.hints.push('voc'+n);
+}
+function checkStretchB(){
+  const val=$('stretchB').value, lv=MARK.deacc(val), w=words(val);
+  const used=STRETCH_B_TERMS.filter(t=>lv.includes(MARK.deacc(t))).length;
+  const conc=/(bien que|quoique|certes|néanmoins|neanmoins|toutefois|en revanche|alors que|tandis que)/i.test(val);
+  const miss=[];
+  if(used<3) miss.push('trois mots de la liste (vous en avez '+used+')');
+  if(!conc) miss.push('un connecteur de contraste ou de concession');
+  if(w<25) miss.push('25 mots minimum (vous en avez '+w+')');
+  if(miss.length) setFb('stretchBFb','hint','Il manque encore : <strong>'+miss.join(' · ')+'</strong>.');
+  else setFb('stretchBFb','correct','✓ '+w+' mots, trois termes de la liste et un connecteur. Vérifiez maintenant le mode du verbe après votre connecteur.');
+}
+
+/* ================= C. vrai / faux / non mentionné ================= */
+function buildTF(){
+  const w=$('tfWrap');
+  TF.forEach((it,i)=>{
+    const n=i+1;
+    const d=document.createElement('div'); d.className='item'; d.id='tfItem'+n;
+    d.innerHTML='<div class="q"><span class="qn">'+n+'</span>'+it.t+'</div>'+
+      '<div class="opts" style="flex-direction:row;flex-wrap:wrap;">'+
+      ['V','F','NM'].map(v=>'<label class="opt" style="flex:1;min-width:120px;"><input type="radio" name="tf'+n+'" value="'+v+'"> '+
+        (v==='V'?'Vrai':v==='F'?'Faux':'Non mentionné')+'</label>').join('')+'</div>'+
+      '<div class="btn-row"><button class="btn-check" onclick="checkTF('+n+')">Vérifier</button></div>'+
+      '<div class="fb" id="tfFb'+n+'"></div>';
+    w.appendChild(d);
+  });
+}
+function checkTF(n){
+  const it=TF[n-1], sel=document.querySelector('input[name="tf'+n+'"]:checked'), item=$('tfItem'+n);
+  item.querySelectorAll('.opt').forEach(o=>o.classList.remove('ok','bad'));
+  if(!sel){ setFb('tfFb'+n,'incorrect','Choisissez une réponse.'); return; }
+  const good = sel.value===it.a;
+  sel.closest('.opt').classList.add(good?'ok':'bad');
+  if(!good) item.querySelector('input[value="'+it.a+'"]').closest('.opt').classList.add('ok');
+  markItem(item, good?'ok':'bad');
+  setFb('tfFb'+n, good?'correct':'incorrect', (good?'✓ ':'✗ ')+it.why);
+  data.tf[n]={answer:sel.value, correct:good};
+  progress();
+}
+
+/* ================= D. concepts ================= */
+function buildConcepts(){
+  const w=$('cnWrap');
+  const opts='<option value="">Choisissez…</option>'+
+    Object.keys(CONCEPT_DEFS).map(k=>'<option value="'+k+'">'+CONCEPT_DEFS[k]+'</option>').join('');
+  CONCEPTS.forEach((c,i)=>{
+    const p=document.createElement('div'); p.className='pair';
+    p.innerHTML='<div class="left">'+c.l+'</div><select id="cn'+(i+1)+'">'+opts+'</select>';
+    w.appendChild(p);
+  });
+}
+function checkConcepts(){
+  let ok=0;
+  CONCEPTS.forEach((c,i)=>{
+    const n=i+1, s=$('cn'+n), good=Number(s.value)===c.a;
+    s.classList.remove('ok','bad');
+    if(s.value!=='') s.classList.add(good?'ok':'bad');
+    data.cn[n]={answer:s.value, correct:good};
+    if(good) ok++;
+  });
+  setFb('cnFb', ok===CONCEPTS.length?'correct':'incorrect',
+    (ok===CONCEPTS.length?'✓ ':'✗ ')+ok+' / '+CONCEPTS.length+' associations correctes.');
+  progress();
+}
+function hintConcepts(){
+  setFb('cnFb','hint','💡 '+META.conceptHint);
+  if(!data.hints.includes('cn')) data.hints.push('cn');
+}
+
+/* ================= E. grammaire : texte à trous + banque ================= */
+let bankWords=[];
+function buildBank(){
+  bankWords = GAPS.map(g=>g.a[0]).concat(DISTRACTORS);
+  shuffleBank();
+}
+function shuffleBank(){
+  for(let i=bankWords.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [bankWords[i],bankWords[j]]=[bankWords[j],bankWords[i]]; }
+  renderBank();
+}
+function renderBank(){
+  const placed=[...document.querySelectorAll('.gapin')].map(g=>MARK.norm(g.value)).filter(Boolean);
+  const wrap=$('chips'); if(!wrap) return;
+  wrap.innerHTML='';
+  const counted={};
+  bankWords.forEach(w=>{
+    const b=document.createElement('button');
+    b.type='button'; b.className='chip'; b.textContent=w;
+    counted[MARK.norm(w)]=(counted[MARK.norm(w)]||0)+1;
+    const used=placed.filter(p=>p===MARK.norm(w)).length;
+    if(used>=counted[MARK.norm(w)]) b.classList.add('used');
+    b.addEventListener('mousedown', e=>e.preventDefault());
+    b.addEventListener('click', ()=>placeWord(w,b));
+    wrap.appendChild(b);
+  });
+}
+function buildGaps(){
+  const w=$('gapWrap');
+  GAPS.forEach((g,i)=>{
+    const n=i+1;
+    const d=document.createElement('div'); d.className='item'; d.id='gapItem'+n;
+    d.innerHTML='<div class="q"><span class="qn">'+n+'</span>'+g.before+
+      ' <input type="text" class="gapin" data-n="'+n+'" id="gap'+n+'" placeholder="…"> '+g.after+'</div>'+
+      '<div class="fb" id="gapFb'+n+'"></div>';
+    w.appendChild(d);
+  });
+}
+function firstEmptyGap(){ return [...document.querySelectorAll('.gapin')].find(g=>!g.value.trim())||null; }
+function setActiveGap(g){
+  document.querySelectorAll('.gapin').forEach(x=>x.classList.remove('near'));
+  activeGap=g; if(g){ g.focus({preventScroll:true}); }
+}
+function placeWord(w, chip){
+  if(chip && chip.classList.contains('used')) return;
+  let g = (activeGap && !activeGap.value.trim()) ? activeGap : (activeGap || firstEmptyGap());
+  if(!g) g=firstEmptyGap();
+  if(!g){ setFb('gapFb','hint','Toutes les cases sont remplies — cliquez sur une case pour la libérer.'); return; }
+  g.value=w; g.className='gapin';
+  setActiveGap(firstEmptyGap()||g);
+  renderBank();
+}
+function setGapMode(m){
+  gapMode=m;
+  $('gEasy').classList.toggle('on', m==='easy');
+  $('gHard').classList.toggle('on', m==='hard');
+  $('bank').style.display = m==='easy' ? '' : 'none';
+  setFb('gapFb','hint', m==='easy'
+    ? '💡 Mode guidé : cliquez une case, puis une forme. La banque contient des intrus.'
+    : '💡 Mode défi : la banque est masquée. Écrivez la forme vous-même — le clavier d\'accents reste disponible.');
+}
+function clearGaps(){
+  document.querySelectorAll('.gapin').forEach(g=>{ g.value=''; g.className='gapin'; });
+  document.querySelectorAll('[id^=gapFb]').forEach(f=>{ if(f.id!=='gapFb'){ f.className='fb'; f.innerHTML=''; } });
+  document.querySelectorAll('[id^=gapItem]').forEach(i=>i.classList.remove('done-ok','done-near','done-bad'));
+  setActiveGap(document.querySelector('.gapin')); renderBank();
+  $('gapFb').className='fb';
+}
+function checkGaps(){
+  let ok=0, near=0;
+  GAPS.forEach((g,i)=>{
+    const n=i+1, inp=$('gap'+n);
+    /* strict : dans un exercice de conjugaison, la forme EST la question — pas de tolérance. */
+    const r=MARK.judge(inp.value, g.a, {strict:true});
+    inp.classList.remove('ok','near','bad'); inp.classList.add(MARK.cssClass(r));
+    markItem($('gapItem'+n), MARK.isRight(r)?'ok':(r.verdict==='accent'?'near':'bad'));
+    setFb('gapFb'+n, MARK.isRight(r)?'correct':(r.verdict==='accent'?'near':'incorrect'),
+          MARK.message(r)+' <span style="font-weight:400;">'+g.why+'</span>');
+    data.gap[n]={answer:inp.value, correct:MARK.isRight(r), verdict:r.verdict, expected:g.a[0]};
+    if(MARK.isRight(r)) ok++; else if(r.verdict==='accent') near++;
+  });
+  setFb('gapFb', ok===GAPS.length?'correct':'incorrect',
+    ok+' / '+GAPS.length+' correct'+(near?' — et '+near+' réponse(s) juste(s) mais mal accentuée(s).':'.'));
+  progress();
+}
+function hintGaps(){
+  setFb('gapFb','hint','💡 '+META.gapHint);
+  if(!data.hints.includes('gap')) data.hints.push('gap');
+}
+
+/* ================= F. réponses courtes ================= */
+function buildShort(){
+  const w=$('shWrap');
+  SHORT.forEach((s,i)=>{
+    const n=i+1;
+    const d=document.createElement('div'); d.className='item'; d.id='shItem'+n;
+    d.innerHTML='<div class="q"><span class="qn">'+n+'</span>'+s.q+'</div>'+
+      '<textarea id="sh'+n+'" placeholder="Votre réponse en français (40–60 mots)…"></textarea>'+
+      '<div class="btn-row"><button class="btn-check" onclick="checkShort('+n+')">Vérifier</button>'+
+      '<button class="btn-hint" onclick="modelShort('+n+')">Réponse modèle</button></div>'+
+      '<div class="fb" id="shFb'+n+'"></div>';
+    w.appendChild(d);
+  });
+}
+function checkShort(n){
+  const s=SHORT[n-1], v=$('sh'+n).value, lv=MARK.deacc(v), w=words(v);
+  const hits=s.keys.map((grp,i)=>({i, ok:grp.some(k=>lv.includes(MARK.deacc(k)))}));
+  const got=hits.filter(h=>h.ok).length;
+  const missing=hits.filter(h=>!h.ok).map(h=>s.labels[h.i]);
+  const enough = got>=s.need && w>=25;
+  markItem($('shItem'+n), enough?'ok':'bad');
+  $('sh'+n).classList.remove('ok','bad'); $('sh'+n).classList.add(enough?'ok':'bad');
+  if(w<10) setFb('shFb'+n,'incorrect','Réponse trop courte : visez 40 à 60 mots, en phrases complètes.');
+  else if(enough) setFb('shFb'+n,'correct','✓ '+got+' piste(s) traitée(s) — '+s.need+' demandée(s) — en '+w+' mots. Relisez vos accords et vos connecteurs.');
+  else setFb('shFb'+n,'incorrect','✗ '+got+' piste(s) sur les '+s.need+' demandées ('+w+' mots). Pistes non traitées : <strong>'+missing.join(' · ')+'</strong>.');
+  data.sh[n]={answer:v, words:w, got:got, need:s.need, correct:enough};
+  progress();
+}
+function modelShort(n){
+  setFb('shFb'+n,'hint','💡 <strong>Réponse modèle :</strong> '+SHORT[n-1].model);
+  if(!data.hints.includes('sh'+n)) data.hints.push('sh'+n);
+}
+
+/* ================= G. Paper 3 ================= */
+let currentStim='A';
+function buildStims(){
+  const w=$('stimWrap');
+  ['A','B'].forEach(k=>{
+    const s=STIMS[k];
+    const d=document.createElement('div');
+    d.className='card3 stim'+(k==='A'?' on':''); d.id='stim'+k+'Card';
+    d.innerHTML='<h3>Déclaration '+k+'</h3><p><strong>« '+s.claim+' »</strong></p>'+
+      '<p style="margin-top:8px;">Vous devez considérer :</p><ul>'+s.consider.map(c=>'<li>'+c+'</li>').join('')+'</ul>';
+    w.appendChild(d);
+  });
+}
+function setStim(k){
+  currentStim=k;
+  $('stimA').classList.toggle('on', k==='A');
+  $('stimB').classList.toggle('on', k==='B');
+  $('stimACard').classList.toggle('on', k==='A');
+  $('stimBCard').classList.toggle('on', k==='B');
+}
+function checkPlan(){
+  const g=id=>($(id).value||'').trim();
+  const all=[g('planThese'),g('planArg1'),g('planArg2'),g('planConc')].join(' ');
+  const w=words(all);
+  const conc=/(certes|néanmoins|neanmoins|cependant|toutefois|en revanche|bien qu|quoiqu|malgré|malgre|pourtant|alors que|tandis que)/i.test(all);
+  const fact=/\d{2,}|\b(19|20)\d{2}\b|%|pour cent/.test(all);
+  const subjForm=/\b(soit|soient|ait|aient|fasse|fassent|puisse|puissent|veuille|doive|sache|sachiez|aille|vienne|prenne|permette|fût|eût)\b/i.test(all);
+  const subjTrig=/(bien qu|quoiqu|pour qu|afin qu|avant qu|sans qu|il faut qu|il faudrait qu|il est (important|essentiel|nécessaire|necessaire) qu|s'étonne qu|setonne qu|supposons qu)/i.test(all);
+  const miss=[];
+  if(!g('planThese')) miss.push('une thèse');
+  if(!g('planArg1')||!g('planArg2')) miss.push('deux arguments');
+  if(!conc) miss.push('une concession');
+  if(!fact) miss.push('une donnée précise (date, chiffre ou institution)');
+  if(!(subjForm||subjTrig)) miss.push('un subjonctif');
+  if(w<70) miss.push('70 mots minimum au total (vous en avez '+w+')');
+  if(miss.length) setFb('planFb','hint','≈ '+w+' mots. Il manque encore : <strong>'+miss.join(' · ')+'</strong>.');
+  else setFb('planFb','correct','✓ '+w+' mots : thèse, deux arguments, concession, donnée précise et subjonctif. Entraînez-vous maintenant à l\'oral, une minute montre en main.');
+}
+function hintPlan(){
+  setFb('planFb','hint','💡 '+PLAN_HINT);
+  if(!data.hints.includes('plan')) data.hints.push('plan');
+}
+
+/* ================= tout vérifier / progression ================= */
+function checkAll(){
+  for(let i=1;i<=VOCAB.length;i++) if($('voc'+i) && $('voc'+i).value.trim()) checkVoc(i);
+  for(let i=1;i<=TF.length;i++) if(document.querySelector('input[name="tf'+i+'"]:checked')) checkTF(i);
+  if([...document.querySelectorAll('#cnWrap select')].some(s=>s.value)) checkConcepts();
+  if([...document.querySelectorAll('.gapin')].some(g=>g.value.trim())) checkGaps();
+  for(let i=1;i<=SHORT.length;i++) if($('sh'+i).value.trim()) checkShort(i);
+  if($('planThese').value.trim()) checkPlan();
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+function progress(){
+  const max = VOCAB.length + TF.length + CONCEPTS.length + GAPS.length + SHORT.length;
+  let score=0;
+  [data.voc,data.tf,data.cn,data.gap,data.sh].forEach(o=>Object.values(o).forEach(v=>{ if(v.correct) score++; }));
+  const pct=Math.round(100*score/max);
+  const bar=$('progressBar');
+  bar.style.width=Math.max(pct,7)+'%';
+  bar.textContent=pct+'% ('+score+'/'+max+')';
+  return {score,max};
+}
+
+/* ================= audio / lexique ================= */
+function speak(){
+  if(!('speechSynthesis' in window)){ ttsNotice("Ce navigateur ne propose pas de lecture audio."); return; }
+  const txt=[...$('reading').querySelectorAll('p')].map(p=>p.textContent).join(' ');
+  const u=new SpeechSynthesisUtterance(txt);
+  u.lang='fr-FR'; u.rate=0.92;
+  const voices=speechSynthesis.getVoices()||[];
+  const v=voices.filter(x=>/^fr/i.test(x.lang||''))[0];
+  if(v) u.voice=v;
+  else if(voices.length===0) ttsNotice("Aucune voix n'est installée sur cet ordinateur : lisez le texte à l'écrit.");
+  u.onerror=()=>{ if(!$('tts-notice')) ttsNotice("La lecture audio a été interrompue par le navigateur."); };
+  speechSynthesis.cancel(); speechSynthesis.speak(u);
+}
+function stopSpeak(){ if('speechSynthesis' in window) speechSynthesis.cancel(); }
+function ttsNotice(msg){
+  let b=$('tts-notice');
+  if(!b){ b=document.createElement('div'); b.id='tts-notice'; b.onclick=()=>b.remove(); document.body.appendChild(b); }
+  b.textContent=msg+' (cliquez pour fermer)';
+}
+function toggleGlossary(){
+  const g=$('glossary'), on=g.style.display==='none';
+  g.style.display=on?'block':'none';
+  $('glossBtn').textContent=on?'📖 Masquer le lexique':'📖 Afficher le lexique';
+}
+
+/* ================= clavier d'accents ================= */
+const KEYS=['é','è','ê','ë','à','â','ù','û','ô','î','ï','ç','œ','«','»','É','È','À','Ç'];
+function buildPad(){
+  const k=$('accentKeys');
+  KEYS.forEach(ch=>{
+    const b=document.createElement('button');
+    b.type='button'; b.className='key'; b.textContent=ch;
+    b.addEventListener('mousedown', e=>e.preventDefault());
+    b.addEventListener('click', ()=>insertChar(ch));
+    k.appendChild(b);
+  });
+  $('padToggle').addEventListener('click', function(){
+    const p=$('accentPad'); p.classList.toggle('collapsed');
+    this.textContent=p.classList.contains('collapsed')?'⌨':'▾';
+  });
+}
+function insertChar(ch){
+  const el=lastField;
+  if(!el){ $('padHint').textContent="Cliquez d'abord dans une case, puis sur une touche."; return; }
+  const s=el.selectionStart ?? el.value.length, e=el.selectionEnd ?? el.value.length;
+  el.value=el.value.slice(0,s)+ch+el.value.slice(e);
+  el.focus();
+  try{ el.setSelectionRange(s+ch.length,s+ch.length); }catch(err){}
+}
+['focus','focusin'].forEach(ev=>{
+  document.addEventListener(ev, e=>{
+    const t=e.target;
+    if(!t||!t.tagName) return;
+    if(t.tagName==='TEXTAREA'||(t.tagName==='INPUT'&&(t.type==='text'||t.type===''))){
+      if(t.id!=='studentName'){ lastField=t; $('padHint').textContent='Case active : votre texte ira au bon endroit.'; }
+      if(t.classList.contains('gapin')) activeGap=t;
+    }
+  }, true);
+});
+document.addEventListener('click', e=>{
+  const g=e.target.closest ? e.target.closest('.gapin') : null;
+  if(!g) return;
+  if(g.value.trim() && gapMode==='easy'){ g.value=''; g.className='gapin'; renderBank(); }
+  setActiveGap(g);
+}, true);
+
+/* ================= téléchargement ================= */
+function downloadResults(){
+  const f=$('studentName'), name=(f.value||'').trim();
+  if(!name){ $('nameWarning').style.display='block'; f.style.borderColor='#b3261e'; f.focus();
+             f.scrollIntoView({behavior:'smooth',block:'center'}); return; }
+  $('nameWarning').style.display='none';
+  const {score,max}=progress(), now=new Date(), L=[];
+  const vals=Object.values(data.voc).concat(Object.values(data.gap));
+  const acc=vals.filter(v=>v.verdict==='accent').length;
+  const typ=vals.filter(v=>v.verdict==='typo').length;
+  const mor=vals.filter(v=>v.verdict==='morph').length;
+
+  L.push(META.fileTitle);
+  L.push(''.padEnd(66,'='));
+  L.push('Élève : '+name);
+  L.push('Date : '+now.toLocaleString('fr-FR'));
+  L.push('Score objectif : '+score+' / '+max+' ('+Math.round(100*score/max)+' %)');
+  L.push('Indices utilisés : '+data.hints.length);
+  L.push('Précision : '+typ+' faute(s) de frappe tolérée(s) · '+acc+' erreur(s) d\'accent · '+mor+' erreur(s) de terminaison');
+  L.push('');
+  L.push('B. VOCABULAIRE  (sens : '+(vocDir==='fr'?'français → anglais':'anglais → français')+')');
+  L.push(''.padEnd(66,'-'));
+  Object.keys(data.voc).forEach(k=>{
+    const r=data.voc[k], v=VOCAB[r.idx];
+    L.push('  '+v.fr+' = '+v.en);
+    L.push('     votre réponse : '+(r.answer||'—')+'   ['+r.verdict+']');
+  });
+  L.push('');
+  L.push('Défi B — phrase avec trois termes :');
+  L.push('  '+($('stretchB').value.trim()||'—'));
+  L.push('');
+  L.push('C. VRAI / FAUX / NON MENTIONNÉ');
+  L.push(''.padEnd(66,'-'));
+  TF.forEach((it,i)=>{ const r=data.tf[i+1];
+    L.push((i+1)+'. '+it.t.replace(/<[^>]+>/g,''));
+    L.push('   Réponse : '+(r?r.answer:'—')+'   (attendu : '+it.a+')'+(r?(r.correct?'  ✔':'  ✘'):''));
+  });
+  L.push('');
+  L.push('D. CONCEPTS CLÉS');
+  L.push(''.padEnd(66,'-'));
+  CONCEPTS.forEach((c,i)=>{ const r=data.cn[i+1];
+    L.push(c.l+' → '+(r&&r.answer?CONCEPT_DEFS[r.answer].replace(/<[^>]+>/g,''):'—')+
+           (r?(r.correct?'  ✔':'  ✘ (attendu : '+CONCEPT_DEFS[c.a].replace(/<[^>]+>/g,'')+')'):''));
+  });
+  L.push('');
+  L.push('E. GRAMMAIRE — '+META.gramTitle+'  (mode : '+(gapMode==='easy'?'guidé':'défi')+')');
+  L.push(''.padEnd(66,'-'));
+  GAPS.forEach((g,i)=>{ const r=data.gap[i+1];
+    L.push((i+1)+'. '+(g.before+' ___ '+g.after).replace(/<[^>]+>/g,''));
+    L.push('   Réponse : '+((r&&r.answer)||'—')+'   (attendu : '+g.a[0]+')'+(r?'  ['+r.verdict+']':''));
+    L.push('   Règle : '+g.why.replace(/<[^>]+>/g,''));
+  });
+  L.push('');
+  L.push('F. RÉPONSES COURTES');
+  L.push(''.padEnd(66,'-'));
+  SHORT.forEach((s,i)=>{ const r=data.sh[i+1];
+    L.push((i+1)+'. '+s.q.replace(/<[^>]+>/g,''));
+    L.push('   Réponse : '+((r&&r.answer.trim())||'—'));
+    if(r) L.push('   ['+r.words+' mots · '+r.got+'/'+r.need+' pistes]');
+    L.push('   Modèle : '+s.model.replace(/<[^>]+>/g,''));
+    L.push('');
+  });
+  L.push('G. PAPER 3 — DÉCLARATION '+currentStim);
+  L.push(''.padEnd(66,'-'));
+  L.push('« '+STIMS[currentStim].claim+' »');
+  STIMS[currentStim].consider.forEach(c=>L.push('  · '+c.replace(/<[^>]+>/g,'')));
+  L.push('');
+  L.push('Thèse      : '+($('planThese').value.trim()||'—'));
+  L.push('Argument 1 : '+($('planArg1').value.trim()||'—'));
+  L.push('Argument 2 : '+($('planArg2').value.trim()||'—'));
+  L.push('Concession : '+($('planConc').value.trim()||'—'));
+  L.push('');
+  L.push('Déposez ce fichier sur Teams / SharePoint.');
+
+  const blob=new Blob([L.join('\n')],{type:'text/plain;charset=utf-8'});
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);
+  a.download=META.filePrefix+'_'+name.replace(/[^\wÀ-ÿ]+/g,'_')+'_'+now.toISOString().slice(0,10)+'.txt';
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  setTimeout(()=>URL.revokeObjectURL(a.href),2000);
+}
+
+function resetAll(){
+  document.querySelectorAll('input[type=text], textarea').forEach(i=>{ i.value=''; i.classList.remove('ok','near','bad'); i.style.borderColor=''; });
+  document.querySelectorAll('select').forEach(s=>{ s.selectedIndex=0; s.classList.remove('ok','bad'); });
+  document.querySelectorAll('input[type=radio]').forEach(r=>r.checked=false);
+  document.querySelectorAll('.opt').forEach(o=>o.classList.remove('ok','bad','missed'));
+  document.querySelectorAll('.item').forEach(i=>i.classList.remove('done-ok','done-near','done-bad'));
+  document.querySelectorAll('.fb').forEach(f=>{ f.className='fb'; f.innerHTML=''; });
+  $('nameWarning').style.display='none';
+  data={ voc:{}, tf:{}, cn:{}, gap:{}, sh:{}, hints:[] };
+  renderBank(); progress();
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+/* ================= init ================= */
+buildVocab(); buildTF(); buildConcepts(); buildGaps(); buildBank(); buildShort(); buildStims(); buildPad();
+setActiveGap(document.querySelector('.gapin'));
+progress();
+</script>
+</body>
+</html>
