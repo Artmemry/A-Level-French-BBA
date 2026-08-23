@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>gram.pc Participes et passé composé</title>
+<style>
+:root{
+  --paper:#FBFAF6;--card:#FFF;--ink:#1A2440;--soft:#4A5570;--muted:#8A8F9E;
+  --accent:#C60B1E;--blue:#2B4C9B;--blue-pale:#EDF1FA;--green:#2E7D52;--green-pale:#EAF4EE;
+  --gold:#B8860B;--gold-pale:#FFF7E6;--line:#E5E2D8;--line2:#CFCBBD;
+  --serif:Georgia,'Times New Roman',serif;
+  --sans:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+  --mono:ui-monospace,'SF Mono',Menlo,Consolas,monospace;
+  --shadow:0 1px 2px rgba(26,36,64,.06),0 4px 16px rgba(26,36,64,.05);
+  --lbl-scaf:"Étayage ";--lbl-bank:"Banque ";
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.6}
+:focus-visible{outline:2px solid var(--blue);outline-offset:2px;border-radius:3px}
+header.top{background:var(--card);border-bottom:3px solid var(--ink)}
+.top-in{max-width:940px;margin:0 auto;padding:22px 20px 18px}
+.kicker{font-family:var(--mono);font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);font-weight:700}
+h1{font-family:var(--serif);font-size:1.9rem;line-height:1.15;margin:6px 0 4px}
+.sub{color:var(--soft);font-size:.95rem;margin:0}
+.meta{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.pill{font-family:var(--mono);font-size:.66rem;letter-spacing:.07em;text-transform:uppercase;
+  border:1px solid var(--line2);border-radius:99px;padding:4px 11px;color:var(--soft)}
+.pill.hot{background:var(--ink);border-color:var(--ink);color:#fff}
+main{max-width:940px;margin:0 auto;padding:26px 20px 40px}
+.lede{font-size:1.02rem;color:var(--soft);max-width:66ch;margin:0 0 26px}
+h2{font-family:var(--serif);font-size:1.24rem;margin:0}
+h3{font-family:var(--serif);font-size:1.02rem;margin:22px 0 8px;color:var(--blue)}
+
+.tl{border-left:3px solid var(--accent);padding-left:16px;margin:0 0 30px}
+.tl .row{display:grid;grid-template-columns:96px 1fr;gap:12px;padding:7px 0;border-bottom:1px solid var(--line)}
+.tl .row:last-child{border-bottom:none}
+.tl .yr{font-family:var(--mono);font-size:.78rem;font-weight:700;color:var(--accent);padding-top:2px}
+.tl .ev{font-size:.9rem;color:var(--soft)}
+
+.cgrid{display:grid;gap:11px;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));margin-bottom:30px}
+.cc{background:var(--card);border:1px solid var(--line);border-left:3px solid var(--blue);
+  border-radius:9px;padding:12px 14px;box-shadow:var(--shadow)}
+.cc .es{font-weight:700}
+.cc .en{font-family:var(--mono);font-size:.7rem;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);margin:2px 0 6px}
+.cc .why{font-size:.86rem;color:var(--soft);margin:0}
+
+section.task{background:var(--card);border:1px solid var(--line);border-radius:12px;
+  padding:20px 22px;margin:0 0 20px;box-shadow:var(--shadow)}
+.sechead{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;border-bottom:2px solid var(--ink);padding-bottom:8px}
+.sechead .secscore{margin-left:auto;font-family:var(--mono);font-size:.78rem;color:var(--green);font-weight:700}
+.aim{background:var(--blue-pale);border-left:3px solid var(--blue);border-radius:0 7px 7px 0;
+  padding:10px 13px;margin:13px 0;font-size:.9rem}
+.aim b{color:var(--blue)}
+.scaf{background:var(--gold-pale);border:1px dashed var(--gold);border-radius:7px;padding:10px 13px;margin:12px 0;font-size:.87rem}
+.scaf::before{content:var(--lbl-scaf);font-family:var(--mono);font-size:.63rem;letter-spacing:.09em;
+  text-transform:uppercase;color:var(--gold);font-weight:700;display:block;margin-bottom:3px}
+.stretch{background:var(--green-pale);border-left:3px solid var(--green);border-radius:0 7px 7px 0;
+  padding:10px 13px;margin:14px 0 0;font-size:.87rem}
+.bank{background:var(--paper);border:1px solid var(--line2);border-radius:7px;padding:9px 13px;
+  margin:12px 0;font-size:.88rem}
+.bank::before{content:var(--lbl-bank);font-family:var(--mono);font-size:.63rem;letter-spacing:.09em;
+  text-transform:uppercase;color:var(--muted);font-weight:700;display:block}
+
+.psg{font-size:1rem;line-height:1.75}
+.psg p{margin:0 0 13px}
+.psg .src{font-size:.8rem;color:var(--muted)}
+.gl{display:grid;gap:5px;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));
+  background:var(--paper);border:1px solid var(--line);border-radius:8px;padding:11px 13px;margin-top:14px}
+.gl div{font-size:.83rem;color:var(--soft)}
+.gl b{color:var(--ink)}
+
+ol.qs{margin:0;padding-left:22px}
+ol.qs>li{margin:0 0 14px}
+.qtxt{margin-bottom:5px}
+input[type=text]{font-family:var(--sans);font-size:.97rem;border:1.5px solid var(--line2);border-radius:6px;
+  padding:6px 9px;background:#fff;color:var(--ink);min-width:150px}
+input[type=text].wide{width:100%;max-width:520px}
+input.ok{border-color:var(--green);background:var(--green-pale)}
+input.warn{border-color:var(--gold);background:var(--gold-pale)}
+input.bad{border-color:var(--accent);background:#FDEDEB}
+textarea{width:100%;font-family:var(--sans);font-size:.97rem;border:1.5px solid var(--line2);
+  border-radius:7px;padding:9px 11px;min-height:84px;resize:vertical;background:#fff;color:var(--ink)}
+.hint{font-family:var(--mono);font-size:.68rem;color:var(--muted);margin-left:7px}
+small.fb{display:block;font-size:.79rem;color:#7a5c00;margin-top:4px}
+small.fb.bad{color:#a5281b}
+
+table.vocab{width:100%;border-collapse:collapse}
+table.vocab td{padding:6px 8px;border-bottom:1px solid var(--line);vertical-align:middle}
+table.vocab td.es{font-weight:600;width:38%}
+table.vocab tr:last-child td{border-bottom:none}
+
+.mcq{border:1px solid var(--line);border-radius:8px;padding:11px 13px;margin:0 0 12px;background:var(--paper)}
+.mcq.ok{border-color:var(--green);background:var(--green-pale)}
+.mcq.bad{border-color:var(--accent);background:#FDEDEB}
+.mcq .q{font-weight:600;margin-bottom:7px}
+.mcq label{display:block;font-size:.93rem;padding:3px 0;cursor:pointer}
+.mcq input{margin-right:8px}
+
+.model{display:none;background:var(--green-pale);border-left:3px solid var(--green);border-radius:0 7px 7px 0;
+  padding:10px 13px;margin-top:9px;font-size:.9rem}
+.model.show{display:block}
+button.reveal{font-family:var(--sans);font-size:.8rem;font-weight:600;border:1.5px solid var(--line2);
+  background:#fff;color:var(--soft);border-radius:7px;padding:5px 12px;cursor:pointer;margin-top:8px}
+button.reveal:hover{border-color:var(--green);color:var(--green)}
+button.checkone{font-family:var(--sans);font-size:.83rem;font-weight:600;border:1.5px solid var(--blue);
+  background:#fff;color:var(--blue);border-radius:7px;padding:6px 14px;cursor:pointer;margin-top:14px}
+button.checkone:hover{background:var(--blue-pale)}
+.selfrow{display:flex;gap:9px;align-items:center;flex-wrap:wrap;margin-top:9px;font-size:.86rem;color:var(--soft)}
+.selfrow input{min-width:70px}
+
+.planrow{margin:0 0 12px}
+.planrow>label{display:block;font-weight:600;font-size:.88rem;margin-bottom:4px}
+.checks{display:grid;gap:5px;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));
+  background:var(--paper);border:1px solid var(--line);border-radius:8px;padding:10px 12px}
+label.chk{font-weight:400;font-size:.9rem;display:flex;align-items:center;gap:7px;cursor:pointer}
+.ao{border:1px solid var(--line);border-radius:9px;padding:12px 14px;margin:0 0 14px;background:var(--paper)}
+.aohead{display:flex;align-items:baseline;gap:10px;border-bottom:1px solid var(--line2);padding-bottom:6px;margin-bottom:9px}
+.aohead b{font-family:var(--serif);font-size:1rem}
+.aohead span{margin-left:auto;font-family:var(--mono);font-size:.75rem;color:var(--muted)}
+.bands{display:grid;gap:4px;margin-bottom:11px}
+.bands div{font-size:.83rem;color:var(--soft)}
+.bands b{font-family:var(--mono);font-size:.72rem;color:var(--accent);margin-right:6px}
+.speakq{background:var(--paper);border:1px solid var(--line);border-radius:8px;padding:11px 13px;margin:0 0 11px}
+.speakq .q{font-weight:600;margin-bottom:6px}
+
+.dock{position:fixed;left:0;right:0;bottom:0;z-index:60;background:var(--ink);color:#fff;
+  box-shadow:0 -2px 14px rgba(0,0,0,.22)}
+.dock .bar{max-width:940px;margin:0 auto;padding:8px 16px;display:flex;gap:9px;align-items:center;flex-wrap:wrap}
+.dock input#nom{height:32px;border-radius:6px;border:1px solid rgba(255,255,255,.3);
+  background:rgba(255,255,255,.09);color:#fff;padding:0 10px;width:180px;font-size:.9rem}
+.dock input#nom::placeholder{color:rgba(255,255,255,.6)}
+#pad{display:flex;gap:4px;flex-wrap:wrap}
+#pad .k{min-width:32px;height:32px;border:1px solid rgba(255,255,255,.3);background:rgba(255,255,255,.09);
+  color:#fff;border-radius:6px;font-size:16px;cursor:pointer;padding:0 6px}
+#pad .k:hover{background:rgba(255,255,255,.22)}
+#pad .k.shift{font-size:11.5px}
+#pad .k.shift.on{background:#fff;color:var(--ink);font-weight:700}
+.dock .acts{margin-left:auto;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.dock .acts button{height:32px;border:0;border-radius:6px;padding:0 14px;font-size:.82rem;font-weight:600;cursor:pointer}
+#btnCheck{background:#e8eefc;color:var(--ink)}
+#btnDl{background:var(--green);color:#fff}
+#btnReset{background:transparent;color:rgba(255,255,255,.7);border:1px solid rgba(255,255,255,.28)}
+.dock .score{max-width:940px;margin:0 auto;padding:0 16px 8px;display:flex;gap:10px;align-items:center}
+.dock .track{flex:1;height:6px;background:rgba(255,255,255,.18);border-radius:4px;overflow:hidden}
+.dock .track i{display:block;height:100%;width:0;background:#5fd39a;transition:width .3s}
+.dock .score span{font-family:var(--mono);font-size:.75rem;color:#cfe0f5;min-width:64px;text-align:right}
+#dockMsg{max-width:940px;margin:0 auto;padding:0 16px 7px;font-size:.76rem;color:#cfe0f5}
+footer.site{max-width:940px;margin:0 auto;padding:8px 20px 30px;font-family:var(--mono);
+  font-size:.68rem;color:var(--muted)}
+@media (max-width:640px){
+  .tl .row{grid-template-columns:70px 1fr}
+  .dock input#nom{width:130px}
+  h1{font-size:1.5rem}
+}
+@media print{.dock,button{display:none!important}body{background:#fff;padding-bottom:0!important}
+  section.task{break-inside:avoid;box-shadow:none}}
+</style>
+</head>
+<body>
+<header class="top"><div class="top-in">
+<div class="kicker">A-Level French · Edexcel 9FR0 · Grammaire · Participes et passé composé</div>
+<h1>Participes et passé composé</h1>
+<p class="sub">Present and past participles; passé composé agreement — accuracy at Paper 1 level</p>
+<div class="meta"><span class="pill hot">All themes</span><span class="pill">Paper 1 · Paper 3</span><span class="pill">Fiche gram.pc</span></div>
+</div></header>
+<main>
+<p class="lede">Le passé composé compte pour 30 % de Paper 1. Trois points décident la note : le bon auxiliaire (avoir ou être), le bon participe passé, et l&#x27;accord du participe. Cette page t&#x27;apprend à les voir en trois secondes.</p>
+<h3>Trois règles qui valent 30 % de Paper 1</h3><div class="tl">
+<div class="row"><div class="yr">Participe présent</div><div class="ev"><b>Verbe + -ant</b>. Se forme sur le nous du présent : nous <b>parlons</b> → <b>parlant</b> ; nous <b>faisons</b> → <b>faisant</b>. S'utilise après <b>en</b> (en parlant français, j'ai compris) ou seul pour remplacer une subordonnée (Les étudiants <b>ayant</b> terminé peuvent partir).</div></div>
+<div class="row"><div class="yr">Passé composé : l&#x27;auxiliaire</div><div class="ev"><b>AVOIR ou ÊTRE ?</b> Règle simple : 99 % des verbes prennent <b>avoir</b>. Seulement 14 verbes prennent <b>être</b> : les DR & MRS VANDERTRAMP (Devenir, Revenir, Monter, Rester, Sortir, Venir, Arriver, Naître, Descendre, Ester, Tomber, Retourner, Aller, Mourir, Partir). Les réfléchis prennent aussi être (se lever → s'est levé).</div></div>
+<div class="row"><div class="yr">L&#x27;accord du participe</div><div class="ev"><b>Accord ou pas ?</b> Règle : l'accord du participe passé dépend du complément d'objet direct (COD). Avec AVOIR : pas d'accord sauf si le COD vient <b>avant</b> le verbe (Les lettres que j'ai <b>écrites</b>, pas : J'ai écrit les lettres). Avec ÊTRE (sauf réfléchis avec COD après) : accord systématique (Elle est <b>allée</b>, Elles sont <b>parties</b>). Attention : réfléchis avec COD après n'accordent pas (Elle s'est lavé les cheveux, pas s'est lavée — les cheveux est le COD).</div></div>
+</div>
+<h3>Huit pièges à éviter</h3><div class="cgrid">
+<div class="cc"><div class="es">Participe présent vs adjectif</div><div class="en">present participle or adjective?</div><p class="why">Un participe présent dans une phrase courte peut ressembler à un adjectif : <b>intéressant</b>, <b>passionnant</b>, <b>surprenant</b>. Différence : le participe exprime une <em>action</em> (Les étudiants <b>parlant</b> français — ceux qui <em>parlent</em> français), l'adjectif une <em>qualité</em> (Un cours <b>passionnant</b> — qui est passionnant). Dans un texte d'examen, presque tous sont des participes.</p></div>
+<div class="cc"><div class="es">EN + participe vs + gérondif anglais</div><div class="en">en + participle</div><p class="why">En français : <b>en parlant</b>, <b>en écoutant</b>, <b>en essayant</b>. En anglais : "By speaking...", "While listening...", "Trying..." — les trois traductions possibles sont correctes. C'est l'une des constructions les plus courantes à l'oral (Thème 3 : En immigrant, beaucoup apportent leurs traditions).</p></div>
+<div class="cc"><div class="es">AVOIR vs ÊTRE : ne pas oublier les 14</div><div class="en">DR &amp; MRS VANDERTRAMP</div><p class="why">Les quatorze verbes qui prennent ÊTRE sont rarement oubliés par les étudiants — sauf dans le stress de l'examen. Méthode : mémorise-les comme une liste courte, non comme une règle. Et appelle un réfléchi par son nom : je <b>me</b> suis levé, pas j'ai levé <b>me</b>.</p></div>
+<div class="cc"><div class="es">L&#x27;accord avec un COD qui vient avant</div><div class="en">agreement with COD before</div><p class="why">« Les filles que j'ai rencontrées » → accord parce que « que » (les filles) vient avant. « J'ai rencontré les filles » → pas d'accord, le COD vient après. À l'oral, tu ne prononceras pas la différence (rencontré / rencontrées se disent pareil), mais à l'écrit c'est AO3. Cherche le COD : y en a-t-il un ? Il vient avant le verbe ?</p></div>
+<div class="cc"><div class="es">Réfléchi sans accord : s&#x27;est lavé les cheveux</div><div class="en">reflexive with DO after</div><p class="why">Piège très courant. Elle s'est <b>lavé</b> les cheveux (pas <b>lavée</b>) parce que « les cheveux » est le vrai COD — c'est eux qu'on lave, pas elle. Mais elle s'est <b>levée</b> — pas de COD après, donc accord. Test : cherche ce qu'on fait vraiment de quoi. Si c'est des cheveux, pas d'accord ; si c'est elle, accord.</p></div>
+<div class="cc"><div class="es">Passif vs participe passé</div><div class="en">passive vs past participle</div><p class="why">Passif : <b>être</b> + participe passé (Les filles <b>sont nées</b> en 2000). Participe seul : il fonctionne seul ou après avoir/être (Les filles <b>nées</b> en 2000, Elles <b>ont fini</b>). À l'examen, le passif est une construction de risque — évite-la. Un participe passé seul est plus élégant.</p></div>
+<div class="cc"><div class="es">Accord du participe après avoir + complément avant</div><div class="en">agreement: avoir + COD before</div><p class="why">Les trois livres que tu as lus. Les trois livres que tu as oubliés. Les trois livres que tu as trouvés. Pas : Les trois livres que tu as lu / trouvé / oublié. C'est une agrégation de trois mots de AO3 : accord + genre + nombre. Une erreur ici coûte 1-2 points, mais trois erreurs ensemble montent vite.</p></div>
+<div class="cc"><div class="es">Accent grave sur é participe : créé, élevé, préféré</div><div class="en">accent on past participles</div><p class="why">Certains verbes portent un accent au participe : j'ai <b>préféré</b>, j'ai <b>créé</b>, j'ai <b>élevé</b>. Regarde l'infinitif : préférer → préféré. Créer → créé. Élever → élevé. Pas d'exception — c'est l'infinitif qui dit tout.</p></div>
+</div>
+<section class="task">
+<div class="sechead"><h2>1 · Le lexique : participes et verbes clés</h2><span class="secscore"></span></div>
+<div class="aim">Traduis en anglais. Ces verbes et constructions reviennent à chaque fois en compréhension et à l'oral.</div>
+<div class="scaf">partici<b>per</b> = to participate (verbe), participant(e) = (adj/participe). Attention : « <em>un participant</em> » au français veut dire « a participant (person) », pas « participating ». À l'oral, dis « en participant » ou « étant participant ».</div>
+<table class="vocab">
+<tr><td class="es">en parlant couramment</td><td><input type="text" data-a="by speaking fluently|while speaking fluently" data-q="1 · Le lexique : participes et verbes clés — en parlant couramment" autocomplete="off" spellcheck="false"></td></tr>
+<tr><td class="es">ayant réussi</td><td><input type="text" data-a="having succeeded|having passed" data-q="1 · Le lexique : participes et verbes clés — ayant réussi" autocomplete="off" spellcheck="false"></td></tr>
+<tr><td class="es">le participe passé</td><td><input type="text" data-a="the past participle" data-q="1 · Le lexique : participes et verbes clés — le participe passé" autocomplete="off" spellcheck="false"></td></tr>
+<tr><td class="es">s&#x27;étant adapté</td><td><input type="text" data-a="having adapted|having adjusted" data-q="1 · Le lexique : participes et verbes clés — s&#x27;étant adapté" autocomplete="off" spellcheck="false"></td></tr>
+<tr><td class="es">étant donné</td><td><input type="text" data-a="given that|given|considering" data-q="1 · Le lexique : participes et verbes clés — étant donné" autocomplete="off" spellcheck="false"></td></tr>
+<tr><td class="es">se souvenant</td><td><input type="text" data-a="remembering|recalling" data-q="1 · Le lexique : participes et verbes clés — se souvenant" autocomplete="off" spellcheck="false"></td></tr>
+<tr><td class="es">trouvant intéressant</td><td><input type="text" data-a="finding interesting|finding it interesting" data-q="1 · Le lexique : participes et verbes clés — trouvant intéressant" autocomplete="off" spellcheck="false"></td></tr>
+<tr><td class="es">le participe présent</td><td><input type="text" data-a="the present participle" data-q="1 · Le lexique : participes et verbes clés — le participe présent" autocomplete="off" spellcheck="false"></td></tr>
+<tr><td class="es">en écoutant</td><td><input type="text" data-a="by listening|while listening" data-q="1 · Le lexique : participes et verbes clés — en écoutant" autocomplete="off" spellcheck="false"></td></tr>
+<tr><td class="es">ayant fini</td><td><input type="text" data-a="having finished" data-q="1 · Le lexique : participes et verbes clés — ayant fini" autocomplete="off" spellcheck="false"></td></tr>
+<tr><td class="es">vivant en France</td><td><input type="text" data-a="living in France" data-q="1 · Le lexique : participes et verbes clés — vivant en France" autocomplete="off" spellcheck="false"></td></tr>
+<tr><td class="es">l&#x27;accord du participe</td><td><input type="text" data-a="the agreement of the past participle" data-q="1 · Le lexique : participes et verbes clés — l&#x27;accord du participe" autocomplete="off" spellcheck="false"></td></tr>
+</table>
+<button type="button" class="checkone">Corriger cette section</button>
+<div class="stretch">Défi A* : choisis-en cinq et écris une phrase simple qui les enchaîne — idéalement une phrase qui justifie « pourquoi j'étudie la Thème 3 : immigration ».</div>
+</section>
+<section class="task">
+<div class="sechead"><h2>2 · Lecture : pourquoi l'accord du participe compte</h2></div>
+<div class="aim">Lis une fois pour l'histoire, une seconde fois en soulignant tous les participes passés.</div>
+<div class="psg"><p>Le passé composé en français n'est pas simplement passé : c'est un passé <b>avec conséquence</b>.
+J'ai mangé une pomme. Mais à quoi ça sert de dire ça ? Parce que la pomme a <b>changé</b> quelque chose — j'ai plus faim, j'ai pris l'énergie.
+L'accord du participe passé marque cette <b>intimité entre l'action et ce qui la reçoit</b>.</p>
+
+<p>Regardez ces quatre phrases :
+<ol style="margin: 10px 0 10px 30px; line-height: 1.8;">
+  <li>J'ai écrit une lettre. (I wrote a letter — on ne sait pas si tu l'as terminée, si elle a changé quelque chose.)</li>
+  <li>Une lettre importante, je l'ai <b>écrite</b>. (A letter, I wrote it — <em>écrite</em> accorde avec « lettre » qui vient avant.)</li>
+  <li>Les deux filles que tu as <b>rencontrées</b>… (The girls (you met) — <em>rencontrées</em> pour « filles ».)</li>
+  <li>Elle s'est <b>levée</b> tard. (She got up late — <em>levée</em> pour « elle ». Mais si elle s'est lavé les cheveux, pas d'accord.)</li>
+</ol>
+</p>
+
+<p>L'accord n'est pas une coquetterie grammaticale. C'est <b>de la clarté</b>.
+« J'ai rencontré les filles » et « Les filles que j'ai rencontrées » ne disent pas exactement la même chose —
+le deuxième place les filles <em>avant</em> l'action, et l'accord le prouve. En rédaction et à l'oral, ce détail monte à
+<b>1–2 points de AO3</b> une erreur, <b>+3 points</b> si tu les maîtrises tous. Une dizaine d'accords écrits correctement peut
+passer de 4 à 6 pour AO3.</p>
+
+<p>Comment l'apprendre ? Pas par une règle, mais par <b>trois chiffres</b> :
+Cherche <b>1)</b> l'auxiliaire (avoir ou être), <b>2)</b> le complément d'objet direct (en cherche-tu un ?),
+<b>3)</b> sa place (avant ou après le verbe ?). Trois oui → accord. Deux non → pas d'accord. C'est un jeu, pas une grammaire.</p></div>
+<div class="gl"><div><b>le passé composé</b> — the passé composé</div><div><b>avoir une conséquence</b> — to have a consequence</div><div><b>l&#x27;intimité</b> — the connection</div><div><b>accorder</b> — to agree/to match</div><div><b>le complément d&#x27;objet direct (COD)</b> — the direct object</div></div>
+</section>
+<section class="task">
+<div class="sechead"><h2>3 · Les participes passés : tableau de conjugaison</h2><span class="secscore"></span></div>
+<div class="aim">Complète les participes passés. Les verbes réguliers suivent une formule ; les irréguliers se retiennent.</div>
+<div class="scaf"><b>-er → -é</b> (manger → mangé), <b>-ir → -i</b> (finir → fini), <b>-re → -u</b> (perdre → perdu). Les irréguliers : fais, dits, écris, prends, viens, vois, veux, peux, dois, sais, ouvre, couvre, offre, souffre.</div>
+<ol class="qs">
+<li><div class="qtxt">parler → j&#x27;ai <input type="text" data-a="parlé" data-q="3 · Les participes passés : tableau de conjugaison — 1" autocomplete="off" spellcheck="false">_</div></li>
+<li><div class="qtxt">manger → nous avons <input type="text" data-a="mangé" data-q="3 · Les participes passés : tableau de conjugaison — 2" autocomplete="off" spellcheck="false">_<span class="hint">-é comme -er</span></div></li>
+<li><div class="qtxt">choisir → tu as <input type="text" data-a="choisi" data-q="3 · Les participes passés : tableau de conjugaison — 3" autocomplete="off" spellcheck="false">_<span class="hint">-i comme -ir</span></div></li>
+<li><div class="qtxt">perdre → elle a <input type="text" data-a="perdu" data-q="3 · Les participes passés : tableau de conjugaison — 4" autocomplete="off" spellcheck="false">_<span class="hint">-u comme -re</span></div></li>
+<li><div class="qtxt">ouvrir → j&#x27;ai <input type="text" data-a="ouvert" data-q="3 · Les participes passés : tableau de conjugaison — 5" autocomplete="off" spellcheck="false">_<span class="hint">irrégulier</span></div></li>
+<li><div class="qtxt">prendre → ils ont <input type="text" data-a="pris" data-q="3 · Les participes passés : tableau de conjugaison — 6" autocomplete="off" spellcheck="false">_<span class="hint">irrégulier</span></div></li>
+<li><div class="qtxt">faire → elles ont <input type="text" data-a="fait" data-q="3 · Les participes passés : tableau de conjugaison — 7" autocomplete="off" spellcheck="false">_<span class="hint">irrégulier</span></div></li>
+<li><div class="qtxt">devoir → tu as <input type="text" data-a="dû" data-q="3 · Les participes passés : tableau de conjugaison — 8" autocomplete="off" spellcheck="false">_<span class="hint">irrégulier, accent!</span></div></li>
+<li><div class="qtxt">venir → nous sommes <input type="text" data-a="venus" data-q="3 · Les participes passés : tableau de conjugaison — 9" autocomplete="off" spellcheck="false">_<span class="hint">avec être + accord</span></div></li>
+<li><div class="qtxt">naître → elle est <input type="text" data-a="née" data-q="3 · Les participes passés : tableau de conjugaison — 10" autocomplete="off" spellcheck="false">_<span class="hint">avec être + accord</span></div></li>
+<li><div class="qtxt">mourir → il est <input type="text" data-a="mort" data-q="3 · Les participes passés : tableau de conjugaison — 11" autocomplete="off" spellcheck="false">_<span class="hint">avec être, pas d'accord (rare)</span></div></li>
+<li><div class="qtxt">descendre (sans COD) → elles sont <input type="text" data-a="descendues" data-q="3 · Les participes passés : tableau de conjugaison — 12" autocomplete="off" spellcheck="false">_<span class="hint">avec être + accord</span></div></li>
+<li><div class="qtxt">monter (une valise) → j&#x27;ai <input type="text" data-a="monté|montée" data-q="3 · Les participes passés : tableau de conjugaison — 13" autocomplete="off" spellcheck="false"> les valises<span class="hint">avoir, pas d'accord (COD après)</span></div></li>
+<li><div class="qtxt">sortir (sans COD) → nous sommes <input type="text" data-a="sortis" data-q="3 · Les participes passés : tableau de conjugaison — 14" autocomplete="off" spellcheck="false">_<span class="hint">avec être + accord</span></div></li>
+</ol>
+<button type="button" class="checkone">Corriger cette section</button>
+<div class="stretch">Défi A* : écris une phrase au passé composé qui enchaîne trois participes irréguliers — p. ex. « J'ai dû prendre l'autobus, mais je suis devenu très fatigué. »</div>
+</section>
+<section class="task">
+<div class="sechead"><h2>4 · AVOIR ou ÊTRE ? Le bon auxiliaire</h2><span class="secscore"></span></div>
+<div class="aim">Pour chaque verbe, choisis l'auxiliaire. C'est la décision qui monte ou qui perd 5 points à l'examen.</div>
+<div class="scaf">si tu reconnais le verbe dans DR & MRS VANDERTRAMP, c'est ÊTRE. Sinon, c'est AVOIR. Réfléchis ? Ajoute « se » : se lever → s'est levé. Ça aide.</div>
+<div class="mcq" data-mcq="A" data-q="Hier, j&#x27;___ mangé une pomme.">
+<div class="q">1. Hier, j&#x27;___ mangé une pomme.</div>
+<label><input type="radio" name="m3_0" value="A"> <b>A.</b> ai (AVOIR)</label>
+<label><input type="radio" name="m3_0" value="B"> <b>B.</b> suis (ÊTRE)</label>
+</div>
+<div class="mcq" data-mcq="B" data-q="Elle ___ partie très tôt.">
+<div class="q">2. Elle ___ partie très tôt.</div>
+<label><input type="radio" name="m3_1" value="A"> <b>A.</b> a (AVOIR)</label>
+<label><input type="radio" name="m3_1" value="B"> <b>B.</b> est (ÊTRE)</label>
+</div>
+<div class="mcq" data-mcq="B" data-q="Nous (féminin) ___ allées à la gare.">
+<div class="q">3. Nous (féminin) ___ allées à la gare.</div>
+<label><input type="radio" name="m3_2" value="A"> <b>A.</b> avons (AVOIR)</label>
+<label><input type="radio" name="m3_2" value="B"> <b>B.</b> sommes (ÊTRE)</label>
+</div>
+<div class="mcq" data-mcq="A" data-q="Tu ___ fini tes devoirs ?">
+<div class="q">4. Tu ___ fini tes devoirs ?</div>
+<label><input type="radio" name="m3_3" value="A"> <b>A.</b> as (AVOIR)</label>
+<label><input type="radio" name="m3_3" value="B"> <b>B.</b> es (ÊTRE)</label>
+</div>
+<div class="mcq" data-mcq="B" data-q="Les étudiants ___ arrivés en retard.">
+<div class="q">5. Les étudiants ___ arrivés en retard.</div>
+<label><input type="radio" name="m3_4" value="A"> <b>A.</b> ont (AVOIR)</label>
+<label><input type="radio" name="m3_4" value="B"> <b>B.</b> sont (ÊTRE)</label>
+</div>
+<div class="mcq" data-mcq="A" data-q="Je ___ descendu l&#x27;escalier.">
+<div class="q">6. Je ___ descendu l&#x27;escalier.</div>
+<label><input type="radio" name="m3_5" value="A"> <b>A.</b> ai (AVOIR)</label>
+<label><input type="radio" name="m3_5" value="B"> <b>B.</b> suis (ÊTRE)</label>
+</div>
+<div class="mcq" data-mcq="B" data-q="Elles ___ montées au dernier étage.">
+<div class="q">7. Elles ___ montées au dernier étage.</div>
+<label><input type="radio" name="m3_6" value="A"> <b>A.</b> ont (AVOIR)</label>
+<label><input type="radio" name="m3_6" value="B"> <b>B.</b> sont (ÊTRE)</label>
+</div>
+<div class="mcq" data-mcq="A" data-q="Vous ___ vu ce film ?">
+<div class="q">8. Vous ___ vu ce film ?</div>
+<label><input type="radio" name="m3_7" value="A"> <b>A.</b> avez (AVOIR)</label>
+<label><input type="radio" name="m3_7" value="B"> <b>B.</b> êtes (ÊTRE)</label>
+</div>
+<div class="mcq" data-mcq="B" data-q="Il ___ tombé du vélo.">
+<div class="q">9. Il ___ tombé du vélo.</div>
+<label><input type="radio" name="m3_8" value="A"> <b>A.</b> a (AVOIR)</label>
+<label><input type="radio" name="m3_8" value="B"> <b>B.</b> est (ÊTRE)</label>
+</div>
+<div class="mcq" data-mcq="B" data-q="Nous ___ restés dehors.">
+<div class="q">10. Nous ___ restés dehors.</div>
+<label><input type="radio" name="m3_9" value="A"> <b>A.</b> avons (AVOIR)</label>
+<label><input type="radio" name="m3_9" value="B"> <b>B.</b> sommes (ÊTRE)</label>
+</div>
+<button type="button" class="checkone">Corriger cette section</button>
+<div class="stretch">Défi A* : pour trois de ces verbes, écris une phrase courte au passé composé en utilisant le bon auxiliaire et en accordant le participe si nécessaire.</div>
+</section>
+<section class="task">
+<div class="sechead"><h2>5 · Compréhension : l'accord du participe passé</h2><span class="secscore"></span></div>
+<div class="aim">Lis la phrase, puis explique brièvement (une phrase suffit) si le participe s'accorde ou pas, et pourquoi.</div>
+<div class="scaf">Scaffolding : cherche d'abord l'auxiliaire (avoir ou être). Puis cherche un COD — « qui ou quoi ? ». Il vient avant le verbe ? Alors accorde. Il vient après ou n'existe pas ? Pas d'accord.</div>
+<ol class="qs">
+<li><div class="qtxt">« Les filles que tu as rencontrées hier. » Pourquoi « rencontrées » s&#x27;accorde-t-elle ?</div>
+<textarea rows="3" data-open="o4_0" data-q="« Les filles que tu as rencontrées hier. » Pourquoi « rencontrées » s&#x27;accorde-t-elle ?" data-model="Parce que le verbe est au passé composé avec AVOIR, et le COD (les filles = que) vient AVANT le verbe. Donc le participe accorde avec le COD en genre et nombre : rencontrée (féminin singulier) → rencontrées (féminin pluriel)."></textarea>
+<button type="button" class="reveal" data-t="mo_o4_0" data-on="Voir la réponse modèle" data-off="Masquer le modèle">Voir la réponse modèle</button>
+<div class="model" id="mo_o4_0"><b>Modèle :</b> Parce que le verbe est au passé composé avec AVOIR, et le COD (les filles = que) vient AVANT le verbe. Donc le participe accorde avec le COD en genre et nombre : rencontrée (féminin singulier) → rencontrées (féminin pluriel).</div>
+<div class="selfrow">Auto-évaluation (sur 5): <input type="text" data-self="o4_0" inputmode="numeric" placeholder="p. ex. 4"> <span>— compare-toi au modèle, pas à ce que tu voulais dire.</span></div>
+</li>
+<li><div class="qtxt">« J&#x27;ai écrit une lettre, mais je ne l&#x27;ai pas envoyée. » Pourquoi « envoyée » s&#x27;accorde-t-elle mais « écrit » ne s&#x27;accorde pas ?</div>
+<textarea rows="3" data-open="o4_1" data-q="« J&#x27;ai écrit une lettre, mais je ne l&#x27;ai pas envoyée. » Pourquoi « envoyée » s&#x27;accorde-t-elle mais « écrit » ne s&#x27;accorde pas ?" data-model="Dans la première partie, « une lettre » vient APRÈS le verbe (« J&#x27;ai écrit une lettre ») : pas d&#x27;accord. Dans la deuxième partie, « l&#x27; » (= la lettre) vient AVANT le verbe (« je ne l&#x27;ai pas envoyée ») : accord avec « la »."></textarea>
+<button type="button" class="reveal" data-t="mo_o4_1" data-on="Voir la réponse modèle" data-off="Masquer le modèle">Voir la réponse modèle</button>
+<div class="model" id="mo_o4_1"><b>Modèle :</b> Dans la première partie, « une lettre » vient APRÈS le verbe (« J&#x27;ai écrit une lettre ») : pas d&#x27;accord. Dans la deuxième partie, « l&#x27; » (= la lettre) vient AVANT le verbe (« je ne l&#x27;ai pas envoyée ») : accord avec « la ».</div>
+<div class="selfrow">Auto-évaluation (sur 5): <input type="text" data-self="o4_1" inputmode="numeric" placeholder="p. ex. 4"> <span>— compare-toi au modèle, pas à ce que tu voulais dire.</span></div>
+</li>
+<li><div class="qtxt">« Elle s&#x27;est levée tôt ce matin. » Pourquoi « levée » s&#x27;accorde-t-elle ?</div>
+<textarea rows="3" data-open="o4_2" data-q="« Elle s&#x27;est levée tôt ce matin. » Pourquoi « levée » s&#x27;accorde-t-elle ?" data-model="Parce que c&#x27;est un verbe réfléchi au passé composé avec ÊTRE. Avec ÊTRE, le participe s&#x27;accorde TOUJOURS avec le sujet (elle = féminin singulier). Donc : levée (féminin singulier)."></textarea>
+<button type="button" class="reveal" data-t="mo_o4_2" data-on="Voir la réponse modèle" data-off="Masquer le modèle">Voir la réponse modèle</button>
+<div class="model" id="mo_o4_2"><b>Modèle :</b> Parce que c&#x27;est un verbe réfléchi au passé composé avec ÊTRE. Avec ÊTRE, le participe s&#x27;accorde TOUJOURS avec le sujet (elle = féminin singulier). Donc : levée (féminin singulier).</div>
+<div class="selfrow">Auto-évaluation (sur 5): <input type="text" data-self="o4_2" inputmode="numeric" placeholder="p. ex. 4"> <span>— compare-toi au modèle, pas à ce que tu voulais dire.</span></div>
+</li>
+<li><div class="qtxt">« Elle s&#x27;est lavé les cheveux. » Pourquoi « lavé » ne s&#x27;accorde-t-il pas, alors qu&#x27;elle s&#x27;est levée ?</div>
+<textarea rows="3" data-open="o4_3" data-q="« Elle s&#x27;est lavé les cheveux. » Pourquoi « lavé » ne s&#x27;accorde-t-il pas, alors qu&#x27;elle s&#x27;est levée ?" data-model="Parce que « lavé les cheveux » a un COD vrai après le verbe : c&#x27;est « les cheveux » qu&#x27;on lave, pas elle. Quand un réfléchi a un COD après le verbe, il se comporte comme AVOIR et ne s&#x27;accorde pas."></textarea>
+<button type="button" class="reveal" data-t="mo_o4_3" data-on="Voir la réponse modèle" data-off="Masquer le modèle">Voir la réponse modèle</button>
+<div class="model" id="mo_o4_3"><b>Modèle :</b> Parce que « lavé les cheveux » a un COD vrai après le verbe : c&#x27;est « les cheveux » qu&#x27;on lave, pas elle. Quand un réfléchi a un COD après le verbe, il se comporte comme AVOIR et ne s&#x27;accorde pas.</div>
+<div class="selfrow">Auto-évaluation (sur 5): <input type="text" data-self="o4_3" inputmode="numeric" placeholder="p. ex. 4"> <span>— compare-toi au modèle, pas à ce que tu voulais dire.</span></div>
+</li>
+<li><div class="qtxt">« Les trois livres que nous avons lus ensemble. » Pourquoi « lus » ?</div>
+<textarea rows="3" data-open="o4_4" data-q="« Les trois livres que nous avons lus ensemble. » Pourquoi « lus » ?" data-model="Le COD est « que » (= les trois livres), il vient AVANT le verbe. L&#x27;auxiliaire est AVOIR. Donc le participe s&#x27;accorde avec le COD : livres = masculin pluriel → lus (masculin pluriel)."></textarea>
+<button type="button" class="reveal" data-t="mo_o4_4" data-on="Voir la réponse modèle" data-off="Masquer le modèle">Voir la réponse modèle</button>
+<div class="model" id="mo_o4_4"><b>Modèle :</b> Le COD est « que » (= les trois livres), il vient AVANT le verbe. L&#x27;auxiliaire est AVOIR. Donc le participe s&#x27;accorde avec le COD : livres = masculin pluriel → lus (masculin pluriel).</div>
+<div class="selfrow">Auto-évaluation (sur 5): <input type="text" data-self="o4_4" inputmode="numeric" placeholder="p. ex. 4"> <span>— compare-toi au modèle, pas à ce que tu voulais dire.</span></div>
+</li>
+</ol>
+<div class="stretch">Défi A* : écris une phrase au passé composé pour chaque cas : (1) AVOIR + COD avant (donc accorde), (2) AVOIR + COD après (pas d'accord), (3) ÊTRE + aucun COD (accorde).</div>
+</section>
+<section class="task">
+<div class="sechead"><h2>6 · Grammaire : accorder ou pas ?</h2><span class="secscore"></span></div>
+<div class="aim">Complète le participe passé. Aide-toi du test : auxiliaire ? COD ? Avant ou après ? Puis accorde.</div>
+<div class="scaf">Scaffolding : écris d'abord juste le participe passé (parlé, fini, perdu, etc.), puis demande-toi : « Je dois accorder ? » Oui → ajoute la terminaison genre/nombre. Non → laisse tel quel.</div>
+<ol class="qs">
+<li><div class="qtxt">Les filles que j&#x27;ai <input type="text" data-a="rencontrées" data-q="6 · Grammaire : accorder ou pas ? — 1" autocomplete="off" spellcheck="false"> sont sympas.<span class="hint">rencontrer + que (COD avant)</span></div></li>
+<li><div class="qtxt">J&#x27;ai <input type="text" data-a="entendu|entendue" data-q="6 · Grammaire : accorder ou pas ? — 2" autocomplete="off" spellcheck="false"> une bonne douzaine de chansons.<span class="hint">entendre + COD après = pas d'accord</span></div></li>
+<li><div class="qtxt">Elle s&#x27;est <input type="text" data-a="levée" data-q="6 · Grammaire : accorder ou pas ? — 3" autocomplete="off" spellcheck="false"> très tard ce matin.<span class="hint">réfléchi + ÊTRE = accorde avec sujet</span></div></li>
+<li><div class="qtxt">Elles se sont <input type="text" data-a="connues|connu" data-q="6 · Grammaire : accorder ou pas ? — 4" autocomplete="off" spellcheck="false"> depuis longtemps.<span class="hint">se connaître, pas de COD après</span></div></li>
+<li><div class="qtxt">Les devoirs que tu as <input type="text" data-a="faits" data-q="6 · Grammaire : accorder ou pas ? — 5" autocomplete="off" spellcheck="false"> sont bons.<span class="hint">faire + que (COD avant) = accorde</span></div></li>
+<li><div class="qtxt">Nous avons <input type="text" data-a="ouvert|ouverte" data-q="6 · Grammaire : accorder ou pas ? — 6" autocomplete="off" spellcheck="false"> la fenêtre pour laisser passer l&#x27;air.<span class="hint">ouvrir + COD après = pas d'accord</span></div></li>
+<li><div class="qtxt">Elle s&#x27;est <input type="text" data-a="lavé" data-q="6 · Grammaire : accorder ou pas ? — 7" autocomplete="off" spellcheck="false"> les cheveux avant le mariage.<span class="hint">réfléchi + COD après (les cheveux) = pas d'accord</span></div></li>
+<li><div class="qtxt">Les violettes que j&#x27;ai <input type="text" data-a="plantées" data-q="6 · Grammaire : accorder ou pas ? — 8" autocomplete="off" spellcheck="false"> fleurissent déjà.<span class="hint">planter + que (COD avant) = accorde</span></div></li>
+<li><div class="qtxt">Tu as <input type="text" data-a="vu|vus" data-q="6 · Grammaire : accorder ou pas ? — 9" autocomplete="off" spellcheck="false"> tes amis ? Ils t&#x27;ont beaucoup ___ !<span class="hint">voir + pas de COD = pas d'accord; intéressé|intéressée + ? ...</span></div></li>
+</ol>
+<button type="button" class="checkone">Corriger cette section</button>
+<div class="stretch">Défi A* : pour quatre de ces phrases, explique ton choix en deux mots : (AVOIR + COD après = pas d'accord), etc.</div>
+</section>
+<section class="task">
+<div class="sechead"><h2>7 · Traduction (Paper 1, Section C)</h2><span class="secscore"></span></div>
+<div class="aim">Traduis ce passage. Attention : accorde le participe si tu changes le sujet ou si le COD vient avant.</div>
+<ol class="qs">
+<li><div class="qtxt">En parlant plusieurs langues, j&#x27;ai mieux compris les cultures que j&#x27;avais découvertes. Les amis que j&#x27;ai rencontrés en voyageant m&#x27;ont ouvert les yeux : on voit autrement quand on s&#x27;est exposé à d&#x27;autres traditions.</div>
+<textarea rows="5" data-open="o6_0" data-q="En parlant plusieurs langues, j&#x27;ai mieux compris les cultures que j&#x27;avais découvertes. Les amis que j&#x27;ai rencontrés en voyageant m&#x27;ont ouvert les yeux : on voit autrement quand on s&#x27;est exposé à d&#x27;autres traditions." data-model="By speaking several languages, I understood the cultures I had discovered better. The friends I had met while traveling opened my eyes: you see differently when you have been exposed to other traditions."></textarea>
+<button type="button" class="reveal" data-t="mo_o6_0" data-on="Voir la réponse modèle" data-off="Masquer le modèle">Voir la réponse modèle</button>
+<div class="model" id="mo_o6_0"><b>Modèle :</b> By speaking several languages, I understood the cultures I had discovered better. The friends I had met while traveling opened my eyes: you see differently when you have been exposed to other traditions.</div>
+<div class="selfrow">Auto-évaluation (sur 5): <input type="text" data-self="o6_0" inputmode="numeric" placeholder="p. ex. 4"> <span>— compare-toi au modèle, pas à ce que tu voulais dire.</span></div>
+</li>
+</ol>
+<div class="stretch">Défi A* : identifie tous les participes passés (passé composé) dans ta traduction et explique l'accord de trois d'entre eux.</div>
+</section>
+<section class="task">
+<div class="sechead"><h2>8 · Paper 3 : participes et passé composé à l'oral</h2></div>
+<div class="aim">Prépare tes réponses en écrivant trois phrases courtes pour chaque question — avec un participe ou un passé composé.</div>
+<div class="scaf">Scaffolding : commence simple (« J'ai remarqué ») puis ajoute un participe (« En regardant… ») ou un participe présent seul (« Les immigrants ayant… »). Ne fais pas des phrases de 20 mots.</div>
+<div class="speakq"><div class="q">1. Décris une situation où tu as remarqué l&#x27;impact de l&#x27;immigration sur la culture française. Utilise le passé composé. (Exemple : « En visitant Lyon, j&#x27;ai vu… »)</div><textarea rows="3" data-open="s7_0" data-q="Décris une situation où tu as remarqué l&#x27;impact de l&#x27;immigration sur la culture française. Utilise le passé composé. (Exemple : « En visitant Lyon, j&#x27;ai vu… »)" data-model="" placeholder="Tes notes : idée principale, un fait précis, un exemple nommé."></textarea></div>
+<div class="speakq"><div class="q">2. Pourquoi certaines traditions ne sont-elles plus pratiquées ? Utilise un participe présent ou « en + participe ». (Exemple : « En abandonnant les traditions... » ou « Les jeunes ayant quitté la région... »)</div><textarea rows="3" data-open="s7_1" data-q="Pourquoi certaines traditions ne sont-elles plus pratiquées ? Utilise un participe présent ou « en + participe ». (Exemple : « En abandonnant les traditions... » ou « Les jeunes ayant quitté la région... »)" data-model="" placeholder="Tes notes : idée principale, un fait précis, un exemple nommé."></textarea></div>
+<div class="speakq"><div class="q">3. Si tu avais visité un pays francophone, qu&#x27;aurais-tu observé ? Utilise le conditionnel passé. (Exemple : « J&#x27;aurais observé... », ce qui demande : avoir/être + participe.</div><textarea rows="3" data-open="s7_2" data-q="Si tu avais visité un pays francophone, qu&#x27;aurais-tu observé ? Utilise le conditionnel passé. (Exemple : « J&#x27;aurais observé... », ce qui demande : avoir/être + participe." data-model="" placeholder="Tes notes : idée principale, un fait précis, un exemple nommé."></textarea></div>
+<div class="speakq"><div class="q">4. Explique un argument en faveur de la préservation des traditions. Enchaîne un participe et le passé composé. (Exemple : « Ayant grandi en province, j&#x27;ai compris l&#x27;importance… »)</div><textarea rows="3" data-open="s7_3" data-q="Explique un argument en faveur de la préservation des traditions. Enchaîne un participe et le passé composé. (Exemple : « Ayant grandi en province, j&#x27;ai compris l&#x27;importance… »)" data-model="" placeholder="Tes notes : idée principale, un fait précis, un exemple nommé."></textarea></div>
+<div class="speakq"><div class="q">5. Nomme deux changements sociaux que tu as étudiés. Accorde ton participe passé si tu utilises « que ». (Exemple : « Les deux transformations que j&#x27;ai observées… »)</div><textarea rows="3" data-open="s7_4" data-q="Nomme deux changements sociaux que tu as étudiés. Accorde ton participe passé si tu utilises « que ». (Exemple : « Les deux transformations que j&#x27;ai observées… »)" data-model="" placeholder="Tes notes : idée principale, un fait précis, un exemple nommé."></textarea></div>
+<div class="stretch">Défi A* : pour la question 1, prépare une réponse au plus-que-parfait : « J'avais remarqué… » (ce qui s'était passé avant dans ta discussion). Le plus-que-parfait te fait monter en complexité.</div>
+</section>
+</main>
+<footer class="site">Tout fonctionne dans le navigateur, sans connexion et sans identifiant. Télécharge tes réponses et dépose-les sur Teams.</footer>
+
+<div class="dock">
+  <div class="bar">
+    <input id="nom" type="text" placeholder="Ton nom" autocomplete="off" aria-label="Ton nom">
+    <div id="pad"></div>
+    <div class="acts">
+      <button type="button" id="btnCheck">Tout corriger</button>
+      <button type="button" id="btnDl">Télécharger</button>
+      <button type="button" id="btnReset">Effacer</button>
+    </div>
+  </div>
+  <div class="score"><div class="track"><i id="scoreBar"></i></div><span id="scoreTxt">0 / 0</span></div>
+  <div id="dockMsg">Écris ton nom, corrige, puis télécharge le CSV pour ton professeur.</div>
+</div>
+<script>window.__UI={"lang": "fr", "pad": ["é", "è", "ê", "ë", "à", "â", "î", "ï", "ô", "û", "ù", "ç", "œ"], "padU": ["É", "È", "Ê", "Ë", "À", "Â", "Î", "Ï", "Ô", "Û", "Ù", "Ç", "Œ"], "t": {"right": "Correct.", "accOk": "Accent manquant ou en trop — pas de pénalité ici, mais corrige-le.", "accGram": "Cet accent change le mot ou le temps du verbe : il doit être exact.", "accStrict": "Ici l'accent fait partie du mot : il faut l'écrire.", "typo": "Faute de frappe tolérée — la terminaison est bonne.", "wrong": "Pas encore.", "blank": "Sans réponse.", "caps": "Majuscules", "mcqRight": "La bonne réponse est ", "hStudent": "Élève", "hActivity": "Activité", "hDate": "Date", "hScore": "Score automatique", "noName": "(sans nom)", "selfPfx": "Auto-évaluation : ", "byTeacher": "À corriger par le professeur", "dlNoName": "Téléchargé — écris ton nom avant de l'envoyer.", "dlOk": "Téléchargé pour ", "resetAsk": "Effacer toutes tes réponses sur cette page ?", "yes": "oui"}, "labels": {"ok": "Correct", "accent": "Accepté (accent)", "typo": "Accepté (frappe)", "no": "Faux", "empty": "Sans réponse"}, "cols": ["Section", "Question", "Ta réponse", "Modèle", "Résultat", "Commentaire"]};</script>
+<script>
+/* Unit 11 · Franquismo — shared activity engine
+   Tolerant marking (Edexcel accent/typo rules), accent pad, blob download. */
+(function(){
+"use strict";
+var UI   = window.__UI || {};
+var PAD  = UI.pad  || ["á","é","í","ó","ú","ü","ñ","¿","¡"];
+var PADU = UI.padU || ["Á","É","Í","Ó","Ú","Ü","Ñ","¿","¡"];
+var T    = UI.t    || {};
+function t(k, d){ return T[k] != null ? T[k] : d; }
+var LANG = UI.lang || "es";
+
+/* ---------------------------------------------------------------- marking */
+function deacc(s){ return String(s||"").normalize("NFD").replace(/[\u0300-\u036f]/g,"").normalize("NFC"); }
+function keep(s){ return String(s||"").toLowerCase().replace(/[’‘`´]/g,"'")
+  .replace(/[«»“”"]/g,"").replace(/[.,;:!?¿¡()\[\]]/g,"").replace(/\s+/g," ").trim(); }
+function norm(s){ return deacc(keep(s)); }
+function lev(a,b){
+  if(a===b) return 0;
+  var m=a.length,n=b.length,i,j,prev,tmp,row=[];
+  if(!m) return n; if(!n) return m;
+  for(j=0;j<=n;j++) row[j]=j;
+  for(i=1;i<=m;i++){ prev=row[0]; row[0]=i;
+    for(j=1;j<=n;j++){ tmp=row[j];
+      row[j]=Math.min(row[j]+1,row[j-1]+1,prev+(a.charAt(i-1)===b.charAt(j-1)?0:1)); prev=tmp; } }
+  return row[n];
+}
+function accentIsGrammatical(g,w){
+  g=keep(g); w=keep(w);
+  if(LANG==="fr"){
+    if(/é(e?s?)$/.test(w)!==/é(e?s?)$/.test(g)) return true;     // participle / past tense
+    if(/^(a|à|ou|où|la|là|sur|sûr|du|dû|mur|mûr|des|dès)$/.test(w) && w!==g) return true;
+    if((w.indexOf("ç")>=0)!==(g.indexOf("ç")>=0)) return true;   // ç changes the sound
+    return false;
+  }
+  if(/[áéíóú]$/.test(w)!==/[áéíóú]$/.test(g)) return true;
+  if(/í(a|as|an|amos|ais)$/.test(w)!==/í(a|as|an|amos|ais)$/.test(g)) return true;
+  if(/^(si|sí|el|él|tu|tú|mi|mí|te|té|mas|más|se|sé|de|dé|solo|sólo|aun|aún|que|qué|como|cómo|cuando|cuándo|donde|dónde)$/.test(w) && w!==g) return true;
+  if((w.indexOf("ñ")>=0)!==(g.indexOf("ñ")>=0)) return true;
+  return false;
+}
+function typoOnly(g,w){
+  var A=g.split(" "), B=w.split(" "), slips=0, i, a, b;
+  if(A.length!==B.length) return false;
+  for(i=0;i<A.length;i++){
+    a=A[i]; b=B[i];
+    if(a===b) continue;
+    if(b.length<5) return false;
+    if(a.slice(-2)!==b.slice(-2)) return false;
+    if(lev(a.slice(0,-2),b.slice(0,-2))>1) return false;
+    if(++slips>1) return false;
+  }
+  return slips===1;
+}
+function judge(given, expected, strict){
+  var wants=String(expected).split(/\s*\|\s*/).filter(Boolean), best=null, i, w;
+  if(!keep(given)) return {code:"empty", note:t("blank","Sin responder."), want:wants[0]};
+  for(i=0;i<wants.length;i++){
+    w=wants[i];
+    if(keep(given)===keep(w)) return {code:"ok", note:t("right","Correcto."), want:w};
+    if(norm(given)===norm(w)){
+      if(accentIsGrammatical(given,w)){ if(!best) best={code:"no",note:t("accGram","La tilde cambia la palabra o el tiempo verbal: tiene que ser exacta."),want:w}; continue; }
+      if(strict){ if(!best) best={code:"no",note:t("accStrict","Aquí la tilde forma parte de la palabra: se escribe con acento escrito."),want:w}; continue; }
+      return {code:"accent", note:t("accOk","Falta una tilde — aquí no se penaliza, pero corrígela."), want:w};
+    }
+    if(typoOnly(norm(given),norm(w)) && (!best||best.code==="no")) best={code:"typo",note:t("typo","Errata tolerada — la terminación es correcta."),want:w};
+  }
+  return best || {code:"no", note:t("wrong","Todavía no."), want:wants[0]};
+}
+
+/* ------------------------------------------------------------------- util */
+function $(s,r){ return (r||document).querySelector(s); }
+function $$(s,r){ return Array.prototype.slice.call((r||document).querySelectorAll(s)); }
+var LABEL=UI.labels||{ok:"Correcto",accent:"Aceptado (tilde)",typo:"Aceptado (errata)",no:"Incorrecto",empty:"Sin responder"};
+
+/* ------------------------------------------------------------- accent pad */
+var last=null;
+document.addEventListener("focusin",function(e){
+  var el=e.target;
+  if(el && !el.closest(".dock") && (el.tagName==="TEXTAREA"||(el.tagName==="INPUT"&&/^(text|search|)$/i.test(el.type)))) last=el;
+});
+function insert(ch){
+  var el=last||$("input[type=text],textarea");
+  if(!el) return;
+  el.focus();
+  var s=el.selectionStart,e=el.selectionEnd;
+  if(typeof s==="number"){ el.value=el.value.slice(0,s)+ch+el.value.slice(e); el.selectionStart=el.selectionEnd=s+ch.length; }
+  else el.value+=ch;
+  el.dispatchEvent(new Event("input",{bubbles:true}));
+}
+function buildPad(host){
+  var up=false, keys=[];
+  var sh=document.createElement("button");
+  sh.type="button"; sh.className="k shift"; sh.textContent="ABC"; sh.title=t("caps","Mayúsculas");
+  sh.onclick=function(){ up=!up; sh.classList.toggle("on",up); keys.forEach(function(o){ o.b.textContent=up?o.U:o.l; }); };
+  host.appendChild(sh);
+  PAD.forEach(function(ch,i){
+    var b=document.createElement("button");
+    b.type="button"; b.className="k"; b.textContent=ch; b.setAttribute("aria-label",ch);
+    b.onmousedown=function(ev){ ev.preventDefault(); };
+    b.onclick=function(){ insert(up?PADU[i]:ch); };
+    keys.push({b:b,l:ch,U:PADU[i]}); host.appendChild(b);
+  });
+}
+
+/* --------------------------------------------------------------- checking */
+function tip(el, v){
+  var old=el.parentNode.querySelector(".fb");
+  if(old) old.remove();
+  el.classList.remove("ok","warn","bad");
+  if(v.code==="empty") return;
+  el.classList.add(v.code==="ok"?"ok":(v.code==="no"?"bad":"warn"));
+  if(v.code==="ok") return;
+  var s=document.createElement("small");
+  s.className="fb"+(v.code==="no"?" bad":"");
+  s.textContent=v.note+(v.code==="no"?"  →  "+v.want:"");
+  el.parentNode.insertBefore(s, el.nextSibling);
+}
+function checkSection(sec){
+  var done=0, tot=0;
+  $$("[data-a]", sec).forEach(function(el){
+    tot++;
+    var v=judge(el.value, el.getAttribute("data-a"), el.hasAttribute("data-strict"));
+    tip(el,v);
+    if(v.code==="ok"||v.code==="accent"||v.code==="typo") done++;
+  });
+  $$("[data-mcq]", sec).forEach(function(g){
+    tot++;
+    var want=g.getAttribute("data-mcq");
+    var chosen=$$("input[type=radio]",g).filter(function(r){return r.checked;})[0];
+    g.classList.remove("ok","bad");
+    $$(".fb",g).forEach(function(n){n.remove();});
+    if(!chosen) return;
+    var right = chosen.value===want;
+    g.classList.add(right?"ok":"bad");
+    if(right){ done++; }
+    else {
+      var s=document.createElement("small"); s.className="fb bad";
+      s.textContent=t("mcqRight","La respuesta correcta es ")+want+".";
+      g.appendChild(s);
+    }
+  });
+  var bar=$(".secscore", sec);
+  if(bar) bar.textContent=tot?(done+" / "+tot):"";
+  return {done:done, total:tot};
+}
+function checkAll(){
+  var d=0,t=0;
+  $$("section.task").forEach(function(s){ var r=checkSection(s); d+=r.done; t+=r.total; });
+  var pct=t?Math.round(100*d/t):0;
+  $("#scoreTxt").textContent=d+" / "+t;
+  $("#scoreBar").style.width=pct+"%";
+  return {done:d,total:t};
+}
+
+/* --------------------------------------------------------------- download */
+function cell(v){ return '"'+String(v==null?"":v).replace(/"/g,'""').replace(/\r?\n/g,"  ")+'"'; }
+function download(){
+  var name=$("#nom").value.trim();
+  var r=checkAll();
+  var d=new Date(), p=function(n){return (n<10?"0":"")+n;};
+  var stamp=d.getFullYear()+"-"+p(d.getMonth()+1)+"-"+p(d.getDate());
+  var L=[];
+  L.push([ t("hStudent","Alumno/a"), name||t("noName","(sin nombre)") ].map(cell).join(","));
+  L.push([ t("hActivity","Actividad"), document.title ].map(cell).join(","));
+  L.push([ t("hDate","Fecha"), stamp+" "+p(d.getHours())+":"+p(d.getMinutes()) ].map(cell).join(","));
+  L.push([ t("hScore","Puntuación automática"), r.done+" / "+r.total ].map(cell).join(","));
+  L.push("");
+  L.push((UI.cols||["Sección","Pregunta","Respuesta","Modelo","Resultado","Comentario"]).map(cell).join(","));
+  $$("section.task").forEach(function(sec){
+    var title=$("h2",sec)?$("h2",sec).textContent.trim():"";
+    $$("[data-a]",sec).forEach(function(el){
+      var v=judge(el.value, el.getAttribute("data-a"), el.hasAttribute("data-strict"));
+      L.push([title, el.getAttribute("data-q")||"", el.value, v.want, LABEL[v.code], v.note].map(cell).join(","));
+    });
+    $$("[data-mcq]",sec).forEach(function(g){
+      var want=g.getAttribute("data-mcq");
+      var ch=$$("input[type=radio]",g).filter(function(x){return x.checked;})[0];
+      var got=ch?ch.value:"";
+      L.push([title, g.getAttribute("data-q")||"", got, want,
+              got? (got===want?"Correcto":"Incorrecto") : "Sin responder", ""].map(cell).join(","));
+    });
+    $$("[data-note]",sec).forEach(function(el){
+      var v = el.type==="checkbox" ? (el.checked?t("yes","sí"):"") : el.value;
+      if(v) L.push([title, el.getAttribute("data-note"), v, "", "", ""].map(cell).join(","));
+    });
+    $$("[data-open]",sec).forEach(function(el){
+      var self=sec.querySelector('[data-self="'+el.getAttribute("data-open")+'"]');
+      L.push([title, el.getAttribute("data-q")||"", el.value,
+              el.getAttribute("data-model")||"", self&&self.value?(t("selfPfx","Autoevaluación: ")+self.value):t("byTeacher","Para corregir por el profesor"),
+              ""].map(cell).join(","));
+    });
+  });
+  var blob=new Blob(["﻿"+L.join("\r\n")],{type:"text/csv;charset=utf-8;"});
+  var a=document.createElement("a");
+  a.href=URL.createObjectURL(blob);
+  a.download=(name?name+" - ":"")+document.title.replace(/[\\\/:*?"<>|]/g,"-")+" - "+stamp+".csv";
+  document.body.appendChild(a); a.click();
+  setTimeout(function(){ URL.revokeObjectURL(a.href); a.remove(); },0);
+  if(!name) $("#dockMsg").textContent=t("dlNoName","Descargado — escribe tu nombre antes de enviarlo.");
+  else $("#dockMsg").textContent=t("dlOk","Descargado para ")+name+".";
+}
+
+/* ------------------------------------------------------------------- boot */
+function boot(){
+  buildPad($("#pad"));
+  $("#btnCheck").onclick=function(){ checkAll(); };
+  $("#btnDl").onclick=download;
+  $("#btnReset").onclick=function(){
+    if(!confirm(t("resetAsk","¿Borrar todas tus respuestas en esta página?"))) return;
+    $$("input[type=text],textarea").forEach(function(e){ if(e.id!=="nom"){ e.value=""; e.classList.remove("ok","warn","bad"); } });
+    $$("input[type=radio]").forEach(function(e){ e.checked=false; });
+    $$(".fb").forEach(function(n){ n.remove(); });
+    $$("[data-mcq]").forEach(function(g){ g.classList.remove("ok","bad"); });
+    $$(".secscore").forEach(function(n){ n.textContent=""; });
+    $("#scoreTxt").textContent="0 / 0"; $("#scoreBar").style.width="0%";
+  };
+  $$("section.task").forEach(function(sec){
+    var b=$(".checkone",sec);
+    if(b) b.onclick=function(){ checkSection(sec); };
+  });
+  $$(".reveal").forEach(function(b){
+    b.onclick=function(){
+      var t=document.getElementById(b.getAttribute("data-t"));
+      var open=t.classList.toggle("show");
+      b.textContent=open?b.getAttribute("data-off"):b.getAttribute("data-on");
+    };
+  });
+  try{ $("#nom").value=localStorage.getItem("bba-name")||""; }catch(e){}
+  $("#nom").addEventListener("input",function(){ try{localStorage.setItem("bba-name",$("#nom").value.trim());}catch(e){} });
+  var dock=$(".dock");
+  function pack(){ document.body.style.paddingBottom=(dock.offsetHeight+16)+"px"; }
+  pack(); window.addEventListener("resize",pack);
+}
+if(document.readyState==="loading") document.addEventListener("DOMContentLoaded",boot); else boot();
+})();
+</script>
+</body>
+</html>
