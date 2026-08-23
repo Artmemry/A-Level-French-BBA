@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2.3a Paper 3, Tâche 1 : les quatre types de questions</title>
+<style>
+:root{
+  --paper:#FBFAF6;--card:#FFF;--ink:#1A2440;--soft:#4A5570;--muted:#8A8F9E;
+  --accent:#C60B1E;--blue:#2B4C9B;--blue-pale:#EDF1FA;--green:#2E7D52;--green-pale:#EAF4EE;
+  --gold:#B8860B;--gold-pale:#FFF7E6;--line:#E5E2D8;--line2:#CFCBBD;
+  --serif:Georgia,'Times New Roman',serif;
+  --sans:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+  --mono:ui-monospace,'SF Mono',Menlo,Consolas,monospace;
+  --shadow:0 1px 2px rgba(26,36,64,.06),0 4px 16px rgba(26,36,64,.05);
+  --lbl-scaf:"Étayage ";--lbl-bank:"Banque ";
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.6}
+:focus-visible{outline:2px solid var(--blue);outline-offset:2px;border-radius:3px}
+header.top{background:var(--card);border-bottom:3px solid var(--ink)}
+.top-in{max-width:940px;margin:0 auto;padding:22px 20px 18px}
+.kicker{font-family:var(--mono);font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);font-weight:700}
+h1{font-family:var(--serif);font-size:1.9rem;line-height:1.15;margin:6px 0 4px}
+.sub{color:var(--soft);font-size:.95rem;margin:0}
+.meta{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.pill{font-family:var(--mono);font-size:.66rem;letter-spacing:.07em;text-transform:uppercase;
+  border:1px solid var(--line2);border-radius:99px;padding:4px 11px;color:var(--soft)}
+.pill.hot{background:var(--ink);border-color:var(--ink);color:#fff}
+main{max-width:940px;margin:0 auto;padding:26px 20px 40px}
+.lede{font-size:1.02rem;color:var(--soft);max-width:66ch;margin:0 0 26px}
+h2{font-family:var(--serif);font-size:1.24rem;margin:0}
+h3{font-family:var(--serif);font-size:1.02rem;margin:22px 0 8px;color:var(--blue)}
+
+.tl{border-left:3px solid var(--accent);padding-left:16px;margin:0 0 30px}
+.tl .row{display:grid;grid-template-columns:96px 1fr;gap:12px;padding:7px 0;border-bottom:1px solid var(--line)}
+.tl .row:last-child{border-bottom:none}
+.tl .yr{font-family:var(--mono);font-size:.78rem;font-weight:700;color:var(--accent);padding-top:2px}
+.tl .ev{font-size:.9rem;color:var(--soft)}
+
+.cgrid{display:grid;gap:11px;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));margin-bottom:30px}
+.cc{background:var(--card);border:1px solid var(--line);border-left:3px solid var(--blue);
+  border-radius:9px;padding:12px 14px;box-shadow:var(--shadow)}
+.cc .es{font-weight:700}
+.cc .en{font-family:var(--mono);font-size:.7rem;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);margin:2px 0 6px}
+.cc .why{font-size:.86rem;color:var(--soft);margin:0}
+
+section.task{background:var(--card);border:1px solid var(--line);border-radius:12px;
+  padding:20px 22px;margin:0 0 20px;box-shadow:var(--shadow)}
+.sechead{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;border-bottom:2px solid var(--ink);padding-bottom:8px}
+.sechead .secscore{margin-left:auto;font-family:var(--mono);font-size:.78rem;color:var(--green);font-weight:700}
+.aim{background:var(--blue-pale);border-left:3px solid var(--blue);border-radius:0 7px 7px 0;
+  padding:10px 13px;margin:13px 0;font-size:.9rem}
+.aim b{color:var(--blue)}
+.scaf{background:var(--gold-pale);border:1px dashed var(--gold);border-radius:7px;padding:10px 13px;margin:12px 0;font-size:.87rem}
+.scaf::before{content:var(--lbl-scaf);font-family:var(--mono);font-size:.63rem;letter-spacing:.09em;
+  text-transform:uppercase;color:var(--gold);font-weight:700;display:block;margin-bottom:3px}
+.stretch{background:var(--green-pale);border-left:3px solid var(--green);border-radius:0 7px 7px 0;
+  padding:10px 13px;margin:14px 0 0;font-size:.87rem}
+.bank{background:var(--paper);border:1px solid var(--line2);border-radius:7px;padding:9px 13px;
+  margin:12px 0;font-size:.88rem}
+.bank::before{content:var(--lbl-bank);font-family:var(--mono);font-size:.63rem;letter-spacing:.09em;
+  text-transform:uppercase;color:var(--muted);font-weight:700;display:block}
+
+.psg{font-size:1rem;line-height:1.75}
+.psg p{margin:0 0 13px}
+.psg .src{font-size:.8rem;color:var(--muted)}
+.gl{display:grid;gap:5px;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));
+  background:var(--paper);border:1px solid var(--line);border-radius:8px;padding:11px 13px;margin-top:14px}
+.gl div{font-size:.83rem;color:var(--soft)}
+.gl b{color:var(--ink)}
+
+ol.qs{margin:0;padding-left:22px}
+ol.qs>li{margin:0 0 14px}
+.qtxt{margin-bottom:5px}
+input[type=text]{font-family:var(--sans);font-size:.97rem;border:1.5px solid var(--line2);border-radius:6px;
+  padding:6px 9px;background:#fff;color:var(--ink);min-width:150px}
+input[type=text].wide{width:100%;max-width:520px}
+input.ok{border-color:var(--green);background:var(--green-pale)}
+input.warn{border-color:var(--gold);background:var(--gold-pale)}
+input.bad{border-color:var(--accent);background:#FDEDEB}
+textarea{width:100%;font-family:var(--sans);font-size:.97rem;border:1.5px solid var(--line2);
+  border-radius:7px;padding:9px 11px;min-height:84px;resize:vertical;background:#fff;color:var(--ink)}
+.hint{font-family:var(--mono);font-size:.68rem;color:var(--muted);margin-left:7px}
+small.fb{display:block;font-size:.79rem;color:#7a5c00;margin-top:4px}
+small.fb.bad{color:#a5281b}
+
+table.vocab{width:100%;border-collapse:collapse}
+table.vocab td{padding:6px 8px;border-bottom:1px solid var(--line);vertical-align:middle}
+table.vocab td.es{font-weight:600;width:38%}
+table.vocab tr:last-child td{border-bottom:none}
+
+.mcq{border:1px solid var(--line);border-radius:8px;padding:11px 13px;margin:0 0 12px;background:var(--paper)}
+.mcq.ok{border-color:var(--green);background:var(--green-pale)}
+.mcq.bad{border-color:var(--accent);background:#FDEDEB}
+.mcq .q{font-weight:600;margin-bottom:7px}
+.mcq label{display:block;font-size:.93rem;padding:3px 0;cursor:pointer}
+.mcq input{margin-right:8px}
+
+.model{display:none;background:var(--green-pale);border-left:3px solid var(--green);border-radius:0 7px 7px 0;
+  padding:10px 13px;margin-top:9px;font-size:.9rem}
+.model.show{display:block}
+button.reveal{font-family:var(--sans);font-size:.8rem;font-weight:600;border:1.5px solid var(--line2);
+  background:#fff;color:var(--soft);border-radius:7px;padding:5px 12px;cursor:pointer;margin-top:8px}
+button.reveal:hover{border-color:var(--green);color:var(--green)}
+button.checkone{font-family:var(--sans);font-size:.83rem;font-weight:600;border:1.5px solid var(--blue);
+  background:#fff;color:var(--blue);border-radius:7px;padding:6px 14px;cursor:pointer;margin-top:14px}
+button.checkone:hover{background:var(--blue-pale)}
+.selfrow{display:flex;gap:9px;align-items:center;flex-wrap:wrap;margin-top:9px;font-size:.86rem;color:var(--soft)}
+.selfrow input{min-width:70px}
+
+.planrow{margin:0 0 12px}
+.planrow>label{display:block;font-weight:600;font-size:.88rem;margin-bottom:4px}
+.checks{display:grid;gap:5px;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));
+  background:var(--paper);border:1px solid var(--line);border-radius:8px;padding:10px 12px}
+label.chk{font-weight:400;font-size:.9rem;display:flex;align-items:center;gap:7px;cursor:pointer}
+.ao{border:1px solid var(--line);border-radius:9px;padding:12px 14px;margin:0 0 14px;background:var(--paper)}
+.aohead{display:flex;align-items:baseline;gap:10px;border-bottom:1px solid var(--line2);padding-bottom:6px;margin-bottom:9px}
+.aohead b{font-family:var(--serif);font-size:1rem}
+.aohead span{margin-left:auto;font-family:var(--mono);font-size:.75rem;color:var(--muted)}
+.bands{display:grid;gap:4px;margin-bottom:11px}
+.bands div{font-size:.83rem;color:var(--soft)}
+.bands b{font-family:var(--mono);font-size:.72rem;color:var(--accent);margin-right:6px}
+.speakq{background:var(--paper);border:1px solid var(--line);border-radius:8px;padding:11px 13px;margin:0 0 11px}
+.speakq .q{font-weight:600;margin-bottom:6px}
+
+.dock{position:fixed;left:0;right:0;bottom:0;z-index:60;background:var(--ink);color:#fff;
+  box-shadow:0 -2px 14px rgba(0,0,0,.22)}
+.dock .bar{max-width:940px;margin:0 auto;padding:8px 16px;display:flex;gap:9px;align-items:center;flex-wrap:wrap}
+.dock input#nom{height:32px;border-radius:6px;border:1px solid rgba(255,255,255,.3);
+  background:rgba(255,255,255,.09);color:#fff;padding:0 10px;width:180px;font-size:.9rem}
+.dock input#nom::placeholder{color:rgba(255,255,255,.6)}
+#pad{display:flex;gap:4px;flex-wrap:wrap}
+#pad .k{min-width:32px;height:32px;border:1px solid rgba(255,255,255,.3);background:rgba(255,255,255,.09);
+  color:#fff;border-radius:6px;font-size:16px;cursor:pointer;padding:0 6px}
+#pad .k:hover{background:rgba(255,255,255,.22)}
+#pad .k.shift{font-size:11.5px}
+#pad .k.shift.on{background:#fff;color:var(--ink);font-weight:700}
+.dock .acts{margin-left:auto;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.dock .acts button{height:32px;border:0;border-radius:6px;padding:0 14px;font-size:.82rem;font-weight:600;cursor:pointer}
+#btnCheck{background:#e8eefc;color:var(--ink)}
+#btnDl{background:var(--green);color:#fff}
+#btnReset{background:transparent;color:rgba(255,255,255,.7);border:1px solid rgba(255,255,255,.28)}
+.dock .score{max-width:940px;margin:0 auto;padding:0 16px 8px;display:flex;gap:10px;align-items:center}
+.dock .track{flex:1;height:6px;background:rgba(255,255,255,.18);border-radius:4px;overflow:hidden}
+.dock .track i{display:block;height:100%;width:0;background:#5fd39a;transition:width .3s}
+.dock .score span{font-family:var(--mono);font-size:.75rem;color:#cfe0f5;min-width:64px;text-align:right}
+#dockMsg{max-width:940px;margin:0 auto;padding:0 16px 7px;font-size:.76rem;color:#cfe0f5}
+footer.site{max-width:940px;margin:0 auto;padding:8px 20px 30px;font-family:var(--mono);
+  font-size:.68rem;color:var(--muted)}
+@media (max-width:640px){
+  .tl .row{grid-template-columns:70px 1fr}
+  .dock input#nom{width:130px}
+  h1{font-size:1.5rem}
+}
+@media print{.dock,button{display:none!important}body{background:#fff;padding-bottom:0!important}
+  section.task{break-inside:avoid;box-shadow:none}}
+</style>
+</head>
+<body>
+<header class="top"><div class="top-in">
+<div class="kicker">A-Level French · Edexcel 9FR0 · Thème 2.3 · Les festivals et les traditions</div>
+<h1>Paper 3, Tâche 1 : les quatre types de questions</h1>
+<p class="sub">Speaking exam technique — recognising the question type and building the answer</p>
+<div class="meta"><span class="pill hot">Thème 2.3</span><span class="pill">Paper 3 · Tâche 1</span><span class="pill">Fiche 2.3a</span></div>
+</div></header>
+<main>
+<p class="lede">En Tâche 1 l&#x27;examinateur te pose deux questions sur une carte-stimulus. Elles ne sont jamais quelconques : elles appartiennent à quatre familles, et chaque famille attend une forme de réponse différente. Reconnais la famille, et tu sais déjà comment répondre.</p>
+<h3>Les quatre types de questions — apprends à les reconnaître en trois secondes</h3><div class="tl">
+<div class="row"><div class="yr">Type A</div><div class="ev"><b>Rôle et impact.</b> « Quel rôle les festivals jouent-ils… ? » · « Quels festivals ont le plus gros impact… ? » L'examinateur veut une <b>liste hiérarchisée</b> : plusieurs rôles, puis un classement justifié. Piège : se contenter de nommer des festivals sans dire ce qu'ils <em>font</em>.</div></div>
+<div class="row"><div class="yr">Type B</div><div class="ev"><b>Pour ou contre.</b> « Les traditions sont-elles une bonne ou une mauvaise chose ? » · « Il faut en finir avec les traditions. » L'examinateur veut une <b>balance</b> : un bénéfice, un coût, puis ta position. Piège : ne défendre qu'un seul côté — l'AO4 récompense la nuance.</div></div>
+<div class="row"><div class="yr">Type C</div><div class="ev"><b>Le changement dans le temps.</b> « Comment la vie traditionnelle a-t-elle changé ? » · « Les vieilles traditions ne signifient plus rien pour les jeunes. » L'examinateur veut une <b>chaîne de causes</b> : avant → cause → aujourd'hui → sauf que… Piège : décrire le changement sans jamais l'expliquer.</div></div>
+<div class="row"><div class="yr">Type D</div><div class="ev"><b>Le régional et la préservation.</b> « Quelle est l'importance des traditions régionales ? » · « Que fait-on pour préserver les traditions locales ? » L'examinateur veut des <b>exemples nommés et des mesures concrètes</b> : une région, une fête, une politique. Piège : rester dans le général — « on fait des efforts » ne vaut rien.</div></div>
+</div>
+<h3>Les six gestes qui font monter la note</h3><div class="cgrid">
+<div class="cc"><div class="es">P-E-E-L</div><div class="en">point, evidence, explanation, link</div><p class="why"><b>P</b> : ta réponse en une phrase. <b>E</b> : un exemple nommé et daté. <b>E</b> : <em>pourquoi</em> cet exemple prouve ton point. <b>L</b> : la nuance ou le lien vers la suite. Quatre phrases : c'est le format d'une réponse de 40 secondes.</p></div>
+<div class="cc"><div class="es">Nommer, toujours</div><div class="en">name it</div><p class="why">« un festival important » ne vaut aucun point AO4. « les Vieilles Charrues, à Carhaix, 300 000 spectateurs » en vaut. Une réponse sans nom propre est une réponse générique.</p></div>
+<div class="cc"><div class="es">La concession</div><div class="en">the concession</div><p class="why"><em>Certes… mais</em> · <em>Il est vrai que… néanmoins</em> · <em>Bien que + subjonctif</em>. Reconnaître l'argument adverse avant de le réfuter est ce que le barème appelle « perceptive ».</p></div>
+<div class="cc"><div class="es">Rendre la parole (AO1)</div><div class="en">elicit a point of view</div><p class="why">L'AO1 vaut 6 points et beaucoup de candidats en perdent la moitié en ne posant jamais de question. <em>Seriez-vous d'accord avec moi ?</em> · <em>Ne pensez-vous pas que… ?</em> · <em>Qu'en pensez-vous ?</em></p></div>
+<div class="cc"><div class="es">Le langage complexe (AO3)</div><div class="en">complex language</div><p class="why">Le barème nomme : plus-que-parfait, passif, subjonctif, pronoms relatifs, phrases longues. Prépare <b>trois</b> structures complexes à placer, pas trente.</p></div>
+<div class="cc"><div class="es">Le décrochage</div><div class="en">changing gear</div><p class="why">Si tu ne sais pas, ne te tais pas : reformule, contourne, ramène au terrain que tu connais. Le barème récompense explicitement les « stratégies de communication ».</p></div>
+</div>
+<section class="task">
+<div class="sechead"><h2>1 · Reconnaître le type</h2><span class="secscore"></span></div>
+<div class="aim">Pour chaque question d'examen, choisis la famille. C'est la décision que tu dois prendre en trois secondes le jour J.</div>
+<div class="scaf">cherche le verbe. <em>jouer un rôle / avoir un impact</em> → A. <em>bonne ou mauvaise / faut-il</em> → B. <em>a changé / ne signifient plus / les jeunes</em> → C. <em>régionales / préserver / locales</em> → D.</div>
+<div class="mcq" data-mcq="A" data-q="« Quel rôle les festivals jouent-ils dans la société francophone que vous avez étudiée ? »">
+<div class="q">1. « Quel rôle les festivals jouent-ils dans la société francophone que vous avez étudiée ? »</div>
+<label><input type="radio" name="m0_0" value="A"> <b>A.</b> A — rôle et impact</label>
+<label><input type="radio" name="m0_0" value="B"> <b>B.</b> B — pour ou contre</label>
+<label><input type="radio" name="m0_0" value="C"> <b>C.</b> C — le changement dans le temps</label>
+<label><input type="radio" name="m0_0" value="D"> <b>D.</b> D — régional et préservation</label>
+</div>
+<div class="mcq" data-mcq="B" data-q="« En ce qui vous concerne, les traditions observées sont-elles une bonne ou une mauvaise chose ? »">
+<div class="q">2. « En ce qui vous concerne, les traditions observées sont-elles une bonne ou une mauvaise chose ? »</div>
+<label><input type="radio" name="m0_1" value="A"> <b>A.</b> A — rôle et impact</label>
+<label><input type="radio" name="m0_1" value="B"> <b>B.</b> B — pour ou contre</label>
+<label><input type="radio" name="m0_1" value="C"> <b>C.</b> C — le changement dans le temps</label>
+<label><input type="radio" name="m0_1" value="D"> <b>D.</b> D — régional et préservation</label>
+</div>
+<div class="mcq" data-mcq="C" data-q="« À votre avis, comment est-ce que la vie traditionnelle a changé dans le pays francophone que vous avez étudié ? »">
+<div class="q">3. « À votre avis, comment est-ce que la vie traditionnelle a changé dans le pays francophone que vous avez étudié ? »</div>
+<label><input type="radio" name="m0_2" value="A"> <b>A.</b> A — rôle et impact</label>
+<label><input type="radio" name="m0_2" value="B"> <b>B.</b> B — pour ou contre</label>
+<label><input type="radio" name="m0_2" value="C"> <b>C.</b> C — le changement dans le temps</label>
+<label><input type="radio" name="m0_2" value="D"> <b>D.</b> D — régional et préservation</label>
+</div>
+<div class="mcq" data-mcq="D" data-q="« Que fait-on pour préserver certaines traditions locales dans les pays francophones ? »">
+<div class="q">4. « Que fait-on pour préserver certaines traditions locales dans les pays francophones ? »</div>
+<label><input type="radio" name="m0_3" value="A"> <b>A.</b> A — rôle et impact</label>
+<label><input type="radio" name="m0_3" value="B"> <b>B.</b> B — pour ou contre</label>
+<label><input type="radio" name="m0_3" value="C"> <b>C.</b> C — le changement dans le temps</label>
+<label><input type="radio" name="m0_3" value="D"> <b>D.</b> D — régional et préservation</label>
+</div>
+<div class="mcq" data-mcq="C" data-q="« Pourquoi certaines vieilles traditions francophones sont-elles moins importantes pour les jeunes ? »">
+<div class="q">5. « Pourquoi certaines vieilles traditions francophones sont-elles moins importantes pour les jeunes ? »</div>
+<label><input type="radio" name="m0_4" value="A"> <b>A.</b> A — rôle et impact</label>
+<label><input type="radio" name="m0_4" value="B"> <b>B.</b> B — pour ou contre</label>
+<label><input type="radio" name="m0_4" value="C"> <b>C.</b> C — le changement dans le temps</label>
+<label><input type="radio" name="m0_4" value="D"> <b>D.</b> D — régional et préservation</label>
+</div>
+<div class="mcq" data-mcq="A" data-q="« Quels festivals ont le plus gros impact dans le pays francophone que vous avez étudié ? »">
+<div class="q">6. « Quels festivals ont le plus gros impact dans le pays francophone que vous avez étudié ? »</div>
+<label><input type="radio" name="m0_5" value="A"> <b>A.</b> A — rôle et impact</label>
+<label><input type="radio" name="m0_5" value="B"> <b>B.</b> B — pour ou contre</label>
+<label><input type="radio" name="m0_5" value="C"> <b>C.</b> C — le changement dans le temps</label>
+<label><input type="radio" name="m0_5" value="D"> <b>D.</b> D — régional et préservation</label>
+</div>
+<div class="mcq" data-mcq="D" data-q="« Quelle est l&#x27;importance des traditions régionales pour les francophones ? »">
+<div class="q">7. « Quelle est l&#x27;importance des traditions régionales pour les francophones ? »</div>
+<label><input type="radio" name="m0_6" value="A"> <b>A.</b> A — rôle et impact</label>
+<label><input type="radio" name="m0_6" value="B"> <b>B.</b> B — pour ou contre</label>
+<label><input type="radio" name="m0_6" value="C"> <b>C.</b> C — le changement dans le temps</label>
+<label><input type="radio" name="m0_6" value="D"> <b>D.</b> D — régional et préservation</label>
+</div>
+<div class="mcq" data-mcq="C" data-q="« Les fêtes d&#x27;inspiration religieuse ont-elles retenu un sens spirituel ? »">
+<div class="q">8. « Les fêtes d&#x27;inspiration religieuse ont-elles retenu un sens spirituel ? »</div>
+<label><input type="radio" name="m0_7" value="A"> <b>A.</b> A — rôle et impact</label>
+<label><input type="radio" name="m0_7" value="B"> <b>B.</b> B — pour ou contre</label>
+<label><input type="radio" name="m0_7" value="C"> <b>C.</b> C — le changement dans le temps</label>
+<label><input type="radio" name="m0_7" value="D"> <b>D.</b> D — régional et préservation</label>
+</div>
+<button type="button" class="checkone">Corriger cette section</button>
+<div class="stretch">Défi A* : pour deux de ces questions, écris la <b>première phrase</b> de ta réponse — celle qui annonce ta position avant tout exemple.</div>
+</section>
+<section class="task">
+<div class="sechead"><h2>2 · La charpente d'une réponse</h2><span class="secscore"></span></div>
+<div class="aim">Complète les connecteurs qui tiennent une réponse debout. Ce sont les mots que l'examinateur entend et coche.</div>
+<div class="scaf">après <b>bien que</b> il faut le <b>subjonctif</b> (<em>bien que ce soit</em>, <em>bien qu'ils aient</em>). Après <em>à tel point que</em>, l'indicatif.</div>
+<div class="bank">certes · néanmoins · en revanche · par conséquent · c'est-à-dire · ce qui explique · bien que · à tel point que</div>
+<ol class="qs">
+<li><div class="qtxt"><input type="text" data-a="Certes|Bien que" data-q="2 · La charpente d&#x27;une réponse — 1" autocomplete="off" spellcheck="false"> les festivals attirent des foules, leur rôle n&#x27;est pas seulement économique.</div></li>
+<li><div class="qtxt">Le festival d&#x27;Avignon est international ; <input type="text" data-a="en revanche|néanmoins|cependant" data-q="2 · La charpente d&#x27;une réponse — 2" autocomplete="off" spellcheck="false">, les Vieilles Charrues touchent plus de Français.</div></li>
+<li><div class="qtxt">L&#x27;exode rural a vidé les campagnes, <input type="text" data-a="ce qui explique" data-q="2 · La charpente d&#x27;une réponse — 3" autocomplete="off" spellcheck="false"> la disparition de nombreuses fêtes agricoles.<span class="hint">trois mots</span></div></li>
+<li><div class="qtxt">La laïcisation a vidé les fêtes chrétiennes de leur sens ; <input type="text" data-a="néanmoins|cependant|pourtant" data-q="2 · La charpente d&#x27;une réponse — 4" autocomplete="off" spellcheck="false">, Noël reste très célébré.</div></li>
+<li><div class="qtxt"><input type="text" data-a="Bien que|Quoique" data-q="2 · La charpente d&#x27;une réponse — 5" autocomplete="off" spellcheck="false"> la Galette des Rois soit une tradition religieuse, elle survit très bien.<span class="hint">+ subjonctif</span></div></li>
+<li><div class="qtxt">Halloween s&#x27;est imposé <input type="text" data-a="à tel point que" data-q="2 · La charpente d&#x27;une réponse — 6" autocomplete="off" spellcheck="false"> la Toussaint est devenue, pour beaucoup, de simples vacances.<span class="hint">quatre mots</span></div></li>
+<li><div class="qtxt">Les subventions municipales financent les écoles de musique traditionnelle ; <input type="text" data-a="par conséquent|ainsi" data-q="2 · La charpente d&#x27;une réponse — 7" autocomplete="off" spellcheck="false">, le savoir-faire se transmet.</div></li>
+<li><div class="qtxt">Le patrimoine immatériel, <input type="text" data-a="c&#x27;est-à-dire" data-q="2 · La charpente d&#x27;une réponse — 8" autocomplete="off" spellcheck="false"> les savoir-faire et les fêtes, est protégé par l&#x27;UNESCO.<span class="hint">trois mots</span></div></li>
+</ol>
+<button type="button" class="checkone">Corriger cette section</button>
+<div class="stretch">Défi A* : réécris deux de ces phrases en commençant par la subordonnée — <em>Bien que la laïcisation ait vidé…, la Toussaint reste…</em></div>
+</section>
+<section class="task">
+<div class="sechead"><h2>3 · Les phrases d'interaction (AO1)</h2><span class="secscore"></span></div>
+<div class="aim">L'AO1 vaut <b>6 points</b>. On les gagne en rendant la parole à l'examinateur. Complète ces formules et apprends-en trois par cœur.</div>
+<div class="scaf">place-les <em>après</em> avoir donné ton opinion, pas à la place. Deux ou trois fois dans la conversation suffisent.</div>
+<ol class="qs">
+<li><div class="qtxt"><input type="text" data-a="Seriez" data-q="3 · Les phrases d&#x27;interaction (AO1) — 1" autocomplete="off" spellcheck="false">-vous d&#x27;accord avec moi ?<span class="hint">conditionnel de « être »</span></div></li>
+<li><div class="qtxt">N&#x27;est-il pas <input type="text" data-a="correct|juste|exact" data-q="3 · Les phrases d&#x27;interaction (AO1) — 2" autocomplete="off" spellcheck="false"> de penser que les festivals unissent le pays ?</div></li>
+<li><div class="qtxt"><input type="text" data-a="Peut" data-q="3 · Les phrases d&#x27;interaction (AO1) — 3" autocomplete="off" spellcheck="false">-on dire que la laïcisation a tout changé ?</div></li>
+<li><div class="qtxt"><input type="text" data-a="Que" data-q="3 · Les phrases d&#x27;interaction (AO1) — 4" autocomplete="off" spellcheck="false"> pensez-vous de cette évolution ?</div></li>
+<li><div class="qtxt">Est-ce que vous me <input type="text" data-a="comprenez" data-q="3 · Les phrases d&#x27;interaction (AO1) — 5" autocomplete="off" spellcheck="false"> ?</div></li>
+<li><div class="qtxt">Vous ne trouvez <input type="text" data-a="pas" data-q="3 · Les phrases d&#x27;interaction (AO1) — 6" autocomplete="off" spellcheck="false"> que c&#x27;est exagéré ?</div></li>
+</ol>
+<button type="button" class="checkone">Corriger cette section</button>
+<div class="stretch">Défi A* : écris une quatrième formule à toi, qui ne figure pas dans cette liste, et place-la dans ta réponse de la section 5.</div>
+</section>
+<section class="task">
+<div class="sechead"><h2>4 · Le lexique de la Tâche 1</h2><span class="secscore"></span></div>
+<div class="aim">Traduis en anglais. Ce sont les expressions qui reviennent dans presque toutes les réponses sur ce thème.</div>
+<table class="vocab">
+<tr><td class="es">jouer un rôle primordial</td><td><input type="text" data-a="to play a key role|to play a leading role|to play a crucial role" data-q="4 · Le lexique de la Tâche 1 — jouer un rôle primordial" autocomplete="off" spellcheck="false"></td></tr>
+<tr><td class="es">favoriser le sentiment communautaire</td><td><input type="text" data-a="to foster a sense of community|to encourage a sense of community" data-q="4 · Le lexique de la Tâche 1 — favoriser le sentiment communautaire" autocomplete="off" spellcheck="false"></td></tr>
+<tr><td class="es">promouvoir le tourisme</td><td><input type="text" data-a="to promote tourism" data-q="4 · Le lexique de la Tâche 1 — promouvoir le tourisme" autocomplete="off" spellcheck="false"></td></tr>
+<tr><td class="es">le sentiment d&#x27;appartenance</td><td><input type="text" data-a="the sense of belonging|a sense of belonging" data-q="4 · Le lexique de la Tâche 1 — le sentiment d&#x27;appartenance" autocomplete="off" spellcheck="false"></td></tr>
+<tr><td class="es">avoir un effet inhibant</td><td><input type="text" data-a="to have a stultifying effect|to have an inhibiting effect|to hold things back" data-q="4 · Le lexique de la Tâche 1 — avoir un effet inhibant" autocomplete="off" spellcheck="false"></td></tr>
+<tr><td class="es">perpétuer des attitudes dépassées</td><td><input type="text" data-a="to perpetuate outdated attitudes|to perpetuate outmoded attitudes" data-q="4 · Le lexique de la Tâche 1 — perpétuer des attitudes dépassées" autocomplete="off" spellcheck="false"></td></tr>
+<tr><td class="es">la désaffection</td><td><input type="text" data-a="the loss of interest|declining interest|disaffection" data-q="4 · Le lexique de la Tâche 1 — la désaffection" autocomplete="off" spellcheck="false"></td></tr>
+<tr><td class="es">la laïcisation</td><td><input type="text" data-a="secularisation" data-q="4 · Le lexique de la Tâche 1 — la laïcisation" autocomplete="off" spellcheck="false"></td></tr>
+<tr><td class="es">le patrimoine immatériel</td><td><input type="text" data-a="intangible heritage|the intangible heritage" data-q="4 · Le lexique de la Tâche 1 — le patrimoine immatériel" autocomplete="off" spellcheck="false"></td></tr>
+<tr><td class="es">les savoir-faire traditionnels</td><td><input type="text" data-a="traditional know-how|traditional skills|traditional crafts" data-q="4 · Le lexique de la Tâche 1 — les savoir-faire traditionnels" autocomplete="off" spellcheck="false"></td></tr>
+<tr><td class="es">se réinventer</td><td><input type="text" data-a="to reinvent itself|to reinvent oneself" data-q="4 · Le lexique de la Tâche 1 — se réinventer" autocomplete="off" spellcheck="false"></td></tr>
+<tr><td class="es">l&#x27;attachement au territoire</td><td><input type="text" data-a="attachment to the local area|local attachment|attachment to place" data-q="4 · Le lexique de la Tâche 1 — l&#x27;attachement au territoire" autocomplete="off" spellcheck="false"></td></tr>
+</table>
+<button type="button" class="checkone">Corriger cette section</button>
+<div class="stretch">Défi A* : choisis-en cinq et écris une seule phrase qui les enchaîne logiquement, sans faire une liste.</div>
+</section>
+<section class="task">
+<div class="sechead"><h2>5 · Ta fiche de préparation</h2><span class="secscore"></span></div>
+<div class="aim">Remplis cette fiche avant la répétition. C'est elle que tu apportes à l'oral blanc — pas un texte rédigé.</div>
+<div class="scaf">choisis <b>un seul</b> festival, une tradition ou une coutume, et prépare-toi à tout ramener à lui. Un candidat qui connaît une chose en profondeur bat toujours celui qui en survole cinq.</div>
+<div class="planrow"><label for="p4_0">Le festival, la tradition ou la coutume que je choisis</label><input id="p4_0" type="text" class="wide" data-note="Le festival, la tradition ou la coutume que je choisis" placeholder="p. ex. les Vieilles Charrues, la Galette des Rois, le carnaval de Dunkerque…" autocomplete="off"></div>
+<div class="planrow"><label for="p4_1">Question 1 que je veux qu'on me pose</label><input id="p4_1" type="text" class="wide" data-note="Question 1 que je veux qu&#x27;on me pose" placeholder="recopie-la depuis la banque de questions" autocomplete="off"></div>
+<div class="planrow"><label for="p4_2">Question 2 que je veux qu'on me pose</label><input id="p4_2" type="text" class="wide" data-note="Question 2 que je veux qu&#x27;on me pose" placeholder="recopie-la depuis la banque de questions" autocomplete="off"></div>
+<div class="planrow"><label>Les éléments de la carte mentale que je vais aborder</label><div class="checks">
+<label class="chk"><input type="checkbox" data-note="Les éléments de la carte mentale que je vais aborder — l&#x27;histoire"> l&#x27;histoire</label>
+<label class="chk"><input type="checkbox" data-note="Les éléments de la carte mentale que je vais aborder — la culture"> la culture</label>
+<label class="chk"><input type="checkbox" data-note="Les éléments de la carte mentale que je vais aborder — l&#x27;élément régional"> l&#x27;élément régional</label>
+<label class="chk"><input type="checkbox" data-note="Les éléments de la carte mentale que je vais aborder — l&#x27;identité"> l&#x27;identité</label>
+<label class="chk"><input type="checkbox" data-note="Les éléments de la carte mentale que je vais aborder — la nourriture"> la nourriture</label>
+<label class="chk"><input type="checkbox" data-note="Les éléments de la carte mentale que je vais aborder — la religion"> la religion</label>
+<label class="chk"><input type="checkbox" data-note="Les éléments de la carte mentale que je vais aborder — l&#x27;économie et l&#x27;emploi"> l&#x27;économie et l&#x27;emploi</label>
+<label class="chk"><input type="checkbox" data-note="Les éléments de la carte mentale que je vais aborder — les jeunes"> les jeunes</label>
+<label class="chk"><input type="checkbox" data-note="Les éléments de la carte mentale que je vais aborder — le tourisme"> le tourisme</label>
+<label class="chk"><input type="checkbox" data-note="Les éléments de la carte mentale que je vais aborder — la politique"> la politique</label>
+</div></div>
+<div class="planrow"><label for="p4_4">Trois faits précis que je connais (chiffre, date, lieu)</label><textarea id="p4_4" rows="3" data-note="Trois faits précis que je connais (chiffre, date, lieu)" placeholder="1. …  2. …  3. …"></textarea></div>
+<div class="planrow"><label for="p4_5">Ma phrase d'ouverture, apprise par cœur</label><textarea id="p4_5" rows="3" data-note="Ma phrase d&#x27;ouverture, apprise par cœur" placeholder="Une seule phrase qui annonce ma position."></textarea></div>
+<div class="planrow"><label for="p4_6">Mes trois structures complexes à placer</label><textarea id="p4_6" rows="3" data-note="Mes trois structures complexes à placer" placeholder="p. ex. un subjonctif après « bien que », un passif, un pronom relatif « dont »."></textarea></div>
+<div class="planrow"><label for="p4_7">Ma formule d'interaction (AO1)</label><textarea id="p4_7" rows="3" data-note="Ma formule d&#x27;interaction (AO1)" placeholder="p. ex. « Seriez-vous d&#x27;accord avec moi ? »"></textarea></div>
+<div class="stretch">Défi A* : coche au moins quatre éléments de la carte mentale et prépare une phrase qui en relie deux — par exemple l'<em>identité régionale</em> et l'<em>économie</em>.</div>
+</section>
+<section class="task">
+<div class="sechead"><h2>6 · Écris avant de parler</h2><span class="secscore"></span></div>
+<div class="aim">Rédige une réponse de quatre phrases (P-E-E-L) à chacune de ces deux questions, puis compare-toi au modèle. À l'oral tu ne liras pas ce texte : l'écrire sert à fixer les structures.</div>
+<div class="scaf">phrase 1 = ta position. Phrase 2 = un exemple nommé. Phrase 3 = pourquoi cet exemple le prouve. Phrase 4 = la nuance.</div>
+<ol class="qs">
+<li><div class="qtxt">Type A — « Quel rôle les festivals jouent-ils dans la société francophone que vous avez étudiée ? »</div>
+<textarea rows="3" data-open="o5_0" data-q="Type A — « Quel rôle les festivals jouent-ils dans la société francophone que vous avez étudiée ? »" data-model="Les festivals jouent en France un rôle bien plus large que le simple divertissement : ils font vivre l&#x27;économie locale et entretiennent le sentiment d&#x27;appartenance. Prenons les Vieilles Charrues, à Carhaix, en Bretagne : un festival né en 1992 dans une commune de sept mille habitants qui en attire aujourd&#x27;hui plus de deux cent mille chaque été. Cet exemple montre qu&#x27;un festival peut redonner une visibilité et des emplois saisonniers à une région rurale que l&#x27;exode avait vidée, tout en affirmant une identité bretonne. Bien que les grands festivals internationaux comme Cannes attirent davantage l&#x27;attention mondiale, ce sont ces festivals populaires qui touchent le plus grand nombre de Français. Seriez-vous d&#x27;accord avec moi ?"></textarea>
+<button type="button" class="reveal" data-t="mo_o5_0" data-on="Voir la réponse modèle" data-off="Masquer le modèle">Voir la réponse modèle</button>
+<div class="model" id="mo_o5_0"><b>Modèle :</b> Les festivals jouent en France un rôle bien plus large que le simple divertissement : ils font vivre l&#x27;économie locale et entretiennent le sentiment d&#x27;appartenance. Prenons les Vieilles Charrues, à Carhaix, en Bretagne : un festival né en 1992 dans une commune de sept mille habitants qui en attire aujourd&#x27;hui plus de deux cent mille chaque été. Cet exemple montre qu&#x27;un festival peut redonner une visibilité et des emplois saisonniers à une région rurale que l&#x27;exode avait vidée, tout en affirmant une identité bretonne. Bien que les grands festivals internationaux comme Cannes attirent davantage l&#x27;attention mondiale, ce sont ces festivals populaires qui touchent le plus grand nombre de Français. Seriez-vous d&#x27;accord avec moi ?</div>
+<div class="selfrow">Auto-évaluation (sur 5): <input type="text" data-self="o5_0" inputmode="numeric" placeholder="p. ex. 4"> <span>— compare-toi au modèle, pas à ce que tu voulais dire.</span></div>
+</li>
+<li><div class="qtxt">Type C — « Beaucoup de vieilles traditions francophones ont perdu de leur importance parmi les jeunes. Seriez-vous d&#x27;accord ? »</div>
+<textarea rows="3" data-open="o5_1" data-q="Type C — « Beaucoup de vieilles traditions francophones ont perdu de leur importance parmi les jeunes. Seriez-vous d&#x27;accord ? »" data-model="Je suis d&#x27;accord dans l&#x27;ensemble, mais à condition de distinguer les traditions qui se sont figées de celles qui se sont réinventées. L&#x27;urbanisation massive a coupé les jeunes de leur héritage rural : des fêtes agricoles comme la Saint-Martin ne disent plus rien à un adolescent parisien, et la laïcisation a vidé la Toussaint de son sens spirituel, au point qu&#x27;elle est devenue de simples vacances face à un Halloween importé. Cela s&#x27;explique moins par de l&#x27;indifférence que par la disparition du monde qui donnait un sens à ces fêtes. Néanmoins, celles qui acceptent de changer survivent très bien : la Galette des Rois se décline aujourd&#x27;hui en versions véganes et sans gluten, et le Poisson d&#x27;Avril s&#x27;est déplacé sur les réseaux sociaux. Ne pensez-vous pas que c&#x27;est l&#x27;adaptation, et non la nostalgie, qui sauve une tradition ?"></textarea>
+<button type="button" class="reveal" data-t="mo_o5_1" data-on="Voir la réponse modèle" data-off="Masquer le modèle">Voir la réponse modèle</button>
+<div class="model" id="mo_o5_1"><b>Modèle :</b> Je suis d&#x27;accord dans l&#x27;ensemble, mais à condition de distinguer les traditions qui se sont figées de celles qui se sont réinventées. L&#x27;urbanisation massive a coupé les jeunes de leur héritage rural : des fêtes agricoles comme la Saint-Martin ne disent plus rien à un adolescent parisien, et la laïcisation a vidé la Toussaint de son sens spirituel, au point qu&#x27;elle est devenue de simples vacances face à un Halloween importé. Cela s&#x27;explique moins par de l&#x27;indifférence que par la disparition du monde qui donnait un sens à ces fêtes. Néanmoins, celles qui acceptent de changer survivent très bien : la Galette des Rois se décline aujourd&#x27;hui en versions véganes et sans gluten, et le Poisson d&#x27;Avril s&#x27;est déplacé sur les réseaux sociaux. Ne pensez-vous pas que c&#x27;est l&#x27;adaptation, et non la nostalgie, qui sauve une tradition ?</div>
+<div class="selfrow">Auto-évaluation (sur 5): <input type="text" data-self="o5_1" inputmode="numeric" placeholder="p. ex. 4"> <span>— compare-toi au modèle, pas à ce que tu voulais dire.</span></div>
+</li>
+</ol>
+<div class="stretch">Défi A* : dans une des deux réponses, place une concession avec « bien que » + subjonctif et termine par une question à l'examinateur.</div>
+</section>
+<section class="task">
+<div class="sechead"><h2>7 · Noter ton/ta partenaire</h2><span class="secscore"></span></div>
+<div class="aim">Après avoir posé les deux questions à ton/ta partenaire, note-le sur les trois critères. Écris toujours la <b>preuve</b> : ce que tu as réellement entendu. Une note sans preuve ne sert à rien.</div>
+<div class="scaf">commence par la preuve, pas par la note. Écris trois choses entendues, puis choisis la bande qui leur correspond.</div>
+<div class="ao"><div class="aohead"><b>AO4 — Connaissance de la société et de la culture</b><span>/ 12</span></div>
+<div class="bands"><div><b>1–3</b> Idées parfois pertinentes mais générales, peu d'exemples ; on décrit plus qu'on n'analyse.</div><div><b>4–6</b> Idées pertinentes, parfois appuyées sur des exemples ; l'analyse existe mais reste simple.</div><div><b>7–9</b> Idées pertinentes, parfois perspicaces, souvent appuyées sur des exemples précis ; arguments développés et justifiés.</div><div><b>10–12</b> Idées perspicaces, systématiquement appuyées sur des exemples pertinents ; conclusions convaincantes.</div></div>
+<div class="planrow"><label for="g6_0">Note</label><input id="g6_0" type="text" data-note="AO4 — Connaissance de la société et de la culture — note sur 12" placeholder="ex. 8" autocomplete="off"></div>
+<div class="planrow"><label for="g6_0_e">Preuve entendue</label><textarea id="g6_0_e" rows="2" data-note="AO4 — Connaissance de la société et de la culture — preuve" placeholder="Cite ce que ton/ta partenaire a dit."></textarea></div>
+</div>
+<div class="ao"><div class="aohead"><b>AO3 — Exactitude et gamme de langue</b><span>/ 12</span></div>
+<div class="bands"><div><b>1–3</b> Peu de variété, langue répétitive ; erreurs fréquentes qui gênent la compréhension.</div><div><b>4–6</b> Un peu de variété, quelques structures complexes répétées ; erreurs qui gênent parfois.</div><div><b>7–9</b> Variété fréquente, exemples de langue complexe et idiomatique ; erreurs rares et sans gravité.</div><div><b>10–12</b> Variété constante, plusieurs types de structures complexes ; langue exacte, prononciation authentique.</div></div>
+<div class="planrow"><label for="g6_1">Note</label><input id="g6_1" type="text" data-note="AO3 — Exactitude et gamme de langue — note sur 12" placeholder="ex. 8" autocomplete="off"></div>
+<div class="planrow"><label for="g6_1_e">Preuve entendue</label><textarea id="g6_1_e" rows="2" data-note="AO3 — Exactitude et gamme de langue — preuve" placeholder="Cite ce que ton/ta partenaire a dit."></textarea></div>
+</div>
+<div class="ao"><div class="aohead"><b>AO1 — Interaction</b><span>/ 6</span></div>
+<div class="bands"><div><b>1–2</b> Répond avec quelques initiatives mais a souvent besoin d'être relancé ; hésitations fréquentes.</div><div><b>3–4</b> Interagit spontanément sur de longs passages ; prend souvent l'initiative ; sollicite l'avis de l'examinateur.</div><div><b>5–6</b> Interagit spontanément du début à la fin ; mène la conversation ; sollicite l'avis naturellement et au bon moment.</div></div>
+<div class="planrow"><label for="g6_2">Note</label><input id="g6_2" type="text" data-note="AO1 — Interaction — note sur 6" placeholder="ex. 8" autocomplete="off"></div>
+<div class="planrow"><label for="g6_2_e">Preuve entendue</label><textarea id="g6_2_e" rows="2" data-note="AO1 — Interaction — preuve" placeholder="Cite ce que ton/ta partenaire a dit."></textarea></div>
+</div>
+<div class="stretch">Défi A* : pour chaque critère, écris <b>une</b> chose précise que ton/ta partenaire pourrait faire la prochaine fois pour monter d'une bande.</div>
+</section>
+<section class="task">
+<div class="sechead"><h2>8 · La banque complète des questions</h2></div>
+<div class="aim">Toutes les questions d'examen sur ce sous-thème, par famille. Prends-en deux au hasard et réponds à voix haute, minuteur en main : quarante secondes chacune.</div>
+<div class="scaf">avant de parler, dis-toi à voix basse « c'est un type A / B / C / D ». Le format de la réponse en découle.</div>
+<div class="speakq"><div class="q">1. TYPE A — Quel rôle les festivals jouent-ils dans la société francophone que vous avez étudiée ?</div><textarea rows="3" data-open="s7_0" data-q="TYPE A — Quel rôle les festivals jouent-ils dans la société francophone que vous avez étudiée ?" data-model="" placeholder="Tes notes : idée principale, un fait précis, un exemple nommé."></textarea></div>
+<div class="speakq"><div class="q">2. TYPE A — Quels festivals ont le plus gros impact dans le pays francophone que vous avez étudié ?</div><textarea rows="3" data-open="s7_1" data-q="TYPE A — Quels festivals ont le plus gros impact dans le pays francophone que vous avez étudié ?" data-model="" placeholder="Tes notes : idée principale, un fait précis, un exemple nommé."></textarea></div>
+<div class="speakq"><div class="q">3. TYPE A — Quelle est l&#x27;importance des festivals dans un pays francophone que vous avez étudié ?</div><textarea rows="3" data-open="s7_2" data-q="TYPE A — Quelle est l&#x27;importance des festivals dans un pays francophone que vous avez étudié ?" data-model="" placeholder="Tes notes : idée principale, un fait précis, un exemple nommé."></textarea></div>
+<div class="speakq"><div class="q">4. TYPE A — À votre avis, pourquoi certains festivals gardent-ils leur popularité ?</div><textarea rows="3" data-open="s7_3" data-q="TYPE A — À votre avis, pourquoi certains festivals gardent-ils leur popularité ?" data-model="" placeholder="Tes notes : idée principale, un fait précis, un exemple nommé."></textarea></div>
+<div class="speakq"><div class="q">5. TYPE A — « Les fêtes encouragent l&#x27;unité du pays. » Êtes-vous d&#x27;accord ? Pourquoi ?</div><textarea rows="3" data-open="s7_4" data-q="TYPE A — « Les fêtes encouragent l&#x27;unité du pays. » Êtes-vous d&#x27;accord ? Pourquoi ?" data-model="" placeholder="Tes notes : idée principale, un fait précis, un exemple nommé."></textarea></div>
+<div class="speakq"><div class="q">6. TYPE B — En ce qui vous concerne, les traditions observées dans la société francophone que vous avez étudiée sont-elles une bonne ou une mauvaise chose ?</div><textarea rows="3" data-open="s7_5" data-q="TYPE B — En ce qui vous concerne, les traditions observées dans la société francophone que vous avez étudiée sont-elles une bonne ou une mauvaise chose ?" data-model="" placeholder="Tes notes : idée principale, un fait précis, un exemple nommé."></textarea></div>
+<div class="speakq"><div class="q">7. TYPE B — Quelles sont les traditions les plus observées dans le pays francophone que vous avez étudié ?</div><textarea rows="3" data-open="s7_6" data-q="TYPE B — Quelles sont les traditions les plus observées dans le pays francophone que vous avez étudié ?" data-model="" placeholder="Tes notes : idée principale, un fait précis, un exemple nommé."></textarea></div>
+<div class="speakq"><div class="q">8. TYPE B — Pourquoi les gens veulent-ils conserver leur patrimoine traditionnel ?</div><textarea rows="3" data-open="s7_7" data-q="TYPE B — Pourquoi les gens veulent-ils conserver leur patrimoine traditionnel ?" data-model="" placeholder="Tes notes : idée principale, un fait précis, un exemple nommé."></textarea></div>
+<div class="speakq"><div class="q">9. TYPE C — À votre avis, comment est-ce que la vie traditionnelle a changé dans le pays francophone que vous avez étudié ?</div><textarea rows="3" data-open="s7_8" data-q="TYPE C — À votre avis, comment est-ce que la vie traditionnelle a changé dans le pays francophone que vous avez étudié ?" data-model="" placeholder="Tes notes : idée principale, un fait précis, un exemple nommé."></textarea></div>
+<div class="speakq"><div class="q">10. TYPE C — Quel a été l&#x27;impact de ces changements sur la société de ce pays ?</div><textarea rows="3" data-open="s7_9" data-q="TYPE C — Quel a été l&#x27;impact de ces changements sur la société de ce pays ?" data-model="" placeholder="Tes notes : idée principale, un fait précis, un exemple nommé."></textarea></div>
+<div class="speakq"><div class="q">11. TYPE C — Pourquoi certaines vieilles traditions sont-elles moins importantes pour les jeunes ?</div><textarea rows="3" data-open="s7_10" data-q="TYPE C — Pourquoi certaines vieilles traditions sont-elles moins importantes pour les jeunes ?" data-model="" placeholder="Tes notes : idée principale, un fait précis, un exemple nommé."></textarea></div>
+<div class="speakq"><div class="q">12. TYPE C — Pourquoi certaines vieilles traditions continuent-elles de garder leur importance ?</div><textarea rows="3" data-open="s7_11" data-q="TYPE C — Pourquoi certaines vieilles traditions continuent-elles de garder leur importance ?" data-model="" placeholder="Tes notes : idée principale, un fait précis, un exemple nommé."></textarea></div>
+<div class="speakq"><div class="q">13. TYPE C — Quelles sont les fêtes d&#x27;inspiration religieuse les plus importantes dans le pays que vous avez étudié ?</div><textarea rows="3" data-open="s7_12" data-q="TYPE C — Quelles sont les fêtes d&#x27;inspiration religieuse les plus importantes dans le pays que vous avez étudié ?" data-model="" placeholder="Tes notes : idée principale, un fait précis, un exemple nommé."></textarea></div>
+<div class="speakq"><div class="q">14. TYPE C — Ces fêtes d&#x27;inspiration religieuse ont-elles retenu un sens spirituel ?</div><textarea rows="3" data-open="s7_13" data-q="TYPE C — Ces fêtes d&#x27;inspiration religieuse ont-elles retenu un sens spirituel ?" data-model="" placeholder="Tes notes : idée principale, un fait précis, un exemple nommé."></textarea></div>
+<div class="speakq"><div class="q">15. TYPE D — Quelle est l&#x27;importance des traditions régionales pour les francophones ?</div><textarea rows="3" data-open="s7_14" data-q="TYPE D — Quelle est l&#x27;importance des traditions régionales pour les francophones ?" data-model="" placeholder="Tes notes : idée principale, un fait précis, un exemple nommé."></textarea></div>
+<div class="speakq"><div class="q">16. TYPE D — Qu&#x27;est-ce qu&#x27;on fait pour préserver certaines traditions locales ?</div><textarea rows="3" data-open="s7_15" data-q="TYPE D — Qu&#x27;est-ce qu&#x27;on fait pour préserver certaines traditions locales ?" data-model="" placeholder="Tes notes : idée principale, un fait précis, un exemple nommé."></textarea></div>
+<div class="speakq"><div class="q">17. TYPE D — Quelles difficultés rencontre-t-on pour préserver les traditions régionales ?</div><textarea rows="3" data-open="s7_16" data-q="TYPE D — Quelles difficultés rencontre-t-on pour préserver les traditions régionales ?" data-model="" placeholder="Tes notes : idée principale, un fait précis, un exemple nommé."></textarea></div>
+<div class="speakq"><div class="q">18. TYPE D — Pensez-vous que les jeunes d&#x27;aujourd&#x27;hui s&#x27;intéressent encore aux coutumes régionales ?</div><textarea rows="3" data-open="s7_17" data-q="TYPE D — Pensez-vous que les jeunes d&#x27;aujourd&#x27;hui s&#x27;intéressent encore aux coutumes régionales ?" data-model="" placeholder="Tes notes : idée principale, un fait précis, un exemple nommé."></textarea></div>
+<div class="stretch">Défi A* : fais-toi poser une question dont tu ne t'es pas préparé le sujet, et ramène-la en deux phrases à ton festival choisi.</div>
+</section>
+</main>
+<footer class="site">Tout fonctionne dans le navigateur, sans connexion et sans identifiant. Télécharge tes réponses et dépose-les sur Teams.</footer>
+
+<div class="dock">
+  <div class="bar">
+    <input id="nom" type="text" placeholder="Ton nom" autocomplete="off" aria-label="Ton nom">
+    <div id="pad"></div>
+    <div class="acts">
+      <button type="button" id="btnCheck">Tout corriger</button>
+      <button type="button" id="btnDl">Télécharger</button>
+      <button type="button" id="btnReset">Effacer</button>
+    </div>
+  </div>
+  <div class="score"><div class="track"><i id="scoreBar"></i></div><span id="scoreTxt">0 / 0</span></div>
+  <div id="dockMsg">Écris ton nom, corrige, puis télécharge le CSV pour ton professeur.</div>
+</div>
+<script>window.__UI={"lang": "fr", "pad": ["é", "è", "ê", "ë", "à", "â", "î", "ï", "ô", "û", "ù", "ç", "œ"], "padU": ["É", "È", "Ê", "Ë", "À", "Â", "Î", "Ï", "Ô", "Û", "Ù", "Ç", "Œ"], "t": {"right": "Correct.", "accOk": "Accent manquant ou en trop — pas de pénalité ici, mais corrige-le.", "accGram": "Cet accent change le mot ou le temps du verbe : il doit être exact.", "accStrict": "Ici l'accent fait partie du mot : il faut l'écrire.", "typo": "Faute de frappe tolérée — la terminaison est bonne.", "wrong": "Pas encore.", "blank": "Sans réponse.", "caps": "Majuscules", "mcqRight": "La bonne réponse est ", "hStudent": "Élève", "hActivity": "Activité", "hDate": "Date", "hScore": "Score automatique", "noName": "(sans nom)", "selfPfx": "Auto-évaluation : ", "byTeacher": "À corriger par le professeur", "dlNoName": "Téléchargé — écris ton nom avant de l'envoyer.", "dlOk": "Téléchargé pour ", "resetAsk": "Effacer toutes tes réponses sur cette page ?", "yes": "oui"}, "labels": {"ok": "Correct", "accent": "Accepté (accent)", "typo": "Accepté (frappe)", "no": "Faux", "empty": "Sans réponse"}, "cols": ["Section", "Question", "Ta réponse", "Modèle", "Résultat", "Commentaire"]};</script>
+<script>
+/* Unit 11 · Franquismo — shared activity engine
+   Tolerant marking (Edexcel accent/typo rules), accent pad, blob download. */
+(function(){
+"use strict";
+var UI   = window.__UI || {};
+var PAD  = UI.pad  || ["á","é","í","ó","ú","ü","ñ","¿","¡"];
+var PADU = UI.padU || ["Á","É","Í","Ó","Ú","Ü","Ñ","¿","¡"];
+var T    = UI.t    || {};
+function t(k, d){ return T[k] != null ? T[k] : d; }
+var LANG = UI.lang || "es";
+
+/* ---------------------------------------------------------------- marking */
+function deacc(s){ return String(s||"").normalize("NFD").replace(/[\u0300-\u036f]/g,"").normalize("NFC"); }
+function keep(s){ return String(s||"").toLowerCase().replace(/[’‘`´]/g,"'")
+  .replace(/[«»“”"]/g,"").replace(/[.,;:!?¿¡()\[\]]/g,"").replace(/\s+/g," ").trim(); }
+function norm(s){ return deacc(keep(s)); }
+function lev(a,b){
+  if(a===b) return 0;
+  var m=a.length,n=b.length,i,j,prev,tmp,row=[];
+  if(!m) return n; if(!n) return m;
+  for(j=0;j<=n;j++) row[j]=j;
+  for(i=1;i<=m;i++){ prev=row[0]; row[0]=i;
+    for(j=1;j<=n;j++){ tmp=row[j];
+      row[j]=Math.min(row[j]+1,row[j-1]+1,prev+(a.charAt(i-1)===b.charAt(j-1)?0:1)); prev=tmp; } }
+  return row[n];
+}
+function accentIsGrammatical(g,w){
+  g=keep(g); w=keep(w);
+  if(LANG==="fr"){
+    if(/é(e?s?)$/.test(w)!==/é(e?s?)$/.test(g)) return true;     // participle / past tense
+    if(/^(a|à|ou|où|la|là|sur|sûr|du|dû|mur|mûr|des|dès)$/.test(w) && w!==g) return true;
+    if((w.indexOf("ç")>=0)!==(g.indexOf("ç")>=0)) return true;   // ç changes the sound
+    return false;
+  }
+  if(/[áéíóú]$/.test(w)!==/[áéíóú]$/.test(g)) return true;
+  if(/í(a|as|an|amos|ais)$/.test(w)!==/í(a|as|an|amos|ais)$/.test(g)) return true;
+  if(/^(si|sí|el|él|tu|tú|mi|mí|te|té|mas|más|se|sé|de|dé|solo|sólo|aun|aún|que|qué|como|cómo|cuando|cuándo|donde|dónde)$/.test(w) && w!==g) return true;
+  if((w.indexOf("ñ")>=0)!==(g.indexOf("ñ")>=0)) return true;
+  return false;
+}
+function typoOnly(g,w){
+  var A=g.split(" "), B=w.split(" "), slips=0, i, a, b;
+  if(A.length!==B.length) return false;
+  for(i=0;i<A.length;i++){
+    a=A[i]; b=B[i];
+    if(a===b) continue;
+    if(b.length<5) return false;
+    if(a.slice(-2)!==b.slice(-2)) return false;
+    if(lev(a.slice(0,-2),b.slice(0,-2))>1) return false;
+    if(++slips>1) return false;
+  }
+  return slips===1;
+}
+function judge(given, expected, strict){
+  var wants=String(expected).split(/\s*\|\s*/).filter(Boolean), best=null, i, w;
+  if(!keep(given)) return {code:"empty", note:t("blank","Sin responder."), want:wants[0]};
+  for(i=0;i<wants.length;i++){
+    w=wants[i];
+    if(keep(given)===keep(w)) return {code:"ok", note:t("right","Correcto."), want:w};
+    if(norm(given)===norm(w)){
+      if(accentIsGrammatical(given,w)){ if(!best) best={code:"no",note:t("accGram","La tilde cambia la palabra o el tiempo verbal: tiene que ser exacta."),want:w}; continue; }
+      if(strict){ if(!best) best={code:"no",note:t("accStrict","Aquí la tilde forma parte de la palabra: se escribe con acento escrito."),want:w}; continue; }
+      return {code:"accent", note:t("accOk","Falta una tilde — aquí no se penaliza, pero corrígela."), want:w};
+    }
+    if(typoOnly(norm(given),norm(w)) && (!best||best.code==="no")) best={code:"typo",note:t("typo","Errata tolerada — la terminación es correcta."),want:w};
+  }
+  return best || {code:"no", note:t("wrong","Todavía no."), want:wants[0]};
+}
+
+/* ------------------------------------------------------------------- util */
+function $(s,r){ return (r||document).querySelector(s); }
+function $$(s,r){ return Array.prototype.slice.call((r||document).querySelectorAll(s)); }
+var LABEL=UI.labels||{ok:"Correcto",accent:"Aceptado (tilde)",typo:"Aceptado (errata)",no:"Incorrecto",empty:"Sin responder"};
+
+/* ------------------------------------------------------------- accent pad */
+var last=null;
+document.addEventListener("focusin",function(e){
+  var el=e.target;
+  if(el && !el.closest(".dock") && (el.tagName==="TEXTAREA"||(el.tagName==="INPUT"&&/^(text|search|)$/i.test(el.type)))) last=el;
+});
+function insert(ch){
+  var el=last||$("input[type=text],textarea");
+  if(!el) return;
+  el.focus();
+  var s=el.selectionStart,e=el.selectionEnd;
+  if(typeof s==="number"){ el.value=el.value.slice(0,s)+ch+el.value.slice(e); el.selectionStart=el.selectionEnd=s+ch.length; }
+  else el.value+=ch;
+  el.dispatchEvent(new Event("input",{bubbles:true}));
+}
+function buildPad(host){
+  var up=false, keys=[];
+  var sh=document.createElement("button");
+  sh.type="button"; sh.className="k shift"; sh.textContent="ABC"; sh.title=t("caps","Mayúsculas");
+  sh.onclick=function(){ up=!up; sh.classList.toggle("on",up); keys.forEach(function(o){ o.b.textContent=up?o.U:o.l; }); };
+  host.appendChild(sh);
+  PAD.forEach(function(ch,i){
+    var b=document.createElement("button");
+    b.type="button"; b.className="k"; b.textContent=ch; b.setAttribute("aria-label",ch);
+    b.onmousedown=function(ev){ ev.preventDefault(); };
+    b.onclick=function(){ insert(up?PADU[i]:ch); };
+    keys.push({b:b,l:ch,U:PADU[i]}); host.appendChild(b);
+  });
+}
+
+/* --------------------------------------------------------------- checking */
+function tip(el, v){
+  var old=el.parentNode.querySelector(".fb");
+  if(old) old.remove();
+  el.classList.remove("ok","warn","bad");
+  if(v.code==="empty") return;
+  el.classList.add(v.code==="ok"?"ok":(v.code==="no"?"bad":"warn"));
+  if(v.code==="ok") return;
+  var s=document.createElement("small");
+  s.className="fb"+(v.code==="no"?" bad":"");
+  s.textContent=v.note+(v.code==="no"?"  →  "+v.want:"");
+  el.parentNode.insertBefore(s, el.nextSibling);
+}
+function checkSection(sec){
+  var done=0, tot=0;
+  $$("[data-a]", sec).forEach(function(el){
+    tot++;
+    var v=judge(el.value, el.getAttribute("data-a"), el.hasAttribute("data-strict"));
+    tip(el,v);
+    if(v.code==="ok"||v.code==="accent"||v.code==="typo") done++;
+  });
+  $$("[data-mcq]", sec).forEach(function(g){
+    tot++;
+    var want=g.getAttribute("data-mcq");
+    var chosen=$$("input[type=radio]",g).filter(function(r){return r.checked;})[0];
+    g.classList.remove("ok","bad");
+    $$(".fb",g).forEach(function(n){n.remove();});
+    if(!chosen) return;
+    var right = chosen.value===want;
+    g.classList.add(right?"ok":"bad");
+    if(right){ done++; }
+    else {
+      var s=document.createElement("small"); s.className="fb bad";
+      s.textContent=t("mcqRight","La respuesta correcta es ")+want+".";
+      g.appendChild(s);
+    }
+  });
+  var bar=$(".secscore", sec);
+  if(bar) bar.textContent=tot?(done+" / "+tot):"";
+  return {done:done, total:tot};
+}
+function checkAll(){
+  var d=0,t=0;
+  $$("section.task").forEach(function(s){ var r=checkSection(s); d+=r.done; t+=r.total; });
+  var pct=t?Math.round(100*d/t):0;
+  $("#scoreTxt").textContent=d+" / "+t;
+  $("#scoreBar").style.width=pct+"%";
+  return {done:d,total:t};
+}
+
+/* --------------------------------------------------------------- download */
+function cell(v){ return '"'+String(v==null?"":v).replace(/"/g,'""').replace(/\r?\n/g,"  ")+'"'; }
+function download(){
+  var name=$("#nom").value.trim();
+  var r=checkAll();
+  var d=new Date(), p=function(n){return (n<10?"0":"")+n;};
+  var stamp=d.getFullYear()+"-"+p(d.getMonth()+1)+"-"+p(d.getDate());
+  var L=[];
+  L.push([ t("hStudent","Alumno/a"), name||t("noName","(sin nombre)") ].map(cell).join(","));
+  L.push([ t("hActivity","Actividad"), document.title ].map(cell).join(","));
+  L.push([ t("hDate","Fecha"), stamp+" "+p(d.getHours())+":"+p(d.getMinutes()) ].map(cell).join(","));
+  L.push([ t("hScore","Puntuación automática"), r.done+" / "+r.total ].map(cell).join(","));
+  L.push("");
+  L.push((UI.cols||["Sección","Pregunta","Respuesta","Modelo","Resultado","Comentario"]).map(cell).join(","));
+  $$("section.task").forEach(function(sec){
+    var title=$("h2",sec)?$("h2",sec).textContent.trim():"";
+    $$("[data-a]",sec).forEach(function(el){
+      var v=judge(el.value, el.getAttribute("data-a"), el.hasAttribute("data-strict"));
+      L.push([title, el.getAttribute("data-q")||"", el.value, v.want, LABEL[v.code], v.note].map(cell).join(","));
+    });
+    $$("[data-mcq]",sec).forEach(function(g){
+      var want=g.getAttribute("data-mcq");
+      var ch=$$("input[type=radio]",g).filter(function(x){return x.checked;})[0];
+      var got=ch?ch.value:"";
+      L.push([title, g.getAttribute("data-q")||"", got, want,
+              got? (got===want?"Correcto":"Incorrecto") : "Sin responder", ""].map(cell).join(","));
+    });
+    $$("[data-note]",sec).forEach(function(el){
+      var v = el.type==="checkbox" ? (el.checked?t("yes","sí"):"") : el.value;
+      if(v) L.push([title, el.getAttribute("data-note"), v, "", "", ""].map(cell).join(","));
+    });
+    $$("[data-open]",sec).forEach(function(el){
+      var self=sec.querySelector('[data-self="'+el.getAttribute("data-open")+'"]');
+      L.push([title, el.getAttribute("data-q")||"", el.value,
+              el.getAttribute("data-model")||"", self&&self.value?(t("selfPfx","Autoevaluación: ")+self.value):t("byTeacher","Para corregir por el profesor"),
+              ""].map(cell).join(","));
+    });
+  });
+  var blob=new Blob(["﻿"+L.join("\r\n")],{type:"text/csv;charset=utf-8;"});
+  var a=document.createElement("a");
+  a.href=URL.createObjectURL(blob);
+  a.download=(name?name+" - ":"")+document.title.replace(/[\\\/:*?"<>|]/g,"-")+" - "+stamp+".csv";
+  document.body.appendChild(a); a.click();
+  setTimeout(function(){ URL.revokeObjectURL(a.href); a.remove(); },0);
+  if(!name) $("#dockMsg").textContent=t("dlNoName","Descargado — escribe tu nombre antes de enviarlo.");
+  else $("#dockMsg").textContent=t("dlOk","Descargado para ")+name+".";
+}
+
+/* ------------------------------------------------------------------- boot */
+function boot(){
+  buildPad($("#pad"));
+  $("#btnCheck").onclick=function(){ checkAll(); };
+  $("#btnDl").onclick=download;
+  $("#btnReset").onclick=function(){
+    if(!confirm(t("resetAsk","¿Borrar todas tus respuestas en esta página?"))) return;
+    $$("input[type=text],textarea").forEach(function(e){ if(e.id!=="nom"){ e.value=""; e.classList.remove("ok","warn","bad"); } });
+    $$("input[type=radio]").forEach(function(e){ e.checked=false; });
+    $$(".fb").forEach(function(n){ n.remove(); });
+    $$("[data-mcq]").forEach(function(g){ g.classList.remove("ok","bad"); });
+    $$(".secscore").forEach(function(n){ n.textContent=""; });
+    $("#scoreTxt").textContent="0 / 0"; $("#scoreBar").style.width="0%";
+  };
+  $$("section.task").forEach(function(sec){
+    var b=$(".checkone",sec);
+    if(b) b.onclick=function(){ checkSection(sec); };
+  });
+  $$(".reveal").forEach(function(b){
+    b.onclick=function(){
+      var t=document.getElementById(b.getAttribute("data-t"));
+      var open=t.classList.toggle("show");
+      b.textContent=open?b.getAttribute("data-off"):b.getAttribute("data-on");
+    };
+  });
+  try{ $("#nom").value=localStorage.getItem("bba-name")||""; }catch(e){}
+  $("#nom").addEventListener("input",function(){ try{localStorage.setItem("bba-name",$("#nom").value.trim());}catch(e){} });
+  var dock=$(".dock");
+  function pack(){ document.body.style.paddingBottom=(dock.offsetHeight+16)+"px"; }
+  pack(); window.addEventListener("resize",pack);
+}
+if(document.readyState==="loading") document.addEventListener("DOMContentLoaded",boot); else boot();
+})();
+</script>
+</body>
+</html>
