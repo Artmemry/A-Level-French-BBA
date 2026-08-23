@@ -202,10 +202,38 @@
     align-items: center;
     gap: 8px;
   }
-  .feedback.show { display: flex; }
+  .feedback.show { display: block; }
   .feedback.correct { background: #d4edda; color: #155724; }
   .feedback.incorrect { background: #f8d7da; color: #721c24; }
   .feedback.partial { background: #fff3cd; color: #856404; }
+  .fb-note { font-weight: 600; font-size: .88rem; margin-top: 5px; opacity: .95; }
+  .fb-also {
+    font-weight: 500; font-size: .84rem; margin-top: 7px;
+    padding-top: 7px; border-top: 1px solid rgba(0,0,0,.12); opacity: .85;
+  }
+  /* Strict-mode switch */
+  .mode-switch {
+    display: flex; align-items: center; gap: 8px;
+    font-size: .8rem; cursor: pointer; user-select: none;
+  }
+  .mode-switch .track {
+    width: 38px; height: 21px; border-radius: 99px;
+    background: rgba(255,255,255,.3); position: relative; transition: background .2s;
+    flex-shrink: 0;
+  }
+  .mode-switch .track::after {
+    content: ''; position: absolute; top: 3px; left: 3px;
+    width: 15px; height: 15px; border-radius: 50%;
+    background: white; transition: transform .2s;
+  }
+  .mode-switch.on .track { background: var(--red); }
+  .mode-switch.on .track::after { transform: translateX(17px); }
+  .mode-badge {
+    display: inline-block; font-size: .72rem; font-weight: 700;
+    padding: 3px 9px; border-radius: 99px; margin-left: 8px;
+    background: #eaecf8; color: var(--blue);
+  }
+  .mode-badge.strict { background: #fde8e8; color: #a02020; }
 
   /* ── ACCENT KEYBOARD ── */
   .accent-kb {
@@ -325,7 +353,14 @@
     <h1>French A-Level Vocabulary Trainer</h1>
     <p>Edexcel · SP1–SP12 · All 12 Units</p>
   </div>
-  <div class="header-right" id="header-name"></div>
+  <div class="header-right" style="display:flex; align-items:center; gap:18px;">
+    <div class="mode-switch" id="mode-switch" onclick="toggleStrict()"
+         title="Lenient: accents, articles and small slips still score. Strict: exact spelling required.">
+      <div class="track"></div>
+      <span id="mode-label">Lenient marking</span>
+    </div>
+    <span id="header-name"></span>
+  </div>
 </header>
 
 <!-- ════════════════════════════════════════════
@@ -717,9 +752,170 @@ const UNITS = [
 ];
 
 // ═══════════════════════════════════════════════════════════
+//  POLYSEMIC ANSWER BANK
+//  Additional accepted renderings, keyed by the canonical French.
+//  Purely LEXICAL alternatives — the matching engine already
+//  forgives accents, apostrophe style, hyphens, articles and typos,
+//  so those never need listing here.
+// ═══════════════════════════════════════════════════════════
+const ALT = {
+  // ── SP1 ──
+  "le PACS": ["le pacte civil de solidarité"],
+  "la cohabitation": ["le concubinage", "la vie commune"],
+  "l'union libre": ["le concubinage"],
+  "la famille recomposée": ["la famille reconstituée"],
+  "la garde partagée": ["la garde alternée", "la résidence alternée"],
+  "la monoparentalité": ["la famille monoparentale"],
+  "le foyer": ["le ménage", "le domicile"],
+  "la solidarité intergénérationnelle": ["la solidarité entre les générations"],
+  "le congé parental": ["le congé parental d'éducation"],
+  "la natalité": ["le taux de natalité", "le taux de naissance"],
+  "vieillir": ["prendre de l'âge"],
+  "la dépendance": ["la perte d'autonomie"],
+  "le vieillissement de la population": ["le vieillissement démographique"],
+  // ── SP2 ──
+  "l'égalité": ["l'égalité des sexes", "l'égalité hommes-femmes"],
+  "la parité": ["la parité hommes-femmes", "l'égalité hommes-femmes"],
+  "le harcèlement": ["le harcèlement sexuel", "le harcèlement moral"],
+  "le congé maternité": ["le congé de maternité"],
+  "la crèche": ["la garderie", "la halte-garderie"],
+  "une Grande École": ["la grande école", "les grandes écoles"],
+  "le concours": ["le concours d'entrée", "l'examen d'entrée"],
+  "la prépa": ["la classe préparatoire", "les classes préparatoires"],
+  "la bourse": ["la bourse d'études"],
+  "le décrochage scolaire": ["l'abandon scolaire", "la déscolarisation"],
+  "l'inégalité scolaire": ["les inégalités scolaires", "l'inégalité éducative"],
+  "l'autonomie": ["l'émancipation", "l'indépendance"],
+  // ── SP3 ──
+  "la grève": ["le mouvement social", "le débrayage"],
+  "le syndicat": ["l'organisation syndicale"],
+  "la retraite": ["la pension", "la pension de retraite"],
+  "le SMIC": ["le salaire minimum", "le salaire minimum interprofessionnel de croissance"],
+  "la précarité": ["la précarité de l'emploi", "l'emploi précaire", "l'insécurité de l'emploi"],
+  "le CDI": ["le contrat à durée indéterminée"],
+  "le CDD": ["le contrat à durée déterminée"],
+  "le licenciement": ["le renvoi", "la mise à pied"],
+  "la délocalisation": ["l'externalisation", "la sous-traitance"],
+  "le télétravail": ["le travail à distance", "le travail à domicile"],
+  "la négociation collective": ["les négociations collectives", "la convention collective"],
+  "le droit du travail": ["la législation du travail", "le code du travail"],
+  "le dialogue social": ["la concertation sociale"],
+  // ── SP4 ──
+  "le numérique": ["la technologie numérique", "l'informatique"],
+  "les réseaux sociaux": ["les médias sociaux"],
+  "la désinformation": ["la mésinformation"],
+  "le cyberharcèlement": ["le harcèlement en ligne"],
+  "la fracture numérique": ["le fossé numérique", "la fracture digitale"],
+  "la vie privée": ["l'intimité", "la confidentialité"],
+  "les données personnelles": ["les données privées"],
+  "l'addiction aux écrans": ["la dépendance aux écrans", "l'addiction numérique"],
+  "l'intelligence artificielle": ["l'IA"],
+  "le piratage informatique": ["la cyberattaque", "le piratage", "le hacking"],
+  "la surveillance": ["la surveillance de masse"],
+  "le commerce en ligne": ["le commerce électronique", "l'e-commerce", "la vente en ligne"],
+  "les fausses informations": ["l'infox", "les fake news", "les fausses nouvelles"],
+  "réguler": ["réglementer", "encadrer", "contrôler"],
+  // ── SP5 ──
+  "la liberté de la presse": ["la liberté des médias"],
+  "la presse écrite": ["les journaux", "la presse papier"],
+  "l'audience": ["le public", "le lectorat"],
+  "le tirage": ["la diffusion"],
+  "l'audiovisuel public": ["le service public audiovisuel", "les médias publics"],
+  "le pluralisme des médias": ["le pluralisme médiatique", "la pluralité des médias"],
+  "l'objectivité": ["l'impartialité", "la neutralité"],
+  "le biais médiatique": ["les biais médiatiques", "la partialité des médias"],
+  "la concentration des médias": ["la concentration médiatique"],
+  // ── SP6 ──
+  "le patrimoine culturel": ["l'héritage culturel"],
+  "l'exception culturelle": ["l'exception culturelle française"],
+  "le rayonnement international": ["l'influence internationale", "le rayonnement culturel"],
+  "la Francophonie": ["le monde francophone", "l'espace francophone"],
+  "le patrimoine immatériel": ["le patrimoine culturel immatériel"],
+  "les valeurs républicaines": ["les valeurs de la République"],
+  "la diversité culturelle": ["le pluralisme culturel"],
+  "la subvention culturelle": ["les subventions culturelles", "l'aide publique à la culture", "le financement public de la culture"],
+  "la démocratisation de la culture": ["la démocratisation culturelle", "l'accès à la culture"],
+  "la création artistique": ["la création culturelle"],
+  "l'impérialisme culturel": ["l'hégémonie culturelle"],
+  "le patrimoine mondial de l'UNESCO": ["le patrimoine mondial", "la liste du patrimoine mondial"],
+  "sauvegarder": ["préserver", "protéger", "conserver"],
+  // ── SP7 ──
+  "l'asile": ["le droit d'asile", "la demande d'asile"],
+  "l'intégration": ["l'insertion"],
+  "la naturalisation": ["l'acquisition de la nationalité"],
+  "la citoyenneté": ["la nationalité"],
+  "le titre de séjour": ["la carte de séjour", "le permis de séjour"],
+  "le sans-papiers": ["le clandestin", "l'immigré clandestin", "l'étranger en situation irrégulière"],
+  "le regroupement familial": ["la réunification familiale"],
+  "l'expulsion": ["la reconduite à la frontière", "le renvoi", "l'éloignement"],
+  "l'immigration clandestine": ["l'immigration illégale", "l'immigration irrégulière"],
+  "la politique migratoire": ["la politique d'immigration"],
+  "le pays d'accueil": ["la terre d'accueil", "le pays hôte"],
+  // ── SP8 ──
+  "le multiculturalisme": ["la société multiculturelle", "le pluriculturalisme"],
+  "la mixité sociale": ["la diversité sociale"],
+  "le métissage culturel": ["le métissage", "le brassage culturel"],
+  "la diversité": ["la pluralité"],
+  "le vivre-ensemble": ["la coexistence"],
+  "la cohésion sociale": ["le lien social"],
+  "l'altérité": ["la différence"],
+  "l'interculturalité": ["le dialogue interculturel", "l'interculturel"],
+  "la tolérance": ["le respect", "l'ouverture d'esprit"],
+  "la banlieue": ["les quartiers défavorisés", "la cité", "les quartiers sensibles", "les quartiers populaires"],
+  "la ségrégation": ["la ségrégation spatiale", "la ghettoïsation"],
+  "l'exclusion sociale": ["la marginalisation", "l'exclusion"],
+  "le modèle d'intégration": ["le modèle républicain", "le modèle républicain d'intégration"],
+  // ── SP9 ──
+  "la discrimination": ["les discriminations"],
+  "les préjugés": ["les idées reçues", "les a priori"],
+  "les stéréotypes": ["les clichés"],
+  "le discours de haine": ["les propos haineux", "l'incitation à la haine", "le crime haineux"],
+  "la condamnation": ["la peine", "la sanction"],
+  "la sensibilisation": ["la prise de conscience", "la campagne de sensibilisation"],
+  "le militantisme": ["l'activisme", "l'engagement militant"],
+  "le racisme institutionnel": ["le racisme systémique", "le racisme d'État"],
+  "la lutte contre les discriminations": ["la lutte contre la discrimination", "le combat contre les discriminations"],
+  "la discrimination positive": ["l'action positive", "les mesures préférentielles"],
+  // ── SP10 ──
+  "le suffrage universel": ["le droit de vote universel"],
+  "l'abstentionnisme": ["l'abstention", "le taux d'abstention"],
+  "l'engagement civique": ["l'engagement citoyen", "la participation citoyenne"],
+  "les droits de l'homme": ["les droits humains"],
+  "le référendum": ["la consultation populaire"],
+  "la Constitution": ["la loi fondamentale"],
+  "la désaffection politique": ["le désintérêt politique", "la défiance politique", "le désenchantement politique"],
+  "le mouvement citoyen": ["le mouvement populaire", "la mobilisation citoyenne"],
+  // ── SP11 ──
+  "le réchauffement climatique": ["le changement climatique", "le dérèglement climatique", "le réchauffement planétaire"],
+  "l'empreinte carbone": ["le bilan carbone", "l'empreinte écologique"],
+  "les énergies renouvelables": ["l'énergie renouvelable", "les énergies vertes", "les énergies propres"],
+  "la biodiversité": ["la diversité biologique"],
+  "la déforestation": ["le déboisement", "l'abattage des forêts"],
+  "le tri sélectif": ["le tri des déchets", "le recyclage"],
+  "le nucléaire": ["l'énergie nucléaire", "le nucléaire civil"],
+  "la conscience écologique": ["la prise de conscience écologique", "la sensibilité écologique"],
+  "les gaz à effet de serre": ["les GES", "les émissions de gaz à effet de serre"],
+  "la neutralité carbone": ["le zéro carbone", "la neutralité climatique"],
+  "préserver": ["protéger", "sauvegarder", "conserver"],
+  "le climatoscepticisme": ["le négationnisme climatique"],
+  // ── SP12 ──
+  "l'Occupation": ["l'occupation allemande"],
+  "la collaboration": ["le collaborationnisme"],
+  "le régime de Vichy": ["l'État français", "le gouvernement de Vichy", "la France de Vichy"],
+  "la persécution": ["les persécutions"],
+  "le maquis": ["les maquisards"],
+  "le devoir de mémoire": ["le travail de mémoire", "la mémoire collective"],
+  "le témoignage": ["le récit de témoin", "la déposition"],
+  "le génocide": ["l'extermination"],
+  "la rafle": ["l'arrestation massive"],
+  "l'engagement": ["l'engagement moral", "l'engagement personnel"],
+};
+
+// ═══════════════════════════════════════════════════════════
 //  STATE
 // ═══════════════════════════════════════════════════════════
 let studentName = "";
+let strictMode = false;
 let scores = {}; // { "SP1": { correct: 0, total: 0, details: [] }, … }
 let currentQueue = []; // flat list of { unitCode, item }
 let qIndex = 0;
@@ -729,6 +925,17 @@ let answerRevealed = false;
 // ═══════════════════════════════════════════════════════════
 //  NAVIGATION
 // ═══════════════════════════════════════════════════════════
+function toggleStrict() {
+  strictMode = !strictMode;
+  const sw = document.getElementById('mode-switch');
+  sw.classList.toggle('on', strictMode);
+  document.getElementById('mode-label').textContent =
+    strictMode ? 'Strict marking' : 'Lenient marking';
+  showToast(strictMode
+    ? '🔒 Strict: exact accents and articles required'
+    : '🌱 Lenient: accents, articles and small slips still score');
+}
+
 function showScreen(id) {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   document.getElementById(id).classList.add('active');
@@ -836,10 +1043,7 @@ function loadQuestion() {
   const pct = total ? (done / total) * 100 : 0;
   document.getElementById('quiz-progress-bar').style.width = pct + '%';
 
-  // Score badge (for current unit's questions so far)
-  const sc = scores[unitCode];
-  document.getElementById('quiz-score-badge').textContent =
-    `${qIndex + 1} / ${total}`;
+  updateScoreBadge();
 
   document.getElementById('answer-input').focus();
 }
@@ -858,34 +1062,47 @@ function checkAnswer() {
   const correct = currentAnswer.fr;
   const { unitCode } = currentQueue[qIndex];
 
-  const [isCorrect, isPartial] = compare(input, correct);
+  const result = judge(input, currentAnswer);
 
   scores[unitCode].total += 1;
   scores[unitCode].details.push({
     en: currentAnswer.en,
     expected: correct,
     given: input,
-    correct: isCorrect
+    correct: result.credit,
+    verdict: result.verdict
   });
 
-  if (isCorrect) {
-    scores[unitCode].correct += 1;
-    showFeedback('correct', `✓ Correct ! ${correct}`);
-    document.getElementById('answer-input').disabled = true;
-    document.getElementById('btn-check').disabled = true;
-    setTimeout(nextQuestion, 1200);
-  } else if (isPartial) {
-    // Accent-stripped match
-    showFeedback('partial', `⚠ Presque correct, but check your accents. Answer: ${correct}`);
-    document.getElementById('answer-input').disabled = true;
-    document.getElementById('btn-check').disabled = true;
-    setTimeout(nextQuestion, 2000);
+  if (result.credit) scores[unitCode].correct += 1;
+
+  // Teach the breadth of the answer: show what else would have scored.
+  const others = acceptedForms(currentAnswer)
+    .filter(f => baseClean(f) !== baseClean(result.matched || ''));
+  const alsoLine = others.length
+    ? `<div class="fb-also">Also accepted: ${others.join(' · ')}</div>`
+    : '';
+
+  let type, msg;
+  if (result.verdict === 'exact') {
+    type = 'correct';
+    msg = `✓ Correct ! <b>${result.matched}</b>`;
+  } else if (result.credit) {
+    type = 'partial';
+    msg = `✓ Accepté — <b>${result.matched}</b><div class="fb-note">${result.note}</div>`;
+  } else if (result.verdict !== 'wrong') {
+    // Strict mode: recognised but not exact enough to score.
+    type = 'incorrect';
+    msg = `✗ Presque — mode strict. <div class="fb-note">${result.note}</div>`;
   } else {
-    showFeedback('incorrect', `✗ Incorrect. La bonne réponse : ${correct}`);
-    document.getElementById('answer-input').disabled = true;
-    document.getElementById('btn-check').disabled = true;
-    setTimeout(nextQuestion, 2200);
+    type = 'incorrect';
+    msg = `✗ Incorrect. La bonne réponse : <b>${correct}</b>`;
   }
+
+  showFeedback(type, msg + alsoLine);
+  document.getElementById('answer-input').disabled = true;
+  document.getElementById('btn-check').disabled = true;
+  updateScoreBadge();
+  setTimeout(nextQuestion, result.verdict === 'exact' ? 1300 : 2600);
 }
 
 function showAnswer() {
@@ -895,9 +1112,12 @@ function showAnswer() {
   const { unitCode } = currentQueue[qIndex];
   scores[unitCode].total += 1;
   scores[unitCode].details.push({
-    en: currentAnswer.en, expected: correct, given: '(shown)', correct: false
+    en: currentAnswer.en, expected: correct, given: '(shown)', correct: false, verdict: 'shown'
   });
-  showFeedback('incorrect', `📖 Answer: ${correct}`);
+  const forms = acceptedForms(currentAnswer);
+  const extra = forms.length > 1
+    ? `<div class="fb-also">Also accepted: ${forms.slice(1).join(' · ')}</div>` : '';
+  showFeedback('incorrect', `📖 Answer: <b>${correct}</b>` + extra);
   document.getElementById('answer-input').disabled = true;
   document.getElementById('btn-check').disabled = true;
   document.getElementById('btn-show-answer').disabled = true;
@@ -909,7 +1129,7 @@ function skipQuestion() {
   scores[unitCode].total += 1;
   scores[unitCode].details.push({
     en: currentAnswer ? currentAnswer.en : '', expected: currentAnswer ? currentAnswer.fr : '',
-    given: '(skipped)', correct: false
+    given: '(skipped)', correct: false, verdict: 'skipped'
   });
   nextQuestion();
 }
@@ -922,11 +1142,27 @@ function nextQuestion() {
 // ═══════════════════════════════════════════════════════════
 //  COMPARISON LOGIC
 // ═══════════════════════════════════════════════════════════
-function normalize(str) {
-  return str.toLowerCase().trim()
-    .replace(/^(le |la |les |l'|l'|un |une |des )/i, '')
-    .replace(/\(.*?\)/g, '') // strip parenthetical notes
+// Every apostrophe variant a student's keyboard or autocorrect can produce.
+function unifyApostrophes(str) {
+  return String(str).replace(/[\u2018\u2019\u02bc`\u00b4]/g, "'");
+}
+
+// Case, punctuation, hyphen/space and whitespace differences are never
+// knowledge errors \u2014 flatten them before any comparison.
+function baseClean(str) {
+  return unifyApostrophes(str)
+    .toLowerCase()
+    .replace(/\(.*?\)/g, ' ')        // parenthetical notes
+    .replace(/[.,;:!?"\u00ab\u00bb\u2026]/g, ' ')   // punctuation
+    .replace(/[-\u2013\u2014]/g, ' ')// hyphen / en dash / em dash \u2192 space
     .replace(/\s+/g, ' ')
+    .trim();
+}
+
+function stripArticle(str) {
+  return str
+    .replace(/^(?:l'|d')\s*/, '')
+    .replace(/^(?:le|la|les|un|une|des|du)\s+/, '')
     .trim();
 }
 
@@ -934,27 +1170,98 @@ function stripAccents(str) {
   return str.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
 }
 
-function compare(input, correct) {
-  const normIn = normalize(input);
-  const normCo = normalize(correct);
+// "le migrant / la migrante" is two acceptable answers, not one string.
+function splitVariants(str) {
+  return String(str).split('/').map(s => s.trim()).filter(Boolean);
+}
 
-  // Exact match (case insensitive, with or without article)
-  if (normIn === normCo || input.toLowerCase().trim() === correct.toLowerCase().trim()) {
-    return [true, false];
-  }
-  // Accept either form (with or without article) for full credit
-  if (stripAccents(normIn) === stripAccents(normCo) &&
-      stripAccents(input.toLowerCase().trim()) !== stripAccents(correct.toLowerCase().trim())) {
-    // The normalized forms match accent-free: partial (accent error)
-  }
-  if (normIn === normCo) return [true, false];
+// Full set of acceptable renderings for an item: canonical + synonym bank,
+// each split on slashes.
+function acceptedForms(item) {
+  const out = [];
+  splitVariants(item.fr).forEach(v => out.push(v));
+  (ALT[item.fr] || []).forEach(a => splitVariants(a).forEach(v => out.push(v)));
+  return out.filter((v, i, arr) => arr.indexOf(v) === i);
+}
 
-  // Accent-stripped partial match
-  if (stripAccents(normIn) === stripAccents(normCo)) {
-    return [false, true];
+function levenshtein(a, b) {
+  if (a === b) return 0;
+  if (!a.length) return b.length;
+  if (!b.length) return a.length;
+  let prev = Array.from({ length: b.length + 1 }, (_, i) => i);
+  for (let i = 1; i <= a.length; i++) {
+    const cur = [i];
+    for (let j = 1; j <= b.length; j++) {
+      cur[j] = Math.min(
+        prev[j] + 1,
+        cur[j - 1] + 1,
+        prev[j - 1] + (a[i - 1] === b[j - 1] ? 0 : 1)
+      );
+    }
+    prev = cur;
   }
+  return prev[b.length];
+}
 
-  return [false, false];
+// Short words must be exact; longer ones get proportionate typo latitude.
+function typoAllowance(len) {
+  if (len <= 6) return 0;
+  if (len <= 12) return 1;
+  return 2;
+}
+
+/**
+ * Judge an answer against every accepted form.
+ * Returns { credit, verdict, matched, note }
+ *   verdict: exact | article | accent | typo | wrong
+ * In lenient mode article/accent/typo all earn the mark, with a nudge.
+ * In strict mode only an exact match (accents and article included) scores.
+ */
+function judge(input, item) {
+  const forms = acceptedForms(item);
+  const inClean = baseClean(input);
+  const inNoArt = stripArticle(inClean);
+  const inFlat = stripAccents(inNoArt);
+
+  let best = { credit: false, verdict: 'wrong', matched: null, note: '' };
+
+  for (const form of forms) {
+    const fClean = baseClean(form);
+    const fNoArt = stripArticle(fClean);
+    const fFlat = stripAccents(fNoArt);
+
+    // 1. Exact, article and accents included.
+    if (inClean === fClean) {
+      return { credit: true, verdict: 'exact', matched: form, note: '' };
+    }
+    // 2. Right word, article missing or wrong.
+    if (inNoArt === fNoArt) {
+      const note = inClean === inNoArt
+        ? `Include the article: <b>${form}</b>`
+        : `Careful with the article \u2014 it's <b>${form}</b>`;
+      if (!best.credit || best.verdict === 'accent' || best.verdict === 'typo') {
+        best = { credit: !strictMode, verdict: 'article', matched: form, note };
+      }
+      continue;
+    }
+    // 3. Right word, accents missing or wrong.
+    if (inFlat === fFlat) {
+      if (best.verdict === 'wrong' || best.verdict === 'typo') {
+        best = { credit: !strictMode, verdict: 'accent', matched: form, note: `Accents: <b>${form}</b>` };
+      }
+      continue;
+    }
+    // 4. Near miss \u2014 a slip rather than a gap in knowledge.
+    if (!strictMode) {
+      const allow = typoAllowance(Math.max(inFlat.length, fFlat.length));
+      if (allow > 0 && levenshtein(inFlat, fFlat) <= allow) {
+        if (best.verdict === 'wrong') {
+          best = { credit: true, verdict: 'typo', matched: form, note: `Spelling: <b>${form}</b>` };
+        }
+      }
+    }
+  }
+  return best;
 }
 
 // ═══════════════════════════════════════════════════════════
@@ -962,8 +1269,16 @@ function compare(input, correct) {
 // ═══════════════════════════════════════════════════════════
 function showFeedback(type, msg) {
   const fb = document.getElementById('feedback');
-  fb.textContent = msg;
+  fb.innerHTML = msg;
   fb.className = 'feedback show ' + type;
+}
+
+function updateScoreBadge() {
+  const total = currentQueue.length;
+  let c = 0, t = 0;
+  Object.values(scores).forEach(s => { c += s.correct; t += s.total; });
+  document.getElementById('quiz-score-badge').textContent =
+    `Q ${Math.min(qIndex + 1, total)}/${total} · ${c} correct`;
 }
 function hideFeedback() {
   document.getElementById('feedback').className = 'feedback';
@@ -997,8 +1312,9 @@ function showResultsScreen() {
   document.getElementById('results-name').textContent = `Results for ${studentName}`;
   document.getElementById('results-total').textContent = `${totalC} / ${totalT}`;
   const pct = totalT ? Math.round((totalC / totalT) * 100) : 0;
-  document.getElementById('results-sub').textContent =
-    `Overall accuracy: ${pct}%  ·  ${new Date().toLocaleDateString('en-GB', {day:'numeric', month:'long', year:'numeric'})}`;
+  document.getElementById('results-sub').innerHTML =
+    `Overall accuracy: ${pct}%  ·  ${new Date().toLocaleDateString('en-GB', {day:'numeric', month:'long', year:'numeric'})}` +
+    `<span class="mode-badge${strictMode ? ' strict' : ''}">${strictMode ? 'Strict marking' : 'Lenient marking'}</span>`;
 
   const list = document.getElementById('results-unit-list');
   list.innerHTML = '';
@@ -1036,6 +1352,7 @@ function downloadResults() {
   out.push('═══════════════════════════════════════════════════════');
   out.push(`  Student : ${studentName}`);
   out.push(`  Date    : ${date}, ${time}`);
+  out.push(`  Marking : ${strictMode ? 'STRICT (exact accents + articles required)' : 'Lenient (accents, articles and minor slips tolerated)'}`);
   out.push('───────────────────────────────────────────────────────');
 
   let totalC = 0, totalT = 0;
@@ -1051,14 +1368,18 @@ function downloadResults() {
     out.push(`  ${unit.code}  ${unit.title}`);
     out.push(`  Score : ${sc.correct}/${sc.total}  (${pct}%)   [${bar}]`);
     out.push('  ┌─────────────────────────────────────────────────────');
-    out.push('  │  #   English               Your answer          ✓/✗');
+    out.push('  │  #   English               Your answer          ✓/≈/✗');
     out.push('  ├─────────────────────────────────────────────────────');
     sc.details.forEach((d, i) => {
-      const tick = d.correct ? '✓' : '✗';
+      // ✓ exact · ≈ scored with a nudge (accent/article/spelling) · ✗ not scored
+      const tick = d.correct ? (d.verdict === 'exact' ? '✓' : '≈') : '✗';
       const en = d.en.padEnd(24).slice(0, 24);
       const given = d.given.padEnd(20).slice(0, 20);
       out.push(`  │  ${String(i+1).padStart(2)}  ${en}  ${given}  ${tick}`);
-      if (!d.correct) {
+      if (d.correct && d.verdict && d.verdict !== 'exact') {
+        const why = { article: 'article', accent: 'accents', typo: 'spelling' }[d.verdict] || d.verdict;
+        out.push(`  │        ↳ scored, watch the ${why}: ${d.expected}`);
+      } else if (!d.correct) {
         out.push(`  │        ↳ Correct: ${d.expected}`);
       }
     });
