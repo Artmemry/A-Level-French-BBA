@@ -386,6 +386,31 @@
     font-size: 12px;
     margin-top: 20px;
   }
+
+  /* Défi A* stretch layer */
+  .round-tag.astar { background: #fdead3; color: #8a5217; }
+  .card.stretch { border-left: 4px solid var(--accent); }
+  textarea.freetext {
+    width: 100%;
+    font-size: 16px;
+    padding: 12px 14px;
+    border: 2px solid var(--line);
+    border-radius: 10px;
+    background: #fff;
+    outline: none;
+    font-family: inherit;
+    resize: vertical;
+    min-height: 90px;
+  }
+  textarea.freetext:focus { border-color: var(--brand); }
+  .benchmarks {
+    display: flex; gap: 14px; flex-wrap: wrap;
+    font-size: 13px; color: var(--muted);
+    background: var(--bg); border: 1px solid var(--line); border-radius: 10px;
+    padding: 10px 14px; margin: 12px 0 0;
+  }
+  .benchmarks b { color: var(--ink); }
+
   kbd {
     background: #f0ece1;
     border: 1px solid var(--line);
@@ -519,10 +544,10 @@ const ROUND2 = [
   { word: "En définitive",  answer: "conclusion" },
   { word: "Pourvu que",     answer: "condition" },
   { word: "Afin que",       answer: "but" },
-  { word: "Tandis que",     answer: "opposition", note: "Aussi accepté : Temps. Ici on retient le sens d'opposition." },
+  { word: "Tandis que",     answer: "opposition", alt: "temps", note: "« Tandis que » marque surtout un contraste, mais peut aussi indiquer une simultanéité — les deux réponses sont donc acceptées." },
   { word: "Hormis",         answer: "restriction" },
 ];
-const CHOICE_POOL = ["addition","opposition","cause","consequence","illustration","conclusion","condition","but","restriction","concession"];
+const CHOICE_POOL = ["addition","opposition","cause","consequence","illustration","conclusion","condition","but","restriction","concession","temps","enumeration"];
 
 // ROUND 3 — Cloze: type a connector that fits the gap
 const ROUND3 = [
@@ -532,6 +557,13 @@ const ROUND3 = [
   { before: "Le héros est solitaire",           after: "il refuse l'aide de ses amis.",            cat: "cause" },
   { before: "Le film est sombre ;",             after: ", il garde une lueur d'espoir.",           cat: "opposition" },
   { before: "Les techniques sont variées :",    after: "le noir et blanc, le compte à rebours.",   cat: "illustration" },
+];
+
+// DÉFI A* — bonus cloze on the categories the main rounds barely touch
+const STRETCH_CLOZE = [
+  { before: "", after: "nous attendions le bus, il a commencé à pleuvoir à torrents.", cat: "temps", lead: "..." },
+  { before: "Tous les acteurs ont bien joué,", after: "le rôle principal, qui manquait de conviction.", cat: "restriction" },
+  { before: "", after: ", il faut préparer le terrain ; ensuite, semer les graines.", cat: "enumeration", lead: "..." },
 ];
 
 // ============================================================
@@ -550,6 +582,13 @@ const state = {
   remainingMs: 25 * 60 * 1000,
   timerInterval: null,
   studentName: "",
+  // Défi A* (bonus — never mixed into the main score)
+  bonusIndex: 0,
+  bonusScore: 0,
+  bonusTotal: 0,
+  bonusByCat: {},
+  bonusMistakes: [],
+  stretchWriting: "",
 };
 
 function slugify(s) {
@@ -611,6 +650,18 @@ function recordResult(cat, ok, payload) {
   renderProgress();
 }
 
+function recordBonusResult(cat, ok, payload) {
+  state.bonusByCat[cat] = state.bonusByCat[cat] || {correct: 0, total: 0};
+  state.bonusByCat[cat].total++;
+  state.bonusTotal++;
+  if (ok) {
+    state.bonusByCat[cat].correct++;
+    state.bonusScore++;
+  } else {
+    state.bonusMistakes.push(payload);
+  }
+}
+
 function startTimer() {
   state.startedAt = Date.now();
   state.timerInterval = setInterval(() => {
@@ -641,8 +692,14 @@ function showIntro() {
         <li><b>Manche 1 — Améliore ma phrase.</b> Remplace le connecteur banal par un synonyme plus soutenu. Plusieurs réponses sont acceptées.</li>
         <li><b>Manche 2 — Range le connecteur.</b> Pour chaque mot, identifie sa catégorie logique.</li>
         <li><b>Manche 3 — Complète la phrase.</b> Tape un connecteur pertinent pour relier deux idées.</li>
+        <li><b>Défi A* (optionnel).</b> Catégories moins pratiquées (Temps, Restriction, Énumération) et une mini-rédaction, corrigée par ton professeur.</li>
       </ol>
-      <p style="color:var(--muted); font-size:14px;">À la fin, vous pourrez télécharger un rapport personnalisé avec vos erreurs et des suggestions ciblées. Le clavier d'accents en bas à droite vous permet de taper é, è, à, ç… sans configurer votre clavier.</p>
+      <div class="benchmarks">
+        <span><b>16/24</b> — solide</span>
+        <span><b>20/24</b> — très bon</span>
+        <span><b>24/24 + Défi A*</b> — niveau A*/C1</span>
+      </div>
+      <p style="color:var(--muted); font-size:14px; margin-top:12px;">À la fin, vous pourrez télécharger un rapport personnalisé avec vos erreurs et des suggestions ciblées. Le clavier d'accents en bas à droite vous permet de taper é, è, à, ç… sans configurer votre clavier.</p>
       <button class="start-btn" id="startbtn">Commencer la manche 1 →</button>
     </div>
   `;
@@ -716,8 +773,13 @@ function showRound1() {
     replaceButtonsWithNext(() => { state.q++; showRound1(); });
   }
   function skip() {
-    recordResult(Q.cat, false, {round: 1, prompt: Q.sentence.replace(/<[^>]+>/g,""), answer: "(passé)", accepted: CATEGORIES[Q.cat].accept.slice(0,5), cat: CATEGORIES[Q.cat].fr});
-    state.q++; showRound1();
+    const fb = document.getElementById("feedback");
+    const accepted = CATEGORIES[Q.cat].accept.slice(0, 6)
+      .map(a => REFERENCE[CATEGORIES[Q.cat].fr]?.find(r => normalize(r) === normalize(a)) || a)
+      .filter((x,i,arr) => arr.indexOf(x) === i);
+    fb.innerHTML = `<div class="feedback bad">⏭️ Question passée. Réponses attendues : <b>${accepted.join(" · ")}</b></div>`;
+    recordResult(Q.cat, false, {round: 1, prompt: Q.sentence.replace(/<[^>]+>/g,""), answer: "(passé)", accepted, cat: CATEGORIES[Q.cat].fr});
+    replaceButtonsWithNext(() => { state.q++; showRound1(); });
   }
 }
 
@@ -726,10 +788,13 @@ function showRound2() {
   if (state.q >= ROUND2.length) { state.round = 3; state.q = 0; return showRound3(); }
   const Q = ROUND2[state.q];
 
-  // Build 4 options: the correct one + 3 distractors
-  const distractors = CHOICE_POOL.filter(c => c !== Q.answer);
+  // Build 4 options: the correct one, its alt (if any — always shown so an
+  // ambiguous item like "Tandis que" actually offers both valid readings),
+  // then random distractors to fill up to 4.
+  const distractors = CHOICE_POOL.filter(c => c !== Q.answer && c !== Q.alt);
   shuffleInPlace(distractors);
-  const options = [Q.answer, ...distractors.slice(0, 3)];
+  const forced = Q.alt ? [Q.alt] : [];
+  const options = [Q.answer, ...forced, ...distractors.slice(0, 3 - forced.length)];
   shuffleInPlace(options);
 
   stage.innerHTML = `
@@ -754,27 +819,34 @@ function showRound2() {
   document.querySelectorAll(".choice").forEach(b => {
     b.addEventListener("click", () => {
       const chosen = b.getAttribute("data-cat");
-      const ok = chosen === Q.answer;
+      const chosenIsAlt = !!Q.alt && chosen === Q.alt;
+      const ok = chosen === Q.answer || chosenIsAlt;
       document.querySelectorAll(".choice").forEach(x => {
         x.disabled = true;
         const c = x.getAttribute("data-cat");
-        if (c === Q.answer) x.classList.add("correct");
-        else if (c === chosen && !ok) x.classList.add("wrong");
+        const isCorrectCat = c === Q.answer || c === Q.alt;
+        if (c === chosen) x.classList.add(ok ? "correct" : "wrong");
+        else if (isCorrectCat) x.classList.add("correct");
       });
       const fb = document.getElementById("feedback");
       const examples = REFERENCE[CATEGORIES[Q.answer].fr].slice(0, 5).join(" · ");
-      if (ok) {
+      if (ok && chosenIsAlt) {
+        fb.innerHTML = `<div class="feedback ok">✅ Accepté — « <b>${Q.word}</b> » peut aussi s'analyser comme connecteur de <b>${CATEGORIES[Q.alt].fr}</b>. La catégorie la plus fréquente reste <b>${CATEGORIES[Q.answer].fr}</b>.
+          <div class="also">Famille (${CATEGORIES[Q.answer].fr}) : ${examples}</div>
+          ${Q.note ? `<div class="didyouknow">${Q.note}</div>`:""}
+        </div>`;
+      } else if (ok) {
         fb.innerHTML = `<div class="feedback ok">✅ Bien vu — « <b>${Q.word}</b> » est typiquement un connecteur de <b>${CATEGORIES[Q.answer].fr}</b>.
           <div class="also">Famille : ${examples}</div>
           ${Q.note ? `<div class="didyouknow">${Q.note}</div>`:""}
         </div>`;
       } else {
-        fb.innerHTML = `<div class="feedback bad">❌ Catégorie attendue : <b>${CATEGORIES[Q.answer].fr}</b>.
+        fb.innerHTML = `<div class="feedback bad">❌ Catégorie attendue : <b>${CATEGORIES[Q.answer].fr}</b>${Q.alt ? ` (ou <b>${CATEGORIES[Q.alt].fr}</b>)` : ""}.
           <div class="also">Famille : ${examples}</div>
           ${Q.note ? `<div class="didyouknow">${Q.note}</div>`:""}
         </div>`;
       }
-      recordResult(Q.answer, ok, {round: 2, prompt: Q.word, answer: CATEGORIES[chosen].fr, accepted: [CATEGORIES[Q.answer].fr], cat: CATEGORIES[Q.answer].fr});
+      recordResult(Q.answer, ok, {round: 2, prompt: Q.word, answer: CATEGORIES[chosen].fr, accepted: Q.alt ? [CATEGORIES[Q.answer].fr, CATEGORIES[Q.alt].fr] : [CATEGORIES[Q.answer].fr], cat: CATEGORIES[Q.answer].fr});
       replaceChoicesWithNext(() => { state.q++; showRound2(); });
     });
   });
@@ -782,7 +854,7 @@ function showRound2() {
 
 function showRound3() {
   state.phase = "round";
-  if (state.q >= ROUND3.length) { return goToEnd(false); }
+  if (state.q >= ROUND3.length) { return showStretchIntro(); }
   const Q = ROUND3[state.q];
 
   stage.innerHTML = `
@@ -844,10 +916,123 @@ function showRound3() {
     replaceButtonsWithNext(() => { state.q++; showRound3(); });
   }
   function skip() {
+    const fb = document.getElementById("feedback");
+    const accepted = REFERENCE[CATEGORIES[Q.cat].fr].slice(0, 6);
+    fb.innerHTML = `<div class="feedback bad">⏭️ Question passée. Réponses attendues : <b>${accepted.join(" · ")}</b></div>`;
     const fullPrompt = `${Q.before || ""} ____ ${Q.after}`.trim();
-    recordResult(Q.cat, false, {round: 3, prompt: fullPrompt, answer: "(passé)", accepted: REFERENCE[CATEGORIES[Q.cat].fr].slice(0,5), cat: CATEGORIES[Q.cat].fr});
-    state.q++; showRound3();
+    recordResult(Q.cat, false, {round: 3, prompt: fullPrompt, answer: "(passé)", accepted, cat: CATEGORIES[Q.cat].fr});
+    replaceButtonsWithNext(() => { state.q++; showRound3(); });
   }
+}
+
+function showStretchIntro() {
+  state.phase = "stretch";
+  stage.innerHTML = `
+    <div class="card stretch">
+      <span class="round-tag astar">Défi A* — bonus</span>
+      <div class="round-title">Prêt(e) pour aller plus loin ?</div>
+      <div class="round-desc">Les trois manches sont terminées — bien joué. Ce défi optionnel teste des catégories moins pratiquées (Temps, Restriction, Énumération) puis te propose une mini-rédaction. Il ne compte pas dans ton score principal, mais il apparaît dans ton rapport : c'est ce qui distingue une copie A* d'une bonne copie.</div>
+      <div class="answer-row">
+        <button class="btn primary" id="dostretch">Relever le défi A* →</button>
+        <button class="btn ghost" id="skipstretch">Passer directement aux résultats</button>
+      </div>
+    </div>
+  `;
+  document.getElementById("dostretch").addEventListener("click", () => { state.bonusIndex = 0; showStretchCloze(); });
+  document.getElementById("skipstretch").addEventListener("click", () => goToEnd(false));
+}
+
+function showStretchCloze() {
+  if (state.bonusIndex >= STRETCH_CLOZE.length) { return showStretchWriting(); }
+  const Q = STRETCH_CLOZE[state.bonusIndex];
+  stage.innerHTML = `
+    <div class="card stretch">
+      <span class="round-tag astar">Défi A* — ${state.bonusIndex + 1} / ${STRETCH_CLOZE.length}</span>
+      <div class="round-title">Catégorie moins pratiquée : ${CATEGORIES[Q.cat].fr}</div>
+      <div class="round-desc">Complète avec un connecteur de la catégorie <b>${CATEGORIES[Q.cat].fr}</b>.</div>
+
+      <div class="prompt">
+        ${Q.before ? Q.before + " " : ""}<span style="color:var(--accent); font-weight:700; border-bottom:2px dashed var(--accent); padding: 0 4px;">______</span> ${Q.after}
+      </div>
+      <div class="ask">Ta réponse${Q.lead ? ` (commence éventuellement par « ${Q.lead.trim()} »)` : ""} :</div>
+
+      <div class="answer-row">
+        <input type="text" id="userin" placeholder="Tape ta réponse ici…" autocomplete="off" autofocus>
+        <button class="btn primary" id="submit">Valider</button>
+        <button class="btn ghost" id="hint">Indice</button>
+        <button class="btn danger-ghost" id="skip">Passer</button>
+      </div>
+
+      <div id="feedback"></div>
+
+      <button class="ref-toggle" id="reftoggle" style="margin-top:14px;">📖 Voir la fiche des connecteurs</button>
+      <div class="ref" id="ref"></div>
+    </div>
+  `;
+  attachReference();
+  attachAccentTarget("userin");
+  const input = document.getElementById("userin");
+  input.focus();
+
+  document.getElementById("submit").addEventListener("click", submit);
+  document.getElementById("hint").addEventListener("click", () => {
+    document.getElementById("feedback").innerHTML =
+      `<div class="feedback hint">💡 Exemples : ${REFERENCE[CATEGORIES[Q.cat].fr].slice(0,3).join(", ")}…</div>`;
+  });
+  document.getElementById("skip").addEventListener("click", skip);
+  input.addEventListener("keydown", e => {
+    if (e.key === "Enter") { e.preventDefault(); submit(); }
+    if (e.key === "Tab")   { e.preventDefault(); skip(); }
+  });
+
+  function submit() {
+    const v = input.value;
+    const ok = isAccepted(v, Q.cat);
+    const fb = document.getElementById("feedback");
+    const accepted = REFERENCE[CATEGORIES[Q.cat].fr].slice(0, 6);
+    if (ok) {
+      fb.innerHTML = `<div class="feedback ok">✅ Bravo — « <b>${v.trim()}</b> » convient. C'est une catégorie moins fréquente : bien joué !
+        <div class="also">Autres choix possibles : <b>${accepted.filter(a => normalize(a) !== normalize(v)).join(" · ")}</b></div>
+      </div>`;
+    } else {
+      fb.innerHTML = `<div class="feedback bad">❌ Pas tout à fait. La catégorie attendue est <b>${CATEGORIES[Q.cat].fr}</b>.
+        <div class="also">Connecteurs adaptés : <b>${accepted.join(" · ")}</b></div>
+      </div>`;
+    }
+    const fullPrompt = `${Q.before || ""} ____ ${Q.after}`.trim();
+    recordBonusResult(Q.cat, ok, {prompt: fullPrompt, answer: v, accepted, cat: CATEGORIES[Q.cat].fr});
+    replaceButtonsWithNext(() => { state.bonusIndex++; showStretchCloze(); });
+  }
+  function skip() {
+    const fb = document.getElementById("feedback");
+    const accepted = REFERENCE[CATEGORIES[Q.cat].fr].slice(0, 6);
+    fb.innerHTML = `<div class="feedback bad">⏭️ Question passée. Réponses attendues : <b>${accepted.join(" · ")}</b></div>`;
+    const fullPrompt = `${Q.before || ""} ____ ${Q.after}`.trim();
+    recordBonusResult(Q.cat, false, {prompt: fullPrompt, answer: "(passé)", accepted, cat: CATEGORIES[Q.cat].fr});
+    replaceButtonsWithNext(() => { state.bonusIndex++; showStretchCloze(); });
+  }
+}
+
+function showStretchWriting() {
+  stage.innerHTML = `
+    <div class="card stretch">
+      <span class="round-tag astar">Défi A* — Rédaction</span>
+      <div class="round-title">Une phrase, deux connecteurs</div>
+      <div class="round-desc">Écris une phrase (ou deux phrases liées) qui utilise <b>au moins deux connecteurs de catégories différentes</b>. Vise une structure digne d'une copie A*.</div>
+      <textarea class="freetext" id="stretchtext" placeholder="Ex. : Bien que le film soit long, il reste captivant ; d'ailleurs, la critique l'a salué."></textarea>
+      <div class="answer-row" style="margin-top:12px;">
+        <button class="btn primary" id="savewriting">Enregistrer et voir mes résultats →</button>
+      </div>
+      <p style="color:var(--muted); font-size:13px; margin-top:10px;">Cette phrase n'est pas notée automatiquement — elle sera incluse dans ton rapport pour que ton professeur la corrige.</p>
+    </div>
+  `;
+  attachAccentTarget("stretchtext");
+  const ta = document.getElementById("stretchtext");
+  ta.focus();
+  document.getElementById("savewriting").addEventListener("click", () => {
+    state.stretchWriting = ta.value.trim();
+    goToEnd(false);
+  });
 }
 
 function goToEnd(timeUp) {
@@ -884,6 +1069,26 @@ function goToEnd(timeUp) {
       }).join("")
     : `<li>Beau travail ! Toutes les catégories sont solides. Pour aller plus loin, glisse 2 nouveaux connecteurs dans ta prochaine rédaction.</li>`;
 
+  // Défi A* bonus block
+  const bonusAttempted = state.bonusTotal > 0 || !!state.stretchWriting;
+  const bonusCats = Object.entries(state.bonusByCat).filter(([_, v]) => v.total > 0);
+  const bonusRows = bonusCats.map(([k, v]) => {
+    const pct = v.total ? (v.correct / v.total) * 100 : 0;
+    const cls = pct < 50 ? "low" : pct < 80 ? "mid" : "";
+    return `
+      <div class="row">
+        <span style="min-width:120px;">${CATEGORIES[k].fr}</span>
+        <div class="bar"><div class="${cls}" style="width:${pct}%"></div></div>
+        <span style="min-width:50px; text-align:right;"><b>${v.correct}</b> / ${v.total}</span>
+      </div>`;
+  }).join("");
+  const bonusBlock = bonusAttempted ? `
+      <div class="bytype" style="border-top:1px dashed var(--line); padding-top:16px;">
+        <h3>🌟 Défi A* (bonus, hors score principal)</h3>
+        ${state.bonusTotal ? `<p style="font-size:14px; color:var(--muted); margin:0 0 8px;">Score bonus : <b>${state.bonusScore} / ${state.bonusTotal}</b></p>${bonusRows}` : ""}
+        ${state.stretchWriting ? `<p style="font-size:14px; margin-top:12px;"><b>Ta phrase de rédaction :</b><br><i>${state.stretchWriting}</i></p>` : ""}
+      </div>` : "";
+
   stage.innerHTML = `
     <div class="card end">
       <h2>${timeUp ? "⏰ Temps écoulé !" : "🎉 Atelier terminé !"}</h2>
@@ -894,6 +1099,7 @@ function goToEnd(timeUp) {
         <h3>Résultats par catégorie</h3>
         ${breakdownRows || `<div class="row"><span>Aucune question répondue.</span></div>`}
       </div>
+      ${bonusBlock}
 
       <div class="suggestions">
         <h3>💡 Suggestions personnalisées</h3>
@@ -942,6 +1148,8 @@ function goToEnd(timeUp) {
     // Reset state
     state.round = 0; state.q = 0; state.score = 0; state.total = 0;
     state.mistakes = []; state.remainingMs = 25 * 60 * 1000;
+    state.bonusIndex = 0; state.bonusScore = 0; state.bonusTotal = 0;
+    state.bonusByCat = {}; state.bonusMistakes = []; state.stretchWriting = "";
     Object.keys(CATEGORIES).forEach(c => state.byCat[c] = {correct: 0, total: 0});
     timerEl.textContent = "25:00"; timerEl.classList.remove("warn");
     renderProgress();
@@ -1030,8 +1238,8 @@ const ACCENTS = ["é","è","ê","ë","à","â","î","ï","ô","ö","ù","û","ü
 })();
 
 let lastFocusedInput = null;
-function attachAccentTarget() {
-  const inp = document.getElementById("userin");
+function attachAccentTarget(id) {
+  const inp = document.getElementById(id || "userin");
   if (!inp) return;
   inp.addEventListener("focus", () => { lastFocusedInput = inp; });
   // remember on mount
@@ -1110,6 +1318,27 @@ function downloadReport() {
     });
   } else {
     md += `- Belle régularité sur toutes les catégories. Continue à varier : essaie d'utiliser un connecteur différent à chaque paragraphe.\n`;
+  }
+
+  // Défi A* bonus
+  if (state.bonusTotal > 0 || state.stretchWriting) {
+    md += `\n---\n\n## Défi A* (bonus, hors score principal)\n\n`;
+    if (state.bonusTotal > 0) {
+      md += `**Score bonus :** ${state.bonusScore} / ${state.bonusTotal}\n\n`;
+      md += `| Catégorie | Score |\n|---|---|\n`;
+      Object.entries(state.bonusByCat).forEach(([k, v]) => {
+        md += `| ${CATEGORIES[k].fr} | ${v.correct}/${v.total} |\n`;
+      });
+    }
+    if (state.bonusMistakes.length) {
+      md += `\n**Erreurs au défi A* :**\n\n`;
+      state.bonusMistakes.forEach((m, i) => {
+        md += `${i+1}. ${m.prompt} — ta réponse : ${m.answer || "(vide)"} (attendu : ${(m.accepted||[]).join(", ")})\n`;
+      });
+    }
+    if (state.stretchWriting) {
+      md += `\n**Phrase de rédaction (à corriger par le professeur) :**\n\n> ${state.stretchWriting}\n`;
+    }
   }
 
   md += `\n---\n\n## Fiche de référence (connecteurs utiles)\n\n`;
