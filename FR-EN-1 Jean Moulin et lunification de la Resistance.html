@@ -67,6 +67,39 @@ footer.dock{position:sticky;bottom:0;z-index:10;margin-top:14px}
 .selfmark .smhead{margin:0 0 6px;font-size:13px;color:#6b5a33}
 .selfmark label{font-size:13.5px;display:block;margin-bottom:6px}
 .selfmark textarea{min-height:38px;font-size:14px}
+/* ---- gated mark schemes ------------------------------------------- */
+.crow{display:flex;align-items:center;gap:9px;flex-wrap:wrap;margin-top:7px}
+.crow button{font:inherit;font-size:13px;font-weight:600;border-radius:7px;
+  border:1.5px solid var(--line);background:#fff;color:#1f2a44;padding:5px 12px;cursor:pointer}
+.crow button.chk{background:#1f3a6e;border-color:#1f3a6e;color:#fff}
+.crow button.chk:disabled{background:#e8ecf3;border-color:var(--line);color:#8c97ab;cursor:default}
+.crow button.see{font-weight:500;color:#5a6478}
+.crow button.see:hover{border-color:#b06f00;color:#b06f00}
+.cstate{font-size:13px;font-weight:600}
+.cstate.ok{color:var(--ok)}
+.cstate.no{color:#b06f00}
+.cstate.bad{color:var(--no)}
+.seen-tag{font-size:11px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;
+  color:#8a6d1f;background:#fdf6e3;border:1px solid #e8d9a8;border-radius:99px;padding:2px 8px}
+.fb.hint dl{display:none}
+.fb.hint .focus{margin-top:4px}
+.clue{font-size:13.5px;color:#6b5a33;background:#fffdf7;border:1px solid #e8d9a8;
+  border-left:4px solid #b06f00;border-radius:0 7px 7px 0;padding:8px 11px;margin-top:7px}
+.clue b{color:#41506b}
+.gatebar{background:#eef3fb;border:1px solid #cfdaee;border-left:5px solid #1f3a6e;
+  border-radius:8px;padding:11px 14px;margin:0 0 14px;font-size:14px;line-height:1.5}
+.gatebar b{color:#1f3a6e}
+.resumebar{background:#eef7f0;border:1px solid #bfdcc7;border-left:5px solid var(--ok);
+  border-radius:8px;padding:11px 14px;margin:0 0 14px;display:none;gap:10px;align-items:center;flex-wrap:wrap;font-size:14px}
+.resumebar.show{display:flex}
+.resumebar p{margin:0;flex:1 1 220px}
+.resumebar button{font:inherit;font-size:13px;font-weight:600;border-radius:7px;
+  border:1.5px solid var(--line);background:#fff;padding:5px 12px;cursor:pointer}
+.resumebar button.go{background:var(--ok);border-color:var(--ok);color:#fff}
+.closing{margin-top:14px;font-size:14px;line-height:1.55;background:#eef3fb;
+  border:1px solid #cfdaee;border-radius:8px;padding:12px 14px;display:none}
+.closing.show{display:block}
+.closing b{color:#1f3a6e}
 .selfscore{font-size:13.5px;font-weight:700;color:#9bd7a8}
 .warn{background:#fff6e5;border:1px solid #f0d9a8;border-radius:8px;padding:10px 12px;font-size:13.5px}
 @media print{.bar,#pad,#padtoggle,button{display:none!important}body{background:#fff}}
@@ -833,46 +866,332 @@ document.querySelectorAll('textarea').forEach(function(t){
   t.addEventListener('input', function(){ t.style.height='auto'; t.style.height=(t.scrollHeight+2)+'px'; });
 });
 
-document.getElementById('mark').onclick = function(){
-  var total = 0; results = [];
-  for (var i = 0; i < CH.length; i++){
-    var att = document.getElementById('a'+i).value;
-    var r = markChunk(att, CH[i], LANG);
-    total += r.mark;
-    results.push({n:i+1, src:CH[i].src, attempt:att, mark:r.mark, why:r.why,
-                   answer:CH[i].answer, focus:CH[i].focus, selfMark:0, justification:''});
-    var box = document.getElementById('c'+i);
-    box.className = 'chunk ' + (r.mark ? 'done-y' : 'done-n');
-    document.getElementById('v'+i).textContent = r.mark ? '1 mark' : '0 marks';
-    document.getElementById('v'+i).style.color = r.mark ? '#1c6b2f' : '#a8221b';
-    document.getElementById('w'+i).textContent = (r.mark ? 'Awarded — ' : 'Not awarded — ') + r.why;
-    var fb = document.getElementById('f'+i);
-    fb.style.display = 'block';
-    if (!r.mark && !fb.querySelector('.selfmark')){
-      var sm = document.createElement('div');
-      sm.className = 'selfmark';
-      sm.innerHTML =
-        '<p class="smhead">Do you disagree? Read the Answer, Accept and Reject columns above. '
-      + 'If your version meets the mark scheme, award yourself the mark and say why — your teacher sees both scores.</p>'
-      + '<label><input type="checkbox" data-i="'+i+'"> <strong>I award myself this mark</strong></label>'
-      + '<textarea class="just" data-i="'+i+'" rows="2" placeholder="Justify it against the mark scheme — which Accept entry does your version match, and why is it not in the Reject column?"></textarea>';
-      sm.querySelector('input').addEventListener('change', function(e){
-        var k = +e.target.dataset.i;
-        results[k].selfMark = e.target.checked ? 1 : 0;
-        updateScores();
-      });
-      sm.querySelector('textarea').addEventListener('input', function(e){
-        results[+e.target.dataset.i].justification = e.target.value;
-      });
-      fb.appendChild(sm);
-    }
+/* ═══════════════════════════════════════════════════════════════════
+   GATED MARK SCHEMES
+   One chunk at a time, two attempts each. A miss returns the grammar
+   point, never the wording. The scheme opens for that chunk only.
+   ═══════════════════════════════════════════════════════════════════ */
+(function(){
+"use strict";
+
+var G = CH.map(function(){ return {tries:0, revealed:false, awarded:false, how:''}; });
+var STORE = 'frtl:' + ACT.id;
+var SEEN  = 'frtl-seen:' + ACT.id;
+var MAX_TRIES = 2;
+var finished = false;
+
+results = CH.map(function(c, i){
+  return {n:i+1, src:c.src, attempt:'', mark:0, why:'', answer:c.answer, focus:c.focus,
+          selfMark:0, justification:'', tries:0, how:''};
+});
+
+/* ---------------------------------------------------------- storage */
+function save(){
+  try{
+    localStorage.setItem(STORE, JSON.stringify({
+      v:1, name:(document.getElementById('student')||{}).value || '',
+      answers: CH.map(function(_, i){ return document.getElementById('a'+i).value; }),
+      gates: G, finished: finished, t: Date.now()
+    }));
+  }catch(e){}
+}
+function read(){
+  try{ var d = JSON.parse(localStorage.getItem(STORE)||'null');
+       return (d && d.v === 1 && d.answers && d.answers.length === CH.length) ? d : null; }
+  catch(e){ return null; }
+}
+function everSeen(){
+  try{ return JSON.parse(localStorage.getItem(SEEN)||'[]') || []; }catch(e){ return []; }
+}
+function noteSeen(i){
+  try{
+    var a = everSeen();
+    if (a.indexOf(i) < 0){ a.push(i); localStorage.setItem(SEEN, JSON.stringify(a)); }
+  }catch(e){}
+}
+
+/* -------------------------------------------------------------- ui */
+function $(id){ return document.getElementById(id); }
+
+/* The engine's reason can name the words the student is missing. That is the
+   right thing to say once the scheme is open, and the wrong thing to say on a
+   first miss — so a first miss gets the shape of the problem, not its answer. */
+function safeWhy(why){
+  if (!why) return '';
+  if (/rejects this/.test(why)) return why;                 // quotes the student, not the answer
+  var m = why.match(/nothing here for (.+)$/);
+  if (m){
+    var n = (m[1].match(/“/g) || []).length || 1;
+    return 'an element the mark scheme requires is missing — ' +
+           (n === 1 ? 'one word or phrase is not there' : n + ' elements are not there');
   }
+  if (/accent error/.test(why)) return 'an accent here changes the word, so the mark is withheld';
+  return why;
+}
+
+function clueHTML(i, why){
+  var c = CH[i];
+  var bits = [];
+  var words = String(c.answer).split(/\s+/).filter(Boolean);
+  bits.push(words.length + (words.length === 1 ? ' word' : ' words'));
+  bits.push(String(c.answer).replace(/[^A-Za-zÀ-ÿ]/g,'').length + ' letters');
+  return '<div class="clue"><b>Not yet.</b> ' + safeWhy(why) +
+         '<br><b>What this chunk tests:</b> ' + c.focus +
+         '<br><span style="color:#8a7a52">The mark scheme answer is ' + bits.join(' · ') + '.</span></div>';
+}
+function dropClue(i){
+  var old = $('c'+i).querySelector('.clue');
+  if (old) old.remove();
+}
+
+function paint(i, mark){
+  $('c'+i).className = 'chunk ' + (mark ? 'done-y' : 'done-n');
+  var v = $('v'+i);
+  v.textContent = mark ? '1 mark' : '0 marks';
+  v.style.color = mark ? '#1c6b2f' : '#a8221b';
+}
+
+function openScheme(i, why){
+  var fb = $('f'+i);
+  fb.classList.remove('hint');
+  fb.style.display = 'block';
+  $('w'+i).textContent = (G[i].awarded ? 'Awarded — ' : 'Not awarded — ') + (why || results[i].why);
+  G[i].revealed = true;
+  noteSeen(i);
+  if (!G[i].awarded && !fb.querySelector('.selfmark')) addSelfMark(i, fb);
+  var st = $('s'+i);
+  st.className = 'cstate bad';
+  st.textContent = 'Mark scheme open';
+  $('chk'+i).disabled = true;
+  var see = $('see'+i); if (see) see.style.display = 'none';
+}
+
+function addSelfMark(i, fb){
+  var sm = document.createElement('div');
+  sm.className = 'selfmark';
+  sm.innerHTML =
+    '<p class="smhead">Do you disagree? Read the Answer, Accept and Reject columns above. '
+  + 'If your version meets the mark scheme, award yourself the mark and say why — your teacher sees both scores.</p>'
+  + '<label><input type="checkbox" data-i="'+i+'"> <strong>I award myself this mark</strong></label>'
+  + '<textarea class="just" data-i="'+i+'" rows="2" placeholder="Justify it against the mark scheme — which Accept entry does your version match, and why is it not in the Reject column?"></textarea>';
+  sm.querySelector('input').addEventListener('change', function(e){
+    results[+e.target.dataset.i].selfMark = e.target.checked ? 1 : 0;
+    updateScores(); save();
+  });
+  sm.querySelector('textarea').addEventListener('input', function(e){
+    results[+e.target.dataset.i].justification = e.target.value;
+    save();
+  });
+  fb.appendChild(sm);
+}
+
+/* --------------------------------------------------------- marking */
+function checkChunk(i, opts){
+  opts = opts || {};
+  if (G[i].awarded || G[i].revealed) return;
+
+  var att = $('a'+i).value;
+  var r = markChunk(att, CH[i], LANG);
+
+  results[i].attempt = att;
+  results[i].why = r.why;
+  results[i].mark = r.mark;
+
+  if (r.mark){
+    G[i].awarded = true;
+    G[i].how = G[i].tries === 0 ? 'first attempt' : 'attempt ' + (G[i].tries + 1);
+    results[i].tries = G[i].tries + 1;
+    results[i].how = G[i].how;
+    dropClue(i);
+    paint(i, 1);
+    var st = $('s'+i);
+    st.className = 'cstate ok';
+    st.textContent = G[i].tries === 0 ? '✓ 1 mark — first attempt' : '✓ 1 mark — second attempt';
+    $('chk'+i).disabled = true;
+    var see = $('see'+i);
+    if (see){ see.textContent = 'Show the mark scheme'; }   // now optional, not a punishment
+    $('f'+i).classList.add('hint');
+    $('f'+i).style.display = 'none';
+    updateScores(); save();
+    return;
+  }
+
+  G[i].tries += 1;
+  results[i].tries = G[i].tries;
+
+  if (!opts.force && G[i].tries < MAX_TRIES){
+    dropClue(i);
+    $('c'+i).className = 'chunk';
+    var box = document.createElement('div');
+    box.innerHTML = clueHTML(i, r.why);
+    $('a'+i).parentNode.insertBefore(box.firstChild, $('a'+i).nextSibling.nextSibling);
+    var s2 = $('s'+i);
+    s2.className = 'cstate no';
+    s2.textContent = 'Try again — attempt 2 of 2';
+    $('a'+i).focus();
+    updateScores(); save();
+    return;
+  }
+
+  dropClue(i);
+  results[i].how = G[i].revealed ? 'scheme shown'
+                 : 'not awarded after ' + G[i].tries + (G[i].tries === 1 ? ' attempt' : ' attempts');
+  paint(i, 0);
+  openScheme(i, r.why);
+  updateScores(); save();
+}
+
+/* ------------------------------------------------- building the ui */
+var bar = document.createElement('div');
+bar.className = 'gatebar';
+bar.innerHTML = '<b>How this works.</b> Translate a chunk, then press <b>Check</b> on that chunk. '
+  + 'A wrong answer gives you the grammar point it is testing and a second attempt — the mark scheme '
+  + 'for that chunk only opens after that. Chunks you get right keep their mark scheme closed, '
+  + 'so this paper is still worth doing again in a fortnight.';
+var first = document.getElementById('c0');
+first.parentNode.insertBefore(bar, first);
+
+var rb = document.createElement('div');
+rb.className = 'resumebar';
+rb.innerHTML = '<p id="rbtext">You have this translation in progress.</p>'
+  + '<button class="go" id="rbgo">Carry on</button><button id="rbno">Start fresh</button>';
+first.parentNode.insertBefore(rb, bar);
+
+var seen = everSeen();
+CH.forEach(function(c, i){
+  var ta = $('a'+i);
+  var row = document.createElement('div');
+  row.className = 'crow';
+  row.innerHTML =
+      '<button class="chk" id="chk'+i+'" data-i="'+i+'">Check</button>'
+    + '<span class="cstate" id="s'+i+'"></span>'
+    + '<button class="see ghost" id="see'+i+'" data-i="'+i+'">Show the mark scheme</button>'
+    + (seen.indexOf(i) >= 0 ? '<span class="seen-tag" title="You have already seen this mark scheme in an earlier attempt">scheme seen before</span>' : '');
+  ta.parentNode.insertBefore(row, ta.nextSibling);
+  $('f'+i).classList.add('hint');
+
+  row.querySelector('.chk').addEventListener('click', function(){ checkChunk(i); });
+  row.querySelector('.see').addEventListener('click', function(){
+    if (G[i].awarded){                       // already earned: looking is free
+      var fb = $('f'+i);
+      fb.classList.remove('hint');
+      fb.style.display = fb.style.display === 'block' ? 'none' : 'block';
+      $('w'+i).textContent = 'Awarded — ' + results[i].why;
+      return;
+    }
+    if (!confirm('Show the mark scheme for this chunk? You will not be able to score it this time.')) return;
+    G[i].revealed = true;
+    results[i].attempt = $('a'+i).value;
+    results[i].how = 'scheme shown';
+    var r = markChunk($('a'+i).value, CH[i], LANG);
+    results[i].why = r.why;
+    paint(i, 0);
+    openScheme(i, r.why);
+    updateScores(); save();
+  });
+
+  // Ctrl/Cmd + Enter checks the chunk you are in.
+  ta.addEventListener('keydown', function(e){
+    if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)){ e.preventDefault(); checkChunk(i); }
+  });
+  ta.addEventListener('input', save);
+});
+var st = document.getElementById('student');
+if (st) st.addEventListener('input', save);
+
+/* ------------------------------------------------------- finishing */
+function finish(){
+  var untouched = 0;
+  CH.forEach(function(_, i){
+    if (!G[i].awarded && !G[i].revealed && !$('a'+i).value.trim()) untouched++;
+  });
+  if (untouched && !confirm(untouched + ' chunk' + (untouched > 1 ? 's are' : ' is') +
+      ' still empty. Finish anyway and open every remaining mark scheme?')) return;
+
+  CH.forEach(function(_, i){ if (!G[i].awarded && !G[i].revealed) checkChunk(i, {force:true}); });
+  finished = true;
+
+  var clean = 0;
+  CH.forEach(function(_, i){ if (G[i].awarded && !G[i].revealed) clean++; });
+  var box = document.getElementById('closing');
+  box.innerHTML = '<b>' + clean + ' of 20 mark schemes stayed closed.</b> '
+    + (clean
+        ? 'Those chunks are still untouched practice — come back to this paper in a fortnight and they will test you properly all over again.'
+        : 'Every scheme is now open, so use a different paper for your next attempt.')
+    + ' Download your results before you leave: your teacher sees the score, the attempts and anything you self-marked.';
+  box.classList.add('show');
+
   updateScores();
-  document.getElementById('schemebox').style.display = 'block';
   document.getElementById('dl').disabled = false;
   document.getElementById('dl').classList.remove('ghost');
+  document.getElementById('schemebox').style.display = 'block';
+  save();
   window.scrollTo({top:0, behavior:'smooth'});
+}
+
+var markBtn = document.getElementById('mark');
+markBtn.textContent = 'Finish and open the rest';
+markBtn.onclick = finish;
+
+var closing = document.createElement('div');
+closing.className = 'closing';
+closing.id = 'closing';
+document.querySelector('.chunk').parentNode.appendChild(closing);
+
+document.getElementById('reset').onclick = function(){
+  if (!confirm('Clear every answer and start again? Which mark schemes you have already seen is remembered, so a fresh attempt stays honest.')) return;
+  try{ localStorage.removeItem(STORE); }catch(e){}
+  location.reload();
 };
+
+/* --------------------------------------------------------- resume */
+(function(){
+  var d = read();
+  if (!d) { updateScores(); return; }
+  var any = d.answers.some(function(v){ return v && v.trim(); });
+  if (!any) { updateScores(); return; }
+  var done = (d.gates||[]).filter(function(g){ return g && g.awarded; }).length;
+  document.getElementById('rbtext').textContent =
+    'You have this translation in progress — ' + done + ' of 20 marks so far.';
+  rb.classList.add('show');
+  document.getElementById('rbgo').addEventListener('click', function(){
+    d.answers.forEach(function(v, i){
+      var ta = $('a'+i);
+      ta.value = v || '';
+      ta.style.height = 'auto'; ta.style.height = (ta.scrollHeight+2) + 'px';
+    });
+    if (d.name && st) st.value = d.name;
+    (d.gates||[]).forEach(function(g, i){
+      if (!g) return;
+      G[i] = g;
+      results[i].attempt = d.answers[i] || '';
+      results[i].tries = g.tries; results[i].how = g.how;
+      if (g.awarded){
+        results[i].mark = 1;
+        paint(i, 1);
+        var s = $('s'+i); s.className = 'cstate ok'; s.textContent = '✓ 1 mark';
+        $('chk'+i).disabled = true;
+        $('f'+i).style.display = 'none';
+      } else if (g.revealed){
+        var r = markChunk(d.answers[i]||'', CH[i], LANG);
+        results[i].why = r.why;
+        paint(i, 0);
+        openScheme(i, r.why);
+      } else if (g.tries > 0){
+        var s2 = $('s'+i); s2.className = 'cstate no'; s2.textContent = 'Try again — attempt 2 of 2';
+      }
+    });
+    rb.classList.remove('show');
+    updateScores();
+  });
+  document.getElementById('rbno').addEventListener('click', function(){
+    try{ localStorage.removeItem(STORE); }catch(e){}
+    rb.classList.remove('show');
+  });
+  updateScores();
+})();
+
+})();
 
 function updateScores(){
   var auto = results.reduce(function(s,r){ return s + r.mark; }, 0);
@@ -908,11 +1227,14 @@ document.getElementById('dl').onclick = function(){
   lines.push(['Score awarded automatically', total + ' / 20'].map(csvCell).join(','));
   lines.push(['Score including self-marked chunks', selfTotal + ' / 20'].map(csvCell).join(','));
   lines.push(['Chunks the student self-marked', flagged].map(csvCell).join(','));
+  lines.push(['Marks won at the first attempt', results.filter(function(r){ return r.how === 'first attempt'; }).length].map(csvCell).join(','));
+  lines.push(['Mark schemes that stayed closed', results.filter(function(r){ return r.mark && /attempt/.test(r.how||''); }).length].map(csvCell).join(','));
   lines.push('');
-  lines.push(['Chunk','Source','Student answer','Auto mark','Reason','Self-awarded','Student justification','Mark scheme answer','What the chunk tests']
+  lines.push(['Chunk','Source','Student answer','Auto mark','Attempts','How the chunk ended','Reason','Self-awarded','Student justification','Mark scheme answer','What the chunk tests']
              .map(csvCell).join(','));
   results.forEach(function(r){
-    lines.push([r.n, r.src, r.attempt, r.mark, r.why, r.selfMark ? 1 : '', r.justification || '',
+    lines.push([r.n, r.src, r.attempt, r.mark, r.tries || '', r.how || '', r.why,
+                r.selfMark ? 1 : '', r.justification || '',
                 r.answer, r.focus].map(csvCell).join(','));
   });
   var safe = name.replace(/[^\p{L}\p{N}]+/gu,'_').replace(/^_|_$/g,'') || 'student';
@@ -929,5 +1251,6 @@ document.querySelectorAll('img.src').forEach(function(im){
   im.addEventListener('contextmenu', function(e){ e.preventDefault(); });
 });
 </script>
-<script src="bba-kit-fr.js" defer></script>
+<script>window.BBA_KIT = {pad:false, name:false, check:false, download:false, save:false, enter:false};</script>
+       <script src="bba-kit-fr.js" defer></script>
 </body></html>
