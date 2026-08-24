@@ -1,5 +1,5 @@
 /* =====================================================================
-   BBA activity kit — French — v2
+   BBA activity kit — French — v2.1
    Drop-in replacement for bba-kit-fr.js. Same <script src> tag, no page
    edits required.
 
@@ -823,6 +823,28 @@ function download(name, msg){
   setTimeout(function(){ URL.revokeObjectURL(a.href); a.remove(); },0);
   if(!name){ msg.innerHTML="<b>"+T.nameFirst+"</b>"; say(T.nameFirst); }
 }
+/* ------------------------------------------------------------- mobile */
+/* The phone fixes live in two files so any page can use them, with or
+   without this kit. Loading them here means the 91 pages that already
+   carry the kit needed no edit at all. */
+function mobileAssets(){
+  try {
+    var here = (document.currentScript && document.currentScript.src) || "";
+    var base = here ? here.replace(/[^\/]*$/, "") : "";
+    if (!document.querySelector('link[href$="bba-mobile.css"]')){
+      var l = document.createElement("link");
+      l.rel = "stylesheet"; l.href = base + "bba-mobile.css";
+      document.head.appendChild(l);
+    }
+    if (!window.__bbaMobile && !document.querySelector('script[src$="bba-mobile.js"]')){
+      var s = document.createElement("script");
+      s.src = base + "bba-mobile.js"; s.defer = true;
+      document.head.appendChild(s);
+    }
+  } catch(e){ /* a missing phone stylesheet must never break the page */ }
+}
+mobileAssets();
+
 /* ---------------------------------------------------------------- boot */
 function boot(){
   loadState();
@@ -842,6 +864,6 @@ window.BBA = {
   save: function(){ captureAll(); saveState(true); },
   reset: clearState,
   scores: function(){ try{ return JSON.parse(localStorage.getItem("bba-scores")||"{}"); }catch(e){ return {}; } },
-  version: 2
+  version: 2.1
 };
 })();
