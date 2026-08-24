@@ -93,6 +93,9 @@ footer.site{max-width:1180px;margin:0 auto;padding:20px;border-top:1px solid var
 @media (max-width:640px){.site-inner{gap:8px}.roster-state{margin-left:0;text-align:left;width:100%}}
 @media print{.btn-row,textarea.code,header.site .roster-state{display:none!important}body{background:#fff}}
 </style>
+<script src="bba-progress.js"></script>
+<script src="bba-catalogue.js"></script>
+<script src="bba-xlsx.js"></script>
 </head>
 <body>
 <header class="site">
@@ -177,8 +180,34 @@ footer.site{max-width:1180px;margin:0 auto;padding:20px;border-top:1px solid var
 const FORMATS = {
   "LEXFR2.":{kind:"lex",lang:"FR"}, "LEXFR1.":{kind:"lex",lang:"FR"},
   "LEXES2.":{kind:"lex",lang:"ES"}, "LEXES1.":{kind:"lex",lang:"ES"},
-  "DOSFR1.":{kind:"dos",lang:"FR"}, "DOSES1.":{kind:"dos",lang:"ES"}
+  /* DOSFR2 carries real scores; DOSFR1 is the older tick-only code and
+     still decodes, so a student who has not refreshed the hub is not lost. */
+  "DOSFR2.":{kind:"dos",lang:"FR"}, "DOSFR1.":{kind:"dos",lang:"FR"},
+  "DOSES2.":{kind:"dos",lang:"ES"}, "DOSES1.":{kind:"dos",lang:"ES"}
 };
+
+/* ═══════════════════════════════════════════════════════════════════
+   EVIDENCE
+   A v2 code carries one packed row per activity the student touched:
+   position, best percentage, whether they ticked it, how many attempts.
+   The catalogue turns a position back into the activity's name.
+   ═══════════════════════════════════════════════════════════════════ */
+const CAT = (window.BBA_CATALOGUE && window.BBA_CATALOGUE.items) || [];
+const CAT_FP = (window.BBA_CATALOGUE && window.BBA_CATALOGUE.fingerprint) || null;
+
+function rowsOf(c){
+  if (!c || !c.r || !window.BBAProgress) return [];
+  try { return BBAProgress.unpack(c.r); } catch(e){ return []; }
+}
+function attempted(c){ return rowsOf(c).filter(r=>r.pct!=null); }
+function staleCode(c){ return !!(c && c.m && CAT_FP && c.m !== CAT_FP); }
+function actName(i){ return CAT[i] ? CAT[i].t : ("activity " + (i+1)); }
+function actSection(i){ return CAT[i] ? CAT[i].s : ""; }
+function band(p){ return p>=70 ? "hi" : p>=45 ? "mid" : "lo"; }
+function bandCell(p){
+  return '<td class="num" style="background:'
+    + (p>=70?"#EAF4EE":p>=45?"#FFF7E6":"#FDECEA") + '">' + p + ' %</td>';
+}
 const GROUPS = [
   {kind:"lex",lang:"FR",title:"Le Lexique — French",   tag:"LEXFR"},
   {kind:"lex",lang:"ES",title:"El Léxico — Spanish",   tag:"LEXES"},
@@ -290,10 +319,145 @@ const idCell = c => (c.i!=null && String(c.i).trim()) ? esc(String(c.i).trim()) 
    ============================================================ */
 let lastTables = {};   // id → {header:[], rows:[[]]} for CSV
 
+/* ═══════════════════════════════════════════════════════════════════
+   MARKS GRID — every student against every activity they attempted.
+   This is the table you actually mark from: one row per student, one
+   column per activity anyone in the class has done, blank where nobody
+   has touched it.
+   ═══════════════════════════════════════════════════════════════════ */
+function marksGrid(studs, id){
+  const seen = new Map();                         // index -> count of students
+  studs.forEach(st => attempted(st.cur).forEach(r => seen.set(r.index, (seen.get(r.index)||0)+1)));
+  if (!seen.size) return null;
+
+  const cols = [...seen.keys()].sort((a,b)=>{
+    const sa = actSection(a), sb = actSection(b);
+    return sa === sb ? a-b : String(sa).localeCompare(String(sb), undefined, {numeric:true});
+  });
+
+  const header = ["Student"].concat(cols.map(i=>actName(i)));
+  const rows = [];
+
+  let html = '<div class="wrap"><table class="stats"><thead>'
+           + '<tr><th></th>' + cols.map(i=>'<th style="font-size:.6rem;color:var(--muted)">'+esc(actSection(i))+'</th>').join("") + '</tr>'
+           + '<tr><th>Student</th>'
+           + cols.map(i=>'<th style="min-width:92px">'+esc(actName(i))+'</th>').join("")
+           + '</tr></thead><tbody>';
+
+  studs.forEach(st=>{
+    const byIndex = {};
+    attempted(st.cur).forEach(r=>{ byIndex[r.index] = r; });
+    html += '<tr><td class="name">'+esc(st.cur.n)+'</td>';
+    const out = [st.cur.n];
+    cols.forEach(i=>{
+      const r = byIndex[i];
+      if(!r){ html += '<td class="num" style="color:var(--line-strong)">·</td>'; out.push(null); }
+      else{
+        html += bandCell(r.pct).replace('</td>',
+          (r.attempts>1 ? ' <span style="color:var(--muted);font-size:.7em">×'+r.attempts+'</span>' : '') + '</td>');
+        out.push(r.pct/100);
+      }
+    });
+    html += '</tr>';
+    rows.push(out);
+  });
+
+  /* A class-average row is the fastest read on the whole page: it says
+     which activity the group as a whole has not understood. */
+  html += '<tr style="border-top:2px solid var(--ink)"><td class="name"><b>Class average</b></td>';
+  const avgOut = ["Class average"];
+  cols.forEach(i=>{
+    const vals = studs.map(st=>attempted(st.cur).find(r=>r.index===i)).filter(Boolean).map(r=>r.pct);
+    if(!vals.length){ html += '<td class="num">·</td>'; avgOut.push(null); return; }
+    const a = Math.round(vals.reduce((x,y)=>x+y,0)/vals.length);
+    html += bandCell(a).replace('<td','<td style="font-weight:700"').replace('style="background','data-bg="');
+    html += '';
+    avgOut.push(a/100);
+  });
+  html += '</tr></tbody></table></div>';
+  rows.push(avgOut);
+
+  gridTables[id] = {header:header, rows:rows, cols:cols};
+  const w = document.createElement("div"); w.innerHTML = html; return w.firstChild;
+}
+let gridTables = {};
+
+/* ------------------------------------------------------------ export */
+function pctCell(v){
+  if (v == null || v === "") return null;
+  const p = Math.round(v*100);
+  return {v: v, band: p>=70?"hi":p>=45?"mid":"lo"};
+}
+function downloadXlsx(id){
+  const summary = lastTables[id];
+  if (!summary || !window.BBAXlsx) return;
+  const sheets = [];
+
+  /* 1. the class summary, as shown */
+  const sCols = summary.header.map((h,i)=>({
+    header: h, width: i===0 ? 26 : (h.length>14 ? 16 : 12),
+    type: i===0 ? "name" : (h === "Average %" ? "percent" : undefined)
+  }));
+  sheets.push({
+    name: "Class summary",
+    columns: sCols,
+    rows: summary.rows.map(r => r.map((v,i) =>
+      (sCols[i].type === "percent" && typeof v === "number") ? pctCell(v/100) : v))
+  });
+
+  /* 2. the marks grid */
+  const grid = gridTables[id];
+  if (grid){
+    sheets.push({
+      name: "Marks by activity",
+      columns: grid.header.map((h,i)=>({
+        header: i===0 ? h : (actSection(grid.cols[i-1]) + " · " + h),
+        width: i===0 ? 26 : 13,
+        type: i===0 ? "name" : "percent"
+      })),
+      rows: grid.rows.map(r => r.map((v,i) => i===0 ? v : pctCell(v)))
+    });
+  }
+
+  /* 3. who to look at first */
+  const watch = [];
+  (lastStuds[id]||[]).forEach(st=>{
+    const c = st.cur, o = c.o||{};
+    const att = o.scored != null ? o.scored : attempted(c).length;
+    const claimed = o.claimed || 0;
+    const weak = attempted(c).filter(r=>r.pct<50);
+    const reasons = [];
+    if (claimed >= 10 && att <= 2) reasons.push("ticking without doing — " + claimed + " ticked, " + att + " scored");
+    if (att && o.avg != null && o.avg < 50) reasons.push("average below 50 %");
+    if (weak.length >= 3) reasons.push(weak.length + " activities under 50 %");
+    if ((o.opened||0) >= 8 && att === 0) reasons.push("opening activities but finishing none");
+    if (!reasons.length) return;
+    watch.push([c.n, c.i != null ? String(c.i) : "", att,
+                o.avg != null ? pctCell(o.avg/100) : null, claimed, reasons.join("; "),
+                weak.map(r=>actName(r.index) + " (" + r.pct + " %)").join("; ")]);
+  });
+  if (watch.length){
+    sheets.push({
+      name: "Needs a look",
+      columns: [{header:"Student",width:24,type:"name"},{header:"Candidate",width:12},
+                {header:"Attempted",width:11},{header:"Average",width:11,type:"percent"},
+                {header:"Ticked not scored",width:16},{header:"Why",width:44},
+                {header:"Weakest activities",width:60,type:"muted"}],
+      rows: watch
+    });
+  }
+
+  BBAXlsx.download("bba_" + id + "_" + new Date().toISOString().slice(0,10) + ".xlsx", sheets);
+}
+let lastStuds = {};
+
+
 function render(entries){
   const R = $("#results");
   R.innerHTML = "";
   lastTables = {};
+  gridTables = {};
+  lastStuds = {};
   let any = false;
 
   GROUPS.forEach(g=>{
@@ -304,11 +468,24 @@ function render(entries){
     const block = document.createElement("div");
     block.innerHTML = '<div class="section-label"><span class="tag pill '+g.lang.toLowerCase()+'">'+g.tag+'</span>'
                     + esc(g.title) + ' · ' + studs.length + ' student' + (studs.length>1?"s":"") + '</div>';
+    lastStuds[id] = studs;
     block.appendChild(g.kind==="lex" ? lexTable(studs,id) : dosTable(studs,id));
+    if (g.kind !== "lex"){
+      const grid = marksGrid(studs, id);
+      if (grid){
+        const h = document.createElement("div");
+        h.className = "section-label";
+        h.style.marginTop = "18px";
+        h.innerHTML = 'Marks by activity — every activity anyone in this group has attempted';
+        block.appendChild(h);
+        block.appendChild(grid);
+      }
+    }
     block.appendChild(detailBlock(studs, g));
     const row = document.createElement("div");
     row.className = "btn-row";
-    row.innerHTML = '<button class="btn ghost" data-csv="'+id+'">Download CSV</button>';
+    row.innerHTML = '<button class="btn primary" data-xlsx="'+id+'">Download Excel workbook</button>'
+                  + '<button class="btn ghost" data-csv="'+id+'">Download CSV</button>';
     block.appendChild(row);
     R.appendChild(block);
   });
@@ -321,6 +498,9 @@ function render(entries){
 
   R.querySelectorAll("[data-csv]").forEach(b=>{
     b.addEventListener("click", ()=>downloadCsv(b.getAttribute("data-csv")));
+  });
+  R.querySelectorAll("[data-xlsx]").forEach(b=>{
+    b.addEventListener("click", ()=>downloadXlsx(b.getAttribute("data-xlsx")));
   });
   paintState();
 }
@@ -387,13 +567,18 @@ function dosTable(studs, id){
 
   const withId = anyId(studs);
   const header = ["Student"].concat(withId?["ID"]:[])
-                 .concat(["Exported","Codes","Done","Of","Opened","% complete","Flagged hard"])
+                 .concat(["Exported","Codes","Attempted","Average %","Ticked not scored",
+                          "Done","Of","Opened","% complete","Flagged hard"])
                  .concat(secs);
   const rows = [];
 
   let html = '<div class="wrap"><table class="stats"><thead><tr>'
            + '<th>Student</th>'+(withId?'<th>ID</th>':'')
-           + '<th>Exported</th><th>#</th><th>Done</th><th>Opened</th>'
+           + '<th>Exported</th><th>#</th>'
+           + '<th title="Activities with a real recorded score">Attempted</th>'
+           + '<th title="Mean of the best score in each activity attempted">Average</th>'
+           + '<th title="Marked done by the student with no score behind it">Ticked only</th>'
+           + '<th>Done</th><th>Opened</th>'
            + '<th>% complete</th><th>Flagged hard</th>'
            + secs.map(s=>'<th>'+esc(s)+'</th>').join("")
            + '</tr></thead><tbody>';
@@ -402,23 +587,39 @@ function dosTable(studs, id){
     const c = st.cur, o = c.o||{}, po = st.prev ? (st.prev.o||{}) : null;
     const done = o.done||0, total = o.total||0, opened = o.opened||0;
     const hard = Array.isArray(c.h) ? c.h.length : 0;
-    // opened a lot, finished almost none
-    const flag = opened >= 8 && done === 0;
+    const o2 = c.o || {};
+    const att = o2.scored != null ? o2.scored : attempted(c).length;
+    const avg = o2.avg != null ? o2.avg : null;
+    const claimed = o2.claimed != null ? o2.claimed : null;
+    /* Two things worth catching at a glance: browsing without finishing,
+       and ticking without doing. The second is what v2 exists to show. */
+    const flag = (opened >= 8 && done === 0) || (claimed != null && claimed >= 10 && att <= 2);
     html += '<tr'+(flag?' class="flag"':'')+'>'
-      + '<td class="name">'+esc(c.n)+'</td>'
+      + '<td class="name">'+esc(c.n)+(staleCode(c)?' <span title="This code was made against a different list of activities" style="color:var(--or)">⚠</span>':'')+'</td>'
       + (withId?'<td class="num">'+idCell(c)+'</td>':'')
       + '<td class="num">'+fmtDate(c.t)+'</td>'
       + '<td class="num">'+st.codes.length+'</td>'
+      + '<td class="num">'+att+delta(att, po?po.scored:null)+'</td>'
+      + (avg==null ? '<td class="num" style="color:var(--muted)">—</td>' : bandCell(avg))
+      + '<td class="num">'+(claimed==null?'—':(claimed||'—'))+'</td>'
       + '<td class="num">'+bar(pct(done,total))+done+' / '+total+delta(done, po?po.done:null)+'</td>'
       + '<td class="num">'+opened+delta(opened, po?po.opened:null)+'</td>'
       + '<td class="num">'+pct(done,total)+' %</td>'
       + '<td class="num">'+(hard||"—")+'</td>';
     const rowOut = [c.n].concat(withId?[c.i!=null?String(c.i):""]:[])
-                   .concat([fmtDate(c.t), st.codes.length, done, total, opened, pct(done,total), hard]);
+                   .concat([fmtDate(c.t), st.codes.length, att, avg, claimed,
+                            done, total, opened, pct(done,total), hard]);
     secs.forEach(k=>{
       const d = (c.s||{})[k];
       if(!d){ html += '<td class="num" style="color:var(--muted)">—</td>'; rowOut.push(""); }
-      else{ html += '<td class="num">'+(d[0]||0)+'/'+(d[1]||0)+'</td>'; rowOut.push((d[0]||0)+"/"+(d[1]||0)); }
+      else{
+        /* v2 sections carry [done, of, scored, average]; v1 only the first two. */
+        const secAvg = d.length>3 && d[3]!=null ? d[3] : null;
+        html += '<td class="num">'+(d[0]||0)+'/'+(d[1]||0)
+              + (secAvg!=null ? ' <span style="color:var(--muted)">·</span> <b>'+secAvg+' %</b>' : '')
+              + '</td>';
+        rowOut.push((d[0]||0)+"/"+(d[1]||0)+(secAvg!=null?(" · "+secAvg+" %"):""));
+      }
     });
     html += '</tr>';
     rows.push(rowOut);

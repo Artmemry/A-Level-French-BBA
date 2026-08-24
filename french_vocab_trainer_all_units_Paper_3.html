@@ -521,6 +521,7 @@
 <!-- TOAST -->
 <div class="toast" id="toast"></div>
 
+<script src="bba-progress.js"></script>
 <script>
 // ═══════════════════════════════════════════════════════════
 //  VOCABULARY DATA — all 12 units
@@ -1487,7 +1488,29 @@ function finishQuiz() {
   queue = [];
   buildUnitGrid();
   saveProgress();
+  reportToHub();
   showResultsScreen();
+}
+
+/* Report the set to the hub. "Score" is words right at the first attempt,
+   which is the figure that means something; the per-unit breakdown rides
+   along so the dashboard can show where the gaps are. */
+function reportToHub() {
+  if (!window.BBAProgress) return;
+  let correct = 0, total = 0;
+  const parts = {};
+  UNITS.forEach(u => {
+    const sc = scores[u.code];
+    if (!sc || !sc.total) return;
+    correct += sc.correct; total += sc.total;
+    parts[u.code] = [sc.correct, sc.total, (sc.review || []).length];
+  });
+  if (!total) return;
+  BBAProgress.record({
+    score: correct, total: total,
+    title: 'Entraîneur de vocabulaire — ' + (roundLabel || 'toutes les unités'),
+    parts: parts
+  });
 }
 
 function goToUnits() {

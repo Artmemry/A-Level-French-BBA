@@ -977,6 +977,12 @@ function addSelfMark(i, fb){
   sm.querySelector('input').addEventListener('change', function(e){
     results[+e.target.dataset.i].selfMark = e.target.checked ? 1 : 0;
     updateScores(); save();
+    if (finished && window.BBAProgress){
+      BBAProgress.record({
+        score: results.reduce(function(a, r){ return a + (r.mark || 0); }, 0),
+        total: results.length, title: ACT.id + ' — ' + ACT.title
+      });
+    }
   });
   sm.querySelector('textarea').addEventListener('input', function(e){
     results[+e.target.dataset.i].justification = e.target.value;
@@ -1121,6 +1127,21 @@ function finish(){
     + ' Download your results before you leave: your teacher sees the score, the attempts and anything you self-marked.';
   box.classList.add('show');
 
+  /* Report the real mark to the hub. The paper's own state stays local;
+     this is only the line the hub and your teacher's dashboard read. */
+  if (window.BBAProgress){
+    var awarded = results.reduce(function(a, r){ return a + (r.mark || 0); }, 0);
+    var withSelf = results.reduce(function(a, r){ return a + (r.mark || 0) + (r.selfMark || 0); }, 0);
+    var clean = results.filter(function(r){ return r.mark && /attempt/.test(r.how || ''); }).length;
+    BBAProgress.record({
+      score: awarded, total: results.length,
+      title: ACT.id + ' — ' + ACT.title,
+      parts: { awarded: awarded, withSelfMark: withSelf, firstAttempt:
+        results.filter(function(r){ return r.how === 'first attempt'; }).length,
+        schemesClosed: clean }
+    });
+  }
+
   updateScores();
   document.getElementById('dl').disabled = false;
   document.getElementById('dl').classList.remove('ghost');
@@ -1251,6 +1272,7 @@ document.querySelectorAll('img.src').forEach(function(im){
   im.addEventListener('contextmenu', function(e){ e.preventDefault(); });
 });
 </script>
-       <script>window.BBA_KIT = {pad:false, name:false, check:false, download:false, save:false, enter:false};</script>
+       <script src="bba-progress.js"></script>
+<script>window.BBA_KIT = {pad:false, name:false, check:false, download:false, save:false, enter:false};</script>
        <script src="bba-kit-fr.js" defer></script>
 </body></html>

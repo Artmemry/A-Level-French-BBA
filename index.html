@@ -134,6 +134,19 @@ footer.site{max-width:1080px;margin:0 auto;padding:20px;border-top:1px solid var
   font-size:.78rem;color:var(--muted)}
 .unit-empty{font-size:.87rem;color:var(--muted);background:var(--card);border:1px dashed var(--line-strong);
   border-radius:var(--radius);padding:12px 14px}
+.tile .score{display:inline-flex;align-items:center;gap:5px;font-family:var(--mono);
+  font-size:.66rem;font-weight:700;letter-spacing:.04em;border-radius:4px;padding:2px 7px}
+.tile .score.hi{background:var(--vert-pale);color:#1D5A3A}
+.tile .score.mid{background:#FFF7E6;color:#7A5C00}
+.tile .score.lo{background:#FDECEA;color:#96261C}
+.tile .score.none{background:var(--line);color:var(--muted)}
+.tile .tries{font-family:var(--mono);font-size:.6rem;color:var(--muted)}
+.tile.scored{border-color:var(--vert)}
+.evidence{display:flex;gap:8px;flex-wrap:wrap;align-items:baseline;margin:4px 0 0;
+  font-family:var(--mono);font-size:.68rem;color:var(--muted)}
+.claimed{background:#FFF7E6;border:1px solid #E8D9A8;border-radius:6px;padding:9px 12px;
+  font-size:.85rem;color:#6B5A33;margin:10px 0 0}
+.claimed b{color:var(--ink)}
 .hide{display:none!important}
 .spec{font-family:var(--mono);font-size:.66rem;color:var(--muted);margin-top:26px}
 
@@ -166,7 +179,7 @@ footer.site{max-width:1080px;margin:0 auto;padding:20px;border-top:1px solid var
 </header>
 <main>
   <p class="lede">Everything for the course in one place — the four themes, both set works, translation and grammar.</p>
-  <p class="intro">Every tile opens a self-contained activity that <b>marks itself and explains the answer</b>. Nothing to install, no login, and it works offline. Tick each activity off when you finish it and say how hard you found it — then, whenever your teacher asks for it, go to <b>Progress</b> at the foot of the page and send them your code.</p>
+  <p class="intro">Every tile opens a self-contained activity that <b>marks itself and explains the answer</b>. Nothing to install, no login, and it works offline. Your score comes back to this page on its own — <b>the percentage on a tile is what you actually got</b>. Tick an activity and rate it to mark what you want to return to, then, whenever your teacher asks for it, go to <b>Progress</b> at the foot of the page and send them your code.</p>
 
   <div class="papers-key">
     <div><b>Paper 1 · 40%</b>Listening, reading and translation into English. Built entirely on the four themes.</div>
@@ -191,7 +204,7 @@ footer.site{max-width:1080px;margin:0 auto;padding:20px;border-top:1px solid var
   <section class="suivi" id="suivi">
     <div class="theme-head"><span class="theme-num">Progress</span>
       <span class="theme-name">My progress</span></div>
-    <p class="theme-blurb">Mark each activity «Done» when you finish it and say how hard you found it. Everything is stored on this device only; the code below is what lets your teacher see how far you have got.</p>
+    <p class="theme-blurb">Your score in each activity is recorded here automatically when you finish it — you do not have to do anything. The tick and the face are for you, to mark what you want to come back to. Everything is stored on this device only; the code below is what lets your teacher see how far you have got, and it now carries your real scores.</p>
     <div class="card">
       <label for="nom" style="font-weight:600;font-size:.9rem">Your name</label>
       <input id="nom" class="typed" style="margin-top:7px" placeholder="First name + initial, e.g. Sophie K." autocomplete="off">
@@ -203,12 +216,15 @@ footer.site{max-width:1080px;margin:0 auto;padding:20px;border-top:1px solid var
         <div class="kpi"><div class="n" id="kDone">0</div><div class="l">completed</div></div>
         <div class="kpi"><div class="n" id="kPct">0 %</div><div class="l">of the course</div></div>
         <div class="kpi"><div class="n" id="kHard">0</div><div class="l">marked hard</div></div>
+        <div class="kpi"><div class="n" id="kScored">0</div><div class="l">actually scored</div></div>
+        <div class="kpi"><div class="n" id="kAvg">—</div><div class="l">average score</div></div>
       </div>
+      <p class="claimed" id="claimNote" style="display:none"></p>
       <table class="stats"><thead><tr>
         <th>Section</th><th>Done</th><th></th></tr></thead>
         <tbody id="tblProg"></tbody></table>
       <p style="font-weight:600;margin:20px 0 6px;font-size:.92rem">Send to your teacher</p>
-      <p style="font-size:.86rem;color:var(--ink-soft);margin:0 0 9px">Copy this code and send it to your teacher. It contains your progress and the name you typed above — nothing else.</p>
+      <p style="font-size:.86rem;color:var(--ink-soft);margin:0 0 9px">Copy this code and send it to your teacher. It contains your scores, your name and your candidate number — nothing else. It carries only the activities you have opened, so it stays short.</p>
       <textarea class="code" id="code" readonly></textarea>
       <div class="btn-row">
         <button class="btn primary" id="btnForms">Send via MS Forms</button>
@@ -226,9 +242,10 @@ footer.site{max-width:1080px;margin:0 auto;padding:20px;border-top:1px solid var
 </main>
 <footer class="site">A-Level French Edexcel (9FR0) revision dossier — 91 activities. Everything runs in the browser, offline, with no account. Progress is saved on this device. · <a href="teacher.html" style="color:var(--muted)">Teacher area</a></footer>
 
+<script src="bba-progress.js"></script>
 <script>
 var DATA = [{"id": "T1", "label": "Theme 1", "name": "Les changements dans la société française", "gloss": "Changes in French society", "papers": "Paper 1 · Paper 3", "blurb": "Family, education and work — the three sub-themes Edexcel names for Theme 1. Everything here can come up in the Paper 1 comprehensions and in your Paper 3 discussion.", "units": [{"u": "1.1", "name": "Les changements dans les structures familiales", "gloss": "Changes in family structures", "items": [{"id": "a771fe937", "file": "Interactive_Practice_A-Level_Speaking_exam_French_U1_Familles.html", "title": "Les structures familiales", "desc": "Speaking practice on how French family structures are changing.", "badge": "Speaking"}, {"id": "a6a32dbbf", "file": "Natalite_-_La_France_a_franchi_un_cap_historique_.html", "title": "Le déclin démographique", "desc": "France's falling birth rate — the figures and what they mean.", "badge": "Paper 1 · B2"}, {"id": "a42f823c4", "file": "natalite_paper3_dossier.html", "title": "La natalité — dossier Paper 3", "desc": "Demographic crisis and parental leave, and how to link the two in the oral.", "badge": "Paper 3 · NEW"}]}, {"u": "1.2", "name": "L'éducation", "gloss": "Education", "items": [{"id": "a8a4d2d0b", "file": "Interactive_Practice_A-Level_Speaking_exam_French_U2_Education.html", "title": "L'éducation en France", "desc": "Speaking practice on the French education system.", "badge": "Speaking"}, {"id": "a38942194", "file": "luc_ferry_laicite_2003.html", "title": "Luc Ferry — la laïcité", "desc": "Luc Ferry on laïcité in schools (2003) — a set-piece text on French secularism.", "badge": "Paper 1"}, {"id": "a735545de", "file": "French_Homework_for_9_October_2025.html", "title": "Éducation & harcèlement", "desc": "Timed homework on bullying in schools.", "badge": "Homework"}]}, {"u": "1.3", "name": "Le monde du travail", "gloss": "The world of work", "items": [{"id": "ad353112e", "file": "Interactive_Practice_A-Level_Speaking_exam_French_U3_Monde_du_travail.html", "title": "Le monde du travail", "desc": "Speaking practice on work and employment.", "badge": "Speaking"}, {"id": "a033a3035", "file": "monde_du_travail_tricky_questions.html", "title": "Questions difficiles — le travail", "desc": "Fifteen harder exam questions on the world of work.", "badge": "Speaking"}, {"id": "ac07b3b8c", "file": "trickier_Monde_du_Travail_Paper_3_ALevel_French.html", "title": "Le monde du travail — Paper 3", "desc": "Paper 3 preparation on work, pitched above the standard set.", "badge": "Speaking"}, {"id": "a6bb57130", "file": "La_situation_complique_e_en_France_concernant_l_age_de_retraite.html", "title": "L'actualité des retraites", "desc": "The pension age debate — accessible text on a topic that keeps returning.", "badge": "Paper 1 · B1"}, {"id": "a8bda25f1", "file": "gender_pay_gap_France.html", "title": "Les inégalités salariales", "desc": "The gender pay gap in France.", "badge": "Paper 1 · B2"}, {"id": "a5097be9c", "file": "loi_rixain_activity.html", "title": "La Loi Rixain", "desc": "The Rixain law: women, boardrooms and quotas.", "badge": "Paper 1"}]}]}, {"id": "T2", "label": "Theme 2", "name": "La culture politique et artistique dans les pays francophones", "gloss": "Political and artistic culture in French-speaking countries", "papers": "Paper 1 · Paper 3", "blurb": "Music, media, festivals and traditions. The strongest answers reach beyond France — the specification asks for the francophone world, so Québec, Senegal and the Maghreb all count.", "units": [{"u": "2.1", "name": "La musique", "gloss": "Music", "items": [{"id": "a12136036", "file": "Interactive_Practice_A-Level_Speaking_exam_French_U4_La_musique.html", "title": "La musique francophone", "desc": "Speaking practice on music across the francophone world.", "badge": "Speaking"}, {"id": "a12d72c99", "file": "4_2_tendances_musicales-3.html", "title": "Les tendances musicales", "desc": "Full interactive lesson on musical trends (4.2).", "badge": "Paper 1"}, {"id": "a4b922e18", "file": "jo_et_musique_c_est_quoi_la_musique_franciase.html", "title": "Les JO 2024 & la musique", "desc": "What the 2024 Olympics said about French music and identity.", "badge": "Paper 1"}, {"id": "affcdbfb4", "file": "french_music_translation.html", "title": "La chanson française", "desc": "Translation drills built on French song.", "badge": "Translation"}]}, {"u": "2.2", "name": "Les médias", "gloss": "The media", "items": [{"id": "a3abca149", "file": "Interactive_Practice_A-Level_Speaking_exam_French_U5_Les_medias.html", "title": "Les médias", "desc": "Speaking practice on the francophone media.", "badge": "Speaking"}, {"id": "a990d9c4c", "file": "Presse_en_voie_de_disparition-media-homework.html", "title": "La presse écrite", "desc": "Timed homework: is the printed press dying?", "badge": "Homework"}, {"id": "a4d14a223", "file": "French_media_-_practice_the_grammar_of_negation.html", "title": "Négation — les médias", "desc": "Negative structures drilled in a media context.", "badge": "Grammar"}, {"id": "aa4910e9b", "file": "freedom_expression_activity.html", "title": "La liberté d'expression", "desc": "Translation activity on freedom of expression.", "badge": "Translation"}]}, {"u": "2.3", "name": "Les festivals et les traditions", "gloss": "Festivals and traditions", "items": [{"id": "a10fbabbe", "file": "Interactive_Practice_A-Level_Speaking_exam_French_U6_festivals_traditions.html", "title": "Festivals & traditions", "desc": "Speaking practice on customs, festivals and traditions.", "badge": "Speaking"}, {"id": "d7b21e5a1", "file": "FR_2_3_festivals_oral_technique.html", "title": "Paper 3, Tâche 1 : les quatre types de questions", "desc": "Recognise which of the four question families the examiner has asked, then build the answer. Interaction phrases, two model answers, a preparation sheet and the AO4/AO3/AO1 peer-marking grid.", "badge": "Paper 3 · Technique · NEW"}, {"id": "d7b21e5a2", "file": "FR_2_3_festivals_traditions_savoirs.html", "title": "Festivals, traditions et coutumes du monde francophone", "desc": "The named examples the answers need: the eleven public holidays, nine major festivals, the rural-to-globalised shift, UNESCO intangible heritage, and the francophone world beyond France.", "badge": "Paper 1 · Paper 3 · NEW"}]}]}, {"id": "T3", "label": "Theme 3", "name": "L'immigration et la société multiculturelle française", "gloss": "Immigration and French multicultural society", "papers": "Paper 1 · Paper 3", "blurb": "The sub-themes move from what immigration gives France, to the difficulties of integration, to how the far right exploits both. Examiners reward answers that hold all three together.", "units": [{"u": "3.1", "name": "L'impact positif de l'immigration sur la société française", "gloss": "The positive impact of immigration on French society", "items": [{"id": "a4d9cfc93", "file": "Interactive_Practice_A-Level_Speaking_exam_French_U7_-immigration_positive_impact_-_practice.html", "title": "L'immigration en France", "desc": "Speaking practice on what immigration contributes to France.", "badge": "Speaking"}, {"id": "ad4001b54", "file": "consolidating_Unit_7_Le_positif_de_immigration.html", "title": "Le positif de l'immigration", "desc": "Consolidation exercises on the positive impact of immigration.", "badge": "Paper 1"}]}, {"u": "3.2", "name": "Répondre aux défis de l'immigration et de l'intégration en France", "gloss": "Meeting the challenges of immigration and integration", "items": [{"id": "ac4806066", "file": "Interactive_Practice_A-Level_Speaking_exam_French-U9_immigration_challenges.html", "title": "Les défis de l'immigration", "desc": "Speaking practice on the difficulties of integration.", "badge": "Speaking"}, {"id": "a2362e737", "file": "les_mots_arabes_utilise_s_par_les_ados_franc_ais.html", "title": "Mots arabes chez les ados", "desc": "Arabic words in teenage French — language, identity and slang.", "badge": "Paper 1"}]}, {"u": "3.3", "name": "L'extrême droite", "gloss": "The far right", "items": [{"id": "a07629bd4", "file": "europe_apres_ceuta_comprehension_B2.html", "title": "Après Ceuta — l'Europe divisée", "desc": "After Ceuta: externalisation, the Albanian model and Schengen under strain.", "badge": "Paper 1 · B2 · NEW"}, {"id": "a5636e0f4", "file": "presidentielle_2027_dossier_B2.html", "title": "Présidentielle 2027 — qui ira au second tour ?", "desc": "The three blocs and their dilemmas, with a first-round simulator.", "badge": "Paper 1 · B2 · NEW"}, {"id": "a2a80ed08", "file": "Macron_joue_les_durs_sur_l_immigration.html", "title": "Macron « joue les durs »", "desc": "Macron talking tough on immigration — and what the RN does with it.", "badge": "Paper 1"}, {"id": "a34627c7a", "file": "U9_-_Changement_du_vote_pour_le_fn.html", "title": "Le vote RN 2002–2024", "desc": "How the far-right vote moved between 2002 and 2024, with the electoral map.", "badge": "Paper 1"}, {"id": "a7f8a8295", "file": "Front_National-lesson_preparation-activity.html", "title": "Le Front National", "desc": "Background and context on the Front National.", "badge": "Paper 1"}, {"id": "a8fd70e21", "file": "Crise_politique_en_France_-_peut-e_tre_une_chance_pour_le_RN.html", "title": "RN & la crise de la Ve République", "desc": "The RN and the crisis of the Fifth Republic. Demanding text.", "badge": "Paper 1 · advanced"}, {"id": "a32b238c2", "file": "RN_re_ussit_a__bloquer_les_gouvernements_de_la_Macronie.html", "title": "La crise politique en France", "desc": "How the RN blocked successive governments.", "badge": "Paper 1"}, {"id": "ae0fa69ef", "file": "french_elections_comprehension.html", "title": "Municipales 2026", "desc": "Comprehension on the 2026 local elections.", "badge": "Paper 1"}, {"id": "ac4af3b00", "file": "french_elections_2027.html", "title": "La présidentielle 2027", "desc": "Prospects for the 2027 presidential election.", "badge": "Paper 1"}, {"id": "a686f7bb3", "file": "bardella_medef_exercice.html", "title": "Bardella au Medef", "desc": "The RN facing the employers' federation: authentic article, then a 150-word cloze.", "badge": "Paper 1 · B2 · NEW"}]}]}, {"id": "T4", "label": "Theme 4", "name": "L'Occupation et la Résistance", "gloss": "The Occupation and the Resistance", "papers": "Paper 1 · Paper 3", "blurb": "Three angles, three sub-themes: life under occupation, the regime that collaborated, and those who refused. Dates and names matter here — the examiner can tell whether you know them.", "units": [{"u": "4.1", "name": "La France occupée", "gloss": "Occupied France", "items": [{"id": "a091865b1", "file": "vichy_cinema_dictation.html", "title": "Le cinéma sous l'Occupation", "desc": "Dictation on cinema during the Occupation.", "badge": "Dictation"}, {"id": "a214baf6c", "file": "U10_1_la_collaboration.html", "title": "U10.1 — Les trois cercles de la collaboration", "desc": "Montoire, the Vél' d'Hiv', Paxton: submit or act? Vocabulary, concepts, dependent infinitives and a Paper 3 map.", "badge": "Paper 1 · Paper 3 · NEW"}, {"id": "a9edaec61", "file": "U10_2_antisemitisme_detat.html", "title": "U10.2 — L'antisémitisme d'État : qui faisait la loi ?", "desc": "German ordinances against Vichy's own laws, the statute of 3 October 1940, and the draft Pétain annotated by hand.", "badge": "Paper 1 · Paper 3 · NEW"}, {"id": "a4773e9bb", "file": "U10_3_vie_et_epuration.html", "title": "U10.3 — Vivre l'Occupation, puis solder les comptes", "desc": "Hunger, curfew, black market, the Milice — then the purge in figures. Subjunctive after conjunctions.", "badge": "Paper 1 · Paper 3 · NEW"}]}, {"u": "4.2", "name": "Le régime de Vichy", "gloss": "The Vichy regime", "items": [{"id": "a6a1d8a96", "file": "advanced_exercise_-_interpreting_Vichy.html", "title": "Le régime de Vichy — B2", "desc": "Interpreting and analysing the Vichy regime. Longer B2 text.", "badge": "Paper 1 · B2"}, {"id": "a0f690f5c", "file": "deep_Vichy_.html", "title": "Vichy — étude approfondie", "desc": "Fuller interactive study of Vichy.", "badge": "Paper 1"}, {"id": "a1b9f123e", "file": "vichy_regime_activity_top_notch.html", "title": "Vichy — activité", "desc": "Further interactive work on the regime.", "badge": "Paper 1"}, {"id": "afb556746", "file": "Petain_s_desperate_attempt_to_justify_his_role.html", "title": "L'ultime message de Pétain", "desc": "Close reading of Pétain's final message — how a man justifies himself.", "badge": "Paper 1"}]}, {"u": "4.3", "name": "La Résistance", "gloss": "The Resistance", "items": [{"id": "a5d6c703e", "file": "Prepare_for_the_Speaking_Exam_on_Unit_12_1__La_Re_sistance.html", "title": "La Résistance — Task 1", "desc": "Oral Task 1 preparation on the Resistance.", "badge": "Speaking"}, {"id": "a9da53c43", "file": "A-Level_French_Unit_12-Lesson_1-_resistance-lesson_preparation.html", "title": "La Résistance française", "desc": "Interactive preparation on the French Resistance.", "badge": "Homework"}, {"id": "a3b2e2832", "file": "french-resistance-women.html", "title": "Les femmes dans la Résistance", "desc": "The role of women in the Resistance.", "badge": "Paper 1"}, {"id": "a64756c39", "file": "3_Translations_into_French_History_Front_National.html", "title": "Traductions — histoire & politique", "desc": "Three passages into French on history and politics.", "badge": "Translation"}, {"id": "a6d335136", "file": "resistance_speaking_exam_prep.html", "title": "La Résistance — préparation orale complète", "desc": "Chronology, core knowledge, the women, FFI/FFL, and four exam stimuli.", "badge": "Speaking · NEW"}]}]}, {"id": "P2", "label": "Set works", "name": "Set text and film", "gloss": null, "papers": "Paper 2 · Sections B and C", "blurb": "One essay on the novel, one on the film — about 300 words each. Marks are split between your knowledge of the work (AO4) and the quality of your French (AO3), so the language activities here matter as much as the analysis.", "units": [{"u": "Film", "name": "La Haine — Kassovitz", "gloss": "Analysis, quotations, essay language and self-assessment", "items": [{"id": "a71873780", "file": "La_Haine_Themes_and_Quotes.html", "title": "Banque de citations", "desc": "Every key quotation, sorted by theme and character.", "badge": "Paper 2"}, {"id": "ad296c830", "file": "la_haine_gapfill_2_modes_easy_and_hard.html", "title": "Analyse de scènes clés", "desc": "Key-scene analysis as a cloze, at two levels.", "badge": "Paper 2"}, {"id": "ad0f1c30b", "file": "La_Haine_Paragraph_Builder.html", "title": "Constructeur de paragraphes", "desc": "Build an analytical paragraph one move at a time.", "badge": "Paper 2"}, {"id": "aa4f6f7a3", "file": "La_Haine_Essay_Phrases_Quiz.html", "title": "Phrases d'essai — quiz", "desc": "Quiz on the highest-yield essay phrases.", "badge": "Paper 2"}, {"id": "a48691a72", "file": "La_Haine_Essay_Self-Assessment.html", "title": "Auto-évaluation (barème)", "desc": "Mark your own essay against the Edexcel criteria.", "badge": "Paper 2"}, {"id": "ac428e5be", "file": "Writing_about_La_Haine__Jan_26__Unit_3_Assessment.html", "title": "Prologue & JT — passé composé", "desc": "Past tenses and agreement, drilled on the opening sequence.", "badge": "Paper 2 · AO3"}, {"id": "adaef64c9", "file": "la_haine_techniques_cinematographiques.html", "title": "Techniques cinématographiques", "desc": "Writing about framing, light and sound — with four stills.", "badge": "Paper 2 · AO4 · NEW"}]}, {"u": "Text", "name": "L'Étranger — Camus", "gloss": "Chapter by chapter, essay phrases, and the A* workshop", "items": [{"id": "a5a937992", "file": "camus_analysis_learning-2.html", "title": "Analyse guidée", "desc": "Guided close analysis of the central episodes.", "badge": "Paper 2"}, {"id": "a7b556ac8", "file": "LET_Camus-_Ch_IV__2eme_partie_master_the_chapter.html", "title": "Ch. 4 (2e partie) — Le Procès", "desc": "Part II, chapter 4 — mastering the trial chapter.", "badge": "Paper 2"}, {"id": "a38ce4483", "file": "LET_Camus_Ch_V__2eme_partie_-_master_the_final_chapter.html", "title": "Ch. 5 (2e partie) — La Prison", "desc": "Part II, chapter 5 — working through the final chapter.", "badge": "Paper 2"}, {"id": "a4bfdca0d", "file": "phrases_de_re_daction_LET.html", "title": "Phrases de rédaction", "desc": "Sentences and connectives for the literary essay.", "badge": "Paper 2"}, {"id": "aa2e681b9", "file": "L_Etranger_essay_practice.html", "title": "Exercices mixtes", "desc": "Mixed comprehension and analysis exercises.", "badge": "Paper 2"}, {"id": "a2d3319ff", "file": "LEtranger_Quiz_Interactif.html", "title": "Quiz interactif", "desc": "Quick recall: plot, characters, themes.", "badge": "Paper 2"}, {"id": "a3a387caa", "file": "camus-french-activity.html", "title": "Activité d'introduction", "desc": "First approach to the novel.", "badge": "Paper 2"}, {"id": "a67c3259c", "file": "etranger_AO3_workout.html", "title": "Gamme de langue — AO3", "desc": "Widening your grammatical range on the text.", "badge": "Paper 2 · AO3"}, {"id": "a1fcd5bf1", "file": "LEtranger_get_at_least_an_A_practice.html", "title": "Atelier A*", "desc": "A* workshop — the moves that separate an A from an A*.", "badge": "Paper 2"}, {"id": "af677be82", "file": "LET_Meursault_exclu_de_son_proces.html", "title": "Meursault exclu de son propre procès", "desc": "Close analysis of II.4: point of view, the prosecution, and the gap between Meursault's language and the court's.", "badge": "Paper 2 · NEW"}]}, {"u": "Both", "name": "Les deux œuvres", "gloss": "Language work that serves both essays", "items": [{"id": "a2fec6fb7", "file": "Pratique_du_subjonctif_La_Haine__L_Etranger.html", "title": "Subjonctif — les deux œuvres", "desc": "Subjunctive triggers with examples drawn from both set works.", "badge": "Paper 2 · AO3"}]}]}, {"id": "P1TR", "label": "Into English", "name": "Translation into English", "gloss": null, "papers": "Paper 1 · Section C", "blurb": "A French passage split exactly the way the Edexcel mark scheme splits it: twenty segments, one mark each. You are marked segment by segment, the source text cannot be copied, and you can download a report with your name on it.", "units": [{"u": "Section C", "name": "Français → anglais", "gloss": "French into English, 20 marks", "items": [{"id": "a1c40b7e1", "file": "FR-EN-1%20Jean%20Moulin%20et%20lunification%20de%20la%20Resistance.html", "title": "Jean Moulin et l'unification de la Résistance", "desc": "Theme 4 — Resistance, Vichy, de Gaulle. Works «dont», the perfect tense and historical vocabulary.", "badge": "Paper 1 · Section C · NEW"}, {"id": "a1c40b7e2", "file": "FR-EN-2%20Le%20teletravail%20en%20France.html", "title": "Le télétravail en France", "desc": "Theme 1 — the world of work. Works «ce qui / ce que», the passive and union vocabulary.", "badge": "Paper 1 · Section C · NEW"}, {"id": "a1c40b7e3", "file": "FR-EN-3%20Les%20festivals%20dete.html", "title": "Les festivals d'été", "desc": "Theme 2 — festivals and traditions. Works «celui dont», present participles and cultural vocabulary.", "badge": "Paper 1 · Section C · NEW"}]}]}, {"id": "P2TR", "label": "Into French", "name": "Translation into French", "gloss": null, "papers": "Paper 2 · Section A", "blurb": "Twenty segments, one mark each. There is an accent pad, accents that don't change the grammar are tolerated, and if you disagree with the automatic mark you can award your own against the mark scheme and say why.", "units": [{"u": "Section A", "name": "Anglais → français", "gloss": "English into French, 20 marks", "items": [{"id": "a1c40b7f1", "file": "FR-TL-1%20Leducation%20en%20France.html", "title": "L'éducation en France", "desc": "Theme 1 — education. Works «dont», «bien que» + subjunctive and «ce qui» as subject.", "badge": "Paper 2 · Section A · NEW"}, {"id": "a1c40b7f2", "file": "FR-TL-2%20La%20musique%20et%20les%20jeunes.html", "title": "La musique et les jeunes", "desc": "Theme 2 — music. Works the passive, «on dit que» and comparatives and superlatives.", "badge": "Paper 2 · Section A · NEW"}, {"id": "a1c40b7f3", "file": "FR-TL-3%20Lintegration%20et%20la%20vie%20de%20quartier.html", "title": "L'intégration et la vie de quartier", "desc": "Theme 3 — immigration and integration. Works «dont», «empêcher de» and «en» + present participle.", "badge": "Paper 2 · Section A · NEW"}, {"id": "ad11b8408", "file": "makome_mbowole_translation.html", "title": "Évaluation de traduction — Makomé M'Bowolé", "desc": "Timed translation into French, self-marked, with a downloadable report.", "badge": "Paper 2 · Section A"}]}]}, {"id": "S1", "label": "Grammar", "name": "Core grammar and AO3", "gloss": null, "papers": "All papers", "blurb": "The structures that decide the AO3 marks — the ones available in every single paper. The two clinics at the top are built from this cohort's own mistakes. Start with the foundations trainer if you are not sure where you stand.", "units": [{"u": "Grammar", "name": "Grammaire & AO3", "gloss": "Accuracy and range", "items": [{"id": "a4e18d7c2", "file": "entraineur-grammaire-base.html", "title": "◆ Entraîneur de grammaire de base", "desc": "The twelve blocks from the baseline test: the rule, a worked example, then practice. Mixed review and a downloadable report.", "badge": "Grammar · Foundations · NEW"}, {"id": "af115132e", "file": "AO3_clinique_exactitude.html", "title": "◆ Clinique AO3 — Exactitude", "desc": "53 corrections: gender, agreement, verbs, subjunctive, «si» clauses, prepositions, negation, anglicisms.", "badge": "Grammar"}, {"id": "ab5cf77e6", "file": "AO3_atelier_gamme.html", "title": "◆ Atelier AO3 — Gamme", "desc": "Subordination, «dont», «présenter comme» — making the sentence carry more.", "badge": "Grammar"}, {"id": "af98a249c", "file": "Pratique_les_verbes_franc_ais_version_octobre_2025.html", "title": "Cahier de grammaire", "desc": "Full workbook of verbs and grammar.", "badge": "Grammar"}, {"id": "a9343382d", "file": "french_grammar_practice-3.html", "title": "Erreurs récurrentes", "desc": "The mistakes this cohort makes most often.", "badge": "Grammar"}, {"id": "a8c621594", "file": "french-grammar-exercises.html", "title": "Exercices de grammaire", "desc": "General A-Level grammar exercises.", "badge": "Grammar"}, {"id": "add4f6ed2", "file": "participle_practice_present_past.html", "title": "Participes & passé composé", "desc": "Past participle agreement — the marks most often thrown away.", "badge": "Grammar"}, {"id": "ab2233cb7", "file": "French_Accuracy_Bootcamp.html", "title": "Bootcamp exactitude · 60", "desc": "Sixty rapid corrections, self-marked.", "badge": "Grammar"}, {"id": "ad8922fb7", "file": "french_cognate_corrected.html", "title": "Mots apparentés", "desc": "Using cognates to widen your range fast.", "badge": "Grammar"}, {"id": "a62f0a851", "file": "connecteurs_atelier.html", "title": "Connecteurs logiques · 25 min", "desc": "Build a bank of connectives in 25 minutes.", "badge": "Grammar"}, {"id": "ac851e241", "file": "a_christmas_chanc_on__1_.html", "title": "Scrooge — 30 verbes", "desc": "Thirty verbs, Dickens-style. A conjugation challenge.", "badge": "Game"}, {"id": "acbd7eb7c", "file": "French_Grammar_Practice_Sites.html", "title": "Centre de ressources B2", "desc": "Curated links and references for independent work.", "badge": "Resources"}, {"id": "a76cb4027", "file": "french_revision_U7-U10.html", "title": "Révision — Unités 7 à 10", "desc": "Mixed revision across Themes 3 and 4.", "badge": "Revision"}]}]}, {"id": "S2", "label": "Vocabulary", "name": "Vocabulary", "gloss": null, "papers": "All papers", "blurb": "High-frequency vocabulary for every paper.", "units": [{"u": "Vocabulary", "name": "Vocabulaire", "gloss": "The words that keep coming back", "items": [{"id": "ae19604bc", "file": "french_vocab_trainer_all_units_Paper_3.html", "title": "Entraîneur — toutes les unités", "desc": "The core vocabulary of every unit, drilled.", "badge": "Vocabulary"}, {"id": "a6b18cbbc", "file": "practice_high_Frequency_French_nouns.html", "title": "200 noms les plus courants", "desc": "Anchoring the 200 highest-frequency nouns.", "badge": "Vocabulary"}]}]}, {"id": "S4", "label": "Speaking", "name": "Speaking and Paper 3", "gloss": null, "papers": "Paper 3", "blurb": "Practise on the full bank of oral questions, theme by theme. The topic-by-topic practice lives inside each theme above.", "units": [{"u": "Speaking", "name": "Oral & Paper 3", "gloss": "Question drills for the discussion", "items": [{"id": "a418b15eb", "file": "Paper_3_trainer_toutes_les_questions.html", "title": "Entraîneur Paper 3 — toutes les questions", "desc": "Every student card and examiner question, shuffled by theme, with a downloadable answer plan.", "badge": "Speaking · Paper 3 · NEW"}]}]}];
-var CFG  = {"ls": "dossier-fr-v1", "base": "https://artmemry.github.io/A-Level-French-BBA/", "prefix": "DOSFR1.", "openLabel": "Open ↗", "doneOn": "Done ✓", "doneOff": "Mark done", "seen": "opened", "newLabel": "NEW", "noName": "(no name)", "confTitles": ["Hard", "Getting there", "Nailed it"], "saveFile": "french-dossier-progress.json", "badFile": "File not recognised — choose a backup exported from this page.", "resetConfirm": "Erase all your progress on this device? This cannot be undone.", "suiviTag": "Progress", "linkChecking": "Checking…", "linkOk": "links working.", "linkBad": "broken links:", "linkLocal": "Run this from the live site, not from a file on your computer.", "formsUrl": "https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=dBTLADSljUaCn2NuzjLCTEWSzXdNOvRDicS2YScslGFURTU4UjdJOTZWSEQyQzRHRTUxNzk4OEpFNyQlQCNjPTEu", "formsName": "r08cab71007074f60a012ed77717b62d2", "formsCode": "rbd3a09625c5c42399a03efd42ac1d5fa", "formsPasteHint": "Code copied. Paste it into the « Code » box on the form.", "startHere": ["a4e18d7c2", "a418b15eb", "a1c40b7f1"], "emptyUnit": "Nothing here yet — ask your teacher."};
+var CFG  = {"ls": "dossier-fr-v1", "base": "https://artmemry.github.io/A-Level-French-BBA/", "prefix": "DOSFR2.", "openLabel": "Open ↗", "doneOn": "Done ✓", "doneOff": "Mark done", "seen": "opened", "newLabel": "NEW", "noName": "(no name)", "confTitles": ["Hard", "Getting there", "Nailed it"], "saveFile": "french-dossier-progress.json", "badFile": "File not recognised — choose a backup exported from this page.", "resetConfirm": "Erase all your progress on this device? This cannot be undone.", "suiviTag": "Progress", "linkChecking": "Checking…", "linkOk": "links working.", "linkBad": "broken links:", "linkLocal": "Run this from the live site, not from a file on your computer.", "formsUrl": "https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=dBTLADSljUaCn2NuzjLCTEWSzXdNOvRDicS2YScslGFURTU4UjdJOTZWSEQyQzRHRTUxNzk4OEpFNyQlQCNjPTEu", "formsName": "r08cab71007074f60a012ed77717b62d2", "formsCode": "rbd3a09625c5c42399a03efd42ac1d5fa", "formsPasteHint": "Code copied. Paste it into the « Code » box on the form.", "startHere": ["a4e18d7c2", "a418b15eb", "a1c40b7f1"], "emptyUnit": "Nothing here yet — ask your teacher."};
 (function(){
 "use strict";
 var LS=CFG.ls;
@@ -239,6 +256,42 @@ function load(){
 }
 function save(){ try{localStorage.setItem(LS,JSON.stringify(S));}catch(e){} }
 function $(s){return document.querySelector(s);}
+
+/* ═══════════════════════════════════════════════════════════════════
+   REAL SCORES
+   Every activity writes its result to localStorage["bba-scores"].
+   The hub reads that store rather than believing the tick.
+   ═══════════════════════════════════════════════════════════════════ */
+var SC = {};                      // file -> record, keyed both encoded and not
+function loadScores(){
+  SC = {};
+  var raw = (window.BBAProgress ? BBAProgress.read() : {});
+  for (var k in raw){
+    SC[k] = raw[k];
+    try { SC[decodeURIComponent(k)] = raw[k]; } catch(e){}
+    SC[encodeURI(k)] = raw[k];
+  }
+}
+function scoreFor(it){
+  var f = it.file;
+  var r = SC[f];
+  if (!r) { try { r = SC[decodeURIComponent(f)]; } catch(e){} }
+  return r || null;
+}
+function pctFor(it){
+  var r = scoreFor(it);
+  return r && window.BBAProgress ? BBAProgress.pct(r) : null;
+}
+/* Completion counts a recorded attempt. A tick with no attempt behind it
+   still shows on the tile, but it is reported separately. */
+function isDone(it){
+  return !!scoreFor(it) || !!(S.a[it.id] && S.a[it.id].done);
+}
+function isClaimed(it){
+  return !scoreFor(it) && !!(S.a[it.id] && S.a[it.id].done);
+}
+loadScores();
+
 function el(tag,attrs){
   var n=document.createElement(tag),k;
   if(attrs) for(k in attrs){
@@ -285,7 +338,7 @@ DATA.forEach(function(sec){
       u.items.forEach(function(it){
         var node=tile(it);
         body.appendChild(node);
-        tiles.push({node:node, hay:fold(it.title+" "+it.desc+" "+(it.badge||"")+" "+
+        tiles.push({node:node, repaint:node.__repaint, hay:fold(it.title+" "+it.desc+" "+(it.badge||"")+" "+
           sec.label+" "+sec.name+" "+(sec.gloss||"")+" "+u.name+" "+(u.gloss||""))});
       });
     } else {
@@ -310,12 +363,24 @@ function tile(it){
   var seen=el("div",{class:"seen"});
   var mark=el("button",{class:"mark"+(r.done?" on":""),type:"button"});
   var conf=el("div",{class:"conf"});
+  var ev=el("div",{class:"evidence"});
   function paintTile(){
-    t.className="tile"+(r.done?" done":"");
+    var rec = scoreFor(it), pct = pctFor(it);
+    t.className="tile"+(isDone(it)?" done":"")+(rec?" scored":"");
     mark.className="mark"+(r.done?" on":"");
     mark.textContent=r.done?CFG.doneOn:CFG.doneOff;
-    seen.textContent=r.opened?CFG.seen:"";
+    seen.textContent=(r.opened||rec)?CFG.seen:"";
     [1,2,3].forEach(function(v,i){ conf.childNodes[i].className=(r.conf===v?"on":""); });
+    ev.innerHTML="";
+    if (rec){
+      var band = pct>=70 ? "hi" : pct>=45 ? "mid" : "lo";
+      ev.appendChild(el("span",{class:"score "+band}, pct + " %"));
+      ev.appendChild(el("span",{class:"tries"},
+        rec.attempts + (rec.attempts===1 ? " attempt" : " attempts")
+        + " · best " + Math.round((rec.best>1?rec.best/rec.total:rec.best)*rec.total) + " / " + rec.total));
+    } else if (r.done){
+      ev.appendChild(el("span",{class:"score none"},"ticked, not scored"));
+    }
   }
   [["1","😕"],["2","🙂"],["3","😃"]].forEach(function(p){
     conf.appendChild(el("button",{type:"button",title:CFG.confTitles[+p[0]-1],onclick:function(){
@@ -334,7 +399,9 @@ function tile(it){
   t.appendChild(el("div",{class:"t"},it.title));
   t.appendChild(el("div",{class:"d"},it.desc));
   t.appendChild(el("div",{class:"row"},a,mark,conf));
+  t.appendChild(ev);
   paintTile();
+  t.__repaint = paintTile;
   return t;
 }
 /* ---- start here ---- */
@@ -395,17 +462,36 @@ var CHIPS=[["All",""],["Paper 1","paper 1"],["Paper 2","paper 2"],["Speaking","s
 })();
 /* ---- progress ---- */
 function refresh(){
-  var open=0,done=0,hard=0;
-  ALL.forEach(function(it){var r=S.a[it.id]||{}; if(r.opened)open++; if(r.done)done++; if(r.conf===1)hard++;});
+  loadScores();
+  var open=0,done=0,hard=0,scored=0,claimed=0,pctSum=0;
+  ALL.forEach(function(it){
+    var r=S.a[it.id]||{}, rec=scoreFor(it);
+    if(r.opened||rec)open++;
+    if(isDone(it))done++;
+    if(r.conf===1)hard++;
+    if(rec){ scored++; pctSum += pctFor(it); }
+    if(isClaimed(it))claimed++;
+  });
   $("#kOpen").textContent=open; $("#kDone").textContent=done;
   var pct=ALL.length?Math.round(100*done/ALL.length):0;
   $("#kPct").textContent=pct+" %"; $("#kHard").textContent=hard;
+  $("#kScored").textContent=scored;
+  $("#kAvg").textContent=scored?Math.round(pctSum/scored)+" %":"—";
+  var cl=$("#claimNote");
+  if(cl){
+    if(claimed){
+      cl.style.display="block";
+      cl.innerHTML="<b>"+claimed+(claimed===1?" activity is":" activities are")+" ticked but carry no score.</b> "
+        + "Some activities cannot be marked automatically — an essay plan, a speaking preparation — and a tick is the "
+        + "right record for those. Anything else is worth going back to, because your teacher sees the difference.";
+    } else cl.style.display="none";
+  }
   var C=2*Math.PI*15.5;
   document.getElementById("ringArc").setAttribute("stroke-dasharray",(C*pct/100).toFixed(1)+" 999");
   $("#hdrTxt").textContent=done+" / "+ALL.length;
   var tb=$("#tblProg"); tb.innerHTML="";
   SECTIONS.forEach(function(sec){
-    var d=sec.items.filter(function(it){return (S.a[it.id]||{}).done;}).length;
+    var d=sec.items.filter(isDone).length;
     var p=sec.items.length?Math.round(100*d/sec.items.length):0;
     var bar=document.getElementById("bar-"+sec.id);
     if(bar) bar.style.width=p+"%";
@@ -418,21 +504,39 @@ function refresh(){
   });
   $("#code").value=buildCode();
 }
+/* The code now carries what the student did, not what they said they did.
+   Only touched activities travel, three bytes each, so it stays pasteable. */
 function buildCode(){
-  var secs={};
+  var secs={}, scoredTotal=0, pctSum=0, claimed=0;
   SECTIONS.forEach(function(sec){
-    var d=sec.items.filter(function(it){return (S.a[it.id]||{}).done;}).length;
-    secs[sec.id]=[d,sec.items.length];
+    var d=sec.items.filter(isDone).length;
+    var withScore=sec.items.filter(scoreFor);
+    var avg=withScore.length
+      ? Math.round(withScore.reduce(function(a,it){return a+pctFor(it);},0)/withScore.length)
+      : null;
+    secs[sec.id]=[d, sec.items.length, withScore.length, avg];
   });
-  var doneIds=[], hardIds=[];
-  ALL.forEach(function(it){
-    var r=S.a[it.id]||{};
-    if(r.done) doneIds.push(it.id);
+  var rows=[], hardIds=[];
+  ALL.forEach(function(it,i){
+    var r=S.a[it.id]||{}, rec=scoreFor(it);
     if(r.conf===1) hardIds.push(it.id);
+    if(!rec && !r.done && !r.opened) return;           // untouched: nothing to send
+    if(rec){ scoredTotal++; pctSum+=pctFor(it); }
+    if(isClaimed(it)) claimed++;
+    rows.push({index:i, pct:rec?pctFor(it):null, ticked:!!r.done,
+               conf:r.conf||0, attempts:rec?rec.attempts:0});
   });
-  var p={v:1,n:S.name||CFG.noName,t:Date.now(),
-    o:{done:doneIds.length,total:ALL.length,opened:ALL.filter(function(it){return (S.a[it.id]||{}).opened;}).length},
-    s:secs, d:doneIds, h:hardIds.slice(0,25)};
+  var done=ALL.filter(isDone).length;
+  var p={
+    v:2, n:S.name||CFG.noName, t:Date.now(),
+    m:BBAProgress.fingerprint(ALL.map(function(it){return it.id;})),
+    o:{done:done, total:ALL.length,
+       opened:ALL.filter(function(it){return (S.a[it.id]||{}).opened||scoreFor(it);}).length,
+       scored:scoredTotal, avg:scoredTotal?Math.round(pctSum/scoredTotal):null,
+       claimed:claimed},
+    s:secs, h:hardIds.slice(0,25),
+    r:BBAProgress.pack(rows)
+  };
   if(S.sid) p.i=S.sid;          // stable id: lets a record survive a change of name spelling
   return CFG.prefix+btoa(unescape(encodeURIComponent(JSON.stringify(p))));
 }
@@ -498,6 +602,15 @@ $("#btnLinks").addEventListener("click",function(){
 $("#btnReset").addEventListener("click",function(){
   if(confirm(CFG.resetConfirm)){ localStorage.removeItem(LS); location.reload(); }
 });
+/* An activity finishes in another tab. Repaint when this one comes back. */
+window.addEventListener("storage", function(e){ if(!e.key || e.key===BBAProgress.KEY) repaintAll(); });
+document.addEventListener("visibilitychange", function(){ if(document.visibilityState==="visible") repaintAll(); });
+window.addEventListener("focus", repaintAll);
+function repaintAll(){
+  loadScores();
+  UNITS.forEach(function(u){ u.tiles.forEach(function(t){ if(t.repaint) t.repaint(); }); });
+  refresh();
+}
 refresh();
 })();
 </script>
