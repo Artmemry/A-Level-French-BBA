@@ -207,6 +207,34 @@
   .feedback.incorrect { background: #f8d7da; color: #721c24; }
   .feedback.partial { background: #fff3cd; color: #856404; }
   .fb-note { font-weight: 600; font-size: .88rem; margin-top: 5px; opacity: .95; }
+  /* --- rebuilt loop --------------------------------------------------- */
+  .feedback.clue { background: #fff3cd; color: #7a5c00; }
+  .fb-clue { font-size: .9rem; margin-top: 5px; letter-spacing: .01em; }
+  .fb-clue b { font-weight: 700; }
+  .next-row { display: none; margin-top: 12px; }
+  .next-row.show { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+  .next-row .hintline { font-size: .8rem; color: #6b7a88; }
+  .repeat-badge {
+    display: none; background: #fff3cd; color: #7a5c00; border: 1px solid #e6cf8a;
+    border-radius: 999px; padding: 2px 10px; font-size: .72rem; font-weight: 700;
+    letter-spacing: .04em; text-transform: uppercase; margin-left: 8px;
+  }
+  .repeat-badge.show { display: inline-block; }
+  .review-box {
+    background: #fff8ec; border: 1px solid #e6cf8a; border-left: 5px solid #b06f00;
+    border-radius: 8px; padding: 14px 16px; margin: 18px 0 0;
+  }
+  .review-box h3 { font-size: 1rem; color: #7a5c00; margin-bottom: 8px; }
+  .review-box ul { margin: 0; padding-left: 20px; }
+  .review-box li { margin: 3px 0; font-size: .93rem; }
+  .review-box li b { color: #1a2733; }
+  .resume-bar {
+    background: #eaf4ee; border: 1px solid #b8dcc6; border-left: 5px solid #1e7b45;
+    border-radius: 8px; padding: 12px 16px; margin: 0 0 16px;
+    display: none; gap: 10px; align-items: center; flex-wrap: wrap;
+  }
+  .resume-bar.show { display: flex; }
+  .resume-bar p { margin: 0; flex: 1; min-width: 200px; font-size: .93rem; }
   .fb-also {
     font-weight: 500; font-size: .84rem; margin-top: 7px;
     padding-top: 7px; border-top: 1px solid rgba(0,0,0,.12); opacity: .85;
@@ -369,7 +397,12 @@
 <div class="screen active" id="screen-welcome">
   <div class="card">
     <h2>Bienvenue ! 👋</h2>
-    <p class="sub">Enter your name to begin. Your results will be saved for download at the end.</p>
+    <p class="sub">Enter your name to begin. Your work is saved on this device as you go, so you can stop and come back.</p>
+    <div class="resume-bar" id="resume-bar">
+      <p id="resume-text">Tu as une série en cours.</p>
+      <button class="btn btn-primary btn-sm" onclick="resumeSaved()">Reprendre</button>
+      <button class="btn btn-secondary btn-sm" onclick="discardSaved()">Recommencer</button>
+    </div>
     <div style="margin-bottom:20px;">
       <label for="input-name">Your name</label>
       <input type="text" id="input-name" placeholder="e.g. Sophie Martin" autocomplete="off" maxlength="60">
@@ -403,7 +436,7 @@
 
     <!-- Progress -->
     <div class="quiz-meta">
-      <span id="quiz-unit-label">SP1 — La famille</span>
+      <span id="quiz-unit-label">SP1 — La famille</span><span class="repeat-badge" id="repeat-badge">à revoir</span>
       <span class="score-badge" id="quiz-score-badge">0 / 0</span>
     </div>
     <div class="progress-bar-wrap">
@@ -421,7 +454,12 @@
         <button class="btn btn-primary" id="btn-check" onclick="checkAnswer()">Vérifier ✓</button>
       </div>
 
-      <div class="feedback" id="feedback"></div>
+      <div class="feedback" id="feedback" aria-live="polite" role="status"></div>
+
+      <div class="next-row" id="next-row">
+        <button class="btn btn-primary" id="btn-next" onclick="nextQuestion()">Suivant →</button>
+        <span class="hintline">ou appuie sur Entrée</span>
+      </div>
     </div>
 
     <!-- Accent keyboard -->
@@ -469,6 +507,10 @@
       <div class="total-sub" id="results-sub">—</div>
     </div>
     <div class="unit-results" id="results-unit-list"></div>
+    <div class="review-box" id="results-review" style="display:none">
+      <h3>À revoir — les mots qui ne sont pas encore acquis</h3>
+      <ul id="results-review-list"></ul>
+    </div>
     <div class="results-actions">
       <button class="btn btn-primary" onclick="goToUnits()">⬅ Back to Units</button>
       <button class="btn btn-success" onclick="downloadResults()">⬇ Download Results (.txt)</button>
@@ -913,14 +955,79 @@ const ALT = {
 
 // ═══════════════════════════════════════════════════════════
 //  STATE
+//  A round is a deck of cards. A card leaves the deck only when the
+//  student has produced it correctly — a missed word comes back.
 // ═══════════════════════════════════════════════════════════
 let studentName = "";
 let strictMode = false;
-let scores = {}; // { "SP1": { correct: 0, total: 0, details: [] }, … }
-let currentQueue = []; // flat list of { unitCode, item }
-let qIndex = 0;
-let currentAnswer = null;
-let answerRevealed = false;
+let scores = {};            // { SP1: { correct, total, details:[], review:[] } }
+let deck = [];              // [{ unitCode, item, tries, returns, shown, mastered }]
+let queue = [];             // indices into deck, in serving order
+let currentCard = null;
+let phase = 'answer';       // answer | clue | shown | done
+let roundLabel = '';
+
+const MAX_TRIES   = 2;      // wrong attempts before the answer is shown
+const MAX_RETURNS = 3;      // times a card may come back before it is set aside
+const STORE = 'vocab-fr-v2';
+
+// ═══════════════════════════════════════════════════════════
+//  SAVING — nothing is lost when the tab closes
+// ═══════════════════════════════════════════════════════════
+function saveProgress() {
+  try {
+    localStorage.setItem(STORE, JSON.stringify({
+      v: 2, studentName, strictMode, scores, deck, queue, roundLabel, t: Date.now()
+    }));
+  } catch (e) { /* private mode: carry on without saving */ }
+}
+function readSaved() {
+  try {
+    const raw = localStorage.getItem(STORE);
+    if (!raw) return null;
+    const d = JSON.parse(raw);
+    if (!d || d.v !== 2 || !Array.isArray(d.deck)) return null;
+    return d;
+  } catch (e) { return null; }
+}
+function clearSaved() { try { localStorage.removeItem(STORE); } catch (e) {} }
+
+function offerResume() {
+  const d = readSaved();
+  if (!d || !d.deck.length) return;
+  const left = (d.queue || []).length;
+  const bar = document.getElementById('resume-bar');
+  document.getElementById('resume-text').textContent = left
+    ? `${d.studentName || 'Tu'} — série en cours : ${left} mot${left > 1 ? 's' : ''} restant${left > 1 ? 's' : ''}.`
+    : `${d.studentName || 'Tu'} — tes scores précédents sont enregistrés.`;
+  bar.classList.add('show');
+  if (d.studentName) document.getElementById('input-name').value = d.studentName;
+}
+function resumeSaved() {
+  const d = readSaved();
+  if (!d) return;
+  studentName = d.studentName || '';
+  strictMode  = !!d.strictMode;
+  scores      = d.scores || {};
+  deck        = d.deck   || [];
+  queue       = d.queue  || [];
+  roundLabel  = d.roundLabel || '';
+  if (strictMode) {
+    document.getElementById('mode-switch').classList.add('on');
+    document.getElementById('mode-label').textContent = 'Strict marking';
+  }
+  document.getElementById('header-name').textContent = '👤 ' + studentName;
+  document.getElementById('resume-bar').classList.remove('show');
+  buildUnitGrid();
+  if (queue.length) { showScreen('screen-quiz'); loadQuestion(); }
+  else { showScreen('screen-units'); document.getElementById('units-greeting').textContent = `Bonjour, ${studentName} ! Choisissez une unité`; }
+}
+function discardSaved() {
+  clearSaved();
+  document.getElementById('resume-bar').classList.remove('show');
+  document.getElementById('input-name').value = '';
+  document.getElementById('input-name').focus();
+}
 
 // ═══════════════════════════════════════════════════════════
 //  NAVIGATION
@@ -934,6 +1041,7 @@ function toggleStrict() {
   showToast(strictMode
     ? '🔒 Strict: exact accents and articles required'
     : '🌱 Lenient: accents, articles and small slips still score');
+  saveProgress();
 }
 
 function showScreen(id) {
@@ -959,6 +1067,7 @@ function startApp() {
   buildUnitGrid();
   showScreen('screen-units');
   document.getElementById('units-greeting').textContent = `Bonjour, ${name} ! Choisissez une unité`;
+  saveProgress();
 }
 
 // ═══════════════════════════════════════════════════════════
@@ -968,175 +1077,261 @@ function buildUnitGrid() {
   const grid = document.getElementById('unit-grid');
   grid.innerHTML = '';
   UNITS.forEach(unit => {
+    const sc = scores[unit.code];
     const div = document.createElement('div');
-    div.className = 'unit-card' + (scores[unit.code] ? ' done' : '');
+    div.className = 'unit-card' + (sc ? ' done' : '');
     div.innerHTML = `
       <div class="unit-code">${unit.code}</div>
       <div class="unit-title">${unit.title}</div>
-      ${scores[unit.code]
-        ? `<div class="unit-score">✓ ${scores[unit.code].correct}/${scores[unit.code].total} correct</div>`
-        : ''}
+      ${sc ? `<div class="unit-score">✓ ${sc.correct}/${sc.total} du premier coup${(sc.review && sc.review.length) ? ` · ${sc.review.length} à revoir` : ''}</div>` : ''}
     `;
     div.addEventListener('click', () => startUnit(unit.code));
     grid.appendChild(div);
   });
-  // Show download button if any unit done
   const anyDone = Object.keys(scores).length > 0;
   document.getElementById('btn-download').style.display = anyDone ? 'inline-flex' : 'none';
 }
 
 // ═══════════════════════════════════════════════════════════
-//  START QUIZ — single unit
+//  BUILDING A ROUND
 // ═══════════════════════════════════════════════════════════
+function makeCard(unitCode, item) {
+  return { unitCode, item, tries: 0, returns: 0, shown: false, mastered: false };
+}
+function beginRound(cards, label) {
+  deck = cards;
+  queue = deck.map((_, i) => i);
+  roundLabel = label;
+  phase = 'answer';
+  showScreen('screen-quiz');
+  loadQuestion();
+  saveProgress();
+}
 function startUnit(unitCode) {
   const unit = UNITS.find(u => u.code === unitCode);
-  const shuffled = shuffleArray([...unit.vocab]);
-  currentQueue = shuffled.map(item => ({ unitCode, item }));
-  qIndex = 0;
-  if (!scores[unitCode]) scores[unitCode] = { correct: 0, total: 0, details: [] };
-  else scores[unitCode] = { correct: 0, total: 0, details: [] }; // reset on retry
-  showScreen('screen-quiz');
-  loadQuestion();
+  scores[unitCode] = { correct: 0, total: 0, details: [], review: [] };
+  beginRound(shuffleArray([...unit.vocab]).map(it => makeCard(unitCode, it)), unit.code);
 }
-
-// Practise all units in sequence
 function practiseAll() {
-  currentQueue = [];
+  const cards = [];
   UNITS.forEach(unit => {
-    const shuffled = shuffleArray([...unit.vocab]);
-    shuffled.forEach(item => currentQueue.push({ unitCode: unit.code, item }));
+    scores[unit.code] = { correct: 0, total: 0, details: [], review: [] };
+    shuffleArray([...unit.vocab]).forEach(it => cards.push(makeCard(unit.code, it)));
   });
-  qIndex = 0;
-  UNITS.forEach(u => { scores[u.code] = { correct: 0, total: 0, details: [] }; });
-  showScreen('screen-quiz');
-  loadQuestion();
+  beginRound(cards, 'Toutes les unités');
 }
 
 // ═══════════════════════════════════════════════════════════
 //  QUIZ LOGIC
 // ═══════════════════════════════════════════════════════════
-function loadQuestion() {
-  if (qIndex >= currentQueue.length) {
-    finishQuiz();
-    return;
-  }
-  answerRevealed = false;
-  const { unitCode, item } = currentQueue[qIndex];
-  const unit = UNITS.find(u => u.code === unitCode);
-  currentAnswer = item;
+function masteredCount() { return deck.filter(c => c.mastered).length; }
 
-  // UI
-  document.getElementById('quiz-unit-label').textContent = `${unitCode} — ${unit.title}`;
-  document.getElementById('q-english').textContent = item.en;
-  document.getElementById('q-hint').textContent = item.hint ? `Hint: ${item.hint}` : '';
-  document.getElementById('answer-input').value = '';
-  document.getElementById('answer-input').disabled = false;
+function loadQuestion() {
+  if (!queue.length) { finishQuiz(); return; }
+
+  currentCard = deck[queue[0]];
+  currentCard.tries = 0;          // a fresh encounter gets fresh attempts
+  phase = 'answer';
+
+  const unit = UNITS.find(u => u.code === currentCard.unitCode);
+  document.getElementById('quiz-unit-label').textContent = `${currentCard.unitCode} — ${unit.title}`;
+  document.getElementById('q-english').textContent = currentCard.item.en;
+  document.getElementById('q-hint').textContent = currentCard.item.hint ? `Hint: ${currentCard.item.hint}` : '';
+
+  document.getElementById('repeat-badge').classList.toggle('show', currentCard.returns > 0);
+
+  const input = document.getElementById('answer-input');
+  input.value = '';
+  input.disabled = false;
   document.getElementById('btn-check').disabled = false;
   document.getElementById('btn-show-answer').disabled = false;
+  document.getElementById('next-row').classList.remove('show');
 
-  // Feedback
   hideFeedback();
 
-  // Progress
-  const total = currentQueue.length;
-  const done = qIndex;
-  const pct = total ? (done / total) * 100 : 0;
+  const total = deck.length;
+  const pct = total ? (masteredCount() / total) * 100 : 0;
   document.getElementById('quiz-progress-bar').style.width = pct + '%';
 
   updateScoreBadge();
-
-  document.getElementById('answer-input').focus();
+  input.focus();
 }
 
 document.getElementById('answer-input').addEventListener('keydown', e => {
-  if (e.key === 'Enter') {
-    e.preventDefault();
-    if (!document.getElementById('btn-check').disabled) checkAnswer();
-  }
+  if (e.key !== 'Enter') return;
+  e.preventDefault();
+  if (!document.getElementById('btn-check').disabled) checkAnswer();
 });
+// When the answer is showing, Enter moves on — the student never has to reach
+// for the mouse, and nothing advances until they choose to.
+document.addEventListener('keydown', e => {
+  if (e.key !== 'Enter') return;
+  if (!document.getElementById('next-row').classList.contains('show')) return;
+  if (document.getElementById('screen-quiz').classList.contains('active') === false) return;
+  e.preventDefault();
+  nextQuestion();
+});
+
+/* A clue narrows the search without giving the word away. */
+function clueFor(item) {
+  const answer = acceptedForms(item)[0] || item.fr;
+  const words = answer.split(/\s+/).filter(Boolean);
+  const bits = [];
+  const art = (words[0] || '').toLowerCase().replace(/[^a-zà-ÿ']/g, '');
+  // l' hides the gender, so it earns no hint.
+  if (/^(le|un|du)$/.test(art))       bits.push('masculin (le / un)');
+  else if (/^(la|une)$/.test(art))    bits.push('féminin (la / une)');
+  else if (/^(les|des)$/.test(art))   bits.push('pluriel (les / des)');
+  bits.push(words.length === 1 ? '1 mot' : words.length + ' mots');
+  bits.push(answer.replace(/[^A-Za-zÀ-ÿ]/g, '').length + ' lettres');
+  const initials = words.map(w => { const m = w.match(/[A-Za-zÀ-ÿ]/); return m ? m[0] + '…' : ''; })
+                        .filter(Boolean).join(' ');
+  if (initials) bits.push('Début : <b>' + initials + '</b>');
+  return bits.join(' · ');
+}
 
 function checkAnswer() {
   const input = document.getElementById('answer-input').value.trim();
   if (!input) return;
 
-  const correct = currentAnswer.fr;
-  const { unitCode } = currentQueue[qIndex];
+  const result = judge(input, currentCard.item);
 
-  const result = judge(input, currentAnswer);
+  if (result.credit) { acceptCard(input, result); return; }
 
-  scores[unitCode].total += 1;
-  scores[unitCode].details.push({
-    en: currentAnswer.en,
-    expected: correct,
-    given: input,
-    correct: result.credit,
-    verdict: result.verdict
+  currentCard.tries += 1;
+
+  // A near miss that strict mode refuses is its own clue — say what is wrong.
+  const specific = (result.verdict !== 'wrong' && result.note) ? result.note : '';
+
+  if (currentCard.tries < MAX_TRIES && !currentCard.shown) {
+    showFeedback('clue',
+      `✗ Pas encore — réessaie.` +
+      (specific ? `<div class="fb-note">${specific}</div>` : '') +
+      `<div class="fb-clue">${clueFor(currentCard.item)}</div>`);
+    phase = 'clue';
+    const box = document.getElementById('answer-input');
+    box.focus(); box.select();          // the box stays live: they try again
+    saveProgress();
+    return;
+  }
+  revealAnswer(input);
+}
+
+/* The student produced it. The card leaves the deck. */
+function acceptCard(given, result) {
+  const card = currentCard;
+  const code = card.unitCode;
+  if (!scores[code]) scores[code] = { correct: 0, total: 0, details: [], review: [] };
+
+  const firstTime = (card.tries === 0 && card.returns === 0 && !card.shown);
+  card.mastered = true;
+
+  scores[code].total += 1;
+  if (firstTime && result.credit) scores[code].correct += 1;
+  scores[code].details.push({
+    en: card.item.en, expected: card.item.fr, given,
+    correct: firstTime, verdict: result.verdict,
+    tries: card.tries + 1, returns: card.returns, shown: card.shown
   });
 
-  if (result.credit) scores[unitCode].correct += 1;
-
-  // Teach the breadth of the answer: show what else would have scored.
-  const others = acceptedForms(currentAnswer)
+  const others = acceptedForms(card.item)
     .filter(f => baseClean(f) !== baseClean(result.matched || ''));
-  const alsoLine = others.length
-    ? `<div class="fb-also">Also accepted: ${others.join(' · ')}</div>`
-    : '';
+  const alsoLine = others.length ? `<div class="fb-also">Aussi accepté : ${others.join(' · ')}</div>` : '';
 
-  let type, msg;
+  let msg;
   if (result.verdict === 'exact') {
-    type = 'correct';
-    msg = `✓ Correct ! <b>${result.matched}</b>`;
-  } else if (result.credit) {
-    type = 'partial';
-    msg = `✓ Accepté — <b>${result.matched}</b><div class="fb-note">${result.note}</div>`;
-  } else if (result.verdict !== 'wrong') {
-    // Strict mode: recognised but not exact enough to score.
-    type = 'incorrect';
-    msg = `✗ Presque — mode strict. <div class="fb-note">${result.note}</div>`;
+    msg = firstTime ? `✓ Correct ! <b>${result.matched}</b>`
+                    : `✓ Correct — <b>${result.matched}</b><div class="fb-note">Acquis après révision.</div>`;
   } else {
-    type = 'incorrect';
-    msg = `✗ Incorrect. La bonne réponse : <b>${correct}</b>`;
+    msg = `✓ Accepté — <b>${result.matched}</b><div class="fb-note">${result.note}</div>`;
   }
+  showFeedback(result.verdict === 'exact' ? 'correct' : 'partial', msg + alsoLine);
 
-  showFeedback(type, msg + alsoLine);
-  document.getElementById('answer-input').disabled = true;
-  document.getElementById('btn-check').disabled = true;
-  updateScoreBadge();
-  setTimeout(nextQuestion, result.verdict === 'exact' ? 1300 : 2600);
+  queue.shift();                       // mastered: it does not come back
+  endOfQuestion();
+}
+
+/* Two misses, or "Show answer". The word is shown and comes back later. */
+function revealAnswer(given) {
+  const card = currentCard;
+  const code = card.unitCode;
+  if (!scores[code]) scores[code] = { correct: 0, total: 0, details: [], review: [] };
+
+  card.shown = true;
+  card.returns += 1;
+
+  const forms = acceptedForms(card.item);
+  const extra = forms.length > 1
+    ? `<div class="fb-also">Aussi accepté : ${forms.slice(1).join(' · ')}</div>` : '';
+
+  queue.shift();
+
+  if (card.returns >= MAX_RETURNS) {
+    // Set aside rather than looping for ever — it goes on the revision list.
+    scores[code].total += 1;
+    scores[code].details.push({
+      en: card.item.en, expected: card.item.fr, given: given || '(montré)',
+      correct: false, verdict: 'shown', tries: card.tries, returns: card.returns, shown: true
+    });
+    scores[code].review.push({ en: card.item.en, fr: card.item.fr });
+    showFeedback('incorrect',
+      `📖 La réponse : <b>${card.item.fr}</b>${extra}` +
+      `<div class="fb-note">Mis de côté — ce mot sera sur ta liste à revoir.</div>`);
+  } else {
+    queue.push(deck.indexOf(card));    // back of the queue: it will return
+    showFeedback('incorrect',
+      `📖 La réponse : <b>${card.item.fr}</b>${extra}` +
+      `<div class="fb-note">Écris-le une fois dans ta tête — il revient plus tard dans la série.</div>`);
+  }
+  endOfQuestion();
 }
 
 function showAnswer() {
-  if (answerRevealed) return;
-  answerRevealed = true;
-  const correct = currentAnswer.fr;
-  const { unitCode } = currentQueue[qIndex];
-  scores[unitCode].total += 1;
-  scores[unitCode].details.push({
-    en: currentAnswer.en, expected: correct, given: '(shown)', correct: false, verdict: 'shown'
-  });
-  const forms = acceptedForms(currentAnswer);
-  const extra = forms.length > 1
-    ? `<div class="fb-also">Also accepted: ${forms.slice(1).join(' · ')}</div>` : '';
-  showFeedback('incorrect', `📖 Answer: <b>${correct}</b>` + extra);
+  if (phase === 'shown' || phase === 'done') return;
+  revealAnswer(document.getElementById('answer-input').value.trim());
+}
+
+/* Skip does not lose the word — it just postpones it. */
+function skipQuestion() {
+  const card = currentCard;
+  if (!card) return;
+  card.returns += 1;
+  queue.shift();
+  if (card.returns >= MAX_RETURNS) {
+    const code = card.unitCode;
+    if (!scores[code]) scores[code] = { correct: 0, total: 0, details: [], review: [] };
+    scores[code].total += 1;
+    scores[code].details.push({
+      en: card.item.en, expected: card.item.fr, given: '(passé)',
+      correct: false, verdict: 'skipped', tries: card.tries, returns: card.returns, shown: card.shown
+    });
+    scores[code].review.push({ en: card.item.en, fr: card.item.fr });
+  } else {
+    queue.push(deck.indexOf(card));
+  }
+  saveProgress();
+  loadQuestion();
+}
+
+/* Nothing advances on a timer. The student reads, then chooses to go on. */
+function endOfQuestion() {
+  phase = 'shown';
   document.getElementById('answer-input').disabled = true;
   document.getElementById('btn-check').disabled = true;
   document.getElementById('btn-show-answer').disabled = true;
-  setTimeout(nextQuestion, 2500);
-}
-
-function skipQuestion() {
-  const { unitCode } = currentQueue[qIndex];
-  scores[unitCode].total += 1;
-  scores[unitCode].details.push({
-    en: currentAnswer ? currentAnswer.en : '', expected: currentAnswer ? currentAnswer.fr : '',
-    given: '(skipped)', correct: false, verdict: 'skipped'
-  });
-  nextQuestion();
+  const row = document.getElementById('next-row');
+  row.classList.add('show');
+  document.getElementById('btn-next').textContent = queue.length ? 'Suivant →' : 'Voir mes résultats →';
+  document.getElementById('btn-next').focus();
+  updateScoreBadge();
+  const total = deck.length;
+  document.getElementById('quiz-progress-bar').style.width = (total ? (masteredCount() / total) * 100 : 0) + '%';
+  saveProgress();
 }
 
 function nextQuestion() {
-  qIndex++;
   loadQuestion();
+  saveProgress();
 }
 
 // ═══════════════════════════════════════════════════════════
@@ -1274,11 +1469,11 @@ function showFeedback(type, msg) {
 }
 
 function updateScoreBadge() {
-  const total = currentQueue.length;
-  let c = 0, t = 0;
-  Object.values(scores).forEach(s => { c += s.correct; t += s.total; });
+  const total = deck.length;
+  const done = masteredCount();
+  const left = queue.length;
   document.getElementById('quiz-score-badge').textContent =
-    `Q ${Math.min(qIndex + 1, total)}/${total} · ${c} correct`;
+    `${done}/${total} acquis · ${left} restant${left === 1 ? '' : 's'}`;
 }
 function hideFeedback() {
   document.getElementById('feedback').className = 'feedback';
@@ -1288,12 +1483,16 @@ function hideFeedback() {
 //  FINISH QUIZ
 // ═══════════════════════════════════════════════════════════
 function finishQuiz() {
-  buildUnitGrid(); // refresh scores on unit screen
+  phase = 'done';
+  queue = [];
+  buildUnitGrid();
+  saveProgress();
   showResultsScreen();
 }
 
 function goToUnits() {
   buildUnitGrid();
+  saveProgress();
   showScreen('screen-units');
 }
 
@@ -1313,8 +1512,25 @@ function showResultsScreen() {
   document.getElementById('results-total').textContent = `${totalC} / ${totalT}`;
   const pct = totalT ? Math.round((totalC / totalT) * 100) : 0;
   document.getElementById('results-sub').innerHTML =
-    `Overall accuracy: ${pct}%  ·  ${new Date().toLocaleDateString('en-GB', {day:'numeric', month:'long', year:'numeric'})}` +
+    `Right first time: ${pct}%  ·  ${new Date().toLocaleDateString('en-GB', {day:'numeric', month:'long', year:'numeric'})}` +
     `<span class="mode-badge${strictMode ? ' strict' : ''}">${strictMode ? 'Strict marking' : 'Lenient marking'}</span>`;
+
+  // Words never produced correctly, even after coming back round.
+  const review = [];
+  UNITS.forEach(u => { (scores[u.code] && scores[u.code].review || []).forEach(r => review.push(r)); });
+  const box = document.getElementById('results-review');
+  const ul  = document.getElementById('results-review-list');
+  ul.innerHTML = '';
+  if (review.length) {
+    review.forEach(r => {
+      const li = document.createElement('li');
+      li.innerHTML = `${r.en} — <b>${r.fr}</b>`;
+      ul.appendChild(li);
+    });
+    box.style.display = 'block';
+  } else {
+    box.style.display = 'none';
+  }
 
   const list = document.getElementById('results-unit-list');
   list.innerHTML = '';
@@ -1353,6 +1569,9 @@ function downloadResults() {
   out.push(`  Student : ${studentName}`);
   out.push(`  Date    : ${date}, ${time}`);
   out.push(`  Marking : ${strictMode ? 'STRICT (exact accents + articles required)' : 'Lenient (accents, articles and minor slips tolerated)'}`);
+  out.push(`  Method  : two attempts per word; a missed word returns later in`);
+  out.push(`            the set and must be produced correctly to be cleared.`);
+  out.push(`            "Score" counts only words right at the first attempt.`);
   out.push('───────────────────────────────────────────────────────');
 
   let totalC = 0, totalT = 0;
@@ -1368,14 +1587,14 @@ function downloadResults() {
     out.push(`  ${unit.code}  ${unit.title}`);
     out.push(`  Score : ${sc.correct}/${sc.total}  (${pct}%)   [${bar}]`);
     out.push('  ┌─────────────────────────────────────────────────────');
-    out.push('  │  #   English               Your answer          ✓/≈/✗');
+    out.push('  │  #   English               Your answer          ✓/≈/✗  tries');
     out.push('  ├─────────────────────────────────────────────────────');
     sc.details.forEach((d, i) => {
       // ✓ exact · ≈ scored with a nudge (accent/article/spelling) · ✗ not scored
       const tick = d.correct ? (d.verdict === 'exact' ? '✓' : '≈') : '✗';
       const en = d.en.padEnd(24).slice(0, 24);
       const given = d.given.padEnd(20).slice(0, 20);
-      out.push(`  │  ${String(i+1).padStart(2)}  ${en}  ${given}  ${tick}`);
+      out.push(`  │  ${String(i+1).padStart(2)}  ${en}  ${given}  ${tick}    ${d.tries || 1}`);
       if (d.correct && d.verdict && d.verdict !== 'exact') {
         const why = { article: 'article', accent: 'accents', typo: 'spelling' }[d.verdict] || d.verdict;
         out.push(`  │        ↳ scored, watch the ${why}: ${d.expected}`);
@@ -1386,10 +1605,22 @@ function downloadResults() {
     out.push('  └─────────────────────────────────────────────────────');
   });
 
+  const review = [];
+  UNITS.forEach(u => { (scores[u.code] && scores[u.code].review || []).forEach(r => review.push(r)); });
+  if (review.length) {
+    out.push('');
+    out.push('───────────────────────────────────────────────────────');
+    out.push('  À REVOIR — not produced correctly, even on a second pass');
+    out.push('───────────────────────────────────────────────────────');
+    review.forEach(r => out.push(`   ·  ${r.en.padEnd(28).slice(0,28)}  ${r.fr}`));
+  }
+
   out.push('');
   out.push('───────────────────────────────────────────────────────');
   const totalPct = totalT ? Math.round((totalC / totalT) * 100) : 0;
-  out.push(`  TOTAL: ${totalC} / ${totalT}   (${totalPct}%)`);
+  out.push(`  RIGHT FIRST TIME: ${totalC} / ${totalT}   (${totalPct}%)`);
+  out.push(`  Every word not in the list above was produced correctly`);
+  out.push(`  before the set could finish.`);
   out.push('═══════════════════════════════════════════════════════');
 
   const blob = new Blob([out.join('\n')], { type: 'text/plain;charset=utf-8' });
@@ -1427,6 +1658,9 @@ function shuffleArray(arr) {
   return arr;
 }
 
+// On arrival, if there is unfinished work on this device, say so.
+offerResume();
+
 function showToast(msg) {
   const t = document.getElementById('toast');
   t.textContent = msg;
@@ -1434,6 +1668,5 @@ function showToast(msg) {
   setTimeout(() => t.classList.remove('show'), 2800);
 }
 </script>
-   <script src="bba-kit-fr.js" defer></script>
 </body>
 </html>
