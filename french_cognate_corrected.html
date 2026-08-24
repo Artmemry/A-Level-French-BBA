@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>French Cognate Pattern Practice</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="bba-pdf.js"></script>
     <style>
         * {
             margin: 0;
@@ -1141,73 +1141,8 @@
         });
     </script>
 <script>
-/* === Filet de sécurité jsPDF (maintenance 2026) ===
-   Si le CDN est bloqué (réseau du collège, SharePoint hors ligne), window.jspdf
-   n'existe pas et le bouton de téléchargement plantait sans aucun message.
-   On fournit alors un substitut minimal qui produit le même rapport en .txt,
-   afin que l'élève ne perde jamais son travail. */
-window.addEventListener('load', function () {
-  if (window.jspdf && window.jspdf.jsPDF) return;   /* le vrai jsPDF est là */
-
-  function Shim(opts) { this._lines = []; }
-  Shim.prototype.setFont = function () { return this; };
-  Shim.prototype.setFontSize = function () { return this; };
-  Shim.prototype.setTextColor = function () { return this; };
-  Shim.prototype.splitTextToSize = function (text, width) {
-    var max = Math.max(40, Math.round((width || 515) / 5.6));
-    var out = [];
-    String(text == null ? '' : text).split(/\r?\n/).forEach(function (para) {
-      if (para.length <= max) { out.push(para); return; }
-      var line = '';
-      para.split(/\s+/).forEach(function (w) {
-        if ((line + ' ' + w).trim().length > max) { out.push(line.trim()); line = w; }
-        else { line += ' ' + w; }
-      });
-      if (line.trim()) out.push(line.trim());
-    });
-    return out;
-  };
-  Shim.prototype.text = function (txt) {
-    var self = this;
-    if (Array.isArray(txt)) txt.forEach(function (t) { self._lines.push(String(t)); });
-    else this._lines.push(String(txt == null ? '' : txt));
-    return this;
-  };
-  Shim.prototype.addPage = function () { this._lines.push(''); this._lines.push(''.padEnd(60, '-')); this._lines.push(''); return this; };
-  Shim.prototype._blob = function () {
-    var head = 'Document généré sans mise en page PDF : la bibliothèque PDF n\'a pas pu être chargée\n' +
-               '(réseau ou pare-feu). Le contenu ci-dessous est complet et peut être déposé sur Teams.\n' +
-               ''.padEnd(60, '=') + '\n\n';
-    return new Blob([head + this._lines.join('\n')], { type: 'text/plain;charset=utf-8' });
-  };
-  Shim.prototype.output = function () { return this._blob(); };
-  Shim.prototype.save = function (filename) {
-    var a = document.createElement('a');
-    a.href = URL.createObjectURL(this._blob());
-    a.download = String(filename || 'resultats.pdf').replace(/\.pdf$/i, '') + '.txt';
-    document.body.appendChild(a); a.click(); document.body.removeChild(a);
-    setTimeout(function () { URL.revokeObjectURL(a.href); }, 2000);
-  };
-
-  /* Les pages qui font doc.output("blob") nomment le fichier « .pdf » :
-     on renomme le téléchargement en .txt pour que le fichier s'ouvre correctement. */
-  var shimUrls = new Set();
-  var origCreate = URL.createObjectURL.bind(URL);
-  URL.createObjectURL = function (obj) {
-    var url = origCreate(obj);
-    if (obj && obj.__shimText) shimUrls.add(url);
-    return url;
-  };
-  var origBlob = Shim.prototype._blob;
-  Shim.prototype._blob = function () { var b = origBlob.call(this); b.__shimText = true; return b; };
-  document.addEventListener('click', function (e) {
-    var a = e.target && e.target.closest ? e.target.closest('a[download]') : null;
-    if (a && shimUrls.has(a.href) && /\.pdf$/i.test(a.download)) a.download = a.download.replace(/\.pdf$/i, '.txt');
-  }, true);
-
-  window.jspdf = { jsPDF: Shim };
-  console.warn('jsPDF indisponible — substitut texte activé.');
-});
+/* jsPDF now comes from bba-pdf.js in this folder, so the old
+   CDN-blocked fallback that downgraded the report to .txt is gone. */
 </script>
      <script src="bba-kit-fr.js" defer></script>
 </body>

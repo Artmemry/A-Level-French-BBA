@@ -4,13 +4,147 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Centre de Ressources de Grammaire Française B2</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
     <style>
+/* ------------------------------------------------------------------
+   Tailwind, replaced.
+   This page used to pull the whole Tailwind runtime from cdn.tailwindcss.com.
+   Below is only what the page actually uses — generated from its own markup,
+   so nothing is missing and nothing is spare. No external requests.
+   ------------------------------------------------------------------ */
+*,::before,::after{box-sizing:border-box;border-width:0;border-style:solid;border-color:#e5e7eb}
+html{-webkit-text-size-adjust:100%;line-height:1.5}
+body{margin:0;line-height:inherit}
+h1,h2,h3,h4,p,figure,blockquote,dl,dd{margin:0}
+ul,ol{margin:0;padding:0;list-style:none}
+a{color:inherit;text-decoration:inherit}
+img,svg{display:block;max-width:100%}
+button,input,select,textarea{font:inherit;color:inherit;margin:0}
+
+.bg-blue-100{background-color:#dbeafe}
+.bg-clip-text{-webkit-background-clip:text;background-clip:text}
+.bg-cyan-100{background-color:#cffafe}
+.bg-emerald-100{background-color:#d1fae5}
+.bg-gradient-to-br{background-image:linear-gradient(to bottom right,var(--tw-from),var(--tw-to))}
+.bg-gradient-to-r{background-image:linear-gradient(to right,var(--tw-from),var(--tw-to))}
+.bg-green-100{background-color:#dcfce7}
+.bg-indigo-100{background-color:#e0e7ff}
+.bg-lime-100{background-color:#ecfccb}
+.bg-orange-100{background-color:#ffedd5}
+.bg-pink-100{background-color:#fce7f3}
+.bg-purple-100{background-color:#f3e8ff}
+.bg-red-100{background-color:#fee2e2}
+.bg-rose-100{background-color:#ffe4e6}
+.bg-slate-50{background-color:#f8fafc}
+.bg-teal-100{background-color:#ccfbf1}
+.bg-white{background-color:#ffffff}
+.bg-yellow-100{background-color:#fef9c3}
+.border{border-width:1px;border-style:solid}
+.border-slate-200{border-color:#e2e8f0}
+.container{width:100%}
+.flex{display:flex}
+.flex-col{flex-direction:column}
+.flex-grow{flex-grow:1}
+.flex-wrap{flex-wrap:wrap}
+.font-bold{font-weight:700}
+.font-semibold{font-weight:600}
+.from-blue-500{--tw-from:#3b82f6}
+.from-cyan-500{--tw-from:#06b6d4}
+.from-green-500{--tw-from:#22c55e}
+.from-indigo-500{--tw-from:#6366f1}
+.from-lime-500{--tw-from:#84cc16}
+.from-pink-500{--tw-from:#ec4899}
+.from-purple-500{--tw-from:#a855f7}
+.from-red-500{--tw-from:#ef4444}
+.from-slate-50{--tw-from:#f8fafc}
+.from-slate-900{--tw-from:#0f172a}
+.from-yellow-500{--tw-from:#eab308}
+.gap-2{gap:0.5rem}
+.gap-6{gap:1.5rem}
+.gap-8{gap:2rem}
+.grid{display:grid}
+.grid-cols-1{grid-template-columns:repeat(1,minmax(0,1fr))}
+.h-12{height:3rem}
+.h-16{height:4rem}
+.inline-block{display:inline-block}
+.items-center{align-items:center}
+.justify-center{justify-content:center}
+.leading-relaxed{line-height:1.625}
+.max-w-3xl{max-width:48rem}
+.max-w-6xl{max-width:72rem}
+.mb-12{margin-bottom:3rem}
+.mb-2{margin-bottom:0.5rem}
+.mb-4{margin-bottom:1rem}
+.mt-16{margin-top:4rem}
+.mt-8{margin-top:2rem}
+.mx-auto{margin-left:auto;margin-right:auto}
+.overflow-hidden{overflow:hidden}
+.p-6{padding:1.5rem}
+.p-8{padding:2rem}
+.px-3{padding-left:0.75rem;padding-right:0.75rem}
+.px-4{padding-left:1rem;padding-right:1rem}
+.px-6{padding-left:1.5rem;padding-right:1.5rem}
+.py-1{padding-top:0.25rem;padding-bottom:0.25rem}
+.py-2{padding-top:0.5rem;padding-bottom:0.5rem}
+.py-3{padding-top:0.75rem;padding-bottom:0.75rem}
+.py-8{padding-top:2rem;padding-bottom:2rem}
+.rounded-2xl{border-radius:1rem}
+.rounded-full{border-radius:9999px}
+.rounded-xl{border-radius:0.75rem}
+.shadow-lg{box-shadow:0 10px 15px -3px rgba(0,0,0,.1), 0 4px 6px -4px rgba(0,0,0,.1)}
+.shadow-md{box-shadow:0 4px 6px -1px rgba(0,0,0,.1), 0 2px 4px -2px rgba(0,0,0,.1)}
+.text-2xl{font-size:1.5rem;line-height:2rem}
+.text-5xl{font-size:3rem;line-height:1}
+.text-blue-800{color:#1e40af}
+.text-center{text-align:center}
+.text-cyan-800{color:#155e75}
+.text-emerald-800{color:#065f46}
+.text-green-800{color:#166534}
+.text-indigo-800{color:#3730a3}
+.text-lime-800{color:#3f6212}
+.text-orange-800{color:#9a3412}
+.text-pink-800{color:#9d174d}
+.text-purple-800{color:#6b21a8}
+.text-red-800{color:#991b1b}
+.text-rose-800{color:#9f1239}
+.text-slate-600{color:#475569}
+.text-slate-800{color:#1e293b}
+.text-sm{font-size:0.875rem;line-height:1.25rem}
+.text-teal-800{color:#115e59}
+.text-transparent{color:transparent}
+.text-white{color:#ffffff}
+.text-xl{font-size:1.25rem;line-height:1.75rem}
+.text-xs{font-size:0.75rem;line-height:1rem}
+.text-yellow-800{color:#854d0e}
+.to-blue-600{--tw-to:#2563eb}
+.to-emerald-600{--tw-to:#059669}
+.to-indigo-50{--tw-to:#eef2ff}
+.to-indigo-600{--tw-to:#4f46e5}
+.to-orange-600{--tw-to:#ea580c}
+.to-pink-600{--tw-to:#db2777}
+.to-purple-600{--tw-to:#9333ea}
+.to-rose-600{--tw-to:#e11d48}
+.to-slate-600{--tw-to:#475569}
+.to-teal-600{--tw-to:#0d9488}
+.w-12{width:3rem}
+.w-16{width:4rem}
+.w-full{width:100%}
+
+@media (min-width:640px){
+.sm\:p-12{padding:3rem}
+.sm\:py-12{padding-top:3rem;padding-bottom:3rem}
+}
+
+@media (min-width:768px){
+.md\:grid-cols-2{grid-template-columns:repeat(2,minmax(0,1fr))}
+.md\:grid-cols-3{grid-template-columns:repeat(3,minmax(0,1fr))}
+}
+
+@media (min-width:1024px){
+.lg\:grid-cols-3{grid-template-columns:repeat(3,minmax(0,1fr))}
+}
+
         body {
-            font-family: 'Inter', sans-serif;
+            font-family: Calibri, 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, 'Helvetica Neue', Arial, sans-serif;
             background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
             min-height: 100vh;
         }
