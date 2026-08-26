@@ -405,7 +405,11 @@ function publishScore(scored, total){
     all[f] = {
       title: (document.title||"").slice(0,120),
       score: scored, total: total,
-      best: Math.max(scored, prev.best||0),
+      /* A fraction, like BBAProgress.record stores it. It used to be a raw
+         mark, which the dashboard read back as 100 % whenever the mark was
+         exactly 1. Older raw-mark values are normalised on the way in. */
+      best: Math.max(total ? scored / total : 0,
+                     (prev.best > 1 && prev.total) ? prev.best / prev.total : (prev.best || 0)),
       attempts: (prev.attempts||0) + 1,
       t: Date.now()
     };
