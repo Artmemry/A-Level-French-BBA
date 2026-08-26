@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FR4 · La musique — maîtriser le contenu — A-Level French</title>
+<style>
+  :root{
+    --ink:#1a2733; --paper:#ffffff; --bg:#eef2f6;
+    --accent:#00546b; --accent2:#8a1538; --ok:#1e7b45; --warn:#b06f00; --bad:#a12727;
+    --line:#c9d4dd;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:Calibri,'Segoe UI',Arial,sans-serif;font-size:17px;line-height:1.55;
+       color:var(--ink);background:var(--bg);padding:24px 16px 130px}
+  .wrap{max-width:900px;margin:0 auto;background:var(--paper);border:1px solid var(--line);
+        border-radius:8px;padding:28px 32px}
+  header{border-bottom:3px solid var(--accent);padding-bottom:12px;margin-bottom:18px}
+  h1{font-size:1.6em;color:var(--accent)}
+  .meta{color:#5a6a78;font-style:italic;margin-top:4px}
+  h2{font-size:1.25em;color:var(--accent);margin:30px 0 8px;border-left:5px solid var(--accent);padding-left:10px}
+  h2 .pts{font-size:.75em;color:#5a6a78;font-weight:normal}
+  .consigne{background:#f2f7fa;border-left:4px solid var(--accent);padding:10px 14px;margin:8px 0 14px;border-radius:0 6px 6px 0}
+  .item{margin:12px 0;padding:12px 14px;border:1px solid var(--line);border-radius:6px}
+  .item p.q{margin-bottom:6px}
+  .item input[type=text],.item textarea,.item select{width:100%;padding:8px 10px;font-size:1em;font-family:inherit;
+      border:1.5px solid var(--line);border-radius:5px;margin-top:4px;background:#fff;color:inherit}
+  .item textarea{min-height:80px;resize:vertical}
+  .inline{display:flex;gap:10px;align-items:baseline;flex-wrap:wrap}
+  .inline input[type=text]{width:auto;flex:0 1 300px;margin-top:0}
+  .inline p.q{margin:0;flex:1 1 340px;min-width:220px}
+  .gaps{display:flex;gap:10px;flex-wrap:wrap;margin-top:6px}
+  .gaps input[type=text]{width:auto;flex:0 1 220px;margin-top:0}
+  details.aide{margin:8px 0 2px}
+  details.aide summary{cursor:pointer;color:var(--warn);font-weight:bold}
+  details.aide div{background:#fff8ec;border-left:4px solid var(--warn);padding:8px 12px;margin-top:6px;border-radius:0 6px 6px 0}
+  details.cartes summary{cursor:pointer;color:var(--accent);font-weight:bold;font-size:1.05em}
+  details.cartes ul{margin:10px 0 4px 22px}
+  details.cartes li{margin:5px 0}
+  .stretch{border:2px dashed var(--accent2);border-radius:8px;padding:16px 18px;margin:30px 0;background:#fdf7f9}
+  .stretch h2{color:var(--accent2);border-left-color:var(--accent2);margin-top:6px}
+  .banque{background:#f2f7fa;border:1px dashed var(--accent);border-radius:6px;padding:10px 14px;margin:10px 0}
+  .banque span{display:inline-block;margin:3px 12px 3px 0}
+  .texte{background:#fbfdfe;border:1px solid var(--line);border-radius:6px;padding:14px 16px;margin:10px 0;line-height:2.2}
+  .item .texte input[type=text]{display:inline;width:14em;margin:0 2px;padding:4px 8px;font-size:.95em;
+       font-family:inherit;border:1.5px solid var(--accent);border-radius:5px;background:#fff;color:inherit}
+  .grille{width:100%;border-collapse:collapse;margin:10px 0;font-size:.96em}
+  .grille td,.grille th{border:1px solid var(--line);padding:6px 10px;text-align:left;vertical-align:top}
+  .grille th{background:#f2f7fa;color:var(--accent)}
+  .grille td:first-child{width:52px;text-align:center;font-weight:bold;color:var(--accent)}
+  .boite td:first-child{width:210px;background:#f2f7fa;font-weight:bold;text-align:left}
+  .boite input[type=text]{width:100%;padding:7px 9px;font-size:1em;font-family:inherit;
+       border:1.5px solid var(--line);border-radius:5px;background:#fff;color:inherit}
+  .jauge{font-size:.94em;color:#5a6a78;margin-top:8px}
+  .jauge b{color:var(--accent)}
+  .jauge .hit{color:var(--ok);font-weight:bold}
+  .jauge .miss{color:#8a93a0}
+  .note{font-size:.92em;color:#5a6a78;margin-top:6px}
+  .item select:has(option[value=""]:checked){border-color:var(--accent);border-style:dashed}
+  @media (max-width:700px){
+    .wrap{padding:20px 16px}
+    .texte{line-height:2.6}
+    .item .texte input[type=text]{width:100%;margin:2px 0}
+    .gaps input[type=text],.inline input[type=text]{flex:1 1 100%}
+    .boite td:first-child{width:auto}
+    .boite,.boite tbody,.boite tr,.boite td{display:block;width:100%}
+  }
+</style>
+<link rel="stylesheet" href="bba-mobile.css">
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>FR4 · La musique — maîtriser le contenu</h1>
+    <p class="meta">A-Level French (Edexcel) · Thème 2, unité 2.1 — La musique · Paper 3, Tâche 1 · Durée conseillée : 35 min</p>
+  </header>
+  <div class="consigne"><strong>Ce qui fait la différence à l'oral.</strong> Sur la musique, la tentation est de parler de ses goûts. L'examinateur, lui, attend une loi, un quota, une date et deux noms propres. Les exercices ci-dessous vous donnent de quoi défendre la chanson francophone autrement qu'en disant qu'on l'aime. Tapez votre réponse puis appuyez sur <strong>« Entrée »</strong> : la correction arrive immédiatement, avec un indice avant la réponse. Écrivez votre nom en bas de l'écran, puis <strong>« Télécharger »</strong> pour rendre votre travail.</div>
+  <table class="grille">
+    <tr><th colspan="2">Le contenu : la structure PEEL</th></tr>
+    <tr><td>P</td><td><b>Point</b> — l'idée, en une phrase.</td></tr>
+    <tr><td>E</td><td><b>Evidence</b> — une statistique, une date, une loi, un exemple précis.</td></tr>
+    <tr><td>E</td><td><b>Explication</b> — qu'est-ce que cela montre ? causes ? conséquences ? qui ?</td></tr>
+    <tr><td>L</td><td><b>Lien</b> — vers un autre sous-thème du programme.</td></tr>
+    <tr><th colspan="2">La langue : ce que l'examinateur cherche</th></tr>
+    <tr><td>1</td><td>Le lexique du sujet, et du <b>lexique rare</b> — <i>exercices 1 et 3</i></td></tr>
+    <tr><td>2</td><td>Les phrases de rédaction et les connecteurs — <i>exercice 3</i></td></tr>
+    <tr><td>3</td><td>Plusieurs temps, les négations complexes, les propositions en <i>si</i>, les pronoms relatifs, les structures à l'infinitif, le subjonctif, le comparatif et le participe présent — <i>exercice 4</i></td></tr>
+  </table>
+  <h2>Exercice 1 · Le lexique de l'unité <span class="pts">(12 points)</span></h2>
+  <div class="consigne">Écrivez l'expression française, avec l'article quand il y en a un. Ce sont les mots que l'examinateur attend dès votre première phrase.</div>
+  <div class="item inline"><p class="q">1. French variety / pop music</p>
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="la variété française|variété française" placeholder="" aria-label="French variety / pop music">
+  </div>
+  <div class="item inline"><p class="q">2. English-language (Anglo-Saxon) music</p>
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="la musique anglo-saxonne|musique anglo-saxonne" placeholder="" aria-label="English-language (Anglo-Saxon) music">
+  </div>
+  <div class="item inline"><p class="q">3. a quota of French songs</p>
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="un quota de chansons françaises|le quota de chansons françaises|un quota" placeholder="" aria-label="a quota of French songs">
+  </div>
+  <div class="item inline"><p class="q">4. streaming platforms</p>
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="les plateformes de streaming|plateformes de streaming" placeholder="" aria-label="streaming platforms">
+  </div>
+  <div class="item inline"><p class="q">5. a record label</p>
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="une maison de disques|la maison de disques|maison de disques" placeholder="" aria-label="a record label">
+    <details class="aide"><summary>Indice</summary><div>Littéralement « une maison de disques » — pas <i>un label</i>.</div></details>
+  </div>
+  <div class="item inline"><p class="q">6. record shops</p>
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="les disquaires|des disquaires|disquaires" placeholder="" aria-label="record shops">
+    <details class="aide"><summary>Indice</summary><div>Ceux que les plateformes ont remplacés.</div></details>
+  </div>
+  <div class="item inline"><p class="q">7. the musical heritage</p>
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="le patrimoine musical|patrimoine musical" placeholder="" aria-label="the musical heritage">
+  </div>
+  <div class="item inline"><p class="q">8. the urban music scene</p>
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="la scène urbaine|scène urbaine" placeholder="" aria-label="the urban music scene">
+  </div>
+  <div class="item inline"><p class="q">9. a performer</p>
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="un interprète|une interprète|l'interprète|interprète" placeholder="" aria-label="a performer">
+  </div>
+  <div class="item inline"><p class="q">10. a trend</p>
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="une tendance|la tendance|tendance" placeholder="" aria-label="a trend">
+  </div>
+  <div class="item inline"><p class="q">11. the singer-poets</p>
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="les chanteurs-poètes|chanteurs-poètes" placeholder="" aria-label="the singer-poets">
+    <details class="aide"><summary>Indice</summary><div>Brassens, Brel, Ferré.</div></details>
+  </div>
+  <div class="item inline"><p class="q">12. cultural diversity</p>
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="la diversité culturelle|diversité culturelle" placeholder="" aria-label="cultural diversity">
+  </div>
+  <h2>Exercice 2 · Les faits qui comptent <span class="pts">(12 points)</span></h2>
+  <div class="consigne">Une réponse sans preuve reste une opinion. Complétez chaque phrase — un chiffre, une date, un nom de loi ou de personne.</div>
+  <div class="item"><p class="q">13. La loi ________ a été créée pour protéger la langue et la culture françaises.</p>
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="Toubon|loi Toubon|la loi Toubon" placeholder="" aria-label="réponse 13">
+    <details class="aide"><summary>Indice</summary><div>Du nom d'un ministre de la Culture. Six lettres.</div></details>
+  </div>
+  <div class="item"><p class="q">14. Parce qu'on jugeait qu'il y avait trop de chansons anglo-américaines à la radio, on a imposé un quota de ________ % de chansons françaises.</p>
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="40" placeholder="" aria-label="réponse 14">
+  </div>
+  <div class="item"><p class="q">15. ________ est un institut de recherche musicale situé à Paris.</p>
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="L'IRCAM|IRCAM|l'Ircam" placeholder="" aria-label="réponse 15">
+    <details class="aide"><summary>Indice</summary><div>Un acronyme de cinq lettres.</div></details>
+  </div>
+  <div class="item"><p class="q">16. Édith Piaf, chanteuse française du XXe siècle, est connue pour « La Vie en ________ ».</p>
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="Rose|rose" placeholder="" aria-label="réponse 16">
+  </div>
+  <div class="item"><p class="q">17. Haïti, ancienne colonie française, s'est libérée en ________ quand les esclaves se sont révoltés.</p>
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="1804" placeholder="" aria-label="réponse 17">
+  </div>
+  <div class="item"><p class="q">18. Le ________, version moderne de la méringue française, s'est d'abord inspiré des rythmes vaudou.</p>
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="kompa|compas|le kompa" placeholder="" aria-label="réponse 18">
+  </div>
+  <div class="item"><p class="q">19. Dans les années cinquante, le musicien ________ Jean Baptiste a créé le « kompa direct », sans lien avec le vaudou.</p>
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="Nemours" placeholder="" aria-label="réponse 19">
+  </div>
+  <div class="item"><p class="q">20. Le ________, musique paysanne diffusée dans les rues du carnaval jusqu'à Pâques, est le seul visage officiel du vaudou.</p>
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="rara|le rara" placeholder="" aria-label="réponse 20">
+    <details class="aide"><summary>Indice</summary><div>Quatre lettres.</div></details>
+  </div>
+  <div class="item"><p class="q">21. Les groupes de mizik rasin comme ________ Eksperyans ont joué un rôle dans la révolte de 1986.</p>
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="Boukman" placeholder="" aria-label="réponse 21">
+  </div>
+  <div class="item"><p class="q">22. Cette révolte de 1986 a mis fin au régime de Jean-Claude ________.</p>
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="Duvalier" placeholder="" aria-label="réponse 22">
+  </div>
+  <div class="item"><p class="q">23. La chanson française remonte au Moyen-Âge, quand les ________ chantaient lors des fêtes.</p>
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="troubadours|les troubadours" placeholder="" aria-label="réponse 23">
+  </div>
+  <div class="item"><p class="q">24. Aux Jeux olympiques de Paris 2024, ________ est devenu le premier groupe de metal à jouer lors d'une cérémonie olympique.</p>
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="Gojira" placeholder="" aria-label="réponse 24">
+  </div>
+  <h2>Exercice 3 · Le texte à trous <span class="pts">(10 points)</span></h2>
+  <div class="consigne">Complétez le paragraphe avec les expressions de la banque. <strong>Attention :</strong> la banque contient des intrus qui ne servent pas. Respectez la majuscule en début de phrase.</div>
+  <div class="banque"><strong>Banque :</strong> <span>multiculturalité</span> <span>festivals</span> <span>chanson française</span> <span>partage</span> <span>artistes indépendants</span> <span>diversité</span> <span>inoubliables</span> <span>pourtant</span> <span>plateformes de streaming</span> <span>évasion</span> <span>commerciale</span> <span>créativité</span></div>
+  <div class="item">
+  <div class="texte">
+    La
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="diversité" placeholder="…" aria-label="trou 25">
+    des genres reflète la
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="multiculturalité" placeholder="…" aria-label="trou 26">
+    de la société. Les
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="plateformes de streaming" placeholder="…" aria-label="trou 27">
+    comme Spotify démocratisent l'accès à la
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="chanson française" placeholder="…" aria-label="trou 28">
+    . Les
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="festivals" placeholder="…" aria-label="trou 29">
+    attirent des milliers de personnes pour des moments
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="inoubliables" placeholder="…" aria-label="trou 30">
+    . Cependant, la musique
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="commerciale" placeholder="…" aria-label="trou 31">
+    domine, au détriment des
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="artistes indépendants" placeholder="…" aria-label="trou 32">
+    . Si les jeunes privilégient le
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="partage" placeholder="…" aria-label="trou 33">
+    , la
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="créativité" placeholder="…" aria-label="trou 34">
+    pourrait s'enrichir.
+  </div>
+  </div>
+  <details class="aide"><summary>Indice</summary><div>Deux mots de la banque ne servent pas. Le premier trou et le deuxième sont proches de sens : le premier porte sur les <i>genres</i>, le second sur la <i>société</i>.</div></details>
+  <h2>Exercice 4 · La langue exigée <span class="pts">(13 points)</span></h2>
+  <div class="consigne">Neuf structures, une par ligne. Ce sont elles qui font monter la note AO3 — le contenu ne suffit pas.</div>
+  <div class="item"><p class="q">35. <i>phrase de rédaction</i> — « __________________ que la chanson francophone est aujourd'hui concurrencée sur son propre territoire. »</p>
+    <div class="gaps">
+      <input type="text" autocomplete="off" spellcheck="false" data-answer="Il est indéniable|il est indéniable|Force est de constater|force est de constater" placeholder="" aria-label="phrase de rédaction 35">
+    </div>
+  </div>
+  <div class="item"><p class="q">36-37. <i>un autre temps — le passé composé</i> — « Les plateformes de streaming __________________ __________________ (remplacer) les disquaires d'autrefois. »</p>
+    <div class="gaps">
+      <input type="text" autocomplete="off" spellcheck="false" data-answer="ont" placeholder="" aria-label="un autre temps — le passé composé 36">
+      <input type="text" autocomplete="off" spellcheck="false" data-answer="remplacé" placeholder="" aria-label="un autre temps — le passé composé 37">
+    </div>
+    <details class="aide"><summary>Indice</summary><div>Auxiliaire <i>avoir</i>, puis le participe passé. Pas d'accord ici.</div></details>
+  </div>
+  <div class="item"><p class="q">38-39. <i>négation complexe</i> — « Sans le quota de 40 %, la chanson française __________________ passerait __________________ à la radio. »</p>
+    <div class="gaps">
+      <input type="text" autocomplete="off" spellcheck="false" data-answer="ne|n'" placeholder="" aria-label="négation complexe 38">
+      <input type="text" autocomplete="off" spellcheck="false" data-answer="guère|plus guère" placeholder="" aria-label="négation complexe 39">
+    </div>
+    <details class="aide"><summary>Indice</summary><div><i>ne… guère</i> = presque pas.</div></details>
+  </div>
+  <div class="item"><p class="q">40-41. <i>si + imparfait + conditionnel</i> — « Si l'État ne __________________ (subventionner) pas les conservatoires, la relève __________________ (disparaître). »</p>
+    <div class="gaps">
+      <input type="text" autocomplete="off" spellcheck="false" data-answer="subventionnait" placeholder="" aria-label="si + imparfait + conditionnel 40">
+      <input type="text" autocomplete="off" spellcheck="false" data-answer="disparaîtrait|disparaitrait" placeholder="" aria-label="si + imparfait + conditionnel 41">
+    </div>
+    <details class="aide"><summary>Indice</summary><div><i>Disparaître</i> garde son accent circonflexe au conditionnel — mais l'orthographe rectifiée l'accepte sans.</div></details>
+  </div>
+  <div class="item"><p class="q">42. <i>pronom relatif</i> — « Le rap est devenu le genre le plus écouté de France, __________________ aurait été impensable il y a trente ans. » (deux mots)</p>
+    <div class="gaps">
+      <input type="text" autocomplete="off" spellcheck="false" data-answer="ce qui" placeholder="" aria-label="pronom relatif 42">
+    </div>
+  </div>
+  <div class="item"><p class="q">43. <i>pronom relatif — dont</i> — « La variété française, __________________ le public vieillit, reste le genre le plus diffusé. »</p>
+    <div class="gaps">
+      <input type="text" autocomplete="off" spellcheck="false" data-answer="dont" placeholder="" aria-label="pronom relatif — dont 43">
+    </div>
+    <details class="aide"><summary>Indice</summary><div>Le public <b>de</b> la variété : le relatif absorbe le <i>de</i>.</div></details>
+  </div>
+  <div class="item"><p class="q">44. <i>structure à l'infinitif</i> — « __________________ __________________ protéger la création francophone, l'État a imposé des quotas. » (deux mots)</p>
+    <div class="gaps">
+      <input type="text" autocomplete="off" spellcheck="false" data-answer="Afin de|afin de|Pour|pour" placeholder="" aria-label="structure à l'infinitif 44">
+    </div>
+  </div>
+  <div class="item"><p class="q">45. <i>subjonctif</i> — « Il faut que la musique francophone __________________ (pouvoir) s'exporter sans se renier. »</p>
+    <div class="gaps">
+      <input type="text" autocomplete="off" spellcheck="false" data-answer="puisse" placeholder="" aria-label="subjonctif 45">
+    </div>
+    <details class="aide"><summary>Indice</summary><div>Subjonctif présent de <i>pouvoir</i> : radical <b>puiss-</b>.</div></details>
+  </div>
+  <div class="item"><p class="q">46. <i>comparatif / superlatif</i> — « Aujourd'hui, les jeunes écoutent __________________ __________________ __________________ musique que leurs parents. » (trois mots)</p>
+    <div class="gaps">
+      <input type="text" autocomplete="off" spellcheck="false" data-answer="bien plus de|beaucoup plus de" placeholder="" aria-label="comparatif / superlatif 46">
+    </div>
+    <details class="aide"><summary>Indice</summary><div>Un intensificateur, <i>plus</i>, puis <i>de</i> devant le nom.</div></details>
+  </div>
+  <div class="item"><p class="q">47. <i>participe présent</i> — « __________________ (mélanger) pop urbaine et afro-beat, Aya Nakamura a renouvelé la chanson francophone. » (deux mots)</p>
+    <div class="gaps">
+      <input type="text" autocomplete="off" spellcheck="false" data-answer="En mélangeant|en mélangeant" placeholder="" aria-label="participe présent 47">
+    </div>
+  </div>
+  <div class="stretch">
+    <h2>Défi A* — la boîte à cinq cases <span class="pts">(non noté automatiquement)</span></h2>
+    <div class="consigne"><strong>Question de l'examinateur :</strong> <span style="white-space:normal">« La musique anglo-saxonne menace-t-elle le monde francophone ? »</span><br>Construisez votre réponse case par case, puis lisez-la à voix haute d'un trait. Le compteur sous le tableau vous dit, en direct, ce qui manque.</div>
+    <table class="grille boite"><tbody>
+      <tr><td>Phrase de rédaction<br>pour commencer</td><td><input type="text" id="b1" class="boite-in" autocomplete="off" placeholder="Ex. : Chacun peut constater que…" aria-label="Phrase de rédaction pour commencer"></td></tr>
+      <tr><td>Trois mots<br>propres au sujet</td><td><input type="text" id="b2" class="boite-in" autocomplete="off" placeholder="Trois termes de l'exercice 1" aria-label="Trois mots propres au sujet"></td></tr>
+      <tr><td>Une connaissance,<br>un fait ou un chiffre</td><td><input type="text" id="b3" class="boite-in" autocomplete="off" placeholder="Un chiffre, une date ou une loi de l'exercice 2" aria-label="Une connaissance, un fait ou un chiffre"></td></tr>
+      <tr><td>Un verbe dans<br>un autre temps</td><td><input type="text" id="b4" class="boite-in" autocomplete="off" placeholder="Futur, imparfait, conditionnel, passé composé…" aria-label="Un verbe dans un autre temps"></td></tr>
+      <tr><td>Une structure<br>complexe</td><td><input type="text" id="b5" class="boite-in" autocomplete="off" placeholder="Subjonctif, si + imparfait, ce qui/ce que, ne… guère…" aria-label="Une structure complexe"></td></tr>
+    </tbody></table>
+    <div id="bilan" class="jauge"></div>
+    <div class="item"><p class="q">Ma réponse complète, en une seule fois (visez 90 mots) :</p><textarea id="reponse" placeholder="Reprenez vos cinq cases et reliez-les…"></textarea><div id="bilan2" class="jauge"></div></div>
+    <details class="aide"><summary>Voir un modèle de réponse (seulement après avoir écrit la vôtre)</summary><div><p><b>P.</b> Il est indéniable que la chanson francophone est concurrencée sur son propre territoire, sans pour autant être menacée de disparition.</p><p><b>E.</b> La loi Toubon a été votée pour protéger la langue, et un quota de 40 % de chansons françaises s'impose aux radios ; l'État finance par ailleurs les conservatoires, les Jeunesses Musicales de France et la Fête de la Musique.</p><p><b>E.</b> Ces mesures montrent que la protection est politique avant d'être artistique. Si l'État ne subventionnait pas la création, la relève disparaîtrait sans doute ; néanmoins, le rap français, devenu le genre le plus écouté du pays, s'exporte aujourd'hui sans aucune aide, ce qui affaiblit l'argument protectionniste.</p><p><b>L.</b> En s'ouvrant aux influences venues d'Haïti ou du Maghreb, la musique francophone rejoint la question de l'immigration : la diversité culturelle y est une force économique autant qu'artistique.</p></div></details>
+  </div>
+  <h2>Pour aller plus loin · Les énoncés de l'unité au Paper 3</h2>
+  <details class="cartes"><summary>Ouvrir les énoncés que l'examinateur peut vous donner</summary>
+    <ul>
+      <li>La musique anglo-saxonne menace le monde francophone.</li>
+      <li>Les jeunes dans les pays francophones passent plus de temps à écouter de la musique qu'à s'informer sur la vie politique de leur pays.</li>
+      <li>C'est le devoir de l'État de promouvoir la musique francophone.</li>
+    </ul>
+    <p class="note">Entraînez-vous : pour chacun, une phrase P, une preuve E de l'exercice 2, une explication E, et un lien L vers un autre sous-thème.</p>
+  </details>
+  <p class="note">Dans la même unité sur le site : <a href="4_2_tendances_musicales-3.html">Les tendances musicales</a> · <a href="jo_et_musique_c_est_quoi_la_musique_franciase.html">Les JO 2024 &amp; la musique</a></p>
+</div>
+
+<script>
+/* The kit marks exercises 1 to 4 and handles the name, the pad, the saving and
+   the download. This adds the one thing it cannot do: a live reading of the
+   five-box A* answer, which is continuous writing and cannot be marked. */
+(function(){
+  "use strict";
+  var TERMES = ["variété française", "musique anglo-saxonne", "quota", "plateformes de streaming", "maison de disques", "disquaires", "patrimoine musical", "scène urbaine", "interprète", "tendance", "chanteurs-poètes", "diversité culturelle", "Toubon", "IRCAM", "Piaf", "Brassens", "Brel", "yé-yé", "kompa", "rara", "mizik rasin", "Boukman", "Duvalier", "troubadours", "Gojira", "Nakamura", "conservatoire", "Fête de la Musique", "mondialisation"];
+  var PHRASES = ["Chacun peut constater que", "Il est important de noter que", "Ajoutons à cela", "Force est de constater que", "Il est indéniable que", "On ne peut nier que", "Il convient de souligner que", "Il va sans dire que", "Certes", "Néanmoins", "Pour conclure", "En définitive", "Ainsi", "Même si", "En revanche", "D'une part", "D'autre part", "Il n'en demeure pas moins que", "Force est d'admettre", "Il convient de rappeler", "Il est essentiel de rappeler", "Nul ne saurait nier"];
+  /* JavaScript's \b does not fire after an accented letter, so "resté" and
+     "où" were invisible to a trailing \b. Every boundary below is written
+     out as an explicit "not a letter" test instead. */
+  var L = "A-Za-zÀ-ÿ";
+  function re(src, flags){ return new RegExp(src.replace(/L/g, L), flags || "i"); }
+  /* A bare "-i" or "-u" ending matches half the adjectives in French ("c'est
+     vrai"), so the participle is either a real -é form or a named irregular. */
+  var PART = "(?:[L]{2,}(?:ées|ée|és|é)|fait|faits|pris|prise|prises|mis|mise|dit|dits|"
+           + "écrit|écrits|venu|venus|venue|devenu|devenus|vu|vus|su|pu|dû|voulu|connu|"
+           + "reçu|resté|restés|restée|allé|allés|né|nés|mort|morts|parti|partis|sorti|"
+           + "sortis|ouvert|offert|compris|appris|permis|produit|conduit|construit|"
+           + "détruit|inscrit|atteint|éteint|craint|joint|été|eu|lu|tenu|obtenu|maintenu|"
+           + "soutenu|vécu|couru|battu|rendu|entendu|perdu|vendu|répondu|attendu)";
+  var R = {
+    fut:   re("(?:^|[^L])[L]{2,}r(?:a|as|ai|ons|ez|ont)(?![L])"),
+    cond:  re("(?:^|[^L])[L]{2,}rai(?:t|ent|s)(?![L])"),
+    condG: re("[L]{2,}rai(?:t|ent|s)(?![L])", "gi"),
+    impAux:re("(?:^|[^L])(?:était|étaient|avait|avaient|faisait|faisaient)(?![L])"),
+    pc:    re("(?:^|[^L])(?:a|as|ai|ont|avez|avons|est|sont|es|sommes|êtes)\\s+" + PART + "(?![L])"),
+    pqp:   re("(?:^|[^L])(?:avait|avaient|était|étaient)\\s+" + PART + "(?![L])"),
+    ps:    re("(?:^|[^L])(?:fut|furent|eut|eurent|vint|vinrent|fit|firent|prit|prirent|mit|mirent|put|purent|sut|surent|dut|durent|vit|virent|mourut|moururent|naquit|devint|devinrent|parvint|reçut|connut|obtint|serra|vota|créa|lança|proclama|signa|arriva|entra|donna)(?![L])|(?:^|[^L])[L]{3,}(?:èrent|irent|urent)(?![L])")
+  };
+  function tenses(v){
+    var t = String(v || ""), out = [];
+    var stripped = t.replace(R.condG, " ");   /* so "-rait" is not read as a future */
+    if(R.fut.test(stripped))  out.push("futur");
+    if(R.cond.test(t))        out.push("conditionnel");
+    if(R.pqp.test(t))         out.push("plus-que-parfait");
+    else if(R.impAux.test(stripped) || anyBut(stripped, "[L]{2,}(?:ait|aient|ais)(?![L])", IMP_STOP))
+      out.push("imparfait");
+    if(R.pc.test(t))          out.push("passé composé");
+    if(R.ps.test(t))          out.push("passé simple");
+    return out;
+  }
+  function anyBut(text, src, stop){
+    var m = String(text || "").match(re(src, "gi")) || [];
+    for(var i = 0; i < m.length; i++){
+      var w = m[i].toLowerCase().replace(/^[^a-zà-ÿ]+/, "");
+      if(stop.indexOf(w) < 0) return true;
+    }
+    return false;
+  }
+  /* "français" ends in -ais and is not an imperfect. */
+  var IMP_STOP = ["français","francais","anglais","japonais","portugais","irlandais",
+                  "jamais","désormais","desormais","palais","biais","relais","marais",
+                  "essais","délais","delais","balais","niais","frais","lais","gallois",
+                  "quais","aujourd'hui"];
+  /* -ant is the noisiest test on the page: half the adverbs in French end in it. */
+  var PP_STOP = ["pendant","cependant","maintenant","pourtant","autant","avant","devant",
+                 "important","importants","importante","dominant","courant","suivant",
+                 "durant","tant","quant","géant","enfant","enfants","instant","restant",
+                 "montant","gouvernement"];
+  var STRUCT = [
+    ["subjonctif", re("(?:^|[^L])(?:afin|pour|bien|quoi|avant|sans|jusqu'à ce|à condition|à moins)\\s+qu(?:e|')|(?:^|[^L])il\\s+(?:faut|faudrait|fallait|est\\s+(?:essentiel|crucial|important|nécessaire|peu\\s+probable))\\s+qu(?:e|')|(?:^|[^L])pourvu\\s+que(?![L])")],
+    ["si + imparfait + conditionnel", re("(?:^|[^L])s(?:i|')[^.!?]{0,110}[L]{2,}rai(?:t|ent)(?![L])")],
+    ["pronom relatif", re("(?:^|[^L])ce\\s+qu(?:i|e|')|(?:^|[^L])dont(?![L])|\\s+où(?![L])|(?:^|[^L])(?:lequel|laquelle|auquel|desquels|auxquels)(?![L])")],
+    ["négation complexe", re("(?:^|[^L])n(?:e|')\\s?[L']{0,14}\\s*(?:guère|point|nullement|jamais|aucune?|que\\s|qu'|ni\\s|plus\\s|rien)")],
+    ["structure à l'infinitif", re("(?:^|[^L])(?:avant\\s+de|afin\\s+de|pour|sans)\\s+[L]{2,}(?:er|ir|re)(?![L])|(?:^|[^L])après\\s+(?:avoir|être)(?![L])")],
+    ["comparatif / superlatif", re("(?:^|[^L])(?:plus|moins|aussi)\\s+[L]{2,}\\s+qu(?:e|')|(?:^|[^L])l(?:e|a|es)\\s+(?:plus|moins)\\s+[L]{2,}|(?:^|[^L])(?:meilleur|pire|davantage)(?![L])")],
+    ["voix passive", re("(?:^|[^L])(?:est|sont|fut|furent|serait|était|étaient|a\\s+été|ont\\s+été)\\s+[L]{2,}(?:ées|és|ée|é)(?![L])")],
+    ["nominalisation", re("(?:^|[^L])(?:la|le|les|l')\\s?[L]{3,}(?:tion|ment|ance|ence|ité|isme|age)(?![L])")]
+  ];
+  function participePresent(v){
+    var m = String(v || "").match(re("[L]{3,}ant(?![L])", "gi")) || [];
+    for(var i = 0; i < m.length; i++){
+      if(PP_STOP.indexOf(m[i].toLowerCase()) < 0) return true;
+    }
+    return false;
+  }
+  function fold(s){
+    return String(s||"").toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,"")
+             .replace(/[’‘`´]/g,"'").replace(/\s+/g," ");
+  }
+  function words(s){ return (String(s||"").trim().match(/[\wÀ-ſ'’-]+/g)||[]).length; }
+  function hits(text, list){
+    var f = fold(text), out = [];
+    list.forEach(function(x){ if(f.indexOf(fold(x)) >= 0 && out.indexOf(x) < 0) out.push(x); });
+    return out;
+  }
+  function numbers(text){
+    var m = String(text||"").match(/(?:^|[^\w.,])\d{1,4}(?:[ ,.]\d+)?/g) || [];
+    var seen = {}, out = [];
+    m.forEach(function(x){ x = x.replace(/^[^\d]+/,""); if(!seen[x]){ seen[x]=1; out.push(x); } });
+    return out;
+  }
+  function found(text, table){
+    var out = [];
+    table.forEach(function(r){ if(r[1].test(text)) out.push(r[0]); });
+    if(table === STRUCT && participePresent(text)) out.push("participe présent");
+    return out;
+  }
+  function tag(ok, label, detail){
+    return '<span class="' + (ok ? "hit" : "miss") + '">' + (ok ? "✔ " : "· ") + label + "</span>"
+         + (detail ? ' <span class="miss">(' + detail + ")</span>" : "");
+  }
+  function g(id){ var e = document.getElementById(id); return e ? e.value : ""; }
+
+  function readBoxes(){
+    var b = document.getElementById("bilan"); if(!b) return;
+    var all = ["b1","b2","b3","b4","b5"].map(g).join(" \n ");
+    if(!all.replace(/\s/g,"")){ b.innerHTML = ""; return; }
+    var ph = hits(g("b1"), PHRASES);
+    var tm = hits(g("b2") + " " + g("b3") + " " + g("b5"), TERMES);
+    var nb = numbers(g("b3"));
+    var pr = hits(g("b3"), TERMES);
+    var tp = tenses(g("b4"));
+    var st = found(g("b5"), STRUCT);
+    b.innerHTML = [
+      tag(ph.length >= 1, "phrase de rédaction", ph.join(" · ")),
+      tag(tm.length >= 3, "termes du sujet : " + tm.length + " / 3", tm.slice(0,6).join(" · ")),
+      tag(nb.length >= 1 || pr.length >= 1, "preuve chiffrée ou nommée", nb.concat(pr).slice(0,4).join(" · ")),
+      tag(tp.length >= 1, "verbe dans un autre temps", tp.join(" · ")),
+      tag(st.length >= 1, "structure complexe", st.join(" · "))
+    ].join("<br>");
+  }
+  function readAnswer(){
+    var b = document.getElementById("bilan2"); if(!b) return;
+    var v = g("reponse"), w = words(v);
+    if(!w){ b.innerHTML = ""; return; }
+    var st = found(v, STRUCT), tp = tenses(v), tm = hits(v, TERMES), nb = numbers(v);
+    var cible = 90;
+    b.innerHTML = "<b>" + w + " mots</b> "
+      + (w >= cible ? '<span class="hit">✔ longueur atteinte</span>'
+                    : '<span class="miss">· encore ' + (cible - w) + " mots</span>") + "<br>"
+      + tag(tm.length >= 3, "termes du sujet : " + tm.length + " / 3", tm.slice(0,6).join(" · ")) + "<br>"
+      + tag(nb.length >= 1, "preuves chiffrées : " + nb.length, nb.slice(0,6).join(" · ")) + "<br>"
+      + tag(tp.length >= 2, "temps employés : " + tp.length + " / 2", tp.join(" · ")) + "<br>"
+      + tag(st.length >= 3, "structures : " + st.length + " / 3", st.join(" · "));
+  }
+  function refresh(){ readBoxes(); readAnswer(); }
+  ["b1","b2","b3","b4","b5","reponse"].forEach(function(id){
+    var e = document.getElementById(id);
+    if(e) e.addEventListener("input", refresh);
+  });
+  setTimeout(refresh, 900);          /* the kit restores saved work after load */
+  document.addEventListener("click", function(e){
+    if(e.target && e.target.closest && e.target.closest("#bba-resume")) setTimeout(refresh, 300);
+  }, true);
+})();
+</script>
+<script src="bba-kit-fr.js" defer></script>
+</body>
+</html>

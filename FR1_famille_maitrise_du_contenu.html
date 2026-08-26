@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FR1 · La famille — maîtriser le contenu — A-Level French</title>
+<style>
+  :root{
+    --ink:#1a2733; --paper:#ffffff; --bg:#eef2f6;
+    --accent:#00546b; --accent2:#8a1538; --ok:#1e7b45; --warn:#b06f00; --bad:#a12727;
+    --line:#c9d4dd;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:Calibri,'Segoe UI',Arial,sans-serif;font-size:17px;line-height:1.55;
+       color:var(--ink);background:var(--bg);padding:24px 16px 130px}
+  .wrap{max-width:900px;margin:0 auto;background:var(--paper);border:1px solid var(--line);
+        border-radius:8px;padding:28px 32px}
+  header{border-bottom:3px solid var(--accent);padding-bottom:12px;margin-bottom:18px}
+  h1{font-size:1.6em;color:var(--accent)}
+  .meta{color:#5a6a78;font-style:italic;margin-top:4px}
+  h2{font-size:1.25em;color:var(--accent);margin:30px 0 8px;border-left:5px solid var(--accent);padding-left:10px}
+  h2 .pts{font-size:.75em;color:#5a6a78;font-weight:normal}
+  h3{font-size:1.05em;color:var(--accent);margin:18px 0 6px}
+  .consigne{background:#f2f7fa;border-left:4px solid var(--accent);padding:10px 14px;margin:8px 0 14px;border-radius:0 6px 6px 0}
+  .item{margin:12px 0;padding:12px 14px;border:1px solid var(--line);border-radius:6px}
+  .item p.q{margin-bottom:6px}
+  .item input[type=text],.item textarea,.item select{width:100%;padding:8px 10px;font-size:1em;font-family:inherit;
+      border:1.5px solid var(--line);border-radius:5px;margin-top:4px;background:#fff;color:inherit}
+  .item select:has(option[value=""]:checked){border-color:var(--accent);border-style:dashed}
+  .item select{max-width:280px}
+  .item textarea{min-height:90px;resize:vertical}
+  .inline{display:flex;gap:10px;align-items:baseline;flex-wrap:wrap}
+  .inline input[type=text]{width:auto;flex:0 0 130px;text-align:center;margin-top:0}
+  .inline p.q{margin:0;flex:1 1 380px;min-width:220px}
+  details.aide{margin:8px 0 2px}
+  details.aide summary{cursor:pointer;color:var(--warn);font-weight:bold}
+  details.aide div{background:#fff8ec;border-left:4px solid var(--warn);padding:8px 12px;margin-top:6px;border-radius:0 6px 6px 0}
+  details.cartes summary{cursor:pointer;color:var(--accent);font-weight:bold;font-size:1.05em}
+  details.cartes .carte{border:1px solid var(--line);border-radius:6px;padding:12px 14px;margin:10px 0;background:#fbfdfe}
+  details.cartes .carte b{color:var(--accent2)}
+  details.cartes .carte ul{margin:6px 0 6px 22px}
+  .stretch{border:2px dashed var(--accent2);border-radius:8px;padding:16px 18px;margin:30px 0;background:#fdf7f9}
+  .stretch h2{color:var(--accent2);border-left-color:var(--accent2);margin-top:6px}
+  .peel{width:100%;border-collapse:collapse;margin:10px 0}
+  .peel td{border:1px solid var(--line);padding:7px 10px;vertical-align:top}
+  .peel td:first-child{width:44px;text-align:center;font-weight:bold;background:#f2f7fa;color:var(--accent)}
+  .banque{background:#f2f7fa;border:1px dashed var(--accent);border-radius:6px;padding:10px 14px;margin:10px 0}
+  .banque span{display:inline-block;margin:3px 10px 3px 0;white-space:nowrap}
+  .jauge{font-size:.92em;color:#5a6a78;margin-top:6px}
+  .jauge b{color:var(--accent)}
+  .jauge .hit{color:var(--ok);font-weight:bold}
+  .jauge .miss{color:#8a93a0}
+  ul.puces{margin:6px 0 6px 22px}
+  .note{font-size:.92em;color:#5a6a78;margin-top:6px}
+  @media (max-width:700px){
+    .wrap{padding:20px 16px}
+    .inline input[type=text]{flex:1 1 100%}
+  }
+</style>
+<link rel="stylesheet" href="bba-mobile.css">
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>FR1 · La famille française — maîtriser le contenu</h1>
+    <p class="meta">A-Level French (Edexcel) · Thème 1, unité 1.1 — Les changements dans les structures familiales · Paper 3, Tâche 1 · Durée conseillée : 35 min</p>
+  </header>
+
+  <div class="consigne"><strong>Pourquoi cette activité ?</strong> À l'oral, ce n'est pas l'opinion qui fait
+  la différence : c'est la <strong>preuve</strong>. Les six exercices ci-dessous vous donnent les formes de
+  famille, les chiffres, les dates, les lois et le lexique précis que l'examinateur attend. Tapez votre
+  réponse puis appuyez sur <strong>« Entrée »</strong> : la correction arrive immédiatement, avec un indice
+  avant la réponse. Écrivez votre nom en bas de l'écran, puis <strong>« Télécharger »</strong> pour rendre
+  votre travail.</div>
+
+  <table class="peel">
+    <tr><td>P</td><td><b>Point</b> — l'idée, en une phrase.</td></tr>
+    <tr><td>E</td><td><b>Evidence</b> — une statistique, une date, une loi, un exemple précis.</td></tr>
+    <tr><td>E</td><td><b>Explication</b> — qu'est-ce que cela montre ? causes ? conséquences ? qui ?</td></tr>
+    <tr><td>L</td><td><b>Lien</b> — vers un autre sous-thème (ex. égalité hommes-femmes / types de familles).</td></tr>
+  </table>
+  <p class="note">Les exercices 1 à 5 remplissent la ligne <b>E</b>. Le Défi A* vous fait écrire les quatre lignes.</p>
+
+  <!-- ============ EXERCICE 1 ============ -->
+  <h2>Exercice 1 · Les six formes de famille <span class="pts">(6 points)</span></h2>
+  <div class="consigne">Lisez la définition, écrivez le terme français exact — avec l'article.</div>
+
+  <div class="item">
+    <p class="q">1. Un couple, marié ou non, qui vit avec ses enfants et eux seuls.</p>
+    <input type="text" autocomplete="off" spellcheck="false"
+           data-answer="la famille nucléaire|famille nucléaire" placeholder="la famille …">
+    <details class="aide"><summary>Indice</summary><div>C'est le modèle « classique » — encore plus de la moitié des familles françaises. Le mot vient du latin <i>nucleus</i>, le noyau.</div></details>
+  </div>
+
+  <div class="item">
+    <p class="q">2. Une famille née d'une seconde union : les enfants de deux histoires différentes vivent ensemble.</p>
+    <input type="text" autocomplete="off" spellcheck="false"
+           data-answer="la famille recomposée|famille recomposée" placeholder="la famille …">
+    <details class="aide"><summary>Indice</summary><div>Participe passé du verbe <i>recomposer</i>. Un peu moins de 10 % des familles.</div></details>
+  </div>
+
+  <div class="item">
+    <p class="q">3. Un seul adulte élève son ou ses enfants — le type de famille qui progresse le plus vite.</p>
+    <input type="text" autocomplete="off" spellcheck="false"
+           data-answer="la famille monoparentale|famille monoparentale" placeholder="la famille …">
+    <details class="aide"><summary>Indice</summary><div><i>mono-</i> = un seul. Dans la grande majorité des cas, il s'agit d'une mère avec ses enfants.</div></details>
+  </div>
+
+  <div class="item">
+    <p class="q">4. Plusieurs générations — grands-parents, parents, enfants — qui vivent ensemble ou tout près. En net déclin.</p>
+    <input type="text" autocomplete="off" spellcheck="false"
+           data-answer="la famille élargie|famille élargie" placeholder="la famille …">
+    <details class="aide"><summary>Indice</summary><div>Participe passé du verbe <i>élargir</i>. Elle recule parce que les jeunes quittent leur région pour étudier ou travailler.</div></details>
+  </div>
+
+  <div class="item">
+    <p class="q">5. Deux parents du même sexe et leurs enfants.</p>
+    <input type="text" autocomplete="off" spellcheck="false"
+           data-answer="la famille homoparentale|famille homoparentale" placeholder="la famille …">
+    <details class="aide"><summary>Indice</summary><div>Plus visible depuis 2013, mais toujours minoritaire.</div></details>
+  </div>
+
+  <div class="item">
+    <p class="q">6. Un couple qui vit ensemble sans être ni marié ni pacsé.</p>
+    <input type="text" autocomplete="off" spellcheck="false"
+           data-answer="l'union libre|union libre|le concubinage|concubinage" placeholder="l'union …">
+    <details class="aide"><summary>Indice</summary><div>Deux réponses possibles : une expression avec le mot <i>union</i>, ou le terme juridique en <i>-age</i>. Environ 8 millions de personnes.</div></details>
+  </div>
+
+  <!-- ============ EXERCICE 2 ============ -->
+  <h2>Exercice 2 · Les chiffres qui font la différence <span class="pts">(12 points)</span></h2>
+  <div class="consigne">Un oral sans chiffres reste au niveau de l'opinion. Écrivez le nombre seul
+  (par exemple : <i>50</i>, <i>3,5</i>, <i>1975</i>).</div>
+
+  <div class="item inline">
+    <p class="q">7. Les familles traditionnelles représentent encore plus de ____ % des familles françaises.</p>
+    <input type="text" inputmode="decimal" autocomplete="off" data-answer="50" aria-label="pourcentage">
+  </div>
+  <div class="item inline">
+    <p class="q">8. Les familles monoparentales représentent environ un cinquième des familles, soit à peu près ____ %.</p>
+    <input type="text" inputmode="decimal" autocomplete="off" data-answer="20" aria-label="pourcentage">
+  </div>
+  <div class="item inline">
+    <p class="q">9. Les familles recomposées représentent un peu moins de ____ % des familles.</p>
+    <input type="text" inputmode="decimal" autocomplete="off" data-answer="10" aria-label="pourcentage">
+  </div>
+  <div class="item inline">
+    <p class="q">10. En 1970 on comptait 7,8 mariages pour 1 000 habitants ; en 2018, il n'y en avait plus que ____.</p>
+    <input type="text" inputmode="decimal" autocomplete="off" data-answer="3,5|3.5" aria-label="nombre de mariages">
+  </div>
+  <div class="item inline">
+    <p class="q">11. Environ ____ millions de personnes vivent en union libre en France.</p>
+    <input type="text" inputmode="decimal" autocomplete="off" data-answer="8" aria-label="millions">
+  </div>
+  <div class="item inline">
+    <p class="q">12. Le PACS concerne environ ____ millions de personnes.</p>
+    <input type="text" inputmode="decimal" autocomplete="off" data-answer="2" aria-label="millions">
+  </div>
+  <div class="item inline">
+    <p class="q">13. Les Français se marient aujourd'hui environ ____ ans plus tard qu'autrefois.</p>
+    <input type="text" inputmode="decimal" autocomplete="off" data-answer="9" aria-label="années">
+  </div>
+  <div class="item inline">
+    <p class="q">14. Environ ____ % des 18-34 ans vivent en union libre.</p>
+    <input type="text" inputmode="decimal" autocomplete="off" data-answer="50" aria-label="pourcentage">
+  </div>
+  <div class="item inline">
+    <p class="q">15. Étude Ifop/Consolab 2019 : ____ % des Françaises déclarent faire plus de tâches ménagères que leur conjoint.</p>
+    <input type="text" inputmode="decimal" autocomplete="off" data-answer="73" aria-label="pourcentage femmes">
+  </div>
+  <div class="item inline">
+    <p class="q">16. … alors que seulement ____ % des Français le déclarent de leur côté.</p>
+    <input type="text" inputmode="decimal" autocomplete="off" data-answer="16" aria-label="pourcentage hommes">
+  </div>
+  <div class="item inline">
+    <p class="q">17. ____ % des sièges dans les conseils d'administration du CAC 40 sont occupés par des femmes — un record européen.</p>
+    <input type="text" inputmode="decimal" autocomplete="off" data-answer="48" aria-label="pourcentage CAC 40">
+  </div>
+  <div class="item inline">
+    <p class="q">18. Environ ____ enfants nés d'une GPA à l'étranger vivent en France.</p>
+    <input type="text" inputmode="numeric" autocomplete="off" data-answer="2000|2 000" aria-label="nombre d'enfants">
+  </div>
+
+  <details class="aide"><summary>Indice pour tout l'exercice 2</summary>
+    <div>Trois repères pour retenir : <b>plus de la moitié</b> de familles traditionnelles, <b>un cinquième</b> de
+    monoparentales, <b>moins d'un dixième</b> de recomposées. Pour le mariage, la courbe descend de <b>7,8</b>
+    à <b>3,5</b> pour 1 000 habitants entre 1970 et 2018.</div>
+  </details>
+
+  <!-- ============ EXERCICE 3 ============ -->
+  <h2>Exercice 3 · Les dates et les lois <span class="pts">(6 points)</span></h2>
+  <div class="consigne">Choisissez l'année. Une date exacte vaut deux phrases d'opinion.</div>
+
+  <div class="item">
+    <p class="q">19. La légalisation de la pilule contraceptive (loi Neuwirth).</p>
+    <select data-answer="1967" aria-label="année de la légalisation de la contraception">
+      <option value=""></option>
+      <option>1967</option><option>1972</option><option>1975</option><option>1981</option>
+      <option>1999</option><option>2005</option><option>2013</option><option>2021</option>
+    </select>
+  </div>
+  <div class="item">
+    <p class="q">20. La légalisation de l'avortement (loi Veil).</p>
+    <select data-answer="1975" aria-label="année de la légalisation de l'avortement">
+      <option value=""></option>
+      <option>1967</option><option>1972</option><option>1975</option><option>1981</option>
+      <option>1999</option><option>2005</option><option>2013</option><option>2021</option>
+    </select>
+  </div>
+  <div class="item">
+    <p class="q">21. La création du PACS, qui permet enfin aux couples homosexuels d'officialiser leur union.</p>
+    <select data-answer="1999" aria-label="année du PACS">
+      <option value=""></option>
+      <option>1967</option><option>1972</option><option>1975</option><option>1981</option>
+      <option>1999</option><option>2005</option><option>2013</option><option>2021</option>
+    </select>
+  </div>
+  <div class="item">
+    <p class="q">22. Le mariage pour tous (loi Taubira).</p>
+    <select data-answer="2013" aria-label="année du mariage pour tous">
+      <option value=""></option>
+      <option>1967</option><option>1972</option><option>1975</option><option>1981</option>
+      <option>1999</option><option>2005</option><option>2013</option><option>2021</option>
+    </select>
+  </div>
+  <div class="item">
+    <p class="q">23. La loi relative à la bioéthique, qui refuse la GPA mais élargit l'accès à la PMA.</p>
+    <select data-answer="2021" aria-label="année de la loi bioéthique">
+      <option value=""></option>
+      <option>1967</option><option>1972</option><option>1975</option><option>1981</option>
+      <option>1999</option><option>2005</option><option>2013</option><option>2021</option>
+    </select>
+  </div>
+  <div class="item">
+    <p class="q">24. Comment s'appelle la loi qui impose des quotas de femmes dans les conseils d'administration ?</p>
+    <input type="text" autocomplete="off" spellcheck="false"
+           data-answer="la loi Copé-Zimmermann|loi Copé-Zimmermann|Copé-Zimmermann" placeholder="la loi …">
+    <details class="aide"><summary>Indice</summary><div>Deux noms reliés par un trait d'union. L'autre loi à connaître, la loi <b>Rixain</b> du 24 décembre 2021, vise les cadres dirigeants — 30 % depuis le 1<sup>er</sup> mars 2026, 40 % en mars 2029 — et non les conseils d'administration.</div></details>
+  </div>
+
+  <!-- ============ EXERCICE 4 ============ -->
+  <h2>Exercice 4 · Vrai ou faux ? <span class="pts">(6 points)</span></h2>
+  <div class="consigne">Choisissez, puis — pour chaque phrase fausse — écrivez la correction en français
+  dans la case. Votre professeur lira ces corrections : elles ne sont pas notées automatiquement.</div>
+
+  <div class="item">
+    <p class="q">25. En France, les couples homosexuels peuvent se marier à l'église.</p>
+    <select data-answer="Faux" aria-label="vrai ou faux, mariage à l'église">
+      <option value=""></option><option>Vrai</option><option>Faux</option>
+    </select>
+    <input type="text" placeholder="Si c'est faux, corrigez ici…" autocomplete="off">
+  </div>
+  <div class="item">
+    <p class="q">26. La GPA (gestation pour autrui) est autorisée sur le territoire français.</p>
+    <select data-answer="Faux" aria-label="vrai ou faux, GPA autorisée">
+      <option value=""></option><option>Vrai</option><option>Faux</option>
+    </select>
+    <input type="text" placeholder="Si c'est faux, corrigez ici…" autocomplete="off">
+  </div>
+  <div class="item">
+    <p class="q">27. Depuis une décision de justice, la mère d'intention peut adopter l'enfant né d'une GPA à l'étranger.</p>
+    <select data-answer="Vrai" aria-label="vrai ou faux, mère d'intention">
+      <option value=""></option><option>Vrai</option><option>Faux</option>
+    </select>
+    <input type="text" placeholder="Si c'est faux, corrigez ici…" autocomplete="off">
+  </div>
+  <div class="item">
+    <p class="q">28. Depuis la loi de bioéthique, les femmes seules et les couples de femmes peuvent recourir à la PMA et être remboursés par l'assurance maladie.</p>
+    <select data-answer="Vrai" aria-label="vrai ou faux, PMA pour toutes">
+      <option value=""></option><option>Vrai</option><option>Faux</option>
+    </select>
+    <input type="text" placeholder="Si c'est faux, corrigez ici…" autocomplete="off">
+  </div>
+  <div class="item">
+    <p class="q">29. La famille élargie connaît un fort développement en France.</p>
+    <select data-answer="Faux" aria-label="vrai ou faux, famille élargie">
+      <option value=""></option><option>Vrai</option><option>Faux</option>
+    </select>
+    <input type="text" placeholder="Si c'est faux, corrigez ici…" autocomplete="off">
+  </div>
+  <div class="item">
+    <p class="q">30. Lors de la présidentielle de 2022, Emmanuel Macron comme Marine Le Pen ont refusé de légaliser la GPA.</p>
+    <select data-answer="Vrai" aria-label="vrai ou faux, présidentielle 2022">
+      <option value=""></option><option>Vrai</option><option>Faux</option>
+    </select>
+    <input type="text" placeholder="Si c'est faux, corrigez ici…" autocomplete="off">
+  </div>
+
+  <!-- ============ EXERCICE 5 ============ -->
+  <h2>Exercice 5 · Le lexique que l'examinateur attend <span class="pts">(12 points)</span></h2>
+  <div class="consigne">Écrivez l'expression française, avec l'article quand il y en a un.</div>
+
+  <div class="item inline"><p class="q">31. surrogacy (le procédé)</p>
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="la gestation pour autrui|gestation pour autrui|la GPA" aria-label="surrogacy"></div>
+  <div class="item inline"><p class="q">32. a surrogate mother</p>
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="une mère porteuse|la mère porteuse|mère porteuse" aria-label="surrogate mother"></div>
+  <div class="item inline"><p class="q">33. the intended mother</p>
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="la mère d'intention|mère d'intention" aria-label="intended mother"></div>
+  <div class="item inline"><p class="q">34. medically assisted reproduction</p>
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="la procréation médicalement assistée|procréation médicalement assistée|la PMA" aria-label="PMA"></div>
+  <div class="item inline"><p class="q">35. joint custody (of the children)</p>
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="la garde partagée|garde partagée" aria-label="joint custody"></div>
+  <div class="item inline"><p class="q">36. an identity crisis</p>
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="une crise d'identité|la crise d'identité|crise d'identité" aria-label="identity crisis"></div>
+  <div class="item inline"><p class="q">37. on religious grounds</p>
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="pour des motifs religieux|des motifs religieux|pour des raisons religieuses" aria-label="religious grounds"></div>
+  <div class="item inline"><p class="q">38. household chores</p>
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="les tâches ménagères|tâches ménagères" aria-label="household chores"></div>
+  <div class="item inline"><p class="q">39. the sharing out of responsibilities</p>
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="la répartition des responsabilités|répartition des responsabilités" aria-label="sharing of responsibilities"></div>
+  <div class="item inline"><p class="q">40. the glass ceiling</p>
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="le plafond de verre|plafond de verre" aria-label="glass ceiling"></div>
+  <div class="item inline"><p class="q">41. gender parity</p>
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="la parité hommes-femmes|la parité|parité hommes-femmes" aria-label="gender parity"></div>
+  <div class="item inline"><p class="q">42. to turn away from (marriage)</p>
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="se détourner de|se détourner du mariage" aria-label="to turn away from"></div>
+
+  <details class="aide"><summary>Indice pour tout l'exercice 5</summary>
+    <div>Quatre sigles à maîtriser : <b>GPA</b> (gestation pour autrui), <b>PMA</b> (procréation médicalement
+    assistée), <b>FIV</b> (fécondation in vitro), <b>PACS</b> (pacte civil de solidarité).</div>
+  </details>
+
+  <!-- ============ DÉFI A* ============ -->
+  <div class="stretch">
+    <h2>Défi A* — Répondre comme au Paper 3 <span class="pts">(non noté automatiquement)</span></h2>
+    <div class="consigne"><strong>Question obligatoire de l'examinateur :</strong>
+      « Quels types de famille trouve-t-on en France de nos jours ? »<br>
+      Rédigez votre réponse en suivant le <strong>PEEL</strong> — une phrase par ligne. Vous devez employer
+      <strong>au moins trois chiffres</strong> de l'exercice 2 et <strong>deux expressions</strong> de
+      l'exercice 5. Visez 90 mots.</div>
+
+    <div class="item">
+      <p class="q"><b>P</b> — Votre idée principale, en une phrase.</p>
+      <textarea class="peelbox" data-peel="P" rows="2" placeholder="Ex. : On ne peut plus parler d'un seul modèle familial en France…"></textarea>
+      <div class="jauge"></div>
+    </div>
+    <div class="item">
+      <p class="q"><b>E</b> — Vos preuves : chiffres, proportions, dates.</p>
+      <textarea class="peelbox" data-peel="E1" rows="3" placeholder="Ex. : Les familles traditionnelles représentent encore plus de …"></textarea>
+      <div class="jauge"></div>
+    </div>
+    <div class="item">
+      <p class="q"><b>E</b> — Votre explication : pourquoi ? avec quelles conséquences ?</p>
+      <textarea class="peelbox" data-peel="E2" rows="3" placeholder="Ex. : Cette diversité s'explique par…"></textarea>
+      <div class="jauge"></div>
+    </div>
+    <div class="item">
+      <p class="q"><b>L</b> — Votre lien vers un autre sous-thème (la condition féminine, le mariage pour tous, la natalité…).</p>
+      <textarea class="peelbox" data-peel="L" rows="2" placeholder="Ex. : Cette évolution rejoint la question de…"></textarea>
+      <div class="jauge"></div>
+    </div>
+
+    <div class="banque"><strong>Banque de connecteurs :</strong>
+      <span>Chacun peut constater que…</span><span>Il est important de noter que…</span>
+      <span>Ajoutons à cela…</span><span>Même si…</span><span>Néanmoins…</span>
+      <span>Ainsi…</span><span>Pour conclure…</span>
+    </div>
+
+    <div id="bilan" class="jauge" style="font-size:1em;padding:10px 0"></div>
+
+    <details class="aide"><summary>Voir un modèle de réponse (seulement après avoir écrit la vôtre)</summary>
+      <div>
+      <p><b>P.</b> Chacun peut constater qu'il n'existe plus un modèle familial unique en France, mais une mosaïque de formes de famille.</p>
+      <p><b>E.</b> Il est important de noter que la famille nucléaire représente encore plus de 50 % des familles, alors que les familles monoparentales en constituent près de 20 % et les familles recomposées un peu moins de 10 %. Ajoutons à cela quelque 8 millions de personnes en union libre et près de 2 millions de pacsés.</p>
+      <p><b>E.</b> Cette diversité s'explique par la banalisation du divorce et par la garde partagée, qui obligent de nombreux enfants à partager leur temps entre deux foyers ; la famille élargie, elle, ne subsiste guère, car les jeunes quittent leur région pour étudier ou travailler.</p>
+      <p><b>L.</b> Néanmoins, cette évolution est indissociable de la condition féminine : depuis la légalisation de la contraception en 1967 et de l'avortement en 1975, les femmes maîtrisent leur vie privée, ce qui a fait reculer le modèle traditionnel.</p>
+      </div>
+    </details>
+  </div>
+
+  <!-- ============ LES CARTES DE L'EXAMEN ============ -->
+  <h2>Pour aller plus loin · Les sept cartes de l'unité 1.1</h2>
+  <details class="cartes">
+    <summary>Ouvrir les sept énoncés et les questions obligatoires de l'examinateur</summary>
+
+    <div class="carte"><b>1. Face à toutes les autres formes de famille possibles, la famille nucléaire disparaîtra.</b>
+      <ul class="puces"><li>Les structures familiales à l'avenir.</li><li>Les différentes formes de famille rencontrées en France de nos jours.</li></ul>
+      <p><i>Questions :</i> Selon vous, quelle sera la forme de famille la plus répandue à l'avenir en France et pourquoi ? · Quels types de famille trouve-t-on en France de nos jours ?</p></div>
+
+    <div class="carte"><b>2. Le recours aux mères porteuses devrait être permis.</b>
+      <ul class="puces"><li>Les arguments pour et contre cette pratique en France.</li><li>La situation concernant les mères porteuses en France aujourd'hui.</li></ul>
+      <p><i>Questions :</i> Que pensez-vous des arguments contre les mères porteuses en France ? · Quelle est la situation concernant les mères porteuses à l'heure actuelle ?</p></div>
+
+    <div class="carte"><b>3. Les nouveaux types de famille en France peuvent présenter des difficultés pour les enfants de ces familles.</b>
+      <ul class="puces"><li>Les difficultés possibles pour les enfants dans certains nouveaux types de famille.</li><li>L'attitude du public envers les nouveaux types de famille aujourd'hui.</li></ul>
+      <p><i>Questions :</i> Quelles difficultés pourraient se présenter pour les enfants de ces nouveaux types de famille ? · Jusqu'à quel point ces nouveaux types de famille sont-ils acceptés par tous les Français ?</p></div>
+
+    <div class="carte"><b>4. La famille traditionnelle en France décline à cause des changements survenus dans la condition féminine.</b>
+      <ul class="puces"><li>La condition féminine en France.</li><li>Les changements dans la famille traditionnelle en France.</li></ul>
+      <p><i>Questions :</i> Comment est-ce que la vie des femmes a changé pendant ces dernières années en France ? · Est-ce que ces changements sont responsables du déclin de la famille traditionnelle française ? Pourquoi ou pourquoi pas ?</p></div>
+
+    <div class="carte"><b>5. Le mariage pour tous a établi une parité entre les couples homosexuels et hétérosexuels.</b>
+      <ul class="puces"><li>La situation des couples homosexuels concernant le mariage et la vie de famille.</li><li>Les idées de ceux qui s'opposent au « mariage pour tous ».</li></ul>
+      <p><i>Questions :</i> Les couples homosexuels ont-ils les mêmes droits que les couples hétérosexuels en France ? · Que pensez-vous des arguments de ceux qui s'opposent au mariage gay en France ?</p></div>
+
+    <div class="carte"><b>6. Le mariage pour tous ne sera jamais soutenu par les Français.</b>
+      <ul class="puces"><li>Les raisons pour lesquelles on ne soutient pas le mariage pour tous.</li><li>Des groupes qui ont du mal à accepter le mariage pour tous.</li></ul>
+      <p><i>Questions :</i> Pourquoi, à votre avis, le mariage pour tous ne sera-t-il jamais soutenu par les Français ? · Quels groupes ont eu le plus de difficulté à accepter le mariage pour tous ?</p></div>
+
+    <div class="carte"><b>7. Le mariage n'est plus le premier choix pour les Français qui veulent vivre ensemble. / La conception des Français de la vie à deux reste très traditionnelle.</b>
+      <p><i>Questions :</i> Jusqu'à quel point peut-on dire que les Français se détournent du mariage ? · À part le mariage, comment les Français choisissent-ils de vivre ensemble ? · Êtes-vous d'accord que les Français ont gardé une conception traditionnelle du rôle de chaque partenaire dans un couple ? · Dans quels domaines y a-t-il eu le plus de changements dans la répartition des responsabilités ?</p></div>
+  </details>
+
+  <p class="note">Suite logique : <a href="FR1_famille_atelier_PEEL.html">FR1 · L'atelier PEEL — écrire un français savant</a>,
+  qui reprend ce contenu et travaille les structures.</p>
+</div>
+
+<script>
+/* The kit supplies the name box, the accent pad, the marking and the
+   download. This page only adds the live feedback on the A* boxes, which
+   nothing can mark automatically but which a student can still measure. */
+(function(){
+  "use strict";
+  var CHIFFRES = ["50","20","10","3,5","3.5","8","2","9","73","16","48","2000","2 000",
+                  "1967","1975","1999","2013","2021","7,8"];
+  var LEXIQUE  = ["gestation pour autrui","gpa","mère porteuse","meres porteuses","mère d'intention",
+                  "procréation médicalement assistée","pma","garde partagée","crise d'identité",
+                  "motifs religieux","tâches ménagères","répartition des responsabilités",
+                  "plafond de verre","parité","se détourner","union libre","concubinage","pacs",
+                  "famille nucléaire","famille recomposée","famille monoparentale","famille élargie",
+                  "famille homoparentale"];
+  var CONNECT  = ["chacun peut constater","il est important de noter","ajoutons à cela",
+                  "pour conclure","même si","néanmoins","ainsi"];
+
+  function fold(s){
+    return s.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"")
+            .replace(/[’‘`´]/g,"'").replace(/\s+/g," ");
+  }
+  function countWords(s){ return (s.trim().match(/[\wÀ-ÿ'’-]+/g)||[]).length; }
+  function hits(text, list){
+    var f = fold(text), out = [];
+    list.forEach(function(x){ if(f.indexOf(fold(x)) >= 0 && out.indexOf(x) < 0) out.push(x); });
+    return out;
+  }
+  /* A number must stand as a number, not inside a longer one: 50 in "150" is not a hit. */
+  function numHits(text){
+    var f = text.replace(/[\u00a0\u202f]/g," "), out = [];
+    CHIFFRES.forEach(function(n){
+      var esc = n.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+      if(new RegExp("(^|[^\\d,.])" + esc + "([^\\d,.]|$)").test(f) && out.indexOf(n) < 0) out.push(n);
+    });
+    return out;
+  }
+
+  var boxes = [].slice.call(document.querySelectorAll(".peelbox"));
+  var bilan = document.getElementById("bilan");
+  if(!boxes.length) return;
+
+  function line(label, n, need){
+    return '<span class="' + (n >= need ? "hit" : "miss") + '">' + (n >= need ? "✔" : "·") + " "
+         + label + " : " + n + " / " + need + "</span>";
+  }
+  function refresh(){
+    var all = boxes.map(function(b){ return b.value; }).join("\n");
+    boxes.forEach(function(b){
+      var w = countWords(b.value);
+      var j = b.parentNode.querySelector(".jauge");
+      if(!j) return;
+      j.innerHTML = w === 0 ? "" : "<b>" + w + "</b> mot" + (w > 1 ? "s" : "");
+    });
+    var w = countWords(all), c = numHits(all), lx = hits(all, LEXIQUE), cn = hits(all, CONNECT);
+    if(!w){ bilan.innerHTML = ""; return; }
+    bilan.innerHTML =
+        "<b>Votre réponse&nbsp;:</b> " + w + " mots &nbsp;·&nbsp; "
+      + line("chiffres cités", c.length, 3) + " &nbsp;·&nbsp; "
+      + line("lexique de l'unité", lx.length, 2) + " &nbsp;·&nbsp; "
+      + line("connecteurs", cn.length, 2)
+      + (w >= 90 ? ' &nbsp;·&nbsp; <span class="hit">✔ longueur atteinte</span>'
+                 : ' &nbsp;·&nbsp; <span class="miss">· encore ' + (90 - w) + " mots</span>")
+      + (c.length ? '<br><span class="miss">Repéré : ' + c.join(", ")
+            + (lx.length ? " — " + lx.join(", ") : "") + "</span>" : "");
+  }
+  boxes.forEach(function(b){ b.addEventListener("input", refresh); });
+  /* the kit restores saved answers after load; show the tally for them too */
+  setTimeout(refresh, 900);
+  document.addEventListener("click", function(e){
+    if(e.target && e.target.closest && e.target.closest("#bba-resume")) setTimeout(refresh, 300);
+  }, true);
+})();
+</script>
+<script src="bba-kit-fr.js" defer></script>
+</body>
+</html>

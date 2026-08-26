@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FR3 · Le monde du travail — maîtriser le contenu — A-Level French</title>
+<style>
+  :root{
+    --ink:#1a2733; --paper:#ffffff; --bg:#eef2f6;
+    --accent:#00546b; --accent2:#8a1538; --ok:#1e7b45; --warn:#b06f00; --bad:#a12727;
+    --line:#c9d4dd;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:Calibri,'Segoe UI',Arial,sans-serif;font-size:17px;line-height:1.55;
+       color:var(--ink);background:var(--bg);padding:24px 16px 130px}
+  .wrap{max-width:900px;margin:0 auto;background:var(--paper);border:1px solid var(--line);
+        border-radius:8px;padding:28px 32px}
+  header{border-bottom:3px solid var(--accent);padding-bottom:12px;margin-bottom:18px}
+  h1{font-size:1.6em;color:var(--accent)}
+  .meta{color:#5a6a78;font-style:italic;margin-top:4px}
+  h2{font-size:1.25em;color:var(--accent);margin:30px 0 8px;border-left:5px solid var(--accent);padding-left:10px}
+  h2 .pts{font-size:.75em;color:#5a6a78;font-weight:normal}
+  .consigne{background:#f2f7fa;border-left:4px solid var(--accent);padding:10px 14px;margin:8px 0 14px;border-radius:0 6px 6px 0}
+  .item{margin:12px 0;padding:12px 14px;border:1px solid var(--line);border-radius:6px}
+  .item p.q{margin-bottom:6px}
+  .item input[type=text],.item textarea,.item select{width:100%;padding:8px 10px;font-size:1em;font-family:inherit;
+      border:1.5px solid var(--line);border-radius:5px;margin-top:4px;background:#fff;color:inherit}
+  .item textarea{min-height:80px;resize:vertical}
+  .inline{display:flex;gap:10px;align-items:baseline;flex-wrap:wrap}
+  .inline input[type=text]{width:auto;flex:0 1 300px;margin-top:0}
+  .inline p.q{margin:0;flex:1 1 340px;min-width:220px}
+  .gaps{display:flex;gap:10px;flex-wrap:wrap;margin-top:6px}
+  .gaps input[type=text]{width:auto;flex:0 1 220px;margin-top:0}
+  details.aide{margin:8px 0 2px}
+  details.aide summary{cursor:pointer;color:var(--warn);font-weight:bold}
+  details.aide div{background:#fff8ec;border-left:4px solid var(--warn);padding:8px 12px;margin-top:6px;border-radius:0 6px 6px 0}
+  details.cartes summary{cursor:pointer;color:var(--accent);font-weight:bold;font-size:1.05em}
+  details.cartes ul{margin:10px 0 4px 22px}
+  details.cartes li{margin:5px 0}
+  .stretch{border:2px dashed var(--accent2);border-radius:8px;padding:16px 18px;margin:30px 0;background:#fdf7f9}
+  .stretch h2{color:var(--accent2);border-left-color:var(--accent2);margin-top:6px}
+  .banque{background:#f2f7fa;border:1px dashed var(--accent);border-radius:6px;padding:10px 14px;margin:10px 0}
+  .banque span{display:inline-block;margin:3px 12px 3px 0}
+  .texte{background:#fbfdfe;border:1px solid var(--line);border-radius:6px;padding:14px 16px;margin:10px 0;line-height:2.2}
+  .item .texte input[type=text]{display:inline;width:14em;margin:0 2px;padding:4px 8px;font-size:.95em;
+       font-family:inherit;border:1.5px solid var(--accent);border-radius:5px;background:#fff;color:inherit}
+  .grille{width:100%;border-collapse:collapse;margin:10px 0;font-size:.96em}
+  .grille td,.grille th{border:1px solid var(--line);padding:6px 10px;text-align:left;vertical-align:top}
+  .grille th{background:#f2f7fa;color:var(--accent)}
+  .grille td:first-child{width:52px;text-align:center;font-weight:bold;color:var(--accent)}
+  .boite td:first-child{width:210px;background:#f2f7fa;font-weight:bold;text-align:left}
+  .boite input[type=text]{width:100%;padding:7px 9px;font-size:1em;font-family:inherit;
+       border:1.5px solid var(--line);border-radius:5px;background:#fff;color:inherit}
+  .jauge{font-size:.94em;color:#5a6a78;margin-top:8px}
+  .jauge b{color:var(--accent)}
+  .jauge .hit{color:var(--ok);font-weight:bold}
+  .jauge .miss{color:#8a93a0}
+  .note{font-size:.92em;color:#5a6a78;margin-top:6px}
+  .item select:has(option[value=""]:checked){border-color:var(--accent);border-style:dashed}
+  @media (max-width:700px){
+    .wrap{padding:20px 16px}
+    .texte{line-height:2.6}
+    .item .texte input[type=text]{width:100%;margin:2px 0}
+    .gaps input[type=text],.inline input[type=text]{flex:1 1 100%}
+    .boite td:first-child{width:auto}
+    .boite,.boite tbody,.boite tr,.boite td{display:block;width:100%}
+  }
+</style>
+<link rel="stylesheet" href="bba-mobile.css">
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>FR3 · Le monde du travail — maîtriser le contenu</h1>
+    <p class="meta">A-Level French (Edexcel) · Thème 1, unité 1.3 — Le monde du travail · Paper 3, Tâche 1 · Durée conseillée : 40 min</p>
+  </header>
+  <div class="consigne"><strong>Ce qui fait la différence à l'oral.</strong> Le monde du travail est l'unité où l'on cite le plus de sigles et où l'on en explique le moins. Savoir ce que veut dire CDI, SMIC ou RTT, et pouvoir donner un chiffre sur les retraites ou l'écart salarial, vaut mieux que trois phrases d'opinion. Tapez votre réponse puis appuyez sur <strong>« Entrée »</strong> : la correction arrive immédiatement, avec un indice avant la réponse. Écrivez votre nom en bas de l'écran, puis <strong>« Télécharger »</strong> pour rendre votre travail.</div>
+  <table class="grille">
+    <tr><th colspan="2">Le contenu : la structure PEEL</th></tr>
+    <tr><td>P</td><td><b>Point</b> — l'idée, en une phrase.</td></tr>
+    <tr><td>E</td><td><b>Evidence</b> — une statistique, une date, une loi, un exemple précis.</td></tr>
+    <tr><td>E</td><td><b>Explication</b> — qu'est-ce que cela montre ? causes ? conséquences ? qui ?</td></tr>
+    <tr><td>L</td><td><b>Lien</b> — vers un autre sous-thème du programme.</td></tr>
+    <tr><th colspan="2">La langue : ce que l'examinateur cherche</th></tr>
+    <tr><td>1</td><td>Le lexique du sujet, et du <b>lexique rare</b> — <i>exercices 1 et 3</i></td></tr>
+    <tr><td>2</td><td>Les phrases de rédaction et les connecteurs — <i>exercice 3</i></td></tr>
+    <tr><td>3</td><td>Plusieurs temps, les négations complexes, les propositions en <i>si</i>, les pronoms relatifs, les structures à l'infinitif, le subjonctif, le comparatif et le participe présent — <i>exercice 4</i></td></tr>
+  </table>
+  <h2>Exercice 1 · Le lexique de l'unité <span class="pts">(12 points)</span></h2>
+  <div class="consigne">Écrivez l'expression française, avec l'article quand il y en a un. Ce sont les mots que l'examinateur attend dès votre première phrase.</div>
+  <div class="item inline"><p class="q">1. a trade union</p>
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="un syndicat|le syndicat|syndicat" placeholder="" aria-label="a trade union">
+  </div>
+  <div class="item inline"><p class="q">2. a permanent contract</p>
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="un CDI|le CDI|CDI|un contrat à durée indéterminée" placeholder="" aria-label="a permanent contract">
+    <details class="aide"><summary>Indice</summary><div>Trois lettres — ou l'expression complète.</div></details>
+  </div>
+  <div class="item inline"><p class="q">3. a fixed-term contract</p>
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="un CDD|le CDD|CDD|un contrat à durée déterminée" placeholder="" aria-label="a fixed-term contract">
+  </div>
+  <div class="item inline"><p class="q">4. the national minimum wage</p>
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="le SMIC|SMIC|le salaire minimum" placeholder="" aria-label="the national minimum wage">
+    <details class="aide"><summary>Indice</summary><div>Salaire minimum interprofessionnel de croissance.</div></details>
+  </div>
+  <div class="item inline"><p class="q">5. job insecurity</p>
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="la précarité|précarité" placeholder="" aria-label="job insecurity">
+  </div>
+  <div class="item inline"><p class="q">6. teleworking, working from home</p>
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="le télétravail|télétravail" placeholder="" aria-label="teleworking, working from home">
+  </div>
+  <div class="item inline"><p class="q">7. dismissal, redundancy</p>
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="un licenciement|le licenciement|licenciement" placeholder="" aria-label="dismissal, redundancy">
+  </div>
+  <div class="item inline"><p class="q">8. the gender pay gap</p>
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="l'écart salarial|écart salarial|l'écart de rémunération|écart de rémunération" placeholder="" aria-label="the gender pay gap">
+  </div>
+  <div class="item inline"><p class="q">9. the glass ceiling</p>
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="le plafond de verre|plafond de verre" placeholder="" aria-label="the glass ceiling">
+  </div>
+  <div class="item inline"><p class="q">10. a company-level agreement</p>
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="un accord d'entreprise|l'accord d'entreprise|accord d'entreprise" placeholder="" aria-label="a company-level agreement">
+    <details class="aide"><summary>Indice</summary><div>Par opposition à l'accord de <i>branche</i>, qui couvre tout un secteur.</div></details>
+  </div>
+  <div class="item inline"><p class="q">11. sexual harassment at work</p>
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="le harcèlement sexuel au travail|harcèlement sexuel au travail|le harcèlement sexuel" placeholder="" aria-label="sexual harassment at work">
+  </div>
+  <div class="item inline"><p class="q">12. senior executives</p>
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="les cadres dirigeants|cadres dirigeants" placeholder="" aria-label="senior executives">
+    <details class="aide"><summary>Indice</summary><div>C'est eux que vise la loi Rixain.</div></details>
+  </div>
+  <h2>Exercice 2 · Les faits qui comptent <span class="pts">(14 points)</span></h2>
+  <div class="consigne">Une réponse sans preuve reste une opinion. Complétez chaque phrase — un chiffre, une date, un nom de loi ou de personne.</div>
+  <div class="item"><p class="q">13. La réforme des retraites de 2023 a fait passer l'âge légal de départ de 62 à ________ ans.</p>
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="64" placeholder="" aria-label="réponse 13">
+    <details class="aide"><summary>Indice</summary><div>C'est le contenu de la réforme. Sa montée en charge est aujourd'hui <b>gelée</b> : voyez la question sur le gel de novembre 2025.</div></details>
+  </div>
+  <div class="item"><p class="q">14. Les trois principaux syndicats français sont la CGT, la CFDT et ________.</p>
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="FO|Force ouvrière|Force Ouvrière" placeholder="" aria-label="réponse 14">
+    <details class="aide"><summary>Indice</summary><div>Deux lettres, ou son nom complet. Attention : la SNCF n'est pas un syndicat.</div></details>
+  </div>
+  <div class="item"><p class="q">15. Selon la Dares, environ ________ % des salariés français adhèrent à un syndicat.</p>
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="10,3|10.3" placeholder="" aria-label="réponse 15">
+    <details class="aide"><summary>Indice</summary><div>Une décimale. C'est l'un des taux les plus bas de l'OCDE, loin derrière les pays nordiques et la Belgique.</div></details>
+  </div>
+  <div class="item"><p class="q">16. Ce taux tombe à 7-8 % dans le secteur privé et atteint ________ à 20 % dans la fonction publique.</p>
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="18" placeholder="" aria-label="réponse 16">
+    <details class="aide"><summary>Indice</summary><div>Deux chiffres. La syndicalisation française est d'abord un fait du secteur public.</div></details>
+  </div>
+  <div class="item"><p class="q">17. La législation sur la semaine de ________ heures a été mise en œuvre en 2000 pour réduire le chômage par le partage du travail.</p>
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="35" placeholder="" aria-label="réponse 17">
+  </div>
+  <div class="item"><p class="q">18. En novembre 2025, les députés ont voté le gel de l'âge de départ à 62 ans et ________ mois — un gel toujours en vigueur.</p>
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="9|neuf" placeholder="" aria-label="réponse 18">
+    <details class="aide"><summary>Indice</summary><div>Un chiffre. C'est donc <b>cet</b> âge qui s'applique aujourd'hui, et non 64 ans : la suspension court jusqu'après la présidentielle de 2027.</div></details>
+  </div>
+  <div class="item"><p class="q">19. Selon l'Insee, les femmes salariées du privé gagnent en moyenne ________ % de moins que les hommes sur une année, tous temps de travail confondus.</p>
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="22" placeholder="" aria-label="réponse 19">
+  </div>
+  <div class="item"><p class="q">20. À équivalent temps plein, cet écart tombe à environ ________ %.</p>
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="14" placeholder="" aria-label="réponse 20">
+    <details class="aide"><summary>Indice</summary><div>Et il reste encore environ 4 points d'écart à poste, âge et secteur identiques.</div></details>
+  </div>
+  <div class="item"><p class="q">21. Depuis 2019, l'index de l'égalité professionnelle impose aux entreprises de plus de 50 salariés une note sur ________ points.</p>
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="100" placeholder="" aria-label="réponse 21">
+  </div>
+  <div class="item"><p class="q">22. Une entreprise obtenant moins de ________ points doit prendre des mesures correctives.</p>
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="75" placeholder="" aria-label="réponse 22">
+    <details class="aide"><summary>Indice</summary><div>Sous peine d'une sanction pouvant atteindre 1 % de la masse salariale.</div></details>
+  </div>
+  <div class="item"><p class="q">23. La loi ________, promulguée le 24 décembre 2021, impose un quota de femmes parmi les cadres dirigeants et les instances dirigeantes.</p>
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="Rixain|loi Rixain|la loi Rixain" placeholder="" aria-label="réponse 23">
+    <details class="aide"><summary>Indice</summary><div>Du nom de la députée Marie-Pierre Rixain — loi n° 2021-1774. Elle prolonge la loi Copé-Zimmermann de 2011, qui visait, elle, les conseils d'administration.</div></details>
+  </div>
+  <div class="item"><p class="q">24. Depuis le 1er mars 2026, ce quota est de ________ % pour les entreprises d'au moins 1 000 salariés.</p>
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="30" placeholder="" aria-label="réponse 24">
+    <details class="aide"><summary>Indice</summary><div>Il passera à 40 % en mars 2029.</div></details>
+  </div>
+  <div class="item"><p class="q">25. Dans les entreprises de moins de ________ salariés, un accord d'entreprise peut désormais être conclu sans présence syndicale.</p>
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="50" placeholder="" aria-label="réponse 25">
+  </div>
+  <div class="item"><p class="q">26. L'écart salarial ne se réduit que d'environ ________ point par an, selon les chiffres du dossier.</p>
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="0,3|0.3|0,4|0.4" placeholder="" aria-label="réponse 26">
+    <details class="aide"><summary>Indice</summary><div>Moins d'un demi-point. Autrement dit : plusieurs décennies au rythme actuel.</div></details>
+  </div>
+  <h2>Exercice 3 · Le texte à trous <span class="pts">(10 points)</span></h2>
+  <div class="consigne">Complétez le paragraphe avec les expressions de la banque. <strong>Attention :</strong> la banque contient des intrus qui ne servent pas. Respectez la majuscule en début de phrase.</div>
+  <div class="banque"><strong>Banque :</strong> <span>mutation</span> <span>CDI</span> <span>Pour conclure</span> <span>digitalisation</span> <span>défis</span> <span>précarité</span> <span>télétravail</span> <span>équilibre</span> <span>flexibilité</span> <span>s'adaptent</span> <span>pourtant</span> <span>écart de rémunération</span></div>
+  <div class="item">
+  <div class="texte">
+    La
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="digitalisation" placeholder="…" aria-label="trou 27">
+    a transformé les métiers. Le
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="télétravail" placeholder="…" aria-label="trou 28">
+    offre plus de
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="flexibilité" placeholder="…" aria-label="trou 29">
+    mais isole certains. L'
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="écart de rémunération" placeholder="…" aria-label="trou 30">
+    hommes-femmes persiste, et les jeunes peinent à trouver un
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="CDI" placeholder="…" aria-label="trou 31">
+    .
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="Pour conclure|pour conclure" placeholder="…" aria-label="trou 32">
+    , le marché du travail évolue, mais des
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="défis" placeholder="…" aria-label="trou 33">
+    comme la
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="précarité" placeholder="…" aria-label="trou 34">
+    et l'
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="équilibre" placeholder="…" aria-label="trou 35">
+    vie professionnelle-vie privée subsistent. Si les entreprises
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="s'adaptent" placeholder="…" aria-label="trou 36">
+    , les conditions pourraient s'améliorer.
+  </div>
+  </div>
+  <details class="aide"><summary>Indice</summary><div>Deux mots de la banque ne servent pas. Le dernier trou suit <i>si</i> : attention, ici <i>si</i> est suivi du présent, pas de l'imparfait.</div></details>
+  <h2>Exercice 4 · La langue exigée <span class="pts">(12 points)</span></h2>
+  <div class="consigne">Neuf structures, une par ligne. Ce sont elles qui font monter la note AO3 — le contenu ne suffit pas.</div>
+  <div class="item"><p class="q">37. <i>phrase de rédaction</i> — « __________________ que le rapport des Français au travail a changé en profondeur. »</p>
+    <div class="gaps">
+      <input type="text" autocomplete="off" spellcheck="false" data-answer="Force est de constater|force est de constater|Il est indéniable|il est indéniable" placeholder="" aria-label="phrase de rédaction 37">
+    </div>
+    <details class="aide"><summary>Indice</summary><div>Cinq mots avant <i>que</i>, ou quatre pour l'autre formule acceptée.</div></details>
+  </div>
+  <div class="item"><p class="q">38. <i>un autre temps — le conditionnel</i> — « Sans réforme, le système de retraites __________________ (devenir) déficitaire. »</p>
+    <div class="gaps">
+      <input type="text" autocomplete="off" spellcheck="false" data-answer="deviendrait" placeholder="" aria-label="un autre temps — le conditionnel 38">
+    </div>
+    <details class="aide"><summary>Indice</summary><div>Radical du futur, terminaison de l'imparfait.</div></details>
+  </div>
+  <div class="item"><p class="q">39-40. <i>négation complexe</i> — « Les syndicats français __________________ représentent __________________ un salarié sur dix. »</p>
+    <div class="gaps">
+      <input type="text" autocomplete="off" spellcheck="false" data-answer="ne|n'" placeholder="" aria-label="négation complexe 39">
+      <input type="text" autocomplete="off" spellcheck="false" data-answer="que|qu'" placeholder="" aria-label="négation complexe 40">
+    </div>
+    <details class="aide"><summary>Indice</summary><div><i>ne… que</i> restreint : « seulement 8 % ».</div></details>
+  </div>
+  <div class="item"><p class="q">41-42. <i>si + imparfait + conditionnel</i> — « Si l'index de l'égalité __________________ (être) réellement sanctionné, les entreprises __________________ (agir) plus vite. »</p>
+    <div class="gaps">
+      <input type="text" autocomplete="off" spellcheck="false" data-answer="était" placeholder="" aria-label="si + imparfait + conditionnel 41">
+      <input type="text" autocomplete="off" spellcheck="false" data-answer="agiraient" placeholder="" aria-label="si + imparfait + conditionnel 42">
+    </div>
+    <details class="aide"><summary>Indice</summary><div><i>Agir</i> est du deuxième groupe : le conditionnel se forme sur l'infinitif entier.</div></details>
+  </div>
+  <div class="item"><p class="q">43. <i>pronom relatif</i> — « Le télétravail évite deux heures de transport par jour, __________________ explique son succès. » (deux mots)</p>
+    <div class="gaps">
+      <input type="text" autocomplete="off" spellcheck="false" data-answer="ce qui" placeholder="" aria-label="pronom relatif 43">
+    </div>
+    <details class="aide"><summary>Indice</summary><div>Il reprend toute la proposition précédente.</div></details>
+  </div>
+  <div class="item"><p class="q">44. <i>pronom relatif — dont</i> — « La loi Rixain, __________________ on parle beaucoup, vise les cadres dirigeants. »</p>
+    <div class="gaps">
+      <input type="text" autocomplete="off" spellcheck="false" data-answer="dont" placeholder="" aria-label="pronom relatif — dont 44">
+    </div>
+    <details class="aide"><summary>Indice</summary><div>Le verbe est <i>parler <b>de</b> quelque chose</i> : le relatif absorbe le <i>de</i>.</div></details>
+  </div>
+  <div class="item"><p class="q">45. <i>structure à l'infinitif</i> — « __________________ __________________ __________________ conclu un accord d'entreprise, une PME peut déroger à l'accord de branche. » (trois mots)</p>
+    <div class="gaps">
+      <input type="text" autocomplete="off" spellcheck="false" data-answer="Après avoir|après avoir" placeholder="" aria-label="structure à l'infinitif 45">
+    </div>
+    <details class="aide"><summary>Indice</summary><div>Préposition + auxiliaire à l'infinitif, avant le participe passé.</div></details>
+  </div>
+  <div class="item"><p class="q">46. <i>subjonctif</i> — « Il faudrait que la transparence salariale __________________ (devenir) la règle. »</p>
+    <div class="gaps">
+      <input type="text" autocomplete="off" spellcheck="false" data-answer="devienne" placeholder="" aria-label="subjonctif 46">
+    </div>
+    <details class="aide"><summary>Indice</summary><div>Subjonctif présent de <i>devenir</i> : radical en <b>-ienn-</b>.</div></details>
+  </div>
+  <div class="item"><p class="q">47. <i>comparatif / superlatif</i> — « La France a l'un des taux de syndicalisation __________________ __________________ __________________ d'Europe. » (trois mots)</p>
+    <div class="gaps">
+      <input type="text" autocomplete="off" spellcheck="false" data-answer="les plus faibles" placeholder="" aria-label="comparatif / superlatif 47">
+    </div>
+    <details class="aide"><summary>Indice</summary><div>Superlatif : article + <i>plus</i> + adjectif accordé au pluriel.</div></details>
+  </div>
+  <div class="item"><p class="q">48. <i>participe présent</i> — « __________________ (imposer) un quota de 30 %, le législateur a accéléré la féminisation des directions. » (deux mots)</p>
+    <div class="gaps">
+      <input type="text" autocomplete="off" spellcheck="false" data-answer="En imposant|en imposant" placeholder="" aria-label="participe présent 48">
+    </div>
+    <details class="aide"><summary>Indice</summary><div><i>En</i> + participe présent : il exprime le moyen.</div></details>
+  </div>
+  <div class="stretch">
+    <h2>Défi A* — la boîte à cinq cases <span class="pts">(non noté automatiquement)</span></h2>
+    <div class="consigne"><strong>Question de l'examinateur :</strong> <span style="white-space:normal">« Il va falloir travailler plus longtemps en France : qu'en pensez-vous ? »</span><br>Construisez votre réponse case par case, puis lisez-la à voix haute d'un trait. Le compteur sous le tableau vous dit, en direct, ce qui manque.</div>
+    <table class="grille boite"><tbody>
+      <tr><td>Phrase de rédaction<br>pour commencer</td><td><input type="text" id="b1" class="boite-in" autocomplete="off" placeholder="Ex. : Chacun peut constater que…" aria-label="Phrase de rédaction pour commencer"></td></tr>
+      <tr><td>Trois mots<br>propres au sujet</td><td><input type="text" id="b2" class="boite-in" autocomplete="off" placeholder="Trois termes de l'exercice 1" aria-label="Trois mots propres au sujet"></td></tr>
+      <tr><td>Une connaissance,<br>un fait ou un chiffre</td><td><input type="text" id="b3" class="boite-in" autocomplete="off" placeholder="Un chiffre, une date ou une loi de l'exercice 2" aria-label="Une connaissance, un fait ou un chiffre"></td></tr>
+      <tr><td>Un verbe dans<br>un autre temps</td><td><input type="text" id="b4" class="boite-in" autocomplete="off" placeholder="Futur, imparfait, conditionnel, passé composé…" aria-label="Un verbe dans un autre temps"></td></tr>
+      <tr><td>Une structure<br>complexe</td><td><input type="text" id="b5" class="boite-in" autocomplete="off" placeholder="Subjonctif, si + imparfait, ce qui/ce que, ne… guère…" aria-label="Une structure complexe"></td></tr>
+    </tbody></table>
+    <div id="bilan" class="jauge"></div>
+    <div class="item"><p class="q">Ma réponse complète, en une seule fois (visez 90 mots) :</p><textarea id="reponse" placeholder="Reprenez vos cinq cases et reliez-les…"></textarea><div id="bilan2" class="jauge"></div></div>
+    <details class="aide"><summary>Voir un modèle de réponse (seulement après avoir écrit la vôtre)</summary><div><p><b>P.</b> Force est de constater que l'allongement de la vie active est devenu, en France, le conflit social le plus explosif.</p><p><b>E.</b> La réforme de 2023 a fait passer l'âge légal de 62 à 64 ans, mais en novembre 2025 les députés ont voté un gel à 62 ans et 9 mois, toujours en vigueur, qui suspend cette montée jusqu'après la présidentielle de 2027.</p><p><b>E.</b> Ce recul montre que le problème n'est pas seulement comptable : avec un taux de syndicalisation d'environ 10,3 % selon la Dares — et de 7 à 8 % seulement dans le privé —, la contestation ne passe guère par les syndicats mais par la rue, ce qui rend tout compromis difficile. Si les carrières longues étaient mieux prises en compte, la réforme serait sans doute mieux acceptée.</p><p><b>L.</b> En repoussant l'âge de départ, on touche aussi à l'égalité hommes-femmes : les carrières interrompues par la maternité, déjà pénalisées par un écart de rémunération de 22 %, le seront davantage à la retraite.</p></div></details>
+  </div>
+  <h2>Pour aller plus loin · Les énoncés de l'unité au Paper 3</h2>
+  <details class="cartes"><summary>Ouvrir les énoncés que l'examinateur peut vous donner</summary>
+    <ul>
+      <li>Les travailleurs français se battent pour leurs droits du travail.</li>
+      <li>La semaine de 35 heures en France est un échec !</li>
+      <li>Les réformes du Code du Travail visaient essentiellement le pouvoir des syndicats.</li>
+      <li>La loi concernant le harcèlement sexuel au travail doit être renforcée.</li>
+      <li>Les grèves répétées sont la preuve que les Français sont ingouvernables.</li>
+      <li>Il va falloir travailler plus longtemps en France !</li>
+      <li>Le télétravail est la voie de l'avenir.</li>
+    </ul>
+    <p class="note">Entraînez-vous : pour chacun, une phrase P, une preuve E de l'exercice 2, une explication E, et un lien L vers un autre sous-thème.</p>
+  </details>
+  <p class="note">Dans la même unité sur le site : <a href="gender_pay_gap_France.html">Les inégalités salariales</a> · <a href="loi_rixain_activity.html">La loi Rixain</a> · <a href="La_situation_complique_e_en_France_concernant_l_age_de_retraite.html">L'actualité des retraites</a></p>
+</div>
+
+<script>
+/* The kit marks exercises 1 to 4 and handles the name, the pad, the saving and
+   the download. This adds the one thing it cannot do: a live reading of the
+   five-box A* answer, which is continuous writing and cannot be marked. */
+(function(){
+  "use strict";
+  var TERMES = ["Dares", "syndicat", "CDI", "CDD", "SMIC", "précarité", "télétravail", "licenciement", "écart salarial", "écart de rémunération", "plafond de verre", "accord d'entreprise", "accord de branche", "harcèlement sexuel", "cadres dirigeants", "grève", "chômage", "retraite", "cotisations", "masse salariale", "flexibilité", "digitalisation", "Rixain", "Copé-Zimmermann", "Insee", "index de l'égalité", "temps partiel", "transparence salariale"];
+  var PHRASES = ["Chacun peut constater que", "Il est important de noter que", "Ajoutons à cela", "Force est de constater que", "Il est indéniable que", "On ne peut nier que", "Il convient de souligner que", "Il va sans dire que", "Certes", "Néanmoins", "Pour conclure", "En définitive", "Ainsi", "Même si", "En revanche", "D'une part", "D'autre part", "Il n'en demeure pas moins que", "Force est d'admettre", "Il convient de rappeler", "Il est essentiel de rappeler", "Nul ne saurait nier"];
+  /* JavaScript's \b does not fire after an accented letter, so "resté" and
+     "où" were invisible to a trailing \b. Every boundary below is written
+     out as an explicit "not a letter" test instead. */
+  var L = "A-Za-zÀ-ÿ";
+  function re(src, flags){ return new RegExp(src.replace(/L/g, L), flags || "i"); }
+  /* A bare "-i" or "-u" ending matches half the adjectives in French ("c'est
+     vrai"), so the participle is either a real -é form or a named irregular. */
+  var PART = "(?:[L]{2,}(?:ées|ée|és|é)|fait|faits|pris|prise|prises|mis|mise|dit|dits|"
+           + "écrit|écrits|venu|venus|venue|devenu|devenus|vu|vus|su|pu|dû|voulu|connu|"
+           + "reçu|resté|restés|restée|allé|allés|né|nés|mort|morts|parti|partis|sorti|"
+           + "sortis|ouvert|offert|compris|appris|permis|produit|conduit|construit|"
+           + "détruit|inscrit|atteint|éteint|craint|joint|été|eu|lu|tenu|obtenu|maintenu|"
+           + "soutenu|vécu|couru|battu|rendu|entendu|perdu|vendu|répondu|attendu)";
+  var R = {
+    fut:   re("(?:^|[^L])[L]{2,}r(?:a|as|ai|ons|ez|ont)(?![L])"),
+    cond:  re("(?:^|[^L])[L]{2,}rai(?:t|ent|s)(?![L])"),
+    condG: re("[L]{2,}rai(?:t|ent|s)(?![L])", "gi"),
+    impAux:re("(?:^|[^L])(?:était|étaient|avait|avaient|faisait|faisaient)(?![L])"),
+    pc:    re("(?:^|[^L])(?:a|as|ai|ont|avez|avons|est|sont|es|sommes|êtes)\\s+" + PART + "(?![L])"),
+    pqp:   re("(?:^|[^L])(?:avait|avaient|était|étaient)\\s+" + PART + "(?![L])"),
+    ps:    re("(?:^|[^L])(?:fut|furent|eut|eurent|vint|vinrent|fit|firent|prit|prirent|mit|mirent|put|purent|sut|surent|dut|durent|vit|virent|mourut|moururent|naquit|devint|devinrent|parvint|reçut|connut|obtint|serra|vota|créa|lança|proclama|signa|arriva|entra|donna)(?![L])|(?:^|[^L])[L]{3,}(?:èrent|irent|urent)(?![L])")
+  };
+  function tenses(v){
+    var t = String(v || ""), out = [];
+    var stripped = t.replace(R.condG, " ");   /* so "-rait" is not read as a future */
+    if(R.fut.test(stripped))  out.push("futur");
+    if(R.cond.test(t))        out.push("conditionnel");
+    if(R.pqp.test(t))         out.push("plus-que-parfait");
+    else if(R.impAux.test(stripped) || anyBut(stripped, "[L]{2,}(?:ait|aient|ais)(?![L])", IMP_STOP))
+      out.push("imparfait");
+    if(R.pc.test(t))          out.push("passé composé");
+    if(R.ps.test(t))          out.push("passé simple");
+    return out;
+  }
+  function anyBut(text, src, stop){
+    var m = String(text || "").match(re(src, "gi")) || [];
+    for(var i = 0; i < m.length; i++){
+      var w = m[i].toLowerCase().replace(/^[^a-zà-ÿ]+/, "");
+      if(stop.indexOf(w) < 0) return true;
+    }
+    return false;
+  }
+  /* "français" ends in -ais and is not an imperfect. */
+  var IMP_STOP = ["français","francais","anglais","japonais","portugais","irlandais",
+                  "jamais","désormais","desormais","palais","biais","relais","marais",
+                  "essais","délais","delais","balais","niais","frais","lais","gallois",
+                  "quais","aujourd'hui"];
+  /* -ant is the noisiest test on the page: half the adverbs in French end in it. */
+  var PP_STOP = ["pendant","cependant","maintenant","pourtant","autant","avant","devant",
+                 "important","importants","importante","dominant","courant","suivant",
+                 "durant","tant","quant","géant","enfant","enfants","instant","restant",
+                 "montant","gouvernement"];
+  var STRUCT = [
+    ["subjonctif", re("(?:^|[^L])(?:afin|pour|bien|quoi|avant|sans|jusqu'à ce|à condition|à moins)\\s+qu(?:e|')|(?:^|[^L])il\\s+(?:faut|faudrait|fallait|est\\s+(?:essentiel|crucial|important|nécessaire|peu\\s+probable))\\s+qu(?:e|')|(?:^|[^L])pourvu\\s+que(?![L])")],
+    ["si + imparfait + conditionnel", re("(?:^|[^L])s(?:i|')[^.!?]{0,110}[L]{2,}rai(?:t|ent)(?![L])")],
+    ["pronom relatif", re("(?:^|[^L])ce\\s+qu(?:i|e|')|(?:^|[^L])dont(?![L])|\\s+où(?![L])|(?:^|[^L])(?:lequel|laquelle|auquel|desquels|auxquels)(?![L])")],
+    ["négation complexe", re("(?:^|[^L])n(?:e|')\\s?[L']{0,14}\\s*(?:guère|point|nullement|jamais|aucune?|que\\s|qu'|ni\\s|plus\\s|rien)")],
+    ["structure à l'infinitif", re("(?:^|[^L])(?:avant\\s+de|afin\\s+de|pour|sans)\\s+[L]{2,}(?:er|ir|re)(?![L])|(?:^|[^L])après\\s+(?:avoir|être)(?![L])")],
+    ["comparatif / superlatif", re("(?:^|[^L])(?:plus|moins|aussi)\\s+[L]{2,}\\s+qu(?:e|')|(?:^|[^L])l(?:e|a|es)\\s+(?:plus|moins)\\s+[L]{2,}|(?:^|[^L])(?:meilleur|pire|davantage)(?![L])")],
+    ["voix passive", re("(?:^|[^L])(?:est|sont|fut|furent|serait|était|étaient|a\\s+été|ont\\s+été)\\s+[L]{2,}(?:ées|és|ée|é)(?![L])")],
+    ["nominalisation", re("(?:^|[^L])(?:la|le|les|l')\\s?[L]{3,}(?:tion|ment|ance|ence|ité|isme|age)(?![L])")]
+  ];
+  function participePresent(v){
+    var m = String(v || "").match(re("[L]{3,}ant(?![L])", "gi")) || [];
+    for(var i = 0; i < m.length; i++){
+      if(PP_STOP.indexOf(m[i].toLowerCase()) < 0) return true;
+    }
+    return false;
+  }
+  function fold(s){
+    return String(s||"").toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,"")
+             .replace(/[’‘`´]/g,"'").replace(/\s+/g," ");
+  }
+  function words(s){ return (String(s||"").trim().match(/[\wÀ-ſ'’-]+/g)||[]).length; }
+  function hits(text, list){
+    var f = fold(text), out = [];
+    list.forEach(function(x){ if(f.indexOf(fold(x)) >= 0 && out.indexOf(x) < 0) out.push(x); });
+    return out;
+  }
+  function numbers(text){
+    var m = String(text||"").match(/(?:^|[^\w.,])\d{1,4}(?:[ ,.]\d+)?/g) || [];
+    var seen = {}, out = [];
+    m.forEach(function(x){ x = x.replace(/^[^\d]+/,""); if(!seen[x]){ seen[x]=1; out.push(x); } });
+    return out;
+  }
+  function found(text, table){
+    var out = [];
+    table.forEach(function(r){ if(r[1].test(text)) out.push(r[0]); });
+    if(table === STRUCT && participePresent(text)) out.push("participe présent");
+    return out;
+  }
+  function tag(ok, label, detail){
+    return '<span class="' + (ok ? "hit" : "miss") + '">' + (ok ? "✔ " : "· ") + label + "</span>"
+         + (detail ? ' <span class="miss">(' + detail + ")</span>" : "");
+  }
+  function g(id){ var e = document.getElementById(id); return e ? e.value : ""; }
+
+  function readBoxes(){
+    var b = document.getElementById("bilan"); if(!b) return;
+    var all = ["b1","b2","b3","b4","b5"].map(g).join(" \n ");
+    if(!all.replace(/\s/g,"")){ b.innerHTML = ""; return; }
+    var ph = hits(g("b1"), PHRASES);
+    var tm = hits(g("b2") + " " + g("b3") + " " + g("b5"), TERMES);
+    var nb = numbers(g("b3"));
+    var pr = hits(g("b3"), TERMES);
+    var tp = tenses(g("b4"));
+    var st = found(g("b5"), STRUCT);
+    b.innerHTML = [
+      tag(ph.length >= 1, "phrase de rédaction", ph.join(" · ")),
+      tag(tm.length >= 3, "termes du sujet : " + tm.length + " / 3", tm.slice(0,6).join(" · ")),
+      tag(nb.length >= 1 || pr.length >= 1, "preuve chiffrée ou nommée", nb.concat(pr).slice(0,4).join(" · ")),
+      tag(tp.length >= 1, "verbe dans un autre temps", tp.join(" · ")),
+      tag(st.length >= 1, "structure complexe", st.join(" · "))
+    ].join("<br>");
+  }
+  function readAnswer(){
+    var b = document.getElementById("bilan2"); if(!b) return;
+    var v = g("reponse"), w = words(v);
+    if(!w){ b.innerHTML = ""; return; }
+    var st = found(v, STRUCT), tp = tenses(v), tm = hits(v, TERMES), nb = numbers(v);
+    var cible = 90;
+    b.innerHTML = "<b>" + w + " mots</b> "
+      + (w >= cible ? '<span class="hit">✔ longueur atteinte</span>'
+                    : '<span class="miss">· encore ' + (cible - w) + " mots</span>") + "<br>"
+      + tag(tm.length >= 3, "termes du sujet : " + tm.length + " / 3", tm.slice(0,6).join(" · ")) + "<br>"
+      + tag(nb.length >= 1, "preuves chiffrées : " + nb.length, nb.slice(0,6).join(" · ")) + "<br>"
+      + tag(tp.length >= 2, "temps employés : " + tp.length + " / 2", tp.join(" · ")) + "<br>"
+      + tag(st.length >= 3, "structures : " + st.length + " / 3", st.join(" · "));
+  }
+  function refresh(){ readBoxes(); readAnswer(); }
+  ["b1","b2","b3","b4","b5","reponse"].forEach(function(id){
+    var e = document.getElementById(id);
+    if(e) e.addEventListener("input", refresh);
+  });
+  setTimeout(refresh, 900);          /* the kit restores saved work after load */
+  document.addEventListener("click", function(e){
+    if(e.target && e.target.closest && e.target.closest("#bba-resume")) setTimeout(refresh, 300);
+  }, true);
+})();
+</script>
+<script src="bba-kit-fr.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FR8 · Les défis de l'intégration — maîtriser le contenu — A-Level French</title>
+<style>
+  :root{
+    --ink:#1a2733; --paper:#ffffff; --bg:#eef2f6;
+    --accent:#00546b; --accent2:#8a1538; --ok:#1e7b45; --warn:#b06f00; --bad:#a12727;
+    --line:#c9d4dd;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:Calibri,'Segoe UI',Arial,sans-serif;font-size:17px;line-height:1.55;
+       color:var(--ink);background:var(--bg);padding:24px 16px 130px}
+  .wrap{max-width:900px;margin:0 auto;background:var(--paper);border:1px solid var(--line);
+        border-radius:8px;padding:28px 32px}
+  header{border-bottom:3px solid var(--accent);padding-bottom:12px;margin-bottom:18px}
+  h1{font-size:1.6em;color:var(--accent)}
+  .meta{color:#5a6a78;font-style:italic;margin-top:4px}
+  h2{font-size:1.25em;color:var(--accent);margin:30px 0 8px;border-left:5px solid var(--accent);padding-left:10px}
+  h2 .pts{font-size:.75em;color:#5a6a78;font-weight:normal}
+  .consigne{background:#f2f7fa;border-left:4px solid var(--accent);padding:10px 14px;margin:8px 0 14px;border-radius:0 6px 6px 0}
+  .item{margin:12px 0;padding:12px 14px;border:1px solid var(--line);border-radius:6px}
+  .item p.q{margin-bottom:6px}
+  .item input[type=text],.item textarea,.item select{width:100%;padding:8px 10px;font-size:1em;font-family:inherit;
+      border:1.5px solid var(--line);border-radius:5px;margin-top:4px;background:#fff;color:inherit}
+  .item textarea{min-height:80px;resize:vertical}
+  .inline{display:flex;gap:10px;align-items:baseline;flex-wrap:wrap}
+  .inline input[type=text]{width:auto;flex:0 1 300px;margin-top:0}
+  .inline p.q{margin:0;flex:1 1 340px;min-width:220px}
+  .gaps{display:flex;gap:10px;flex-wrap:wrap;margin-top:6px}
+  .gaps input[type=text]{width:auto;flex:0 1 220px;margin-top:0}
+  details.aide{margin:8px 0 2px}
+  details.aide summary{cursor:pointer;color:var(--warn);font-weight:bold}
+  details.aide div{background:#fff8ec;border-left:4px solid var(--warn);padding:8px 12px;margin-top:6px;border-radius:0 6px 6px 0}
+  details.cartes summary{cursor:pointer;color:var(--accent);font-weight:bold;font-size:1.05em}
+  details.cartes ul{margin:10px 0 4px 22px}
+  details.cartes li{margin:5px 0}
+  .stretch{border:2px dashed var(--accent2);border-radius:8px;padding:16px 18px;margin:30px 0;background:#fdf7f9}
+  .stretch h2{color:var(--accent2);border-left-color:var(--accent2);margin-top:6px}
+  .banque{background:#f2f7fa;border:1px dashed var(--accent);border-radius:6px;padding:10px 14px;margin:10px 0}
+  .banque span{display:inline-block;margin:3px 12px 3px 0}
+  .texte{background:#fbfdfe;border:1px solid var(--line);border-radius:6px;padding:14px 16px;margin:10px 0;line-height:2.2}
+  .item .texte input[type=text]{display:inline;width:14em;margin:0 2px;padding:4px 8px;font-size:.95em;
+       font-family:inherit;border:1.5px solid var(--accent);border-radius:5px;background:#fff;color:inherit}
+  .grille{width:100%;border-collapse:collapse;margin:10px 0;font-size:.96em}
+  .grille td,.grille th{border:1px solid var(--line);padding:6px 10px;text-align:left;vertical-align:top}
+  .grille th{background:#f2f7fa;color:var(--accent)}
+  .grille td:first-child{width:52px;text-align:center;font-weight:bold;color:var(--accent)}
+  .boite td:first-child{width:210px;background:#f2f7fa;font-weight:bold;text-align:left}
+  .boite input[type=text]{width:100%;padding:7px 9px;font-size:1em;font-family:inherit;
+       border:1.5px solid var(--line);border-radius:5px;background:#fff;color:inherit}
+  .jauge{font-size:.94em;color:#5a6a78;margin-top:8px}
+  .jauge b{color:var(--accent)}
+  .jauge .hit{color:var(--ok);font-weight:bold}
+  .jauge .miss{color:#8a93a0}
+  .note{font-size:.92em;color:#5a6a78;margin-top:6px}
+  .item select:has(option[value=""]:checked){border-color:var(--accent);border-style:dashed}
+  @media (max-width:700px){
+    .wrap{padding:20px 16px}
+    .texte{line-height:2.6}
+    .item .texte input[type=text]{width:100%;margin:2px 0}
+    .gaps input[type=text],.inline input[type=text]{flex:1 1 100%}
+    .boite td:first-child{width:auto}
+    .boite,.boite tbody,.boite tr,.boite td{display:block;width:100%}
+  }
+</style>
+<link rel="stylesheet" href="bba-mobile.css">
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>FR8 · Les défis de l'immigration et de l'intégration — maîtriser le contenu</h1>
+    <p class="meta">A-Level French (Edexcel) · Thème 3, unité 3.2 — Les défis de l'immigration et de l'intégration · Paper 3, Tâche 1 · Durée conseillée : 40 min</p>
+  </header>
+  <div class="consigne"><strong>Ce qui fait la différence à l'oral.</strong> L'unité la plus difficile à traiter sans caricature. La règle : nommer, dater, citer — un dispositif, une affaire, une définition — et laisser les jugements à la fin, une fois les faits posés. Tapez votre réponse puis appuyez sur <strong>« Entrée »</strong> : la correction arrive immédiatement, avec un indice avant la réponse. Écrivez votre nom en bas de l'écran, puis <strong>« Télécharger »</strong> pour rendre votre travail.</div>
+  <table class="grille">
+    <tr><th colspan="2">Le contenu : la structure PEEL</th></tr>
+    <tr><td>P</td><td><b>Point</b> — l'idée, en une phrase.</td></tr>
+    <tr><td>E</td><td><b>Evidence</b> — une statistique, une date, une loi, un exemple précis.</td></tr>
+    <tr><td>E</td><td><b>Explication</b> — qu'est-ce que cela montre ? causes ? conséquences ? qui ?</td></tr>
+    <tr><td>L</td><td><b>Lien</b> — vers un autre sous-thème du programme.</td></tr>
+    <tr><th colspan="2">La langue : ce que l'examinateur cherche</th></tr>
+    <tr><td>1</td><td>Le lexique du sujet, et du <b>lexique rare</b> — <i>exercices 1 et 3</i></td></tr>
+    <tr><td>2</td><td>Les phrases de rédaction et les connecteurs — <i>exercice 3</i></td></tr>
+    <tr><td>3</td><td>Plusieurs temps, les négations complexes, les propositions en <i>si</i>, les pronoms relatifs, les structures à l'infinitif, le subjonctif, le comparatif et le participe présent — <i>exercice 4</i></td></tr>
+  </table>
+  <h2>Exercice 1 · Le lexique de l'unité <span class="pts">(12 points)</span></h2>
+  <div class="consigne">Écrivez l'expression française, avec l'article quand il y en a un. Ce sont les mots que l'examinateur attend dès votre première phrase.</div>
+  <div class="item inline"><p class="q">1. ghettoisation</p>
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="la ghettoïsation|ghettoïsation" placeholder="" aria-label="ghettoisation">
+  </div>
+  <div class="item inline"><p class="q">2. the disadvantaged suburbs</p>
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="les banlieues défavorisées|banlieues défavorisées|les banlieues" placeholder="" aria-label="the disadvantaged suburbs">
+  </div>
+  <div class="item inline"><p class="q">3. secularism</p>
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="la laïcité|laïcité" placeholder="" aria-label="secularism">
+  </div>
+  <div class="item inline"><p class="q">4. separatism</p>
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="le séparatisme|séparatisme" placeholder="" aria-label="separatism">
+    <details class="aide"><summary>Indice</summary><div>Le mot employé par Emmanuel Macron.</div></details>
+  </div>
+  <div class="item inline"><p class="q">5. withdrawal into one's own community</p>
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="le communautarisme|communautarisme" placeholder="" aria-label="withdrawal into one's own community">
+  </div>
+  <div class="item inline"><p class="q">6. social cohesion</p>
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="la cohésion sociale|cohésion sociale" placeholder="" aria-label="social cohesion">
+  </div>
+  <div class="item inline"><p class="q">7. racial profiling (by the police)</p>
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="le délit de faciès|délit de faciès|le profilage ethnique" placeholder="" aria-label="racial profiling (by the police)">
+  </div>
+  <div class="item inline"><p class="q">8. discrimination in hiring</p>
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="la discrimination à l'embauche|discrimination à l'embauche" placeholder="" aria-label="discrimination in hiring">
+  </div>
+  <div class="item inline"><p class="q">9. social exclusion</p>
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="l'exclusion sociale|exclusion sociale" placeholder="" aria-label="social exclusion">
+  </div>
+  <div class="item inline"><p class="q">10. failure at school</p>
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="l'échec scolaire|échec scolaire" placeholder="" aria-label="failure at school">
+  </div>
+  <div class="item inline"><p class="q">11. the host country</p>
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="la terre d'accueil|terre d'accueil|le pays d'accueil" placeholder="" aria-label="the host country">
+  </div>
+  <div class="item inline"><p class="q">12. a second-class citizen</p>
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="un citoyen de seconde zone|citoyen de seconde zone" placeholder="" aria-label="a second-class citizen">
+  </div>
+  <h2>Exercice 2 · Les faits qui comptent <span class="pts">(12 points)</span></h2>
+  <div class="consigne">Une réponse sans preuve reste une opinion. Complétez chaque phrase — un chiffre, une date, un nom de loi ou de personne.</div>
+  <div class="item"><p class="q">13. Les anciennes zones d'éducation prioritaires s'appellent aujourd'hui les Réseaux d'Éducation ________.</p>
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="Prioritaire|Prioritaires|REP" placeholder="" aria-label="réponse 13">
+    <details class="aide"><summary>Indice</summary><div>L'acronyme est REP.</div></details>
+  </div>
+  <div class="item"><p class="q">14. Selon Emmanuel Macron, le séparatisme est « la volonté de ne plus vivre ensemble et de ne plus être dans la ________ ».</p>
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="République|république" placeholder="" aria-label="réponse 14">
+  </div>
+  <div class="item"><p class="q">15. Marine Le Pen a décrit la loi d'immigration de 2023 comme une « victoire ________ ».</p>
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="idéologique" placeholder="" aria-label="réponse 15">
+  </div>
+  <div class="item"><p class="q">16. Selon la fiche d'oral du site, le taux de chômage peut atteindre ________ % dans certaines banlieues comme Marseille Nord.</p>
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="50" placeholder="" aria-label="réponse 16">
+    <details class="aide"><summary>Indice</summary><div>Chiffre donné sans source ni date sur la fiche : citez-le comme un ordre de grandeur, pas comme une statistique officielle.</div></details>
+  </div>
+  <div class="item"><p class="q">17. Dans le langage des jeunes, le mot arabe « ________ » sert de salutation.</p>
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="wesh" placeholder="" aria-label="réponse 17">
+  </div>
+  <div class="item"><p class="q">18. Le verbe « ________ », passé de l'arabe au français courant, signifie aimer.</p>
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="kiffer" placeholder="" aria-label="réponse 18">
+  </div>
+  <div class="item"><p class="q">19. Le mot « ________ » désigne le ressentiment, la rage rentrée.</p>
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="seum|le seum" placeholder="" aria-label="réponse 19">
+    <details class="aide"><summary>Indice</summary><div>Quatre lettres, souvent précédé de <i>avoir le</i>.</div></details>
+  </div>
+  <div class="item"><p class="q">20. Le mot « ________ » désigne, en verlan, une personne d'origine maghrébine.</p>
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="beur" placeholder="" aria-label="réponse 20">
+  </div>
+  <div class="item"><p class="q">21. L'expression « Wallah » signifie « ________ ________ ».</p>
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="Par Dieu|par Dieu" placeholder="" aria-label="réponse 21">
+  </div>
+  <div class="item"><p class="q">22. Après le succès de « Bande Organisée », le rappeur ________ a rassemblé plus de 150 artistes marseillais et parisiens.</p>
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="JUL|Jul" placeholder="" aria-label="réponse 22">
+  </div>
+  <div class="item"><p class="q">23. En avril 1993, ________ M'Bowole, un Zaïrois de dix-sept ans, a été tué à bout portant dans un commissariat parisien.</p>
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="Makomé|Makome" placeholder="" aria-label="réponse 23">
+  </div>
+  <div class="item"><p class="q">24. Trois ans plus tard, le policier a été reconnu coupable d'homicide involontaire et condamné à ________ ans de prison.</p>
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="huit|8" placeholder="" aria-label="réponse 24">
+  </div>
+  <h2>Exercice 3 · Le texte à trous <span class="pts">(10 points)</span></h2>
+  <div class="consigne">Complétez le paragraphe avec les expressions de la banque. <strong>Attention :</strong> la banque contient des intrus qui ne servent pas. Respectez la majuscule en début de phrase.</div>
+  <div class="banque"><strong>Banque :</strong> <span>Force est de constater</span> <span>banlieues</span> <span>laïcité</span> <span>communautarisme</span> <span>embauche</span> <span>Néanmoins</span> <span>cohésion</span> <span>échec scolaire</span> <span>Même si</span> <span>délit de faciès</span> <span>accueil</span> <span>mixité</span></div>
+  <div class="item">
+  <div class="texte">
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="Force est de constater|force est de constater" placeholder="…" aria-label="trou 25">
+    que l'intégration reste, en France, un chantier inachevé. Dans certaines
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="banlieues" placeholder="…" aria-label="trou 26">
+    , le chômage des jeunes atteint des niveaux sans équivalent ailleurs, et l'
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="échec scolaire" placeholder="…" aria-label="trou 27">
+    s'y transmet d'une génération à l'autre. La discrimination à l'
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="embauche" placeholder="…" aria-label="trou 28">
+    et le
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="délit de faciès" placeholder="…" aria-label="trou 29">
+    nourrissent le sentiment d'être des citoyens de seconde zone.
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="Néanmoins|néanmoins" placeholder="…" aria-label="trou 30">
+    , la majorité des enfants d'immigrés se disent aujourd'hui pleinement français.
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="Même si|même si" placeholder="…" aria-label="trou 31">
+    la
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="laïcité" placeholder="…" aria-label="trou 32">
+    est présentée comme un principe d'égalité, elle est parfois vécue comme une contrainte, ce qui alimente le
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="communautarisme" placeholder="…" aria-label="trou 33">
+    . Restaurer la
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="cohésion" placeholder="…" aria-label="trou 34">
+    sociale suppose donc d'agir en même temps sur le logement, l'école et l'emploi.
+  </div>
+  </div>
+  <details class="aide"><summary>Indice</summary><div>Deux mots de la banque ne servent pas. Les deux connecteurs ne sont pas interchangeables : l'un s'emploie seul avec une virgule, l'autre introduit une proposition entière.</div></details>
+  <h2>Exercice 4 · La langue exigée <span class="pts">(14 points)</span></h2>
+  <div class="consigne">Neuf structures, une par ligne. Ce sont elles qui font monter la note AO3 — le contenu ne suffit pas.</div>
+  <div class="item"><p class="q">35. <i>phrase de rédaction</i> — « __________________ que l'intégration ne se décrète pas : elle se constate, quartier par quartier. »</p>
+    <div class="gaps">
+      <input type="text" autocomplete="off" spellcheck="false" data-answer="Il n'en demeure pas moins|il n'en demeure pas moins|Force est de constater|force est de constater" placeholder="" aria-label="phrase de rédaction 35">
+    </div>
+  </div>
+  <div class="item"><p class="q">36-37. <i>un autre temps — le passé composé</i> — « En 1993, un policier __________________ __________________ (tuer) Makomé M'Bowole dans un commissariat. »</p>
+    <div class="gaps">
+      <input type="text" autocomplete="off" spellcheck="false" data-answer="a" placeholder="" aria-label="un autre temps — le passé composé 36">
+      <input type="text" autocomplete="off" spellcheck="false" data-answer="tué" placeholder="" aria-label="un autre temps — le passé composé 37">
+    </div>
+  </div>
+  <div class="item"><p class="q">38-40. <i>négation complexe</i> — « Beaucoup de jeunes des quartiers __________________ se reconnaissent __________________ dans le discours officiel __________________ dans celui des associations. »</p>
+    <div class="gaps">
+      <input type="text" autocomplete="off" spellcheck="false" data-answer="ne|n'" placeholder="" aria-label="négation complexe 38">
+      <input type="text" autocomplete="off" spellcheck="false" data-answer="ni" placeholder="" aria-label="négation complexe 39">
+      <input type="text" autocomplete="off" spellcheck="false" data-answer="ni" placeholder="" aria-label="négation complexe 40">
+    </div>
+    <details class="aide"><summary>Indice</summary><div><i>ne… ni… ni…</i> : la double exclusion, sans <i>pas</i>.</div></details>
+  </div>
+  <div class="item"><p class="q">41-42. <i>si + imparfait + conditionnel</i> — « Si la mixité scolaire __________________ (être) réelle, l'échec scolaire __________________ (reculer) dans ces quartiers. »</p>
+    <div class="gaps">
+      <input type="text" autocomplete="off" spellcheck="false" data-answer="était" placeholder="" aria-label="si + imparfait + conditionnel 41">
+      <input type="text" autocomplete="off" spellcheck="false" data-answer="reculerait" placeholder="" aria-label="si + imparfait + conditionnel 42">
+    </div>
+  </div>
+  <div class="item"><p class="q">43. <i>pronom relatif</i> — « La laïcité est parfois vécue comme une contrainte, __________________ alimente le communautarisme. » (deux mots)</p>
+    <div class="gaps">
+      <input type="text" autocomplete="off" spellcheck="false" data-answer="ce qui" placeholder="" aria-label="pronom relatif 43">
+    </div>
+  </div>
+  <div class="item"><p class="q">44. <i>pronom relatif — dont</i> — « Le séparatisme, __________________ Emmanuel Macron a donné une définition, désigne le refus de vivre ensemble. »</p>
+    <div class="gaps">
+      <input type="text" autocomplete="off" spellcheck="false" data-answer="dont" placeholder="" aria-label="pronom relatif — dont 44">
+    </div>
+  </div>
+  <div class="item"><p class="q">45. <i>structure à l'infinitif</i> — « __________________ __________________ __________________ juger, il faut distinguer l'intégration de l'assimilation. » (trois mots)</p>
+    <div class="gaps">
+      <input type="text" autocomplete="off" spellcheck="false" data-answer="Avant de juger|avant de juger" placeholder="" aria-label="structure à l'infinitif 45">
+    </div>
+    <details class="aide"><summary>Indice</summary><div>Préposition + <i>de</i> + infinitif. Trois mots en tout, dont le verbe.</div></details>
+  </div>
+  <div class="item"><p class="q">46. <i>subjonctif</i> — « Il faudrait que la République __________________ (tenir) ses promesses d'égalité. »</p>
+    <div class="gaps">
+      <input type="text" autocomplete="off" spellcheck="false" data-answer="tienne" placeholder="" aria-label="subjonctif 46">
+    </div>
+    <details class="aide"><summary>Indice</summary><div>Subjonctif présent de <i>tenir</i> : radical <b>tienn-</b>.</div></details>
+  </div>
+  <div class="item"><p class="q">47. <i>comparatif / superlatif</i> — « Les jeunes issus de l'immigration sont __________________ __________________ __________________ contrôlés que les autres. » (trois mots)</p>
+    <div class="gaps">
+      <input type="text" autocomplete="off" spellcheck="false" data-answer="bien plus souvent|beaucoup plus souvent" placeholder="" aria-label="comparatif / superlatif 47">
+    </div>
+  </div>
+  <div class="item"><p class="q">48. <i>participe présent</i> — « __________________ (concentrer) les difficultés dans les mêmes quartiers, la politique du logement a aggravé la ghettoïsation. » (deux mots)</p>
+    <div class="gaps">
+      <input type="text" autocomplete="off" spellcheck="false" data-answer="En concentrant|en concentrant" placeholder="" aria-label="participe présent 48">
+    </div>
+  </div>
+  <div class="stretch">
+    <h2>Défi A* — la boîte à cinq cases <span class="pts">(non noté automatiquement)</span></h2>
+    <div class="consigne"><strong>Question de l'examinateur :</strong> <span style="white-space:normal">« Les jeunes issus de l'immigration disent que la société française les rejette. Qu'en pensez-vous ? »</span><br>Construisez votre réponse case par case, puis lisez-la à voix haute d'un trait. Le compteur sous le tableau vous dit, en direct, ce qui manque.</div>
+    <table class="grille boite"><tbody>
+      <tr><td>Phrase de rédaction<br>pour commencer</td><td><input type="text" id="b1" class="boite-in" autocomplete="off" placeholder="Ex. : Chacun peut constater que…" aria-label="Phrase de rédaction pour commencer"></td></tr>
+      <tr><td>Trois mots<br>propres au sujet</td><td><input type="text" id="b2" class="boite-in" autocomplete="off" placeholder="Trois termes de l'exercice 1" aria-label="Trois mots propres au sujet"></td></tr>
+      <tr><td>Une connaissance,<br>un fait ou un chiffre</td><td><input type="text" id="b3" class="boite-in" autocomplete="off" placeholder="Un chiffre, une date ou une loi de l'exercice 2" aria-label="Une connaissance, un fait ou un chiffre"></td></tr>
+      <tr><td>Un verbe dans<br>un autre temps</td><td><input type="text" id="b4" class="boite-in" autocomplete="off" placeholder="Futur, imparfait, conditionnel, passé composé…" aria-label="Un verbe dans un autre temps"></td></tr>
+      <tr><td>Une structure<br>complexe</td><td><input type="text" id="b5" class="boite-in" autocomplete="off" placeholder="Subjonctif, si + imparfait, ce qui/ce que, ne… guère…" aria-label="Une structure complexe"></td></tr>
+    </tbody></table>
+    <div id="bilan" class="jauge"></div>
+    <div class="item"><p class="q">Ma réponse complète, en une seule fois (visez 100 mots) :</p><textarea id="reponse" placeholder="Reprenez vos cinq cases et reliez-les…"></textarea><div id="bilan2" class="jauge"></div></div>
+    <details class="aide"><summary>Voir un modèle de réponse (seulement après avoir écrit la vôtre)</summary><div><p><b>P.</b> Force est de constater que le sentiment de rejet est réel, même lorsque les textes proclament l'égalité.</p><p><b>E.</b> Dans certaines banlieues, le chômage des jeunes atteindrait 50 % ; la discrimination à l'embauche et le délit de faciès sont documentés ; en avril 1993, Makomé M'Bowole, un adolescent de dix-sept ans, a été tué à bout portant dans un commissariat parisien, et le policier n'a été condamné qu'à huit ans de prison pour homicide involontaire.</p><p><b>E.</b> Ces faits expliquent la formule de « citoyens de seconde zone » : ce n'est pas la loi qui exclut, c'est son application. Si la mixité scolaire était réelle, l'échec scolaire reculerait dans ces quartiers. Néanmoins, la majorité des enfants d'immigrés se disent pleinement français, et leur vocabulaire — <i>wesh</i>, <i>kiffer</i>, <i>le seum</i> — a colonisé le français des jeunes de toutes origines.</p><p><b>L.</b> En concentrant les difficultés dans les mêmes quartiers, la politique du logement a nourri un discours de repli dont l'extrême droite est aujourd'hui la première bénéficiaire.</p></div></details>
+  </div>
+  <h2>Pour aller plus loin · Les énoncés de l'unité au Paper 3</h2>
+  <details class="cartes"><summary>Ouvrir les énoncés que l'examinateur peut vous donner</summary>
+    <ul>
+      <li>Le multiculturalisme a échoué en France.</li>
+      <li>La discrimination ne recule pas en France.</li>
+      <li>Les immigrés en France se sentent exclus de la société française.</li>
+      <li>La plupart des immigrés qui vivent en France sont bien intégrés.</li>
+      <li>Le principe de la laïcité est un empêchement majeur à l'intégration.</li>
+      <li>Il faut s'attaquer au problème des banlieues pour pouvoir assurer une meilleure intégration.</li>
+      <li>Les jeunes issus de l'immigration disent que la société française les rejette.</li>
+      <li>L'intégration reste un problème difficile.</li>
+      <li>La France ne peut plus maintenir sa tradition d'accueil des réfugiés face à la crise migratoire actuelle.</li>
+    </ul>
+    <p class="note">Entraînez-vous : pour chacun, une phrase P, une preuve E de l'exercice 2, une explication E, et un lien L vers un autre sous-thème.</p>
+  </details>
+  <p class="note">Dans la même unité sur le site : <a href="les_mots_arabes_utilise_s_par_les_ados_franc_ais.html">Mots arabes chez les ados</a> · <a href="makome_mbowole_translation.html">Makomé M'Bowolé — traduction</a></p>
+</div>
+
+<script>
+/* The kit marks exercises 1 to 4 and handles the name, the pad, the saving and
+   the download. This adds the one thing it cannot do: a live reading of the
+   five-box A* answer, which is continuous writing and cannot be marked. */
+(function(){
+  "use strict";
+  var TERMES = ["ghettoïsation", "banlieues", "laïcité", "séparatisme", "communautarisme", "cohésion sociale", "délit de faciès", "discrimination à l'embauche", "exclusion sociale", "échec scolaire", "terre d'accueil", "seconde zone", "REP", "Macron", "Marseille", "mixité", "intégration", "assimilation", "Makomé", "M'Bowole", "wesh", "kiffer", "seum", "beur", "verlan"];
+  var PHRASES = ["Chacun peut constater que", "Il est important de noter que", "Ajoutons à cela", "Force est de constater que", "Il est indéniable que", "On ne peut nier que", "Il convient de souligner que", "Il va sans dire que", "Certes", "Néanmoins", "Pour conclure", "En définitive", "Ainsi", "Même si", "En revanche", "D'une part", "D'autre part", "Il n'en demeure pas moins que", "Force est d'admettre", "Il convient de rappeler", "Il est essentiel de rappeler", "Nul ne saurait nier"];
+  /* JavaScript's \b does not fire after an accented letter, so "resté" and
+     "où" were invisible to a trailing \b. Every boundary below is written
+     out as an explicit "not a letter" test instead. */
+  var L = "A-Za-zÀ-ÿ";
+  function re(src, flags){ return new RegExp(src.replace(/L/g, L), flags || "i"); }
+  /* A bare "-i" or "-u" ending matches half the adjectives in French ("c'est
+     vrai"), so the participle is either a real -é form or a named irregular. */
+  var PART = "(?:[L]{2,}(?:ées|ée|és|é)|fait|faits|pris|prise|prises|mis|mise|dit|dits|"
+           + "écrit|écrits|venu|venus|venue|devenu|devenus|vu|vus|su|pu|dû|voulu|connu|"
+           + "reçu|resté|restés|restée|allé|allés|né|nés|mort|morts|parti|partis|sorti|"
+           + "sortis|ouvert|offert|compris|appris|permis|produit|conduit|construit|"
+           + "détruit|inscrit|atteint|éteint|craint|joint|été|eu|lu|tenu|obtenu|maintenu|"
+           + "soutenu|vécu|couru|battu|rendu|entendu|perdu|vendu|répondu|attendu)";
+  var R = {
+    fut:   re("(?:^|[^L])[L]{2,}r(?:a|as|ai|ons|ez|ont)(?![L])"),
+    cond:  re("(?:^|[^L])[L]{2,}rai(?:t|ent|s)(?![L])"),
+    condG: re("[L]{2,}rai(?:t|ent|s)(?![L])", "gi"),
+    impAux:re("(?:^|[^L])(?:était|étaient|avait|avaient|faisait|faisaient)(?![L])"),
+    pc:    re("(?:^|[^L])(?:a|as|ai|ont|avez|avons|est|sont|es|sommes|êtes)\\s+" + PART + "(?![L])"),
+    pqp:   re("(?:^|[^L])(?:avait|avaient|était|étaient)\\s+" + PART + "(?![L])"),
+    ps:    re("(?:^|[^L])(?:fut|furent|eut|eurent|vint|vinrent|fit|firent|prit|prirent|mit|mirent|put|purent|sut|surent|dut|durent|vit|virent|mourut|moururent|naquit|devint|devinrent|parvint|reçut|connut|obtint|serra|vota|créa|lança|proclama|signa|arriva|entra|donna)(?![L])|(?:^|[^L])[L]{3,}(?:èrent|irent|urent)(?![L])")
+  };
+  function tenses(v){
+    var t = String(v || ""), out = [];
+    var stripped = t.replace(R.condG, " ");   /* so "-rait" is not read as a future */
+    if(R.fut.test(stripped))  out.push("futur");
+    if(R.cond.test(t))        out.push("conditionnel");
+    if(R.pqp.test(t))         out.push("plus-que-parfait");
+    else if(R.impAux.test(stripped) || anyBut(stripped, "[L]{2,}(?:ait|aient|ais)(?![L])", IMP_STOP))
+      out.push("imparfait");
+    if(R.pc.test(t))          out.push("passé composé");
+    if(R.ps.test(t))          out.push("passé simple");
+    return out;
+  }
+  function anyBut(text, src, stop){
+    var m = String(text || "").match(re(src, "gi")) || [];
+    for(var i = 0; i < m.length; i++){
+      var w = m[i].toLowerCase().replace(/^[^a-zà-ÿ]+/, "");
+      if(stop.indexOf(w) < 0) return true;
+    }
+    return false;
+  }
+  /* "français" ends in -ais and is not an imperfect. */
+  var IMP_STOP = ["français","francais","anglais","japonais","portugais","irlandais",
+                  "jamais","désormais","desormais","palais","biais","relais","marais",
+                  "essais","délais","delais","balais","niais","frais","lais","gallois",
+                  "quais","aujourd'hui"];
+  /* -ant is the noisiest test on the page: half the adverbs in French end in it. */
+  var PP_STOP = ["pendant","cependant","maintenant","pourtant","autant","avant","devant",
+                 "important","importants","importante","dominant","courant","suivant",
+                 "durant","tant","quant","géant","enfant","enfants","instant","restant",
+                 "montant","gouvernement"];
+  var STRUCT = [
+    ["subjonctif", re("(?:^|[^L])(?:afin|pour|bien|quoi|avant|sans|jusqu'à ce|à condition|à moins)\\s+qu(?:e|')|(?:^|[^L])il\\s+(?:faut|faudrait|fallait|est\\s+(?:essentiel|crucial|important|nécessaire|peu\\s+probable))\\s+qu(?:e|')|(?:^|[^L])pourvu\\s+que(?![L])")],
+    ["si + imparfait + conditionnel", re("(?:^|[^L])s(?:i|')[^.!?]{0,110}[L]{2,}rai(?:t|ent)(?![L])")],
+    ["pronom relatif", re("(?:^|[^L])ce\\s+qu(?:i|e|')|(?:^|[^L])dont(?![L])|\\s+où(?![L])|(?:^|[^L])(?:lequel|laquelle|auquel|desquels|auxquels)(?![L])")],
+    ["négation complexe", re("(?:^|[^L])n(?:e|')\\s?[L']{0,14}\\s*(?:guère|point|nullement|jamais|aucune?|que\\s|qu'|ni\\s|plus\\s|rien)")],
+    ["structure à l'infinitif", re("(?:^|[^L])(?:avant\\s+de|afin\\s+de|pour|sans)\\s+[L]{2,}(?:er|ir|re)(?![L])|(?:^|[^L])après\\s+(?:avoir|être)(?![L])")],
+    ["comparatif / superlatif", re("(?:^|[^L])(?:plus|moins|aussi)\\s+[L]{2,}\\s+qu(?:e|')|(?:^|[^L])l(?:e|a|es)\\s+(?:plus|moins)\\s+[L]{2,}|(?:^|[^L])(?:meilleur|pire|davantage)(?![L])")],
+    ["voix passive", re("(?:^|[^L])(?:est|sont|fut|furent|serait|était|étaient|a\\s+été|ont\\s+été)\\s+[L]{2,}(?:ées|és|ée|é)(?![L])")],
+    ["nominalisation", re("(?:^|[^L])(?:la|le|les|l')\\s?[L]{3,}(?:tion|ment|ance|ence|ité|isme|age)(?![L])")]
+  ];
+  function participePresent(v){
+    var m = String(v || "").match(re("[L]{3,}ant(?![L])", "gi")) || [];
+    for(var i = 0; i < m.length; i++){
+      if(PP_STOP.indexOf(m[i].toLowerCase()) < 0) return true;
+    }
+    return false;
+  }
+  function fold(s){
+    return String(s||"").toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,"")
+             .replace(/[’‘`´]/g,"'").replace(/\s+/g," ");
+  }
+  function words(s){ return (String(s||"").trim().match(/[\wÀ-ſ'’-]+/g)||[]).length; }
+  function hits(text, list){
+    var f = fold(text), out = [];
+    list.forEach(function(x){ if(f.indexOf(fold(x)) >= 0 && out.indexOf(x) < 0) out.push(x); });
+    return out;
+  }
+  function numbers(text){
+    var m = String(text||"").match(/(?:^|[^\w.,])\d{1,4}(?:[ ,.]\d+)?/g) || [];
+    var seen = {}, out = [];
+    m.forEach(function(x){ x = x.replace(/^[^\d]+/,""); if(!seen[x]){ seen[x]=1; out.push(x); } });
+    return out;
+  }
+  function found(text, table){
+    var out = [];
+    table.forEach(function(r){ if(r[1].test(text)) out.push(r[0]); });
+    if(table === STRUCT && participePresent(text)) out.push("participe présent");
+    return out;
+  }
+  function tag(ok, label, detail){
+    return '<span class="' + (ok ? "hit" : "miss") + '">' + (ok ? "✔ " : "· ") + label + "</span>"
+         + (detail ? ' <span class="miss">(' + detail + ")</span>" : "");
+  }
+  function g(id){ var e = document.getElementById(id); return e ? e.value : ""; }
+
+  function readBoxes(){
+    var b = document.getElementById("bilan"); if(!b) return;
+    var all = ["b1","b2","b3","b4","b5"].map(g).join(" \n ");
+    if(!all.replace(/\s/g,"")){ b.innerHTML = ""; return; }
+    var ph = hits(g("b1"), PHRASES);
+    var tm = hits(g("b2") + " " + g("b3") + " " + g("b5"), TERMES);
+    var nb = numbers(g("b3"));
+    var pr = hits(g("b3"), TERMES);
+    var tp = tenses(g("b4"));
+    var st = found(g("b5"), STRUCT);
+    b.innerHTML = [
+      tag(ph.length >= 1, "phrase de rédaction", ph.join(" · ")),
+      tag(tm.length >= 3, "termes du sujet : " + tm.length + " / 3", tm.slice(0,6).join(" · ")),
+      tag(nb.length >= 1 || pr.length >= 1, "preuve chiffrée ou nommée", nb.concat(pr).slice(0,4).join(" · ")),
+      tag(tp.length >= 1, "verbe dans un autre temps", tp.join(" · ")),
+      tag(st.length >= 1, "structure complexe", st.join(" · "))
+    ].join("<br>");
+  }
+  function readAnswer(){
+    var b = document.getElementById("bilan2"); if(!b) return;
+    var v = g("reponse"), w = words(v);
+    if(!w){ b.innerHTML = ""; return; }
+    var st = found(v, STRUCT), tp = tenses(v), tm = hits(v, TERMES), nb = numbers(v);
+    var cible = 100;
+    b.innerHTML = "<b>" + w + " mots</b> "
+      + (w >= cible ? '<span class="hit">✔ longueur atteinte</span>'
+                    : '<span class="miss">· encore ' + (cible - w) + " mots</span>") + "<br>"
+      + tag(tm.length >= 3, "termes du sujet : " + tm.length + " / 3", tm.slice(0,6).join(" · ")) + "<br>"
+      + tag(nb.length >= 1, "preuves chiffrées : " + nb.length, nb.slice(0,6).join(" · ")) + "<br>"
+      + tag(tp.length >= 2, "temps employés : " + tp.length + " / 2", tp.join(" · ")) + "<br>"
+      + tag(st.length >= 3, "structures : " + st.length + " / 3", st.join(" · "));
+  }
+  function refresh(){ readBoxes(); readAnswer(); }
+  ["b1","b2","b3","b4","b5","reponse"].forEach(function(id){
+    var e = document.getElementById(id);
+    if(e) e.addEventListener("input", refresh);
+  });
+  setTimeout(refresh, 900);          /* the kit restores saved work after load */
+  document.addEventListener("click", function(e){
+    if(e.target && e.target.closest && e.target.closest("#bba-resume")) setTimeout(refresh, 300);
+  }, true);
+})();
+</script>
+<script src="bba-kit-fr.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FR10 · La France occupée — maîtriser le contenu — A-Level French</title>
+<style>
+  :root{
+    --ink:#1a2733; --paper:#ffffff; --bg:#eef2f6;
+    --accent:#00546b; --accent2:#8a1538; --ok:#1e7b45; --warn:#b06f00; --bad:#a12727;
+    --line:#c9d4dd;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:Calibri,'Segoe UI',Arial,sans-serif;font-size:17px;line-height:1.55;
+       color:var(--ink);background:var(--bg);padding:24px 16px 130px}
+  .wrap{max-width:900px;margin:0 auto;background:var(--paper);border:1px solid var(--line);
+        border-radius:8px;padding:28px 32px}
+  header{border-bottom:3px solid var(--accent);padding-bottom:12px;margin-bottom:18px}
+  h1{font-size:1.6em;color:var(--accent)}
+  .meta{color:#5a6a78;font-style:italic;margin-top:4px}
+  h2{font-size:1.25em;color:var(--accent);margin:30px 0 8px;border-left:5px solid var(--accent);padding-left:10px}
+  h2 .pts{font-size:.75em;color:#5a6a78;font-weight:normal}
+  .consigne{background:#f2f7fa;border-left:4px solid var(--accent);padding:10px 14px;margin:8px 0 14px;border-radius:0 6px 6px 0}
+  .item{margin:12px 0;padding:12px 14px;border:1px solid var(--line);border-radius:6px}
+  .item p.q{margin-bottom:6px}
+  .item input[type=text],.item textarea,.item select{width:100%;padding:8px 10px;font-size:1em;font-family:inherit;
+      border:1.5px solid var(--line);border-radius:5px;margin-top:4px;background:#fff;color:inherit}
+  .item textarea{min-height:80px;resize:vertical}
+  .inline{display:flex;gap:10px;align-items:baseline;flex-wrap:wrap}
+  .inline input[type=text]{width:auto;flex:0 1 300px;margin-top:0}
+  .inline p.q{margin:0;flex:1 1 340px;min-width:220px}
+  .gaps{display:flex;gap:10px;flex-wrap:wrap;margin-top:6px}
+  .gaps input[type=text]{width:auto;flex:0 1 220px;margin-top:0}
+  details.aide{margin:8px 0 2px}
+  details.aide summary{cursor:pointer;color:var(--warn);font-weight:bold}
+  details.aide div{background:#fff8ec;border-left:4px solid var(--warn);padding:8px 12px;margin-top:6px;border-radius:0 6px 6px 0}
+  details.cartes summary{cursor:pointer;color:var(--accent);font-weight:bold;font-size:1.05em}
+  details.cartes ul{margin:10px 0 4px 22px}
+  details.cartes li{margin:5px 0}
+  .stretch{border:2px dashed var(--accent2);border-radius:8px;padding:16px 18px;margin:30px 0;background:#fdf7f9}
+  .stretch h2{color:var(--accent2);border-left-color:var(--accent2);margin-top:6px}
+  .banque{background:#f2f7fa;border:1px dashed var(--accent);border-radius:6px;padding:10px 14px;margin:10px 0}
+  .banque span{display:inline-block;margin:3px 12px 3px 0}
+  .texte{background:#fbfdfe;border:1px solid var(--line);border-radius:6px;padding:14px 16px;margin:10px 0;line-height:2.2}
+  .item .texte input[type=text]{display:inline;width:14em;margin:0 2px;padding:4px 8px;font-size:.95em;
+       font-family:inherit;border:1.5px solid var(--accent);border-radius:5px;background:#fff;color:inherit}
+  .grille{width:100%;border-collapse:collapse;margin:10px 0;font-size:.96em}
+  .grille td,.grille th{border:1px solid var(--line);padding:6px 10px;text-align:left;vertical-align:top}
+  .grille th{background:#f2f7fa;color:var(--accent)}
+  .grille td:first-child{width:52px;text-align:center;font-weight:bold;color:var(--accent)}
+  .boite td:first-child{width:210px;background:#f2f7fa;font-weight:bold;text-align:left}
+  .boite input[type=text]{width:100%;padding:7px 9px;font-size:1em;font-family:inherit;
+       border:1.5px solid var(--line);border-radius:5px;background:#fff;color:inherit}
+  .jauge{font-size:.94em;color:#5a6a78;margin-top:8px}
+  .jauge b{color:var(--accent)}
+  .jauge .hit{color:var(--ok);font-weight:bold}
+  .jauge .miss{color:#8a93a0}
+  .note{font-size:.92em;color:#5a6a78;margin-top:6px}
+  .item select:has(option[value=""]:checked){border-color:var(--accent);border-style:dashed}
+  @media (max-width:700px){
+    .wrap{padding:20px 16px}
+    .texte{line-height:2.6}
+    .item .texte input[type=text]{width:100%;margin:2px 0}
+    .gaps input[type=text],.inline input[type=text]{flex:1 1 100%}
+    .boite td:first-child{width:auto}
+    .boite,.boite tbody,.boite tr,.boite td{display:block;width:100%}
+  }
+</style>
+<link rel="stylesheet" href="bba-mobile.css">
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>FR10 · La France occupée — maîtriser le contenu</h1>
+    <p class="meta">A-Level French (Edexcel) · Thème 4, unité 4.1 — La France occupée · Paper 3, Tâche 1 · Durée conseillée : 40 min</p>
+  </header>
+  <div class="consigne"><strong>Ce qui fait la différence à l'oral.</strong> Sur l'Occupation, la faute la plus coûteuse est le récit héroïque. L'examinateur attend des dates précises, des chiffres de rafle et le nom des historiens qui ont changé le regard porté sur ces années. Tapez votre réponse puis appuyez sur <strong>« Entrée »</strong> : la correction arrive immédiatement, avec un indice avant la réponse. Écrivez votre nom en bas de l'écran, puis <strong>« Télécharger »</strong> pour rendre votre travail.</div>
+  <table class="grille">
+    <tr><th colspan="2">Le contenu : la structure PEEL</th></tr>
+    <tr><td>P</td><td><b>Point</b> — l'idée, en une phrase.</td></tr>
+    <tr><td>E</td><td><b>Evidence</b> — une statistique, une date, une loi, un exemple précis.</td></tr>
+    <tr><td>E</td><td><b>Explication</b> — qu'est-ce que cela montre ? causes ? conséquences ? qui ?</td></tr>
+    <tr><td>L</td><td><b>Lien</b> — vers un autre sous-thème du programme.</td></tr>
+    <tr><th colspan="2">La langue : ce que l'examinateur cherche</th></tr>
+    <tr><td>1</td><td>Le lexique du sujet, et du <b>lexique rare</b> — <i>exercices 1 et 3</i></td></tr>
+    <tr><td>2</td><td>Les phrases de rédaction et les connecteurs — <i>exercice 3</i></td></tr>
+    <tr><td>3</td><td>Plusieurs temps, les négations complexes, les propositions en <i>si</i>, les pronoms relatifs, les structures à l'infinitif, le subjonctif, le comparatif et le participe présent — <i>exercice 4</i></td></tr>
+  </table>
+  <h2>Exercice 1 · Le lexique de l'unité <span class="pts">(12 points)</span></h2>
+  <div class="consigne">Écrivez l'expression française, avec l'article quand il y en a un. Ce sont les mots que l'examinateur attend dès votre première phrase.</div>
+  <div class="item inline"><p class="q">1. collaboration by the state itself</p>
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="la collaboration d'État|collaboration d'État" placeholder="" aria-label="collaboration by the state itself">
+  </div>
+  <div class="item inline"><p class="q">2. everyday, non-political collaboration</p>
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="la collaboration au quotidien|collaboration au quotidien" placeholder="" aria-label="everyday, non-political collaboration">
+  </div>
+  <div class="item inline"><p class="q">3. a round-up, a mass arrest</p>
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="une rafle|la rafle|rafle" placeholder="" aria-label="a round-up, a mass arrest">
+  </div>
+  <div class="item inline"><p class="q">4. informing on someone, denunciation</p>
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="la délation|délation" placeholder="" aria-label="informing on someone, denunciation">
+    <details class="aide"><summary>Indice</summary><div>Le mot est plus fort que <i>dénonciation</i> : il porte le mépris.</div></details>
+  </div>
+  <div class="item inline"><p class="q">5. a German decree</p>
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="une ordonnance|l'ordonnance|ordonnance" placeholder="" aria-label="a German decree">
+  </div>
+  <div class="item inline"><p class="q">6. the Statute on Jews (the French law of October 1940)</p>
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="le statut des Juifs|statut des Juifs" placeholder="" aria-label="the Statute on Jews (the French law of October 1940)">
+  </div>
+  <div class="item inline"><p class="q">7. the census, the registration</p>
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="le recensement|recensement" placeholder="" aria-label="the census, the registration">
+  </div>
+  <div class="item inline"><p class="q">8. the curfew</p>
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="le couvre-feu|couvre-feu" placeholder="" aria-label="the curfew">
+  </div>
+  <div class="item inline"><p class="q">9. the black market</p>
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="le marché noir|marché noir" placeholder="" aria-label="the black market">
+  </div>
+  <div class="item inline"><p class="q">10. rationing</p>
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="le rationnement|rationnement" placeholder="" aria-label="rationing">
+  </div>
+  <div class="item inline"><p class="q">11. a member of the Milice</p>
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="un milicien|le milicien|milicien" placeholder="" aria-label="a member of the Milice">
+  </div>
+  <div class="item inline"><p class="q">12. the post-war purge</p>
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="l'épuration|épuration" placeholder="" aria-label="the post-war purge">
+  </div>
+  <h2>Exercice 2 · Les faits qui comptent <span class="pts">(12 points)</span></h2>
+  <div class="consigne">Une réponse sans preuve reste une opinion. Complétez chaque phrase — un chiffre, une date, un nom de loi ou de personne.</div>
+  <div class="item"><p class="q">13. Le 24 octobre ________, à Montoire, le maréchal Pétain serre la main d'Adolf Hitler.</p>
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="1940" placeholder="" aria-label="réponse 13">
+  </div>
+  <div class="item"><p class="q">14. Le 30 octobre 1940, Pétain déclare à la radio : « J'entre aujourd'hui dans la voie de la ________. »</p>
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="collaboration" placeholder="" aria-label="réponse 14">
+  </div>
+  <div class="item"><p class="q">15. Les historiens distinguent trois cercles : la collaboration d'État, la collaboration privée et la collaboration au ________.</p>
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="quotidien" placeholder="" aria-label="réponse 15">
+  </div>
+  <div class="item"><p class="q">16. La rafle du ________ ________ ________ a lieu les 16 et 17 juillet 1942.</p>
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="Vélodrome d'Hiver|Vél' d'Hiv'|Vel d'Hiv|Vélodrome d'hiver" placeholder="" aria-label="réponse 16">
+  </div>
+  <div class="item"><p class="q">17. Plus de 4 500 policiers et gendarmes français y arrêtent ________ personnes.</p>
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="13 152|13152" placeholder="" aria-label="réponse 17">
+    <details class="aide"><summary>Indice</summary><div>Cinq chiffres, séparés par une espace.</div></details>
+  </div>
+  <div class="item"><p class="q">18. … dont ________ enfants.</p>
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="4 115|4115" placeholder="" aria-label="réponse 18">
+  </div>
+  <div class="item"><p class="q">19. Les familles y sont transférées à Pithiviers et à ________, avant Auschwitz.</p>
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="Beaune-la-Rolande" placeholder="" aria-label="réponse 19">
+  </div>
+  <div class="item"><p class="q">20. L'historiographie de la période est dominée par les travaux de l'Américain Robert ________.</p>
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="Paxton" placeholder="" aria-label="réponse 20">
+    <details class="aide"><summary>Indice</summary><div><i>La France de Vichy</i>. Le site date l'ouvrage de 1972 sur une page et de 1973 sur une autre : c'est l'écart entre l'édition américaine et la traduction française.</div></details>
+  </div>
+  <div class="item"><p class="q">21. Henri Rousso donne en 1987 le nom de « syndrome de ________ » à l'amnésie collective française.</p>
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="Vichy" placeholder="" aria-label="réponse 21">
+  </div>
+  <div class="item"><p class="q">22. Le 16 juillet ________, Jacques Chirac reconnaît que « la folie criminelle de l'occupant a été secondée par des Français, par l'État français ».</p>
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="1995" placeholder="" aria-label="réponse 22">
+  </div>
+  <div class="item"><p class="q">23. En janvier 1943, Vichy crée la ________, dirigée par Joseph Darnand.</p>
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="Milice|la Milice" placeholder="" aria-label="réponse 23">
+  </div>
+  <div class="item"><p class="q">24. Selon l'Institut d'histoire du temps présent, l'épuration sauvage compte environ ________ exécutions sommaires.</p>
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="8 775|8775" placeholder="" aria-label="réponse 24">
+  </div>
+  <h2>Exercice 3 · Le texte à trous <span class="pts">(10 points)</span></h2>
+  <div class="consigne">Complétez le paragraphe avec les expressions de la banque. <strong>Attention :</strong> la banque contient des intrus qui ne servent pas. Respectez la majuscule en début de phrase.</div>
+  <div class="banque"><strong>Banque :</strong> <span>Force est de constater</span> <span>rafle</span> <span>délation</span> <span>collaboration</span> <span>Néanmoins</span> <span>ordonnance</span> <span>marché noir</span> <span>Même si</span> <span>épuration</span> <span>responsabilité</span> <span>bouclier</span> <span>rationnement</span></div>
+  <div class="item">
+  <div class="texte">
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="Force est de constater|force est de constater" placeholder="…" aria-label="trou 25">
+    que l'Occupation ne se réduit pas à un affrontement entre héros et traîtres. La
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="collaboration" placeholder="…" aria-label="trou 26">
+    fut d'abord un choix d'État : le 30 octobre 1940, Pétain l'annonce lui-même à la radio.
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="Néanmoins|néanmoins" placeholder="…" aria-label="trou 27">
+    , les historiens distinguent trois cercles, et le plus large est celui du quotidien : le
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="rationnement" placeholder="…" aria-label="trou 28">
+    et les files d'attente ont poussé des millions de Français vers le
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="marché noir" placeholder="…" aria-label="trou 29">
+    . La
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="délation" placeholder="…" aria-label="trou 30">
+    anonyme, elle, a rempli les bureaux de la police sans qu'aucune loi ne l'impose.
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="Même si|même si" placeholder="…" aria-label="trou 31">
+    la
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="rafle" placeholder="…" aria-label="trou 32">
+    du Vél' d'Hiv' fut décidée par l'occupant, elle fut exécutée par des policiers français, ce que Jacques Chirac a reconnu en 1995 en parlant de la
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="responsabilité" placeholder="…" aria-label="trou 33">
+    de l'État français. L'
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="épuration" placeholder="…" aria-label="trou 34">
+    d'après-guerre n'a pourtant jugé qu'une fraction des coupables.
+  </div>
+  </div>
+  <details class="aide"><summary>Indice</summary><div>Deux mots de la banque ne servent pas. L'un d'eux appartient au vocabulaire de Pétain lui-même, pas à celui de l'Occupation quotidienne.</div></details>
+  <h2>Exercice 4 · La langue exigée <span class="pts">(12 points)</span></h2>
+  <div class="consigne">Neuf structures, une par ligne. Ce sont elles qui font monter la note AO3 — le contenu ne suffit pas.</div>
+  <div class="item"><p class="q">35. <i>phrase de rédaction</i> — « __________________ que la thèse d'une France majoritairement résistante ne résiste pas aux archives. »</p>
+    <div class="gaps">
+      <input type="text" autocomplete="off" spellcheck="false" data-answer="Force est d'admettre|force est d'admettre|Force est de constater|force est de constater" placeholder="" aria-label="phrase de rédaction 35">
+    </div>
+  </div>
+  <div class="item"><p class="q">36. <i>un autre temps — le passé simple</i> — « Le 24 octobre 1940, Pétain __________________ (serrer) la main d'Hitler à Montoire. »</p>
+    <div class="gaps">
+      <input type="text" autocomplete="off" spellcheck="false" data-answer="serra" placeholder="" aria-label="un autre temps — le passé simple 36">
+    </div>
+    <details class="aide"><summary>Indice</summary><div>Passé simple, troisième personne du singulier : le temps du récit historique.</div></details>
+  </div>
+  <div class="item"><p class="q">37-38. <i>négation complexe</i> — « L'épuration __________________ a jugé __________________ une fraction des coupables. »</p>
+    <div class="gaps">
+      <input type="text" autocomplete="off" spellcheck="false" data-answer="n'|ne" placeholder="" aria-label="négation complexe 37">
+      <input type="text" autocomplete="off" spellcheck="false" data-answer="que|qu'" placeholder="" aria-label="négation complexe 38">
+    </div>
+  </div>
+  <div class="item"><p class="q">39-40. <i>si + imparfait + conditionnel</i> — « Si les archives __________________ (être) restées fermées, le mythe __________________ (durer) encore. »</p>
+    <div class="gaps">
+      <input type="text" autocomplete="off" spellcheck="false" data-answer="étaient" placeholder="" aria-label="si + imparfait + conditionnel 39">
+      <input type="text" autocomplete="off" spellcheck="false" data-answer="durerait" placeholder="" aria-label="si + imparfait + conditionnel 40">
+    </div>
+  </div>
+  <div class="item"><p class="q">41. <i>pronom relatif</i> — « La rafle fut exécutée par des policiers français, __________________ Jacques Chirac a reconnu en 1995. » (deux mots)</p>
+    <div class="gaps">
+      <input type="text" autocomplete="off" spellcheck="false" data-answer="ce que|ce qu'" placeholder="" aria-label="pronom relatif 41">
+    </div>
+    <details class="aide"><summary>Indice</summary><div>Ici le relatif est complément d'objet du verbe <i>reconnaître</i>, non sujet.</div></details>
+  </div>
+  <div class="item"><p class="q">42. <i>pronom relatif — dont</i> — « Le statut des Juifs, __________________ Pétain a personnellement annoté le brouillon, date d'octobre 1940. »</p>
+    <div class="gaps">
+      <input type="text" autocomplete="off" spellcheck="false" data-answer="dont" placeholder="" aria-label="pronom relatif — dont 42">
+    </div>
+  </div>
+  <div class="item"><p class="q">43. <i>structure à l'infinitif</i> — « __________________ __________________ __________________ juger cette époque, il faut mesurer ce que coûtait un refus. » (trois mots)</p>
+    <div class="gaps">
+      <input type="text" autocomplete="off" spellcheck="false" data-answer="Avant de juger|avant de juger" placeholder="" aria-label="structure à l'infinitif 43">
+    </div>
+  </div>
+  <div class="item"><p class="q">44. <i>subjonctif</i> — « Il a fallu attendre 1995 pour que l'État __________________ (reconnaître) sa responsabilité. »</p>
+    <div class="gaps">
+      <input type="text" autocomplete="off" spellcheck="false" data-answer="reconnaisse" placeholder="" aria-label="subjonctif 44">
+    </div>
+    <details class="aide"><summary>Indice</summary><div>Après <i>pour que</i>, le subjonctif. Radical <b>reconnaiss-</b>.</div></details>
+  </div>
+  <div class="item"><p class="q">45. <i>comparatif / superlatif</i> — « Le cercle de la collaboration quotidienne est __________________ __________________ __________________ __________________ trois. » (quatre mots)</p>
+    <div class="gaps">
+      <input type="text" autocomplete="off" spellcheck="false" data-answer="le plus large des" placeholder="" aria-label="comparatif / superlatif 45">
+    </div>
+    <details class="aide"><summary>Indice</summary><div>Superlatif suivi de <i>des</i>.</div></details>
+  </div>
+  <div class="item"><p class="q">46. <i>participe présent</i> — « __________________ (obéir) sans discuter, l'administration française a rendu la rafle possible. » (deux mots)</p>
+    <div class="gaps">
+      <input type="text" autocomplete="off" spellcheck="false" data-answer="En obéissant|en obéissant" placeholder="" aria-label="participe présent 46">
+    </div>
+    <details class="aide"><summary>Indice</summary><div>Participe présent d'<i>obéir</i>, formé sur <i>nous obéissons</i>.</div></details>
+  </div>
+  <div class="stretch">
+    <h2>Défi A* — la boîte à cinq cases <span class="pts">(non noté automatiquement)</span></h2>
+    <div class="consigne"><strong>Question de l'examinateur :</strong> <span style="white-space:normal">« Le niveau de collaboration pendant l'Occupation a-t-il été surestimé ? »</span><br>Construisez votre réponse case par case, puis lisez-la à voix haute d'un trait. Le compteur sous le tableau vous dit, en direct, ce qui manque.</div>
+    <table class="grille boite"><tbody>
+      <tr><td>Phrase de rédaction<br>pour commencer</td><td><input type="text" id="b1" class="boite-in" autocomplete="off" placeholder="Ex. : Chacun peut constater que…" aria-label="Phrase de rédaction pour commencer"></td></tr>
+      <tr><td>Trois mots<br>propres au sujet</td><td><input type="text" id="b2" class="boite-in" autocomplete="off" placeholder="Trois termes de l'exercice 1" aria-label="Trois mots propres au sujet"></td></tr>
+      <tr><td>Une connaissance,<br>un fait ou un chiffre</td><td><input type="text" id="b3" class="boite-in" autocomplete="off" placeholder="Un chiffre, une date ou une loi de l'exercice 2" aria-label="Une connaissance, un fait ou un chiffre"></td></tr>
+      <tr><td>Un verbe dans<br>un autre temps</td><td><input type="text" id="b4" class="boite-in" autocomplete="off" placeholder="Futur, imparfait, conditionnel, passé composé…" aria-label="Un verbe dans un autre temps"></td></tr>
+      <tr><td>Une structure<br>complexe</td><td><input type="text" id="b5" class="boite-in" autocomplete="off" placeholder="Subjonctif, si + imparfait, ce qui/ce que, ne… guère…" aria-label="Une structure complexe"></td></tr>
+    </tbody></table>
+    <div id="bilan" class="jauge"></div>
+    <div class="item"><p class="q">Ma réponse complète, en une seule fois (visez 100 mots) :</p><textarea id="reponse" placeholder="Reprenez vos cinq cases et reliez-les…"></textarea><div id="bilan2" class="jauge"></div></div>
+    <details class="aide"><summary>Voir un modèle de réponse (seulement après avoir écrit la vôtre)</summary><div><p><b>P.</b> Force est d'admettre que la question est mal posée : le problème n'est pas le nombre de collaborateurs, mais l'étendue des cercles.</p><p><b>E.</b> Le 24 octobre 1940 Pétain serra la main d'Hitler à Montoire et, six jours plus tard, annonça lui-même à la radio qu'il entrait « dans la voie de la collaboration » ; les 16 et 17 juillet 1942, plus de 4 500 policiers et gendarmes français arrêtèrent 13 152 personnes, dont 4 115 enfants ; en janvier 1943, Vichy créa la Milice, dirigée par Joseph Darnand.</p><p><b>E.</b> Ces faits montrent une collaboration d'État, mais les historiens distinguent aussi la collaboration privée et celle du quotidien, la plus large : le rationnement a poussé des millions de Français vers le marché noir, et la délation anonyme a rempli les bureaux de police sans qu'aucune loi ne l'impose. Il a fallu attendre 1995 pour que l'État reconnaisse sa responsabilité.</p><p><b>L.</b> En obéissant sans discuter, l'administration a rendu la rafle possible, ce qui rejoint le débat sur le régime de Vichy lui-même et sur la thèse du prétendu bouclier.</p></div></details>
+  </div>
+  <h2>Pour aller plus loin · Les énoncés de l'unité au Paper 3</h2>
+  <details class="cartes"><summary>Ouvrir les énoncés que l'examinateur peut vous donner</summary>
+    <ul>
+      <li>Le niveau de collaboration pendant l'Occupation a été surestimé.</li>
+      <li>Pendant l'Occupation, les Français ont fait preuve d'une grande inventivité.</li>
+      <li>La collaboration n'était pas le seul choix offert aux Français pendant l'Occupation.</li>
+      <li>L'antisémitisme explique le traitement infligé aux Juifs par certains Français pendant la guerre.</li>
+      <li>Les Français qui ont collaboré avec les Allemands pendant l'Occupation étaient tous des lâches et des traîtres.</li>
+      <li>Les Français qui ont collaboré avec les Allemands pendant l'Occupation n'avaient pas d'autres choix.</li>
+    </ul>
+    <p class="note">Entraînez-vous : pour chacun, une phrase P, une preuve E de l'exercice 2, une explication E, et un lien L vers un autre sous-thème.</p>
+  </details>
+  <p class="note">Dans la même unité sur le site : <a href="U10_1_la_collaboration.html">U10.1 — Les trois cercles de la collaboration</a> · <a href="U10_2_antisemitisme_detat.html">U10.2 — L'antisémitisme d'État</a> · <a href="U10_3_vie_et_epuration.html">U10.3 — Vivre l'Occupation</a></p>
+</div>
+
+<script>
+/* The kit marks exercises 1 to 4 and handles the name, the pad, the saving and
+   the download. This adds the one thing it cannot do: a live reading of the
+   five-box A* answer, which is continuous writing and cannot be marked. */
+(function(){
+  "use strict";
+  var TERMES = ["collaboration d'État", "collaboration au quotidien", "rafle", "délation", "ordonnance", "statut des Juifs", "recensement", "couvre-feu", "marché noir", "rationnement", "milicien", "Milice", "épuration", "Vél' d'Hiv", "Vélodrome d'Hiver", "Montoire", "Pétain", "Paxton", "Rousso", "Chirac", "Darnand", "Auschwitz", "Pithiviers", "Beaune-la-Rolande", "étoile jaune", "zone libre", "zone occupée", "déportation"];
+  var PHRASES = ["Chacun peut constater que", "Il est important de noter que", "Ajoutons à cela", "Force est de constater que", "Il est indéniable que", "On ne peut nier que", "Il convient de souligner que", "Il va sans dire que", "Certes", "Néanmoins", "Pour conclure", "En définitive", "Ainsi", "Même si", "En revanche", "D'une part", "D'autre part", "Il n'en demeure pas moins que", "Force est d'admettre", "Il convient de rappeler", "Il est essentiel de rappeler", "Nul ne saurait nier"];
+  /* JavaScript's \b does not fire after an accented letter, so "resté" and
+     "où" were invisible to a trailing \b. Every boundary below is written
+     out as an explicit "not a letter" test instead. */
+  var L = "A-Za-zÀ-ÿ";
+  function re(src, flags){ return new RegExp(src.replace(/L/g, L), flags || "i"); }
+  /* A bare "-i" or "-u" ending matches half the adjectives in French ("c'est
+     vrai"), so the participle is either a real -é form or a named irregular. */
+  var PART = "(?:[L]{2,}(?:ées|ée|és|é)|fait|faits|pris|prise|prises|mis|mise|dit|dits|"
+           + "écrit|écrits|venu|venus|venue|devenu|devenus|vu|vus|su|pu|dû|voulu|connu|"
+           + "reçu|resté|restés|restée|allé|allés|né|nés|mort|morts|parti|partis|sorti|"
+           + "sortis|ouvert|offert|compris|appris|permis|produit|conduit|construit|"
+           + "détruit|inscrit|atteint|éteint|craint|joint|été|eu|lu|tenu|obtenu|maintenu|"
+           + "soutenu|vécu|couru|battu|rendu|entendu|perdu|vendu|répondu|attendu)";
+  var R = {
+    fut:   re("(?:^|[^L])[L]{2,}r(?:a|as|ai|ons|ez|ont)(?![L])"),
+    cond:  re("(?:^|[^L])[L]{2,}rai(?:t|ent|s)(?![L])"),
+    condG: re("[L]{2,}rai(?:t|ent|s)(?![L])", "gi"),
+    impAux:re("(?:^|[^L])(?:était|étaient|avait|avaient|faisait|faisaient)(?![L])"),
+    pc:    re("(?:^|[^L])(?:a|as|ai|ont|avez|avons|est|sont|es|sommes|êtes)\\s+" + PART + "(?![L])"),
+    pqp:   re("(?:^|[^L])(?:avait|avaient|était|étaient)\\s+" + PART + "(?![L])"),
+    ps:    re("(?:^|[^L])(?:fut|furent|eut|eurent|vint|vinrent|fit|firent|prit|prirent|mit|mirent|put|purent|sut|surent|dut|durent|vit|virent|mourut|moururent|naquit|devint|devinrent|parvint|reçut|connut|obtint|serra|vota|créa|lança|proclama|signa|arriva|entra|donna)(?![L])|(?:^|[^L])[L]{3,}(?:èrent|irent|urent)(?![L])")
+  };
+  function tenses(v){
+    var t = String(v || ""), out = [];
+    var stripped = t.replace(R.condG, " ");   /* so "-rait" is not read as a future */
+    if(R.fut.test(stripped))  out.push("futur");
+    if(R.cond.test(t))        out.push("conditionnel");
+    if(R.pqp.test(t))         out.push("plus-que-parfait");
+    else if(R.impAux.test(stripped) || anyBut(stripped, "[L]{2,}(?:ait|aient|ais)(?![L])", IMP_STOP))
+      out.push("imparfait");
+    if(R.pc.test(t))          out.push("passé composé");
+    if(R.ps.test(t))          out.push("passé simple");
+    return out;
+  }
+  function anyBut(text, src, stop){
+    var m = String(text || "").match(re(src, "gi")) || [];
+    for(var i = 0; i < m.length; i++){
+      var w = m[i].toLowerCase().replace(/^[^a-zà-ÿ]+/, "");
+      if(stop.indexOf(w) < 0) return true;
+    }
+    return false;
+  }
+  /* "français" ends in -ais and is not an imperfect. */
+  var IMP_STOP = ["français","francais","anglais","japonais","portugais","irlandais",
+                  "jamais","désormais","desormais","palais","biais","relais","marais",
+                  "essais","délais","delais","balais","niais","frais","lais","gallois",
+                  "quais","aujourd'hui"];
+  /* -ant is the noisiest test on the page: half the adverbs in French end in it. */
+  var PP_STOP = ["pendant","cependant","maintenant","pourtant","autant","avant","devant",
+                 "important","importants","importante","dominant","courant","suivant",
+                 "durant","tant","quant","géant","enfant","enfants","instant","restant",
+                 "montant","gouvernement"];
+  var STRUCT = [
+    ["subjonctif", re("(?:^|[^L])(?:afin|pour|bien|quoi|avant|sans|jusqu'à ce|à condition|à moins)\\s+qu(?:e|')|(?:^|[^L])il\\s+(?:faut|faudrait|fallait|est\\s+(?:essentiel|crucial|important|nécessaire|peu\\s+probable))\\s+qu(?:e|')|(?:^|[^L])pourvu\\s+que(?![L])")],
+    ["si + imparfait + conditionnel", re("(?:^|[^L])s(?:i|')[^.!?]{0,110}[L]{2,}rai(?:t|ent)(?![L])")],
+    ["pronom relatif", re("(?:^|[^L])ce\\s+qu(?:i|e|')|(?:^|[^L])dont(?![L])|\\s+où(?![L])|(?:^|[^L])(?:lequel|laquelle|auquel|desquels|auxquels)(?![L])")],
+    ["négation complexe", re("(?:^|[^L])n(?:e|')\\s?[L']{0,14}\\s*(?:guère|point|nullement|jamais|aucune?|que\\s|qu'|ni\\s|plus\\s|rien)")],
+    ["structure à l'infinitif", re("(?:^|[^L])(?:avant\\s+de|afin\\s+de|pour|sans)\\s+[L]{2,}(?:er|ir|re)(?![L])|(?:^|[^L])après\\s+(?:avoir|être)(?![L])")],
+    ["comparatif / superlatif", re("(?:^|[^L])(?:plus|moins|aussi)\\s+[L]{2,}\\s+qu(?:e|')|(?:^|[^L])l(?:e|a|es)\\s+(?:plus|moins)\\s+[L]{2,}|(?:^|[^L])(?:meilleur|pire|davantage)(?![L])")],
+    ["voix passive", re("(?:^|[^L])(?:est|sont|fut|furent|serait|était|étaient|a\\s+été|ont\\s+été)\\s+[L]{2,}(?:ées|és|ée|é)(?![L])")],
+    ["nominalisation", re("(?:^|[^L])(?:la|le|les|l')\\s?[L]{3,}(?:tion|ment|ance|ence|ité|isme|age)(?![L])")]
+  ];
+  function participePresent(v){
+    var m = String(v || "").match(re("[L]{3,}ant(?![L])", "gi")) || [];
+    for(var i = 0; i < m.length; i++){
+      if(PP_STOP.indexOf(m[i].toLowerCase()) < 0) return true;
+    }
+    return false;
+  }
+  function fold(s){
+    return String(s||"").toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,"")
+             .replace(/[’‘`´]/g,"'").replace(/\s+/g," ");
+  }
+  function words(s){ return (String(s||"").trim().match(/[\wÀ-ſ'’-]+/g)||[]).length; }
+  function hits(text, list){
+    var f = fold(text), out = [];
+    list.forEach(function(x){ if(f.indexOf(fold(x)) >= 0 && out.indexOf(x) < 0) out.push(x); });
+    return out;
+  }
+  function numbers(text){
+    var m = String(text||"").match(/(?:^|[^\w.,])\d{1,4}(?:[ ,.]\d+)?/g) || [];
+    var seen = {}, out = [];
+    m.forEach(function(x){ x = x.replace(/^[^\d]+/,""); if(!seen[x]){ seen[x]=1; out.push(x); } });
+    return out;
+  }
+  function found(text, table){
+    var out = [];
+    table.forEach(function(r){ if(r[1].test(text)) out.push(r[0]); });
+    if(table === STRUCT && participePresent(text)) out.push("participe présent");
+    return out;
+  }
+  function tag(ok, label, detail){
+    return '<span class="' + (ok ? "hit" : "miss") + '">' + (ok ? "✔ " : "· ") + label + "</span>"
+         + (detail ? ' <span class="miss">(' + detail + ")</span>" : "");
+  }
+  function g(id){ var e = document.getElementById(id); return e ? e.value : ""; }
+
+  function readBoxes(){
+    var b = document.getElementById("bilan"); if(!b) return;
+    var all = ["b1","b2","b3","b4","b5"].map(g).join(" \n ");
+    if(!all.replace(/\s/g,"")){ b.innerHTML = ""; return; }
+    var ph = hits(g("b1"), PHRASES);
+    var tm = hits(g("b2") + " " + g("b3") + " " + g("b5"), TERMES);
+    var nb = numbers(g("b3"));
+    var pr = hits(g("b3"), TERMES);
+    var tp = tenses(g("b4"));
+    var st = found(g("b5"), STRUCT);
+    b.innerHTML = [
+      tag(ph.length >= 1, "phrase de rédaction", ph.join(" · ")),
+      tag(tm.length >= 3, "termes du sujet : " + tm.length + " / 3", tm.slice(0,6).join(" · ")),
+      tag(nb.length >= 1 || pr.length >= 1, "preuve chiffrée ou nommée", nb.concat(pr).slice(0,4).join(" · ")),
+      tag(tp.length >= 1, "verbe dans un autre temps", tp.join(" · ")),
+      tag(st.length >= 1, "structure complexe", st.join(" · "))
+    ].join("<br>");
+  }
+  function readAnswer(){
+    var b = document.getElementById("bilan2"); if(!b) return;
+    var v = g("reponse"), w = words(v);
+    if(!w){ b.innerHTML = ""; return; }
+    var st = found(v, STRUCT), tp = tenses(v), tm = hits(v, TERMES), nb = numbers(v);
+    var cible = 100;
+    b.innerHTML = "<b>" + w + " mots</b> "
+      + (w >= cible ? '<span class="hit">✔ longueur atteinte</span>'
+                    : '<span class="miss">· encore ' + (cible - w) + " mots</span>") + "<br>"
+      + tag(tm.length >= 3, "termes du sujet : " + tm.length + " / 3", tm.slice(0,6).join(" · ")) + "<br>"
+      + tag(nb.length >= 1, "preuves chiffrées : " + nb.length, nb.slice(0,6).join(" · ")) + "<br>"
+      + tag(tp.length >= 2, "temps employés : " + tp.length + " / 2", tp.join(" · ")) + "<br>"
+      + tag(st.length >= 3, "structures : " + st.length + " / 3", st.join(" · "));
+  }
+  function refresh(){ readBoxes(); readAnswer(); }
+  ["b1","b2","b3","b4","b5","reponse"].forEach(function(id){
+    var e = document.getElementById(id);
+    if(e) e.addEventListener("input", refresh);
+  });
+  setTimeout(refresh, 900);          /* the kit restores saved work after load */
+  document.addEventListener("click", function(e){
+    if(e.target && e.target.closest && e.target.closest("#bba-resume")) setTimeout(refresh, 300);
+  }, true);
+})();
+</script>
+<script src="bba-kit-fr.js" defer></script>
+</body>
+</html>

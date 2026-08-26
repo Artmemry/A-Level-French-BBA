@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FR12 · La Résistance — maîtriser le contenu — A-Level French</title>
+<style>
+  :root{
+    --ink:#1a2733; --paper:#ffffff; --bg:#eef2f6;
+    --accent:#00546b; --accent2:#8a1538; --ok:#1e7b45; --warn:#b06f00; --bad:#a12727;
+    --line:#c9d4dd;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:Calibri,'Segoe UI',Arial,sans-serif;font-size:17px;line-height:1.55;
+       color:var(--ink);background:var(--bg);padding:24px 16px 130px}
+  .wrap{max-width:900px;margin:0 auto;background:var(--paper);border:1px solid var(--line);
+        border-radius:8px;padding:28px 32px}
+  header{border-bottom:3px solid var(--accent);padding-bottom:12px;margin-bottom:18px}
+  h1{font-size:1.6em;color:var(--accent)}
+  .meta{color:#5a6a78;font-style:italic;margin-top:4px}
+  h2{font-size:1.25em;color:var(--accent);margin:30px 0 8px;border-left:5px solid var(--accent);padding-left:10px}
+  h2 .pts{font-size:.75em;color:#5a6a78;font-weight:normal}
+  .consigne{background:#f2f7fa;border-left:4px solid var(--accent);padding:10px 14px;margin:8px 0 14px;border-radius:0 6px 6px 0}
+  .item{margin:12px 0;padding:12px 14px;border:1px solid var(--line);border-radius:6px}
+  .item p.q{margin-bottom:6px}
+  .item input[type=text],.item textarea,.item select{width:100%;padding:8px 10px;font-size:1em;font-family:inherit;
+      border:1.5px solid var(--line);border-radius:5px;margin-top:4px;background:#fff;color:inherit}
+  .item textarea{min-height:80px;resize:vertical}
+  .inline{display:flex;gap:10px;align-items:baseline;flex-wrap:wrap}
+  .inline input[type=text]{width:auto;flex:0 1 300px;margin-top:0}
+  .inline p.q{margin:0;flex:1 1 340px;min-width:220px}
+  .gaps{display:flex;gap:10px;flex-wrap:wrap;margin-top:6px}
+  .gaps input[type=text]{width:auto;flex:0 1 220px;margin-top:0}
+  details.aide{margin:8px 0 2px}
+  details.aide summary{cursor:pointer;color:var(--warn);font-weight:bold}
+  details.aide div{background:#fff8ec;border-left:4px solid var(--warn);padding:8px 12px;margin-top:6px;border-radius:0 6px 6px 0}
+  details.cartes summary{cursor:pointer;color:var(--accent);font-weight:bold;font-size:1.05em}
+  details.cartes ul{margin:10px 0 4px 22px}
+  details.cartes li{margin:5px 0}
+  .stretch{border:2px dashed var(--accent2);border-radius:8px;padding:16px 18px;margin:30px 0;background:#fdf7f9}
+  .stretch h2{color:var(--accent2);border-left-color:var(--accent2);margin-top:6px}
+  .banque{background:#f2f7fa;border:1px dashed var(--accent);border-radius:6px;padding:10px 14px;margin:10px 0}
+  .banque span{display:inline-block;margin:3px 12px 3px 0}
+  .texte{background:#fbfdfe;border:1px solid var(--line);border-radius:6px;padding:14px 16px;margin:10px 0;line-height:2.2}
+  .item .texte input[type=text]{display:inline;width:14em;margin:0 2px;padding:4px 8px;font-size:.95em;
+       font-family:inherit;border:1.5px solid var(--accent);border-radius:5px;background:#fff;color:inherit}
+  .grille{width:100%;border-collapse:collapse;margin:10px 0;font-size:.96em}
+  .grille td,.grille th{border:1px solid var(--line);padding:6px 10px;text-align:left;vertical-align:top}
+  .grille th{background:#f2f7fa;color:var(--accent)}
+  .grille td:first-child{width:52px;text-align:center;font-weight:bold;color:var(--accent)}
+  .boite td:first-child{width:210px;background:#f2f7fa;font-weight:bold;text-align:left}
+  .boite input[type=text]{width:100%;padding:7px 9px;font-size:1em;font-family:inherit;
+       border:1.5px solid var(--line);border-radius:5px;background:#fff;color:inherit}
+  .jauge{font-size:.94em;color:#5a6a78;margin-top:8px}
+  .jauge b{color:var(--accent)}
+  .jauge .hit{color:var(--ok);font-weight:bold}
+  .jauge .miss{color:#8a93a0}
+  .note{font-size:.92em;color:#5a6a78;margin-top:6px}
+  .item select:has(option[value=""]:checked){border-color:var(--accent);border-style:dashed}
+  @media (max-width:700px){
+    .wrap{padding:20px 16px}
+    .texte{line-height:2.6}
+    .item .texte input[type=text]{width:100%;margin:2px 0}
+    .gaps input[type=text],.inline input[type=text]{flex:1 1 100%}
+    .boite td:first-child{width:auto}
+    .boite,.boite tbody,.boite tr,.boite td{display:block;width:100%}
+  }
+</style>
+<link rel="stylesheet" href="bba-mobile.css">
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>FR12 · La Résistance — maîtriser le contenu</h1>
+    <p class="meta">A-Level French (Edexcel) · Thème 4, unité 4.3 — La Résistance · Paper 3, Tâche 1 · Durée conseillée : 40 min</p>
+  </header>
+  <div class="consigne"><strong>Ce qui fait la différence à l'oral.</strong> Deux pièges : croire que la Résistance fut unie, et croire qu'elle fut masculine. Les chiffres ci-dessous démontent les deux, et ce sont eux qui font la différence sur une carte comme « La Résistance n'était pas une force unifiée ». Tapez votre réponse puis appuyez sur <strong>« Entrée »</strong> : la correction arrive immédiatement, avec un indice avant la réponse. Écrivez votre nom en bas de l'écran, puis <strong>« Télécharger »</strong> pour rendre votre travail.</div>
+  <table class="grille">
+    <tr><th colspan="2">Le contenu : la structure PEEL</th></tr>
+    <tr><td>P</td><td><b>Point</b> — l'idée, en une phrase.</td></tr>
+    <tr><td>E</td><td><b>Evidence</b> — une statistique, une date, une loi, un exemple précis.</td></tr>
+    <tr><td>E</td><td><b>Explication</b> — qu'est-ce que cela montre ? causes ? conséquences ? qui ?</td></tr>
+    <tr><td>L</td><td><b>Lien</b> — vers un autre sous-thème du programme.</td></tr>
+    <tr><th colspan="2">La langue : ce que l'examinateur cherche</th></tr>
+    <tr><td>1</td><td>Le lexique du sujet, et du <b>lexique rare</b> — <i>exercices 1 et 3</i></td></tr>
+    <tr><td>2</td><td>Les phrases de rédaction et les connecteurs — <i>exercice 3</i></td></tr>
+    <tr><td>3</td><td>Plusieurs temps, les négations complexes, les propositions en <i>si</i>, les pronoms relatifs, les structures à l'infinitif, le subjonctif, le comparatif et le participe présent — <i>exercice 4</i></td></tr>
+  </table>
+  <h2>Exercice 1 · Le lexique de l'unité <span class="pts">(12 points)</span></h2>
+  <div class="consigne">Écrivez l'expression française, avec l'article quand il y en a un. Ce sont les mots que l'examinateur attend dès votre première phrase.</div>
+  <div class="item inline"><p class="q">1. the internal resistance movement</p>
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="la Résistance intérieure|Résistance intérieure" placeholder="" aria-label="the internal resistance movement">
+  </div>
+  <div class="item inline"><p class="q">2. rural guerrilla resistance groups</p>
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="le maquis|maquis|les maquis" placeholder="" aria-label="rural guerrilla resistance groups">
+  </div>
+  <div class="item inline"><p class="q">3. the forced labour service</p>
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="le STO|STO|le Service du Travail Obligatoire" placeholder="" aria-label="the forced labour service">
+  </div>
+  <div class="item inline"><p class="q">4. someone who refused to comply with the STO</p>
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="un réfractaire|le réfractaire|réfractaire" placeholder="" aria-label="someone who refused to comply with the STO">
+  </div>
+  <div class="item inline"><p class="q">5. a network of resistance cells</p>
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="un réseau|le réseau|réseau" placeholder="" aria-label="a network of resistance cells">
+  </div>
+  <div class="item inline"><p class="q">6. a courier, a go-between</p>
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="un agent de liaison|l'agent de liaison|agent de liaison" placeholder="" aria-label="a courier, a go-between">
+  </div>
+  <div class="item inline"><p class="q">7. a dead-letter drop</p>
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="une boîte aux lettres|la boîte aux lettres|boîte aux lettres" placeholder="" aria-label="a dead-letter drop">
+    <details class="aide"><summary>Indice</summary><div>Le terme du métier, tout simplement.</div></details>
+  </div>
+  <div class="item inline"><p class="q">8. secrecy, underground activity</p>
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="la clandestinité|clandestinité" placeholder="" aria-label="secrecy, underground activity">
+  </div>
+  <div class="item inline"><p class="q">9. an underground newspaper</p>
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="un journal clandestin|le journal clandestin|journal clandestin" placeholder="" aria-label="an underground newspaper">
+  </div>
+  <div class="item inline"><p class="q">10. a leaflet</p>
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="un tract|le tract|tract" placeholder="" aria-label="a leaflet">
+  </div>
+  <div class="item inline"><p class="q">11. reprisals against civilians</p>
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="les représailles|représailles|des représailles" placeholder="" aria-label="reprisals against civilians">
+    <details class="aide"><summary>Indice</summary><div>Toujours au pluriel.</div></details>
+  </div>
+  <div class="item inline"><p class="q">12. an escape line</p>
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="une filière d'évasion|la filière d'évasion|filière d'évasion|un réseau d'évasion" placeholder="" aria-label="an escape line">
+  </div>
+  <h2>Exercice 2 · Les faits qui comptent <span class="pts">(12 points)</span></h2>
+  <div class="consigne">Une réponse sans preuve reste une opinion. Complétez chaque phrase — un chiffre, une date, un nom de loi ou de personne.</div>
+  <div class="item"><p class="q">13. Le 18 juin ________, de Gaulle lance depuis Londres l'appel à résister.</p>
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="1940" placeholder="" aria-label="réponse 13">
+  </div>
+  <div class="item"><p class="q">14. En janvier 1942, Jean Moulin réunit Combat, Libération et Francs-Tireurs pour former les ________.</p>
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="MUR|les MUR" placeholder="" aria-label="réponse 14">
+    <details class="aide"><summary>Indice</summary><div>Trois lettres : Mouvements Unis de la Résistance.</div></details>
+  </div>
+  <div class="item"><p class="q">15. En mai 1943, il crée le ________, qui unit tous les mouvements intérieurs sous l'autorité de de Gaulle.</p>
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="CNR|le CNR" placeholder="" aria-label="réponse 15">
+  </div>
+  <div class="item"><p class="q">16. Arrêté par la Gestapo, Jean Moulin meurt sous la torture en ________ 1943.</p>
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="juin" placeholder="" aria-label="réponse 16">
+  </div>
+  <div class="item"><p class="q">17. Le Service du Travail Obligatoire, créé en février 1943, contraint les hommes de 20 à ________ ans à partir travailler en Allemagne.</p>
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="22" placeholder="" aria-label="réponse 17">
+  </div>
+  <div class="item"><p class="q">18. Les ________, Forces françaises de l'intérieur, sont créées en février 1944 pour unifier les formations militaires.</p>
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="FFI|les FFI" placeholder="" aria-label="réponse 18">
+  </div>
+  <div class="item"><p class="q">19. Dès le 6 juin 1944, le Plan ________ vise les voies ferrées.</p>
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="Vert|vert" placeholder="" aria-label="réponse 19">
+  </div>
+  <div class="item"><p class="q">20. Le Plan ________, lui, vise les lignes téléphoniques.</p>
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="Violet|violet" placeholder="" aria-label="réponse 20">
+  </div>
+  <div class="item"><p class="q">21. Le 10 juin 1944, une unité SS massacre ________ hommes, femmes et enfants à Oradour-sur-Glane.</p>
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="642" placeholder="" aria-label="réponse 21">
+  </div>
+  <div class="item"><p class="q">22. La 2e Division Blindée du général ________ libère Paris le 25 août 1944.</p>
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="Leclerc" placeholder="" aria-label="réponse 22">
+  </div>
+  <div class="item"><p class="q">23. Les historiens estiment qu'entre 1,5 % et ________ % de la population était activement engagée dans la Résistance en 1942.</p>
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="3" placeholder="" aria-label="réponse 23">
+  </div>
+  <div class="item"><p class="q">24. On ne compte que ________ femmes parmi les 1 059 Compagnons de la Libération.</p>
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="6|six" placeholder="" aria-label="réponse 24">
+  </div>
+  <h2>Exercice 3 · Le texte à trous <span class="pts">(10 points)</span></h2>
+  <div class="consigne">Complétez le paragraphe avec les expressions de la banque. <strong>Attention :</strong> la banque contient des intrus qui ne servent pas. Respectez la majuscule en début de phrase.</div>
+  <div class="banque"><strong>Banque :</strong> <span>Force est de constater</span> <span>clandestinité</span> <span>maquis</span> <span>réseaux</span> <span>Néanmoins</span> <span>sabotage</span> <span>Même si</span> <span>représailles</span> <span>unifier</span> <span>minoritaire</span> <span>épuration</span> <span>débarquement</span></div>
+  <div class="item">
+  <div class="texte">
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="Force est de constater|force est de constater" placeholder="…" aria-label="trou 25">
+    que la Résistance fut longtemps une affaire
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="minoritaire" placeholder="…" aria-label="trou 26">
+    : les historiens estiment qu'entre 1,5 % et 3 % de la population y était activement engagée en 1942.
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="Même si|même si" placeholder="…" aria-label="trou 27">
+    les premiers gestes furent isolés, les groupes s'organisent à partir de 1943 en
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="réseaux" placeholder="…" aria-label="trou 28">
+    et en mouvements, que Jean Moulin parvient à
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="unifier" placeholder="…" aria-label="trou 29">
+    au sein du CNR. La
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="clandestinité" placeholder="…" aria-label="trou 30">
+    impose ses règles : boîtes aux lettres, agents de liaison, journaux imprimés la nuit. Le
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="sabotage" placeholder="…" aria-label="trou 31">
+    des voies ferrées, à partir du 6 juin 1944, retarde l'arrivée des renforts allemands.
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="Néanmoins|néanmoins" placeholder="…" aria-label="trou 32">
+    , ces actions entraînent de terribles
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="représailles" placeholder="…" aria-label="trou 33">
+    contre les civils, comme à Oradour-sur-Glane. Le
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="maquis" placeholder="…" aria-label="trou 34">
+    , enfin, doit beaucoup au STO, qui pousse les jeunes réfractaires à prendre le large.
+  </div>
+  </div>
+  <details class="aide"><summary>Indice</summary><div>Deux mots de la banque ne servent pas. Le dernier trou désigne les groupes réfugiés dans les campagnes, pas l'opération alliée.</div></details>
+  <h2>Exercice 4 · La langue exigée <span class="pts">(12 points)</span></h2>
+  <div class="consigne">Neuf structures, une par ligne. Ce sont elles qui font monter la note AO3 — le contenu ne suffit pas.</div>
+  <div class="item"><p class="q">35. <i>phrase de rédaction</i> — « __________________ que la Résistance ne fut jamais une force homogène. »</p>
+    <div class="gaps">
+      <input type="text" autocomplete="off" spellcheck="false" data-answer="Il convient de rappeler|il convient de rappeler|Force est de constater|force est de constater" placeholder="" aria-label="phrase de rédaction 35">
+    </div>
+  </div>
+  <div class="item"><p class="q">36. <i>un autre temps — le passé simple</i> — « Jean Moulin __________________ (mourir) sous la torture en juin 1943. »</p>
+    <div class="gaps">
+      <input type="text" autocomplete="off" spellcheck="false" data-answer="mourut" placeholder="" aria-label="un autre temps — le passé simple 36">
+    </div>
+    <details class="aide"><summary>Indice</summary><div>Passé simple de <i>mourir</i> : forme irrégulière en <b>-ur-</b>.</div></details>
+  </div>
+  <div class="item"><p class="q">37-38. <i>négation complexe</i> — « On __________________ compte __________________ six femmes parmi les 1 059 Compagnons de la Libération. »</p>
+    <div class="gaps">
+      <input type="text" autocomplete="off" spellcheck="false" data-answer="ne|n'" placeholder="" aria-label="négation complexe 37">
+      <input type="text" autocomplete="off" spellcheck="false" data-answer="que|qu'" placeholder="" aria-label="négation complexe 38">
+    </div>
+  </div>
+  <div class="item"><p class="q">39-40. <i>si + imparfait + conditionnel</i> — « Si le STO __________________ (ne pas exister), le maquis __________________ (rester) marginal. »</p>
+    <div class="gaps">
+      <input type="text" autocomplete="off" spellcheck="false" data-answer="n'existait pas|n'avait pas existé" placeholder="" aria-label="si + imparfait + conditionnel 39">
+      <input type="text" autocomplete="off" spellcheck="false" data-answer="serait resté|resterait" placeholder="" aria-label="si + imparfait + conditionnel 40">
+    </div>
+    <details class="aide"><summary>Indice</summary><div>Deux réponses possibles selon que vous placez l'hypothèse dans le passé ou dans le présent.</div></details>
+  </div>
+  <div class="item"><p class="q">41. <i>pronom relatif</i> — « Le STO a poussé les jeunes vers les campagnes, __________________ a gonflé les rangs du maquis. » (deux mots)</p>
+    <div class="gaps">
+      <input type="text" autocomplete="off" spellcheck="false" data-answer="ce qui" placeholder="" aria-label="pronom relatif 41">
+    </div>
+  </div>
+  <div class="item"><p class="q">42. <i>pronom relatif — dont</i> — « Jean Moulin, __________________ la mémoire appartient au patrimoine national, est mort sans avoir parlé. »</p>
+    <div class="gaps">
+      <input type="text" autocomplete="off" spellcheck="false" data-answer="dont" placeholder="" aria-label="pronom relatif — dont 42">
+    </div>
+  </div>
+  <div class="item"><p class="q">43. <i>structure à l'infinitif</i> — « __________________ __________________ __________________ unifier les mouvements, Jean Moulin a créé le CNR en mai 1943. » (trois mots)</p>
+    <div class="gaps">
+      <input type="text" autocomplete="off" spellcheck="false" data-answer="Afin de mieux|afin de mieux|Pour mieux|pour mieux" placeholder="" aria-label="structure à l'infinitif 43">
+    </div>
+  </div>
+  <div class="item"><p class="q">44. <i>subjonctif</i> — « Il fallait que les mouvements __________________ (accepter) l'autorité de de Gaulle. »</p>
+    <div class="gaps">
+      <input type="text" autocomplete="off" spellcheck="false" data-answer="acceptent|acceptassent" placeholder="" aria-label="subjonctif 44">
+    </div>
+    <details class="aide"><summary>Indice</summary><div>Subjonctif présent, troisième personne du pluriel.</div></details>
+  </div>
+  <div class="item"><p class="q">45. <i>comparatif / superlatif</i> — « Les femmes ont été __________________ __________________ __________________ __________________ que les hommes dans les récits d'après-guerre. » (quatre mots)</p>
+    <div class="gaps">
+      <input type="text" autocomplete="off" spellcheck="false" data-answer="bien moins souvent citées|beaucoup moins souvent citées" placeholder="" aria-label="comparatif / superlatif 45">
+    </div>
+  </div>
+  <div class="item"><p class="q">46. <i>participe présent</i> — « __________________ (héberger) des réfractaires, des milliers de familles ont pris des risques considérables. » (deux mots)</p>
+    <div class="gaps">
+      <input type="text" autocomplete="off" spellcheck="false" data-answer="En hébergeant|en hébergeant" placeholder="" aria-label="participe présent 46">
+    </div>
+  </div>
+  <div class="stretch">
+    <h2>Défi A* — la boîte à cinq cases <span class="pts">(non noté automatiquement)</span></h2>
+    <div class="consigne"><strong>Question de l'examinateur :</strong> <span style="white-space:normal">« La Résistance n'était pas une force unifiée. Êtes-vous d'accord ? »</span><br>Construisez votre réponse case par case, puis lisez-la à voix haute d'un trait. Le compteur sous le tableau vous dit, en direct, ce qui manque.</div>
+    <table class="grille boite"><tbody>
+      <tr><td>Phrase de rédaction<br>pour commencer</td><td><input type="text" id="b1" class="boite-in" autocomplete="off" placeholder="Ex. : Chacun peut constater que…" aria-label="Phrase de rédaction pour commencer"></td></tr>
+      <tr><td>Trois mots<br>propres au sujet</td><td><input type="text" id="b2" class="boite-in" autocomplete="off" placeholder="Trois termes de l'exercice 1" aria-label="Trois mots propres au sujet"></td></tr>
+      <tr><td>Une connaissance,<br>un fait ou un chiffre</td><td><input type="text" id="b3" class="boite-in" autocomplete="off" placeholder="Un chiffre, une date ou une loi de l'exercice 2" aria-label="Une connaissance, un fait ou un chiffre"></td></tr>
+      <tr><td>Un verbe dans<br>un autre temps</td><td><input type="text" id="b4" class="boite-in" autocomplete="off" placeholder="Futur, imparfait, conditionnel, passé composé…" aria-label="Un verbe dans un autre temps"></td></tr>
+      <tr><td>Une structure<br>complexe</td><td><input type="text" id="b5" class="boite-in" autocomplete="off" placeholder="Subjonctif, si + imparfait, ce qui/ce que, ne… guère…" aria-label="Une structure complexe"></td></tr>
+    </tbody></table>
+    <div id="bilan" class="jauge"></div>
+    <div class="item"><p class="q">Ma réponse complète, en une seule fois (visez 100 mots) :</p><textarea id="reponse" placeholder="Reprenez vos cinq cases et reliez-les…"></textarea><div id="bilan2" class="jauge"></div></div>
+    <details class="aide"><summary>Voir un modèle de réponse (seulement après avoir écrit la vôtre)</summary><div><p><b>P.</b> Il convient de rappeler que l'unification de la Résistance fut le résultat d'un travail politique, et non son point de départ.</p><p><b>E.</b> Le 18 juin 1940, de Gaulle lance l'appel depuis Londres, mais jusqu'en 1942 résister voulait dire agir seul ; en janvier 1942, Jean Moulin réunit Combat, Libération et Francs-Tireurs au sein des MUR, puis crée le CNR en mai 1943 ; les FFI ne naissent qu'en février 1944.</p><p><b>E.</b> Ce calendrier montre quatre ans de divisions : le Parti communiste n'entre pleinement dans la lutte qu'après juin 1941, et les rivalités entre mouvements survivent au CNR. Si le STO n'avait pas existé, le maquis serait resté marginal : c'est une décision de Vichy, et non un élan spontané, qui a gonflé ses rangs. On ne compte d'ailleurs que six femmes parmi les 1 059 Compagnons de la Libération.</p><p><b>L.</b> En hébergeant des réfractaires, des milliers de familles ont pris des risques considérables — ce qui nuance la thèse d'une France passive avancée à propos de l'Occupation.</p></div></details>
+  </div>
+  <h2>Pour aller plus loin · Les énoncés de l'unité au Paper 3</h2>
+  <details class="cartes"><summary>Ouvrir les énoncés que l'examinateur peut vous donner</summary>
+    <ul>
+      <li>Les actes de sabotage des résistants français pendant la guerre ont été soutenus par la population.</li>
+      <li>Le succès de la Résistance a surtout dépendu de quelques personnages clés.</li>
+      <li>La Résistance n'était pas une force unifiée.</li>
+      <li>La population française a beaucoup souffert à cause des actions des résistants pendant l'Occupation.</li>
+      <li>Les actions de la Résistance ne plaisaient pas à tous les Français.</li>
+      <li>Sans Jean Moulin, la Résistance n'aurait pas été si efficace.</li>
+      <li>Le Parti communiste français n'a pas joué un grand rôle dans la Résistance.</li>
+    </ul>
+    <p class="note">Entraînez-vous : pour chacun, une phrase P, une preuve E de l'exercice 2, une explication E, et un lien L vers un autre sous-thème.</p>
+  </details>
+  <p class="note">Dans la même unité sur le site : <a href="resistance_speaking_exam_prep.html">La Résistance — préparation orale complète</a> · <a href="french-resistance-women.html">Les femmes dans la Résistance</a></p>
+</div>
+
+<script>
+/* The kit marks exercises 1 to 4 and handles the name, the pad, the saving and
+   the download. This adds the one thing it cannot do: a live reading of the
+   five-box A* answer, which is continuous writing and cannot be marked. */
+(function(){
+  "use strict";
+  var TERMES = ["Résistance intérieure", "maquis", "STO", "réfractaire", "réseau", "agent de liaison", "boîte aux lettres", "clandestinité", "journal clandestin", "tract", "représailles", "filière d'évasion", "Jean Moulin", "CNR", "MUR", "FFI", "FFL", "de Gaulle", "Oradour", "Leclerc", "Gestapo", "sabotage", "Compagnons de la Libération", "Ligne Comète", "Plan Vert", "débarquement"];
+  var PHRASES = ["Chacun peut constater que", "Il est important de noter que", "Ajoutons à cela", "Force est de constater que", "Il est indéniable que", "On ne peut nier que", "Il convient de souligner que", "Il va sans dire que", "Certes", "Néanmoins", "Pour conclure", "En définitive", "Ainsi", "Même si", "En revanche", "D'une part", "D'autre part", "Il n'en demeure pas moins que", "Force est d'admettre", "Il convient de rappeler", "Il est essentiel de rappeler", "Nul ne saurait nier"];
+  /* JavaScript's \b does not fire after an accented letter, so "resté" and
+     "où" were invisible to a trailing \b. Every boundary below is written
+     out as an explicit "not a letter" test instead. */
+  var L = "A-Za-zÀ-ÿ";
+  function re(src, flags){ return new RegExp(src.replace(/L/g, L), flags || "i"); }
+  /* A bare "-i" or "-u" ending matches half the adjectives in French ("c'est
+     vrai"), so the participle is either a real -é form or a named irregular. */
+  var PART = "(?:[L]{2,}(?:ées|ée|és|é)|fait|faits|pris|prise|prises|mis|mise|dit|dits|"
+           + "écrit|écrits|venu|venus|venue|devenu|devenus|vu|vus|su|pu|dû|voulu|connu|"
+           + "reçu|resté|restés|restée|allé|allés|né|nés|mort|morts|parti|partis|sorti|"
+           + "sortis|ouvert|offert|compris|appris|permis|produit|conduit|construit|"
+           + "détruit|inscrit|atteint|éteint|craint|joint|été|eu|lu|tenu|obtenu|maintenu|"
+           + "soutenu|vécu|couru|battu|rendu|entendu|perdu|vendu|répondu|attendu)";
+  var R = {
+    fut:   re("(?:^|[^L])[L]{2,}r(?:a|as|ai|ons|ez|ont)(?![L])"),
+    cond:  re("(?:^|[^L])[L]{2,}rai(?:t|ent|s)(?![L])"),
+    condG: re("[L]{2,}rai(?:t|ent|s)(?![L])", "gi"),
+    impAux:re("(?:^|[^L])(?:était|étaient|avait|avaient|faisait|faisaient)(?![L])"),
+    pc:    re("(?:^|[^L])(?:a|as|ai|ont|avez|avons|est|sont|es|sommes|êtes)\\s+" + PART + "(?![L])"),
+    pqp:   re("(?:^|[^L])(?:avait|avaient|était|étaient)\\s+" + PART + "(?![L])"),
+    ps:    re("(?:^|[^L])(?:fut|furent|eut|eurent|vint|vinrent|fit|firent|prit|prirent|mit|mirent|put|purent|sut|surent|dut|durent|vit|virent|mourut|moururent|naquit|devint|devinrent|parvint|reçut|connut|obtint|serra|vota|créa|lança|proclama|signa|arriva|entra|donna)(?![L])|(?:^|[^L])[L]{3,}(?:èrent|irent|urent)(?![L])")
+  };
+  function tenses(v){
+    var t = String(v || ""), out = [];
+    var stripped = t.replace(R.condG, " ");   /* so "-rait" is not read as a future */
+    if(R.fut.test(stripped))  out.push("futur");
+    if(R.cond.test(t))        out.push("conditionnel");
+    if(R.pqp.test(t))         out.push("plus-que-parfait");
+    else if(R.impAux.test(stripped) || anyBut(stripped, "[L]{2,}(?:ait|aient|ais)(?![L])", IMP_STOP))
+      out.push("imparfait");
+    if(R.pc.test(t))          out.push("passé composé");
+    if(R.ps.test(t))          out.push("passé simple");
+    return out;
+  }
+  function anyBut(text, src, stop){
+    var m = String(text || "").match(re(src, "gi")) || [];
+    for(var i = 0; i < m.length; i++){
+      var w = m[i].toLowerCase().replace(/^[^a-zà-ÿ]+/, "");
+      if(stop.indexOf(w) < 0) return true;
+    }
+    return false;
+  }
+  /* "français" ends in -ais and is not an imperfect. */
+  var IMP_STOP = ["français","francais","anglais","japonais","portugais","irlandais",
+                  "jamais","désormais","desormais","palais","biais","relais","marais",
+                  "essais","délais","delais","balais","niais","frais","lais","gallois",
+                  "quais","aujourd'hui"];
+  /* -ant is the noisiest test on the page: half the adverbs in French end in it. */
+  var PP_STOP = ["pendant","cependant","maintenant","pourtant","autant","avant","devant",
+                 "important","importants","importante","dominant","courant","suivant",
+                 "durant","tant","quant","géant","enfant","enfants","instant","restant",
+                 "montant","gouvernement"];
+  var STRUCT = [
+    ["subjonctif", re("(?:^|[^L])(?:afin|pour|bien|quoi|avant|sans|jusqu'à ce|à condition|à moins)\\s+qu(?:e|')|(?:^|[^L])il\\s+(?:faut|faudrait|fallait|est\\s+(?:essentiel|crucial|important|nécessaire|peu\\s+probable))\\s+qu(?:e|')|(?:^|[^L])pourvu\\s+que(?![L])")],
+    ["si + imparfait + conditionnel", re("(?:^|[^L])s(?:i|')[^.!?]{0,110}[L]{2,}rai(?:t|ent)(?![L])")],
+    ["pronom relatif", re("(?:^|[^L])ce\\s+qu(?:i|e|')|(?:^|[^L])dont(?![L])|\\s+où(?![L])|(?:^|[^L])(?:lequel|laquelle|auquel|desquels|auxquels)(?![L])")],
+    ["négation complexe", re("(?:^|[^L])n(?:e|')\\s?[L']{0,14}\\s*(?:guère|point|nullement|jamais|aucune?|que\\s|qu'|ni\\s|plus\\s|rien)")],
+    ["structure à l'infinitif", re("(?:^|[^L])(?:avant\\s+de|afin\\s+de|pour|sans)\\s+[L]{2,}(?:er|ir|re)(?![L])|(?:^|[^L])après\\s+(?:avoir|être)(?![L])")],
+    ["comparatif / superlatif", re("(?:^|[^L])(?:plus|moins|aussi)\\s+[L]{2,}\\s+qu(?:e|')|(?:^|[^L])l(?:e|a|es)\\s+(?:plus|moins)\\s+[L]{2,}|(?:^|[^L])(?:meilleur|pire|davantage)(?![L])")],
+    ["voix passive", re("(?:^|[^L])(?:est|sont|fut|furent|serait|était|étaient|a\\s+été|ont\\s+été)\\s+[L]{2,}(?:ées|és|ée|é)(?![L])")],
+    ["nominalisation", re("(?:^|[^L])(?:la|le|les|l')\\s?[L]{3,}(?:tion|ment|ance|ence|ité|isme|age)(?![L])")]
+  ];
+  function participePresent(v){
+    var m = String(v || "").match(re("[L]{3,}ant(?![L])", "gi")) || [];
+    for(var i = 0; i < m.length; i++){
+      if(PP_STOP.indexOf(m[i].toLowerCase()) < 0) return true;
+    }
+    return false;
+  }
+  function fold(s){
+    return String(s||"").toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,"")
+             .replace(/[’‘`´]/g,"'").replace(/\s+/g," ");
+  }
+  function words(s){ return (String(s||"").trim().match(/[\wÀ-ſ'’-]+/g)||[]).length; }
+  function hits(text, list){
+    var f = fold(text), out = [];
+    list.forEach(function(x){ if(f.indexOf(fold(x)) >= 0 && out.indexOf(x) < 0) out.push(x); });
+    return out;
+  }
+  function numbers(text){
+    var m = String(text||"").match(/(?:^|[^\w.,])\d{1,4}(?:[ ,.]\d+)?/g) || [];
+    var seen = {}, out = [];
+    m.forEach(function(x){ x = x.replace(/^[^\d]+/,""); if(!seen[x]){ seen[x]=1; out.push(x); } });
+    return out;
+  }
+  function found(text, table){
+    var out = [];
+    table.forEach(function(r){ if(r[1].test(text)) out.push(r[0]); });
+    if(table === STRUCT && participePresent(text)) out.push("participe présent");
+    return out;
+  }
+  function tag(ok, label, detail){
+    return '<span class="' + (ok ? "hit" : "miss") + '">' + (ok ? "✔ " : "· ") + label + "</span>"
+         + (detail ? ' <span class="miss">(' + detail + ")</span>" : "");
+  }
+  function g(id){ var e = document.getElementById(id); return e ? e.value : ""; }
+
+  function readBoxes(){
+    var b = document.getElementById("bilan"); if(!b) return;
+    var all = ["b1","b2","b3","b4","b5"].map(g).join(" \n ");
+    if(!all.replace(/\s/g,"")){ b.innerHTML = ""; return; }
+    var ph = hits(g("b1"), PHRASES);
+    var tm = hits(g("b2") + " " + g("b3") + " " + g("b5"), TERMES);
+    var nb = numbers(g("b3"));
+    var pr = hits(g("b3"), TERMES);
+    var tp = tenses(g("b4"));
+    var st = found(g("b5"), STRUCT);
+    b.innerHTML = [
+      tag(ph.length >= 1, "phrase de rédaction", ph.join(" · ")),
+      tag(tm.length >= 3, "termes du sujet : " + tm.length + " / 3", tm.slice(0,6).join(" · ")),
+      tag(nb.length >= 1 || pr.length >= 1, "preuve chiffrée ou nommée", nb.concat(pr).slice(0,4).join(" · ")),
+      tag(tp.length >= 1, "verbe dans un autre temps", tp.join(" · ")),
+      tag(st.length >= 1, "structure complexe", st.join(" · "))
+    ].join("<br>");
+  }
+  function readAnswer(){
+    var b = document.getElementById("bilan2"); if(!b) return;
+    var v = g("reponse"), w = words(v);
+    if(!w){ b.innerHTML = ""; return; }
+    var st = found(v, STRUCT), tp = tenses(v), tm = hits(v, TERMES), nb = numbers(v);
+    var cible = 100;
+    b.innerHTML = "<b>" + w + " mots</b> "
+      + (w >= cible ? '<span class="hit">✔ longueur atteinte</span>'
+                    : '<span class="miss">· encore ' + (cible - w) + " mots</span>") + "<br>"
+      + tag(tm.length >= 3, "termes du sujet : " + tm.length + " / 3", tm.slice(0,6).join(" · ")) + "<br>"
+      + tag(nb.length >= 1, "preuves chiffrées : " + nb.length, nb.slice(0,6).join(" · ")) + "<br>"
+      + tag(tp.length >= 2, "temps employés : " + tp.length + " / 2", tp.join(" · ")) + "<br>"
+      + tag(st.length >= 3, "structures : " + st.length + " / 3", st.join(" · "));
+  }
+  function refresh(){ readBoxes(); readAnswer(); }
+  ["b1","b2","b3","b4","b5","reponse"].forEach(function(id){
+    var e = document.getElementById(id);
+    if(e) e.addEventListener("input", refresh);
+  });
+  setTimeout(refresh, 900);          /* the kit restores saved work after load */
+  document.addEventListener("click", function(e){
+    if(e.target && e.target.closest && e.target.closest("#bba-resume")) setTimeout(refresh, 300);
+  }, true);
+})();
+</script>
+<script src="bba-kit-fr.js" defer></script>
+</body>
+</html>

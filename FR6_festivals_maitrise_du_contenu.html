@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FR6 · Festivals et traditions — maîtriser le contenu — A-Level French</title>
+<style>
+  :root{
+    --ink:#1a2733; --paper:#ffffff; --bg:#eef2f6;
+    --accent:#00546b; --accent2:#8a1538; --ok:#1e7b45; --warn:#b06f00; --bad:#a12727;
+    --line:#c9d4dd;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:Calibri,'Segoe UI',Arial,sans-serif;font-size:17px;line-height:1.55;
+       color:var(--ink);background:var(--bg);padding:24px 16px 130px}
+  .wrap{max-width:900px;margin:0 auto;background:var(--paper);border:1px solid var(--line);
+        border-radius:8px;padding:28px 32px}
+  header{border-bottom:3px solid var(--accent);padding-bottom:12px;margin-bottom:18px}
+  h1{font-size:1.6em;color:var(--accent)}
+  .meta{color:#5a6a78;font-style:italic;margin-top:4px}
+  h2{font-size:1.25em;color:var(--accent);margin:30px 0 8px;border-left:5px solid var(--accent);padding-left:10px}
+  h2 .pts{font-size:.75em;color:#5a6a78;font-weight:normal}
+  .consigne{background:#f2f7fa;border-left:4px solid var(--accent);padding:10px 14px;margin:8px 0 14px;border-radius:0 6px 6px 0}
+  .item{margin:12px 0;padding:12px 14px;border:1px solid var(--line);border-radius:6px}
+  .item p.q{margin-bottom:6px}
+  .item input[type=text],.item textarea,.item select{width:100%;padding:8px 10px;font-size:1em;font-family:inherit;
+      border:1.5px solid var(--line);border-radius:5px;margin-top:4px;background:#fff;color:inherit}
+  .item textarea{min-height:80px;resize:vertical}
+  .inline{display:flex;gap:10px;align-items:baseline;flex-wrap:wrap}
+  .inline input[type=text]{width:auto;flex:0 1 300px;margin-top:0}
+  .inline p.q{margin:0;flex:1 1 340px;min-width:220px}
+  .gaps{display:flex;gap:10px;flex-wrap:wrap;margin-top:6px}
+  .gaps input[type=text]{width:auto;flex:0 1 220px;margin-top:0}
+  details.aide{margin:8px 0 2px}
+  details.aide summary{cursor:pointer;color:var(--warn);font-weight:bold}
+  details.aide div{background:#fff8ec;border-left:4px solid var(--warn);padding:8px 12px;margin-top:6px;border-radius:0 6px 6px 0}
+  details.cartes summary{cursor:pointer;color:var(--accent);font-weight:bold;font-size:1.05em}
+  details.cartes ul{margin:10px 0 4px 22px}
+  details.cartes li{margin:5px 0}
+  .stretch{border:2px dashed var(--accent2);border-radius:8px;padding:16px 18px;margin:30px 0;background:#fdf7f9}
+  .stretch h2{color:var(--accent2);border-left-color:var(--accent2);margin-top:6px}
+  .banque{background:#f2f7fa;border:1px dashed var(--accent);border-radius:6px;padding:10px 14px;margin:10px 0}
+  .banque span{display:inline-block;margin:3px 12px 3px 0}
+  .texte{background:#fbfdfe;border:1px solid var(--line);border-radius:6px;padding:14px 16px;margin:10px 0;line-height:2.2}
+  .item .texte input[type=text]{display:inline;width:14em;margin:0 2px;padding:4px 8px;font-size:.95em;
+       font-family:inherit;border:1.5px solid var(--accent);border-radius:5px;background:#fff;color:inherit}
+  .grille{width:100%;border-collapse:collapse;margin:10px 0;font-size:.96em}
+  .grille td,.grille th{border:1px solid var(--line);padding:6px 10px;text-align:left;vertical-align:top}
+  .grille th{background:#f2f7fa;color:var(--accent)}
+  .grille td:first-child{width:52px;text-align:center;font-weight:bold;color:var(--accent)}
+  .boite td:first-child{width:210px;background:#f2f7fa;font-weight:bold;text-align:left}
+  .boite input[type=text]{width:100%;padding:7px 9px;font-size:1em;font-family:inherit;
+       border:1.5px solid var(--line);border-radius:5px;background:#fff;color:inherit}
+  .jauge{font-size:.94em;color:#5a6a78;margin-top:8px}
+  .jauge b{color:var(--accent)}
+  .jauge .hit{color:var(--ok);font-weight:bold}
+  .jauge .miss{color:#8a93a0}
+  .note{font-size:.92em;color:#5a6a78;margin-top:6px}
+  .item select:has(option[value=""]:checked){border-color:var(--accent);border-style:dashed}
+  @media (max-width:700px){
+    .wrap{padding:20px 16px}
+    .texte{line-height:2.6}
+    .item .texte input[type=text]{width:100%;margin:2px 0}
+    .gaps input[type=text],.inline input[type=text]{flex:1 1 100%}
+    .boite td:first-child{width:auto}
+    .boite,.boite tbody,.boite tr,.boite td{display:block;width:100%}
+  }
+</style>
+<link rel="stylesheet" href="bba-mobile.css">
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>FR6 · Les festivals et les traditions — maîtriser le contenu</h1>
+    <p class="meta">A-Level French (Edexcel) · Thème 2, unité 2.3 — Les festivals et les traditions · Paper 3, Tâche 1 · Durée conseillée : 35 min</p>
+  </header>
+  <div class="consigne"><strong>Ce qui fait la différence à l'oral.</strong> Ici, la faiblesse habituelle est de raconter le 14 juillet et de s'arrêter là. Un festival avec sa date de création et son fondateur, une inscription à l'UNESCO, un exemple hors de France : voilà ce qui fait la différence. Tapez votre réponse puis appuyez sur <strong>« Entrée »</strong> : la correction arrive immédiatement, avec un indice avant la réponse. Écrivez votre nom en bas de l'écran, puis <strong>« Télécharger »</strong> pour rendre votre travail.</div>
+  <table class="grille">
+    <tr><th colspan="2">Le contenu : la structure PEEL</th></tr>
+    <tr><td>P</td><td><b>Point</b> — l'idée, en une phrase.</td></tr>
+    <tr><td>E</td><td><b>Evidence</b> — une statistique, une date, une loi, un exemple précis.</td></tr>
+    <tr><td>E</td><td><b>Explication</b> — qu'est-ce que cela montre ? causes ? conséquences ? qui ?</td></tr>
+    <tr><td>L</td><td><b>Lien</b> — vers un autre sous-thème du programme.</td></tr>
+    <tr><th colspan="2">La langue : ce que l'examinateur cherche</th></tr>
+    <tr><td>1</td><td>Le lexique du sujet, et du <b>lexique rare</b> — <i>exercices 1 et 3</i></td></tr>
+    <tr><td>2</td><td>Les phrases de rédaction et les connecteurs — <i>exercice 3</i></td></tr>
+    <tr><td>3</td><td>Plusieurs temps, les négations complexes, les propositions en <i>si</i>, les pronoms relatifs, les structures à l'infinitif, le subjonctif, le comparatif et le participe présent — <i>exercice 4</i></td></tr>
+  </table>
+  <h2>Exercice 1 · Le lexique de l'unité <span class="pts">(12 points)</span></h2>
+  <div class="consigne">Écrivez l'expression française, avec l'article quand il y en a un. Ce sont les mots que l'examinateur attend dès votre première phrase.</div>
+  <div class="item inline"><p class="q">1. a public holiday</p>
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="un jour férié|le jour férié|jour férié" placeholder="" aria-label="a public holiday">
+  </div>
+  <div class="item inline"><p class="q">2. heritage</p>
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="le patrimoine|patrimoine" placeholder="" aria-label="heritage">
+  </div>
+  <div class="item inline"><p class="q">3. intangible heritage</p>
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="le patrimoine immatériel|patrimoine immatériel" placeholder="" aria-label="intangible heritage">
+    <details class="aide"><summary>Indice</summary><div>Celui que classe l'UNESCO : savoir-faire, fêtes, chants.</div></details>
+  </div>
+  <div class="item inline"><p class="q">4. the parade</p>
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="le défilé|défilé" placeholder="" aria-label="the parade">
+  </div>
+  <div class="item inline"><p class="q">5. the firework display</p>
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="le feu d'artifice|feu d'artifice|les feux d'artifice" placeholder="" aria-label="the firework display">
+  </div>
+  <div class="item inline"><p class="q">6. subsidies</p>
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="les subventions|des subventions|subventions" placeholder="" aria-label="subsidies">
+  </div>
+  <div class="item inline"><p class="q">7. the rural exodus</p>
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="l'exode rural|exode rural" placeholder="" aria-label="the rural exodus">
+  </div>
+  <div class="item inline"><p class="q">8. secularisation</p>
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="la laïcisation|laïcisation" placeholder="" aria-label="secularisation">
+    <details class="aide"><summary>Indice</summary><div>À ne pas confondre avec <i>la laïcité</i>, qui est le principe.</div></details>
+  </div>
+  <div class="item inline"><p class="q">9. the sense of belonging</p>
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="le sentiment d'appartenance|sentiment d'appartenance" placeholder="" aria-label="the sense of belonging">
+  </div>
+  <div class="item inline"><p class="q">10. traditional know-how</p>
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="les savoir-faire traditionnels|savoir-faire traditionnels|le savoir-faire" placeholder="" aria-label="traditional know-how">
+    <details class="aide"><summary>Indice</summary><div><i>Savoir-faire</i> est invariable.</div></details>
+  </div>
+  <div class="item inline"><p class="q">11. the outcry</p>
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="le tollé|tollé" placeholder="" aria-label="the outcry">
+    <details class="aide"><summary>Indice</summary><div>Un mot court et fort : le gouvernement a reculé devant le tollé.</div></details>
+  </div>
+  <div class="item inline"><p class="q">12. cultural globalisation</p>
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="la mondialisation culturelle|mondialisation culturelle" placeholder="" aria-label="cultural globalisation">
+  </div>
+  <h2>Exercice 2 · Les faits qui comptent <span class="pts">(12 points)</span></h2>
+  <div class="consigne">Une réponse sans preuve reste une opinion. Complétez chaque phrase — un chiffre, une date, un nom de loi ou de personne.</div>
+  <div class="item"><p class="q">13. La France compte ________ jours fériés officiels.</p>
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="11|onze" placeholder="" aria-label="réponse 13">
+  </div>
+  <div class="item"><p class="q">14. Le ________ mai, Fête du Travail, est le seul jour férié légalement chômé et payé pour tous les salariés.</p>
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="1er|1|premier" placeholder="" aria-label="réponse 14">
+  </div>
+  <div class="item"><p class="q">15. Le 8 mai commémore la capitulation allemande de ________.</p>
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="1945" placeholder="" aria-label="réponse 15">
+  </div>
+  <div class="item"><p class="q">16. Le 11 novembre commémore l'Armistice de ________.</p>
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="1918" placeholder="" aria-label="réponse 16">
+  </div>
+  <div class="item"><p class="q">17. La Fête de la Musique a lieu le ________ juin.</p>
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="21" placeholder="" aria-label="réponse 17">
+  </div>
+  <div class="item"><p class="q">18. Elle a été créée en 1982 par le ministre de la Culture Jack ________.</p>
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="Lang" placeholder="" aria-label="réponse 18">
+  </div>
+  <div class="item"><p class="q">19. Le Festival de Cannes est consacré au cinéma depuis 1946 et décerne la ________ ________.</p>
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="Palme d'or|la Palme d'or" placeholder="" aria-label="réponse 19">
+  </div>
+  <div class="item"><p class="q">20. Le Festival d'Avignon a été fondé en 1947 par Jean ________.</p>
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="Vilar" placeholder="" aria-label="réponse 20">
+  </div>
+  <div class="item"><p class="q">21. Les ________ ________, à Carhaix en Bretagne depuis 1992, sont le plus grand festival de musique de France.</p>
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="Vieilles Charrues|les Vieilles Charrues" placeholder="" aria-label="réponse 21">
+  </div>
+  <div class="item"><p class="q">22. Le repas gastronomique des Français est classé par l'UNESCO depuis ________.</p>
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="2010" placeholder="" aria-label="réponse 22">
+  </div>
+  <div class="item"><p class="q">23. Le savoir-faire de la ________ a été classé par l'UNESCO en 2022.</p>
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="baguette|la baguette" placeholder="" aria-label="réponse 23">
+  </div>
+  <div class="item"><p class="q">24. En juillet 2025, le gouvernement Bayrou a proposé de supprimer deux jours fériés, dont le ________ mai ; le tollé fut tel que la mesure n'a pas abouti.</p>
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="8|8 mai" placeholder="" aria-label="réponse 24">
+  </div>
+  <h2>Exercice 3 · Le texte à trous <span class="pts">(11 points)</span></h2>
+  <div class="consigne">Complétez le paragraphe avec les expressions de la banque. <strong>Attention :</strong> la banque contient des intrus qui ne servent pas. Respectez la majuscule en début de phrase.</div>
+  <div class="banque"><strong>Banque :</strong> <span>essentiel</span> <span>impact environnemental</span> <span>festivals</span> <span>critiques</span> <span>identité collective</span> <span>partage</span> <span>Pourtant</span> <span>transmission</span> <span>patrimoine</span> <span>lien social</span> <span>Chandeleur</span> <span>adaptent</span></div>
+  <div class="item">
+  <div class="texte">
+    Les
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="festivals" placeholder="…" aria-label="trou 25">
+    comme la Fête de la Musique renforcent le
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="lien social" placeholder="…" aria-label="trou 26">
+    . La
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="transmission" placeholder="…" aria-label="trou 27">
+    du
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="patrimoine" placeholder="…" aria-label="trou 28">
+    aux jeunes est
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="essentielle|essentiel" placeholder="…" aria-label="trou 29">
+    . Cependant, certaines traditions subissent des
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="critiques" placeholder="…" aria-label="trou 30">
+    pour leur
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="impact environnemental" placeholder="…" aria-label="trou 31">
+    .
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="Pourtant|pourtant" placeholder="…" aria-label="trou 32">
+    elles
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="s'adaptent|adaptent" placeholder="…" aria-label="trou 33">
+    aux enjeux modernes, elles restent un moment de
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="partage" placeholder="…" aria-label="trou 34">
+    et d'
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="identité collective" placeholder="…" aria-label="trou 35">
+    .
+  </div>
+  </div>
+  <details class="aide"><summary>Indice</summary><div>Un mot de la banque ne sert pas. Attention à l'accord de l'adjectif au cinquième trou : il qualifie <i>la transmission</i>. Au neuvième, le verbe est pronominal.</div></details>
+  <h2>Exercice 4 · La langue exigée <span class="pts">(13 points)</span></h2>
+  <div class="consigne">Neuf structures, une par ligne. Ce sont elles qui font monter la note AO3 — le contenu ne suffit pas.</div>
+  <div class="item"><p class="q">36. <i>phrase de rédaction</i> — « __________________ que les fêtes qui survivent sont celles qui acceptent de se réinventer. »</p>
+    <div class="gaps">
+      <input type="text" autocomplete="off" spellcheck="false" data-answer="Il convient de souligner|il convient de souligner|Force est de constater|force est de constater" placeholder="" aria-label="phrase de rédaction 36">
+    </div>
+  </div>
+  <div class="item"><p class="q">37. <i>un autre temps — le futur</i> — « Sans transmission, ces savoir-faire __________________ (disparaître) en une génération. »</p>
+    <div class="gaps">
+      <input type="text" autocomplete="off" spellcheck="false" data-answer="disparaîtront|disparaitront" placeholder="" aria-label="un autre temps — le futur 37">
+    </div>
+    <details class="aide"><summary>Indice</summary><div>Futur simple, troisième personne du pluriel.</div></details>
+  </div>
+  <div class="item"><p class="q">38-40. <i>négation complexe</i> — « Pour beaucoup de jeunes, la Toussaint __________________ signifie __________________ __________________ que des vacances. »</p>
+    <div class="gaps">
+      <input type="text" autocomplete="off" spellcheck="false" data-answer="ne|n'" placeholder="" aria-label="négation complexe 38">
+      <input type="text" autocomplete="off" spellcheck="false" data-answer="plus" placeholder="" aria-label="négation complexe 39">
+      <input type="text" autocomplete="off" spellcheck="false" data-answer="rien" placeholder="" aria-label="négation complexe 40">
+    </div>
+    <details class="aide"><summary>Indice</summary><div>Trois éléments : <i>ne… plus rien que</i>. La négation empilée est très idiomatique.</div></details>
+  </div>
+  <div class="item"><p class="q">41-42. <i>si + imparfait + conditionnel</i> — « Si les régions ne __________________ (subventionner) pas ces fêtes, beaucoup __________________ (s'éteindre). »</p>
+    <div class="gaps">
+      <input type="text" autocomplete="off" spellcheck="false" data-answer="subventionnaient" placeholder="" aria-label="si + imparfait + conditionnel 41">
+      <input type="text" autocomplete="off" spellcheck="false" data-answer="s'éteindraient" placeholder="" aria-label="si + imparfait + conditionnel 42">
+    </div>
+  </div>
+  <div class="item"><p class="q">43. <i>pronom relatif</i> — « Le gouvernement a voulu supprimer deux jours fériés, __________________ a provoqué un tollé. » (deux mots)</p>
+    <div class="gaps">
+      <input type="text" autocomplete="off" spellcheck="false" data-answer="ce qui" placeholder="" aria-label="pronom relatif 43">
+    </div>
+  </div>
+  <div class="item"><p class="q">44. <i>pronom relatif — où</i> — « Carhaix, ville __________________ se tiennent les Vieilles Charrues depuis 1992, ne compte que quelques milliers d'habitants. »</p>
+    <div class="gaps">
+      <input type="text" autocomplete="off" spellcheck="false" data-answer="où" placeholder="" aria-label="pronom relatif — où 44">
+    </div>
+  </div>
+  <div class="item"><p class="q">45. <i>structure à l'infinitif</i> — « __________________ __________________ __________________ classé la baguette, l'UNESCO a reconnu un savoir-faire et non un produit. » (trois mots)</p>
+    <div class="gaps">
+      <input type="text" autocomplete="off" spellcheck="false" data-answer="Après avoir|après avoir" placeholder="" aria-label="structure à l'infinitif 45">
+    </div>
+  </div>
+  <div class="item"><p class="q">46. <i>subjonctif</i> — « Bien que la galette des Rois __________________ (être) une tradition religieuse, elle survit très bien. »</p>
+    <div class="gaps">
+      <input type="text" autocomplete="off" spellcheck="false" data-answer="soit" placeholder="" aria-label="subjonctif 46">
+    </div>
+    <details class="aide"><summary>Indice</summary><div>Après <i>bien que</i>, subjonctif obligatoire.</div></details>
+  </div>
+  <div class="item"><p class="q">47. <i>comparatif / superlatif</i> — « Les Vieilles Charrues sont __________________ __________________ __________________ __________________ festival de musique de France. » (quatre mots)</p>
+    <div class="gaps">
+      <input type="text" autocomplete="off" spellcheck="false" data-answer="le plus grand" placeholder="" aria-label="comparatif / superlatif 47">
+    </div>
+    <details class="aide"><summary>Indice</summary><div>Superlatif : article + <i>plus</i> + adjectif.</div></details>
+  </div>
+  <div class="item"><p class="q">48. <i>participe présent</i> — « __________________ (vider) les campagnes, l'exode rural a fait disparaître de nombreuses fêtes agricoles. » (deux mots)</p>
+    <div class="gaps">
+      <input type="text" autocomplete="off" spellcheck="false" data-answer="En vidant|en vidant" placeholder="" aria-label="participe présent 48">
+    </div>
+  </div>
+  <div class="stretch">
+    <h2>Défi A* — la boîte à cinq cases <span class="pts">(non noté automatiquement)</span></h2>
+    <div class="consigne"><strong>Question de l'examinateur :</strong> <span style="white-space:normal">« Certaines vieilles traditions ne signifient-elles plus rien pour les jeunes d'aujourd'hui ? »</span><br>Construisez votre réponse case par case, puis lisez-la à voix haute d'un trait. Le compteur sous le tableau vous dit, en direct, ce qui manque.</div>
+    <table class="grille boite"><tbody>
+      <tr><td>Phrase de rédaction<br>pour commencer</td><td><input type="text" id="b1" class="boite-in" autocomplete="off" placeholder="Ex. : Chacun peut constater que…" aria-label="Phrase de rédaction pour commencer"></td></tr>
+      <tr><td>Trois mots<br>propres au sujet</td><td><input type="text" id="b2" class="boite-in" autocomplete="off" placeholder="Trois termes de l'exercice 1" aria-label="Trois mots propres au sujet"></td></tr>
+      <tr><td>Une connaissance,<br>un fait ou un chiffre</td><td><input type="text" id="b3" class="boite-in" autocomplete="off" placeholder="Un chiffre, une date ou une loi de l'exercice 2" aria-label="Une connaissance, un fait ou un chiffre"></td></tr>
+      <tr><td>Un verbe dans<br>un autre temps</td><td><input type="text" id="b4" class="boite-in" autocomplete="off" placeholder="Futur, imparfait, conditionnel, passé composé…" aria-label="Un verbe dans un autre temps"></td></tr>
+      <tr><td>Une structure<br>complexe</td><td><input type="text" id="b5" class="boite-in" autocomplete="off" placeholder="Subjonctif, si + imparfait, ce qui/ce que, ne… guère…" aria-label="Une structure complexe"></td></tr>
+    </tbody></table>
+    <div id="bilan" class="jauge"></div>
+    <div class="item"><p class="q">Ma réponse complète, en une seule fois (visez 90 mots) :</p><textarea id="reponse" placeholder="Reprenez vos cinq cases et reliez-les…"></textarea><div id="bilan2" class="jauge"></div></div>
+    <details class="aide"><summary>Voir un modèle de réponse (seulement après avoir écrit la vôtre)</summary><div><p><b>P.</b> Il convient de souligner que les traditions qui survivent ne sont pas les plus anciennes, mais celles qui acceptent de se réinventer.</p><p><b>E.</b> La Fête de la Musique, créée en 1982 par Jack Lang, s'est exportée dans une centaine de pays ; l'UNESCO a classé le repas gastronomique des Français en 2010 et le savoir-faire de la baguette en 2022 ; les Vieilles Charrues, nées en 1992, sont devenues le plus grand festival de musique du pays.</p><p><b>E.</b> Ces exemples montrent qu'une tradition tient quand elle offre autre chose qu'un souvenir : un moment de partage, un revenu local, une identité. En revanche, la laïcisation a vidé de leur sens spirituel des célébrations qui figurent toujours au calendrier, et pour beaucoup de jeunes la Toussaint ne signifie plus rien que des vacances.</p><p><b>L.</b> En vidant les campagnes, l'exode rural a fait disparaître de nombreuses fêtes agricoles, ce qui rejoint la question du travail et de la désertification des territoires.</p></div></details>
+  </div>
+  <h2>Pour aller plus loin · Les énoncés de l'unité au Paper 3</h2>
+  <details class="cartes"><summary>Ouvrir les énoncés que l'examinateur peut vous donner</summary>
+    <ul>
+      <li>Les festivals jouent un rôle primordial dans la vie des sociétés francophones.</li>
+      <li>Il faut en finir avec les traditions dans les pays francophones.</li>
+      <li>Certaines vieilles traditions dans les pays francophones ne signifient plus rien pour les jeunes de nos jours.</li>
+      <li>Ce sont les coutumes régionales qui enrichissent la culture dans les pays francophones.</li>
+    </ul>
+    <p class="note">Entraînez-vous : pour chacun, une phrase P, une preuve E de l'exercice 2, une explication E, et un lien L vers un autre sous-thème.</p>
+  </details>
+  <p class="note">Dans la même unité sur le site : <a href="FR_2_3_festivals_traditions_savoirs.html">Festivals, traditions et coutumes</a> · <a href="FR_2_3_festivals_oral_technique.html">Paper 3, Tâche 1 : les quatre types de questions</a></p>
+</div>
+
+<script>
+/* The kit marks exercises 1 to 4 and handles the name, the pad, the saving and
+   the download. This adds the one thing it cannot do: a live reading of the
+   five-box A* answer, which is continuous writing and cannot be marked. */
+(function(){
+  "use strict";
+  var TERMES = ["jour férié", "patrimoine", "patrimoine immatériel", "défilé", "feu d'artifice", "subventions", "exode rural", "laïcisation", "sentiment d'appartenance", "savoir-faire", "tollé", "mondialisation culturelle", "UNESCO", "Fête de la Musique", "Jack Lang", "Cannes", "Palme d'or", "Avignon", "Vilar", "Vieilles Charrues", "Francofolies", "Angoulême", "galette des Rois", "Chandeleur", "coutumes régionales", "tourisme culturel"];
+  var PHRASES = ["Chacun peut constater que", "Il est important de noter que", "Ajoutons à cela", "Force est de constater que", "Il est indéniable que", "On ne peut nier que", "Il convient de souligner que", "Il va sans dire que", "Certes", "Néanmoins", "Pour conclure", "En définitive", "Ainsi", "Même si", "En revanche", "D'une part", "D'autre part", "Il n'en demeure pas moins que", "Force est d'admettre", "Il convient de rappeler", "Il est essentiel de rappeler", "Nul ne saurait nier"];
+  /* JavaScript's \b does not fire after an accented letter, so "resté" and
+     "où" were invisible to a trailing \b. Every boundary below is written
+     out as an explicit "not a letter" test instead. */
+  var L = "A-Za-zÀ-ÿ";
+  function re(src, flags){ return new RegExp(src.replace(/L/g, L), flags || "i"); }
+  /* A bare "-i" or "-u" ending matches half the adjectives in French ("c'est
+     vrai"), so the participle is either a real -é form or a named irregular. */
+  var PART = "(?:[L]{2,}(?:ées|ée|és|é)|fait|faits|pris|prise|prises|mis|mise|dit|dits|"
+           + "écrit|écrits|venu|venus|venue|devenu|devenus|vu|vus|su|pu|dû|voulu|connu|"
+           + "reçu|resté|restés|restée|allé|allés|né|nés|mort|morts|parti|partis|sorti|"
+           + "sortis|ouvert|offert|compris|appris|permis|produit|conduit|construit|"
+           + "détruit|inscrit|atteint|éteint|craint|joint|été|eu|lu|tenu|obtenu|maintenu|"
+           + "soutenu|vécu|couru|battu|rendu|entendu|perdu|vendu|répondu|attendu)";
+  var R = {
+    fut:   re("(?:^|[^L])[L]{2,}r(?:a|as|ai|ons|ez|ont)(?![L])"),
+    cond:  re("(?:^|[^L])[L]{2,}rai(?:t|ent|s)(?![L])"),
+    condG: re("[L]{2,}rai(?:t|ent|s)(?![L])", "gi"),
+    impAux:re("(?:^|[^L])(?:était|étaient|avait|avaient|faisait|faisaient)(?![L])"),
+    pc:    re("(?:^|[^L])(?:a|as|ai|ont|avez|avons|est|sont|es|sommes|êtes)\\s+" + PART + "(?![L])"),
+    pqp:   re("(?:^|[^L])(?:avait|avaient|était|étaient)\\s+" + PART + "(?![L])"),
+    ps:    re("(?:^|[^L])(?:fut|furent|eut|eurent|vint|vinrent|fit|firent|prit|prirent|mit|mirent|put|purent|sut|surent|dut|durent|vit|virent|mourut|moururent|naquit|devint|devinrent|parvint|reçut|connut|obtint|serra|vota|créa|lança|proclama|signa|arriva|entra|donna)(?![L])|(?:^|[^L])[L]{3,}(?:èrent|irent|urent)(?![L])")
+  };
+  function tenses(v){
+    var t = String(v || ""), out = [];
+    var stripped = t.replace(R.condG, " ");   /* so "-rait" is not read as a future */
+    if(R.fut.test(stripped))  out.push("futur");
+    if(R.cond.test(t))        out.push("conditionnel");
+    if(R.pqp.test(t))         out.push("plus-que-parfait");
+    else if(R.impAux.test(stripped) || anyBut(stripped, "[L]{2,}(?:ait|aient|ais)(?![L])", IMP_STOP))
+      out.push("imparfait");
+    if(R.pc.test(t))          out.push("passé composé");
+    if(R.ps.test(t))          out.push("passé simple");
+    return out;
+  }
+  function anyBut(text, src, stop){
+    var m = String(text || "").match(re(src, "gi")) || [];
+    for(var i = 0; i < m.length; i++){
+      var w = m[i].toLowerCase().replace(/^[^a-zà-ÿ]+/, "");
+      if(stop.indexOf(w) < 0) return true;
+    }
+    return false;
+  }
+  /* "français" ends in -ais and is not an imperfect. */
+  var IMP_STOP = ["français","francais","anglais","japonais","portugais","irlandais",
+                  "jamais","désormais","desormais","palais","biais","relais","marais",
+                  "essais","délais","delais","balais","niais","frais","lais","gallois",
+                  "quais","aujourd'hui"];
+  /* -ant is the noisiest test on the page: half the adverbs in French end in it. */
+  var PP_STOP = ["pendant","cependant","maintenant","pourtant","autant","avant","devant",
+                 "important","importants","importante","dominant","courant","suivant",
+                 "durant","tant","quant","géant","enfant","enfants","instant","restant",
+                 "montant","gouvernement"];
+  var STRUCT = [
+    ["subjonctif", re("(?:^|[^L])(?:afin|pour|bien|quoi|avant|sans|jusqu'à ce|à condition|à moins)\\s+qu(?:e|')|(?:^|[^L])il\\s+(?:faut|faudrait|fallait|est\\s+(?:essentiel|crucial|important|nécessaire|peu\\s+probable))\\s+qu(?:e|')|(?:^|[^L])pourvu\\s+que(?![L])")],
+    ["si + imparfait + conditionnel", re("(?:^|[^L])s(?:i|')[^.!?]{0,110}[L]{2,}rai(?:t|ent)(?![L])")],
+    ["pronom relatif", re("(?:^|[^L])ce\\s+qu(?:i|e|')|(?:^|[^L])dont(?![L])|\\s+où(?![L])|(?:^|[^L])(?:lequel|laquelle|auquel|desquels|auxquels)(?![L])")],
+    ["négation complexe", re("(?:^|[^L])n(?:e|')\\s?[L']{0,14}\\s*(?:guère|point|nullement|jamais|aucune?|que\\s|qu'|ni\\s|plus\\s|rien)")],
+    ["structure à l'infinitif", re("(?:^|[^L])(?:avant\\s+de|afin\\s+de|pour|sans)\\s+[L]{2,}(?:er|ir|re)(?![L])|(?:^|[^L])après\\s+(?:avoir|être)(?![L])")],
+    ["comparatif / superlatif", re("(?:^|[^L])(?:plus|moins|aussi)\\s+[L]{2,}\\s+qu(?:e|')|(?:^|[^L])l(?:e|a|es)\\s+(?:plus|moins)\\s+[L]{2,}|(?:^|[^L])(?:meilleur|pire|davantage)(?![L])")],
+    ["voix passive", re("(?:^|[^L])(?:est|sont|fut|furent|serait|était|étaient|a\\s+été|ont\\s+été)\\s+[L]{2,}(?:ées|és|ée|é)(?![L])")],
+    ["nominalisation", re("(?:^|[^L])(?:la|le|les|l')\\s?[L]{3,}(?:tion|ment|ance|ence|ité|isme|age)(?![L])")]
+  ];
+  function participePresent(v){
+    var m = String(v || "").match(re("[L]{3,}ant(?![L])", "gi")) || [];
+    for(var i = 0; i < m.length; i++){
+      if(PP_STOP.indexOf(m[i].toLowerCase()) < 0) return true;
+    }
+    return false;
+  }
+  function fold(s){
+    return String(s||"").toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,"")
+             .replace(/[’‘`´]/g,"'").replace(/\s+/g," ");
+  }
+  function words(s){ return (String(s||"").trim().match(/[\wÀ-ſ'’-]+/g)||[]).length; }
+  function hits(text, list){
+    var f = fold(text), out = [];
+    list.forEach(function(x){ if(f.indexOf(fold(x)) >= 0 && out.indexOf(x) < 0) out.push(x); });
+    return out;
+  }
+  function numbers(text){
+    var m = String(text||"").match(/(?:^|[^\w.,])\d{1,4}(?:[ ,.]\d+)?/g) || [];
+    var seen = {}, out = [];
+    m.forEach(function(x){ x = x.replace(/^[^\d]+/,""); if(!seen[x]){ seen[x]=1; out.push(x); } });
+    return out;
+  }
+  function found(text, table){
+    var out = [];
+    table.forEach(function(r){ if(r[1].test(text)) out.push(r[0]); });
+    if(table === STRUCT && participePresent(text)) out.push("participe présent");
+    return out;
+  }
+  function tag(ok, label, detail){
+    return '<span class="' + (ok ? "hit" : "miss") + '">' + (ok ? "✔ " : "· ") + label + "</span>"
+         + (detail ? ' <span class="miss">(' + detail + ")</span>" : "");
+  }
+  function g(id){ var e = document.getElementById(id); return e ? e.value : ""; }
+
+  function readBoxes(){
+    var b = document.getElementById("bilan"); if(!b) return;
+    var all = ["b1","b2","b3","b4","b5"].map(g).join(" \n ");
+    if(!all.replace(/\s/g,"")){ b.innerHTML = ""; return; }
+    var ph = hits(g("b1"), PHRASES);
+    var tm = hits(g("b2") + " " + g("b3") + " " + g("b5"), TERMES);
+    var nb = numbers(g("b3"));
+    var pr = hits(g("b3"), TERMES);
+    var tp = tenses(g("b4"));
+    var st = found(g("b5"), STRUCT);
+    b.innerHTML = [
+      tag(ph.length >= 1, "phrase de rédaction", ph.join(" · ")),
+      tag(tm.length >= 3, "termes du sujet : " + tm.length + " / 3", tm.slice(0,6).join(" · ")),
+      tag(nb.length >= 1 || pr.length >= 1, "preuve chiffrée ou nommée", nb.concat(pr).slice(0,4).join(" · ")),
+      tag(tp.length >= 1, "verbe dans un autre temps", tp.join(" · ")),
+      tag(st.length >= 1, "structure complexe", st.join(" · "))
+    ].join("<br>");
+  }
+  function readAnswer(){
+    var b = document.getElementById("bilan2"); if(!b) return;
+    var v = g("reponse"), w = words(v);
+    if(!w){ b.innerHTML = ""; return; }
+    var st = found(v, STRUCT), tp = tenses(v), tm = hits(v, TERMES), nb = numbers(v);
+    var cible = 90;
+    b.innerHTML = "<b>" + w + " mots</b> "
+      + (w >= cible ? '<span class="hit">✔ longueur atteinte</span>'
+                    : '<span class="miss">· encore ' + (cible - w) + " mots</span>") + "<br>"
+      + tag(tm.length >= 3, "termes du sujet : " + tm.length + " / 3", tm.slice(0,6).join(" · ")) + "<br>"
+      + tag(nb.length >= 1, "preuves chiffrées : " + nb.length, nb.slice(0,6).join(" · ")) + "<br>"
+      + tag(tp.length >= 2, "temps employés : " + tp.length + " / 2", tp.join(" · ")) + "<br>"
+      + tag(st.length >= 3, "structures : " + st.length + " / 3", st.join(" · "));
+  }
+  function refresh(){ readBoxes(); readAnswer(); }
+  ["b1","b2","b3","b4","b5","reponse"].forEach(function(id){
+    var e = document.getElementById(id);
+    if(e) e.addEventListener("input", refresh);
+  });
+  setTimeout(refresh, 900);          /* the kit restores saved work after load */
+  document.addEventListener("click", function(e){
+    if(e.target && e.target.closest && e.target.closest("#bba-resume")) setTimeout(refresh, 300);
+  }, true);
+})();
+</script>
+<script src="bba-kit-fr.js" defer></script>
+</body>
+</html>
