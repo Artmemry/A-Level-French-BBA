@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SP1 · La famille — l'atelier PEEL — A-Level French</title>
+<style>
+  :root{
+    --ink:#1a2733; --paper:#ffffff; --bg:#eef2f6;
+    --accent:#00546b; --accent2:#8a1538; --ok:#1e7b45; --warn:#b06f00; --bad:#a12727;
+    --line:#c9d4dd;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:Calibri,'Segoe UI',Arial,sans-serif;font-size:17px;line-height:1.55;
+       color:var(--ink);background:var(--bg);padding:24px 16px 130px}
+  .wrap{max-width:900px;margin:0 auto;background:var(--paper);border:1px solid var(--line);
+        border-radius:8px;padding:28px 32px}
+  header{border-bottom:3px solid var(--accent);padding-bottom:12px;margin-bottom:18px}
+  h1{font-size:1.6em;color:var(--accent)}
+  .meta{color:#5a6a78;font-style:italic;margin-top:4px}
+  h2{font-size:1.25em;color:var(--accent);margin:30px 0 8px;border-left:5px solid var(--accent);padding-left:10px}
+  h2 .pts{font-size:.75em;color:#5a6a78;font-weight:normal}
+  .consigne{background:#f2f7fa;border-left:4px solid var(--accent);padding:10px 14px;margin:8px 0 14px;border-radius:0 6px 6px 0}
+  .item{margin:12px 0;padding:12px 14px;border:1px solid var(--line);border-radius:6px}
+  .item p.q{margin-bottom:6px}
+  .item input[type=text],.item textarea,.item select{width:100%;padding:8px 10px;font-size:1em;font-family:inherit;
+      border:1.5px solid var(--line);border-radius:5px;margin-top:4px;background:#fff;color:inherit}
+  .item select:has(option[value=""]:checked){border-color:var(--accent);border-style:dashed}
+  .item select{max-width:320px}
+  .item textarea{min-height:90px;resize:vertical}
+  .item .pourquoi{font-size:.95em}
+  .gaps{display:flex;gap:10px;flex-wrap:wrap;margin-top:6px}
+  .gaps input[type=text]{width:auto;flex:0 1 210px;margin-top:0}
+  .versions{margin:8px 0 4px}
+  .versions p{margin:6px 0;padding:8px 12px;border:1px solid var(--line);border-radius:5px;background:#fbfdfe}
+  .versions p b{color:var(--accent)}
+  details.aide{margin:8px 0 2px}
+  details.aide summary{cursor:pointer;color:var(--warn);font-weight:bold}
+  details.aide div{background:#fff8ec;border-left:4px solid var(--warn);padding:8px 12px;margin-top:6px;border-radius:0 6px 6px 0}
+  .stretch{border:2px dashed var(--accent2);border-radius:8px;padding:16px 18px;margin:30px 0;background:#fdf7f9}
+  .stretch h2{color:var(--accent2);border-left-color:var(--accent2);margin-top:6px}
+  .stretch textarea{min-height:190px}
+  .banque{background:#f2f7fa;border:1px dashed var(--accent);border-radius:6px;padding:10px 14px;margin:10px 0}
+  .banque span{display:inline-block;margin:3px 12px 3px 0;white-space:nowrap}
+  .texte{background:#fbfdfe;border:1px solid var(--line);border-radius:6px;padding:14px 16px;margin:10px 0;line-height:2.1}
+  .item .texte input[type=text]{display:inline;width:14.5em;margin:0 2px;padding:4px 8px;font-size:.95em;
+       font-family:inherit;border:1.5px solid var(--accent);border-radius:5px;background:#fff;color:inherit}
+  .jauge{font-size:.94em;color:#5a6a78;margin-top:8px}
+  .jauge b{color:var(--accent)}
+  .jauge .hit{color:var(--ok);font-weight:bold}
+  .jauge .miss{color:#8a93a0}
+  .grille{width:100%;border-collapse:collapse;margin:10px 0;font-size:.96em}
+  .grille td,.grille th{border:1px solid var(--line);padding:6px 10px;text-align:left;vertical-align:top}
+  .grille th{background:#f2f7fa;color:var(--accent)}
+  .note{font-size:.92em;color:#5a6a78;margin-top:6px}
+  @media (max-width:700px){
+    .wrap{padding:20px 16px}
+    .texte{line-height:2.6}
+    .item .texte input[type=text]{width:100%;margin:2px 0}
+    .gaps input[type=text]{flex:1 1 100%}
+  }
+</style>
+<link rel="stylesheet" href="bba-mobile.css">
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>SP1 · La famille française — l'atelier PEEL</h1>
+    <p class="meta">A-Level French (Edexcel) · Thème 1, unité 1.1 — Les changements dans les structures familiales · Paper 3, Tâche 1 · Durée conseillée : 40 min</p>
+  </header>
+
+  <div class="consigne"><strong>Le contenu ne suffit pas.</strong> Deux candidats peuvent citer les mêmes
+  chiffres et obtenir des notes très différentes : ce qui les sépare, c'est la <strong>forme</strong> —
+  la structure PEEL, les connecteurs, et quelques tournures qu'on ne trouve pas dans un devoir moyen.
+  Cet atelier vous fait passer d'un français juste à un français savant. Tapez votre réponse puis
+  <strong>« Entrée »</strong> pour une correction immédiate.</div>
+
+  <table class="grille">
+    <tr><th style="width:60px">Lettre</th><th>Ce que l'examinateur attend</th></tr>
+    <tr><td><b>P</b></td><td>Le point — l'idée, annoncée clairement en une phrase.</td></tr>
+    <tr><td><b>E</b></td><td>La preuve — statistique, date, loi, définition, exemple, source.</td></tr>
+    <tr><td><b>E</b></td><td>L'explication — qu'est-ce que cela montre ? causes, conséquences, qui est concerné ?</td></tr>
+    <tr><td><b>L</b></td><td>Le lien — vers un autre sous-thème du programme.</td></tr>
+  </table>
+  <p class="note">À faire de préférence après <a href="SP1_famille_maitrise_du_contenu.html">SP1 · Maîtriser le contenu</a>, qui fournit les chiffres et le lexique employés ici.</p>
+
+  <!-- ============ EXERCICE 1 ============ -->
+  <h2>Exercice 1 · Reconnaître le PEEL <span class="pts">(6 points)</span></h2>
+  <div class="consigne">Voici une réponse modèle à la carte n° 4 (« La famille traditionnelle décline à cause
+  des changements survenus dans la condition féminine »), coupée en six phrases et remise dans le désordre.
+  Attribuez à chacune sa lettre.</div>
+
+  <div class="item">
+    <p class="q">1. « La pilule a été légalisée en 1967, l'avortement en 1975, et le divorce a été considérablement facilité. »</p>
+    <select data-answer="E — la preuve" aria-label="rôle de la phrase 1">
+      <option value=""></option>
+      <option>P — le point</option><option>E — la preuve</option>
+      <option>E — l'explication</option><option>L — le lien</option>
+    </select>
+  </div>
+  <div class="item">
+    <p class="q">2. « Le déclin de la famille traditionnelle française est indissociable des progrès de la condition féminine. »</p>
+    <select data-answer="P — le point" aria-label="rôle de la phrase 2">
+      <option value=""></option>
+      <option>P — le point</option><option>E — la preuve</option>
+      <option>E — l'explication</option><option>L — le lien</option>
+    </select>
+  </div>
+  <div class="item">
+    <p class="q">3. « Ces droits ont fait voler en éclats le couple « homme gagne-pain / femme au foyer » : maîtrisant leur fécondité, les femmes retardent la maternité et mènent une carrière. »</p>
+    <select data-answer="E — l'explication" aria-label="rôle de la phrase 3">
+      <option value=""></option>
+      <option>P — le point</option><option>E — la preuve</option>
+      <option>E — l'explication</option><option>L — le lien</option>
+    </select>
+  </div>
+  <div class="item">
+    <p class="q">4. « Cette transformation rejoint directement la question des nouveaux types de famille : PACS, familles monoparentales et familles recomposées. »</p>
+    <select data-answer="L — le lien" aria-label="rôle de la phrase 4">
+      <option value=""></option>
+      <option>P — le point</option><option>E — la preuve</option>
+      <option>E — l'explication</option><option>L — le lien</option>
+    </select>
+  </div>
+  <div class="item">
+    <p class="q">5. « Les femmes occupent aujourd'hui 48 % des sièges des conseils d'administration du CAC 40, davantage qu'aux États-Unis, au Royaume-Uni ou en Allemagne. »</p>
+    <select data-answer="E — la preuve" aria-label="rôle de la phrase 5">
+      <option value=""></option>
+      <option>P — le point</option><option>E — la preuve</option>
+      <option>E — l'explication</option><option>L — le lien</option>
+    </select>
+  </div>
+  <div class="item">
+    <p class="q">6. « Le plafond de verre subsiste pourtant : malgré les lois Copé-Zimmermann et Rixain, les femmes restent rares aux postes de PDG. »</p>
+    <select data-answer="E — l'explication" aria-label="rôle de la phrase 6">
+      <option value=""></option>
+      <option>P — le point</option><option>E — la preuve</option>
+      <option>E — l'explication</option><option>L — le lien</option>
+    </select>
+  </div>
+  <details class="aide"><summary>Indice</summary>
+    <div>Une <b>preuve</b> contient toujours un chiffre, une date ou un nom de loi. Une <b>explication</b>
+    commence souvent par « ces droits ont… », « cela s'explique par… », « ce qui… ». Le <b>lien</b> nomme
+    un autre sujet du programme.</div></details>
+
+  <!-- ============ EXERCICE 2 ============ -->
+  <h2>Exercice 2 · Les connecteurs à leur place <span class="pts">(7 points)</span></h2>
+  <div class="consigne">Complétez le paragraphe avec les sept connecteurs de la banque. Chacun ne sert
+  qu'une fois. Respectez la majuscule en début de phrase.</div>
+
+  <div class="banque"><strong>Banque :</strong>
+    <span>Ajoutons à cela</span><span>Ainsi</span><span>Chacun peut constater que</span>
+    <span>Il est important de noter que</span><span>Même si</span><span>Néanmoins</span>
+    <span>Pour conclure</span>
+  </div>
+
+  <div class="item">
+  <div class="texte">
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="Chacun peut constater que|chacun peut constater que" aria-label="connecteur 7" placeholder="connecteur 7">
+    le mariage recule en France : on comptait 7,8 mariages pour 1 000 habitants en 1970, contre 3,5 en 2018.
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="Il est important de noter que|il est important de noter que" aria-label="connecteur 8" placeholder="connecteur 8">
+    les Français se marient aussi environ neuf ans plus tard qu'autrefois, après avoir cohabité.
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="Ajoutons à cela|ajoutons à cela" aria-label="connecteur 9" placeholder="connecteur 9">
+    les quelque 8 millions de personnes qui vivent en union libre et les 2 millions de pacsés.
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="Néanmoins|néanmoins" aria-label="connecteur 10" placeholder="connecteur 10">,
+    le nombre de mariages est légèrement remonté ces dernières années, sans doute grâce au mariage pour tous.
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="Même si|même si" aria-label="connecteur 11" placeholder="connecteur 11">
+    le PACS séduit un large public, il n'a donc pas fait disparaître l'institution.
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="Ainsi|ainsi" aria-label="connecteur 12" placeholder="connecteur 12">,
+    le mariage n'est plus le passage obligé de la vie à deux, mais une étape parmi d'autres.
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="Pour conclure|pour conclure" aria-label="connecteur 13" placeholder="connecteur 13">,
+    on ne peut pas dire que les Français rejettent le mariage : ils le repoussent, et le choisissent plus librement.
+  </div>
+  </div>
+  <details class="aide"><summary>Indice</summary>
+    <div>Deux connecteurs marquent l'opposition (<i>Même si</i> introduit une proposition entière ;
+    <i>Néanmoins</i> s'emploie seul, suivi d'une virgule). Deux annoncent une addition. Un annonce
+    la conséquence, un autre la conclusion. Le tout premier sert à poser un constat partagé.</div></details>
+
+  <!-- ============ EXERCICE 3 ============ -->
+  <h2>Exercice 3 · Monter en gamme — les structures exigées <span class="pts">(11 points)</span></h2>
+  <div class="consigne">Ce sont les tournures qui font passer une réponse de « correcte » à « impressionnante ».
+  Complétez chaque phrase.</div>
+
+  <div class="item">
+    <p class="q">14-15. <i>afin que</i> + subjonctif — « Il faudrait légaliser la GPA ________ les mères d'intention ________ enfin reconnues par la loi. »</p>
+    <div class="gaps">
+      <input type="text" autocomplete="off" spellcheck="false" data-answer="afin que|pour que" aria-label="conjonction" placeholder="conjonction">
+      <input type="text" autocomplete="off" spellcheck="false" data-answer="soient" aria-label="verbe être au subjonctif" placeholder="verbe « être »">
+    </div>
+    <details class="aide"><summary>Indice</summary><div>La conjonction de but demandée par le document. Le verbe <i>être</i> au subjonctif présent, 3<sup>e</sup> personne du pluriel.</div></details>
+  </div>
+
+  <div class="item">
+    <p class="q">16-17. <i>si</i> + imparfait + conditionnel — « Si l'État ________ (accorder) davantage d'avantages fiscaux aux familles, la natalité ________ (remonter). »</p>
+    <div class="gaps">
+      <input type="text" autocomplete="off" spellcheck="false" data-answer="accordait" aria-label="accorder à l'imparfait" placeholder="accorder…">
+      <input type="text" autocomplete="off" spellcheck="false" data-answer="remonterait" aria-label="remonter au conditionnel" placeholder="remonter…">
+    </div>
+    <details class="aide"><summary>Indice</summary><div>Après <i>si</i>, jamais de conditionnel : imparfait. C'est l'autre verbe qui porte le <b>-rait</b>.</div></details>
+  </div>
+
+  <div class="item">
+    <p class="q">18-19. <i>ne… guère</i> — « La famille élargie ________ subsiste ________ que dans certaines zones rurales. »</p>
+    <div class="gaps">
+      <input type="text" autocomplete="off" spellcheck="false" data-answer="ne|n'" aria-label="première partie de la négation" placeholder="1re partie">
+      <input type="text" autocomplete="off" spellcheck="false" data-answer="guère" aria-label="seconde partie de la négation" placeholder="2e partie">
+    </div>
+    <details class="aide"><summary>Indice</summary><div><i>ne… guère</i> = « à peine », « presque pas ». Plus élégant que <i>ne… pas beaucoup</i>.</div></details>
+  </div>
+
+  <div class="item">
+    <p class="q">20. <i>se réjouir de</i> — « On peut ________ l'adoption de la loi Rixain, qui impose des quotas de femmes aux postes de direction. »</p>
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="se réjouir de" placeholder="trois mots" aria-label="se réjouir de">
+    <details class="aide"><summary>Indice</summary><div>Verbe pronominal à l'infinitif, suivi de sa préposition. Trois mots.</div></details>
+  </div>
+
+  <div class="item">
+    <p class="q">21. <i>avoir recours à</i> — « Les couples français ne peuvent pas ________ la GPA sur le territoire national. »</p>
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="avoir recours à" placeholder="trois mots" aria-label="avoir recours à">
+    <details class="aide"><summary>Indice</summary><div>Infinitif + nom + préposition. Bien plus fort que <i>utiliser</i>.</div></details>
+  </div>
+
+  <div class="item">
+    <p class="q">22. <i>l'instauration de</i> — « ________ la loi Copé-Zimmermann a accéléré la féminisation des conseils d'administration. »</p>
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="L'instauration de|l'instauration de" placeholder="trois mots" aria-label="l'instauration de">
+    <details class="aide"><summary>Indice</summary><div>Nominalisation du verbe <i>instaurer</i>. Commencer une phrase par un groupe nominal fait toujours bonne impression.</div></details>
+  </div>
+
+  <div class="item">
+    <p class="q">23. <i>les avantages fiscaux</i> — « Le mariage ouvre droit à des ________ que le concubinage ne procure pas. »</p>
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="avantages fiscaux" placeholder="deux mots" aria-label="avantages fiscaux">
+  </div>
+
+  <div class="item">
+    <p class="q">24. <i>ce qui</i> — « Les femmes ont conquis leur autonomie financière, ________ a bouleversé l'équilibre du couple. »</p>
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="ce qui" placeholder="deux mots" aria-label="ce qui">
+    <details class="aide"><summary>Indice</summary><div>Le pronom relatif qui reprend <i>toute la proposition précédente</i>, et non un nom. Ici il est <b>sujet</b> du verbe qui suit.</div></details>
+  </div>
+
+  <div class="item">
+    <p class="q">25. <i>ce que</i> — « ________ les opposants au mariage pour tous réclament, c'est un retour aux liens biologiques. »</p>
+    <input type="text" autocomplete="off" spellcheck="false" data-answer="Ce que|ce que|Ce qu'|ce qu'" placeholder="deux mots" aria-label="ce que">
+    <details class="aide"><summary>Indice</summary><div>Même famille que la question précédente, mais ici il est <b>complément d'objet</b> du verbe <i>réclamer</i>.</div></details>
+  </div>
+
+  <!-- ============ EXERCICE 4 ============ -->
+  <h2>Exercice 4 · Quelle version choisir ? <span class="pts">(5 points)</span></h2>
+  <div class="consigne">Voici, en anglais, une idée tirée de l'<i>indicative content</i> de l'unité. Trois
+  traductions vous sont proposées : toutes se comprennent, une seule est du niveau attendu à l'oral.
+  Choisissez-la, puis expliquez votre choix en une ligne — votre professeur lira ces justifications.</div>
+
+  <div class="item">
+    <p class="q">26. « Single-parent families are the fastest growing family type. »</p>
+    <div class="versions">
+      <p><b>Version 1 —</b> Les familles monoparentales sont le type de famille qui grandit le plus vite.</p>
+      <p><b>Version 2 —</b> Les familles monoparentales constituent le type de famille dont la croissance est la plus rapide.</p>
+      <p><b>Version 3 —</b> Les familles avec un seul parent sont plus nombreuses que jamais avant.</p>
+    </div>
+    <select data-answer="Version 2" aria-label="meilleure version, question 26">
+      <option value=""></option><option>Version 1</option><option>Version 2</option><option>Version 3</option>
+    </select>
+    <input class="pourquoi" type="text" placeholder="Pourquoi ? (une ligne)" autocomplete="off">
+  </div>
+
+  <div class="item">
+    <p class="q">27. « Opponents see surrogacy as a commercialisation of human reproduction. »</p>
+    <div class="versions">
+      <p><b>Version 1 —</b> Les opposants pensent que la GPA, c'est faire du commerce avec les bébés.</p>
+      <p><b>Version 2 —</b> Ceux qui sont contre disent que ça revient à vendre des enfants.</p>
+      <p><b>Version 3 —</b> Les opposants y voient une commercialisation du processus de reproduction humaine.</p>
+    </div>
+    <select data-answer="Version 3" aria-label="meilleure version, question 27">
+      <option value=""></option><option>Version 1</option><option>Version 2</option><option>Version 3</option>
+    </select>
+    <input class="pourquoi" type="text" placeholder="Pourquoi ? (une ligne)" autocomplete="off">
+  </div>
+
+  <div class="item">
+    <p class="q">28. « Childcare is still seen as the woman's responsibility. »</p>
+    <div class="versions">
+      <p><b>Version 1 —</b> La garde des enfants est encore considérée comme relevant de la responsabilité des femmes.</p>
+      <p><b>Version 2 —</b> Les femmes doivent encore s'occuper des enfants.</p>
+      <p><b>Version 3 —</b> C'est encore la femme qui garde les enfants, normalement.</p>
+    </div>
+    <select data-answer="Version 1" aria-label="meilleure version, question 28">
+      <option value=""></option><option>Version 1</option><option>Version 2</option><option>Version 3</option>
+    </select>
+    <input class="pourquoi" type="text" placeholder="Pourquoi ? (une ligne)" autocomplete="off">
+  </div>
+
+  <div class="item">
+    <p class="q">29. « The reaction to the loi Taubira shows that a sizeable part of the population still believes in traditional family values. »</p>
+    <div class="versions">
+      <p><b>Version 1 —</b> Beaucoup de gens ont réagi à la loi Taubira parce qu'ils aiment la famille traditionnelle.</p>
+      <p><b>Version 2 —</b> Les réactions suscitées par la loi Taubira montrent qu'une part non négligeable de la population reste attachée aux valeurs familiales traditionnelles.</p>
+      <p><b>Version 3 —</b> La loi Taubira a montré que les Français sont traditionnels.</p>
+    </div>
+    <select data-answer="Version 2" aria-label="meilleure version, question 29">
+      <option value=""></option><option>Version 1</option><option>Version 2</option><option>Version 3</option>
+    </select>
+    <input class="pourquoi" type="text" placeholder="Pourquoi ? (une ligne)" autocomplete="off">
+  </div>
+
+  <div class="item">
+    <p class="q">30. « Children may have to split their time between two households. »</p>
+    <div class="versions">
+      <p><b>Version 1 —</b> Les enfants doivent aller chez leur père et chez leur mère.</p>
+      <p><b>Version 2 —</b> Les enfants partagent leur temps entre deux maisons.</p>
+      <p><b>Version 3 —</b> Du fait de la garde partagée, les enfants sont parfois contraints de partager leur temps entre deux foyers.</p>
+    </div>
+    <select data-answer="Version 3" aria-label="meilleure version, question 30">
+      <option value=""></option><option>Version 1</option><option>Version 2</option><option>Version 3</option>
+    </select>
+    <input class="pourquoi" type="text" placeholder="Pourquoi ? (une ligne)" autocomplete="off">
+  </div>
+
+  <details class="aide"><summary>Indice pour tout l'exercice 4</summary>
+    <div>La bonne version est presque toujours celle qui : emploie un <b>verbe précis</b>
+    (<i>constituer, relever de, y voir, susciter, contraindre</i>) plutôt que <i>être</i> ou <i>faire</i> ;
+    <b>nominalise</b> (<i>la croissance, les réactions, la commercialisation</i>) ; et évite le registre
+    parlé (<i>ça, les gens, normalement</i>).</div></details>
+
+  <!-- ============ DÉFI A* ============ -->
+  <div class="stretch">
+    <h2>Défi A* — La réponse complète, chronométrée <span class="pts">(non noté automatiquement)</span></h2>
+    <div class="consigne">Choisissez une question obligatoire, puis rédigez une réponse suivie de
+      <strong>120 mots environ</strong>, en respectant le PEEL. Vous devez y placer <strong>au moins trois
+      des structures</strong> de l'exercice 3, <strong>deux connecteurs</strong> de l'exercice 2 et
+      <strong>deux preuves chiffrées</strong>. Le compteur ci-dessous vous dit, en direct, ce qui manque.</div>
+
+    <div class="item">
+      <p class="q">Ma question :</p>
+      <select id="qChoisie" aria-label="question choisie">
+        <option value="">— choisissez votre question —</option>
+        <option>Quels types de famille trouve-t-on en France de nos jours ?</option>
+        <option>Comment est-ce que la vie des femmes a changé pendant ces dernières années en France ?</option>
+        <option>Les couples homosexuels ont-ils les mêmes droits que les couples hétérosexuels en France ?</option>
+        <option>Jusqu'à quel point peut-on dire que les Français se détournent du mariage ?</option>
+        <option>Que pensez-vous des arguments contre les mères porteuses en France ?</option>
+      </select>
+    </div>
+
+    <div class="item">
+      <p class="q">Ma réponse PEEL :</p>
+      <textarea id="reponse" placeholder="P — … &#10;E — … &#10;E — … &#10;L — …"></textarea>
+      <div id="bilan" class="jauge"></div>
+    </div>
+
+    <details class="aide"><summary>Voir un modèle de réponse (seulement après avoir écrit la vôtre)</summary>
+      <div>
+      <p><i>Question : Jusqu'à quel point peut-on dire que les Français se détournent du mariage ?</i></p>
+      <p><b>P.</b> Chacun peut constater que les Français ne se détournent pas du mariage : ils le repoussent et le choisissent autrement.</p>
+      <p><b>E.</b> Il est important de noter qu'on ne comptait plus que 3,5 mariages pour 1 000 habitants en 2018, contre 7,8 en 1970, et que les jeunes se marient environ neuf ans plus tard qu'autrefois ; ajoutons à cela quelque 8 millions de personnes en union libre et 2 millions de pacsés depuis l'instauration du PACS en 1999.</p>
+      <p><b>E.</b> Ces chiffres ne signifient guère un rejet de l'institution : le mariage ouvre toujours droit à des avantages fiscaux, ce qui explique qu'on y vienne plus tard plutôt qu'on y renonce. Si l'État supprimait ces avantages, la courbe s'effondrerait sans doute.</p>
+      <p><b>L.</b> Cette liberté nouvelle rejoint l'évolution de la condition féminine : depuis 1967 et 1975, les femmes maîtrisent leur vie privée, ce qui a rendu le mariage facultatif plutôt qu'obligatoire.</p>
+      <p class="note">Ce modèle contient : quatre connecteurs, <i>ne… guère</i>, <i>ce qui</i> (deux fois),
+      <i>si</i> + imparfait + conditionnel, <i>l'instauration de</i>, <i>les avantages fiscaux</i>, et six chiffres.</p>
+      </div>
+    </details>
+  </div>
+
+  <p class="note">Quand vous aurez terminé, écrivez votre nom en bas de l'écran et cliquez sur
+  « Télécharger » : le fichier contient vos réponses et votre score, et se dépose sur Teams/SharePoint.</p>
+</div>
+
+<script>
+/* The kit supplies the name box, the accent pad, the marking and the download.
+   This page adds the live analysis of the A* answer — the one thing on the
+   page that cannot be marked automatically but can still be measured. */
+(function(){
+  "use strict";
+
+  /* Each test is [label, regexp]. They look for the structure, not the word:
+     "si + imparfait + conditionnel" is detected by the -rait ending, so a
+     student who writes "si l'État accordait…, la natalité augmenterait" is
+     credited even though the model used a different verb. */
+  var STRUCTURES = [
+    ["afin que / pour que + subjonctif", /\b(afin|pour)\s+qu(e|')/i],
+    ["si + imparfait + conditionnel",    /\bs(i|')\b[^.!?]{0,90}\b\w+rai(t|ent)\b/i],
+    ["ne … guère",                       /\bn(e|')\b[^.!?]{0,40}\bgu[eè]re\b/i],
+    ["ce qui / ce que",                  /\bce\s+qu(i|e|')/i],
+    ["avoir recours à",                  /\brecours\s+(à|au|aux)(\s|$)/i],
+    ["l'instauration de",                /\binstauration\b/i],
+    ["se réjouir de",                    /\br[ée]jouir\b/i],
+    ["les avantages fiscaux",            /\bavantages?\s+fisca/i]
+  ];
+  var CONNECT = ["Chacun peut constater","Il est important de noter","Ajoutons à cela",
+                 "Même si","Néanmoins","Ainsi","Pour conclure"];
+  var CHIFFRE = /(^|[^\w])(\d{1,4}([ ,.]\d+)?\s*(%|millions?|ans|habitants)?)/g;
+
+  function fold(s){
+    return s.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"")
+            .replace(/[’‘`´]/g,"'");
+  }
+  function words(s){ return (s.trim().match(/[\wÀ-ſ'’-]+/g)||[]).length; }
+  function found(text){
+    var f = fold(text), out = [];
+    CONNECT.forEach(function(c){ if(f.indexOf(fold(c)) >= 0) out.push(c); });
+    return out;
+  }
+  function numbers(text){
+    var m = text.match(/(?:^|[^\w.,])\d{1,4}(?:[ ,.]\d+)?/g) || [];
+    var seen = {}, out = [];
+    m.forEach(function(x){
+      x = x.replace(/^[^\d]+/,"");
+      if(!seen[x]){ seen[x] = 1; out.push(x); }
+    });
+    return out;
+  }
+
+  var ta = document.getElementById("reponse");
+  var bilan = document.getElementById("bilan");
+  if(!ta || !bilan) return;
+
+  function tag(ok, label){
+    return '<span class="' + (ok ? "hit" : "miss") + '">' + (ok ? "✔ " : "· ") + label + "</span>";
+  }
+  function refresh(){
+    var v = ta.value, w = words(v);
+    if(!w){ bilan.innerHTML = ""; return; }
+    var st = STRUCTURES.filter(function(s){ return s[1].test(v); });
+    var cn = found(v);
+    var nb = numbers(v);
+    var rows = [];
+    rows.push("<b>" + w + " mots</b> " + (w >= 120 ? '<span class="hit">✔ longueur atteinte</span>'
+              : '<span class="miss">· encore ' + (120 - w) + " mots</span>"));
+    rows.push(tag(st.length >= 3, "structures : " + st.length + " / 3")
+              + (st.length ? ' <span class="miss">(' + st.map(function(s){return s[0];}).join(" · ") + ")</span>" : ""));
+    rows.push(tag(cn.length >= 2, "connecteurs : " + cn.length + " / 2")
+              + (cn.length ? ' <span class="miss">(' + cn.join(" · ") + ")</span>" : ""));
+    rows.push(tag(nb.length >= 2, "preuves chiffrées : " + nb.length + " / 2")
+              + (nb.length ? ' <span class="miss">(' + nb.slice(0,8).join(" · ") + ")</span>" : ""));
+    var manque = STRUCTURES.filter(function(s){ return !s[1].test(v); }).map(function(s){ return s[0]; });
+    if(st.length < 3 && manque.length){
+      rows.push('<span class="miss">Encore disponibles : ' + manque.slice(0,4).join(" · ") + "</span>");
+    }
+    bilan.innerHTML = rows.join("<br>");
+  }
+  ta.addEventListener("input", refresh);
+  setTimeout(refresh, 900);   /* the kit restores saved work after load */
+  document.addEventListener("click", function(e){
+    if(e.target && e.target.closest && e.target.closest("#bba-resume")) setTimeout(refresh, 300);
+  }, true);
+})();
+</script>
+<script src="bba-kit-fr.js" defer></script>
+</body>
+</html>
