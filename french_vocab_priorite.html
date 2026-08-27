@@ -1,0 +1,1868 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Priorité révision — vocabulaire A-Level French</title>
+<style>
+  :root {
+    --blue: #002395;
+    --red: #ED2939;
+    --white: #FFFFFF;
+    --bg: #f0f2f8;
+    --card: #ffffff;
+    --dark: #1a1a2e;
+    --mid: #444466;
+    --success: #27ae60;
+    --error: #e74c3c;
+    --warn: #e67e22;
+    --accent: #002395;
+    --shadow: 0 4px 20px rgba(0,35,149,0.10);
+    --radius: 14px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    background: var(--bg);
+    min-height: 100vh;
+    color: var(--dark);
+  }
+
+  /* ── HEADER ── */
+  header {
+    background: linear-gradient(135deg, var(--blue) 0%, #1a3a8f 100%);
+    color: white;
+    padding: 16px 28px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.2);
+  }
+  .flag {
+    display: flex;
+    height: 34px;
+    border-radius: 4px;
+    overflow: hidden;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.3);
+  }
+  .flag span { display:block; width:14px; }
+  .flag .f-blue { background:var(--blue); }
+  .flag .f-white { background:var(--white); }
+  .flag .f-red { background:var(--red); }
+  header h1 { font-size: 1.25rem; font-weight: 700; letter-spacing: .3px; }
+  header p { font-size: .78rem; opacity: .8; }
+  .header-right { margin-left: auto; font-size: .85rem; opacity: .75; }
+
+  /* ── SCREENS ── */
+  .screen { display: none; min-height: calc(100vh - 70px); padding: 32px 20px; }
+  .screen.active { display: flex; flex-direction: column; align-items: center; justify-content: center; }
+
+  /* ── CARD ── */
+  .card {
+    background: var(--card);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 36px 40px;
+    width: 100%;
+    max-width: 520px;
+  }
+  .card h2 { font-size: 1.5rem; color: var(--blue); margin-bottom: 8px; }
+  .card p.sub { color: var(--mid); font-size: .92rem; margin-bottom: 24px; }
+
+  /* ── INPUTS ── */
+  input[type=text] {
+    width: 100%;
+    padding: 12px 16px;
+    border: 2px solid #d0d6e8;
+    border-radius: 8px;
+    font-size: 1.05rem;
+    outline: none;
+    transition: border-color .2s;
+    color: var(--dark);
+  }
+  input[type=text]:focus { border-color: var(--blue); }
+  label { display: block; font-size: .88rem; font-weight: 600; color: var(--mid); margin-bottom: 6px; }
+
+  /* ── BUTTONS ── */
+  .btn {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 12px 26px;
+    border: none; border-radius: 8px; cursor: pointer;
+    font-size: 1rem; font-weight: 600;
+    transition: all .18s; text-decoration: none;
+  }
+  .btn-primary { background: var(--blue); color: white; }
+  .btn-primary:hover { background: #0031c7; transform: translateY(-1px); box-shadow: 0 4px 14px rgba(0,35,149,.35); }
+  .btn-secondary { background: #eaecf8; color: var(--blue); }
+  .btn-secondary:hover { background: #d8dcf5; }
+  .btn-success { background: var(--success); color: white; }
+  .btn-success:hover { background: #219a52; }
+  .btn-red { background: var(--red); color: white; }
+  .btn-red:hover { background: #c0392b; }
+  .btn-sm { padding: 7px 14px; font-size: .88rem; }
+  .btn:disabled { opacity: .5; cursor: not-allowed; transform: none; }
+
+  /* ── UNIT GRID ── */
+  #screen-units { padding: 28px 20px; }
+  #screen-units .screen-title {
+    text-align: center; margin-bottom: 28px;
+  }
+  #screen-units .screen-title h2 { font-size: 1.6rem; color: var(--blue); }
+  #screen-units .screen-title p { color: var(--mid); margin-top: 4px; }
+  .unit-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 14px;
+    width: 100%; max-width: 900px;
+  }
+  .unit-card {
+    background: var(--card);
+    border-radius: 12px;
+    box-shadow: var(--shadow);
+    padding: 18px 20px;
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: all .2s;
+    position: relative;
+    overflow: hidden;
+  }
+  .unit-card::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0; height: 4px;
+    background: linear-gradient(90deg, var(--blue), var(--red));
+  }
+  .unit-card:hover { border-color: var(--blue); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,35,149,.15); }
+  .unit-card .unit-code { font-weight: 800; font-size: 1rem; color: var(--blue); }
+  .unit-card .unit-title { font-size: .82rem; color: var(--mid); margin-top: 4px; line-height: 1.35; }
+  .unit-card .unit-meta { font-size:.74rem; color:#7a8794; margin-top:6px; }
+  .unit-card.card-alt { background:#f2f7fa; border-color:#cfdce6; }
+  .tier { font-weight:700; letter-spacing:.06em; margin-right:8px; }
+  .tier3 { color:#a12727; } .tier2 { color:#b06f00; } .tier1 { color:#8a93a0; }
+  .unit-card .unit-score {
+    margin-top: 10px; font-size: .78rem; font-weight: 600;
+    color: var(--success); display: none;
+  }
+  .unit-card.done .unit-score { display: block; }
+  .unit-card.done { border-color: #c3e6cb; background: #f0faf4; }
+
+  /* ── QUIZ SCREEN ── */
+  #screen-quiz { padding: 28px 20px; }
+  .quiz-wrap { width: 100%; max-width: 640px; }
+
+  /* Progress */
+  .progress-bar-wrap {
+    background: #e0e4f0; border-radius: 99px; height: 8px; margin-bottom: 20px; overflow: hidden;
+  }
+  .progress-bar { background: linear-gradient(90deg, var(--blue), var(--red)); height: 100%; border-radius: 99px; transition: width .4s ease; }
+
+  .quiz-meta {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 14px; color: var(--mid); font-size: .88rem;
+  }
+  .quiz-meta .score-badge {
+    background: var(--blue); color: white;
+    padding: 4px 12px; border-radius: 99px; font-weight: 700; font-size: .85rem;
+  }
+
+  /* Question card */
+  .q-card {
+    background: var(--card);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 32px;
+    margin-bottom: 16px;
+  }
+  .q-label {
+    font-size: .8rem; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 1px; color: var(--mid); margin-bottom: 12px;
+  }
+  .q-english {
+    font-size: 1.5rem; font-weight: 700; color: var(--dark);
+    margin-bottom: 6px; line-height: 1.3;
+  }
+  .q-hint {
+    font-size: .82rem; color: #888; margin-bottom: 20px; font-style: italic;
+  }
+
+  .answer-row {
+    display: flex; gap: 10px; align-items: stretch;
+  }
+  .answer-row input {
+    flex: 1;
+    font-size: 1.05rem;
+    border-radius: 8px 0 0 8px;
+  }
+  .answer-row .btn { border-radius: 0 8px 8px 0; white-space: nowrap; }
+
+  /* Feedback */
+  .feedback {
+    min-height: 38px;
+    padding: 10px 16px;
+    border-radius: 8px;
+    font-size: .95rem;
+    font-weight: 600;
+    margin-top: 12px;
+    display: none;
+    align-items: center;
+    gap: 8px;
+  }
+  .feedback.show { display: block; }
+  .feedback.correct { background: #d4edda; color: #155724; }
+  .feedback.incorrect { background: #f8d7da; color: #721c24; }
+  .feedback.partial { background: #fff3cd; color: #856404; }
+  .fb-note { font-weight: 600; font-size: .88rem; margin-top: 5px; opacity: .95; }
+  /* --- rebuilt loop --------------------------------------------------- */
+  .feedback.clue { background: #fff3cd; color: #7a5c00; }
+  .fb-clue { font-size: .9rem; margin-top: 5px; letter-spacing: .01em; }
+  .fb-clue b { font-weight: 700; }
+  .next-row { display: none; margin-top: 12px; }
+  .next-row.show { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+  .next-row .hintline { font-size: .8rem; color: #6b7a88; }
+  .repeat-badge {
+    display: none; background: #fff3cd; color: #7a5c00; border: 1px solid #e6cf8a;
+    border-radius: 999px; padding: 2px 10px; font-size: .72rem; font-weight: 700;
+    letter-spacing: .04em; text-transform: uppercase; margin-left: 8px;
+  }
+  .repeat-badge.show { display: inline-block; }
+  .review-box {
+    background: #fff8ec; border: 1px solid #e6cf8a; border-left: 5px solid #b06f00;
+    border-radius: 8px; padding: 14px 16px; margin: 18px 0 0;
+  }
+  .review-box h3 { font-size: 1rem; color: #7a5c00; margin-bottom: 8px; }
+  .review-box ul { margin: 0; padding-left: 20px; }
+  .review-box li { margin: 3px 0; font-size: .93rem; }
+  .review-box li b { color: #1a2733; }
+  .resume-bar {
+    background: #eaf4ee; border: 1px solid #b8dcc6; border-left: 5px solid #1e7b45;
+    border-radius: 8px; padding: 12px 16px; margin: 0 0 16px;
+    display: none; gap: 10px; align-items: center; flex-wrap: wrap;
+  }
+  .resume-bar.show { display: flex; }
+  .resume-bar p { margin: 0; flex: 1; min-width: 200px; font-size: .93rem; }
+  .fb-also {
+    font-weight: 500; font-size: .84rem; margin-top: 7px;
+    padding-top: 7px; border-top: 1px solid rgba(0,0,0,.12); opacity: .85;
+  }
+  /* Strict-mode switch */
+  .mode-switch {
+    display: flex; align-items: center; gap: 8px;
+    font-size: .8rem; cursor: pointer; user-select: none;
+  }
+  .mode-switch .track {
+    width: 38px; height: 21px; border-radius: 99px;
+    background: rgba(255,255,255,.3); position: relative; transition: background .2s;
+    flex-shrink: 0;
+  }
+  .mode-switch .track::after {
+    content: ''; position: absolute; top: 3px; left: 3px;
+    width: 15px; height: 15px; border-radius: 50%;
+    background: white; transition: transform .2s;
+  }
+  .mode-switch.on .track { background: var(--red); }
+  .mode-switch.on .track::after { transform: translateX(17px); }
+  .mode-badge {
+    display: inline-block; font-size: .72rem; font-weight: 700;
+    padding: 3px 9px; border-radius: 99px; margin-left: 8px;
+    background: #eaecf8; color: var(--blue);
+  }
+  .mode-badge.strict { background: #fde8e8; color: #a02020; }
+
+  /* ── ACCENT KEYBOARD ── */
+  .accent-kb {
+    background: var(--card);
+    border-radius: 10px;
+    box-shadow: var(--shadow);
+    padding: 12px 16px;
+    margin-bottom: 16px;
+  }
+  .accent-kb-label {
+    font-size: .72rem; font-weight: 700; text-transform: uppercase;
+    letter-spacing: .8px; color: var(--mid); margin-bottom: 8px;
+  }
+  .accent-rows { display: flex; flex-direction: column; gap: 6px; }
+  .accent-row { display: flex; gap: 6px; flex-wrap: wrap; }
+  .accent-key {
+    border: 2px solid #d0d6e8;
+    background: white;
+    border-radius: 7px;
+    padding: 7px 13px;
+    font-size: 1.05rem;
+    cursor: pointer;
+    transition: all .15s;
+    font-weight: 600;
+    color: var(--dark);
+    min-width: 42px;
+    text-align: center;
+    user-select: none;
+  }
+  .accent-key:hover { border-color: var(--blue); background: #eef0fc; color: var(--blue); transform: translateY(-1px); }
+  .accent-key:active { transform: translateY(0); }
+  .accent-key.primary { border-color: var(--blue); background: #eef0fc; color: var(--blue); }
+  .accent-divider {
+    width: 1px; background: #d0d6e8; margin: 0 4px;
+    align-self: stretch;
+  }
+
+  /* ── CONTROLS ── */
+  .quiz-controls {
+    display: flex; gap: 10px; margin-top: 16px; flex-wrap: wrap;
+  }
+
+  /* ── RESULTS ── */
+  #screen-results { padding: 28px 20px; }
+  .results-wrap { width: 100%; max-width: 640px; }
+  .results-header {
+    background: linear-gradient(135deg, var(--blue), #1a3a8f);
+    color: white;
+    border-radius: var(--radius);
+    padding: 28px 32px;
+    margin-bottom: 20px;
+    box-shadow: var(--shadow);
+  }
+  .results-header h2 { font-size: 1.6rem; margin-bottom: 4px; }
+  .results-header .total-score { font-size: 3rem; font-weight: 800; margin: 12px 0 4px; }
+  .results-header .total-sub { opacity: .8; font-size: .9rem; }
+
+  .unit-results {
+    background: var(--card);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    overflow: hidden;
+    margin-bottom: 20px;
+  }
+  .unit-result-row {
+    display: flex; align-items: center;
+    padding: 14px 20px;
+    border-bottom: 1px solid #f0f2f8;
+    gap: 14px;
+  }
+  .unit-result-row:last-child { border-bottom: none; }
+  .unit-result-code { font-weight: 700; color: var(--blue); width: 42px; flex-shrink: 0; }
+  .unit-result-title { flex: 1; font-size: .9rem; color: var(--mid); }
+  .unit-result-bar-wrap { width: 120px; height: 8px; background: #e8eaf2; border-radius: 99px; overflow: hidden; flex-shrink: 0; }
+  .unit-result-bar { height: 100%; border-radius: 99px; background: var(--success); }
+  .unit-result-score { font-weight: 700; font-size: .9rem; width: 56px; text-align: right; flex-shrink: 0; }
+  .unit-result-row.skipped .unit-result-score { color: #bbb; }
+  .unit-result-row.skipped .unit-result-bar { background: #ccc; }
+
+  .results-actions { display: flex; gap: 12px; flex-wrap: wrap; }
+
+  /* ── TOAST ── */
+  .toast {
+    position: fixed; bottom: 24px; right: 24px;
+    background: var(--dark); color: white;
+    padding: 12px 20px; border-radius: 10px;
+    font-size: .9rem; font-weight: 600;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.25);
+    transform: translateY(80px); opacity: 0;
+    transition: all .3s; z-index: 999;
+  }
+  .toast.show { transform: translateY(0); opacity: 1; }
+
+  /* ── NEXT OVERLAY ── */
+  .next-btn-wrap { margin-top: 14px; text-align: center; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 520px) {
+    .card { padding: 24px 18px; }
+    .q-card { padding: 22px 18px; }
+    .q-english { font-size: 1.25rem; }
+    .unit-grid { grid-template-columns: 1fr 1fr; }
+    .accent-kb { padding: 10px 12px; }
+  }
+</style>
+<link rel="stylesheet" href="bba-mobile.css">
+<script src="bba-mobile.js" defer></script>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="flag">
+    <span class="f-blue"></span>
+    <span class="f-white"></span>
+    <span class="f-red"></span>
+  </div>
+  <div>
+    <h1>Priorité révision — vocabulaire</h1>
+    <p>Edexcel 9FR0 · le noyau à savoir par cœur</p>
+  </div>
+  <div class="header-right" style="display:flex; align-items:center; gap:18px;">
+    <div class="mode-switch" id="mode-switch" onclick="toggleStrict()"
+         title="Lenient: accents, articles and small slips still score. Strict: exact spelling required.">
+      <div class="track"></div>
+      <span id="mode-label">Lenient marking</span>
+    </div>
+    <span id="header-name"></span>
+  </div>
+</header>
+
+<!-- ════════════════════════════════════════════
+     SCREEN 1: WELCOME / NAME
+══════════════════════════════════════════════ -->
+<div class="screen active" id="screen-welcome">
+  <div class="card">
+    <h2>Bienvenue ! 👋</h2>
+    <p class="sub">Enter your name to begin. Your work is saved on this device as you go, so you can stop and come back.</p>
+    <div class="resume-bar" id="resume-bar">
+      <p id="resume-text">Tu as une série en cours.</p>
+      <button class="btn btn-primary btn-sm" onclick="resumeSaved()">Reprendre</button>
+      <button class="btn btn-secondary btn-sm" onclick="discardSaved()">Recommencer</button>
+    </div>
+    <div style="margin-bottom:20px;">
+      <label for="input-name">Your name</label>
+      <input type="text" id="input-name" placeholder="e.g. Sophie Martin" autocomplete="off" maxlength="60">
+    </div>
+    <button class="btn btn-primary" onclick="startApp()" id="btn-start">
+      Start →
+    </button>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════
+     SCREEN 2: UNIT SELECTION
+══════════════════════════════════════════════ -->
+<div class="screen" id="screen-units">
+  <div class="screen-title">
+    <h2 id="units-greeting">Priorité révision</h2>
+    <p id="units-sub">330 mots choisis, pas 3 500 : ★★★ = le lexique que les fiches
+    « Maîtriser le contenu » exigent, ★★ = ce que le site emploie le plus, ★ = le reste.
+    Commencez par le sprint.</p>
+  </div>
+  <div style="margin-bottom:16px; text-align:center;">
+    <button class="btn" onclick="sprint(20)" style="font-size:1.02rem">⚡ Sprint — 20 mots prioritaires</button>
+  </div>
+  <div class="unit-grid" id="unit-grid"></div>
+  <div style="margin-top:24px; display:flex; gap:12px; flex-wrap:wrap; justify-content:center;">
+    <button class="btn btn-secondary" onclick="practiseAll()">Les 312 mots, d'un trait</button>
+    <a class="btn btn-secondary" style="text-decoration:none"
+       href="https://artmemry.github.io/A-Level-French-Edexcel-Vocab-training/"
+       target="_blank" rel="noopener">Le Lexique — les 3 444 mots ↗</a>
+    <button class="btn btn-success" id="btn-download" onclick="downloadResults()" style="display:none">⬇ Download Results</button>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════
+     SCREEN 3: QUIZ
+══════════════════════════════════════════════ -->
+<div class="screen" id="screen-quiz">
+  <div class="quiz-wrap">
+
+    <!-- Progress -->
+    <div class="quiz-meta">
+      <span id="quiz-unit-label">FR1 — La famille</span><span class="repeat-badge" id="repeat-badge">à revoir</span>
+      <span class="score-badge" id="quiz-score-badge">0 / 0</span>
+    </div>
+    <div class="progress-bar-wrap">
+      <div class="progress-bar" id="quiz-progress-bar" style="width:0%"></div>
+    </div>
+
+    <!-- Question -->
+    <div class="q-card">
+      <div class="q-label">Translate into French</div>
+      <div class="q-english" id="q-english">—</div>
+      <div class="q-hint" id="q-hint"></div>
+
+      <div class="answer-row">
+        <input type="text" id="answer-input" placeholder="Votre réponse en français…" autocomplete="off" autocorrect="off" spellcheck="false">
+        <button class="btn btn-primary" id="btn-check" onclick="checkAnswer()">Vérifier ✓</button>
+      </div>
+
+      <div class="feedback" id="feedback" aria-live="polite" role="status"></div>
+
+      <div class="next-row" id="next-row">
+        <button class="btn btn-primary" id="btn-next" onclick="nextQuestion()">Suivant →</button>
+        <span class="hintline">ou appuie sur Entrée</span>
+      </div>
+    </div>
+
+    <!-- Accent keyboard -->
+    <div class="accent-kb">
+      <div class="accent-kb-label">⌨ Accent keyboard — click to insert</div>
+      <div class="accent-rows">
+        <!-- Row 1: Primary 5 (AZERTY keys) -->
+        <div class="accent-row" id="accent-row-primary">
+          <span class="accent-key primary" onclick="insertAccent('é')" title="é">é</span>
+          <span class="accent-key primary" onclick="insertAccent('è')" title="è">è</span>
+          <span class="accent-key primary" onclick="insertAccent('à')" title="à">à</span>
+          <span class="accent-key primary" onclick="insertAccent('ç')" title="ç">ç</span>
+          <span class="accent-key primary" onclick="insertAccent('ù')" title="ù">ù</span>
+          <div class="accent-divider"></div>
+          <span class="accent-key" onclick="insertAccent('ê')" title="ê">ê</span>
+          <span class="accent-key" onclick="insertAccent('ô')" title="ô">ô</span>
+          <span class="accent-key" onclick="insertAccent('î')" title="î">î</span>
+          <span class="accent-key" onclick="insertAccent('û')" title="û">û</span>
+          <span class="accent-key" onclick="insertAccent('â')" title="â">â</span>
+          <span class="accent-key" onclick="insertAccent('œ')" title="œ">œ</span>
+          <span class="accent-key" onclick="insertAccent('ë')" title="ë">ë</span>
+          <span class="accent-key" onclick="insertAccent('ï')" title="ï">ï</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Controls -->
+    <div class="quiz-controls">
+      <button class="btn btn-secondary" onclick="skipQuestion()">Passer →</button>
+      <button class="btn btn-secondary" onclick="goToUnits()">⬅ Units</button>
+      <button class="btn btn-secondary btn-sm" id="btn-show-answer" onclick="showAnswer()" style="margin-left:auto">Show answer</button>
+    </div>
+
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════
+     SCREEN 4: RESULTS
+══════════════════════════════════════════════ -->
+<div class="screen" id="screen-results">
+  <div class="results-wrap">
+    <div class="results-header">
+      <h2 id="results-name">Results</h2>
+      <div class="total-score" id="results-total">—</div>
+      <div class="total-sub" id="results-sub">—</div>
+    </div>
+    <div class="unit-results" id="results-unit-list"></div>
+    <div class="review-box" id="results-review" style="display:none">
+      <h3>À revoir — les mots qui ne sont pas encore acquis</h3>
+      <ul id="results-review-list"></ul>
+    </div>
+    <div class="results-actions">
+      <button class="btn btn-primary" onclick="goToUnits()">⬅ Back to Units</button>
+      <button class="btn btn-success" onclick="downloadResults()">⬇ Download Results (.txt)</button>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script src="bba-progress.js"></script>
+<script>
+// ═══════════════════════════════════════════════════════════
+//  VOCABULARY DATA — all 12 units
+//  Format: { en: "English", fr: "le/la français", hint: "optional gender/type hint" }
+// ═══════════════════════════════════════════════════════════
+const UNITS = [
+  {
+    code: "ESSAI", title: "Phrases de rédaction", theme: "Toutes les unités",
+    vocab: [
+      { en: "according", fr: "selon | d'après", hint: "aussi : according to", tier: 3 },
+      { en: "although", fr: "bien que", hint: "aussi : even though", tier: 3 },
+      { en: "nonetheless", fr: "néanmoins", hint: "aussi : nevertheless", tier: 3 },
+      { en: "however", fr: "cependant | pourtant", hint: null, tier: 3 },
+      { en: "Also", fr: "de plus | De plus", hint: "aussi : moreover ; furthermore ; in addition", tier: 3 },
+      { en: "even if", fr: "même si", hint: "aussi : even though", tier: 3 },
+      { en: "despite", fr: "malgré", hint: "aussi : in spite of", tier: 3 },
+      { en: "thus", fr: "ainsi", hint: "aussi : therefore", tier: 3 },
+      { en: "from now on", fr: "désormais | dorénavant | d'ores et déjà", hint: null, tier: 3 },
+      { en: "it shows", fr: "cela montre", hint: "aussi : this shows", tier: 2 },
+      { en: "whereas", fr: "tandis que", hint: null, tier: 2 },
+      { en: "indeed", fr: "certes", hint: "aussi : admittedly", tier: 2 },
+      { en: "so that", fr: "afin que | pour que", hint: "aussi : in order that", tier: 2 },
+      { en: "to note that", fr: "constater que", hint: "aussi : to take note of (+ indicatif)", tier: 2 },
+      { en: "contributes to", fr: "contribue à", hint: null, tier: 2 },
+      { en: "whereas", fr: "alors que", hint: null, tier: 2 },
+      { en: "during", fr: "au cours de", hint: null, tier: 2 },
+      { en: "a close-up", fr: "un gros plan", hint: "nom masculin", tier: 2 },
+      { en: "more and more", fr: "de plus en plus", hint: null, tier: 2 },
+      { en: "To conclude", fr: "Pour conclure", hint: null, tier: 2 },
+      { en: "because of", fr: "en raison de | à cause de", hint: null, tier: 2 },
+      { en: "regarding", fr: "en ce qui concerne", hint: "aussi : concerning ; in regards to ; with regard to", tier: 2 },
+      { en: "nowadays", fr: "de nos jours", hint: "aussi : these days ; now a days", tier: 2 },
+      { en: "as for", fr: "quant à", hint: "aussi : regarding ; according to", tier: 2 },
+      { en: "moreover", fr: "en outre", hint: null, tier: 2 },
+      { en: "on the contrary", fr: "au contraire", hint: "aussi : on the other hand", tier: 1 },
+      { en: "however", fr: "en revanche", hint: "aussi : on the other hand", tier: 1 },
+      { en: "to stress that", fr: "souligner que", hint: "aussi : to underline that", tier: 1 },
+      { en: "therefore", fr: "par conséquent | en conséquence", hint: "aussi : as a result ; consequently ; by consequence", tier: 1 },
+      { en: "he refuses", fr: "il refuse | elle refuse", hint: "aussi : she refuses", tier: 1 },
+      { en: "it cannot be denied that", fr: "on ne peut nier que", hint: null, tier: 1 },
+      { en: "the soundtrack", fr: "la bande son", hint: "nom féminin", tier: 1 },
+      { en: "indeed", fr: "en effet | En effet", hint: "aussi : in effect", tier: 1 },
+      { en: "it's worth highlighting that", fr: "il convient de souligner que", hint: null, tier: 1 },
+      { en: "is manifested", fr: "se manifeste", hint: "verbe pronominal", tier: 1 },
+      { en: "direction", fr: "La mise en scène | mise en scène", hint: "nom féminin · aussi : production", tier: 1 },
+      { en: "long shot", fr: "plan général", hint: null, tier: 1 },
+      { en: "within", fr: "au sein de", hint: null, tier: 1 },
+      { en: "demonstrates that", fr: "démontre que", hint: null, tier: 1 },
+      { en: "he shows", fr: "il montre | elle montre | cela montre", hint: "aussi : it shows ; she shows ; this shows", tier: 1 },
+      { en: "in regard to", fr: "à propos de", hint: null, tier: 1 },
+      { en: "given that", fr: "vu que", hint: null, tier: 1 },
+    ]
+  },
+  {
+    code: "FR1", title: "La famille", theme: "Thème 1",
+    vocab: [
+      { en: "nuclear family", fr: "la famille nucléaire | une famille nucléaire", hint: "nom féminin", tier: 3 },
+      { en: "family with same sex parents", fr: "une famille homoparentale", hint: "nom féminin · aussi : family with same-sex parents", tier: 3 },
+      { en: "single parent family", fr: "une famille monoparentale | la famille monoparentale", hint: "nom féminin · aussi : single-parent family ; family with one parent", tier: 3 },
+      { en: "stepfamily", fr: "une famille recomposée | la famille recomposée | famille recomposée", hint: "nom féminin · aussi : step family ; blended family ; reconstituted family with stepchildren", tier: 3 },
+      { en: "relationship", fr: "un rapport", hint: "nom masculin", tier: 2 },
+      { en: "anger", fr: "la colère", hint: "nom féminin", tier: 2 },
+      { en: "birth rate", fr: "la natalité", hint: "nom féminin", tier: 2 },
+      { en: "brother", fr: "un frère", hint: "nom masculin", tier: 2 },
+      { en: "birth", fr: "la naissance", hint: "nom féminin", tier: 2 },
+      { en: "wedding ring", fr: "une alliance", hint: "nom féminin", tier: 1 },
+      { en: "clan", fr: "une tribu | la tribu", hint: "nom féminin · aussi : tribe ; family ; family (colloquial)", tier: 1 },
+      { en: "in force", fr: "en vigueur", hint: null, tier: 1 },
+      { en: "to marry", fr: "se marier", hint: "verbe pronominal · aussi : to get married", tier: 1 },
+      { en: "to call into question", fr: "remettre en cause", hint: null, tier: 1 },
+      { en: "to be delighted", fr: "se réjouir", hint: "verbe pronominal", tier: 1 },
+      { en: "family record book", fr: "un livret de famille", hint: "nom masculin", tier: 1 },
+      { en: "family relations", fr: "Les relations en famille", hint: "nom pluriel", tier: 1 },
+      { en: "wedding dress", fr: "une robe de mariée | robe de mariée", hint: "nom féminin", tier: 1 },
+      { en: "half-brother", fr: "démi frère", hint: null, tier: 1 },
+      { en: "half sister", fr: "démi sœur", hint: null, tier: 1 },
+      { en: "the institution of marriage", fr: "L'institution du mariage", hint: null, tier: 1 },
+      { en: "engagement", fr: "les fiançailles (fpl)", hint: "nom pluriel", tier: 1 },
+      { en: "honeymoon", fr: "la lune de miel", hint: "nom féminin", tier: 1 },
+      { en: "relationship", fr: "les rapports (mpl)", hint: "nom pluriel", tier: 1 },
+    ]
+  },
+  {
+    code: "FR2", title: "L'éducation", theme: "Thème 1",
+    vocab: [
+      { en: "secularism", fr: "la laïcité", hint: "nom féminin · aussi : separation of church and state", tier: 3 },
+      { en: "Mocks", fr: "le contrôle continu", hint: "nom masculin · aussi : coursework ; continuous assessment", tier: 3 },
+      { en: "Baccalaureate", fr: "le Baccalauréat | le Bac", hint: "nom masculin · aussi : French high school diploma", tier: 3 },
+      { en: "grade repetition", fr: "le redoublement", hint: "nom masculin · aussi : repeating a year", tier: 3 },
+      { en: "long robe", fr: "l'abaya", hint: "aussi : traditional Muslim dress", tier: 3 },
+      { en: "school dropout", fr: "le décrochage scolaire", hint: "nom masculin · aussi : educational disengagement", tier: 3 },
+      { en: "apprenticeship", fr: "l'apprentissage", hint: "aussi : vocational training", tier: 3 },
+      { en: "top schools", fr: "les Grandes Écoles | les grandes écoles", hint: "nom pluriel · aussi : super selective entry schools ; elite higher education institutions ; Oxbridge and Imperial college equivalent", tier: 3 },
+      { en: "the direction", fr: "l'orientation | l'orientation professionnelle", hint: "aussi : careers guidance", tier: 3 },
+      { en: "preparatory classes", fr: "les classes préparatoires | CPGE | les prépas", hint: "nom pluriel · aussi : preparatory classes for elite schools", tier: 3 },
+      { en: "elitism", fr: "l'élitisme", hint: null, tier: 3 },
+      { en: "bullying", fr: "le harcèlement", hint: "nom masculin · aussi : harassment ; harassment (it has the h muette!!!)", tier: 2 },
+      { en: "exam", fr: "une épreuve", hint: "nom féminin · aussi : test", tier: 2 },
+      { en: "training", fr: "la formation", hint: "nom féminin · aussi : education ; trainging", tier: 2 },
+      { en: "exams", fr: "les épreuves", hint: "nom pluriel · aussi : tests ; assessments", tier: 2 },
+      { en: "middle school", fr: "un collège | le collège", hint: "nom masculin · aussi : secondary school ; secondary school (ages 11-15)", tier: 2 },
+      { en: "advice", fr: "les conseils", hint: "nom pluriel · aussi : guidance", tier: 2 },
+      { en: "grades", fr: "la moyenne | moyenne", hint: "nom féminin · aussi : average ; the grade average", tier: 2 },
+      { en: "marks", fr: "les notes", hint: "nom pluriel · aussi : grades", tier: 2 },
+      { en: "education system", fr: "le système éducatif", hint: "nom masculin", tier: 1 },
+      { en: "with", fr: "auprès de", hint: null, tier: 1 },
+      { en: "as", fr: "en tant que", hint: null, tier: 1 },
+      { en: "final exams", fr: "les épreuves terminales", hint: "nom pluriel · aussi : terminal exams ; terminal assessments", tier: 1 },
+      { en: "to handle", fr: "faire face à | gérer", hint: "aussi : to cope with", tier: 1 },
+    ]
+  },
+  {
+    code: "FR3", title: "Le monde du travail", theme: "Thème 1",
+    vocab: [
+      { en: "pension", fr: "la retraite | retraité", hint: "nom féminin · aussi : retirement ; retired person", tier: 3 },
+      { en: "joblessness", fr: "le chômage | chômage | privation d'emploi", hint: "nom masculin · aussi : unemployment", tier: 3 },
+      { en: "trade union", fr: "syndicat | organisation syndicale", hint: "aussi : labour union ; workers' union", tier: 3 },
+      { en: "ballot", fr: "scrutin", hint: "aussi : election", tier: 3 },
+      { en: "remote work", fr: "le télétravail", hint: "nom masculin · aussi : teleworking", tier: 3 },
+      { en: "strike", fr: "la grève | grève | arrêt de travail | cessation", hint: "nom féminin · aussi : walkout ; to strike ; industrial action", tier: 3 },
+      { en: "glass ceiling", fr: "le plafond de verre", hint: "nom masculin", tier: 3 },
+      { en: "job insecurity", fr: "précarité | instabilité de l'emploi", hint: "aussi : employment insecurity", tier: 3 },
+      { en: "bank holiday", fr: "un jour férié", hint: "nom masculin", tier: 3 },
+      { en: "dismissal", fr: "un licenciement | licenciement | renvoi | démission", hint: "nom masculin · aussi : redundancy ; termination", tier: 3 },
+      { en: "discrimination in hiring", fr: "la discrimination à l'embauche", hint: "nom féminin · aussi : recruitment discrimination", tier: 3 },
+      { en: "right to strike", fr: "droit de grève", hint: null, tier: 3 },
+      { en: "sexual harassment", fr: "le harcèlement sexuel", hint: "nom masculin", tier: 3 },
+      { en: "equality of opportunity", fr: "l'égalité des chances", hint: null, tier: 3 },
+      { en: "company agreement", fr: "accord d'entreprise | convention d'entreprise", hint: "aussi : enterprise agreement", tier: 3 },
+      { en: "xenophobia", fr: "la xénophobie", hint: "nom féminin · aussi : hatred of foreigners", tier: 3 },
+      { en: "fixed-term contract", fr: "un CDD | un contrat à durée déterminée", hint: "nom masculin", tier: 3 },
+      { en: "permanent contract", fr: "un CDI | un contrat à durée indéterminée", hint: "nom masculin", tier: 3 },
+      { en: "minimum wage", fr: "le SMIC", hint: "nom masculin", tier: 3 },
+      { en: "pay gap", fr: "l'écart salarial | l'inégalité salariale", hint: "aussi : wage inequality", tier: 3 },
+      { en: "rejection", fr: "le refus", hint: "nom masculin", tier: 2 },
+      { en: "applicant", fr: "un candidat | une candidate", hint: "nom masculin · aussi : candidate", tier: 2 },
+      { en: "employee", fr: "un employé | une employée", hint: "nom masculin", tier: 2 },
+      { en: "worker", fr: "un salarié | une salariée", hint: "nom masculin · aussi : employee", tier: 2 },
+    ]
+  },
+  {
+    code: "FR4", title: "La musique francophone", theme: "Thème 2",
+    vocab: [
+      { en: "trend", fr: "une tendance | la tendance", hint: "nom féminin · aussi : tendency", tier: 3 },
+      { en: "singer", fr: "un interprète | une interprète | l'interprète", hint: "nom masculin · aussi : performer", tier: 3 },
+      { en: "hence", fr: "de là", hint: null, tier: 2 },
+      { en: "the tradition", fr: "la tradition | une tradition", hint: "nom féminin", tier: 2 },
+      { en: "the culture", fr: "la culture | une culture", hint: "nom féminin", tier: 2 },
+      { en: "the kind", fr: "le genre | un genre", hint: "nom masculin · aussi : the type ; the genre", tier: 2 },
+      { en: "public", fr: "le public | un public | public", hint: "nom masculin · aussi : the audience", tier: 2 },
+      { en: "the difference", fr: "la différence", hint: "nom féminin", tier: 2 },
+      { en: "the language", fr: "la langue | une langue", hint: "nom féminin", tier: 2 },
+      { en: "the song", fr: "la chanson | une chanson", hint: "nom féminin", tier: 2 },
+      { en: "the control", fr: "la maîtrise", hint: "nom féminin · aussi : the mastery", tier: 2 },
+      { en: "the band", fr: "le groupe | un groupe", hint: "nom masculin · aussi : the group", tier: 2 },
+      { en: "the success", fr: "le succès", hint: "nom masculin", tier: 2 },
+      { en: "the revolt", fr: "la révolte | une révolte", hint: "nom féminin", tier: 2 },
+      { en: "the style", fr: "le style | un style", hint: "nom masculin", tier: 2 },
+      { en: "the movement", fr: "le mouvement | un mouvement", hint: "nom masculin", tier: 2 },
+      { en: "daily life", fr: "le quotidien", hint: "nom masculin · aussi : everyday life", tier: 2 },
+      { en: "technical", fr: "la technique | technique", hint: "nom féminin · aussi : the technique ; the technology", tier: 2 },
+      { en: "the return", fr: "le retour", hint: "nom masculin · aussi : the comeback", tier: 2 },
+      { en: "poster", fr: "une affiche", hint: "nom féminin · aussi : the bill (e.g. for a show)", tier: 2 },
+      { en: "mix", fr: "un mélange", hint: "nom masculin", tier: 2 },
+      { en: "the viewer", fr: "le spectateur | la spectatrice", hint: "nom masculin · aussi : the spectator", tier: 2 },
+      { en: "the variety", fr: "la variété", hint: "nom féminin", tier: 2 },
+      { en: "he was", fr: "il était | elle était", hint: "aussi : it was ; she was", tier: 2 },
+    ]
+  },
+  {
+    code: "FR5", title: "Les médias", theme: "Thème 2",
+    vocab: [
+      { en: "social networks", fr: "les réseaux sociaux", hint: "nom pluriel", tier: 3 },
+      { en: "platform", fr: "la plateforme | une plateforme | le support", hint: "nom féminin", tier: 3 },
+      { en: "freedom of speech", fr: "la liberté d'expression | une liberté d'expression", hint: "nom féminin · aussi : freedom of expression", tier: 3 },
+      { en: "the printed press", fr: "la presse écrite", hint: "nom féminin", tier: 3 },
+      { en: "disinformation", fr: "la désinformation | une désinformation", hint: "nom féminin · aussi : misinformation", tier: 3 },
+      { en: "fake news", fr: "l'infox | une infox", hint: "aussi : a piece of fake news", tier: 3 },
+      { en: "content", fr: "le contenu | un contenu", hint: "nom masculin · aussi : a piece of content", tier: 2 },
+      { en: "novel", fr: "un roman", hint: "nom masculin", tier: 2 },
+      { en: "the right (wing)", fr: "la droite", hint: "nom féminin", tier: 2 },
+      { en: "media", fr: "le média | un média", hint: "nom masculin · aussi : a medium", tier: 2 },
+      { en: "change", fr: "le changement | un changement", hint: "nom masculin", tier: 2 },
+      { en: "the media", fr: "Les médias", hint: "nom pluriel", tier: 2 },
+      { en: "debate", fr: "un débat", hint: "nom masculin", tier: 2 },
+      { en: "lack", fr: "un manque", hint: "nom masculin", tier: 2 },
+      { en: "crisis", fr: "la crise | une crise", hint: "nom féminin", tier: 2 },
+      { en: "press", fr: "la presse", hint: "nom féminin · aussi : the media", tier: 2 },
+      { en: "a paper", fr: "le journal | un journal", hint: "nom masculin · aussi : newspaper", tier: 2 },
+      { en: "a campaign", fr: "la campagne | une campagne", hint: "nom féminin", tier: 2 },
+      { en: "a source", fr: "la source | une source", hint: "nom féminin", tier: 2 },
+      { en: "threat", fr: "la menace | une menace", hint: "nom féminin", tier: 2 },
+      { en: "news item", fr: "la nouvelle | une nouvelle", hint: "nom féminin", tier: 2 },
+      { en: "decline", fr: "le déclin | un déclin", hint: "nom masculin", tier: 2 },
+      { en: "the left", fr: "la gauche", hint: "nom féminin", tier: 2 },
+      { en: "a reporter", fr: "le journaliste | un journaliste | la journaliste | une journaliste", hint: "nom masculin · aussi : journalist ; journalist m ; journalist f", tier: 2 },
+    ]
+  },
+  {
+    code: "FR6", title: "Festivals et traditions", theme: "Thème 2",
+    vocab: [
+      { en: "heritage", fr: "le patrimoine", hint: "nom masculin", tier: 3 },
+      { en: "know-how", fr: "le savoir-faire", hint: "nom masculin", tier: 3 },
+      { en: "building", fr: "un bâtiment", hint: "nom masculin", tier: 3 },
+      { en: "march", fr: "un défilé", hint: "nom masculin · aussi : procession", tier: 3 },
+      { en: "Pancake Day", fr: "la Chandeleur", hint: "nom féminin", tier: 3 },
+      { en: "festival", fr: "le festival | un festival", hint: "nom masculin", tier: 2 },
+      { en: "reunion", fr: "le rassemblement | un rassemblement", hint: "nom masculin", tier: 2 },
+      { en: "religion", fr: "la religion | une religion", hint: "nom féminin", tier: 2 },
+      { en: "values", fr: "les valeurs", hint: "nom pluriel", tier: 2 },
+      { en: "reality", fr: "la réalité", hint: "nom féminin", tier: 2 },
+      { en: "custom", fr: "la coutume | une coutume", hint: "nom féminin", tier: 2 },
+      { en: "meaning", fr: "la signification", hint: "nom féminin", tier: 2 },
+      { en: "All Saints' Day", fr: "la Toussaint", hint: "nom féminin · aussi : all saint's day", tier: 2 },
+      { en: "event", fr: "une manifestation", hint: "nom féminin", tier: 1 },
+      { en: "Bastille Day (national bank holiday)", fr: "le 14 juillet", hint: "nom masculin", tier: 1 },
+      { en: "to go to", fr: "se rendre", hint: "verbe pronominal", tier: 1 },
+      { en: "customs of the francophone world", fr: "Les coutumes du monde francophone", hint: "nom pluriel", tier: 1 },
+      { en: "May 1st", fr: "la Fête du Travail", hint: "nom féminin", tier: 1 },
+      { en: "to battle against", fr: "lutter contre", hint: null, tier: 1 },
+      { en: "New Year's Day", fr: "le nouvel an", hint: "nom masculin", tier: 1 },
+      { en: "April Fool's Day", fr: "le Poisson d'Avril", hint: "nom masculin", tier: 1 },
+      { en: "belong to", fr: "appartenir à", hint: "aussi : to belong to", tier: 1 },
+      { en: "to meet up", fr: "se retrouver", hint: "verbe pronominal", tier: 1 },
+      { en: "travel agent's", fr: "l'agence de voyages", hint: null, tier: 1 },
+    ]
+  },
+  {
+    code: "FR7", title: "Les bienfaits de l'immigration", theme: "Thème 3",
+    vocab: [
+      { en: "immigrant", fr: "un immigré", hint: "nom masculin", tier: 3 },
+      { en: "growth", fr: "la croissance", hint: "nom féminin", tier: 3 },
+      { en: "aging", fr: "le vieillissement", hint: "nom masculin", tier: 3 },
+      { en: "inclusion", fr: "l'intégration", hint: "aussi : integration", tier: 3 },
+      { en: "lack", fr: "une pénurie", hint: "nom féminin · aussi : shortage", tier: 3 },
+      { en: "cultural diversity", fr: "la diversité culturelle", hint: "nom féminin", tier: 3 },
+      { en: "multiculturalism", fr: "le multiculturalisme", hint: "nom masculin", tier: 3 },
+      { en: "to contribute", fr: "cotiser", hint: "verbe · aussi : to pay contributions", tier: 3 },
+      { en: "assimilation", fr: "l'assimilation", hint: null, tier: 3 },
+      { en: "host country", fr: "la terre d'accueil", hint: "nom féminin · aussi : welcoming land", tier: 3 },
+      { en: "Arab", fr: "un beur", hint: "nom masculin · aussi : 2nd generation North African ; French person of North African descent ; colloquial word: designated people from the Maghreb", tier: 3 },
+      { en: "hate", fr: "la haine", hint: "nom féminin", tier: 2 },
+      { en: "war", fr: "une guerre", hint: "nom féminin", tier: 2 },
+      { en: "prejudice", fr: "la discrimination", hint: "nom féminin · aussi : discrimination", tier: 2 },
+      { en: "a firm", fr: "une boîte", hint: "nom féminin · aussi : a company", tier: 2 },
+      { en: "foreigner", fr: "un étranger", hint: "nom masculin · aussi : foreign national", tier: 2 },
+      { en: "boss", fr: "un patron", hint: "nom masculin · aussi : employer", tier: 2 },
+      { en: "input", fr: "un apport", hint: "nom masculin · aussi : contribution", tier: 2 },
+      { en: "conflict", fr: "un conflit", hint: "nom masculin", tier: 2 },
+      { en: "skill", fr: "une compétence", hint: "nom féminin · aussi : competence", tier: 2 },
+      { en: "skills", fr: "les compétences", hint: "nom pluriel · aussi : competencies", tier: 2 },
+      { en: "Second World War", fr: "la Seconde Guerre mondiale", hint: "nom féminin", tier: 2 },
+      { en: "generation", fr: "une génération", hint: "nom féminin", tier: 2 },
+      { en: "economic crisis", fr: "une crise économique", hint: "nom féminin", tier: 1 },
+    ]
+  },
+  {
+    code: "FR8", title: "Immigration et société", theme: "Thème 3",
+    vocab: [
+      { en: "citizenship", fr: "la citoyenneté", hint: "nom féminin", tier: 3 },
+      { en: "ghettoisation", fr: "la ghettoïsation", hint: "nom féminin", tier: 3 },
+      { en: "separatism", fr: "le séparatisme", hint: "nom masculin · aussi : sectarianism ; setting yourself apart ; identitarian closing off", tier: 3 },
+      { en: "social cohesion", fr: "la cohésion sociale", hint: "nom féminin", tier: 3 },
+      { en: "right to asylum", fr: "le droit d'asile", hint: "nom masculin · aussi : political asylum", tier: 3 },
+      { en: "figures", fr: "les chiffres", hint: "nom pluriel", tier: 2 },
+      { en: "contribution", fr: "une contribution", hint: "nom féminin", tier: 2 },
+      { en: "republic", fr: "la république", hint: "nom féminin", tier: 2 },
+      { en: "customs", fr: "les coutumes", hint: "nom pluriel", tier: 2 },
+      { en: "bosses", fr: "les patrons", hint: "nom pluriel · aussi : employers", tier: 2 },
+      { en: "principles", fr: "les principes", hint: "nom pluriel", tier: 2 },
+      { en: "job market", fr: "le marché du travail", hint: "nom masculin · aussi : labour market", tier: 1 },
+      { en: "citizen", fr: "une citoyenne | un citoyen", hint: "nom féminin", tier: 1 },
+      { en: "border", fr: "une frontière | la frontière", hint: "nom féminin", tier: 1 },
+      { en: "security", fr: "la sécurité", hint: "nom féminin", tier: 1 },
+      { en: "unemployment rate", fr: "le taux de chômage", hint: "nom masculin", tier: 1 },
+      { en: "republican values", fr: "les valeurs républicaines", hint: "nom pluriel", tier: 1 },
+      { en: "religious affiliation", fr: "l'appartenance religieuse", hint: null, tier: 1 },
+      { en: "human rights", fr: "les Droits de l'Homme", hint: "nom pluriel", tier: 1 },
+      { en: "illegal", fr: "en situation irrégulière", hint: "aussi : illegal (status) ; without the necessary legal documents", tier: 1 },
+      { en: "ethnic minorities", fr: "les minorités ethniques", hint: "nom pluriel", tier: 1 },
+      { en: "civil war", fr: "la guerre civile", hint: "nom féminin", tier: 1 },
+      { en: "period of crisis", fr: "une période de crise", hint: "nom féminin", tier: 1 },
+      { en: "residence permit", fr: "un titre de séjour", hint: "nom masculin", tier: 1 },
+    ]
+  },
+  {
+    code: "FR9", title: "Politique et société", theme: "Thème 3",
+    vocab: [
+      { en: "suburbs", fr: "les banlieues", hint: "nom pluriel · aussi : the outskirts", tier: 3 },
+      { en: "globalisation", fr: "la mondialisation", hint: "nom féminin", tier: 3 },
+      { en: "power", fr: "le pouvoir", hint: "nom masculin", tier: 2 },
+      { en: "rise", fr: "la montée", hint: "nom féminin · aussi : growth", tier: 2 },
+      { en: "speech", fr: "le discours", hint: "nom masculin", tier: 2 },
+      { en: "political centre", fr: "le centre", hint: "nom masculin", tier: 2 },
+      { en: "strategy", fr: "une stratégie", hint: "nom féminin", tier: 2 },
+      { en: "member of parliament", fr: "un député | une dêputée", hint: "nom masculin", tier: 2 },
+      { en: "a borough", fr: "une commune", hint: "nom féminin · aussi : a commune ; small town ; a municipality", tier: 2 },
+      { en: "voter", fr: "un électeur | une adhérente | l'électeur | l'électrice", hint: "nom masculin", tier: 2 },
+      { en: "icon", fr: "une figure", hint: "nom féminin · aussi : famous person", tier: 2 },
+      { en: "votes for", fr: "vote pour", hint: null, tier: 2 },
+      { en: "left-wing", fr: "de gauche", hint: "aussi : être de droite ; to be right-wing", tier: 1 },
+      { en: "to distrust", fr: "se méfier de", hint: "verbe pronominal · aussi : to be suspicious", tier: 1 },
+      { en: "fights against", fr: "lutte contre", hint: null, tier: 1 },
+      { en: "extreme right", fr: "l'extrême droite", hint: "aussi : the far right", tier: 1 },
+      { en: "political party", fr: "un parti politique | le parti politique", hint: "nom masculin", tier: 1 },
+      { en: "traditional values", fr: "les valeurs traditionnelles", hint: "nom pluriel", tier: 1 },
+      { en: "party leader", fr: "le chef de file", hint: "nom masculin", tier: 1 },
+      { en: "French communist party", fr: "le Parti Communiste Français (PCF)", hint: "nom masculin", tier: 1 },
+      { en: "socialist party", fr: "le Parti Socialiste (PS)", hint: "nom masculin", tier: 1 },
+      { en: "political parties", fr: "les partis politiques", hint: "nom pluriel", tier: 1 },
+      { en: "local council election", fr: "une élection municipale", hint: "nom féminin", tier: 1 },
+      { en: "presidential election", fr: "une élection présidentielle", hint: "nom féminin", tier: 1 },
+    ]
+  },
+  {
+    code: "FR10", title: "La France occupée", theme: "Thème 4",
+    vocab: [
+      { en: "collaboration", fr: "la collaboration | une collaboration", hint: "nom féminin", tier: 3 },
+      { en: "shield", fr: "le bouclier | un bouclier | bouclier", hint: "nom masculin", tier: 3 },
+      { en: "raid", fr: "une rafle | la rafle", hint: "nom féminin · aussi : round-up", tier: 3 },
+      { en: "Armistice", fr: "l'Armistice", hint: "aussi : the surrender of arms ; the end of armed hostilities ; the surrender of arms by the French", tier: 3 },
+      { en: "the Vichy ideology", fr: "la Révolution nationale", hint: "nom féminin · aussi : National Revolution", tier: 3 },
+      { en: "deportation", fr: "la déportation | une déportation", hint: "nom féminin", tier: 3 },
+      { en: "offence", fr: "un délit", hint: "nom masculin", tier: 3 },
+      { en: "militia", fr: "la milice | Milice Française", hint: "nom féminin · aussi : paramilitary militia of the Vichy regime", tier: 3 },
+      { en: "order", fr: "l'ordonnance | une ordonnance", hint: "aussi : decree ; ruling", tier: 3 },
+      { en: "Zone Occupée", fr: "la zone occupée", hint: "nom féminin · aussi : occupied zone ; The northern and western part under German military rule", tier: 3 },
+      { en: "rationing", fr: "le rationnement", hint: "nom masculin", tier: 3 },
+      { en: "reprisals", fr: "les représailles", hint: "nom pluriel · aussi : retaliation", tier: 3 },
+      { en: "Gestapo", fr: "la Gestapo", hint: "nom féminin · aussi : nazi secret police", tier: 3 },
+      { en: "curfew", fr: "le couvre-feu", hint: "nom masculin", tier: 3 },
+      { en: "purge", fr: "une épuration", hint: "nom féminin", tier: 3 },
+      { en: "free zone", fr: "la zone libre | la Zone Franche | la zone nono | la Zone Libre", hint: "nom féminin · aussi : Zone Nono: A nickname for Zone Libre (from non-occupée)", tier: 3 },
+      { en: "everyday collaboration", fr: "la collaboration au quotidien", hint: "nom féminin", tier: 3 },
+      { en: "Resistance", fr: "la Résistance", hint: "nom féminin", tier: 2 },
+      { en: "collaborator", fr: "un collabo | une collabo", hint: "nom masculin · aussi : pejorative version of collaborateur", tier: 2 },
+      { en: "regime", fr: "le régime | un régime", hint: "nom masculin", tier: 2 },
+      { en: "suburb", fr: "la banlieue | une banlieue", hint: "nom féminin · aussi : outskirts", tier: 2 },
+      { en: "way", fr: "le moyen | un moyen", hint: "nom masculin · aussi : means", tier: 2 },
+      { en: "Vichy regime", fr: "le régime de Vichy", hint: "nom masculin", tier: 2 },
+      { en: "French society", fr: "la société française", hint: "nom féminin", tier: 2 },
+    ]
+  },
+  {
+    code: "FR11", title: "Le régime de Vichy", theme: "Thème 4",
+    vocab: [
+      { en: "motto", fr: "la devise | le motto | le slogan", hint: "nom féminin · aussi : slogan", tier: 3 },
+      { en: "treason", fr: "la trahison", hint: "nom féminin · aussi : betrayal", tier: 3 },
+      { en: "full powers", fr: "les pleins pouvoirs", hint: "nom pluriel · aussi : the first of the Roman emperors ; such as Julius Cesar had done and Augustus", tier: 3 },
+      { en: "informing", fr: "la délation | la dénciation", hint: "nom féminin · aussi : denunciation", tier: 3 },
+      { en: "militia member", fr: "un milicien", hint: "nom masculin", tier: 3 },
+      { en: "tract", fr: "un tract", hint: "nom masculin · aussi : pamphlet", tier: 3 },
+      { en: "trial", fr: "un procès", hint: "nom masculin · aussi : proceedings", tier: 2 },
+      { en: "value", fr: "une valeur", hint: "nom féminin", tier: 2 },
+      { en: "production", fr: "la production", hint: "nom féminin", tier: 2 },
+      { en: "order", fr: "un ordre | l'ordre", hint: "nom masculin · aussi : an orderly world ; things are finally back to where they belong", tier: 2 },
+      { en: "trust", fr: "la confiance", hint: "nom féminin · aussi : confidence", tier: 2 },
+      { en: "law", fr: "la legislation", hint: "nom féminin · aussi : legislation", tier: 2 },
+      { en: "French Resistance", fr: "la Résistance française", hint: "nom féminin", tier: 1 },
+      { en: "authority", fr: "une autorité | l'autorité", hint: "nom féminin", tier: 1 },
+      { en: "country", fr: "la patrie", hint: "nom féminin · aussi : homeland ; fatherland", tier: 1 },
+      { en: "vision", fr: "une vision", hint: "nom féminin", tier: 1 },
+      { en: "false identity papers", fr: "les faux papiers", hint: "nom pluriel", tier: 1 },
+      { en: "run away", fr: "se sauver", hint: "verbe pronominal · aussi : to escape", tier: 1 },
+      { en: "STO", fr: "le Service du Travail Obligatoire | le STO | Plus de 600 000 jeunes Français ont été contraints de travailler en Allemagne sous le Service du Travail Obligatoire entre 1942 et 1944. (STO)", hint: "nom masculin · aussi : Compulsory Work Service ; thousands among them died", tier: 1 },
+      { en: "to harm", fr: "nuire à", hint: null, tier: 1 },
+      { en: "in my opinion", fr: "à mon avis", hint: null, tier: 1 },
+      { en: "death camp", fr: "le camp d'extermination", hint: "nom masculin · aussi : extermination camp", tier: 1 },
+      { en: "id card", fr: "une carte d'identité", hint: "nom féminin · aussi : identity card", tier: 1 },
+      { en: "ration book", fr: "une carte de rationnement | la carte de rationnement", hint: "nom féminin · aussi : ration card", tier: 1 },
+    ]
+  },
+  {
+    code: "FR12", title: "La Résistance et de Gaulle", theme: "Thème 4",
+    vocab: [
+      { en: "network", fr: "le réseau | un réseau", hint: "nom masculin", tier: 3 },
+      { en: "sabotage", fr: "le sabotage | un sabotage", hint: "nom masculin", tier: 3 },
+      { en: "the armed units", fr: "le maquis", hint: "nom masculin · aussi : the rural guerrilla resistance", tier: 3 },
+      { en: "FFI", fr: "la résistance intérieure", hint: "nom féminin · aussi : the internal resistance movement", tier: 3 },
+      { en: "the refuser", fr: "le réfractaire", hint: "nom masculin · aussi : the draft evader", tier: 3 },
+      { en: "secrecy", fr: "la clandestinité | une clandestinité", hint: "nom féminin · aussi : in secret", tier: 3 },
+      { en: "courier", fr: "un agent de liaison | l'agent de liaison", hint: "nom masculin · aussi : go-between", tier: 3 },
+      { en: "underground newspaper", fr: "un journal clandestin | le journal clandestin", hint: "nom masculin", tier: 3 },
+      { en: "escape route", fr: "la filière d'évasion", hint: "nom féminin", tier: 3 },
+      { en: "government", fr: "le gouvernement | un gouvernement", hint: "nom masculin", tier: 2 },
+      { en: "freedom", fr: "la liberté | une liberté", hint: "nom féminin · aussi : liberty", tier: 2 },
+      { en: "Liberation", fr: "la Libération | la libération", hint: "nom féminin · aussi : the freeing", tier: 2 },
+      { en: "fight", fr: "le combat | un combat", hint: "nom masculin · aussi : combat", tier: 2 },
+      { en: "secret", fr: "un clandestin | une clandestine | le clandestin | clandestin", hint: "nom masculin · aussi : clandestine ; underground ; secret operative", tier: 2 },
+      { en: "resistance fighter", fr: "un résistant | une résistante", hint: "nom masculin", tier: 2 },
+      { en: "the deportee", fr: "le déporté | la déportée", hint: "nom masculin", tier: 2 },
+      { en: "the defection", fr: "la défection", hint: "nom féminin", tier: 2 },
+      { en: "struggle", fr: "la lutte | une lutte", hint: "nom féminin", tier: 2 },
+      { en: "a National Council", fr: "le Conseil National de la Résistance", hint: "nom masculin · aussi : National Council of the Resistance", tier: 1 },
+      { en: "secretly", fr: "en secret", hint: "aussi : in secret", tier: 1 },
+      { en: "to find oneself", fr: "se trouver", hint: "verbe pronominal", tier: 1 },
+      { en: "Over the years", fr: "au fil des années", hint: "aussi : As the years go by", tier: 1 },
+      { en: "secret agent", fr: "l'agent secret | un agent secret", hint: null, tier: 1 },
+      { en: "key figure", fr: "la figure phare | une figure phare", hint: "nom féminin", tier: 1 },
+    ]
+  },
+];
+
+// ═══════════════════════════════════════════════════════════
+//  POLYSEMIC ANSWER BANK
+//  Additional accepted renderings, keyed by the canonical French.
+//  Purely LEXICAL alternatives — the matching engine already
+//  forgives accents, apostrophe style, hyphens, articles and typos,
+//  so those never need listing here.
+// ═══════════════════════════════════════════════════════════
+const ALT = {
+  // ── FR1 ──
+  "le PACS": ["le pacte civil de solidarité"],
+  "la cohabitation": ["le concubinage", "la vie commune"],
+  "l'union libre": ["le concubinage"],
+  "la famille recomposée": ["la famille reconstituée"],
+  "la garde partagée": ["la garde alternée", "la résidence alternée"],
+  "la monoparentalité": ["la famille monoparentale"],
+  "le foyer": ["le ménage", "le domicile"],
+  "la solidarité intergénérationnelle": ["la solidarité entre les générations"],
+  "le congé parental": ["le congé parental d'éducation"],
+  "la natalité": ["le taux de natalité", "le taux de naissance"],
+  "vieillir": ["prendre de l'âge"],
+  "la dépendance": ["la perte d'autonomie"],
+  "le vieillissement de la population": ["le vieillissement démographique"],
+  // ── FR2 ──
+  "l'égalité": ["l'égalité des sexes", "l'égalité hommes-femmes"],
+  "la parité": ["la parité hommes-femmes", "l'égalité hommes-femmes"],
+  "le harcèlement": ["le harcèlement sexuel", "le harcèlement moral"],
+  "le congé maternité": ["le congé de maternité"],
+  "la crèche": ["la garderie", "la halte-garderie"],
+  "une Grande École": ["la grande école", "les grandes écoles"],
+  "le concours": ["le concours d'entrée", "l'examen d'entrée"],
+  "la prépa": ["la classe préparatoire", "les classes préparatoires"],
+  "la bourse": ["la bourse d'études"],
+  "le décrochage scolaire": ["l'abandon scolaire", "la déscolarisation"],
+  "l'inégalité scolaire": ["les inégalités scolaires", "l'inégalité éducative"],
+  "l'autonomie": ["l'émancipation", "l'indépendance"],
+  // ── FR3 ──
+  "la grève": ["le mouvement social", "le débrayage"],
+  "le syndicat": ["l'organisation syndicale"],
+  "la retraite": ["la pension", "la pension de retraite"],
+  "le SMIC": ["le salaire minimum", "le salaire minimum interprofessionnel de croissance"],
+  "la précarité": ["la précarité de l'emploi", "l'emploi précaire", "l'insécurité de l'emploi"],
+  "le CDI": ["le contrat à durée indéterminée"],
+  "le CDD": ["le contrat à durée déterminée"],
+  "le licenciement": ["le renvoi", "la mise à pied"],
+  "la délocalisation": ["l'externalisation", "la sous-traitance"],
+  "le télétravail": ["le travail à distance", "le travail à domicile"],
+  "la négociation collective": ["les négociations collectives", "la convention collective"],
+  "le droit du travail": ["la législation du travail", "le code du travail"],
+  "le dialogue social": ["la concertation sociale"],
+  // ── FR4 ──
+  "le numérique": ["la technologie numérique", "l'informatique"],
+  "les réseaux sociaux": ["les médias sociaux"],
+  "la désinformation": ["la mésinformation"],
+  "le cyberharcèlement": ["le harcèlement en ligne"],
+  "la fracture numérique": ["le fossé numérique", "la fracture digitale"],
+  "la vie privée": ["l'intimité", "la confidentialité"],
+  "les données personnelles": ["les données privées"],
+  "l'addiction aux écrans": ["la dépendance aux écrans", "l'addiction numérique"],
+  "l'intelligence artificielle": ["l'IA"],
+  "le piratage informatique": ["la cyberattaque", "le piratage", "le hacking"],
+  "la surveillance": ["la surveillance de masse"],
+  "le commerce en ligne": ["le commerce électronique", "l'e-commerce", "la vente en ligne"],
+  "les fausses informations": ["l'infox", "les fake news", "les fausses nouvelles"],
+  "réguler": ["réglementer", "encadrer", "contrôler"],
+  // ── FR5 ──
+  "la liberté de la presse": ["la liberté des médias"],
+  "la presse écrite": ["les journaux", "la presse papier"],
+  "l'audience": ["le public", "le lectorat"],
+  "le tirage": ["la diffusion"],
+  "l'audiovisuel public": ["le service public audiovisuel", "les médias publics"],
+  "le pluralisme des médias": ["le pluralisme médiatique", "la pluralité des médias"],
+  "l'objectivité": ["l'impartialité", "la neutralité"],
+  "le biais médiatique": ["les biais médiatiques", "la partialité des médias"],
+  "la concentration des médias": ["la concentration médiatique"],
+  // ── FR6 ──
+  "le patrimoine culturel": ["l'héritage culturel"],
+  "l'exception culturelle": ["l'exception culturelle française"],
+  "le rayonnement international": ["l'influence internationale", "le rayonnement culturel"],
+  "la Francophonie": ["le monde francophone", "l'espace francophone"],
+  "le patrimoine immatériel": ["le patrimoine culturel immatériel"],
+  "les valeurs républicaines": ["les valeurs de la République"],
+  "la diversité culturelle": ["le pluralisme culturel"],
+  "la subvention culturelle": ["les subventions culturelles", "l'aide publique à la culture", "le financement public de la culture"],
+  "la démocratisation de la culture": ["la démocratisation culturelle", "l'accès à la culture"],
+  "la création artistique": ["la création culturelle"],
+  "l'impérialisme culturel": ["l'hégémonie culturelle"],
+  "le patrimoine mondial de l'UNESCO": ["le patrimoine mondial", "la liste du patrimoine mondial"],
+  "sauvegarder": ["préserver", "protéger", "conserver"],
+  // ── FR7 ──
+  "l'asile": ["le droit d'asile", "la demande d'asile"],
+  "l'intégration": ["l'insertion"],
+  "la naturalisation": ["l'acquisition de la nationalité"],
+  "la citoyenneté": ["la nationalité"],
+  "le titre de séjour": ["la carte de séjour", "le permis de séjour"],
+  "le sans-papiers": ["le clandestin", "l'immigré clandestin", "l'étranger en situation irrégulière"],
+  "le regroupement familial": ["la réunification familiale"],
+  "l'expulsion": ["la reconduite à la frontière", "le renvoi", "l'éloignement"],
+  "l'immigration clandestine": ["l'immigration illégale", "l'immigration irrégulière"],
+  "la politique migratoire": ["la politique d'immigration"],
+  "le pays d'accueil": ["la terre d'accueil", "le pays hôte"],
+  // ── FR8 ──
+  "le multiculturalisme": ["la société multiculturelle", "le pluriculturalisme"],
+  "la mixité sociale": ["la diversité sociale"],
+  "le métissage culturel": ["le métissage", "le brassage culturel"],
+  "la diversité": ["la pluralité"],
+  "le vivre-ensemble": ["la coexistence"],
+  "la cohésion sociale": ["le lien social"],
+  "l'altérité": ["la différence"],
+  "l'interculturalité": ["le dialogue interculturel", "l'interculturel"],
+  "la tolérance": ["le respect", "l'ouverture d'esprit"],
+  "la banlieue": ["les quartiers défavorisés", "la cité", "les quartiers sensibles", "les quartiers populaires"],
+  "la ségrégation": ["la ségrégation spatiale", "la ghettoïsation"],
+  "l'exclusion sociale": ["la marginalisation", "l'exclusion"],
+  "le modèle d'intégration": ["le modèle républicain", "le modèle républicain d'intégration"],
+  // ── FR9 ──
+  "la discrimination": ["les discriminations"],
+  "les préjugés": ["les idées reçues", "les a priori"],
+  "les stéréotypes": ["les clichés"],
+  "le discours de haine": ["les propos haineux", "l'incitation à la haine", "le crime haineux"],
+  "la condamnation": ["la peine", "la sanction"],
+  "la sensibilisation": ["la prise de conscience", "la campagne de sensibilisation"],
+  "le militantisme": ["l'activisme", "l'engagement militant"],
+  "le racisme institutionnel": ["le racisme systémique", "le racisme d'État"],
+  "la lutte contre les discriminations": ["la lutte contre la discrimination", "le combat contre les discriminations"],
+  "la discrimination positive": ["l'action positive", "les mesures préférentielles"],
+  // ── FR10 ──
+  "le suffrage universel": ["le droit de vote universel"],
+  "l'abstentionnisme": ["l'abstention", "le taux d'abstention"],
+  "l'engagement civique": ["l'engagement citoyen", "la participation citoyenne"],
+  "les droits de l'homme": ["les droits humains"],
+  "le référendum": ["la consultation populaire"],
+  "la Constitution": ["la loi fondamentale"],
+  "la désaffection politique": ["le désintérêt politique", "la défiance politique", "le désenchantement politique"],
+  "le mouvement citoyen": ["le mouvement populaire", "la mobilisation citoyenne"],
+  // ── FR11 ──
+  "le réchauffement climatique": ["le changement climatique", "le dérèglement climatique", "le réchauffement planétaire"],
+  "l'empreinte carbone": ["le bilan carbone", "l'empreinte écologique"],
+  "les énergies renouvelables": ["l'énergie renouvelable", "les énergies vertes", "les énergies propres"],
+  "la biodiversité": ["la diversité biologique"],
+  "la déforestation": ["le déboisement", "l'abattage des forêts"],
+  "le tri sélectif": ["le tri des déchets", "le recyclage"],
+  "le nucléaire": ["l'énergie nucléaire", "le nucléaire civil"],
+  "la conscience écologique": ["la prise de conscience écologique", "la sensibilité écologique"],
+  "les gaz à effet de serre": ["les GES", "les émissions de gaz à effet de serre"],
+  "la neutralité carbone": ["le zéro carbone", "la neutralité climatique"],
+  "préserver": ["protéger", "sauvegarder", "conserver"],
+  "le climatoscepticisme": ["le négationnisme climatique"],
+  // ── FR12 ──
+  "l'Occupation": ["l'occupation allemande"],
+  "la collaboration": ["le collaborationnisme"],
+  "le régime de Vichy": ["l'État français", "le gouvernement de Vichy", "la France de Vichy"],
+  "la persécution": ["les persécutions"],
+  "le maquis": ["les maquisards"],
+  "le devoir de mémoire": ["le travail de mémoire", "la mémoire collective"],
+  "le témoignage": ["le récit de témoin", "la déposition"],
+  "le génocide": ["l'extermination"],
+  "la rafle": ["l'arrestation massive"],
+  "l'engagement": ["l'engagement moral", "l'engagement personnel"],
+};
+
+// ═══════════════════════════════════════════════════════════
+//  STATE
+//  A round is a deck of cards. A card leaves the deck only when the
+//  student has produced it correctly — a missed word comes back.
+// ═══════════════════════════════════════════════════════════
+let studentName = "";
+let strictMode = false;
+let scores = {};            // { FR1: { correct, total, details:[], review:[] } }
+let deck = [];              // [{ unitCode, item, tries, returns, shown, mastered }]
+let queue = [];             // indices into deck, in serving order
+let currentCard = null;
+let phase = 'answer';       // answer | clue | shown | done
+let roundLabel = '';
+
+const MAX_TRIES   = 2;      // wrong attempts before the answer is shown
+const MAX_RETURNS = 3;      // times a card may come back before it is set aside
+const STORE = 'vocab-fr-v2';
+
+// ═══════════════════════════════════════════════════════════
+//  SAVING — nothing is lost when the tab closes
+// ═══════════════════════════════════════════════════════════
+function saveProgress() {
+  try {
+    localStorage.setItem(STORE, JSON.stringify({
+      v: 2, studentName, strictMode, scores, deck, queue, roundLabel, t: Date.now()
+    }));
+  } catch (e) { /* private mode: carry on without saving */ }
+}
+function readSaved() {
+  try {
+    const raw = localStorage.getItem(STORE);
+    if (!raw) return null;
+    const d = JSON.parse(raw);
+    if (!d || d.v !== 2 || !Array.isArray(d.deck)) return null;
+    return d;
+  } catch (e) { return null; }
+}
+function clearSaved() { try { localStorage.removeItem(STORE); } catch (e) {} }
+
+function offerResume() {
+  const d = readSaved();
+  if (!d || !d.deck.length) return;
+  const left = (d.queue || []).length;
+  const bar = document.getElementById('resume-bar');
+  document.getElementById('resume-text').textContent = left
+    ? `${d.studentName || 'Tu'} — série en cours : ${left} mot${left > 1 ? 's' : ''} restant${left > 1 ? 's' : ''}.`
+    : `${d.studentName || 'Tu'} — tes scores précédents sont enregistrés.`;
+  bar.classList.add('show');
+  if (d.studentName) document.getElementById('input-name').value = d.studentName;
+}
+function resumeSaved() {
+  const d = readSaved();
+  if (!d) return;
+  studentName = d.studentName || '';
+  strictMode  = !!d.strictMode;
+  scores      = d.scores || {};
+  deck        = d.deck   || [];
+  queue       = d.queue  || [];
+  roundLabel  = d.roundLabel || '';
+  if (strictMode) {
+    document.getElementById('mode-switch').classList.add('on');
+    document.getElementById('mode-label').textContent = 'Strict marking';
+  }
+  document.getElementById('header-name').textContent = '👤 ' + studentName;
+  document.getElementById('resume-bar').classList.remove('show');
+  buildUnitGrid();
+  if (queue.length) { showScreen('screen-quiz'); loadQuestion(); }
+  else { showScreen('screen-units'); document.getElementById('units-greeting').textContent = `Bonjour, ${studentName} ! Choisissez une unité`; }
+}
+function discardSaved() {
+  clearSaved();
+  document.getElementById('resume-bar').classList.remove('show');
+  document.getElementById('input-name').value = '';
+  document.getElementById('input-name').focus();
+}
+
+// ═══════════════════════════════════════════════════════════
+//  NAVIGATION
+// ═══════════════════════════════════════════════════════════
+function toggleStrict() {
+  strictMode = !strictMode;
+  const sw = document.getElementById('mode-switch');
+  sw.classList.toggle('on', strictMode);
+  document.getElementById('mode-label').textContent =
+    strictMode ? 'Strict marking' : 'Lenient marking';
+  showToast(strictMode
+    ? '🔒 Strict: exact accents and articles required'
+    : '🌱 Lenient: accents, articles and small slips still score');
+  saveProgress();
+}
+
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+
+// ═══════════════════════════════════════════════════════════
+//  WELCOME → UNITS
+// ═══════════════════════════════════════════════════════════
+document.getElementById('input-name').addEventListener('keydown', e => {
+  if (e.key === 'Enter') startApp();
+});
+
+function startApp() {
+  const name = document.getElementById('input-name').value.trim();
+  if (!name) {
+    document.getElementById('input-name').focus();
+    return;
+  }
+  studentName = name;
+  document.getElementById('header-name').textContent = '👤 ' + name;
+  buildUnitGrid();
+  showScreen('screen-units');
+  document.getElementById('units-greeting').textContent = `Bonjour, ${name} ! Choisissez une unité`;
+  saveProgress();
+}
+
+// ═══════════════════════════════════════════════════════════
+//  UNIT GRID
+// ═══════════════════════════════════════════════════════════
+function stars(t) { return t >= 3 ? '★★★' : t === 2 ? '★★' : '★'; }
+function topTier(u) { return u.vocab.filter(v => v.tier >= 3).length; }
+
+function buildUnitGrid() {
+  const grid = document.getElementById('unit-grid');
+  grid.innerHTML = '';
+  UNITS.forEach(unit => {
+    const sc = scores[unit.code];
+    const div = document.createElement('div');
+    div.className = 'unit-card' + (sc && sc.total ? ' done' : '')
+                  + (unit.code === 'ESSAI' ? ' card-alt' : '');
+    div.innerHTML = `
+      <div class="unit-code">${unit.code === 'ESSAI' ? '✍ Rédaction' : unit.code}</div>
+      <div class="unit-title">${unit.title}</div>
+      <div class="unit-meta">${unit.vocab.length} mots · ${topTier(unit)} en ★★★</div>
+      ${sc && sc.total ? `<div class="unit-score">✓ ${sc.correct}/${sc.total} du premier coup${(sc.review && sc.review.length) ? ` · ${sc.review.length} à revoir` : ''}</div>` : ''}
+    `;
+    div.addEventListener('click', () => startUnit(unit.code));
+    grid.appendChild(div);
+  });
+  document.getElementById('btn-download').style.display =
+    Object.keys(scores).length ? 'inline-flex' : 'none';
+}
+
+/* The daily driver: the twenty highest-priority words not yet cleared,
+   taken across every unit. Priority first, then how much the site uses it. */
+function sprint(n) {
+  const pool = [];
+  UNITS.forEach(u => u.vocab.forEach(v => pool.push({ code: u.code, v })));
+  pool.sort((a, b) => (b.v.tier - a.v.tier) || (Math.random() - .5));
+  const picked = pool.slice(0, n);
+  const cards = [];
+  const touched = {};
+  picked.forEach(p => {
+    if (!touched[p.code]) { scores[p.code] = { correct:0, total:0, details:[], review:[] }; touched[p.code] = 1; }
+    cards.push(makeCard(p.code, p.v));
+  });
+  beginRound(shuffleArray(cards), 'Sprint — ' + n + ' mots prioritaires');
+}
+
+function makeCard(unitCode, item) {
+  return { unitCode, item, tries: 0, returns: 0, shown: false, mastered: false };
+}
+function beginRound(cards, label) {
+  deck = cards;
+  queue = deck.map((_, i) => i);
+  roundLabel = label;
+  phase = 'answer';
+  showScreen('screen-quiz');
+  loadQuestion();
+  saveProgress();
+}
+function startUnit(unitCode) {
+  const unit = UNITS.find(u => u.code === unitCode);
+  scores[unitCode] = { correct: 0, total: 0, details: [], review: [] };
+  // Shuffle within a priority band, so the three-star words come first but
+  // the order is never the same twice.
+  const byTier = [3, 2, 1].map(t => shuffleArray(unit.vocab.filter(v => v.tier === t)));
+  const ordered = [].concat.apply([], byTier);
+  beginRound(ordered.map(it => makeCard(unitCode, it)),
+             unit.code + ' — ' + unit.title);
+}
+function practiseAll() {
+  const cards = [];
+  UNITS.forEach(unit => {
+    scores[unit.code] = { correct: 0, total: 0, details: [], review: [] };
+    shuffleArray([...unit.vocab]).forEach(it => cards.push(makeCard(unit.code, it)));
+  });
+  beginRound(shuffleArray(cards), 'Tous les mots prioritaires');
+}
+
+// ═══════════════════════════════════════════════════════════
+//  QUIZ LOGIC
+// ═══════════════════════════════════════════════════════════
+function masteredCount() { return deck.filter(c => c.mastered).length; }
+
+function loadQuestion() {
+  if (!queue.length) { finishQuiz(); return; }
+
+  currentCard = deck[queue[0]];
+  currentCard.tries = 0;          // a fresh encounter gets fresh attempts
+  phase = 'answer';
+
+  const unit = UNITS.find(u => u.code === currentCard.unitCode);
+  document.getElementById('quiz-unit-label').textContent = `${currentCard.unitCode} — ${unit.title}`;
+  document.getElementById('q-english').textContent = currentCard.item.en;
+  document.getElementById('quiz-unit-label').textContent = roundLabel || currentCard.unitCode;
+  const h = currentCard.item.hint ? `Indice : ${currentCard.item.hint}` : '';
+  const t = currentCard.item.tier
+    ? `<span class="tier tier${currentCard.item.tier}">${stars(currentCard.item.tier)}</span> `
+    : '';
+  document.getElementById('q-hint').innerHTML = t + h;
+
+  document.getElementById('repeat-badge').classList.toggle('show', currentCard.returns > 0);
+
+  const input = document.getElementById('answer-input');
+  input.value = '';
+  input.disabled = false;
+  document.getElementById('btn-check').disabled = false;
+  document.getElementById('btn-show-answer').disabled = false;
+  document.getElementById('next-row').classList.remove('show');
+
+  hideFeedback();
+
+  const total = deck.length;
+  const pct = total ? (masteredCount() / total) * 100 : 0;
+  document.getElementById('quiz-progress-bar').style.width = pct + '%';
+
+  updateScoreBadge();
+  input.focus();
+}
+
+document.getElementById('answer-input').addEventListener('keydown', e => {
+  if (e.key !== 'Enter') return;
+  e.preventDefault();
+  if (!document.getElementById('btn-check').disabled) checkAnswer();
+});
+// When the answer is showing, Enter moves on — the student never has to reach
+// for the mouse, and nothing advances until they choose to.
+document.addEventListener('keydown', e => {
+  if (e.key !== 'Enter') return;
+  if (!document.getElementById('next-row').classList.contains('show')) return;
+  if (document.getElementById('screen-quiz').classList.contains('active') === false) return;
+  e.preventDefault();
+  nextQuestion();
+});
+
+/* A clue narrows the search without giving the word away. */
+function clueFor(item) {
+  const answer = acceptedForms(item)[0] || item.fr;
+  const words = answer.split(/\s+/).filter(Boolean);
+  const bits = [];
+  const art = (words[0] || '').toLowerCase().replace(/[^a-zà-ÿ']/g, '');
+  // l' hides the gender, so it earns no hint.
+  if (/^(le|un|du)$/.test(art))       bits.push('masculin (le / un)');
+  else if (/^(la|une)$/.test(art))    bits.push('féminin (la / une)');
+  else if (/^(les|des)$/.test(art))   bits.push('pluriel (les / des)');
+  bits.push(words.length === 1 ? '1 mot' : words.length + ' mots');
+  bits.push(answer.replace(/[^A-Za-zÀ-ÿ]/g, '').length + ' lettres');
+  const initials = words.map(w => { const m = w.match(/[A-Za-zÀ-ÿ]/); return m ? m[0] + '…' : ''; })
+                        .filter(Boolean).join(' ');
+  if (initials) bits.push('Début : <b>' + initials + '</b>');
+  return bits.join(' · ');
+}
+
+function checkAnswer() {
+  const input = document.getElementById('answer-input').value.trim();
+  if (!input) return;
+
+  const result = judge(input, currentCard.item);
+
+  if (result.credit) { acceptCard(input, result); return; }
+
+  currentCard.tries += 1;
+
+  // A near miss that strict mode refuses is its own clue — say what is wrong.
+  const specific = (result.verdict !== 'wrong' && result.note) ? result.note : '';
+
+  if (currentCard.tries < MAX_TRIES && !currentCard.shown) {
+    showFeedback('clue',
+      `✗ Pas encore — réessaie.` +
+      (specific ? `<div class="fb-note">${specific}</div>` : '') +
+      `<div class="fb-clue">${clueFor(currentCard.item)}</div>`);
+    phase = 'clue';
+    const box = document.getElementById('answer-input');
+    box.focus(); box.select();          // the box stays live: they try again
+    saveProgress();
+    return;
+  }
+  revealAnswer(input);
+}
+
+/* The student produced it. The card leaves the deck. */
+function acceptCard(given, result) {
+  const card = currentCard;
+  const code = card.unitCode;
+  if (!scores[code]) scores[code] = { correct: 0, total: 0, details: [], review: [] };
+
+  const firstTime = (card.tries === 0 && card.returns === 0 && !card.shown);
+  card.mastered = true;
+
+  scores[code].total += 1;
+  if (firstTime && result.credit) scores[code].correct += 1;
+  scores[code].details.push({
+    en: card.item.en, expected: card.item.fr, given,
+    correct: firstTime, verdict: result.verdict,
+    tries: card.tries + 1, returns: card.returns, shown: card.shown
+  });
+
+  const others = acceptedForms(card.item)
+    .filter(f => baseClean(f) !== baseClean(result.matched || ''));
+  const alsoLine = others.length ? `<div class="fb-also">Aussi accepté : ${others.join(' · ')}</div>` : '';
+
+  let msg;
+  if (result.verdict === 'exact') {
+    msg = firstTime ? `✓ Correct ! <b>${result.matched}</b>`
+                    : `✓ Correct — <b>${result.matched}</b><div class="fb-note">Acquis après révision.</div>`;
+  } else {
+    msg = `✓ Accepté — <b>${result.matched}</b><div class="fb-note">${result.note}</div>`;
+  }
+  showFeedback(result.verdict === 'exact' ? 'correct' : 'partial', msg + alsoLine);
+
+  queue.shift();                       // mastered: it does not come back
+  endOfQuestion();
+}
+
+/* Two misses, or "Show answer". The word is shown and comes back later. */
+function revealAnswer(given) {
+  const card = currentCard;
+  const code = card.unitCode;
+  if (!scores[code]) scores[code] = { correct: 0, total: 0, details: [], review: [] };
+
+  card.shown = true;
+  card.returns += 1;
+
+  const forms = acceptedForms(card.item);
+  const extra = forms.length > 1
+    ? `<div class="fb-also">Aussi accepté : ${forms.slice(1).join(' · ')}</div>` : '';
+
+  queue.shift();
+
+  if (card.returns >= MAX_RETURNS) {
+    // Set aside rather than looping for ever — it goes on the revision list.
+    scores[code].total += 1;
+    scores[code].details.push({
+      en: card.item.en, expected: card.item.fr, given: given || '(montré)',
+      correct: false, verdict: 'shown', tries: card.tries, returns: card.returns, shown: true
+    });
+    scores[code].review.push({ en: card.item.en, fr: card.item.fr });
+    showFeedback('incorrect',
+      `📖 La réponse : <b>${card.item.fr}</b>${extra}` +
+      `<div class="fb-note">Mis de côté — ce mot sera sur ta liste à revoir.</div>`);
+  } else {
+    queue.push(deck.indexOf(card));    // back of the queue: it will return
+    showFeedback('incorrect',
+      `📖 La réponse : <b>${card.item.fr}</b>${extra}` +
+      `<div class="fb-note">Écris-le une fois dans ta tête — il revient plus tard dans la série.</div>`);
+  }
+  endOfQuestion();
+}
+
+function showAnswer() {
+  if (phase === 'shown' || phase === 'done') return;
+  revealAnswer(document.getElementById('answer-input').value.trim());
+}
+
+/* Skip does not lose the word — it just postpones it. */
+function skipQuestion() {
+  const card = currentCard;
+  if (!card) return;
+  card.returns += 1;
+  queue.shift();
+  if (card.returns >= MAX_RETURNS) {
+    const code = card.unitCode;
+    if (!scores[code]) scores[code] = { correct: 0, total: 0, details: [], review: [] };
+    scores[code].total += 1;
+    scores[code].details.push({
+      en: card.item.en, expected: card.item.fr, given: '(passé)',
+      correct: false, verdict: 'skipped', tries: card.tries, returns: card.returns, shown: card.shown
+    });
+    scores[code].review.push({ en: card.item.en, fr: card.item.fr });
+  } else {
+    queue.push(deck.indexOf(card));
+  }
+  saveProgress();
+  loadQuestion();
+}
+
+/* Nothing advances on a timer. The student reads, then chooses to go on. */
+function endOfQuestion() {
+  phase = 'shown';
+  document.getElementById('answer-input').disabled = true;
+  document.getElementById('btn-check').disabled = true;
+  document.getElementById('btn-show-answer').disabled = true;
+  const row = document.getElementById('next-row');
+  row.classList.add('show');
+  document.getElementById('btn-next').textContent = queue.length ? 'Suivant →' : 'Voir mes résultats →';
+  document.getElementById('btn-next').focus();
+  updateScoreBadge();
+  const total = deck.length;
+  document.getElementById('quiz-progress-bar').style.width = (total ? (masteredCount() / total) * 100 : 0) + '%';
+  saveProgress();
+}
+
+function nextQuestion() {
+  loadQuestion();
+  saveProgress();
+}
+
+// ═══════════════════════════════════════════════════════════
+//  COMPARISON LOGIC
+// ═══════════════════════════════════════════════════════════
+// Every apostrophe variant a student's keyboard or autocorrect can produce.
+function unifyApostrophes(str) {
+  return String(str).replace(/[\u2018\u2019\u02bc`\u00b4]/g, "'");
+}
+
+// Case, punctuation, hyphen/space and whitespace differences are never
+// knowledge errors \u2014 flatten them before any comparison.
+function baseClean(str) {
+  return unifyApostrophes(str)
+    .toLowerCase()
+    .replace(/\(.*?\)/g, ' ')        // parenthetical notes
+    .replace(/[.,;:!?"\u00ab\u00bb\u2026]/g, ' ')   // punctuation
+    .replace(/[-\u2013\u2014]/g, ' ')// hyphen / en dash / em dash \u2192 space
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
+function stripArticle(str) {
+  return str
+    .replace(/^(?:l'|d')\s*/, '')
+    .replace(/^(?:le|la|les|un|une|des|du)\s+/, '')
+    .trim();
+}
+
+function stripAccents(str) {
+  return str.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+}
+
+// "le migrant / la migrante" is two acceptable answers, not one string.
+function splitVariants(str) {
+  return String(str).split(/\s*[|/]\s*/).map(s => s.trim()).filter(Boolean);
+}
+
+// Full set of acceptable renderings for an item: canonical + synonym bank,
+// each split on slashes.
+function acceptedForms(item) {
+  const out = [];
+  splitVariants(item.fr).forEach(v => out.push(v));
+  (ALT[item.fr] || []).forEach(a => splitVariants(a).forEach(v => out.push(v)));
+  return out.filter((v, i, arr) => arr.indexOf(v) === i);
+}
+
+function levenshtein(a, b) {
+  if (a === b) return 0;
+  if (!a.length) return b.length;
+  if (!b.length) return a.length;
+  let prev = Array.from({ length: b.length + 1 }, (_, i) => i);
+  for (let i = 1; i <= a.length; i++) {
+    const cur = [i];
+    for (let j = 1; j <= b.length; j++) {
+      cur[j] = Math.min(
+        prev[j] + 1,
+        cur[j - 1] + 1,
+        prev[j - 1] + (a[i - 1] === b[j - 1] ? 0 : 1)
+      );
+    }
+    prev = cur;
+  }
+  return prev[b.length];
+}
+
+// Short words must be exact; longer ones get proportionate typo latitude.
+function typoAllowance(len) {
+  if (len <= 6) return 0;
+  if (len <= 12) return 1;
+  return 2;
+}
+
+/**
+ * Judge an answer against every accepted form.
+ * Returns { credit, verdict, matched, note }
+ *   verdict: exact | article | accent | typo | wrong
+ * In lenient mode article/accent/typo all earn the mark, with a nudge.
+ * In strict mode only an exact match (accents and article included) scores.
+ */
+function judge(input, item) {
+  const forms = acceptedForms(item);
+  const inClean = baseClean(input);
+  const inNoArt = stripArticle(inClean);
+  const inFlat = stripAccents(inNoArt);
+
+  let best = { credit: false, verdict: 'wrong', matched: null, note: '' };
+
+  for (const form of forms) {
+    const fClean = baseClean(form);
+    const fNoArt = stripArticle(fClean);
+    const fFlat = stripAccents(fNoArt);
+
+    // 1. Exact, article and accents included.
+    if (inClean === fClean) {
+      return { credit: true, verdict: 'exact', matched: form, note: '' };
+    }
+    // 2. Right word, article missing or wrong.
+    if (inNoArt === fNoArt) {
+      const note = inClean === inNoArt
+        ? `Include the article: <b>${form}</b>`
+        : `Careful with the article \u2014 it's <b>${form}</b>`;
+      if (!best.credit || best.verdict === 'accent' || best.verdict === 'typo') {
+        best = { credit: !strictMode, verdict: 'article', matched: form, note };
+      }
+      continue;
+    }
+    // 3. Right word, accents missing or wrong.
+    if (inFlat === fFlat) {
+      if (best.verdict === 'wrong' || best.verdict === 'typo') {
+        best = { credit: !strictMode, verdict: 'accent', matched: form, note: `Accents: <b>${form}</b>` };
+      }
+      continue;
+    }
+    // 4. Near miss \u2014 a slip rather than a gap in knowledge.
+    if (!strictMode) {
+      const allow = typoAllowance(Math.max(inFlat.length, fFlat.length));
+      if (allow > 0 && levenshtein(inFlat, fFlat) <= allow) {
+        if (best.verdict === 'wrong') {
+          best = { credit: true, verdict: 'typo', matched: form, note: `Spelling: <b>${form}</b>` };
+        }
+      }
+    }
+  }
+  return best;
+}
+
+// ═══════════════════════════════════════════════════════════
+//  FEEDBACK
+// ═══════════════════════════════════════════════════════════
+function showFeedback(type, msg) {
+  const fb = document.getElementById('feedback');
+  fb.innerHTML = msg;
+  fb.className = 'feedback show ' + type;
+}
+
+function updateScoreBadge() {
+  const total = deck.length;
+  const done = masteredCount();
+  const left = queue.length;
+  document.getElementById('quiz-score-badge').textContent =
+    `${done}/${total} acquis · ${left} restant${left === 1 ? '' : 's'}`;
+}
+function hideFeedback() {
+  document.getElementById('feedback').className = 'feedback';
+}
+
+// ═══════════════════════════════════════════════════════════
+//  FINISH QUIZ
+// ═══════════════════════════════════════════════════════════
+function finishQuiz() {
+  phase = 'done';
+  queue = [];
+  buildUnitGrid();
+  saveProgress();
+  reportToHub();
+  showResultsScreen();
+}
+
+/* Report the set to the hub. "Score" is words right at the first attempt,
+   which is the figure that means something; the per-unit breakdown rides
+   along so the dashboard can show where the gaps are. */
+function reportToHub() {
+  if (!window.BBAProgress) return;
+  let correct = 0, total = 0;
+  const parts = {};
+  UNITS.forEach(u => {
+    const sc = scores[u.code];
+    if (!sc || !sc.total) return;
+    correct += sc.correct; total += sc.total;
+    parts[u.code] = [sc.correct, sc.total, (sc.review || []).length];
+  });
+  if (!total) return;
+  BBAProgress.record({
+    score: correct, total: total,
+    title: 'Entraîneur de vocabulaire — ' + (roundLabel || 'toutes les unités'),
+    parts: parts
+  });
+}
+
+function goToUnits() {
+  buildUnitGrid();
+  saveProgress();
+  showScreen('screen-units');
+}
+
+// ═══════════════════════════════════════════════════════════
+//  RESULTS SCREEN
+// ═══════════════════════════════════════════════════════════
+function showResultsScreen() {
+  let totalC = 0, totalT = 0;
+  UNITS.forEach(u => {
+    if (scores[u.code]) {
+      totalC += scores[u.code].correct;
+      totalT += scores[u.code].total;
+    }
+  });
+
+  document.getElementById('results-name').textContent = `Results for ${studentName}`;
+  document.getElementById('results-total').textContent = `${totalC} / ${totalT}`;
+  const pct = totalT ? Math.round((totalC / totalT) * 100) : 0;
+  document.getElementById('results-sub').innerHTML =
+    `Right first time: ${pct}%  ·  ${new Date().toLocaleDateString('en-GB', {day:'numeric', month:'long', year:'numeric'})}` +
+    `<span class="mode-badge${strictMode ? ' strict' : ''}">${strictMode ? 'Strict marking' : 'Lenient marking'}</span>`;
+
+  // Words never produced correctly, even after coming back round.
+  const review = [];
+  UNITS.forEach(u => { (scores[u.code] && scores[u.code].review || []).forEach(r => review.push(r)); });
+  const box = document.getElementById('results-review');
+  const ul  = document.getElementById('results-review-list');
+  ul.innerHTML = '';
+  if (review.length) {
+    review.forEach(r => {
+      const li = document.createElement('li');
+      li.innerHTML = `${r.en} — <b>${r.fr}</b>`;
+      ul.appendChild(li);
+    });
+    box.style.display = 'block';
+  } else {
+    box.style.display = 'none';
+  }
+
+  const list = document.getElementById('results-unit-list');
+  list.innerHTML = '';
+  UNITS.forEach(unit => {
+    const sc = scores[unit.code];
+    const div = document.createElement('div');
+    div.className = 'unit-result-row' + (sc ? '' : ' skipped');
+    const c = sc ? sc.correct : 0;
+    const t = sc ? sc.total : 0;
+    const p = t ? Math.round((c / t) * 100) : 0;
+    const barColor = p >= 80 ? '#27ae60' : p >= 50 ? '#e67e22' : '#e74c3c';
+    div.innerHTML = `
+      <div class="unit-result-code">${unit.code}</div>
+      <div class="unit-result-title">${unit.title}</div>
+      <div class="unit-result-bar-wrap">
+        <div class="unit-result-bar" style="width:${p}%;background:${barColor}"></div>
+      </div>
+      <div class="unit-result-score">${sc ? `${c}/${t}` : '—'}</div>
+    `;
+    list.appendChild(div);
+  });
+
+  showScreen('screen-results');
+}
+
+// ═══════════════════════════════════════════════════════════
+//  DOWNLOAD RESULTS
+// ═══════════════════════════════════════════════════════════
+function downloadResults() {
+  const date = new Date().toLocaleDateString('en-GB', {weekday:'long', year:'numeric', month:'long', day:'numeric'});
+  const time = new Date().toLocaleTimeString('en-GB');
+  let out = [];
+  out.push('═══════════════════════════════════════════════════════');
+  out.push('  FRENCH A-LEVEL VOCABULARY TRAINER — RESULTS');
+  out.push('═══════════════════════════════════════════════════════');
+  out.push(`  Student : ${studentName}`);
+  out.push(`  Date    : ${date}, ${time}`);
+  out.push(`  Marking : ${strictMode ? 'STRICT (exact accents + articles required)' : 'Lenient (accents, articles and minor slips tolerated)'}`);
+  out.push(`  Method  : two attempts per word; a missed word returns later in`);
+  out.push(`            the set and must be produced correctly to be cleared.`);
+  out.push(`            "Score" counts only words right at the first attempt.`);
+  out.push('───────────────────────────────────────────────────────');
+
+  let totalC = 0, totalT = 0;
+
+  UNITS.forEach(unit => {
+    const sc = scores[unit.code];
+    if (!sc || sc.total === 0) return;
+    totalC += sc.correct;
+    totalT += sc.total;
+    const pct = Math.round((sc.correct / sc.total) * 100);
+    const bar = '█'.repeat(Math.round(pct / 5)) + '░'.repeat(20 - Math.round(pct / 5));
+    out.push('');
+    out.push(`  ${unit.code}  ${unit.title}`);
+    out.push(`  Score : ${sc.correct}/${sc.total}  (${pct}%)   [${bar}]`);
+    out.push('  ┌─────────────────────────────────────────────────────');
+    out.push('  │  #   English               Your answer          ✓/≈/✗  tries');
+    out.push('  ├─────────────────────────────────────────────────────');
+    sc.details.forEach((d, i) => {
+      // ✓ exact · ≈ scored with a nudge (accent/article/spelling) · ✗ not scored
+      const tick = d.correct ? (d.verdict === 'exact' ? '✓' : '≈') : '✗';
+      const en = d.en.padEnd(24).slice(0, 24);
+      const given = d.given.padEnd(20).slice(0, 20);
+      out.push(`  │  ${String(i+1).padStart(2)}  ${en}  ${given}  ${tick}    ${d.tries || 1}`);
+      if (d.correct && d.verdict && d.verdict !== 'exact') {
+        const why = { article: 'article', accent: 'accents', typo: 'spelling' }[d.verdict] || d.verdict;
+        out.push(`  │        ↳ scored, watch the ${why}: ${d.expected}`);
+      } else if (!d.correct) {
+        out.push(`  │        ↳ Correct: ${d.expected}`);
+      }
+    });
+    out.push('  └─────────────────────────────────────────────────────');
+  });
+
+  const review = [];
+  UNITS.forEach(u => { (scores[u.code] && scores[u.code].review || []).forEach(r => review.push(r)); });
+  if (review.length) {
+    out.push('');
+    out.push('───────────────────────────────────────────────────────');
+    out.push('  À REVOIR — not produced correctly, even on a second pass');
+    out.push('───────────────────────────────────────────────────────');
+    review.forEach(r => out.push(`   ·  ${r.en.padEnd(28).slice(0,28)}  ${r.fr}`));
+  }
+
+  out.push('');
+  out.push('───────────────────────────────────────────────────────');
+  const totalPct = totalT ? Math.round((totalC / totalT) * 100) : 0;
+  out.push(`  RIGHT FIRST TIME: ${totalC} / ${totalT}   (${totalPct}%)`);
+  out.push(`  Every word not in the list above was produced correctly`);
+  out.push(`  before the set could finish.`);
+  out.push('═══════════════════════════════════════════════════════');
+
+  const blob = new Blob([out.join('\n')], { type: 'text/plain;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `French_Results_${studentName.replace(/\s+/g, '_')}_${new Date().toISOString().slice(0,10)}.txt`;
+  a.click();
+  URL.revokeObjectURL(url);
+  showToast('⬇ Results downloaded!');
+}
+
+// ═══════════════════════════════════════════════════════════
+//  ACCENT KEYBOARD
+// ═══════════════════════════════════════════════════════════
+function insertAccent(char) {
+  const input = document.getElementById('answer-input');
+  if (input.disabled) return;
+  const start = input.selectionStart;
+  const end = input.selectionEnd;
+  const val = input.value;
+  input.value = val.slice(0, start) + char + val.slice(end);
+  input.selectionStart = input.selectionEnd = start + char.length;
+  input.focus();
+}
+
+// ═══════════════════════════════════════════════════════════
+//  UTILS
+// ═══════════════════════════════════════════════════════════
+function shuffleArray(arr) {
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
+}
+
+// On arrival, if there is unfinished work on this device, say so.
+offerResume();
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2800);
+}
+</script>
+</body>
+</html>
