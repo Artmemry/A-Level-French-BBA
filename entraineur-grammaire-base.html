@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Entraîneur de grammaire · Base A-Level · A-Level Français</title>
+<title>Grammar trainer: the rules everything rests on · A-Level French</title>
 <style>
 :root{
   --tinta:#16242F;--tinta-70:rgba(22,36,47,.70);--tinta-45:rgba(22,36,47,.45);
@@ -175,21 +175,21 @@ footer{margin-top:3.2rem;border-top:1px solid var(--linea);padding-top:1.1rem;fo
 
 <header class="cabecera">
   <div class="envoltorio">
-    <p class="eyebrow">A-Level Français · Edexcel 9FR0 · Entraînement de base</p>
-    <h1>La grammaire<br><em>qui porte tout</em></h1>
-    <p class="sumario">Douze blocs qui couvrent exactement la grammaire du test de positionnement d'entrée. Chaque bloc commence par la règle et un exemple résolu ; ensuite tu pratiques. Tout se corrige seul et fonctionne sans connexion.</p>
+    <p class="eyebrow">A-Level French · Edexcel 9FR0 · Core grammar</p>
+    <h1>Grammar trainer<br><em>the rules everything rests on</em></h1>
+    <p class="sumario">Twelve blocks covering exactly the grammar in the entry assessment. Each one opens with the rule and a worked example, then you practise. Blocks A to J can all be worked out from a rule; K is the handful of words that break the rules, and L goes further than anyone expects on entry. It marks itself and works without an internet connection.</p>
     <div class="mapa">
       <div class="chips" id="chips"></div>
-      <p class="leyenda" id="leyenda">12 blocs · aucun corrigé pour l'instant</p>
+      <p class="leyenda" id="leyenda">12 blocks · nothing marked yet</p>
     </div>
   </div>
 </header>
 
 <div class="identidad">
   <div class="envoltorio">
-    <label for="nombre">Ton nom</label>
-    <input id="nombre" type="text" placeholder="Prénom + initiale, ex. Sophie K." autocomplete="off" spellcheck="false">
-    <span class="aviso" id="avisoGuardado">tes réponses sont enregistrées sur cet appareil</span>
+    <label for="nombre">Your name</label>
+    <input id="nombre" type="text" placeholder="First name Surname" required autocomplete="off" spellcheck="false">
+    <span class="aviso" id="avisoGuardado">your answers are saved on this device</span>
   </div>
 </div>
 
@@ -197,43 +197,43 @@ footer{margin-top:3.2rem;border-top:1px solid var(--linea);padding-top:1.1rem;fo
   <div id="bloques"></div>
 
   <section id="MIX">
-    <div class="rotulo"><span class="clave">Révision mêlée</span><h2>Tout mélangé</h2>
+    <div class="rotulo"><span class="clave">Mixed review</span><h2>Everything mixed up</h2>
       <span class="marcador" id="marcMix" aria-live="polite"></span></div>
     <div class="regla">
-      <h3>Pourquoi mélanger</h3>
-      <p>Enchaîner un bloc entier est confortable et trompeur : tu réussis parce que tu sais déjà quel type de question arrive. Quand les questions sont mêlées, il faut d'abord <b>décider quelle règle s'applique</b> — et c'est exactement ce que l'examen demande.</p>
-      <p class="truco">↳ Fais les blocs une fois, puis n'utilise plus que cette section. Génère une nouvelle série à chaque fois.</p>
+      <h3>Why mix them up</h3>
+      <p>Working through one block at a time feels good and tells you very little: you get them right because you already know which rule is coming. Once the questions are shuffled you have to <b>decide which rule applies</b> before you can answer — and that decision is the thing the exam actually tests.</p>
+      <p class="truco">↳ Do the blocks once, then work only from here. Generate a fresh set every time.</p>
     </div>
-    <p class="consigna">Quinze questions au hasard, tous blocs confondus. Elles ne sont pas enregistrées : c'est de l'entraînement, pas une note.</p>
+    <p class="consigna">Fifteen questions at random from every block. These are not recorded — this is practice, not a test.</p>
     <div class="tarjeta">
       <div id="zonaMix"></div>
       <div class="barra">
-        <button id="btnGenerar">Générer 15 questions</button>
-        <button class="secundario" id="btnCompMix" hidden>Vérifier</button>
-        <button class="secundario" id="btnVerMix" hidden>Voir les corrigés</button>
+        <button id="btnGenerar">Give me 15 questions</button>
+        <button class="secundario" id="btnCompMix" hidden>Check my answers</button>
+        <button class="secundario" id="btnVerMix" hidden>Show the answers</button>
       </div>
       <p class="nota-guardado" id="notaMix"></p>
     </div>
   </section>
 
   <section id="informe">
-    <div class="rotulo"><span class="clave">Bilan</span><h2>Ton travail</h2></div>
-    <p class="consigna">Télécharge ton bilan et transmets-le à ton professeur. Il porte ton nom, le score de chaque bloc et ce que tu as écrit.</p>
+    <div class="rotulo"><span class="clave">Your report</span><h2>How you did</h2></div>
+    <p class="consigna">Download your report and send it to your teacher. It carries your name, your score for each block and everything you typed.</p>
     <div class="tarjeta">
       <div class="resumen">
-        <div class="cifra"><b id="cBloques">0</b><span>blocs corrigés</span></div>
-        <div class="cifra"><b id="cPunt">—</b><span>points</span></div>
-        <div class="cifra"><b id="cPct">0 %</b><span>de réussite</span></div>
-        <div class="cifra"><b id="cFlojo">—</b><span>bloc le plus faible</span></div>
+        <div class="cifra"><b id="cBloques">0</b><span>blocks marked</span></div>
+        <div class="cifra"><b id="cPunt">—</b><span>marks</span></div>
+        <div class="cifra"><b id="cPct">0 %</b><span>correct</span></div>
+        <div class="cifra"><b id="cFlojo">—</b><span>weakest block</span></div>
       </div>
       <table class="desglose">
-        <thead><tr><th>Bloc</th><th style="text-align:right">Résultat</th></tr></thead>
+        <thead><tr><th>Block</th><th style="text-align:right">Score</th></tr></thead>
         <tbody id="tbDesglose"></tbody>
       </table>
       <div class="barra">
-        <button id="btnInforme">Télécharger mon bilan</button>
-        <button class="secundario" onclick="window.print()">Imprimer / PDF</button>
-        <button class="peligro" id="btnBorrar">Effacer mes réponses</button>
+        <button id="btnInforme">Download my report</button>
+        <button class="secundario" onclick="window.print()">Print / PDF</button>
+        <button class="peligro" id="btnBorrar">Erase my answers</button>
       </div>
       <p class="nota-guardado" id="notaGuardado"></p>
     </div>
@@ -241,10 +241,9 @@ footer{margin-top:3.2rem;border-top:1px solid var(--linea);padding-top:1.1rem;fo
 </main>
 
 <footer>
-  <p>Entraîneur de grammaire de base · Edexcel A-Level Français (9FR0) · BBA Sixth Form. Les blocs A–J sont de la grammaire à règle : tout s'y déduit. Le bloc K rassemble les exceptions et le dit ; le bloc L va au-delà de ce qu'on attend à l'entrée. Tes réponses restent dans ce navigateur et ne sont envoyées nulle part.</p>
+  <p>Grammar trainer · Edexcel A-Level French (9FR0) · BBA Sixth Form. Blocks A to J are rule-based grammar: everything in them can be worked out. Block K gathers the exceptions and says so. Block L goes beyond what is expected on entry. Your answers stay in this browser and are not sent anywhere.</p>
 </footer>
 
-<div class="teclado" id="teclado" role="toolbar" aria-label="Clavier d'accents"></div>
 
 <script>
 /* ============================================================
@@ -254,287 +253,290 @@ footer{margin-top:3.2rem;border-top:1px solid var(--linea);padding-top:1.1rem;fo
    ============================================================ */
 const BLOQUES = [
 {
- id:'A', clave:'Bloc A', titulo:'Le présent : les verbes réguliers',
+ id:"A", clave:"Block A", titulo:"The present tense: regular verbs",
  regla:{
-   texto:'<p>On enlève la terminaison de l\'infinitif (<code>-er</code>, <code>-ir</code>, <code>-re</code>) et on ajoute celle de la personne. Les verbes en <code>-ir</code> intercalent <code>-iss-</code> au pluriel.</p>',
-   tabla:[['','parler (-er)','finir (-ir)','attendre (-re)'],
-          ['je','parl<b>e</b>','fin<b>is</b>','attend<b>s</b>'],
-          ['tu','parl<b>es</b>','fin<b>is</b>','attend<b>s</b>'],
-          ['il / elle','parl<b>e</b>','fin<b>it</b>','attend <i>(rien)</i>'],
-          ['nous','parl<b>ons</b>','fin<b>issons</b>','attend<b>ons</b>'],
-          ['vous','parl<b>ez</b>','fin<b>issez</b>','attend<b>ez</b>'],
-          ['ils / elles','parl<b>ent</b>','fin<b>issent</b>','attend<b>ent</b>']],
-   truco:'Piège d\'oreille : -e, -es et -ent ne s\'entendent pas. « je parle », « tu parles » et « ils parlent » se prononcent pareil — seule l\'écriture les distingue. Écoute la personne, pas le verbe.'
+   texto:"<p>Take the ending off the infinitive (<code>-er</code>, <code>-ir</code>, <code>-re</code>) and add the one that belongs to the person. Verbs in <code>-ir</code> slot <code>-iss-</code> in before the ending in the plural.</p>",
+   tabla:[["", "parler (-er)", "finir (-ir)", "attendre (-re)"],
+          ["je", "parl<b>e</b>", "fin<b>is</b>", "attend<b>s</b>"],
+          ["tu", "parl<b>es</b>", "fin<b>is</b>", "attend<b>s</b>"],
+          ["il / elle", "parl<b>e</b>", "fin<b>it</b>", "attend <i>(nothing)</i>"],
+          ["nous", "parl<b>ons</b>", "fin<b>issons</b>", "attend<b>ons</b>"],
+          ["vous", "parl<b>ez</b>", "fin<b>issez</b>", "attend<b>ez</b>"],
+          ["ils / elles", "parl<b>ent</b>", "fin<b>issent</b>", "attend<b>ent</b>"]],
+   truco:"Your ear will not help you here. <i>-e</i>, <i>-es</i> and <i>-ent</i> are all silent, so \u00ab je parle \u00bb, \u00ab tu parles \u00bb and \u00ab ils parlent \u00bb sound identical \u2014 only the spelling separates them. Listen to the person, not the verb."
  },
- consigna:'Écris le verbe à la personne demandée. L\'orthographe compte.',
- tipo:'hueco',
+ consigna:"Write the verb for the person given. Spelling counts.",
+ tipo:"hueco",
  items:[
-  {texto:'Je ________ français tous les jours.', inf:'parler, je', ok:['parle'], nota:'-er à la 1re personne : parl + e.'},
-  {texto:'Ils ________ beaucoup de fruits.', inf:'manger, ils', ok:['mangent'], nota:'-er à la 3e du pluriel : -ent, muet.'},
-  {texto:'Nous ________ à Manchester.', inf:'habiter, nous', ok:['habitons'], nota:'-er à la 1re du pluriel : -ons.'},
-  {texto:'Tu ________ le week-end ?', inf:'travailler, tu', ok:['travailles'], nota:'-er à la 2e personne : -es, muet lui aussi.'},
-  {texto:'Nous ________ toujours avant midi.', inf:'finir, nous', ok:['finissons'], nota:'Les verbes en -ir prennent -iss- au pluriel : finissons.'},
-  {texto:'Elle ________ à la question.', inf:'répondre, elle', ok:['répond'], nota:'-re à la 3e du singulier : aucune terminaison, juste le radical.'},
-  {texto:'Les élèves ________ leur option.', inf:'choisir, ils', ok:['choisissent'], nota:'-ir au pluriel : chois + issent.'},
-  {texto:'Nous ________ le bus depuis dix minutes.', inf:'attendre, nous', ok:['attendons'], nota:'-re à la 1re du pluriel : -ons.'}
+  {texto:"Je ________ fran\u00e7ais tous les jours.", inf:"parler, je", ok:["parle"], nota:"-er, first person: parl + e."},
+  {texto:"Ils ________ beaucoup de fruits.", inf:"manger, ils", ok:["mangent"], nota:"-er, third person plural: -ent, and you do not hear it."},
+  {texto:"Nous ________ \u00e0 Manchester.", inf:"habiter, nous", ok:["habitons"], nota:"-er, first person plural: -ons."},
+  {texto:"Tu ________ le week-end ?", inf:"travailler, tu", ok:["travailles"], nota:"-er, second person: -es, silent as well."},
+  {texto:"Nous ________ toujours avant midi.", inf:"finir, nous", ok:["finissons"], nota:"-ir verbs take -iss- in the plural: finissons."},
+  {texto:"Elle ________ \u00e0 la question.", inf:"r\u00e9pondre, elle", ok:["répond"], nota:"-re, third person singular: no ending at all, just the stem."},
+  {texto:"Les \u00e9l\u00e8ves ________ leur option.", inf:"choisir, ils", ok:["choisissent"], nota:"-ir in the plural: chois + issent."},
+  {texto:"Nous ________ le bus depuis dix minutes.", inf:"attendre, nous", ok:["attendons"], nota:"-re, first person plural: -ons."}
  ]
 },
 {
- id:'B', clave:'Bloc B', titulo:'Les noms et les adjectifs : l\'accord',
+ id:"B", clave:"Block B", titulo:"Nouns and adjectives: making them agree",
  regla:{
-   texto:'<p>L\'adjectif copie le <b>genre</b> et le <b>nombre</b> du nom : on ajoute <code>-e</code> au féminin, <code>-s</code> au pluriel. Certaines terminaisons ont leur propre règle, mais c\'est bien une règle.</p>',
-   tabla:[['terminaison','masculin','féminin'],
-          ['normale','grand','grand<b>e</b>'],
-          ['déjà en -e','difficile','difficile <i>(rien)</i>'],
-          ['-f','sporti<b>f</b>','sporti<b>ve</b>'],
-          ['-eux','heur<b>eux</b>','heur<b>euse</b>'],
-          ['-er','premi<b>er</b>','premi<b>ère</b>']],
-   truco:'Un adjectif déjà terminé par -e ne bouge pas au féminin : « un exercice difficile », « une question difficile ». Il prend quand même le -s du pluriel.'
+   texto:"<p>The adjective copies the <b>gender</b> and the <b>number</b> of its noun: add <code>-e</code> for feminine, <code>-s</code> for plural. Some endings have their own pattern, but it is still a pattern \u2014 nothing here has to be memorised one word at a time.</p>",
+   tabla:[["ending", "masculine", "feminine"],
+          ["ordinary", "grand", "grand<b>e</b>"],
+          ["already ends in -e", "difficile", "difficile <i>(no change)</i>"],
+          ["-f", "sporti<b>f</b>", "sporti<b>ve</b>"],
+          ["-eux", "heur<b>eux</b>", "heur<b>euse</b>"],
+          ["-er", "premi<b>er</b>", "premi<b>\u00e8re</b>"]],
+   truco:"An adjective that already ends in -e does not move in the feminine: \u00ab un exercice difficile \u00bb, \u00ab une question difficile \u00bb. It still takes the -s in the plural."
  },
- consigna:'Écris l\'adjectif à la forme demandée par le nom.',
- tipo:'hueco',
+ consigna:"Write the adjective in the form the noun asks for.",
+ tipo:"hueco",
  items:[
-  {texto:'J\'ai deux frères ________.', inf:'grand', ok:['grands'], nota:'Masculin pluriel : + s.'},
-  {texto:'Les maisons du village sont ________.', inf:'petit', ok:['petites'], nota:'Féminin pluriel : + e puis + s.'},
-  {texto:'C\'est une histoire très ________.', inf:'intéressant', ok:['intéressante'], nota:'Féminin singulier : + e.'},
-  {texto:'Ma sœur est très ________.', inf:'sportif', ok:['sportive'], nota:'Les adjectifs en -f font -ve au féminin.'},
-  {texto:'Ce sont des filles ________.', inf:'heureux', ok:['heureuses'], nota:'Les adjectifs en -eux font -euse, puis -euses au pluriel.'},
-  {texto:'C\'est la ________ fois que je viens.', inf:'premier', ok:['première'], nota:'Les adjectifs en -er font -ère au féminin.'},
-  {texto:'Ce sont des exercices ________.', inf:'difficile', ok:['difficiles'], nota:'Déjà en -e : seul le pluriel change.'},
-  {texto:'Nous avons pris une décision ________.', inf:'important', ok:['importante'], nota:'Féminin singulier : + e.'}
+  {texto:"J'ai deux fr\u00e8res ________.", inf:"grand", ok:["grands"], nota:"Masculine plural: add s."},
+  {texto:"Les maisons du village sont ________.", inf:"petit", ok:["petites"], nota:"Feminine plural: add e, then add s."},
+  {texto:"C'est une histoire tr\u00e8s ________.", inf:"int\u00e9ressant", ok:["intéressante"], nota:"Feminine singular: add e."},
+  {texto:"Ma s\u0153ur est tr\u00e8s ________.", inf:"sportif", ok:["sportive"], nota:"Adjectives in -f become -ve in the feminine."},
+  {texto:"Ce sont des filles ________.", inf:"heureux", ok:["heureuses"], nota:"Adjectives in -eux become -euse, then -euses in the plural."},
+  {texto:"C'est la ________ fois que je viens.", inf:"premier", ok:["première"], nota:"Adjectives in -er become -\u00e8re in the feminine."},
+  {texto:"Ce sont des exercices ________.", inf:"difficile", ok:["difficiles"], nota:"Already ends in -e, so only the plural changes."},
+  {texto:"Nous avons pris une d\u00e9cision ________.", inf:"important", ok:["importante"], nota:"Feminine singular: add e."}
  ]
 },
 {
- id:'C', clave:'Bloc C', titulo:'La négation, les questions et l\'ordre des mots',
+ id:"C", clave:"Block C", titulo:"Negatives, questions and word order",
  regla:{
-   texto:'<p><b>La négation encadre le verbe conjugué :</b> <code>ne</code> devant, <code>pas</code> derrière. Au passé composé, elle encadre l\'<b>auxiliaire</b>, pas le participe : <i>je <b>n\'</b>ai <b>pas</b> mangé</i>.</p><p><b>Les questions :</b> à l\'inversion, on intercale un <code>-t-</code> quand deux voyelles se rencontrent — <i>habite-<b>t</b>-elle</i>.</p>',
-   tabla:[['sens','forme'],
-          ['pas du tout','ne … pas'],
-          ['rien','ne … rien'],
-          ['personne','ne … personne'],
-          ['jamais','ne … jamais'],
-          ['plus (fini)','ne … plus']],
-   truco:'Quand la négation est le sujet, elle passe devant et le « ne » reste : « Personne n\'est venu », « Rien ne marche ».'
+   texto:"<p><b>A negative wraps around the conjugated verb:</b> <code>ne</code> in front, <code>pas</code> behind. In the perfect tense it wraps around the <b>auxiliary</b>, not the participle: <i>je <b>n'</b>ai <b>pas</b> mang\u00e9</i>.</p><p><b>Questions:</b> when you invert, a <code>-t-</code> is slipped in wherever two vowels would collide \u2014 <i>habite-<b>t</b>-elle</i>.</p>",
+   tabla:[["meaning", "form"],
+          ["not at all", "ne \u2026 pas"],
+          ["nothing", "ne \u2026 rien"],
+          ["nobody", "ne \u2026 personne"],
+          ["never", "ne \u2026 jamais"],
+          ["not any more", "ne \u2026 plus"]],
+   truco:"When the negative word is the subject it moves to the front and the \u00ab ne \u00bb stays behind: \u00ab Personne n'est venu \u00bb, \u00ab Rien ne marche \u00bb."
  },
- consigna:'Choisis la forme correcte.',
- tipo:'opcion',
+ consigna:"Choose the correct form.",
+ tipo:"opcion",
  items:[
-  {texto:'« I don\'t speak Italian. »', opciones:['Je ne parle pas italien.','Je parle ne pas italien.','Je ne pas parle italien.'], ok:'Je ne parle pas italien.', nota:'« ne » devant le verbe conjugué, « pas » derrière.'},
-  {texto:'Elle n\'a ________ compris. (nothing)', opciones:['rien','personne','aucun'], ok:'rien', nota:'Au passé composé, « rien » se place entre l\'auxiliaire et le participe.'},
-  {texto:'________ n\'est venu à la réunion.', opciones:['Personne','Rien','Jamais'], ok:'Personne', nota:'Sujet négatif : il passe devant et « ne » reste.'},
-  {texto:'Quelle question est correctement construite ?', opciones:['Où habite-t-elle ?','Où habite-elle ?','Où habite elle ?'], ok:'Où habite-t-elle ?', nota:'Deux voyelles se rencontrent : on intercale un -t- euphonique.'},
-  {texto:'Je ne vois ________. (nobody)', opciones:['personne','rien','plus'], ok:'personne', nota:'« personne » pour les gens, « rien » pour les choses.'},
-  {texto:'Laquelle est correcte au passé composé ?', opciones:['Je n\'ai pas mangé.','Je n\'ai mangé pas.','Je ne mangé pas ai.'], ok:'Je n\'ai pas mangé.', nota:'La négation encadre l\'auxiliaire, jamais le participe.'},
-  {texto:'________ penses-tu de ce film ?', opciones:['Que','Quoi','Qui'], ok:'Que', nota:'« Que penses-tu de… ? » — « quoi » ne s\'emploie pas devant le verbe.'},
-  {texto:'Il ne fume ________. (no longer)', opciones:['plus','pas','jamais'], ok:'plus', nota:'« ne … plus » marque l\'arrêt de quelque chose.'}
+  {texto:"\u00ab I don't speak Italian. \u00bb", opciones:["Je ne parle pas italien.", "Je parle ne pas italien.", "Je ne pas parle italien."], ok:"Je ne parle pas italien.", nota:"\u00ab ne \u00bb in front of the conjugated verb, \u00ab pas \u00bb behind it."},
+  {texto:"Elle n'a ________ compris. (nothing)", opciones:["rien", "personne", "aucun"], ok:"rien", nota:"In the perfect tense, \u00ab rien \u00bb sits between the auxiliary and the participle."},
+  {texto:"________ n'est venu \u00e0 la r\u00e9union.", opciones:["Personne", "Rien", "Jamais"], ok:"Personne", nota:"Negative subject: it goes first and \u00ab ne \u00bb stays with the verb."},
+  {texto:"Quelle question est correctement construite ?", opciones:["Où habite-t-elle ?", "Où habite-elle ?", "Où habite elle ?"], ok:"Où habite-t-elle ?", nota:"Two vowels would collide, so a -t- is slipped in to separate them."},
+  {texto:"Je ne vois ________. (nobody)", opciones:["personne", "rien", "plus"], ok:"personne", nota:"\u00ab personne \u00bb is for people, \u00ab rien \u00bb is for things."},
+  {texto:"Laquelle est correcte au pass\u00e9 compos\u00e9 ?", opciones:["Je n'ai pas mangé.", "Je n'ai mangé pas.", "Je ne mangé pas ai."], ok:"Je n'ai pas mangé.", nota:"The negative wraps around the auxiliary, never around the participle."},
+  {texto:"________ penses-tu de ce film ?", opciones:["Que", "Quoi", "Qui"], ok:"Que", nota:"\u00ab Que penses-tu de\u2026 ? \u00bb \u2014 \u00ab quoi \u00bb is not used in front of the verb."},
+  {texto:"Il ne fume ________. (no longer)", opciones:["plus", "pas", "jamais"], ok:"plus", nota:"\u00ab ne \u2026 plus \u00bb is the one that means something has stopped."}
  ]
 },
 {
- id:'D', clave:'Bloc D', titulo:'Le passé composé : la formation régulière',
+ id:"D", clave:"Block D", titulo:"The perfect tense: the regular pattern",
  regla:{
-   texto:'<p>Deux morceaux : l\'auxiliaire <code>avoir</code> au présent, puis le <b>participe passé</b>. Le participe régulier se déduit de l\'infinitif.</p>',
-   tabla:[['infinitif','participe','exemple'],
-          ['-er → -<b>é</b>','parlé','j\'ai parlé'],
-          ['-ir → -<b>i</b>','fini','j\'ai fini'],
-          ['-re → -<b>u</b>','attendu','j\'ai attendu']],
-   truco:'Écris les deux mots. L\'erreur la plus fréquente est de conjuguer le verbe et d\'oublier l\'auxiliaire : « j\'ai parlé », jamais « je parlé ». Une franchise : « avoir » est lui-même irrégulier, et c\'est le seul irrégulier de ce bloc — impossible de faire un passé composé sans lui. Si ses formes ne sont pas encore automatiques, va voir le bloc K.'
+   texto:"<p>Two pieces: the auxiliary <code>avoir</code> in the present, then the <b>past participle</b>. The regular participle can be worked out from the infinitive every time.</p>",
+   tabla:[["infinitive", "participle", "example"],
+          ["-er \u2192 -<b>\u00e9</b>", "parl\u00e9", "j'ai parl\u00e9"],
+          ["-ir \u2192 -<b>i</b>", "fini", "j'ai fini"],
+          ["-re \u2192 -<b>u</b>", "attendu", "j'ai attendu"]],
+   truco:"Write both words. The commonest mistake by far is conjugating the verb and dropping the auxiliary: \u00ab j'ai parl\u00e9 \u00bb, never \u00ab je parl\u00e9 \u00bb. One honest warning \u2014 \u00ab avoir \u00bb is itself irregular, and it is the only irregular thing in this block, because you cannot build a perfect tense without it. If its forms are not automatic yet, go and look at block K."
  },
- consigna:'Écris le passé composé complet, auxiliaire compris.',
- tipo:'hueco', largo:true,
+ consigna:"Write the whole perfect tense, auxiliary included.",
+ tipo:"hueco",
+ largo:true,
  items:[
-  {texto:'Hier, j\'________ avec mes amis.', inf:'parler, je', ok:['ai parlé'], nota:'avoir + participe en -é.'},
-  {texto:'Nous ________ le musée du Louvre.', inf:'visiter, nous', ok:['avons visité'], nota:'nous avons + visité.'},
-  {texto:'Ils ________ leurs devoirs à dix heures.', inf:'finir, ils', ok:['ont fini'], nota:'Verbe en -ir : participe en -i.'},
-  {texto:'Tu ________ le travail hier soir ?', inf:'terminer, tu', ok:['as terminé'], nota:'tu as + terminé.'},
-  {texto:'Elle ________ sa voiture le mois dernier.', inf:'vendre, elle', ok:['a vendu'], nota:'Verbe en -re : participe en -u.'},
-  {texto:'Vous ________ la question ?', inf:'entendre, vous', ok:['avez entendu'], nota:'vous avez + entendu.'},
-  {texto:'J\'________ ce livre à la bibliothèque.', inf:'choisir, je', ok:['ai choisi'], nota:'Verbe en -ir : participe en -i.'},
-  {texto:'Nous ________ longtemps devant le cinéma.', inf:'attendre, nous', ok:['avons attendu'], nota:'nous avons + attendu.'}
+  {texto:"Hier, j'________ avec mes amis.", inf:"parler, je", ok:["ai parlé"], nota:"avoir + a participle in -\u00e9."},
+  {texto:"Nous ________ le mus\u00e9e du Louvre.", inf:"visiter, nous", ok:["avons visité"], nota:"nous avons + visit\u00e9."},
+  {texto:"Ils ________ leurs devoirs \u00e0 dix heures.", inf:"finir, ils", ok:["ont fini"], nota:"An -ir verb, so the participle ends in -i."},
+  {texto:"Tu ________ le travail hier soir ?", inf:"terminer, tu", ok:["as terminé"], nota:"tu as + termin\u00e9."},
+  {texto:"Elle ________ sa voiture le mois dernier.", inf:"vendre, elle", ok:["a vendu"], nota:"An -re verb, so the participle ends in -u."},
+  {texto:"Vous ________ la question ?", inf:"entendre, vous", ok:["avez entendu"], nota:"vous avez + entendu."},
+  {texto:"J'________ ce livre \u00e0 la biblioth\u00e8que.", inf:"choisir, je", ok:["ai choisi"], nota:"An -ir verb: participle in -i."},
+  {texto:"Nous ________ longtemps devant le cin\u00e9ma.", inf:"attendre, nous", ok:["avons attendu"], nota:"nous avons + attendu."}
  ]
 },
 {
- id:'E', clave:'Bloc E', titulo:'Passé composé ou imparfait',
+ id:"E", clave:"Block E", titulo:"Perfect or imperfect?",
  regla:{
-   texto:'<p>Les deux racontent le passé, mais pas le même travail.</p><p><b>Passé composé</b> — un fait terminé, qu\'on peut compter : <i>hier, soudain, l\'été dernier</i>.</p><p><b>Imparfait</b> — une habitude, une description, ou le décor sur lequel autre chose arrive : <i>tous les jours, pendant que, quand j\'étais petit</i>.</p>',
-   tabla:[['','imparfait'],
-          ['je / tu','parl<b>ais</b>'],
-          ['il / elle','parl<b>ait</b>'],
-          ['nous','parl<b>ions</b>'],
-          ['vous','parl<b>iez</b>'],
-          ['ils / elles','parl<b>aient</b>']],
-   truco:'L\'imparfait se fabrique sur la forme « nous » du présent : nous parl<b>ons</b> → je parl<b>ais</b>. Ça marche pour presque tous les verbes, même irréguliers.'
+   texto:"<p>Both of them talk about the past, but they are not doing the same job.</p><p><b>Perfect</b> \u2014 a finished event you could count: <i>hier</i> (yesterday), <i>soudain</i> (suddenly), <i>l'\u00e9t\u00e9 dernier</i> (last summer).</p><p><b>Imperfect</b> \u2014 a habit, a description, or the background against which something else happens: <i>tous les jours</i> (every day), <i>pendant que</i> (while), <i>quand j'\u00e9tais petit</i> (when I was little).</p>",
+   tabla:[["", "imperfect"],
+          ["je / tu", "parl<b>ais</b>"],
+          ["il / elle", "parl<b>ait</b>"],
+          ["nous", "parl<b>ions</b>"],
+          ["vous", "parl<b>iez</b>"],
+          ["ils / elles", "parl<b>aient</b>"]],
+   truco:"The imperfect is built on the \u00ab nous \u00bb form of the present: nous parl<b>ons</b> \u2192 je parl<b>ais</b>. That works for almost every verb, irregular ones included."
  },
- consigna:'Choisis le temps que la phrase demande.',
- tipo:'opcion',
+ consigna:"Choose the tense the sentence is asking for. The French time expression is the clue \u2014 read it first.",
+ tipo:"opcion",
  items:[
-  {texto:'Hier soir, j\'________ avec mes amis.', opciones:['ai dîné','dînais'], ok:'ai dîné', nota:'« Hier soir » marque un fait unique et terminé.'},
-  {texto:'Quand j\'étais petit, je ________ souvent au parc.', opciones:['jouais','ai joué'], ok:'jouais', nota:'Habitude répétée dans le passé : imparfait.'},
-  {texto:'Tous les étés, nous ________ en Espagne.', opciones:['voyagions','avons voyagé'], ok:'voyagions', nota:'« Tous les étés » signale l\'habitude.'},
-  {texto:'Elle ________ la télévision quand le téléphone a sonné.', opciones:['regardait','a regardé'], ok:'regardait', nota:'C\'est le décor, interrompu par autre chose : imparfait.'},
-  {texto:'Soudain, il ________ à pleuvoir.', opciones:['a commencé','commençait'], ok:'a commencé', nota:'« Soudain » marque la rupture : passé composé.'},
-  {texto:'Pendant que je ________, ma sœur a préparé le dîner.', opciones:['travaillais','ai travaillé'], ok:'travaillais', nota:'« Pendant que » introduit l\'arrière-plan.'},
-  {texto:'L\'été dernier, j\'________ trois romans.', opciones:['ai terminé','terminais'], ok:'ai terminé', nota:'« L\'été dernier » + quantité précise : fait terminé.'},
-  {texto:'Le samedi, elle ________ toujours tard.', opciones:['travaillait','a travaillé'], ok:'travaillait', nota:'« Le samedi » au sens de « tous les samedis » : habitude.'}
+  {texto:"Hier soir, j'________ avec mes amis.", opciones:["ai dîné", "dînais"], ok:"ai dîné", nota:"\u00ab Hier soir \u00bb (last night) marks one finished event."},
+  {texto:"Quand j'\u00e9tais petit, je ________ souvent au parc.", opciones:["jouais", "ai joué"], ok:"jouais", nota:"A habit repeated in the past: imperfect."},
+  {texto:"Tous les \u00e9t\u00e9s, nous ________ en Espagne.", opciones:["voyagions", "avons voyagé"], ok:"voyagions", nota:"\u00ab Tous les \u00e9t\u00e9s \u00bb (every summer) signals the habit."},
+  {texto:"Elle ________ la t\u00e9l\u00e9vision quand le t\u00e9l\u00e9phone a sonn\u00e9.", opciones:["regardait", "a regardé"], ok:"regardait", nota:"This is the background, interrupted by something else: imperfect."},
+  {texto:"Soudain, il ________ \u00e0 pleuvoir.", opciones:["a commencé", "commençait"], ok:"a commencé", nota:"\u00ab Soudain \u00bb (suddenly) marks the break: perfect."},
+  {texto:"Pendant que je ________, ma s\u0153ur a pr\u00e9par\u00e9 le d\u00eener.", opciones:["travaillais", "ai travaillé"], ok:"travaillais", nota:"\u00ab Pendant que \u00bb (while) introduces the background."},
+  {texto:"L'\u00e9t\u00e9 dernier, j'________ trois romans.", opciones:["ai terminé", "terminais"], ok:"ai terminé", nota:"\u00ab L'\u00e9t\u00e9 dernier \u00bb (last summer) plus a exact number: a finished event."},
+  {texto:"Le samedi, elle ________ toujours tard.", opciones:["travaillait", "a travaillé"], ok:"travaillait", nota:"\u00ab Le samedi \u00bb here means every Saturday: a habit."}
  ]
 },
 {
- id:'F', clave:'Bloc F', titulo:'Les articles et les partitifs',
+ id:"F", clave:"Block F", titulo:"Articles and partitives",
  regla:{
-   texto:'<p>Pour une quantité indéterminée, le français met un <b>partitif</b> : <code>du</code>, <code>de la</code>, <code>de l\'</code>, <code>des</code>. L\'anglais, lui, ne met souvent rien — d\'où l\'oubli.</p><p>Trois situations le font basculer en <code>de</code> tout court :</p>',
-   tabla:[['situation','exemple'],
-          ['après une négation','je n\'ai pas <b>de</b> frères'],
-          ['après une quantité','beaucoup <b>d\'</b>étudiants'],
-          ['adjectif pluriel devant le nom','<b>de</b> bons amis']],
-   truco:'Devant une voyelle, « de la » et « du » deviennent « de l\' » : de l\'eau, de l\'argent. Et pour parler en général, on met l\'article défini : « j\'aime le café » (le café en général), « je bois du café » (une certaine quantité).'
+   texto:"<p>For an amount that is not specified, French puts in a <b>partitive</b>: <code>du</code>, <code>de la</code>, <code>de l'</code>, <code>des</code>. English usually puts in nothing at all \u2014 which is exactly why it gets left out.</p><p>Three situations knock it back to a plain <code>de</code>:</p>",
+   tabla:[["when", "example"],
+          ["after a negative", "je n'ai pas <b>de</b> fr\u00e8res"],
+          ["after a quantity word", "beaucoup <b>d'</b>\u00e9tudiants"],
+          ["plural adjective in front of the noun", "<b>de</b> bons amis"]],
+   truco:"In front of a vowel, \u00ab de la \u00bb and \u00ab du \u00bb become \u00ab de l' \u00bb: de l'eau, de l'argent. And to talk about something in general you use the definite article: \u00ab j'aime le caf\u00e9 \u00bb (coffee in general) against \u00ab je bois du caf\u00e9 \u00bb (a certain amount of it)."
  },
- consigna:'Choisis l\'article correct.',
- tipo:'opcion',
+ consigna:"Choose the correct article.",
+ tipo:"opcion",
  items:[
-  {texto:'Je bois ________ eau minérale.', opciones:['de l\'','de la','du'], ok:'de l\'', nota:'« eau » commence par une voyelle : de l\'.'},
-  {texto:'Elle mange ________ viande.', opciones:['de la','du','des'], ok:'de la', nota:'Nom féminin singulier : de la.'},
-  {texto:'Je n\'ai pas ________ frères.', opciones:['de','des','les'], ok:'de', nota:'Après une négation, le partitif devient « de ».'},
-  {texto:'Il y a beaucoup ________ étudiants ici.', opciones:['d\'','des','de les'], ok:'d\'', nota:'Après une quantité : « de », élidé devant la voyelle.'},
-  {texto:'Je voudrais ________ pain, s\'il vous plaît.', opciones:['du','de la','des'], ok:'du', nota:'Nom masculin singulier : du.'},
-  {texto:'Les jeunes s\'intéressent à ________ politique.', opciones:['la','de la','une'], ok:'la', nota:'Sens général : article défini, pas partitif.'},
-  {texto:'Il n\'y a plus ________ lait.', opciones:['de','du','le'], ok:'de', nota:'« ne … plus » est une négation : de.'},
-  {texto:'J\'ai ________ bons amis à Paris.', opciones:['de','des','du'], ok:'de', nota:'Adjectif pluriel devant le nom : « des » devient « de ».'}
+  {texto:"Je bois ________ eau min\u00e9rale.", opciones:["de l'", "de la", "du"], ok:"de l'", nota:"\u00ab eau \u00bb starts with a vowel, so: de l'."},
+  {texto:"Elle mange ________ viande.", opciones:["de la", "du", "des"], ok:"de la", nota:"Feminine singular noun: de la."},
+  {texto:"Je n'ai pas ________ fr\u00e8res.", opciones:["de", "des", "les"], ok:"de", nota:"After a negative, the partitive becomes plain \u00ab de \u00bb."},
+  {texto:"Il y a beaucoup ________ \u00e9tudiants ici.", opciones:["d'", "des", "de les"], ok:"d'", nota:"After a quantity word: \u00ab de \u00bb, shortened before the vowel."},
+  {texto:"Je voudrais ________ pain, s'il vous pla\u00eet.", opciones:["du", "de la", "des"], ok:"du", nota:"Masculine singular noun: du."},
+  {texto:"Les jeunes s'int\u00e9ressent \u00e0 ________ politique.", opciones:["la", "de la", "une"], ok:"la", nota:"A general statement, so the definite article, not a partitive."},
+  {texto:"Il n'y a plus ________ lait.", opciones:["de", "du", "le"], ok:"de", nota:"\u00ab ne \u2026 plus \u00bb is a negative, so: de."},
+  {texto:"J'ai ________ bons amis \u00e0 Paris.", opciones:["de", "des", "du"], ok:"de", nota:"Plural adjective in front of the noun: \u00ab des \u00bb becomes \u00ab de \u00bb."}
  ]
 },
 {
- id:'G', clave:'Bloc G', titulo:'Le système des pronoms',
+ id:"G", clave:"Block G", titulo:"The pronoun system",
  regla:{
-   texto:'<p>Le pronom remplace ce qu\'on a déjà nommé et se place <b>devant le verbe conjugué</b>.</p>',
-   tabla:[['','COD (sans préposition)','COI (à quelqu\'un)'],
-          ['me / te','me, te','me, te'],
-          ['il / elle','le, la','lui'],
-          ['nous / vous','nous, vous','nous, vous'],
-          ['ils / elles','les','leur'],
-          ['choses','y <i>(= à …)</i>','en <i>(= de …)</i>']],
-   truco:'Le test : si le verbe se construit avec « à » → COI (lui, leur, y). Avec « de » → en. Sans préposition → COD (le, la, les).'
+   texto:"<p>A pronoun replaces something you have already named, and it goes <b>in front of the conjugated verb</b> \u2014 not after it, as in English.</p>",
+   tabla:[["", "direct object (no preposition)", "indirect object (\u00e0 someone)"],
+          ["me / te", "me, te", "me, te"],
+          ["il / elle", "le, la", "lui"],
+          ["nous / vous", "nous, vous", "nous, vous"],
+          ["ils / elles", "les", "leur"],
+          ["things", "y <i>(= \u00e0 \u2026)</i>", "en <i>(= de \u2026)</i>"]],
+   truco:"The test: if the verb is built with \u00ab \u00e0 \u00bb it is indirect (lui, leur, y). With \u00ab de \u00bb, it is en. With no preposition at all, it is direct (le, la, les)."
  },
- consigna:'Choisis le pronom correct.',
- tipo:'opcion',
+ consigna:"Choose the correct pronoun.",
+ tipo:"opcion",
  items:[
-  {texto:'Tu as vu Marie ? — Oui, je ________ ai vue.', opciones:['l\'','lui','y'], ok:'l\'', nota:'« voir quelqu\'un » sans préposition : COD, élidé devant la voyelle.'},
-  {texto:'J\'écris à mes parents. → Je ________ écris.', opciones:['leur','les','y'], ok:'leur', nota:'« écrire à » : COI pluriel.'},
-  {texto:'Il pense à son avenir. → Il ________ pense.', opciones:['y','le','lui'], ok:'y', nota:'« à » + chose : y.'},
-  {texto:'Elle a besoin d\'argent. → Elle ________ a besoin.', opciones:['en','y','le'], ok:'en', nota:'« de » + chose : en.'},
-  {texto:'Le livre ________ je t\'ai parlé est excellent.', opciones:['dont','que','qui'], ok:'dont', nota:'« parler de » : le relatif est « dont ».'},
-  {texto:'La ville ________ j\'habite est petite.', opciones:['où','que','dont'], ok:'où', nota:'Lieu : « où ».'},
-  {texto:'Comment dit-on « Give it to me! » ?', opciones:['Donne-le-moi !','Donne-moi-le !','Donne-me-le !'], ok:'Donne-le-moi !', nota:'À l\'impératif affirmatif : COD puis COI, avec « moi ».'},
-  {texto:'________ que je préfère, c\'est la musique.', opciones:['Ce','Ça','Cela'], ok:'Ce', nota:'« ce que » introduit la chose que l\'on précise ensuite.'}
+  {texto:"Tu as vu Marie ? \u2014 Oui, je ________ ai vue.", opciones:["l'", "lui", "y"], ok:"l'", nota:"\u00ab voir quelqu'un \u00bb takes no preposition, so it is a direct object, shortened before the vowel."},
+  {texto:"J'\u00e9cris \u00e0 mes parents. \u2192 Je ________ \u00e9cris.", opciones:["leur", "les", "y"], ok:"leur", nota:"\u00ab \u00e9crire \u00e0 \u00bb takes an indirect object, plural: leur."},
+  {texto:"Il pense \u00e0 son avenir. \u2192 Il ________ pense.", opciones:["y", "le", "lui"], ok:"y", nota:"\u00ab \u00e0 \u00bb plus a thing: y."},
+  {texto:"Elle a besoin d'argent. \u2192 Elle ________ a besoin.", opciones:["en", "y", "le"], ok:"en", nota:"\u00ab de \u00bb plus a thing: en."},
+  {texto:"Le livre ________ je t'ai parl\u00e9 est excellent.", opciones:["dont", "que", "qui"], ok:"dont", nota:"\u00ab parler de \u00bb, so the relative pronoun is \u00ab dont \u00bb."},
+  {texto:"La ville ________ j'habite est petite.", opciones:["où", "que", "dont"], ok:"où", nota:"A place: \u00ab o\u00f9 \u00bb."},
+  {texto:"Comment dit-on \u00ab Give it to me! \u00bb ?", opciones:["Donne-le-moi !", "Donne-moi-le !", "Donne-me-le !"], ok:"Donne-le-moi !", nota:"In a positive command: direct object first, then indirect, using \u00ab moi \u00bb."},
+  {texto:"________ que je pr\u00e9f\u00e8re, c'est la musique.", opciones:["Ce", "Ça", "Cela"], ok:"Ce", nota:"\u00ab ce que \u00bb introduces the thing you are about to specify."}
  ]
 },
 {
- id:'H', clave:'Bloc H', titulo:'Le futur et le conditionnel',
+ id:"H", clave:"Block H", titulo:"The future and the conditional",
  regla:{
-   texto:'<p>Les temps les plus réguliers du français : on ajoute la terminaison à l\'<b>infinitif entier</b>. Pour les verbes en <code>-re</code>, on enlève d\'abord le <code>-e</code> final.</p>',
-   tabla:[['','futur','conditionnel'],
-          ['je','parler<b>ai</b>','parler<b>ais</b>'],
-          ['tu','parler<b>as</b>','parler<b>ais</b>'],
-          ['il / elle','parler<b>a</b>','parler<b>ait</b>'],
-          ['nous','parler<b>ons</b>','parler<b>ions</b>'],
-          ['vous','parler<b>ez</b>','parler<b>iez</b>'],
-          ['ils / elles','parler<b>ont</b>','parler<b>aient</b>']],
-   truco:'Avec « si » : si + présent → futur (si tu viens, nous dînerons). Si + imparfait → conditionnel (si j\'avais le temps, je travaillerais). Jamais de futur juste après « si ».'
+   texto:"<p>The most regular tenses in French: the ending is added to the <b>whole infinitive</b>. For verbs in <code>-re</code>, drop the final <code>-e</code> first.</p>",
+   tabla:[["", "future", "conditional"],
+          ["je", "parler<b>ai</b>", "parler<b>ais</b>"],
+          ["tu", "parler<b>as</b>", "parler<b>ais</b>"],
+          ["il / elle", "parler<b>a</b>", "parler<b>ait</b>"],
+          ["nous", "parler<b>ons</b>", "parler<b>ions</b>"],
+          ["vous", "parler<b>ez</b>", "parler<b>iez</b>"],
+          ["ils / elles", "parler<b>ont</b>", "parler<b>aient</b>"]],
+   truco:"With \u00ab si \u00bb: si + present calls for the future (si tu viens, nous d\u00eenerons). si + imperfect calls for the conditional (si j'avais le temps, je travaillerais). Never a future straight after \u00ab si \u00bb."
  },
- consigna:'Écris le verbe au temps demandé.',
- tipo:'hueco',
+ consigna:"Write the verb in the tense named.",
+ tipo:"hueco",
  items:[
-  {texto:'Demain, je ________ avec ma professeure.', inf:'parler, futur', ok:['parlerai'], nota:'Infinitif entier + ai.'},
-  {texto:'L\'année prochaine, nous ________ à Paris.', inf:'habiter, futur', ok:['habiterons'], nota:'habiter + ons.'},
-  {texto:'Si j\'avais le temps, je ________ davantage.', inf:'travailler, conditionnel', ok:['travaillerais'], nota:'Si + imparfait appelle le conditionnel.'},
-  {texto:'Si tu viens ce soir, nous ________ ensemble.', inf:'dîner, futur', ok:['dînerons'], nota:'Si + présent appelle le futur, pas le conditionnel.'},
-  {texto:'Elle m\'a dit qu\'elle ________ à huit heures.', inf:'arriver, conditionnel', ok:['arriverait'], nota:'Après un verbe de parole au passé, le futur devient conditionnel.'},
-  {texto:'Quand tu ________ ce livre, tu comprendras mieux.', inf:'finir, futur', ok:['finiras'], nota:'Après « quand », le français met le futur — l\'anglais met le présent.'},
-  {texto:'Vous ________ bientôt votre option.', inf:'choisir, futur', ok:['choisirez'], nota:'choisir + ez.'},
-  {texto:'À ta place, nous ________ la voiture.', inf:'vendre, conditionnel', ok:['vendrions'], nota:'Verbe en -re : on retire le -e, puis + ions.'}
+  {texto:"Demain, je ________ avec ma professeure.", inf:"parler, futur", ok:["parlerai"], nota:"The whole infinitive + ai."},
+  {texto:"L'ann\u00e9e prochaine, nous ________ \u00e0 Paris.", inf:"habiter, futur", ok:["habiterons"], nota:"habiter + ons."},
+  {texto:"Si j'avais le temps, je ________ davantage.", inf:"travailler, conditionnel", ok:["travaillerais"], nota:"si + imperfect calls for the conditional."},
+  {texto:"Si tu viens ce soir, nous ________ ensemble.", inf:"d\u00eener, futur", ok:["dînerons"], nota:"si + present calls for the future, not the conditional."},
+  {texto:"Elle m'a dit qu'elle ________ \u00e0 huit heures.", inf:"arriver, conditionnel", ok:["arriverait"], nota:"After a past-tense verb of speaking, a future becomes a conditional."},
+  {texto:"Quand tu ________ ce livre, tu comprendras mieux.", inf:"finir, futur", ok:["finiras"], nota:"After \u00ab quand \u00bb, French uses the future where English uses the present."},
+  {texto:"Vous ________ bient\u00f4t votre option.", inf:"choisir, futur", ok:["choisirez"], nota:"choisir + ez."},
+  {texto:"\u00c0 ta place, nous ________ la voiture.", inf:"vendre, conditionnel", ok:["vendrions"], nota:"An -re verb: drop the -e, then add ions."}
  ]
 },
 {
- id:'I', clave:'Bloc I', titulo:'Les prépositions et les contractions',
+ id:"I", clave:"Block I", titulo:"Prepositions and contractions",
  regla:{
-   texto:'<p><code>à</code> et <code>de</code> fusionnent avec l\'article défini masculin et pluriel. Ce n\'est pas facultatif : « à le cinéma » n\'existe pas.</p>',
-   tabla:[['','+ le','+ la','+ l\'','+ les'],
-          ['à','<b>au</b>','à la','à l\'','<b>aux</b>'],
-          ['de','<b>du</b>','de la','de l\'','<b>des</b>']],
-   truco:'Pays : « en » devant un nom féminin ou une voyelle (en France, en Italie), « au » devant un masculin (au Portugal), « aux » devant un pluriel (aux États-Unis).'
+   texto:"<p><code>\u00e0</code> and <code>de</code> merge with the masculine and plural definite article. This is not optional: \u00ab \u00e0 le cin\u00e9ma \u00bb does not exist.</p>",
+   tabla:[["", "+ le", "+ la", "+ l'", "+ les"],
+          ["\u00e0", "<b>au</b>", "\u00e0 la", "\u00e0 l'", "<b>aux</b>"],
+          ["de", "<b>du</b>", "de la", "de l'", "<b>des</b>"]],
+   truco:"Countries: \u00ab en \u00bb before a feminine name or a vowel (en France, en Italie), \u00ab au \u00bb before a masculine one (au Portugal), \u00ab aux \u00bb before a plural (aux \u00c9tats-Unis)."
  },
- consigna:'Choisis la forme correcte.',
- tipo:'opcion',
+ consigna:"Choose the correct form.",
+ tipo:"opcion",
  items:[
-  {texto:'Je vais ________ cinéma ce soir.', opciones:['au','à le','à la'], ok:'au', nota:'à + le = au. « à le » n\'existe pas.'},
-  {texto:'Nous parlons ________ professeurs.', opciones:['aux','à les','à des'], ok:'aux', nota:'à + les = aux.'},
-  {texto:'C\'est le livre ________ élève.', opciones:['de l\'','du','de la'], ok:'de l\'', nota:'Devant une voyelle : de l\'.'},
-  {texto:'Je reviens ________ Portugal.', opciones:['du','de le','de la'], ok:'du', nota:'de + le = du.'},
-  {texto:'Ma correspondante habite ________ Espagne.', opciones:['en','au','à la'], ok:'en', nota:'Pays féminin : en.'},
-  {texto:'Il part ________ Portugal cet été.', opciones:['au','en','à'], ok:'au', nota:'Pays masculin : au.'},
-  {texto:'Elle va ________ États-Unis.', opciones:['aux','en','au'], ok:'aux', nota:'Pays au pluriel : aux.'},
-  {texto:'Je rentre ________ piscine.', opciones:['de la','du','des'], ok:'de la', nota:'Nom féminin : pas de contraction, de la.'}
+  {texto:"Je vais ________ cin\u00e9ma ce soir.", opciones:["au", "à le", "à la"], ok:"au", nota:"\u00e0 + le = au. \u00ab \u00e0 le \u00bb does not exist."},
+  {texto:"Nous parlons ________ professeurs.", opciones:["aux", "à les", "à des"], ok:"aux", nota:"\u00e0 + les = aux."},
+  {texto:"C'est le livre ________ \u00e9l\u00e8ve.", opciones:["de l'", "du", "de la"], ok:"de l'", nota:"Before a vowel: de l'."},
+  {texto:"Je reviens ________ Portugal.", opciones:["du", "de le", "de la"], ok:"du", nota:"de + le = du."},
+  {texto:"Ma correspondante habite ________ Espagne.", opciones:["en", "au", "à la"], ok:"en", nota:"A feminine country: en."},
+  {texto:"Il part ________ Portugal cet \u00e9t\u00e9.", opciones:["au", "en", "à"], ok:"au", nota:"A masculine country: au."},
+  {texto:"Elle va ________ \u00c9tats-Unis.", opciones:["aux", "en", "au"], ok:"aux", nota:"A plural country name: aux."},
+  {texto:"Je rentre ________ piscine.", opciones:["de la", "du", "des"], ok:"de la", nota:"A feminine noun, so no contraction: de la."}
  ]
 },
 {
- id:'J', clave:'Bloc J', titulo:'Précision écrite',
+ id:"J", clave:"Block J", titulo:"Writing it out in full",
  regla:{
-   texto:'<p>Ici, on ne choisit plus : on produit. Ce sont les structures des blocs précédents, mais écrites en entier.</p>',
-   truco:'Écris la phrase complète, majuscule et point compris. Un accent oublié ne t\'enlève pas toute la réponse, mais il te sera signalé.'
+   texto:"<p>No choosing here \u2014 you produce it yourself. These are the structures from the blocks above, written out whole.</p>",
+   truco:"Write the complete sentence, capital letter and full stop included. A missing accent does not wipe out the answer, but you will be told about it."
  },
- consigna:'Écris ta réponse en français. Plusieurs versions correctes sont acceptées.',
- tipo:'hueco', largo:true,
+ consigna:"Write your answer in French. More than one correct version is accepted.",
+ tipo:"hueco",
+ largo:true,
  items:[
-  {texto:'Complète : « Quand j\'étais petite, ma mère __________ (travailler) dans une école. »', ok:['travaillait'], nota:'Habitude passée : imparfait.'},
-  {texto:'Complète : « L\'année dernière, nous __________ (visiter) le musée du Louvre. »', ok:['avons visité'], nota:'Fait terminé : passé composé avec avoir.'},
-  {texto:'Traduis : « I speak French every day. »', ok:['je parle français tous les jours','je parle le français tous les jours'], nota:'Présent régulier en -er, 1re personne.'},
-  {texto:'Traduis : « She promised me that she would study medicine. »', ok:['elle m\'a promis qu\'elle étudierait la médecine','elle m\'a promis qu\'elle ferait médecine'], nota:'Verbe de parole au passé → conditionnel dans la subordonnée.'},
-  {texto:'Réécris avec des pronoms : « J\'ai donné le livre à Paul. »', ok:['je le lui ai donné'], nota:'COD puis COI, tous deux devant l\'auxiliaire.'},
-  {texto:'Mets au négatif, au sens de « He has not finished yet » : « Il a déjà fini. »', ok:['il n\'a pas encore fini'], nota:'La négation encadre l\'auxiliaire : n\'a pas encore fini.'}
+  {texto:"Complete: \u00ab Quand j'\u00e9tais petite, ma m\u00e8re __________ (travailler) dans une \u00e9cole. \u00bb", ok:["travaillait"], nota:"A habit in the past: imperfect."},
+  {texto:"Complete: \u00ab L'ann\u00e9e derni\u00e8re, nous __________ (visiter) le mus\u00e9e du Louvre. \u00bb", ok:["avons visité"], nota:"A finished event: perfect tense with avoir."},
+  {texto:"Translate: \u00ab I speak French every day. \u00bb", ok:["je parle français tous les jours", "je parle le français tous les jours"], nota:"Regular -er verb in the present, first person."},
+  {texto:"Translate: \u00ab She promised me that she would study medicine. \u00bb", ok:["elle m'a promis qu'elle étudierait la médecine", "elle m'a promis qu'elle ferait médecine"], nota:"A past-tense verb of speaking, so the clause that follows takes the conditional."},
+  {texto:"Rewrite using pronouns: \u00ab J'ai donn\u00e9 le livre \u00e0 Paul. \u00bb", ok:["je le lui ai donné"], nota:"Direct object then indirect object, both in front of the auxiliary."},
+  {texto:"Make it negative, in the sense of \u00ab He has not finished yet \u00bb: \u00ab Il a d\u00e9j\u00e0 fini. \u00bb", ok:["il n'a pas encore fini"], nota:"The negative wraps around the auxiliary: n'a pas encore fini."}
  ]
 },
 {
- id:'K', clave:'Bloc K', titulo:'Les irréguliers et les exceptions', estilo:'excepciones',
+ id:"K", clave:"Block K", titulo:"The irregulars and the exceptions",
  regla:{
-   texto:'<p>Tout ce qui précède suivait une règle. <b>Pas ici.</b> Le français a une poignée de mots très fréquents qui cassent le modèle. Soit tu les as déjà croisés, soit non : ne pas les savoir indique ce qu\'il faut t\'enseigner, pas la qualité de ton français.</p><p>Chaque question te dit quelle règle est enfreinte. Si tu choisis la forme régulière, tu as bien raisonné — c\'est le mot qui n\'obéit pas.</p>',
-   truco:'Ce sont les plus fréquents. Apprends-les par cœur et cesse de te battre avec : il n\'y a aucune logique à trouver.'
+   texto:"<p>Everything up to here followed a rule. <b>Not this block.</b> French has a handful of very common words that break the pattern. Either you have met them before or you have not: not knowing them tells us what to teach you, and nothing about how good your French is.</p><p>Each question tells you which rule is being broken. If you pick the regular form, your reasoning was sound \u2014 it is the word that disobeys, not you.</p>",
+   truco:"These are the frequent ones. Learn them by heart and stop fighting them: there is no logic here to find."
  },
- consigna:'De la mémoire, rien d\'autre. Si tu te trompes, note-le et continue.',
- tipo:'opcion',
+ consigna:"This block is memory and nothing else. If you get one wrong, note it down and move on.",
+ tipo:"opcion",
  items:[
-  {texto:'J\'________ raison. (avoir — la forme régulière serait « avais »)', opciones:['ai','ais','avai'], ok:'ai', nota:'avoir : ai, as, a, avons, avez, ont. À apprendre en bloc.'},
-  {texto:'Nous ________ français. (être)', opciones:['sommes','êtons','étons'], ok:'sommes', nota:'être : suis, es, est, sommes, êtes, sont.'},
-  {texto:'Ils ________ au cinéma tous les samedis. (aller)', opciones:['vont','allent','vaient'], ok:'vont', nota:'aller : vais, vas, va, allons, allez, vont.'},
-  {texto:'J\'ai ________ un gâteau. (faire — le participe régulier serait « fairu »)', opciones:['fait','fais','faisu'], ok:'fait', nota:'Participes irréguliers à mémoriser : fait, eu, pris, mis, écrit, ouvert.'},
-  {texto:'Elle est ________ à Paris hier. (aller — et pourquoi « est » et non « a » ?)', opciones:['allée','allé','allés'], ok:'allée', nota:'Aller fait son passé composé avec être, et le participe s\'accorde avec le sujet féminin.'},
-  {texto:'C\'est un ________ homme. (vieux, devant une voyelle)', opciones:['vieil','vieux','vieille'], ok:'vieil', nota:'Devant une voyelle : vieil, bel, nouvel. Question de prononciation, pas de genre.'},
-  {texto:'J\'ai commencé ________ apprendre le français.', opciones:['à','de','—'], ok:'à', nota:'La préposition dépend du verbe et ne se déduit pas : commencer à, décider de, espérer sans rien.'},
-  {texto:'Quand j\'________ dix-huit ans, je passerai mon permis. (avoir, futur)', opciones:['aurai','avrai','airai'], ok:'aurai', nota:'Radical de futur irrégulier : aur-. De même ser-, fer-, ir-, viendr-.'}
+  {texto:"J'________ raison. (avoir \u2014 the regular form would be \u00ab avais \u00bb)", opciones:["ai", "ais", "avai"], ok:"ai", nota:"avoir: ai, as, a, avons, avez, ont. Learn it as one block."},
+  {texto:"Nous ________ fran\u00e7ais. (\u00eatre)", opciones:["sommes", "êtons", "étons"], ok:"sommes", nota:"\u00eatre: suis, es, est, sommes, \u00eates, sont."},
+  {texto:"Ils ________ au cin\u00e9ma tous les samedis. (aller)", opciones:["vont", "allent", "vaient"], ok:"vont", nota:"aller: vais, vas, va, allons, allez, vont."},
+  {texto:"J'ai ________ un g\u00e2teau. (faire \u2014 the regular participle would be \u00ab fairu \u00bb)", opciones:["fait", "fais", "faisu"], ok:"fait", nota:"Irregular participles to memorise: fait, eu, pris, mis, \u00e9crit, ouvert."},
+  {texto:"Elle est ________ \u00e0 Paris hier. (aller \u2014 and why \u00ab est \u00bb rather than \u00ab a \u00bb?)", opciones:["allée", "allé", "allés"], ok:"allée", nota:"aller builds its perfect tense with \u00eatre, and the participle agrees with the feminine subject."},
+  {texto:"C'est un ________ homme. (vieux, in front of a vowel)", opciones:["vieil", "vieux", "vieille"], ok:"vieil", nota:"In front of a vowel: vieil, bel, nouvel. It is about pronunciation, not gender."},
+  {texto:"J'ai commenc\u00e9 ________ apprendre le fran\u00e7ais.", opciones:["à", "de", "—"], ok:"à", nota:"The preposition depends on the verb and cannot be worked out: commencer \u00e0, d\u00e9cider de, esp\u00e9rer with nothing at all."},
+  {texto:"Quand j'________ dix-huit ans, je passerai mon permis. (avoir, future)", opciones:["aurai", "avrai", "airai"], ok:"aurai", nota:"An irregular future stem: aur-. Same for ser-, fer-, ir-, viendr-."}
  ]
 },
 {
- id:'L', clave:'Bloc L', titulo:'Approfondissement : le subjonctif', estilo:'ampliacion',
+ id:"L", clave:"Block L", titulo:"Going further: the subjunctive",
  regla:{
-   texto:'<p>On va au-delà de ce qu\'on attend à l\'entrée. Essaie si tu peux ; laisser en blanc ne compte pas contre toi.</p><p>Le subjonctif présent se fabrique sur la forme <b>ils</b> du présent, moins <code>-ent</code>, plus les terminaisons <code>-e, -es, -e, -ions, -iez, -ent</code>.</p>',
-   tabla:[['','indicatif','subjonctif'],
-          ['ils','ils finiss<b>ent</b>','—'],
-          ['que je','','que je finiss<b>e</b>'],
-          ['que tu','','que tu finiss<b>es</b>'],
-          ['qu\'il','','qu\'il finiss<b>e</b>'],
-          ['que nous','','que nous finiss<b>ions</b>']],
-   truco:'C\'est ce qui précède qui déclenche : il faut que, bien que, pour que, vouloir que, avant que, et « je ne pense pas que ». Après « je pense que » affirmatif, on reste à l\'indicatif.'
+   texto:"<p>This goes beyond what is expected on entry. Have a go if you can; leaving it blank is not held against you.</p><p>The present subjunctive is built on the <b>ils</b> form of the present, minus <code>-ent</code>, plus the endings <code>-e, -es, -e, -ions, -iez, -ent</code>.</p>",
+   tabla:[["", "indicative", "subjunctive"],
+          ["ils", "ils finiss<b>ent</b>", "\u2014"],
+          ["que je", "", "que je finiss<b>e</b>"],
+          ["que tu", "", "que tu finiss<b>es</b>"],
+          ["qu'il", "", "qu'il finiss<b>e</b>"],
+          ["que nous", "", "que nous finiss<b>ions</b>"]],
+   truco:"It is the words in front that trigger it: il faut que, bien que, pour que, vouloir que, avant que, and \u00ab je ne pense pas que \u00bb. After a positive \u00ab je pense que \u00bb, you stay in the indicative."
  },
- consigna:'Choisis la forme correcte. Toutes ne demandent pas le subjonctif.',
- tipo:'opcion',
+ consigna:"Choose the correct form. Not all of these want a subjunctive.",
+ tipo:"opcion",
  items:[
-  {texto:'Il faut que tu ________ avec nous.', opciones:['viennes','viens','viendras'], ok:'viennes', nota:'« Il faut que » impose le subjonctif.'},
-  {texto:'Bien qu\'il ________ très fatigué, il a continué.', opciones:['soit','est','était'], ok:'soit', nota:'« Bien que » impose toujours le subjonctif.'},
-  {texto:'Je ne pense pas qu\'elle ________ raison.', opciones:['ait','a','aura'], ok:'ait', nota:'« penser » à la forme négative introduit le doute : subjonctif.'},
-  {texto:'Je pense qu\'elle ________ raison.', opciones:['a','ait','aurait'], ok:'a', nota:'À l\'affirmatif, « je pense que » garde l\'indicatif. Attention à l\'automatisme.'},
-  {texto:'Pour que les élèves ________ mieux, il faut des exemples.', opciones:['travaillent','travaillons','travailleront'], ok:'travaillent', nota:'« Pour que » impose le subjonctif.'},
-  {texto:'Je veux que tu ________ tes devoirs ce soir.', opciones:['finisses','finis','finiras'], ok:'finisses', nota:'« vouloir que » impose le subjonctif : finiss- + es.'},
-  {texto:'« Il naquit à Paris en 1802. » Quel est l\'équivalent moderne ?', opciones:['Il est né à Paris en 1802.','Il a né à Paris en 1802.','Il était né à Paris en 1802.'], ok:'Il est né à Paris en 1802.', nota:'C\'est un passé simple, réservé à l\'écrit littéraire. À l\'oral et à l\'écrit courant : passé composé, avec être.'},
-  {texto:'C\'est le projet sur ________ nous travaillons depuis six mois.', opciones:['lequel','que','qui'], ok:'lequel', nota:'Après une préposition et pour une chose : lequel.'}
+  {texto:"Il faut que tu ________ avec nous.", opciones:["viennes", "viens", "viendras"], ok:"viennes", nota:"\u00ab Il faut que \u00bb forces the subjunctive."},
+  {texto:"Bien qu'il ________ tr\u00e8s fatigu\u00e9, il a continu\u00e9.", opciones:["soit", "est", "était"], ok:"soit", nota:"\u00ab Bien que \u00bb always forces the subjunctive."},
+  {texto:"Je ne pense pas qu'elle ________ raison.", opciones:["ait", "a", "aura"], ok:"ait", nota:"\u00ab penser \u00bb in the negative brings in doubt: subjunctive."},
+  {texto:"Je pense qu'elle ________ raison.", opciones:["a", "ait", "aurait"], ok:"a", nota:"In the positive, \u00ab je pense que \u00bb keeps the indicative. Watch out for answering on autopilot."},
+  {texto:"Pour que les \u00e9l\u00e8ves ________ mieux, il faut des exemples.", opciones:["travaillent", "travaillons", "travailleront"], ok:"travaillent", nota:"\u00ab Pour que \u00bb forces the subjunctive."},
+  {texto:"Je veux que tu ________ tes devoirs ce soir.", opciones:["finisses", "finis", "finiras"], ok:"finisses", nota:"\u00ab vouloir que \u00bb forces the subjunctive: finiss- + es."},
+  {texto:"\u00ab Il naquit \u00e0 Paris en 1802. \u00bb Quel est l'\u00e9quivalent moderne ?", opciones:["Il est né à Paris en 1802.", "Il a né à Paris en 1802.", "Il était né à Paris en 1802."], ok:"Il est né à Paris en 1802.", nota:"That was a pass\u00e9 simple, kept for literary writing. In speech and ordinary writing: the perfect tense, with \u00eatre."},
+  {texto:"C'est le projet sur ________ nous travaillons depuis six mois.", opciones:["lequel", "que", "qui"], ok:"lequel", nota:"After a preposition, and for a thing: lequel."}
  ]
 }
 ];
+
 
 /* ============================================================
    ESTADO
@@ -549,6 +551,39 @@ let guardadoOk = true;
 function guardar(){
   try{ localStorage.setItem(LS, JSON.stringify(S)); }
   catch(e){ guardadoOk=false; document.getElementById('avisoGuardado').textContent='impossible d\'enregistrer dans ce navigateur'; }
+}
+
+
+/* ============================================================
+   OPTION ORDER
+   The correct answer must not always be in the same place.
+   Placement is by rotation so the slots are used evenly across
+   a block (random order produces runs), with a random offset per
+   page load so repeat practice is not identical, and the
+   distractors shuffled into whatever slots are left.
+   Marking compares values, never positions, so this is safe.
+   ============================================================ */
+const _ordenes = new WeakMap();
+let _giro = Math.floor(Math.random()*7);
+function opcionesDe(it, k){
+  if(!it || !it.opciones) return [];
+  let orden = _ordenes.get(it);
+  if(orden) return orden;
+  const ops = it.opciones.slice();
+  const n = ops.length;
+  const correcta = it.ok;
+  const otras = ops.filter(o => o !== correcta);
+  for(let i = otras.length - 1; i > 0; i--){
+    const r = Math.floor(Math.random()*(i+1));
+    [otras[i], otras[r]] = [otras[r], otras[i]];
+  }
+  const destino = ((k|0) + _giro) % n;
+  orden = [];
+  let c = 0;
+  for(let i = 0; i < n; i++) orden.push(i === destino ? correcta : otras[c++]);
+  if(orden.indexOf(correcta) === -1) orden = ops;   /* never lose the answer */
+  _ordenes.set(it, orden);
+  return orden;
 }
 
 /* ============================================================
@@ -599,8 +634,8 @@ function pintarMapa(){
     c.className = todo ? 'completa' : 'parcial';
   });
   document.getElementById('leyenda').textContent = corregidos===0
-    ? BLOQUES.length+' blocs · aucun corrigé pour l\'instant'
-    : `${corregidos} sur ${BLOQUES.length} corrigés · ${perfectos} sans aucune erreur`;
+    ? BLOQUES.length+' blocks · nothing marked yet'
+    : `${corregidos} of ${BLOQUES.length} marked · ${perfectos} with nothing wrong`;
 }
 
 /* ============================================================
@@ -619,7 +654,7 @@ BLOQUES.forEach(bl=>{
 
   /* --- la regla --- */
   const reglaCaja = el('div','regla');
-  reglaCaja.appendChild(el('h3',null,'La règle'));
+  reglaCaja.appendChild(el('h3',null,'The rule'));
   reglaCaja.insertAdjacentHTML('beforeend', bl.regla.texto);
   if(bl.regla.tabla){
     const t = el('table','conj');
@@ -648,7 +683,7 @@ BLOQUES.forEach(bl=>{
       li.appendChild(p);
       const r = el('div','respuesta');
       const g = el('div','opciones');
-      it.opciones.forEach(op=>{
+      opcionesDe(it, j).forEach(op=>{
         const lab = el('label','opcion');
         const inp = el('input'); inp.type='radio'; inp.name=clave; inp.value=op;
         reg(inp, clave);
@@ -674,9 +709,9 @@ BLOQUES.forEach(bl=>{
   caja.appendChild(lista);
 
   const barra = el('div','barra');
-  const bComp = el('button',null,'Vérifier');
+  const bComp = el('button',null,'Check my answers');
   const bFall = el('button','secundario','Refaire seulement les erreurs'); bFall.hidden = true;
-  const bVer  = el('button','secundario','Voir les corrigés');
+  const bVer  = el('button','secundario','Show the answers');
   barra.appendChild(bComp); barra.appendChild(bFall); barra.appendChild(bVer);
   caja.appendChild(barra);
   sec.appendChild(caja);
@@ -699,11 +734,11 @@ BLOQUES.forEach(bl=>{
 
       if(tipo==='opcion'){
         const sel = li.querySelector('input:checked');
-        if(!sel) aviso = 'Pas de réponse. C\'était : '+it.ok;
+        if(!sel) aviso = 'You left this blank. The answer was: '+it.ok;
         else { bien = sel.value===it.ok; if(!bien) aviso = it.nota; }
       } else {
         const v = li.querySelector('input').value;
-        if(!v.trim()) aviso = 'Pas de réponse. C\'était : '+it.ok[0];
+        if(!v.trim()) aviso = 'You left this blank. The answer was: '+it.ok[0];
         else {
           bien = it.ok.some(o=>norm(v)===norm(o));
           if(!bien && it.ok.some(o=>sinTilde(v)===sinTilde(o))){ casi = true; }
@@ -712,7 +747,7 @@ BLOQUES.forEach(bl=>{
       }
 
       if(bien){ li.classList.add('acierto'); aciertos++; li.appendChild(el('p','pista bien','✓ Correct.')); }
-      else if(casi){ li.classList.add('fallo'); li.appendChild(el('p','pista tilde','⌃ Presque : le mot est bon, vérifie l\'accent.')); }
+      else if(casi){ li.classList.add('fallo'); li.appendChild(el('p','pista tilde','⌃ Almost — the word is right, check the accent.')); }
       else { li.classList.add('fallo'); li.appendChild(el('p','pista mal','✗ '+aviso)); }
     });
     const total = bl.items.length;
@@ -741,7 +776,7 @@ BLOQUES.forEach(bl=>{
       const j = +li.dataset.i, it = bl.items[j];
       li.querySelectorAll('.modelo').forEach(n=>n.remove());
       const sol = it.opciones ? it.ok : it.ok.join('  /  ');
-      li.appendChild(el('div','modelo','<strong>Corrigé</strong>'+sol+(it.nota?' <em style="color:var(--tinta-70)">— '+it.nota+'</em>':'')));
+      li.appendChild(el('div','modelo','<strong>Answer</strong>'+sol+(it.nota?' <em style="color:var(--tinta-70)">— '+it.nota+'</em>':'')));
     });
   });
 });
@@ -783,7 +818,7 @@ BLOQUES.forEach(bl=>{
       const r = el('div','respuesta');
       if(tipo==='opcion'){
         const g = el('div','opciones');
-        it.opciones.forEach(op=>{
+        opcionesDe(it, j).forEach(op=>{
           const lab = el('label','opcion');
           const inp = el('input'); inp.type='radio'; inp.name='mix'+j; inp.value=op;
           lab.appendChild(inp); lab.appendChild(el('span',null,op)); g.appendChild(lab);
@@ -802,7 +837,7 @@ BLOQUES.forEach(bl=>{
     zonaMix.appendChild(lista);
     bComp.hidden = false; bVer.hidden = false;
     marc.textContent = ''; nota.textContent = '';
-    bGen.textContent = 'Générer 15 autres';
+    bGen.textContent = 'Give me 15 more';
   }
 
   bGen.addEventListener('click', generar);
@@ -819,11 +854,11 @@ BLOQUES.forEach(bl=>{
 
       if(tipo==='opcion'){
         const sel = li.querySelector('input:checked');
-        if(!sel) aviso='Pas de réponse. C\'était : '+it.ok;
+        if(!sel) aviso='You left this blank. The answer was: '+it.ok;
         else { bien = sel.value===it.ok; if(!bien) aviso = it.nota; }
       } else {
         const v = li.querySelector('input').value;
-        if(!v.trim()) aviso='Pas de réponse. C\'était : '+it.ok[0];
+        if(!v.trim()) aviso='You left this blank. The answer was: '+it.ok[0];
         else {
           bien = it.ok.some(o=>norm(v)===norm(o));
           if(!bien && it.ok.some(o=>sinTilde(v)===sinTilde(o))) casi = true;
@@ -835,15 +870,15 @@ BLOQUES.forEach(bl=>{
       else{
         li.classList.add('fallo');
         falladosPorBloque[bl.id] = (falladosPorBloque[bl.id]||0)+1;
-        if(casi) li.appendChild(el('p','pista tilde','⌃ Presque : vérifie l\'accent.'));
+        if(casi) li.appendChild(el('p','pista tilde','⌃ Almost — check the accent.'));
         else li.appendChild(el('p','pista mal','✗ '+aviso));
       }
     });
     marc.textContent = `${aciertos} / ${tanda.length}`;
     const ids = Object.keys(falladosPorBloque).sort((a,b)=>falladosPorBloque[b]-falladosPorBloque[a]);
     nota.textContent = ids.length
-      ? 'Les erreurs viennent surtout de : ' + ids.map(i=>i+' ('+falladosPorBloque[i]+')').join(', ') + '. Retourne à ces blocs et relis la règle.'
-      : 'Aucune erreur. Génère une autre série.';
+      ? 'Most of your mistakes came from: ' + ids.map(i=>i+' ('+falladosPorBloque[i]+')').join(', ') + '. Go back to those blocks and read the rule again.'
+      : 'Nothing wrong. Generate another set.';
   });
 
   bVer.addEventListener('click',()=>{
@@ -851,7 +886,7 @@ BLOQUES.forEach(bl=>{
       const j = +li.dataset.i, {it} = tanda[j];
       li.querySelectorAll('.modelo').forEach(n=>n.remove());
       const sol = it.opciones ? it.ok : it.ok.join('  /  ');
-      li.appendChild(el('div','modelo','<strong>Corrigé</strong>'+sol+(it.nota?' <em style="color:var(--tinta-70)">— '+it.nota+'</em>':'')));
+      li.appendChild(el('div','modelo','<strong>Answer</strong>'+sol+(it.nota?' <em style="color:var(--tinta-70)">— '+it.nota+'</em>':'')));
     });
   });
 })();
@@ -887,15 +922,15 @@ function pintarInforme(){
       const pct = Math.round(100*m.aciertos/m.total);
       tr.appendChild(el('td','n','<span class="mini"><i style="width:'+pct+'%"></i></span>'+m.aciertos+' / '+m.total));
     } else {
-      tr.appendChild(el('td','n','non fait'));
+      tr.appendChild(el('td','n','not attempted'));
     }
     tb.appendChild(tr);
   });
 
   const nota = document.getElementById('notaGuardado');
   nota.textContent = guardadoOk
-    ? (S.nombre ? `Le bilan sera téléchargé au nom de ${S.nombre}.` : 'Écris ton nom en haut avant de télécharger le bilan.')
-    : 'Ce navigateur n\'enregistre rien : télécharge le bilan avant de fermer la page.';
+    ? (S.nombre ? `Your report will be downloaded in the name of ${S.nombre}.` : 'Write your name at the top before you download the report.')
+    : 'This browser is not saving anything: download your report before you close the page.';
 }
 
 function sello(){
@@ -911,32 +946,32 @@ function paraArchivo(t){
 function construirInforme(){
   const L=[], raya='='.repeat(64);
   L.push(raya);
-  L.push('ENTRAÎNEUR DE GRAMMAIRE DE BASE');
-  L.push('A-Level Français · Edexcel 9FR0 · BBA Sixth Form');
+  L.push('GRAMMAR TRAINER · THE CORE RULES');
+  L.push('A-Level French · Edexcel 9FR0 · BBA Sixth Form');
   L.push(raya); L.push('');
-  L.push('Élève  : '+(S.nombre||'(sans nom)'));
-  L.push('Date   : '+sello()); L.push('');
+  L.push('Name  : '+(S.nombre||'(no name given)'));
+  L.push('Date  : '+sello()); L.push('');
 
   let puntos=0, maximo=0, corregidos=0;
   BLOQUES.forEach(b=>{ const m=S.marcas[b.id]; if(!m)return; corregidos++; puntos+=m.aciertos; maximo+=m.total; });
 
-  L.push('BILAN'); L.push('-'.repeat(64));
-  L.push(`Blocs corrigés : ${corregidos} sur ${BLOQUES.length}`);
-  L.push(`Score          : ${maximo ? puntos+' / '+maximo+'  ('+Math.round(100*puntos/maximo)+' %)' : 'non corrigé'}`);
+  L.push('SUMMARY'); L.push('-'.repeat(64));
+  L.push(`Blocks marked  : ${corregidos} of ${BLOQUES.length}`);
+  L.push(`Score          : ${maximo ? puntos+' / '+maximo+'  ('+Math.round(100*puntos/maximo)+' %)' : 'not marked yet'}`);
   L.push('');
 
-  L.push('PAR BLOC'); L.push('-'.repeat(64));
+  L.push('BLOCK BY BLOCK'); L.push('-'.repeat(64));
   BLOQUES.forEach(b=>{
     const m = S.marcas[b.id];
     const nom = (b.id+'  '+b.titulo).padEnd(50,' ');
-    L.push(nom+'  '+(m ? `${m.aciertos} / ${m.total}` : 'non fait'));
+    L.push(nom+'  '+(m ? `${m.aciertos} / ${m.total}` : 'not attempted'));
   });
   L.push('');
 
   /* qué repasar */
   const flojos = BLOQUES.filter(b=>{ const m=S.marcas[b.id]; return m && m.aciertos < m.total; });
   if(flojos.length){
-    L.push('À REVOIR'); L.push('-'.repeat(64));
+    L.push('TO GO BACK OVER'); L.push('-'.repeat(64));
     flojos.forEach(b=>{
       const m = S.marcas[b.id];
       L.push(`· ${b.titulo} (${m.aciertos}/${m.total})`);
@@ -945,7 +980,7 @@ function construirInforme(){
         const bien = it.opciones ? v===it.ok : (v!==undefined && it.ok.some(o=>norm(v)===norm(o)));
         if(!bien){
           const correcta = it.opciones ? it.ok : it.ok[0];
-          L.push(`    ${j+1}. ta réponse : ${v && v.trim() ? v : '(vide)'}   →  ${correcta}`);
+          L.push(`    ${j+1}. you wrote: ${v && v.trim() ? v : '(blank)'}   →  ${correcta}`);
         }
       });
       L.push('');
@@ -958,13 +993,13 @@ function construirInforme(){
     L.push('BLOC J · CE QUE TU AS ÉCRIT'); L.push('-'.repeat(64));
     bJ.items.forEach((it,j)=>{
       L.push(`${j+1}. ${it.texto}`);
-      L.push(`   > ${(S.resp['Ji'+j]||'').trim() || '(pas de réponse)'}`);
+      L.push(`   > ${(S.resp['Ji'+j]||'').trim() || '(nothing written)'}`);
       L.push('');
     });
   }
 
   L.push(raya);
-  L.push('Blocs A–J : grammaire à règle. Bloc K : exceptions. Bloc L : approfondissement.');
+  L.push('Every block above has a rule and a table. Read the rule before you try the block again.');
   return L.join('\n');
 }
 
@@ -972,52 +1007,24 @@ document.getElementById('btnInforme').addEventListener('click',()=>{
   if(!S.nombre){
     campoNombre.focus();
     campoNombre.scrollIntoView({block:'center'});
-    document.getElementById('notaGuardado').textContent='Écris ton nom avant de télécharger : le bilan le porte en première ligne.';
+    document.getElementById('notaGuardado').textContent='Write your name first — the report carries it on the top line.';
     return;
   }
   const blob = new Blob([construirInforme()],{type:'text/plain;charset=utf-8'});
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
   a.href = url;
-  a.download = `grammaire-base_${paraArchivo(S.nombre)}_${fechaArchivo()}.txt`;
+  a.download = `grammar-trainer_${paraArchivo(S.nombre)}_${fechaArchivo()}.txt`;
   document.body.appendChild(a); a.click(); document.body.removeChild(a);
   setTimeout(()=>URL.revokeObjectURL(url),1000);
 });
 
 document.getElementById('btnBorrar').addEventListener('click',()=>{
-  if(!confirm('Effacer toutes tes réponses et tes scores sur cet appareil ? C\'est définitif.')) return;
+  if(!confirm('Erase all your answers and scores on this device? This cannot be undone.')) return;
   try{ localStorage.removeItem(LS); }catch(e){}
   location.reload();
 });
 
-/* ============================================================
-   TECLADO DE TILDES
-   ============================================================ */
-const teclado = document.getElementById('teclado');
-let foco = null;
-['é','è','ê','ë','à','â','ä','î','ï','ô','ö','ù','û','ü','ç','œ','«','»'].forEach(ch=>{
-  const b = el('button',null,ch); b.type='button';
-  b.addEventListener('mousedown',e=>e.preventDefault());
-  b.addEventListener('click',()=>{
-    if(!foco) return;
-    const s=foco.selectionStart, e=foco.selectionEnd, v=foco.value;
-    foco.value = v.slice(0,s)+ch+v.slice(e);
-    foco.selectionStart = foco.selectionEnd = s+1;
-    foco.focus();
-    foco.dispatchEvent(new Event('input',{bubbles:true}));
-  });
-  teclado.appendChild(b);
-});
-document.addEventListener('focusin',e=>{
-  if(e.target.matches('input[type=text],textarea')){ foco=e.target; teclado.classList.add('visible'); }
-});
-document.addEventListener('focusout',()=>{
-  setTimeout(()=>{
-    if(!document.activeElement || !document.activeElement.matches('input[type=text],textarea')){
-      teclado.classList.remove('visible');
-    }
-  },120);
-});
 document.addEventListener('keydown',e=>{
   if(e.key==='Enter' && e.target.matches('input[type=text]')){
     e.preventDefault();
@@ -1029,6 +1036,7 @@ document.addEventListener('keydown',e=>{
 pintarMapa();
 pintarInforme();
 </script>
+  <script>window.BBA_KIT = {name:false};</script>
   <script src="bba-kit-fr.js" defer></script>
 </body>
 </html>
