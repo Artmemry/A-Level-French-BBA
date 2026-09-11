@@ -1,0 +1,850 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Small agreements that cost real marks · A-Level French</title>
+<style>
+:root{
+  --tinta:#16242F;--tinta-70:rgba(22,36,47,.70);--tinta-45:rgba(22,36,47,.45);
+  --plano:#E7EBED;--plano-alto:#F5F7F8;
+  --verde:#2F5D50;--verde-claro:#DCE8E2;
+  --azulejo:#3D6E8C;--azulejo-claro:#E3ECF2;
+  --ambar:#B8862F;--ambar-claro:#FAF1DE;
+  --rojo:#A4382C;
+  --linea:rgba(22,36,47,.16);
+  --display:'Archivo Narrow', Calibri,system-ui,sans-serif;
+  --cuerpo:'Source Serif 4', Cambria,Georgia,serif;
+  --dato:ui-monospace, 'IBM Plex Mono',ui-monospace,monospace;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+body{
+  margin:0;background:var(--plano);
+  background-image:linear-gradient(var(--linea) 1px,transparent 1px),linear-gradient(90deg,var(--linea) 1px,transparent 1px);
+  background-size:44px 44px;
+  color:var(--tinta);font-family:var(--cuerpo);font-size:18px;line-height:1.62;padding-bottom:7rem;
+}
+.envoltorio{max-width:900px;margin:0 auto;padding:0 1.1rem}
+
+header.cabecera{background:var(--tinta);color:var(--plano-alto);border-bottom:5px solid var(--verde)}
+.cabecera .envoltorio{padding-top:2.2rem;padding-bottom:1.5rem}
+.eyebrow{font-family:var(--dato);font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;color:#9FB4A9;margin:0 0 .8rem}
+h1{font-family:var(--display);font-weight:700;font-size:clamp(2rem,6.2vw,3.2rem);line-height:1.02;margin:0 0 .7rem;text-transform:uppercase}
+h1 em{font-style:normal;color:#8FBFAE}
+.sumario{margin:0;max-width:56ch;color:#CBD6DA;font-size:1rem}
+
+/* barra de bloques */
+.mapa{margin-top:1.6rem;border-top:1px solid rgba(255,255,255,.18);padding-top:1.1rem}
+.chips{display:flex;flex-wrap:wrap;gap:5px}
+.chips a{
+  font-family:var(--dato);font-size:.72rem;text-decoration:none;color:#CBD6DA;
+  border:1px solid rgba(255,255,255,.25);border-radius:2px;padding:.25rem .55rem;min-width:2.1rem;text-align:center
+}
+.chips a:hover{border-color:#8FBFAE;color:#fff}
+.chips a.parcial{background:var(--ambar);border-color:var(--ambar);color:#1a1204}
+.chips a.completa{background:#8FBFAE;border-color:#8FBFAE;color:#12241d;font-weight:600}
+.leyenda{font-family:var(--dato);font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:#9FB4A9;margin:.75rem 0 0}
+
+/* identidad */
+.identidad{background:var(--tinta);border-bottom:1px solid rgba(255,255,255,.15)}
+.identidad .envoltorio{display:flex;align-items:center;gap:.75rem;flex-wrap:wrap;padding-top:.7rem;padding-bottom:.7rem}
+.identidad label{font-family:var(--dato);font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:#9FB4A9}
+.identidad input{
+  font-family:var(--cuerpo);font-size:.95rem;background:rgba(255,255,255,.09);color:#fff;
+  border:1px solid rgba(255,255,255,.3);border-radius:2px;padding:.35rem .6rem;width:min(100%,17rem)
+}
+.identidad input::placeholder{color:rgba(255,255,255,.42)}
+.identidad .aviso{font-family:var(--dato);font-size:.68rem;color:#9FB4A9;margin-left:auto}
+
+/* secciones */
+section{margin-top:2.8rem;scroll-margin-top:.8rem}
+.rotulo{display:flex;align-items:baseline;gap:.7rem;border-bottom:2px solid var(--tinta);padding-bottom:.4rem;margin-bottom:1rem;flex-wrap:wrap}
+.rotulo .clave{font-family:var(--dato);font-size:.74rem;letter-spacing:.12em;color:var(--verde);text-transform:uppercase;white-space:nowrap}
+.rotulo .marcador{margin-left:auto;font-family:var(--dato);font-size:.8rem;color:var(--verde);font-weight:500}
+h2{font-family:var(--display);font-weight:600;font-size:1.45rem;text-transform:uppercase;margin:0;line-height:1.1}
+.consigna{font-size:.95rem;color:var(--tinta-70);margin:0 0 1.1rem;font-style:italic}
+
+/* regla */
+.regla{background:var(--azulejo-claro);border:1px solid var(--linea);border-left:4px solid var(--azulejo);border-radius:3px;padding:1rem 1.1rem;margin:0 0 1.2rem}
+.regla h3{font-family:var(--dato);font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:var(--azulejo);margin:0 0 .5rem;font-weight:500}
+.regla p{margin:0 0 .6rem;font-size:.98rem}
+.regla p:last-child{margin-bottom:0}
+.regla b{font-weight:600}
+.regla code{font-family:var(--dato);font-size:.88rem;background:#fff;padding:.05rem .3rem;border-radius:2px}
+table.conj{border-collapse:collapse;font-family:var(--dato);font-size:.82rem;margin:.2rem 0 .7rem;background:#fff;width:100%}
+table.conj th,table.conj td{border:1px solid var(--linea);padding:.28rem .5rem;text-align:left}
+table.conj th{background:var(--plano);font-weight:500;color:var(--tinta-70)}
+table.conj td:first-child{color:var(--tinta-45)}
+.truco{font-family:var(--dato);font-size:.8rem;background:var(--ambar-claro);border-left:3px solid var(--ambar);padding:.5rem .65rem;border-radius:2px;margin:.6rem 0 0}
+
+.tarjeta{background:var(--plano-alto);border:1px solid var(--linea);border-radius:3px;padding:1.2rem 1.15rem}
+.tarjeta.excepciones{border-left:4px solid var(--ambar)}
+.tarjeta.ampliacion{border-left:4px solid var(--verde)}
+
+ol.items{list-style:none;counter-reset:it;margin:0;padding:0}
+ol.items>li{
+  counter-increment:it;display:grid;grid-template-columns:1.9rem 1fr;gap:.2rem .6rem;
+  padding:.75rem 0;border-top:1px solid var(--linea);align-items:start
+}
+ol.items>li:first-child{border-top:0;padding-top:0}
+ol.items>li::before{content:counter(it) ".";font-family:var(--dato);font-size:.85rem;color:var(--tinta-45);padding-top:.2rem}
+.enunciado{margin:0}
+.etiqueta{font-family:var(--dato);font-size:.72rem;color:var(--azulejo);margin-left:.35rem}
+.respuesta{grid-column:2;margin-top:.5rem;display:flex;flex-wrap:wrap;gap:.45rem;align-items:center}
+.pista{grid-column:2;font-family:var(--dato);font-size:.78rem;margin:.4rem 0 0;line-height:1.55}
+.pista.mal{color:var(--rojo)}
+.pista.bien{color:var(--verde)}
+.pista.tilde{color:var(--ambar)}
+.modelo{grid-column:2;margin:.5rem 0 0;font-size:.95rem;background:var(--verde-claro);border-left:3px solid var(--verde);padding:.55rem .7rem;border-radius:2px}
+.modelo strong{font-family:var(--dato);font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;display:block;color:var(--verde);margin-bottom:.2rem}
+
+input[type=text],textarea,select{
+  font-family:var(--cuerpo);font-size:1rem;color:var(--tinta);background:#fff;
+  border:1px solid var(--tinta-45);border-radius:2px;padding:.4rem .55rem
+}
+input.corto{width:9rem;text-align:center;font-family:var(--dato);font-size:.95rem}
+input.largo{width:min(100%,26rem)}
+textarea{width:100%;min-height:4.2rem;line-height:1.55;resize:vertical}
+select{width:min(100%,20rem);cursor:pointer}
+input:focus-visible,textarea:focus-visible,select:focus-visible,button:focus-visible,a:focus-visible{outline:3px solid var(--azulejo);outline-offset:1px}
+li.acierto input,li.acierto select,li.acierto textarea{border-color:var(--verde);background:#F1F7F4}
+li.fallo input,li.fallo select,li.fallo textarea{border-color:var(--rojo);background:#FCF3F2}
+
+.opciones{display:flex;flex-wrap:wrap;gap:.4rem}
+.opcion{position:relative}
+.opcion input{position:absolute;opacity:0;width:100%;height:100%;left:0;top:0;margin:0;cursor:pointer}
+.opcion span{
+  display:block;font-family:var(--dato);font-size:.8rem;padding:.32rem .7rem;
+  border:1px solid var(--tinta-45);border-radius:2px;background:#fff
+}
+.opcion input:checked+span{background:var(--tinta);color:var(--plano-alto);border-color:var(--tinta)}
+.opcion input:focus-visible+span{outline:3px solid var(--azulejo);outline-offset:1px}
+
+.banco{display:flex;flex-wrap:wrap;gap:.35rem;margin:0 0 1.1rem;padding:.75rem .8rem;background:#fff;border:1px dashed var(--tinta-45);border-radius:3px}
+.banco b{font-family:var(--dato);font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:var(--tinta-45);width:100%;font-weight:500}
+.banco span{font-family:var(--dato);font-size:.85rem;background:var(--plano);padding:.15rem .5rem;border-radius:2px}
+
+.barra{display:flex;flex-wrap:wrap;gap:.6rem;align-items:center;margin-top:1.2rem}
+button{
+  font-family:var(--dato);font-size:.78rem;letter-spacing:.08em;text-transform:uppercase;
+  padding:.55rem .95rem;border-radius:2px;cursor:pointer;border:1px solid var(--tinta);
+  background:var(--tinta);color:var(--plano-alto);transition:transform .12s ease
+}
+button:hover{transform:translateY(-1px)}
+button.secundario{background:transparent;color:var(--tinta)}
+button.peligro{background:transparent;color:var(--rojo);border-color:var(--rojo)}
+button[hidden]{display:none}
+
+/* informe */
+.resumen{display:grid;gap:.7rem;grid-template-columns:repeat(auto-fit,minmax(118px,1fr));margin:0 0 1.2rem}
+.cifra{background:#fff;border:1px solid var(--linea);border-radius:3px;padding:.7rem .5rem;text-align:center}
+.cifra b{display:block;font-family:var(--display);font-size:1.75rem;line-height:1;font-weight:700}
+.cifra span{font-family:var(--dato);font-size:.62rem;letter-spacing:.07em;text-transform:uppercase;color:var(--tinta-45)}
+table.desglose{width:100%;border-collapse:collapse;font-size:.9rem}
+table.desglose th{text-align:left;font-family:var(--dato);font-size:.66rem;letter-spacing:.08em;text-transform:uppercase;color:var(--tinta-45);border-bottom:2px solid var(--tinta);padding:.4rem .5rem;font-weight:500}
+table.desglose td{border-bottom:1px solid var(--linea);padding:.4rem .5rem}
+table.desglose td.n{font-family:var(--dato);text-align:right;white-space:nowrap}
+table.desglose tr.pendiente td{color:var(--tinta-45)}
+table.desglose td .mini{display:inline-block;height:6px;width:64px;background:var(--linea);border-radius:3px;overflow:hidden;vertical-align:middle;margin-right:.4rem}
+table.desglose td .mini i{display:block;height:100%;background:var(--verde)}
+.nota-guardado{font-family:var(--dato);font-size:.72rem;color:var(--tinta-45);margin:.8rem 0 0}
+
+.teclado{
+  position:fixed;left:0;right:0;bottom:0;z-index:40;background:var(--tinta);
+  border-top:1px solid rgba(255,255,255,.2);padding:.5rem .6rem;
+  display:flex;gap:.35rem;justify-content:center;flex-wrap:wrap;
+  transform:translateY(120%);transition:transform .25s ease
+}
+.teclado.visible{transform:translateY(0)}
+.teclado button{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.28);color:#fff;font-size:1rem;padding:.4rem .75rem;text-transform:none;letter-spacing:0}
+
+footer{margin-top:3.2rem;border-top:1px solid var(--linea);padding-top:1.1rem;font-family:var(--dato);font-size:.72rem;color:var(--tinta-45);line-height:1.6}
+
+@media (max-width:560px){
+  body{font-size:17px}
+  ol.items>li{grid-template-columns:1.5rem 1fr}
+  .identidad .aviso{margin-left:0;width:100%}
+  input.corto{width:7.5rem}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}html{scroll-behavior:auto}}
+@media print{body{background:#fff;padding:0}.teclado,.barra,.mapa,.identidad,.chips{display:none}section{break-inside:avoid}}
+</style>
+</head>
+<body>
+
+<header class="cabecera">
+  <div class="envoltorio">
+    <p class="eyebrow">A-Level French · Edexcel 9FR0 · Written accuracy</p>
+    <h1>Small agreements<br><em>that cost real marks</em></h1>
+    <p class="sumario">Adverbs in -ment, the colours that never agree, plurals of nouns, and the adjectives that catch people out. None of these rules is hard. All of them cost AO3 marks when they are ignored, which makes them the cheapest marks on the whole course. Four blocks and a translation to finish.</p>
+    <div class="mapa">
+      <div class="chips" id="chips"></div>
+      <p class="leyenda" id="leyenda">5 blocks · nothing marked yet</p>
+    </div>
+  </div>
+</header>
+
+<div class="identidad">
+  <div class="envoltorio">
+    <label for="nombre">Your name</label>
+    <input id="nombre" type="text" placeholder="First name Surname" required autocomplete="off" spellcheck="false">
+    <span class="aviso" id="avisoGuardado">your answers are saved on this device</span>
+  </div>
+</div>
+
+<main class="envoltorio">
+  <div id="bloques"></div>
+
+  <section id="MIX">
+    <div class="rotulo"><span class="clave">Mixed review</span><h2>Everything mixed up</h2>
+      <span class="marcador" id="marcMix" aria-live="polite"></span></div>
+    <div class="regla">
+      <h3>Why mix them up</h3>
+      <p>Working through one block at a time feels good and tells you very little: you get them right because you already know which rule is coming. Once the questions are shuffled you have to <b>decide which rule applies</b> before you can answer — and that decision is the thing the exam actually tests.</p>
+      <p class="truco">↳ Do the blocks once, then work only from here. Generate a fresh set every time.</p>
+    </div>
+    <p class="consigna">Fifteen questions at random from every block. These are not recorded — this is practice, not a test.</p>
+    <div class="tarjeta">
+      <div id="zonaMix"></div>
+      <div class="barra">
+        <button id="btnGenerar">Give me 15 questions</button>
+        <button class="secundario" id="btnCompMix" hidden>Check my answers</button>
+        <button class="secundario" id="btnVerMix" hidden>Show the answers</button>
+      </div>
+      <p class="nota-guardado" id="notaMix"></p>
+    </div>
+  </section>
+
+  <section id="informe">
+    <div class="rotulo"><span class="clave">Your report</span><h2>How you did</h2></div>
+    <p class="consigna">Download your report and send it to your teacher. It carries your name, your score for each block and everything you typed.</p>
+    <div class="tarjeta">
+      <div class="resumen">
+        <div class="cifra"><b id="cBloques">0</b><span>blocks marked</span></div>
+        <div class="cifra"><b id="cPunt">—</b><span>marks</span></div>
+        <div class="cifra"><b id="cPct">0 %</b><span>correct</span></div>
+        <div class="cifra"><b id="cFlojo">—</b><span>weakest block</span></div>
+      </div>
+      <table class="desglose">
+        <thead><tr><th>Block</th><th style="text-align:right">Score</th></tr></thead>
+        <tbody id="tbDesglose"></tbody>
+      </table>
+      <div class="barra">
+        <button id="btnInforme">Download my report</button>
+        <button class="secundario" onclick="window.print()">Print / PDF</button>
+        <button class="peligro" id="btnBorrar">Erase my answers</button>
+      </div>
+      <p class="nota-guardado" id="notaGuardado"></p>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <p>Small agreements · Edexcel A-Level French (9FR0) · BBA Sixth Form. Four spelling-and-agreement rules and one translation that pulls them together. These are the cheapest marks to win back anywhere on the course. Your answers stay in this browser and are not sent anywhere.</p>
+</footer>
+
+
+<script>
+/* ============================================================
+   CONTENIDO
+   Bloques A–J: solo gramática con regla. Ningún verbo irregular
+   ni género irregular aparece como respuesta antes del bloque K.
+   ============================================================ */
+const BLOQUES = [
+{
+ id:"A", clave:"Block A", titulo:"Adverbs ending in -ment",
+ regla:{
+   texto:"<p>Start from the <b>feminine</b> of the adjective and add <code>-ment</code>: <i>lente \u2192 lentement</i>. If the adjective already ends in a vowel, add <code>-ment</code> straight onto it: <i>vrai \u2192 vraiment</i>.</p><p>Two endings behave differently: <code>-ant \u2192 -amment</code> and <code>-ent \u2192 -emment</code>. Both are pronounced the same way.</p>",
+   tabla:[["adjective", "feminine", "adverb"],
+          ["heureux", "heureuse", "heureuse<b>ment</b>"],
+          ["clair", "claire", "claire<b>ment</b>"],
+          ["doux", "douce", "douce<b>ment</b>"],
+          ["vrai", "\u2014 <i>(vowel)</i>", "vrai<b>ment</b>"],
+          ["courant", "\u2014", "cour<b>amment</b>"],
+          ["r\u00e9cent", "\u2014", "r\u00e9c<b>emment</b>"]],
+   truco:"\u00ab bon \u00bb and \u00ab mauvais \u00bb have no -ment adverb at all: they become <b>bien</b> and <b>mal</b>. And an adverb never agrees with anything \u2014 no extra -s, ever."
+ },
+ consigna:"Write the adverb that goes with the adjective.",
+ tipo:"hueco",
+ items:[
+  {texto:"Il a ________ trouv\u00e9 une solution.  (fortunately)", inf:"heureux", ok:["heureusement"], nota:"Feminine heureuse + ment."},
+  {texto:"Explique-moi cela plus ________.  (clearly)", inf:"clair", ok:["clairement"], nota:"Feminine claire + ment."},
+  {texto:"Elle a ________ d\u00e9cor\u00e9 sa chambre.  (prettily)", inf:"joli", ok:["joliment"], nota:"Ends in a vowel, so -ment goes straight on."},
+  {texto:"________, les journaux ont beaucoup chang\u00e9.  (recently)", inf:"r\u00e9cent", ok:["récemment"], nota:"-ent becomes -emment."},
+  {texto:"Elle parle ________ le fran\u00e7ais.  (fluently)", inf:"courant", ok:["couramment"], nota:"-ant becomes -amment."},
+  {texto:"Parle plus ________, s'il te pla\u00eet.  (slowly)", inf:"lent", ok:["lentement"], nota:"Feminine lente + ment."},
+  {texto:"C'est ________ incroyable.  (truly)", inf:"vrai", ok:["vraiment"], nota:"Vowel ending: vrai + ment."},
+  {texto:"Ferme la porte ________.  (gently)", inf:"doux", ok:["doucement"], nota:"Feminine douce + ment."},
+  {texto:"Il chante tr\u00e8s ________.  (well)", inf:"bon", ok:["bien"], nota:"Irregular: the adverb from \u00ab bon \u00bb is \u00ab bien \u00bb. \u00ab bonnement \u00bb is not the word you want."},
+  {texto:"Ils ont ________ r\u00e9pondu \u00e0 la question.  (badly)", inf:"mauvais", ok:["mal"], nota:"Irregular: the adverb from \u00ab mauvais \u00bb is \u00ab mal \u00bb."}
+ ]
+},
+{
+ id:"B", clave:"Block B", titulo:"The colours that never change",
+ regla:{
+   texto:"<p>An ordinary colour agrees like any other adjective: <i>des robes bleues</i>.</p><p>But it stays <b>invariable</b> in two cases: when it is made of <b>two words</b> (<i>bleu clair, vert fonc\u00e9</i>), and when it comes from a <b>noun</b> (<i>orange, marron, cerise, cr\u00e8me, marine</i> \u2014 fruits and objects that got borrowed to name a colour).</p>",
+   tabla:[["type", "agrees?", "example"],
+          ["plain colour", "yes", "des robes bleu<b>es</b>"],
+          ["two words", "no", "les yeux <b>bleu clair</b>"],
+          ["from a noun", "no", "des chaussettes <b>orange</b>"],
+          ["exceptions", "yes", "<i>rose, mauve, fauve</i> do agree"]],
+   truco:"Quick test: does the word also name a fruit or an object? Une orange, un marron, une cerise \u2014 if so, it takes no -s."
+ },
+ consigna:"Write the colour in the correct form.",
+ tipo:"hueco",
+ items:[
+  {texto:"Il porte des chaussettes ________.", inf:"orange", ok:["orange"], nota:"It comes from a fruit, so it never changes."},
+  {texto:"Elle a les yeux ________.", inf:"bleu clair", ok:["bleu clair"], nota:"Two words, so no agreement."},
+  {texto:"Ma m\u00e8re a une voiture ________.", inf:"vert", ok:["verte"], nota:"Plain colour, feminine noun: verte."},
+  {texto:"J'ai achet\u00e9 des chaussures ________.", inf:"marron", ok:["marron"], nota:"Comes from a noun (un marron): invariable."},
+  {texto:"Elles portaient des robes ________.", inf:"bleu", ok:["bleues"], nota:"Plain colour, feminine plural: bleues."},
+  {texto:"Il met toujours une veste ________.", inf:"vert fonc\u00e9", ok:["vert foncé"], nota:"Two words: invariable."},
+  {texto:"Les murs de la salle sont ________.", inf:"blanc", ok:["blancs"], nota:"Plain colour, masculine plural: blancs."},
+  {texto:"Nous avons choisi des rideaux ________.", inf:"cr\u00e8me", ok:["crème"], nota:"Comes from a noun: invariable."}
+ ]
+},
+{
+ id:"C", clave:"Block C", titulo:"Making nouns plural",
+ regla:{
+   texto:"<p>The rule is <code>+ s</code>. Four groups do something else:</p>",
+   tabla:[["ending", "plural", "example"],
+          ["-eau, -eu", "add <b>x</b>", "un bateau \u2192 des bateau<b>x</b>"],
+          ["-al", "becomes <b>-aux</b>", "un journal \u2192 des journ<b>aux</b>"],
+          ["-s, -x, -z", "<i>no change</i>", "un choix \u2192 des choix"],
+          ["irregular", "\u2014", "un \u0153il \u2192 des <b>yeux</b>"]],
+   truco:"A few -al nouns take -als anyway: festival, carnaval, bal, r\u00e9cital. They are almost all words for celebrations, which makes them easy to remember as a set."
+ },
+ consigna:"Write the plural, with \u00ab des \u00bb.",
+ tipo:"hueco",
+ items:[
+  {texto:"un bateau \u2192 ________", ok:["des bateaux", "bateaux"], nota:"-eau takes -eaux."},
+  {texto:"un jeu \u2192 ________", ok:["des jeux", "jeux"], nota:"-eu takes -eux."},
+  {texto:"un journal \u2192 ________", ok:["des journaux", "journaux"], nota:"-al becomes -aux. Never \u00ab journals \u00bb."},
+  {texto:"un choix \u2192 ________", ok:["des choix", "choix"], nota:"Already ends in -x, so nothing changes."},
+  {texto:"un \u0153il \u2192 ________", ok:["des yeux", "yeux"], nota:"Irregular: yeux."},
+  {texto:"un cas \u2192 ________", ok:["des cas", "cas"], nota:"Already ends in -s: no change."},
+  {texto:"un cheval \u2192 ________", ok:["des chevaux", "chevaux"], nota:"-al becomes -aux."},
+  {texto:"un prix \u2192 ________", ok:["des prix", "prix"], nota:"Already ends in -x: no change."},
+  {texto:"un travail \u2192 ________", ok:["des travaux", "travaux"], nota:"-ail becomes -aux for travail, vitrail and corail."},
+  {texto:"un festival \u2192 ________", ok:["des festivals", "festivals"], nota:"Exception: festival, carnaval and bal take -als."}
+ ]
+},
+{
+ id:"D", clave:"Block D", titulo:"Adjectives that catch you out",
+ regla:{
+   texto:"<p>Three adjectives change shape <b>in front of a vowel</b> or a silent h: <i>beau \u2192 bel, nouveau \u2192 nouvel, vieux \u2192 vieil</i>.</p><p>And <code>des</code> becomes <code>de</code> when a plural adjective sits in front of the noun: <i>de meilleures notes, de bons r\u00e9sultats</i>.</p>",
+   tabla:[["masculine", "before a vowel", "feminine"],
+          ["beau", "<b>bel</b> homme", "belle"],
+          ["nouveau", "<b>nouvel</b> ami", "nouvelle"],
+          ["vieux", "<b>vieil</b> arbre", "vieille"],
+          ["merveilleux", "\u2014", "merveilleuse"]],
+   truco:"Adjectives ending in -eux do not change in the masculine plural: \u00ab mes merveilleux grands-parents \u00bb \u2014 there is no extra -s to add."
+ },
+ consigna:"Write the adjective in the correct form.",
+ tipo:"hueco",
+ items:[
+  {texto:"J'ai un ________ ami qui vient d'Alg\u00e9rie.", inf:"nouveau", ok:["nouvel"], nota:"Before a vowel: nouvel."},
+  {texto:"C'est un ________ homme tr\u00e8s poli.", inf:"beau", ok:["bel"], nota:"Before a vowel: bel."},
+  {texto:"Il y a un ________ arbre dans le jardin.", inf:"vieux", ok:["vieil"], nota:"Before a vowel: vieil."},
+  {texto:"Mes ________ grands-parents habitent loin.", inf:"merveilleux", ok:["merveilleux"], nota:"Masculine plural in -eux: unchanged."},
+  {texto:"Ce sont des amis tr\u00e8s ________.", inf:"charmant", ok:["charmants"], nota:"Masculine plural: add s."},
+  {texto:"Il n'y a pas assez de choses ________ \u00e0 faire.", inf:"int\u00e9ressant", ok:["intéressantes"], nota:"\u00ab choses \u00bb is feminine plural: int\u00e9ressantes."},
+  {texto:"Ma ville est plut\u00f4t ________.", inf:"ennuyeux", ok:["ennuyeuse"], nota:"-eux becomes -euse in the feminine. \u00ab ennuyante \u00bb does not exist."},
+  {texto:"J'ai de ________ notes que l'ann\u00e9e derni\u00e8re.", inf:"meilleur", ok:["meilleures"], nota:"Feminine plural, and \u00ab des \u00bb drops to \u00ab de \u00bb before the adjective."}
+ ]
+},
+{
+ id:"E", clave:"Block E", titulo:"Putting it together: translation",
+ regla:{
+   texto:"<p>These six sentences mix all four blocks. Every one of them contains at least one of the traps you have just practised.</p>",
+   tabla:[["trap", "what to check"],
+          ["adverb", "never agrees"],
+          ["two-word colour, or one from a noun", "invariable"],
+          ["noun in -al or -eau", "-aux / -eaux"],
+          ["adjective before a vowel", "bel, nouvel, vieil"]],
+   truco:"Read your sentence back looking only at word endings. That is where AO3 marks are lost \u2014 not in the vocabulary, which is usually fine."
+ },
+ consigna:"Translate the whole sentence into French.",
+ tipo:"hueco",
+ largo:true,
+ items:[
+  {texto:"She speaks French fluently.", ok:["elle parle couramment français", "elle parle français couramment"], nota:"couramment, with -amment."},
+  {texto:"I have better grades than last year.", ok:["j'ai de meilleures notes que l'année dernière"], nota:"\u00ab de \u00bb, not \u00ab des \u00bb, before a plural adjective."},
+  {texto:"He has light blue eyes and orange socks.", ok:["il a les yeux bleu clair et des chaussettes orange"], nota:"Two invariable colours in one sentence."},
+  {texto:"Recently, the newspapers have changed a lot.", ok:["récemment, les journaux ont beaucoup changé", "récemment les journaux ont beaucoup changé"], nota:"r\u00e9cemment, and journaux for the plural."},
+  {texto:"It's a new friend of my brother's.", ok:["c'est un nouvel ami de mon frère"], nota:"nouvel in front of a vowel."},
+  {texto:"Unfortunately, they answered badly.", ok:["malheureusement, ils ont mal répondu", "malheureusement ils ont mal répondu"], nota:"malheureusement, and mal \u2014 never \u00ab mauvaisement \u00bb."}
+ ]
+}
+];
+
+/* ============================================================
+   ESTADO
+   ============================================================ */
+const LS = 'petits-accords-fr-v1';
+let S = {nombre:'', resp:{}, marcas:{}, creado:Date.now()};
+try{
+  const c = localStorage.getItem(LS);
+  if(c){ const p = JSON.parse(c); S = Object.assign(S,p); S.resp=S.resp||{}; S.marcas=S.marcas||{}; }
+}catch(e){}
+let guardadoOk = true;
+function guardar(){
+  try{ localStorage.setItem(LS, JSON.stringify(S)); }
+  catch(e){ guardadoOk=false; document.getElementById('avisoGuardado').textContent='impossible d\'enregistrer dans ce navigateur'; }
+}
+
+/* ============================================================
+   UTILIDADES
+   ============================================================ */
+const norm = s => (s||'').toString().toLowerCase().trim()
+  .replace(/[.,;:!¡?¿"'»«]+$/g,'').replace(/\s+/g,' ');
+const sinTilde = s => norm(s).normalize('NFD').replace(/[\u0300-\u036f]/g,'');
+const dosCifras = n => String(n).padStart(2,'0');
+function el(t,c,h){ const n=document.createElement(t); if(c)n.className=c; if(h!==undefined)n.innerHTML=h; return n; }
+
+function reg(nodo,clave){
+  nodo.dataset.k = clave;
+  const v = S.resp[clave];
+  if(v===undefined) return nodo;
+  if(nodo.type==='radio'){ if(nodo.value===v) nodo.checked=true; }
+  else nodo.value = v;
+  return nodo;
+}
+document.addEventListener('input', e=>{
+  const k = e.target.dataset && e.target.dataset.k;
+  if(k){ S.resp[k]=e.target.value; guardar(); }
+});
+document.addEventListener('change', e=>{
+  const k = e.target.dataset && e.target.dataset.k;
+  if(k){ S.resp[k]=e.target.value; guardar(); }
+});
+
+/* ============================================================
+   MAPA DE BLOQUES
+   ============================================================ */
+const chips = document.getElementById('chips');
+BLOQUES.forEach(b=>{
+  const a = el('a',null,b.id);
+  a.href = '#'+b.id; a.id = 'chip-'+b.id;
+  a.title = b.titulo;
+  chips.appendChild(a);
+});
+function pintarMapa(){
+  let corregidos=0, perfectos=0;
+  BLOQUES.forEach(b=>{
+    const m = S.marcas[b.id];
+    const c = document.getElementById('chip-'+b.id);
+    if(!m){ c.className=''; return; }
+    corregidos++;
+    const todo = m.aciertos===m.total;
+    if(todo) perfectos++;
+    c.className = todo ? 'completa' : 'parcial';
+  });
+  document.getElementById('leyenda').textContent = corregidos===0
+    ? BLOQUES.length+' blocks · nothing marked yet'
+    : `${corregidos} of ${BLOQUES.length} marked · ${perfectos} with nothing wrong`;
+}
+
+/* ============================================================
+   CONSTRUCCIÓN
+   ============================================================ */
+const zona = document.getElementById('bloques');
+
+BLOQUES.forEach(bl=>{
+  const sec = el('section'); sec.id = bl.id;
+  const rot = el('div','rotulo');
+  rot.appendChild(el('span','clave',bl.clave));
+  rot.appendChild(el('h2',null,bl.titulo));
+  const marc = el('span','marcador',''); marc.setAttribute('aria-live','polite');
+  rot.appendChild(marc);
+  sec.appendChild(rot);
+
+  /* --- la regla --- */
+  const reglaCaja = el('div','regla');
+  reglaCaja.appendChild(el('h3',null,'The rule'));
+  reglaCaja.insertAdjacentHTML('beforeend', bl.regla.texto);
+  if(bl.regla.tabla){
+    const t = el('table','conj');
+    bl.regla.tabla.forEach((fila,i)=>{
+      const tr = el('tr');
+      fila.forEach(celda=> tr.appendChild(el(i===0?'th':'td',null,celda)));
+      t.appendChild(tr);
+    });
+    reglaCaja.appendChild(t);
+  }
+  if(bl.regla.truco) reglaCaja.appendChild(el('p','truco','↳ '+bl.regla.truco));
+  sec.appendChild(reglaCaja);
+
+  sec.appendChild(el('p','consigna',bl.consigna));
+
+  const caja = el('div','tarjeta'+(bl.estilo?' '+bl.estilo:''));
+  const lista = el('ol','items');
+
+  bl.items.forEach((it,j)=>{
+    const li = el('li'); li.dataset.i = j;
+    const tipo = it.opciones ? 'opcion' : bl.tipo;
+    const clave = `${bl.id}i${j}`;
+
+    if(tipo==='opcion'){
+      const p = el('p','enunciado', it.texto);
+      li.appendChild(p);
+      const r = el('div','respuesta');
+      const g = el('div','opciones');
+      it.opciones.forEach(op=>{
+        const lab = el('label','opcion');
+        const inp = el('input'); inp.type='radio'; inp.name=clave; inp.value=op;
+        reg(inp, clave);
+        lab.appendChild(inp); lab.appendChild(el('span',null,op)); g.appendChild(lab);
+      });
+      r.appendChild(g); li.appendChild(r);
+
+    } else {                                   /* hueco */
+      const p = el('p','enunciado', it.texto);
+      if(it.inf) p.appendChild(el('span','etiqueta','('+it.inf+')'));
+      li.appendChild(p);
+      const r = el('div','respuesta');
+      const inp = el('input'); inp.type='text';
+      inp.className = bl.largo ? 'largo' : 'corto';
+      inp.setAttribute('aria-label','Tu respuesta');
+      inp.autocapitalize='off'; inp.spellcheck=false;
+      reg(inp, clave);
+      r.appendChild(inp); li.appendChild(r);
+    }
+    lista.appendChild(li);
+  });
+
+  caja.appendChild(lista);
+
+  const barra = el('div','barra');
+  const bComp = el('button',null,'Check my answers');
+  const bFall = el('button','secundario','Refaire seulement les erreurs'); bFall.hidden = true;
+  const bVer  = el('button','secundario','Show the answers');
+  barra.appendChild(bComp); barra.appendChild(bFall); barra.appendChild(bVer);
+  caja.appendChild(barra);
+  sec.appendChild(caja);
+  zona.appendChild(sec);
+
+  if(S.marcas[bl.id]) marc.textContent = `${S.marcas[bl.id].aciertos} / ${S.marcas[bl.id].total}`;
+
+  function limpiar(li){
+    li.classList.remove('acierto','fallo');
+    li.querySelectorAll('.pista,.modelo').forEach(n=>n.remove());
+  }
+
+  bComp.addEventListener('click',()=>{
+    let aciertos = 0;
+    lista.querySelectorAll('li').forEach(li=>{
+      const j = +li.dataset.i, it = bl.items[j];
+      limpiar(li);
+      const tipo = it.opciones ? 'opcion' : bl.tipo;
+      let bien = false, aviso = null, casi = false;
+
+      if(tipo==='opcion'){
+        const sel = li.querySelector('input:checked');
+        if(!sel) aviso = 'You left this blank. The answer was: '+it.ok;
+        else { bien = sel.value===it.ok; if(!bien) aviso = it.nota; }
+      } else {
+        const v = li.querySelector('input').value;
+        if(!v.trim()) aviso = 'You left this blank. The answer was: '+it.ok[0];
+        else {
+          bien = it.ok.some(o=>norm(v)===norm(o));
+          if(!bien && it.ok.some(o=>sinTilde(v)===sinTilde(o))){ casi = true; }
+          else if(!bien) aviso = it.nota;
+        }
+      }
+
+      if(bien){ li.classList.add('acierto'); aciertos++; li.appendChild(el('p','pista bien','✓ Correct.')); }
+      else if(casi){ li.classList.add('fallo'); li.appendChild(el('p','pista tilde','⌃ Almost — the word is right, check the accent.')); }
+      else { li.classList.add('fallo'); li.appendChild(el('p','pista mal','✗ '+aviso)); }
+    });
+    const total = bl.items.length;
+    marc.textContent = `${aciertos} / ${total}`;
+    S.marcas[bl.id] = {aciertos, total, titulo: bl.clave+' — '+bl.titulo};
+    guardar(); pintarMapa(); pintarInforme();
+    bFall.hidden = (aciertos === total);
+  });
+
+  bFall.addEventListener('click',()=>{
+    lista.querySelectorAll('li.fallo').forEach(li=>{
+      li.querySelectorAll('input').forEach(inp=>{
+        if(inp.type==='radio') inp.checked = false; else inp.value = '';
+        if(inp.dataset.k) delete S.resp[inp.dataset.k];
+      });
+      limpiar(li);
+    });
+    guardar();
+    bFall.hidden = true;
+    const primero = lista.querySelector('input');
+    if(primero) primero.focus();
+  });
+
+  bVer.addEventListener('click',()=>{
+    lista.querySelectorAll('li').forEach(li=>{
+      const j = +li.dataset.i, it = bl.items[j];
+      li.querySelectorAll('.modelo').forEach(n=>n.remove());
+      const sol = it.opciones ? it.ok : it.ok.join('  /  ');
+      li.appendChild(el('div','modelo','<strong>Answer</strong>'+sol+(it.nota?' <em style="color:var(--tinta-70)">— '+it.nota+'</em>':'')));
+    });
+  });
+});
+
+/* ============================================================
+   REPASO MIXTO — práctica intercalada
+   ============================================================ */
+(function(){
+  const zonaMix = document.getElementById('zonaMix');
+  const bGen = document.getElementById('btnGenerar');
+  const bComp = document.getElementById('btnCompMix');
+  const bVer = document.getElementById('btnVerMix');
+  const marc = document.getElementById('marcMix');
+  const nota = document.getElementById('notaMix');
+  const CUANTOS = 15;
+  let tanda = [];
+
+  /* todos los ítems, cada uno recordando de qué bloque viene */
+  const POZO = [];
+  BLOQUES.forEach(bl=>bl.items.forEach(it=>POZO.push({it, bl})));
+
+  function generar(){
+    const copia = POZO.slice();
+    for(let i=copia.length-1;i>0;i--){
+      const j = Math.floor(Math.random()*(i+1));
+      [copia[i],copia[j]] = [copia[j],copia[i]];
+    }
+    tanda = copia.slice(0,CUANTOS);
+
+    zonaMix.innerHTML = '';
+    const lista = el('ol','items');
+    tanda.forEach((par,j)=>{
+      const {it, bl} = par;
+      const li = el('li'); li.dataset.i = j;
+      const tipo = it.opciones ? 'opcion' : bl.tipo;
+      const p = el('p','enunciado', it.texto);
+      p.appendChild(el('span','etiqueta','['+bl.id+(it.inf?' · '+it.inf:'')+']'));
+      li.appendChild(p);
+      const r = el('div','respuesta');
+      if(tipo==='opcion'){
+        const g = el('div','opciones');
+        it.opciones.forEach(op=>{
+          const lab = el('label','opcion');
+          const inp = el('input'); inp.type='radio'; inp.name='mix'+j; inp.value=op;
+          lab.appendChild(inp); lab.appendChild(el('span',null,op)); g.appendChild(lab);
+        });
+        r.appendChild(g);
+      } else {
+        const inp = el('input'); inp.type='text';
+        inp.className = bl.largo ? 'largo' : 'corto';
+        inp.setAttribute('aria-label','Tu respuesta');
+        inp.autocapitalize='off'; inp.spellcheck=false;
+        r.appendChild(inp);
+      }
+      li.appendChild(r);
+      lista.appendChild(li);
+    });
+    zonaMix.appendChild(lista);
+    bComp.hidden = false; bVer.hidden = false;
+    marc.textContent = ''; nota.textContent = '';
+    bGen.textContent = 'Give me 15 more';
+  }
+
+  bGen.addEventListener('click', generar);
+
+  bComp.addEventListener('click',()=>{
+    let aciertos = 0;
+    const falladosPorBloque = {};
+    zonaMix.querySelectorAll('li').forEach(li=>{
+      const j = +li.dataset.i, {it, bl} = tanda[j];
+      li.classList.remove('acierto','fallo');
+      li.querySelectorAll('.pista,.modelo').forEach(n=>n.remove());
+      const tipo = it.opciones ? 'opcion' : bl.tipo;
+      let bien=false, aviso=null, casi=false;
+
+      if(tipo==='opcion'){
+        const sel = li.querySelector('input:checked');
+        if(!sel) aviso='You left this blank. The answer was: '+it.ok;
+        else { bien = sel.value===it.ok; if(!bien) aviso = it.nota; }
+      } else {
+        const v = li.querySelector('input').value;
+        if(!v.trim()) aviso='You left this blank. The answer was: '+it.ok[0];
+        else {
+          bien = it.ok.some(o=>norm(v)===norm(o));
+          if(!bien && it.ok.some(o=>sinTilde(v)===sinTilde(o))) casi = true;
+          else if(!bien) aviso = it.nota;
+        }
+      }
+
+      if(bien){ li.classList.add('acierto'); aciertos++; li.appendChild(el('p','pista bien','✓ Correct.')); }
+      else{
+        li.classList.add('fallo');
+        falladosPorBloque[bl.id] = (falladosPorBloque[bl.id]||0)+1;
+        if(casi) li.appendChild(el('p','pista tilde','⌃ Almost — check the accent.'));
+        else li.appendChild(el('p','pista mal','✗ '+aviso));
+      }
+    });
+    marc.textContent = `${aciertos} / ${tanda.length}`;
+    const ids = Object.keys(falladosPorBloque).sort((a,b)=>falladosPorBloque[b]-falladosPorBloque[a]);
+    nota.textContent = ids.length
+      ? 'Most of your mistakes came from: ' + ids.map(i=>i+' ('+falladosPorBloque[i]+')').join(', ') + '. Go back to those blocks and read the rule again.'
+      : 'Nothing wrong. Generate another set.';
+  });
+
+  bVer.addEventListener('click',()=>{
+    zonaMix.querySelectorAll('li').forEach(li=>{
+      const j = +li.dataset.i, {it} = tanda[j];
+      li.querySelectorAll('.modelo').forEach(n=>n.remove());
+      const sol = it.opciones ? it.ok : it.ok.join('  /  ');
+      li.appendChild(el('div','modelo','<strong>Answer</strong>'+sol+(it.nota?' <em style="color:var(--tinta-70)">— '+it.nota+'</em>':'')));
+    });
+  });
+})();
+
+/* ============================================================
+   INFORME
+   ============================================================ */
+const campoNombre = document.getElementById('nombre');
+campoNombre.value = S.nombre || '';
+campoNombre.addEventListener('input', e=>{ S.nombre = e.target.value.trim(); guardar(); pintarInforme(); });
+
+function pintarInforme(){
+  let puntos=0, maximo=0, corregidos=0, flojo=null, flojoPct=101;
+  BLOQUES.forEach(b=>{
+    const m = S.marcas[b.id];
+    if(!m) return;
+    corregidos++; puntos += m.aciertos; maximo += m.total;
+    const pct = 100*m.aciertos/m.total;
+    if(pct < flojoPct){ flojoPct = pct; flojo = b.id; }
+  });
+  document.getElementById('cBloques').textContent = corregidos;
+  document.getElementById('cPunt').textContent = maximo ? puntos+' / '+maximo : '—';
+  document.getElementById('cPct').textContent = maximo ? Math.round(100*puntos/maximo)+' %' : '0 %';
+  document.getElementById('cFlojo').textContent = (flojo && flojoPct<100) ? flojo : '—';
+
+  const tb = document.getElementById('tbDesglose');
+  tb.innerHTML = '';
+  BLOQUES.forEach(b=>{
+    const m = S.marcas[b.id];
+    const tr = el('tr', m ? null : 'pendiente');
+    tr.appendChild(el('td',null,'<b>'+b.id+'</b>  '+b.titulo));
+    if(m){
+      const pct = Math.round(100*m.aciertos/m.total);
+      tr.appendChild(el('td','n','<span class="mini"><i style="width:'+pct+'%"></i></span>'+m.aciertos+' / '+m.total));
+    } else {
+      tr.appendChild(el('td','n','not attempted'));
+    }
+    tb.appendChild(tr);
+  });
+
+  const nota = document.getElementById('notaGuardado');
+  nota.textContent = guardadoOk
+    ? (S.nombre ? `Your report will be downloaded in the name of ${S.nombre}.` : 'Write your name at the top before you download the report.')
+    : 'This browser is not saving anything: download your report before you close the page.';
+}
+
+function sello(){
+  const d=new Date();
+  return `${dosCifras(d.getDate())}/${dosCifras(d.getMonth()+1)}/${d.getFullYear()} ${dosCifras(d.getHours())}:${dosCifras(d.getMinutes())}`;
+}
+function fechaArchivo(){ const d=new Date(); return `${d.getFullYear()}-${dosCifras(d.getMonth()+1)}-${dosCifras(d.getDate())}`; }
+function paraArchivo(t){
+  return (t||'sin-nombre').normalize('NFD').replace(/[\u0300-\u036f]/g,'')
+    .replace(/[^A-Za-z0-9]+/g,'-').replace(/^-+|-+$/g,'').slice(0,40) || 'sin-nombre';
+}
+
+function construirInforme(){
+  const L=[], raya='='.repeat(64);
+  L.push(raya);
+  L.push('SMALL AGREEMENTS');
+  L.push('A-Level French · Edexcel 9FR0 · BBA Sixth Form');
+  L.push(raya); L.push('');
+  L.push('Name  : '+(S.nombre||'(no name given)'));
+  L.push('Date  : '+sello()); L.push('');
+
+  let puntos=0, maximo=0, corregidos=0;
+  BLOQUES.forEach(b=>{ const m=S.marcas[b.id]; if(!m)return; corregidos++; puntos+=m.aciertos; maximo+=m.total; });
+
+  L.push('SUMMARY'); L.push('-'.repeat(64));
+  L.push(`Blocks marked  : ${corregidos} of ${BLOQUES.length}`);
+  L.push(`Score          : ${maximo ? puntos+' / '+maximo+'  ('+Math.round(100*puntos/maximo)+' %)' : 'not marked yet'}`);
+  L.push('');
+
+  L.push('BLOCK BY BLOCK'); L.push('-'.repeat(64));
+  BLOQUES.forEach(b=>{
+    const m = S.marcas[b.id];
+    const nom = (b.id+'  '+b.titulo).padEnd(50,' ');
+    L.push(nom+'  '+(m ? `${m.aciertos} / ${m.total}` : 'not attempted'));
+  });
+  L.push('');
+
+  /* qué repasar */
+  const flojos = BLOQUES.filter(b=>{ const m=S.marcas[b.id]; return m && m.aciertos < m.total; });
+  if(flojos.length){
+    L.push('TO GO BACK OVER'); L.push('-'.repeat(64));
+    flojos.forEach(b=>{
+      const m = S.marcas[b.id];
+      L.push(`· ${b.titulo} (${m.aciertos}/${m.total})`);
+      b.items.forEach((it,j)=>{
+        const v = S.resp[`${b.id}i${j}`];
+        const bien = it.opciones ? v===it.ok : (v!==undefined && it.ok.some(o=>norm(v)===norm(o)));
+        if(!bien){
+          const correcta = it.opciones ? it.ok : it.ok[0];
+          L.push(`    ${j+1}. you wrote: ${v && v.trim() ? v : '(blank)'}   →  ${correcta}`);
+        }
+      });
+      L.push('');
+    });
+  }
+
+  /* bloque J: producción escrita, se transcribe entera */
+  const bJ = BLOQUES.find(b=>b.id==='J');
+  if(bJ && bJ.items.some((_,j)=>(S.resp['Ji'+j]||'').trim())){
+    L.push('BLOC J · CE QUE TU AS ÉCRIT'); L.push('-'.repeat(64));
+    bJ.items.forEach((it,j)=>{
+      L.push(`${j+1}. ${it.texto}`);
+      L.push(`   > ${(S.resp['Ji'+j]||'').trim() || '(nothing written)'}`);
+      L.push('');
+    });
+  }
+
+  L.push(raya);
+  L.push('Every block above has a rule and a table. Read the rule before you try the block again.');
+  return L.join('\n');
+}
+
+document.getElementById('btnInforme').addEventListener('click',()=>{
+  if(!S.nombre){
+    campoNombre.focus();
+    campoNombre.scrollIntoView({block:'center'});
+    document.getElementById('notaGuardado').textContent='Write your name first — the report carries it on the top line.';
+    return;
+  }
+  const blob = new Blob([construirInforme()],{type:'text/plain;charset=utf-8'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `small-agreements_${paraArchivo(S.nombre)}_${fechaArchivo()}.txt`;
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  setTimeout(()=>URL.revokeObjectURL(url),1000);
+});
+
+document.getElementById('btnBorrar').addEventListener('click',()=>{
+  if(!confirm('Erase all your answers and scores on this device? This cannot be undone.')) return;
+  try{ localStorage.removeItem(LS); }catch(e){}
+  location.reload();
+});
+
+document.addEventListener('keydown',e=>{
+  if(e.key==='Enter' && e.target.matches('input[type=text]')){
+    e.preventDefault();
+    const todos=[...document.querySelectorAll('input[type=text]')];
+    const n=todos[todos.indexOf(e.target)+1]; if(n) n.focus();
+  }
+});
+
+pintarMapa();
+pintarInforme();
+</script>
+  <script>window.BBA_KIT = {name:false};</script>
+  <script src="bba-kit-fr.js" defer></script>
+</body>
+</html>

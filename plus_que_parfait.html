@@ -1,0 +1,866 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Saying what had already happened · A-Level French</title>
+<style>
+:root{
+  --tinta:#16242F;--tinta-70:rgba(22,36,47,.70);--tinta-45:rgba(22,36,47,.45);
+  --plano:#E7EBED;--plano-alto:#F5F7F8;
+  --verde:#2F5D50;--verde-claro:#DCE8E2;
+  --azulejo:#3D6E8C;--azulejo-claro:#E3ECF2;
+  --ambar:#B8862F;--ambar-claro:#FAF1DE;
+  --rojo:#A4382C;
+  --linea:rgba(22,36,47,.16);
+  --display:'Archivo Narrow', Calibri,system-ui,sans-serif;
+  --cuerpo:'Source Serif 4', Cambria,Georgia,serif;
+  --dato:ui-monospace, 'IBM Plex Mono',ui-monospace,monospace;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+body{
+  margin:0;background:var(--plano);
+  background-image:linear-gradient(var(--linea) 1px,transparent 1px),linear-gradient(90deg,var(--linea) 1px,transparent 1px);
+  background-size:44px 44px;
+  color:var(--tinta);font-family:var(--cuerpo);font-size:18px;line-height:1.62;padding-bottom:7rem;
+}
+.envoltorio{max-width:900px;margin:0 auto;padding:0 1.1rem}
+
+header.cabecera{background:var(--tinta);color:var(--plano-alto);border-bottom:5px solid var(--verde)}
+.cabecera .envoltorio{padding-top:2.2rem;padding-bottom:1.5rem}
+.eyebrow{font-family:var(--dato);font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;color:#9FB4A9;margin:0 0 .8rem}
+h1{font-family:var(--display);font-weight:700;font-size:clamp(2rem,6.2vw,3.2rem);line-height:1.02;margin:0 0 .7rem;text-transform:uppercase}
+h1 em{font-style:normal;color:#8FBFAE}
+.sumario{margin:0;max-width:56ch;color:#CBD6DA;font-size:1rem}
+
+/* barra de bloques */
+.mapa{margin-top:1.6rem;border-top:1px solid rgba(255,255,255,.18);padding-top:1.1rem}
+.chips{display:flex;flex-wrap:wrap;gap:5px}
+.chips a{
+  font-family:var(--dato);font-size:.72rem;text-decoration:none;color:#CBD6DA;
+  border:1px solid rgba(255,255,255,.25);border-radius:2px;padding:.25rem .55rem;min-width:2.1rem;text-align:center
+}
+.chips a:hover{border-color:#8FBFAE;color:#fff}
+.chips a.parcial{background:var(--ambar);border-color:var(--ambar);color:#1a1204}
+.chips a.completa{background:#8FBFAE;border-color:#8FBFAE;color:#12241d;font-weight:600}
+.leyenda{font-family:var(--dato);font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:#9FB4A9;margin:.75rem 0 0}
+
+/* identidad */
+.identidad{background:var(--tinta);border-bottom:1px solid rgba(255,255,255,.15)}
+.identidad .envoltorio{display:flex;align-items:center;gap:.75rem;flex-wrap:wrap;padding-top:.7rem;padding-bottom:.7rem}
+.identidad label{font-family:var(--dato);font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:#9FB4A9}
+.identidad input{
+  font-family:var(--cuerpo);font-size:.95rem;background:rgba(255,255,255,.09);color:#fff;
+  border:1px solid rgba(255,255,255,.3);border-radius:2px;padding:.35rem .6rem;width:min(100%,17rem)
+}
+.identidad input::placeholder{color:rgba(255,255,255,.42)}
+.identidad .aviso{font-family:var(--dato);font-size:.68rem;color:#9FB4A9;margin-left:auto}
+
+/* secciones */
+section{margin-top:2.8rem;scroll-margin-top:.8rem}
+.rotulo{display:flex;align-items:baseline;gap:.7rem;border-bottom:2px solid var(--tinta);padding-bottom:.4rem;margin-bottom:1rem;flex-wrap:wrap}
+.rotulo .clave{font-family:var(--dato);font-size:.74rem;letter-spacing:.12em;color:var(--verde);text-transform:uppercase;white-space:nowrap}
+.rotulo .marcador{margin-left:auto;font-family:var(--dato);font-size:.8rem;color:var(--verde);font-weight:500}
+h2{font-family:var(--display);font-weight:600;font-size:1.45rem;text-transform:uppercase;margin:0;line-height:1.1}
+.consigna{font-size:.95rem;color:var(--tinta-70);margin:0 0 1.1rem;font-style:italic}
+
+/* regla */
+.regla{background:var(--azulejo-claro);border:1px solid var(--linea);border-left:4px solid var(--azulejo);border-radius:3px;padding:1rem 1.1rem;margin:0 0 1.2rem}
+.regla h3{font-family:var(--dato);font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:var(--azulejo);margin:0 0 .5rem;font-weight:500}
+.regla p{margin:0 0 .6rem;font-size:.98rem}
+.regla p:last-child{margin-bottom:0}
+.regla b{font-weight:600}
+.regla code{font-family:var(--dato);font-size:.88rem;background:#fff;padding:.05rem .3rem;border-radius:2px}
+table.conj{border-collapse:collapse;font-family:var(--dato);font-size:.82rem;margin:.2rem 0 .7rem;background:#fff;width:100%}
+table.conj th,table.conj td{border:1px solid var(--linea);padding:.28rem .5rem;text-align:left}
+table.conj th{background:var(--plano);font-weight:500;color:var(--tinta-70)}
+table.conj td:first-child{color:var(--tinta-45)}
+.truco{font-family:var(--dato);font-size:.8rem;background:var(--ambar-claro);border-left:3px solid var(--ambar);padding:.5rem .65rem;border-radius:2px;margin:.6rem 0 0}
+
+.tarjeta{background:var(--plano-alto);border:1px solid var(--linea);border-radius:3px;padding:1.2rem 1.15rem}
+.tarjeta.excepciones{border-left:4px solid var(--ambar)}
+.tarjeta.ampliacion{border-left:4px solid var(--verde)}
+
+ol.items{list-style:none;counter-reset:it;margin:0;padding:0}
+ol.items>li{
+  counter-increment:it;display:grid;grid-template-columns:1.9rem 1fr;gap:.2rem .6rem;
+  padding:.75rem 0;border-top:1px solid var(--linea);align-items:start
+}
+ol.items>li:first-child{border-top:0;padding-top:0}
+ol.items>li::before{content:counter(it) ".";font-family:var(--dato);font-size:.85rem;color:var(--tinta-45);padding-top:.2rem}
+.enunciado{margin:0}
+ .enunciado .glosa{display:block;margin-top:.3rem;font-family:var(--dato);font-size:.74rem;line-height:1.45;letter-spacing:.01em;color:var(--tinta-45)}
+.etiqueta{font-family:var(--dato);font-size:.72rem;color:var(--azulejo);margin-left:.35rem}
+.respuesta{grid-column:2;margin-top:.5rem;display:flex;flex-wrap:wrap;gap:.45rem;align-items:center}
+.pista{grid-column:2;font-family:var(--dato);font-size:.78rem;margin:.4rem 0 0;line-height:1.55}
+.pista.mal{color:var(--rojo)}
+.pista.bien{color:var(--verde)}
+.pista.tilde{color:var(--ambar)}
+.modelo{grid-column:2;margin:.5rem 0 0;font-size:.95rem;background:var(--verde-claro);border-left:3px solid var(--verde);padding:.55rem .7rem;border-radius:2px}
+.modelo strong{font-family:var(--dato);font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;display:block;color:var(--verde);margin-bottom:.2rem}
+
+input[type=text],textarea,select{
+  font-family:var(--cuerpo);font-size:1rem;color:var(--tinta);background:#fff;
+  border:1px solid var(--tinta-45);border-radius:2px;padding:.4rem .55rem
+}
+input.corto{width:9rem;text-align:center;font-family:var(--dato);font-size:.95rem}
+input.largo{width:min(100%,26rem)}
+textarea{width:100%;min-height:4.2rem;line-height:1.55;resize:vertical}
+select{width:min(100%,20rem);cursor:pointer}
+input:focus-visible,textarea:focus-visible,select:focus-visible,button:focus-visible,a:focus-visible{outline:3px solid var(--azulejo);outline-offset:1px}
+li.acierto input,li.acierto select,li.acierto textarea{border-color:var(--verde);background:#F1F7F4}
+li.fallo input,li.fallo select,li.fallo textarea{border-color:var(--rojo);background:#FCF3F2}
+
+.opciones{display:flex;flex-wrap:wrap;gap:.4rem}
+.opcion{position:relative}
+.opcion input{position:absolute;opacity:0;width:100%;height:100%;left:0;top:0;margin:0;cursor:pointer}
+.opcion span{
+  display:block;font-family:var(--dato);font-size:.8rem;padding:.32rem .7rem;
+  border:1px solid var(--tinta-45);border-radius:2px;background:#fff
+}
+.opcion input:checked+span{background:var(--tinta);color:var(--plano-alto);border-color:var(--tinta)}
+.opcion input:focus-visible+span{outline:3px solid var(--azulejo);outline-offset:1px}
+
+.banco{display:flex;flex-wrap:wrap;gap:.35rem;margin:0 0 1.1rem;padding:.75rem .8rem;background:#fff;border:1px dashed var(--tinta-45);border-radius:3px}
+.banco b{font-family:var(--dato);font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:var(--tinta-45);width:100%;font-weight:500}
+.banco span{font-family:var(--dato);font-size:.85rem;background:var(--plano);padding:.15rem .5rem;border-radius:2px}
+
+.barra{display:flex;flex-wrap:wrap;gap:.6rem;align-items:center;margin-top:1.2rem}
+button{
+  font-family:var(--dato);font-size:.78rem;letter-spacing:.08em;text-transform:uppercase;
+  padding:.55rem .95rem;border-radius:2px;cursor:pointer;border:1px solid var(--tinta);
+  background:var(--tinta);color:var(--plano-alto);transition:transform .12s ease
+}
+button:hover{transform:translateY(-1px)}
+button.secundario{background:transparent;color:var(--tinta)}
+button.peligro{background:transparent;color:var(--rojo);border-color:var(--rojo)}
+button[hidden]{display:none}
+
+/* informe */
+.resumen{display:grid;gap:.7rem;grid-template-columns:repeat(auto-fit,minmax(118px,1fr));margin:0 0 1.2rem}
+.cifra{background:#fff;border:1px solid var(--linea);border-radius:3px;padding:.7rem .5rem;text-align:center}
+.cifra b{display:block;font-family:var(--display);font-size:1.75rem;line-height:1;font-weight:700}
+.cifra span{font-family:var(--dato);font-size:.62rem;letter-spacing:.07em;text-transform:uppercase;color:var(--tinta-45)}
+table.desglose{width:100%;border-collapse:collapse;font-size:.9rem}
+table.desglose th{text-align:left;font-family:var(--dato);font-size:.66rem;letter-spacing:.08em;text-transform:uppercase;color:var(--tinta-45);border-bottom:2px solid var(--tinta);padding:.4rem .5rem;font-weight:500}
+table.desglose td{border-bottom:1px solid var(--linea);padding:.4rem .5rem}
+table.desglose td.n{font-family:var(--dato);text-align:right;white-space:nowrap}
+table.desglose tr.pendiente td{color:var(--tinta-45)}
+table.desglose td .mini{display:inline-block;height:6px;width:64px;background:var(--linea);border-radius:3px;overflow:hidden;vertical-align:middle;margin-right:.4rem}
+table.desglose td .mini i{display:block;height:100%;background:var(--verde)}
+.nota-guardado{font-family:var(--dato);font-size:.72rem;color:var(--tinta-45);margin:.8rem 0 0}
+
+.teclado{
+  position:fixed;left:0;right:0;bottom:0;z-index:40;background:var(--tinta);
+  border-top:1px solid rgba(255,255,255,.2);padding:.5rem .6rem;
+  display:flex;gap:.35rem;justify-content:center;flex-wrap:wrap;
+  transform:translateY(120%);transition:transform .25s ease
+}
+.teclado.visible{transform:translateY(0)}
+.teclado button{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.28);color:#fff;font-size:1rem;padding:.4rem .75rem;text-transform:none;letter-spacing:0}
+
+footer{margin-top:3.2rem;border-top:1px solid var(--linea);padding-top:1.1rem;font-family:var(--dato);font-size:.72rem;color:var(--tinta-45);line-height:1.6}
+
+@media (max-width:560px){
+  body{font-size:17px}
+  ol.items>li{grid-template-columns:1.5rem 1fr}
+  .identidad .aviso{margin-left:0;width:100%}
+  input.corto{width:7.5rem}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}html{scroll-behavior:auto}}
+@media print{body{background:#fff;padding:0}.teclado,.barra,.mapa,.identidad,.chips{display:none}section{break-inside:avoid}}
+</style>
+</head>
+<body>
+
+<header class="cabecera">
+  <div class="envoltorio">
+    <p class="eyebrow">A-Level French · Edexcel 9FR0 · The pluperfect</p>
+    <h1>What had already happened<br><em>le plus-que-parfait</em></h1>
+    <p class="sumario">The tense English calls « had done ». Six blocks: building it, telling it apart from the perfect, reporting what someone said, agreeing the participle, translating it, and the « si » sentences that lift an essay into the top band. This is the structure Paper 2 tests most reliably.</p>
+    <div class="mapa">
+      <div class="chips" id="chips"></div>
+      <p class="leyenda" id="leyenda">6 blocks · nothing marked yet</p>
+    </div>
+  </div>
+</header>
+
+<div class="identidad">
+  <div class="envoltorio">
+    <label for="nombre">Your name</label>
+    <input id="nombre" type="text" placeholder="First name Surname" required autocomplete="off" spellcheck="false">
+    <span class="aviso" id="avisoGuardado">your answers are saved on this device</span>
+  </div>
+</div>
+
+<main class="envoltorio">
+  <div id="bloques"></div>
+
+  <section id="MIX">
+    <div class="rotulo"><span class="clave">Mixed review</span><h2>Everything mixed up</h2>
+      <span class="marcador" id="marcMix" aria-live="polite"></span></div>
+    <div class="regla">
+      <h3>Why mix them up</h3>
+      <p>Working through one block at a time feels good and tells you very little: you get them right because you already know which rule is coming. Once the questions are shuffled you have to <b>decide which rule applies</b> before you can answer — and that decision is the thing the exam actually tests.</p>
+      <p class="truco">↳ Do the blocks once, then work only from here. Generate a fresh set every time.</p>
+    </div>
+    <p class="consigna">Fifteen questions at random from every block. These are not recorded — this is practice, not a test.</p>
+    <div class="tarjeta">
+      <div id="zonaMix"></div>
+      <div class="barra">
+        <button id="btnGenerar">Give me 15 questions</button>
+        <button class="secundario" id="btnCompMix" hidden>Check my answers</button>
+        <button class="secundario" id="btnVerMix" hidden>Show the answers</button>
+      </div>
+      <p class="nota-guardado" id="notaMix"></p>
+    </div>
+  </section>
+
+  <section id="informe">
+    <div class="rotulo"><span class="clave">Your report</span><h2>How you did</h2></div>
+    <p class="consigna">Download your report and send it to your teacher. It carries your name, your score for each block and everything you typed.</p>
+    <div class="tarjeta">
+      <div class="resumen">
+        <div class="cifra"><b id="cBloques">0</b><span>blocks marked</span></div>
+        <div class="cifra"><b id="cPunt">—</b><span>marks</span></div>
+        <div class="cifra"><b id="cPct">0 %</b><span>correct</span></div>
+        <div class="cifra"><b id="cFlojo">—</b><span>weakest block</span></div>
+      </div>
+      <table class="desglose">
+        <thead><tr><th>Block</th><th style="text-align:right">Score</th></tr></thead>
+        <tbody id="tbDesglose"></tbody>
+      </table>
+      <div class="barra">
+        <button id="btnInforme">Download my report</button>
+        <button class="secundario" onclick="window.print()">Print / PDF</button>
+        <button class="peligro" id="btnBorrar">Erase my answers</button>
+      </div>
+      <p class="nota-guardado" id="notaGuardado"></p>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <p>The pluperfect · Edexcel A-Level French (9FR0) · BBA Sixth Form. Blocks A to D are what Paper 2 expects as standard; block E is translation; block F (si + pluperfect) is aimed at the top band. Your answers stay in this browser and are not sent anywhere.</p>
+</footer>
+
+
+<script>
+/* ============================================================
+   CONTENIDO
+   Bloques A–J: solo gramática con regla. Ningún verbo irregular
+   ni género irregular aparece como respuesta antes del bloque K.
+   ============================================================ */
+const BLOQUES = [
+{
+ id:"A", clave:"Block A", titulo:"Building the pluperfect",
+ regla:{
+   texto:"<p>The pluperfect is the perfect tense with the auxiliary moved into the <b>imperfect</b>: <code>avais / avait / avions / aviez / avaient</code> or <code>\u00e9tais / \u00e9tait / \u00e9tions / \u00e9tiez / \u00e9taient</code>, plus the past participle.</p><p>It translates English <i>had done</i>. Its job is to say that something happened <b>before</b> another moment in the past.</p>",
+   tabla:[["tense", "auxiliary", "example", "English"],
+          ["perfect", "present", "j'<b>ai</b> mang\u00e9", "I ate / I have eaten"],
+          ["pluperfect", "imperfect", "j'<b>avais</b> mang\u00e9", "I <b>had</b> eaten"],
+          ["perfect (\u00eatre)", "present", "elle <b>est</b> partie", "she left"],
+          ["pluperfect (\u00eatre)", "imperfect", "elle <b>\u00e9tait</b> partie", "she <b>had</b> left"]],
+   truco:"The choice of auxiliary never changes between the two tenses. If a verb takes \u00eatre in the perfect, it takes \u00eatre in the pluperfect. Only the tense of the auxiliary moves."
+ },
+ consigna:"Write the auxiliary in the imperfect. The participle is already there. The English is underneath each sentence.",
+ tipo:"hueco",
+ items:[
+  {texto:"J'________ mang\u00e9 avant de partir.<span class=\"glosa\">I had eaten before leaving.</span>", inf:"manger, je", ok:["avais"], nota:"avoir in the imperfect: avais."},
+  {texto:"Elle ________ d\u00e9j\u00e0 partie quand je suis arriv\u00e9.<span class=\"glosa\">She had already left when I arrived.</span>", inf:"partir, elle", ok:["était"], nota:"partir takes \u00eatre: \u00e9tait partie."},
+  {texto:"Nous ________ fini nos devoirs avant le d\u00eener.<span class=\"glosa\">We had finished our homework before dinner.</span>", inf:"finir, nous", ok:["avions"], nota:"avoir: avions."},
+  {texto:"Ils ________ d\u00e9j\u00e0 vu ce film deux fois.<span class=\"glosa\">They had already seen that film twice.</span>", inf:"voir, ils", ok:["avaient"], nota:"avoir: avaient."},
+  {texto:"Tu ________ oubli\u00e9 ton passeport \u00e0 la maison.<span class=\"glosa\">You had left your passport at home.</span>", inf:"oublier, tu", ok:["avais"], nota:"avoir: avais."},
+  {texto:"On ________ pris le bus de six heures.<span class=\"glosa\">We had taken the six o'clock bus.</span>", inf:"prendre, on", ok:["avait"], nota:"\u00ab on \u00bb behaves exactly like il / elle."},
+  {texto:"Vous ________ arriv\u00e9s en retard ce jour-l\u00e0.<span class=\"glosa\">You had arrived late that day.</span>", inf:"arriver, vous", ok:["étiez"], nota:"arriver takes \u00eatre: \u00e9tiez arriv\u00e9s."},
+  {texto:"Je m'________ lev\u00e9 tr\u00e8s t\u00f4t.<span class=\"glosa\">I had got up very early.</span>", inf:"se lever, je", ok:["étais"], nota:"Reflexive verbs always take \u00eatre."}
+ ]
+},
+{
+ id:"B", clave:"Block B", titulo:"Perfect or pluperfect?",
+ regla:{
+   texto:"<p>When you have two past actions and one happened <b>before</b> the other, the earlier one goes into the pluperfect and the later one stays in the perfect (or the imperfect).</p><p>Put them on a timeline: <i>elle avait achet\u00e9 la pizza</i> (first) \u2192 <i>je l'ai mang\u00e9e</i> (next) \u2192 <i>j'ai d\u00fb le dire \u00e0 ma m\u00e8re</i> (last).</p>",
+   tabla:[["order", "tense", "example", "English"],
+          ["action 1, the earlier one", "pluperfect", "le train <b>\u00e9tait parti</b>", "the train had left"],
+          ["action 2, the later one", "perfect", "quand je <b>suis arriv\u00e9</b>", "when I arrived"],
+          ["background", "imperfect", "il <b>faisait</b> froid", "it was cold"]],
+   truco:"Watch for the trigger words. After \u00ab d\u00e9j\u00e0 \u00bb, \u00ab avant \u00bb or \u00ab quand \u2026 \u00e9tait \u00bb, there is almost always a pluperfect waiting."
+ },
+ consigna:"Choose the correct form. Read the English first \u2014 it tells you which tense is wanted.",
+ tipo:"opcion",
+ items:[
+  {texto:"Quand je suis arriv\u00e9, le train ________ d\u00e9j\u00e0 parti.<span class=\"glosa\">When I arrived, the train had already left.</span>", opciones:["était", "est", "avait"], ok:"était", nota:"Earlier action, and a movement verb: \u00e9tait parti."},
+  {texto:"Elle m'a dit qu'elle ________ perdu ses cl\u00e9s.<span class=\"glosa\">She told me she had lost her keys.</span>", opciones:["avait", "a", "était"], ok:"avait", nota:"Losing them came before telling you: pluperfect."},
+  {texto:"Hier, nous ________ au cin\u00e9ma.<span class=\"glosa\">Yesterday we went to the cinema.</span>", opciones:["sommes allés", "étions allés", "allions"], ok:"sommes allés", nota:"One action, nothing earlier to mark: perfect."},
+  {texto:"Il a mang\u00e9 la pizza que sa m\u00e8re ________ achet\u00e9e.<span class=\"glosa\">He ate the pizza his mother had bought.</span>", opciones:["avait", "a", "était"], ok:"avait", nota:"Buying it came before eating it."},
+  {texto:"Je n'________ jamais vu la mer avant ce voyage.<span class=\"glosa\">I had never seen the sea before that trip.</span>", opciones:["avais", "ai", "étais"], ok:"avais", nota:"\u00ab avant ce voyage \u00bb pushes it back further still."},
+  {texto:"Ce matin, elle ________ le bus de sept heures.<span class=\"glosa\">This morning she took the seven o'clock bus.</span>", opciones:["a pris", "avait pris", "prenait"], ok:"a pris", nota:"A single event with nothing before it to signal."},
+  {texto:"Quand ils sont entr\u00e9s, nous ________ d\u00e9j\u00e0 fini de manger.<span class=\"glosa\">When they came in, we had already finished eating.</span>", opciones:["avions", "avons", "étions"], ok:"avions", nota:"The meal came before they walked in."},
+  {texto:"Elle \u00e9tait fatigu\u00e9e parce qu'elle ________ mal dormi.<span class=\"glosa\">She was tired because she had slept badly.</span>", opciones:["avait", "a", "était"], ok:"avait", nota:"The cause comes before the state: pluperfect."}
+ ]
+},
+{
+ id:"C", clave:"Block C", titulo:"Reporting what someone said",
+ regla:{
+   texto:"<p>When you report in the past what somebody said, <b>every tense steps back one</b>:</p>",
+   tabla:[["what they said", "reported in the past", "English"],
+          ["\u00ab Je mange. \u00bb", "il a dit qu'il <b>mangeait</b>", "he said he was eating"],
+          ["\u00ab J'ai mang\u00e9. \u00bb", "il a dit qu'il <b>avait mang\u00e9</b>", "he said he had eaten"],
+          ["\u00ab Je mangerai. \u00bb", "il a dit qu'il <b>mangerait</b>", "he said he would eat"],
+          ["\u00ab Je suis parti. \u00bb", "il a dit qu'il <b>\u00e9tait parti</b>", "he said he had left"]],
+   truco:"English does the same thing: he said he had eaten, not he said he has eaten. The usual mistake is leaving the perfect in place \u2014 \u00ab il a dit qu'il a mang\u00e9 \u00bb is not something a French speaker says."
+ },
+ consigna:"Rewrite it: write the missing verb. The English version is underneath.",
+ tipo:"hueco",
+ largo:true,
+ items:[
+  {texto:"\u00ab J'ai perdu mes cl\u00e9s. \u00bb \u2192 Il m'a dit qu'il ________ ses cl\u00e9s.<span class=\"glosa\">\u2018I\u2019ve lost my keys.\u2019 \u2192 He told me he had lost his keys.</span>", inf:"perdre", ok:["avait perdu"], nota:"Perfect steps back to pluperfect."},
+  {texto:"\u00ab Je suis arriv\u00e9e en retard. \u00bb \u2192 Elle a expliqu\u00e9 qu'elle ________ en retard.<span class=\"glosa\">\u2018I arrived late.\u2019 \u2192 She explained that she had arrived late.</span>", inf:"arriver", ok:["était arrivée"], nota:"\u00eatre, and the participle agrees: arriv\u00e9e."},
+  {texto:"\u00ab Nous avons fini. \u00bb \u2192 Ils ont annonc\u00e9 qu'ils ________.<span class=\"glosa\">\u2018We have finished.\u2019 \u2192 They announced that they had finished.</span>", inf:"finir", ok:["avaient fini"], nota:"avoir in the imperfect + fini."},
+  {texto:"\u00ab J'ai mang\u00e9 la pizza. \u00bb \u2192 J'ai d\u00fb dire \u00e0 ma m\u00e8re que j'________ la pizza.<span class=\"glosa\">\u2018I ate the pizza.\u2019 \u2192 I had to tell my mum that I had eaten the pizza.</span>", inf:"manger", ok:["avais mangé"], nota:"This is the sentence from your baseline test, in its correct form."},
+  {texto:"\u00ab Je n'ai rien vu. \u00bb \u2192 Il a r\u00e9p\u00e9t\u00e9 qu'il n'________ rien ________.<span class=\"glosa\">\u2018I saw nothing.\u2019 \u2192 He repeated that he had seen nothing.</span>", inf:"voir", ok:["avait rien vu", "avait  rien vu"], nota:"The negative wraps around the auxiliary: n'avait rien vu."},
+  {texto:"\u00ab Nous nous sommes lev\u00e9s t\u00f4t. \u00bb \u2192 Ils ont dit qu'ils ________ t\u00f4t.<span class=\"glosa\">\u2018We got up early.\u2019 \u2192 They said they had got up early.</span>", inf:"se lever", ok:["s'étaient levés", "s étaient levés"], nota:"Reflexive: s'\u00e9taient lev\u00e9s."},
+  {texto:"\u00ab Elle est n\u00e9e \u00e0 Nantes. \u00bb \u2192 On m'a racont\u00e9 qu'elle ________ \u00e0 Nantes.<span class=\"glosa\">\u2018She was born in Nantes.\u2019 \u2192 I was told that she had been born in Nantes.</span>", inf:"na\u00eetre", ok:["était née"], nota:"\u00eatre + n\u00e9e."},
+  {texto:"\u00ab J'ai tout compris. \u00bb \u2192 Tu as pr\u00e9tendu que tu ________ tout ________.<span class=\"glosa\">\u2018I understood everything.\u2019 \u2192 You claimed that you had understood everything.</span>", inf:"comprendre", ok:["avais tout compris", "avais  tout compris"], nota:"Irregular participle: compris."}
+ ]
+},
+{
+ id:"D", clave:"Block D", titulo:"When the participle has to agree",
+ regla:{
+   texto:"<p>With <b>avoir</b>, the past participle never agrees\u2026 <b>unless</b> the direct object comes <b>before</b> the verb. That happens after <code>que</code>, after a pronoun such as <code>l'</code> or <code>les</code>, and in a question starting with <code>quel</code>.</p>",
+   tabla:[["where the object is", "agree?", "example", "English"],
+          ["after the verb", "no", "j'ai mang\u00e9 <b>la pizza</b>", "I ate the pizza"],
+          ["before it, after \u00ab que \u00bb", "yes", "la pizza <b>que</b> j'ai mang<b>\u00e9e</b>", "the pizza that I ate"],
+          ["before it, as a pronoun", "yes", "je <b>l'</b>ai mang<b>\u00e9e</b>", "I ate it"],
+          ["with \u00eatre", "always", "elle est part<b>ie</b>", "she left"]],
+   truco:"Ask \u00ab what? \u00bb straight after the verb. If the answer has already gone past on the left, the participle agrees with it."
+ },
+ consigna:"Write the past participle, agreeing it where it needs to agree.",
+ tipo:"hueco",
+ items:[
+  {texto:"La pizza qu'elle avait ________ \u00e9tait froide.<span class=\"glosa\">The pizza she had bought was cold.</span>", inf:"acheter", ok:["achetée"], nota:"\u00ab la pizza \u00bb comes before the verb, so it agrees: feminine."},
+  {texto:"J'ai achet\u00e9 une robe, mais je l'ai ________ \u00e0 ma s\u0153ur.<span class=\"glosa\">I bought a dress, but I gave it to my sister.</span>", inf:"donner", ok:["donnée"], nota:"\u00ab l' \u00bb stands for la robe and comes first: donn\u00e9e."},
+  {texto:"Les livres que j'ai ________ cet \u00e9t\u00e9 \u00e9taient excellents.<span class=\"glosa\">The books I read this summer were excellent.</span>", inf:"lire", ok:["lus"], nota:"Masculine plural object before the verb: lus."},
+  {texto:"J'ai ________ trois pizzas hier soir.<span class=\"glosa\">I ate three pizzas last night.</span>", inf:"manger", ok:["mangé"], nota:"The object comes AFTER, so nothing agrees."},
+  {texto:"Les lettres qu'il avait ________ sont arriv\u00e9es hier.<span class=\"glosa\">The letters he had written arrived yesterday.</span>", inf:"\u00e9crire", ok:["écrites"], nota:"Feminine plural before the verb: \u00e9crites."},
+  {texto:"Quelle histoire as-tu ________ ?<span class=\"glosa\">Which story did you choose?</span>", inf:"choisir", ok:["choisie"], nota:"\u00ab quelle histoire \u00bb is the object and it comes first."},
+  {texto:"Elles sont ________ \u00e0 six heures.<span class=\"glosa\">They arrived at six o'clock.</span>", inf:"arriver", ok:["arrivées"], nota:"With \u00eatre it agrees with the subject."},
+  {texto:"Elle s'est ________ les mains.<span class=\"glosa\">She washed her hands.</span>", inf:"laver", ok:["lavé"], nota:"The trap: \u00ab les mains \u00bb is the object and it follows the verb, so no agreement."}
+ ]
+},
+{
+ id:"E", clave:"Block E", titulo:"Translation: had done",
+ regla:{
+   texto:"<p>English <i>had</i> + past participle is almost always the pluperfect in French. Sort out the auxiliary first, then worry about agreement.</p>",
+   tabla:[["English", "French"],
+          ["I had eaten", "j'avais mang\u00e9"],
+          ["she had left", "elle \u00e9tait partie"],
+          ["we had got up", "nous nous \u00e9tions lev\u00e9s"],
+          ["they had never seen", "ils n'avaient jamais vu"]],
+   truco:"Write the auxiliary in the imperfect first and the participle second. Done in that order, the agreement is hard to forget."
+ },
+ consigna:"Translate the whole sentence into French.",
+ tipo:"hueco",
+ largo:true,
+ items:[
+  {texto:"I had already eaten when she arrived.", ok:["j'avais déjà mangé quand elle est arrivée"], nota:"Pluperfect, then perfect."},
+  {texto:"He told me that he had lost his keys.", ok:["il m'a dit qu'il avait perdu ses clés"], nota:"Reported speech in the past."},
+  {texto:"I had to tell my mum that I had eaten the pizza that she had bought.", ok:["j'ai dû dire à ma mère que j'avais mangé la pizza qu'elle avait achetée"], nota:"Two pluperfects and one agreement \u2014 the full sentence from your baseline test."},
+  {texto:"They had already left when the film started.", ok:["ils étaient déjà partis quand le film a commencé"], nota:"partir takes \u00eatre: \u00e9taient partis."},
+  {texto:"She had never seen the sea.", ok:["elle n'avait jamais vu la mer"], nota:"The negative wraps around the auxiliary."},
+  {texto:"We had got up at six o'clock.", ok:["nous nous étions levés à six heures", "on s'était levés à six heures"], nota:"Reflexive: nous nous \u00e9tions lev\u00e9s."}
+ ]
+},
+{
+ id:"F", clave:"Block F", titulo:"Going further: si + pluperfect",
+ regla:{
+   texto:"<p>Regret and blame are built with <code>si</code> + <b>pluperfect</b>, answered by the <b>conditional perfect</b> (<i>aurais</i> or <i>serais</i> + participle). This is the structure that lifts an essay into the top band.</p>",
+   tabla:[["condition", "result", "example", "English"],
+          ["si + imperfect", "present conditional", "si j'\u00e9tais riche, je voyagerais", "if I were rich, I would travel"],
+          ["si + pluperfect", "conditional perfect", "si j'avais su, je serais venu", "if I had known, I would have come"]],
+   truco:"Never put a conditional straight after \u00ab si \u00bb. The conditional always lives in the other half of the sentence."
+ },
+ consigna:"Write the verb in the conditional perfect. The English is underneath each sentence.",
+ tipo:"hueco",
+ largo:true,
+ items:[
+  {texto:"Si j'avais su, je ________ plus t\u00f4t.<span class=\"glosa\">If I had known, I would have come earlier.</span>", inf:"venir, je", ok:["serais venu", "serais venue"], nota:"venir takes \u00eatre: serais venu(e)."},
+  {texto:"Si tu avais r\u00e9vis\u00e9, tu ________ ton examen.<span class=\"glosa\">If you had revised, you would have passed your exam.</span>", inf:"r\u00e9ussir, tu", ok:["aurais réussi"], nota:"avoir in the conditional + participle."},
+  {texto:"Si nous \u00e9tions partis plus t\u00f4t, nous ________ le train.<span class=\"glosa\">If we had left earlier, we would have caught the train.</span>", inf:"avoir, nous", ok:["aurions eu"], nota:"aurions + eu."},
+  {texto:"S'il avait fait beau, ils ________ \u00e0 la plage.<span class=\"glosa\">If the weather had been good, they would have gone to the beach.</span>", inf:"aller, ils", ok:["seraient allés"], nota:"aller takes \u00eatre: seraient all\u00e9s."},
+  {texto:"Si elle avait \u00e9cout\u00e9, elle ________ la question.<span class=\"glosa\">If she had listened, she would have understood the question.</span>", inf:"comprendre, elle", ok:["aurait compris"], nota:"aurait + compris."},
+  {texto:"Si vous m'aviez pr\u00e9venu, je ne ________ pas ________.<span class=\"glosa\">If you had warned me, I would not have left.</span>", inf:"partir, je", ok:["serais pas parti", "serais pas partie"], nota:"The negative wraps around the conditional auxiliary."}
+ ]
+}
+];
+
+/* ============================================================
+   ESTADO
+   ============================================================ */
+const LS = 'pqp-concordance-fr-v1';
+let S = {nombre:'', resp:{}, marcas:{}, creado:Date.now()};
+try{
+  const c = localStorage.getItem(LS);
+  if(c){ const p = JSON.parse(c); S = Object.assign(S,p); S.resp=S.resp||{}; S.marcas=S.marcas||{}; }
+}catch(e){}
+let guardadoOk = true;
+function guardar(){
+  try{ localStorage.setItem(LS, JSON.stringify(S)); }
+  catch(e){ guardadoOk=false; document.getElementById('avisoGuardado').textContent='impossible d\'enregistrer dans ce navigateur'; }
+}
+
+/* ============================================================
+   UTILIDADES
+   ============================================================ */
+const norm = s => (s||'').toString().toLowerCase().trim()
+  .replace(/[.,;:!¡?¿"'»«]+$/g,'').replace(/\s+/g,' ');
+const sinTilde = s => norm(s).normalize('NFD').replace(/[\u0300-\u036f]/g,'');
+const dosCifras = n => String(n).padStart(2,'0');
+function el(t,c,h){ const n=document.createElement(t); if(c)n.className=c; if(h!==undefined)n.innerHTML=h; return n; }
+
+function reg(nodo,clave){
+  nodo.dataset.k = clave;
+  const v = S.resp[clave];
+  if(v===undefined) return nodo;
+  if(nodo.type==='radio'){ if(nodo.value===v) nodo.checked=true; }
+  else nodo.value = v;
+  return nodo;
+}
+document.addEventListener('input', e=>{
+  const k = e.target.dataset && e.target.dataset.k;
+  if(k){ S.resp[k]=e.target.value; guardar(); }
+});
+document.addEventListener('change', e=>{
+  const k = e.target.dataset && e.target.dataset.k;
+  if(k){ S.resp[k]=e.target.value; guardar(); }
+});
+
+/* ============================================================
+   MAPA DE BLOQUES
+   ============================================================ */
+const chips = document.getElementById('chips');
+BLOQUES.forEach(b=>{
+  const a = el('a',null,b.id);
+  a.href = '#'+b.id; a.id = 'chip-'+b.id;
+  a.title = b.titulo;
+  chips.appendChild(a);
+});
+function pintarMapa(){
+  let corregidos=0, perfectos=0;
+  BLOQUES.forEach(b=>{
+    const m = S.marcas[b.id];
+    const c = document.getElementById('chip-'+b.id);
+    if(!m){ c.className=''; return; }
+    corregidos++;
+    const todo = m.aciertos===m.total;
+    if(todo) perfectos++;
+    c.className = todo ? 'completa' : 'parcial';
+  });
+  document.getElementById('leyenda').textContent = corregidos===0
+    ? BLOQUES.length+' blocks · nothing marked yet'
+    : `${corregidos} of ${BLOQUES.length} marked · ${perfectos} with nothing wrong`;
+}
+
+/* ============================================================
+   CONSTRUCCIÓN
+   ============================================================ */
+const zona = document.getElementById('bloques');
+
+BLOQUES.forEach(bl=>{
+  const sec = el('section'); sec.id = bl.id;
+  const rot = el('div','rotulo');
+  rot.appendChild(el('span','clave',bl.clave));
+  rot.appendChild(el('h2',null,bl.titulo));
+  const marc = el('span','marcador',''); marc.setAttribute('aria-live','polite');
+  rot.appendChild(marc);
+  sec.appendChild(rot);
+
+  /* --- la regla --- */
+  const reglaCaja = el('div','regla');
+  reglaCaja.appendChild(el('h3',null,'The rule'));
+  reglaCaja.insertAdjacentHTML('beforeend', bl.regla.texto);
+  if(bl.regla.tabla){
+    const t = el('table','conj');
+    bl.regla.tabla.forEach((fila,i)=>{
+      const tr = el('tr');
+      fila.forEach(celda=> tr.appendChild(el(i===0?'th':'td',null,celda)));
+      t.appendChild(tr);
+    });
+    reglaCaja.appendChild(t);
+  }
+  if(bl.regla.truco) reglaCaja.appendChild(el('p','truco','↳ '+bl.regla.truco));
+  sec.appendChild(reglaCaja);
+
+  sec.appendChild(el('p','consigna',bl.consigna));
+
+  const caja = el('div','tarjeta'+(bl.estilo?' '+bl.estilo:''));
+  const lista = el('ol','items');
+
+  bl.items.forEach((it,j)=>{
+    const li = el('li'); li.dataset.i = j;
+    const tipo = it.opciones ? 'opcion' : bl.tipo;
+    const clave = `${bl.id}i${j}`;
+
+    if(tipo==='opcion'){
+      const p = el('p','enunciado', it.texto);
+      li.appendChild(p);
+      const r = el('div','respuesta');
+      const g = el('div','opciones');
+      it.opciones.forEach(op=>{
+        const lab = el('label','opcion');
+        const inp = el('input'); inp.type='radio'; inp.name=clave; inp.value=op;
+        reg(inp, clave);
+        lab.appendChild(inp); lab.appendChild(el('span',null,op)); g.appendChild(lab);
+      });
+      r.appendChild(g); li.appendChild(r);
+
+    } else {                                   /* hueco */
+      const p = el('p','enunciado', it.texto);
+      if(it.inf) p.appendChild(el('span','etiqueta','('+it.inf+')'));
+      li.appendChild(p);
+      const r = el('div','respuesta');
+      const inp = el('input'); inp.type='text';
+      inp.className = bl.largo ? 'largo' : 'corto';
+      inp.setAttribute('aria-label','Tu respuesta');
+      inp.autocapitalize='off'; inp.spellcheck=false;
+      reg(inp, clave);
+      r.appendChild(inp); li.appendChild(r);
+    }
+    lista.appendChild(li);
+  });
+
+  caja.appendChild(lista);
+
+  const barra = el('div','barra');
+  const bComp = el('button',null,'Check my answers');
+  const bFall = el('button','secundario','Refaire seulement les erreurs'); bFall.hidden = true;
+  const bVer  = el('button','secundario','Show the answers');
+  barra.appendChild(bComp); barra.appendChild(bFall); barra.appendChild(bVer);
+  caja.appendChild(barra);
+  sec.appendChild(caja);
+  zona.appendChild(sec);
+
+  if(S.marcas[bl.id]) marc.textContent = `${S.marcas[bl.id].aciertos} / ${S.marcas[bl.id].total}`;
+
+  function limpiar(li){
+    li.classList.remove('acierto','fallo');
+    li.querySelectorAll('.pista,.modelo').forEach(n=>n.remove());
+  }
+
+  bComp.addEventListener('click',()=>{
+    let aciertos = 0;
+    lista.querySelectorAll('li').forEach(li=>{
+      const j = +li.dataset.i, it = bl.items[j];
+      limpiar(li);
+      const tipo = it.opciones ? 'opcion' : bl.tipo;
+      let bien = false, aviso = null, casi = false;
+
+      if(tipo==='opcion'){
+        const sel = li.querySelector('input:checked');
+        if(!sel) aviso = 'You left this blank. The answer was: '+it.ok;
+        else { bien = sel.value===it.ok; if(!bien) aviso = it.nota; }
+      } else {
+        const v = li.querySelector('input').value;
+        if(!v.trim()) aviso = 'You left this blank. The answer was: '+it.ok[0];
+        else {
+          bien = it.ok.some(o=>norm(v)===norm(o));
+          if(!bien && it.ok.some(o=>sinTilde(v)===sinTilde(o))){ casi = true; }
+          else if(!bien) aviso = it.nota;
+        }
+      }
+
+      if(bien){ li.classList.add('acierto'); aciertos++; li.appendChild(el('p','pista bien','✓ Correct.')); }
+      else if(casi){ li.classList.add('fallo'); li.appendChild(el('p','pista tilde','⌃ Almost — the word is right, check the accent.')); }
+      else { li.classList.add('fallo'); li.appendChild(el('p','pista mal','✗ '+aviso)); }
+    });
+    const total = bl.items.length;
+    marc.textContent = `${aciertos} / ${total}`;
+    S.marcas[bl.id] = {aciertos, total, titulo: bl.clave+' — '+bl.titulo};
+    guardar(); pintarMapa(); pintarInforme();
+    bFall.hidden = (aciertos === total);
+  });
+
+  bFall.addEventListener('click',()=>{
+    lista.querySelectorAll('li.fallo').forEach(li=>{
+      li.querySelectorAll('input').forEach(inp=>{
+        if(inp.type==='radio') inp.checked = false; else inp.value = '';
+        if(inp.dataset.k) delete S.resp[inp.dataset.k];
+      });
+      limpiar(li);
+    });
+    guardar();
+    bFall.hidden = true;
+    const primero = lista.querySelector('input');
+    if(primero) primero.focus();
+  });
+
+  bVer.addEventListener('click',()=>{
+    lista.querySelectorAll('li').forEach(li=>{
+      const j = +li.dataset.i, it = bl.items[j];
+      li.querySelectorAll('.modelo').forEach(n=>n.remove());
+      const sol = it.opciones ? it.ok : it.ok.join('  /  ');
+      li.appendChild(el('div','modelo','<strong>Answer</strong>'+sol+(it.nota?' <em style="color:var(--tinta-70)">— '+it.nota+'</em>':'')));
+    });
+  });
+});
+
+/* ============================================================
+   REPASO MIXTO — práctica intercalada
+   ============================================================ */
+(function(){
+  const zonaMix = document.getElementById('zonaMix');
+  const bGen = document.getElementById('btnGenerar');
+  const bComp = document.getElementById('btnCompMix');
+  const bVer = document.getElementById('btnVerMix');
+  const marc = document.getElementById('marcMix');
+  const nota = document.getElementById('notaMix');
+  const CUANTOS = 15;
+  let tanda = [];
+
+  /* todos los ítems, cada uno recordando de qué bloque viene */
+  const POZO = [];
+  BLOQUES.forEach(bl=>bl.items.forEach(it=>POZO.push({it, bl})));
+
+  function generar(){
+    const copia = POZO.slice();
+    for(let i=copia.length-1;i>0;i--){
+      const j = Math.floor(Math.random()*(i+1));
+      [copia[i],copia[j]] = [copia[j],copia[i]];
+    }
+    tanda = copia.slice(0,CUANTOS);
+
+    zonaMix.innerHTML = '';
+    const lista = el('ol','items');
+    tanda.forEach((par,j)=>{
+      const {it, bl} = par;
+      const li = el('li'); li.dataset.i = j;
+      const tipo = it.opciones ? 'opcion' : bl.tipo;
+      const p = el('p','enunciado', it.texto);
+      p.appendChild(el('span','etiqueta','['+bl.id+(it.inf?' · '+it.inf:'')+']'));
+      li.appendChild(p);
+      const r = el('div','respuesta');
+      if(tipo==='opcion'){
+        const g = el('div','opciones');
+        it.opciones.forEach(op=>{
+          const lab = el('label','opcion');
+          const inp = el('input'); inp.type='radio'; inp.name='mix'+j; inp.value=op;
+          lab.appendChild(inp); lab.appendChild(el('span',null,op)); g.appendChild(lab);
+        });
+        r.appendChild(g);
+      } else {
+        const inp = el('input'); inp.type='text';
+        inp.className = bl.largo ? 'largo' : 'corto';
+        inp.setAttribute('aria-label','Tu respuesta');
+        inp.autocapitalize='off'; inp.spellcheck=false;
+        r.appendChild(inp);
+      }
+      li.appendChild(r);
+      lista.appendChild(li);
+    });
+    zonaMix.appendChild(lista);
+    bComp.hidden = false; bVer.hidden = false;
+    marc.textContent = ''; nota.textContent = '';
+    bGen.textContent = 'Give me 15 more';
+  }
+
+  bGen.addEventListener('click', generar);
+
+  bComp.addEventListener('click',()=>{
+    let aciertos = 0;
+    const falladosPorBloque = {};
+    zonaMix.querySelectorAll('li').forEach(li=>{
+      const j = +li.dataset.i, {it, bl} = tanda[j];
+      li.classList.remove('acierto','fallo');
+      li.querySelectorAll('.pista,.modelo').forEach(n=>n.remove());
+      const tipo = it.opciones ? 'opcion' : bl.tipo;
+      let bien=false, aviso=null, casi=false;
+
+      if(tipo==='opcion'){
+        const sel = li.querySelector('input:checked');
+        if(!sel) aviso='You left this blank. The answer was: '+it.ok;
+        else { bien = sel.value===it.ok; if(!bien) aviso = it.nota; }
+      } else {
+        const v = li.querySelector('input').value;
+        if(!v.trim()) aviso='You left this blank. The answer was: '+it.ok[0];
+        else {
+          bien = it.ok.some(o=>norm(v)===norm(o));
+          if(!bien && it.ok.some(o=>sinTilde(v)===sinTilde(o))) casi = true;
+          else if(!bien) aviso = it.nota;
+        }
+      }
+
+      if(bien){ li.classList.add('acierto'); aciertos++; li.appendChild(el('p','pista bien','✓ Correct.')); }
+      else{
+        li.classList.add('fallo');
+        falladosPorBloque[bl.id] = (falladosPorBloque[bl.id]||0)+1;
+        if(casi) li.appendChild(el('p','pista tilde','⌃ Almost — check the accent.'));
+        else li.appendChild(el('p','pista mal','✗ '+aviso));
+      }
+    });
+    marc.textContent = `${aciertos} / ${tanda.length}`;
+    const ids = Object.keys(falladosPorBloque).sort((a,b)=>falladosPorBloque[b]-falladosPorBloque[a]);
+    nota.textContent = ids.length
+      ? 'Most of your mistakes came from: ' + ids.map(i=>i+' ('+falladosPorBloque[i]+')').join(', ') + '. Go back to those blocks and read the rule again.'
+      : 'Nothing wrong. Generate another set.';
+  });
+
+  bVer.addEventListener('click',()=>{
+    zonaMix.querySelectorAll('li').forEach(li=>{
+      const j = +li.dataset.i, {it} = tanda[j];
+      li.querySelectorAll('.modelo').forEach(n=>n.remove());
+      const sol = it.opciones ? it.ok : it.ok.join('  /  ');
+      li.appendChild(el('div','modelo','<strong>Answer</strong>'+sol+(it.nota?' <em style="color:var(--tinta-70)">— '+it.nota+'</em>':'')));
+    });
+  });
+})();
+
+/* ============================================================
+   INFORME
+   ============================================================ */
+const campoNombre = document.getElementById('nombre');
+campoNombre.value = S.nombre || '';
+campoNombre.addEventListener('input', e=>{ S.nombre = e.target.value.trim(); guardar(); pintarInforme(); });
+
+function pintarInforme(){
+  let puntos=0, maximo=0, corregidos=0, flojo=null, flojoPct=101;
+  BLOQUES.forEach(b=>{
+    const m = S.marcas[b.id];
+    if(!m) return;
+    corregidos++; puntos += m.aciertos; maximo += m.total;
+    const pct = 100*m.aciertos/m.total;
+    if(pct < flojoPct){ flojoPct = pct; flojo = b.id; }
+  });
+  document.getElementById('cBloques').textContent = corregidos;
+  document.getElementById('cPunt').textContent = maximo ? puntos+' / '+maximo : '—';
+  document.getElementById('cPct').textContent = maximo ? Math.round(100*puntos/maximo)+' %' : '0 %';
+  document.getElementById('cFlojo').textContent = (flojo && flojoPct<100) ? flojo : '—';
+
+  const tb = document.getElementById('tbDesglose');
+  tb.innerHTML = '';
+  BLOQUES.forEach(b=>{
+    const m = S.marcas[b.id];
+    const tr = el('tr', m ? null : 'pendiente');
+    tr.appendChild(el('td',null,'<b>'+b.id+'</b>  '+b.titulo));
+    if(m){
+      const pct = Math.round(100*m.aciertos/m.total);
+      tr.appendChild(el('td','n','<span class="mini"><i style="width:'+pct+'%"></i></span>'+m.aciertos+' / '+m.total));
+    } else {
+      tr.appendChild(el('td','n','not attempted'));
+    }
+    tb.appendChild(tr);
+  });
+
+  const nota = document.getElementById('notaGuardado');
+  nota.textContent = guardadoOk
+    ? (S.nombre ? `Your report will be downloaded in the name of ${S.nombre}.` : 'Write your name at the top before you download the report.')
+    : 'This browser is not saving anything: download your report before you close the page.';
+}
+
+function sello(){
+  const d=new Date();
+  return `${dosCifras(d.getDate())}/${dosCifras(d.getMonth()+1)}/${d.getFullYear()} ${dosCifras(d.getHours())}:${dosCifras(d.getMinutes())}`;
+}
+function fechaArchivo(){ const d=new Date(); return `${d.getFullYear()}-${dosCifras(d.getMonth()+1)}-${dosCifras(d.getDate())}`; }
+function paraArchivo(t){
+  return (t||'sin-nombre').normalize('NFD').replace(/[\u0300-\u036f]/g,'')
+    .replace(/[^A-Za-z0-9]+/g,'-').replace(/^-+|-+$/g,'').slice(0,40) || 'sin-nombre';
+}
+
+function construirInforme(){
+  const L=[], raya='='.repeat(64);
+  L.push(raya);
+  L.push('THE PLUPERFECT · WHAT HAD ALREADY HAPPENED');
+  L.push('A-Level French · Edexcel 9FR0 · BBA Sixth Form');
+  L.push(raya); L.push('');
+  L.push('Name  : '+(S.nombre||'(no name given)'));
+  L.push('Date  : '+sello()); L.push('');
+
+  let puntos=0, maximo=0, corregidos=0;
+  BLOQUES.forEach(b=>{ const m=S.marcas[b.id]; if(!m)return; corregidos++; puntos+=m.aciertos; maximo+=m.total; });
+
+  L.push('SUMMARY'); L.push('-'.repeat(64));
+  L.push(`Blocks marked  : ${corregidos} of ${BLOQUES.length}`);
+  L.push(`Score          : ${maximo ? puntos+' / '+maximo+'  ('+Math.round(100*puntos/maximo)+' %)' : 'not marked yet'}`);
+  L.push('');
+
+  L.push('BLOCK BY BLOCK'); L.push('-'.repeat(64));
+  BLOQUES.forEach(b=>{
+    const m = S.marcas[b.id];
+    const nom = (b.id+'  '+b.titulo).padEnd(50,' ');
+    L.push(nom+'  '+(m ? `${m.aciertos} / ${m.total}` : 'not attempted'));
+  });
+  L.push('');
+
+  /* qué repasar */
+  const flojos = BLOQUES.filter(b=>{ const m=S.marcas[b.id]; return m && m.aciertos < m.total; });
+  if(flojos.length){
+    L.push('TO GO BACK OVER'); L.push('-'.repeat(64));
+    flojos.forEach(b=>{
+      const m = S.marcas[b.id];
+      L.push(`· ${b.titulo} (${m.aciertos}/${m.total})`);
+      b.items.forEach((it,j)=>{
+        const v = S.resp[`${b.id}i${j}`];
+        const bien = it.opciones ? v===it.ok : (v!==undefined && it.ok.some(o=>norm(v)===norm(o)));
+        if(!bien){
+          const correcta = it.opciones ? it.ok : it.ok[0];
+          L.push(`    ${j+1}. you wrote: ${v && v.trim() ? v : '(blank)'}   →  ${correcta}`);
+        }
+      });
+      L.push('');
+    });
+  }
+
+  /* bloque J: producción escrita, se transcribe entera */
+  const bJ = BLOQUES.find(b=>b.id==='J');
+  if(bJ && bJ.items.some((_,j)=>(S.resp['Ji'+j]||'').trim())){
+    L.push('BLOC J · CE QUE TU AS ÉCRIT'); L.push('-'.repeat(64));
+    bJ.items.forEach((it,j)=>{
+      L.push(`${j+1}. ${it.texto}`);
+      L.push(`   > ${(S.resp['Ji'+j]||'').trim() || '(nothing written)'}`);
+      L.push('');
+    });
+  }
+
+  L.push(raya);
+  L.push('Every block above has a rule and a table. Read the rule before you try the block again.');
+  return L.join('\n');
+}
+
+document.getElementById('btnInforme').addEventListener('click',()=>{
+  if(!S.nombre){
+    campoNombre.focus();
+    campoNombre.scrollIntoView({block:'center'});
+    document.getElementById('notaGuardado').textContent='Write your name first — the report carries it on the top line.';
+    return;
+  }
+  const blob = new Blob([construirInforme()],{type:'text/plain;charset=utf-8'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `pluperfect_${paraArchivo(S.nombre)}_${fechaArchivo()}.txt`;
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  setTimeout(()=>URL.revokeObjectURL(url),1000);
+});
+
+document.getElementById('btnBorrar').addEventListener('click',()=>{
+  if(!confirm('Erase all your answers and scores on this device? This cannot be undone.')) return;
+  try{ localStorage.removeItem(LS); }catch(e){}
+  location.reload();
+});
+
+document.addEventListener('keydown',e=>{
+  if(e.key==='Enter' && e.target.matches('input[type=text]')){
+    e.preventDefault();
+    const todos=[...document.querySelectorAll('input[type=text]')];
+    const n=todos[todos.indexOf(e.target)+1]; if(n) n.focus();
+  }
+});
+
+pintarMapa();
+pintarInforme();
+</script>
+  <script>window.BBA_KIT = {name:false};</script>
+  <script src="bba-kit-fr.js" defer></script>
+</body>
+</html>
