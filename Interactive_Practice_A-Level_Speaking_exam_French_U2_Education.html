@@ -127,10 +127,10 @@ input[type=text].gapin { display:inline-block; width:auto; min-width:190px; marg
     <h1>🇫🇷 L'Éducation en France</h1>
     <p>Pratique pour A-Level French — Edexcel · Thème : l'éducation, le harcèlement scolaire et l'égalité des chances</p>
     <div class="toprow">
-      <div class="timer" id="timer">⏱️ 45:00</div>
+      <div class="timer" id="timer">⏱️ 60:00</div>
       <button onclick="startTimer()">▶ Départ</button>
       <button onclick="pauseTimer()">⏸ Pause</button>
-      <button onclick="resetTimer()">↺ Remettre à 45:00</button>
+      <button onclick="resetTimer()">↺ Remettre à 60:00</button>
     </div>
     <div class="progress-bar"><div class="progress-fill" id="progressBar">0%</div></div>
   </div>
@@ -161,7 +161,7 @@ input[type=text].gapin { display:inline-block; width:auto; min-width:190px; marg
 
     <!-- ================= SECTION 0 : TEXTE ================= -->
     <h2>Texte de compréhension</h2>
-    <div class="task"><b>Avant de commencer.</b> Lisez le texte une première fois sans dictionnaire. Notez les trois chiffres qu'il contient : ils reviennent dans les sections 1 et 2.</div>
+    <div class="task"><b>Avant de commencer.</b> Lisez le texte une première fois sans dictionnaire. Notez les chiffres qu'il contient — ceux de Pisa surtout : ils reviennent dans les sections 1, 2 et 6.</div>
     <div class="btn-row" style="margin-bottom:10px;">
       <button class="btn-ghost" onclick="speak()">🔊 Écouter le texte</button>
       <button class="btn-ghost" onclick="stopSpeak()">⏹ Arrêter</button>
@@ -181,6 +181,11 @@ input[type=text].gapin { display:inline-block; width:auto; min-width:190px; marg
 
       <p>Enfin, l'accusation d'<span class="gl" title="elitism">élitisme</span> reste vive. Après le bac, la plateforme <strong>Parcoursup</strong> répartit les candidats dans l'enseignement supérieur selon des algorithmes que beaucoup jugent opaques. Les classes préparatoires (CPGE) mènent aux grandes écoles, très sélectives, où les enfants de cadres sont massivement <span class="gl" title="over-represented">surreprésentés</span>. À l'autre bout, la voie professionnelle et l'apprentissage souffrent d'un manque de prestige, et les CFA peinent parfois à trouver des entreprises d'accueil. Quant au <span class="gl" title="repeating a year">redoublement</span>, autrefois réflexe français puis fortement limité, il a été partiellement réhabilité : depuis le décret du 16 mars 2024, c'est de nouveau l'équipe pédagogique, et non la famille, qui a le dernier mot.</p>
 
+
+      <p>En septembre 2026, l'enquête internationale <strong>Pisa</strong>, publiée par l'OCDE, a confirmé ce que beaucoup pressentaient. Entre 2022 et 2025, les résultats des élèves français de quinze ans ont <span class="gl" title="fallen back, declined">reculé</span> de <strong>18 points</strong> en compréhension de l'écrit et de <strong>16 points</strong> en mathématiques, quand la moyenne de l'OCDE ne perdait que 14 et 9 points. Or vingt points représentent à peu près une année d'apprentissage : depuis 2015, la France a perdu <strong>44 points</strong> à l'écrit, soit deux années. Un tiers des élèves sont désormais <span class="gl" title="struggling badly, below the basic level">en grande difficulté</span> en lecture (33 %) et en mathématiques (36 %).</p>
+
+      <p>L'inégalité, elle, s'est réduite pour une raison paradoxale. La France n'est plus le pays le plus inégalitaire de l'OCDE, mais parce que ce sont les élèves les plus <span class="gl" title="from an advantaged background">favorisés</span> qui ont le plus chuté : <strong>52 points</strong> en compréhension de l'écrit en dix ans. L'<span class="gl" title="the gap">écart</span> entre les filières, lui, reste abyssal : la seconde générale et technologique obtient <strong>525 points</strong> en sciences, le niveau de l'Estonie, contre <strong>406 points</strong> pour la seconde professionnelle, sous la Colombie. Le tableau n'est pourtant pas entièrement noir : 71 % des élèves français déclarent prendre du plaisir à apprendre les sciences, contre 55 % en moyenne dans l'OCDE.</p>
+
       <div class="glossary" id="glossary" style="display:none;">
         <div><dt>un délit</dt><dd>— a criminal offence (less serious than <em>un crime</em>)</dd></div>
         <div><dt>les peines encourues</dt><dd>— the penalties incurred / that apply</dd></div>
@@ -194,11 +199,17 @@ input[type=text].gapin { display:inline-block; width:auto; min-width:190px; marg
         <div><dt>surreprésenté(e)</dt><dd>— over-represented</dd></div>
         <div><dt>le redoublement</dt><dd>— repeating a year</dd></div>
         <div><dt>l'équipe pédagogique</dt><dd>— the teaching staff / teaching team</dd></div>
+        <div><dt>une enquête</dt><dd>— a survey, a study (not «&nbsp;an enquiry&nbsp;»)</dd></div>
+        <div><dt>reculer</dt><dd>— to fall back, to decline</dd></div>
+        <div><dt>en grande difficulté</dt><dd>— struggling badly, below the basic level</dd></div>
+        <div><dt>un élève favorisé</dt><dd>— a pupil from an advantaged background</dd></div>
+        <div><dt>l'écart</dt><dd>— the gap (between two groups or results)</dd></div>
+        <div><dt>redresser la barre</dt><dd>— to turn things round, to right the ship</dd></div>
       </div>
     </div>
 
     <!-- ================= SECTION 1 ================= -->
-    <h2>Section 1 — Vrai, Faux ou Non mentionné <span style="font-weight:400; font-size:.75em; color:#5b6b7f;">(6 minutes)</span></h2>
+    <h2>Section 1 — Vrai, Faux ou Non mentionné <span style="font-weight:400; font-size:.75em; color:#5b6b7f;">(8 minutes)</span></h2>
     <div class="task"><b>Tâche.</b> Répondez d'après le texte uniquement. Chaque question se corrige immédiatement.</div>
     <div id="tfWrap"></div>
     <div class="stretch"><b>Défi (A*/C1).</b> Pour chaque affirmation <em>fausse</em>, réécrivez-la en une phrase pour la rendre exacte. Utilisez « non pas… mais… » ou « contrairement à ce que l'on croit… ».
@@ -206,17 +217,17 @@ input[type=text].gapin { display:inline-block; width:auto; min-width:190px; marg
     </div>
 
     <!-- ================= SECTION 2 ================= -->
-    <h2>Section 2 — Complétez les phrases <span style="font-weight:400; font-size:.75em; color:#5b6b7f;">(10 minutes)</span></h2>
+    <h2>Section 2 — Complétez les phrases <span style="font-weight:400; font-size:.75em; color:#5b6b7f;">(13 minutes)</span></h2>
     <div class="task"><b>Tâche.</b> Un mot par blanc. Le clavier d'accents flottant est en bas à droite. Les indices restent cachés tant que vous ne les demandez pas.</div>
     <div id="gapWrap"></div>
 
     <!-- ================= SECTION 3 ================= -->
-    <h2>Section 3 — Choix multiples <span style="font-weight:400; font-size:.75em; color:#5b6b7f;">(8 minutes)</span></h2>
+    <h2>Section 3 — Choix multiples <span style="font-weight:400; font-size:.75em; color:#5b6b7f;">(10 minutes)</span></h2>
     <div class="task"><b>Tâche.</b> Plusieurs réponses sont correctes. La correction indique séparément ce que vous avez coché à tort et ce que vous avez oublié.</div>
     <div id="mcWrap"></div>
 
     <!-- ================= SECTION 4 ================= -->
-    <h2>Section 4 — Vocabulaire clé <span style="font-weight:400; font-size:.75em; color:#5b6b7f;">(7 minutes)</span></h2>
+    <h2>Section 4 — Vocabulaire clé <span style="font-weight:400; font-size:.75em; color:#5b6b7f;">(10 minutes)</span></h2>
     <div class="task"><b>Tâche.</b> Traduisez. L'article défini est facultatif — mais s'il est là, il doit être juste.</div>
     <div id="vocWrap"></div>
     <div class="stretch"><b>Défi (A*/C1).</b> Écrivez une phrase de 25 mots minimum qui emploie <em>le décrochage scolaire</em>, <em>l'apprentissage</em> et un connecteur de cause (<em>étant donné que, dans la mesure où, faute de</em>).
@@ -226,7 +237,7 @@ input[type=text].gapin { display:inline-block; width:auto; min-width:190px; marg
     </div>
 
     <!-- ================= SECTION 5 ================= -->
-    <h2>Section 5 — Associez les concepts <span style="font-weight:400; font-size:.75em; color:#5b6b7f;">(5 minutes)</span></h2>
+    <h2>Section 5 — Associez les concepts <span style="font-weight:400; font-size:.75em; color:#5b6b7f;">(6 minutes)</span></h2>
     <div class="task"><b>Tâche.</b> Associez chaque sigle à sa définition.</div>
     <div id="matchWrap"></div>
     <div class="btn-row">
@@ -236,12 +247,12 @@ input[type=text].gapin { display:inline-block; width:auto; min-width:190px; marg
     <div class="fb" id="matchFb"></div>
 
     <!-- ================= SECTION 6 ================= -->
-    <h2>Section 6 — Réponses courtes <span style="font-weight:400; font-size:.75em; color:#5b6b7f;">(15 minutes)</span></h2>
+    <h2>Section 6 — Réponses courtes <span style="font-weight:400; font-size:.75em; color:#5b6b7f;">(22 minutes)</span></h2>
     <div class="task"><b>Tâche.</b> Répondez en français, en phrases complètes (40–60 mots). La correction vous dit quelles idées manquent encore — elle ne note pas votre style.</div>
     <div id="shortWrap"></div>
 
     <!-- ================= SECTION 7 ================= -->
-    <h2>Section 7 — Analyse critique <span style="font-weight:400; font-size:.75em; color:#5b6b7f;">(10 minutes)</span></h2>
+    <h2>Section 7 — Analyse critique <span style="font-weight:400; font-size:.75em; color:#5b6b7f;">(16 minutes)</span></h2>
     <div class="task"><b>Tâche.</b> Une réponse développée par question (80–120 mots), avec au moins un connecteur d'opposition et un subjonctif.</div>
     <div id="critWrap"></div>
 
@@ -423,7 +434,13 @@ const TF = [
   { t:"Le texte indique le nombre exact d'élèves harcelés chaque année en France.", a:'NM',
     why:"Non mentionné : le texte parle des peines, du programme pHARe et du 3018, jamais du nombre de victimes." },
   { t:"C'est désormais l'élève harceleur, et non la victime, qui peut être changé d'établissement.", a:'V',
-    why:"Vrai : « la logique s'est inversée », et le transfert peut avoir lieu sans l'accord des parents." }
+    why:"Vrai : « la logique s'est inversée », et le transfert peut avoir lieu sans l'accord des parents." },
+  { t:"Entre 2022 et 2025, les résultats français en mathématiques ont baissé davantage que la moyenne de l'OCDE.", a:'V',
+    why:"Vrai : 16 points perdus en France contre 9 points pour la moyenne de l'OCDE. Même écart à l'écrit : 18 contre 14." },
+  { t:"Selon Pisa, la France est aujourd'hui le pays le plus inégalitaire de l'OCDE.", a:'F',
+    why:"Faux : elle ne l'est plus — le Luxembourg, l'Allemagne, la Roumanie et la République tchèque le sont davantage. Mais l'écart s'est réduit parce que les élèves favorisés ont chuté de 52 points." },
+  { t:"Les élèves français aiment moins les sciences que la moyenne des élèves de l'OCDE.", a:'F',
+    why:"Faux, et c'est la bonne nouvelle du rapport : 71 % des élèves français y prennent du plaisir, contre 55 % dans l'OCDE." }
 ];
 
 const GAPS = [
@@ -442,7 +459,13 @@ const GAPS = [
   { before:"Quitter l'école sans qualification, c'est le", after:"scolaire.", a:['décrochage','le décrochage'],
     hint:"Du verbe « décrocher ». Attention à l'accent aigu." },
   { before:"Depuis le décret de mars 2024, c'est l'", after:"qui a le dernier mot sur le redoublement.", a:['équipe pédagogique',"l'équipe pédagogique"],
-    hint:"Deux mots : le groupe des professeurs d'une classe." }
+    hint:"Deux mots : le groupe des professeurs d'une classe." },
+  { before:"L'enquête internationale de l'OCDE sur le niveau des élèves de quinze ans s'appelle", after:".", a:['Pisa','PISA'],
+    hint:"Quatre lettres. En français on l'écrit le plus souvent avec une seule majuscule." },
+  { before:"Vingt points dans l'enquête Pisa correspondent à peu près à une", after:"d'apprentissage.", a:["année","une année"],
+    hint:"Un nom féminin. C'est l'unité qui rend les 44 points perdus si parlants." },
+  { before:"Les élèves de seconde", after:"n'obtiennent que 406 points en sciences.", a:['professionnelle','pro'],
+    hint:"L'autre voie, face à la seconde générale et technologique." }
 ];
 
 const MCQ = [
@@ -473,7 +496,17 @@ const MCQ = [
       { t:"la gratuité de l'école publique", ok:false },
       { t:"le manque de prestige de la voie professionnelle", ok:true }
     ],
-    why:"La gratuité est au contraire un instrument d'égalité : c'est ce qui rend le reproche d'élitisme paradoxal." }
+    why:"La gratuité est au contraire un instrument d'égalité : c'est ce qui rend le reproche d'élitisme paradoxal." },
+  { q:"Que montre l'enquête Pisa 2025 sur l'école française ?",
+    opts:[
+      { t:"une baisse de 18 points en compréhension de l'écrit entre 2022 et 2025", ok:true },
+      { t:"une baisse plus forte que la moyenne de l'OCDE en mathématiques", ok:true },
+      { t:"un tiers des élèves en grande difficulté en lecture", ok:true },
+      { t:"une nette amélioration des résultats en sciences", ok:false },
+      { t:"un recul de 52 points chez les élèves favorisés à l'écrit depuis 2015", ok:true },
+      { t:"que la France reste le pays le plus inégalitaire de l'OCDE", ok:false }
+    ],
+    why:"Deux pièges. Les sciences ne s'améliorent pas : elles « se maintiennent à peu près », en reculant de 4 points. Et la France n'est plus la plus inégalitaire — non pas parce que les plus faibles progressent, mais parce que les plus favorisés s'effondrent." }
 ];
 
 const VOCAB = [
@@ -484,7 +517,11 @@ const VOCAB = [
   { q:'Traduisez en français : <em>apprenticeship</em>', a:["l'apprentissage",'apprentissage'], hint:"Un nom masculin ; les centres qui le dispensent sont les CFA." },
   { q:'Traduisez en français : <em>the teaching staff</em>', a:["l'équipe pédagogique",'équipe pédagogique'], hint:"Deux mots ; le second est un adjectif en -ique." },
   { q:'Que signifie <em>le contrôle continu</em> en anglais ?', a:['continuous assessment','continuous assessment (coursework)','ongoing assessment'], hint:"Two words in English — not «&nbsp;continuous control&nbsp;»." },
-  { q:'Que signifie <em>les peines encourues</em> en anglais ?', a:['the penalties incurred','penalties incurred','the sentences incurred','the penalties that apply','the penalties'], hint:"« Une peine » here is a legal punishment, not «&nbsp;pain&nbsp;»." }
+  { q:'Que signifie <em>les peines encourues</em> en anglais ?', a:['the penalties incurred','penalties incurred','the sentences incurred','the penalties that apply','the penalties'], hint:"« Une peine » here is a legal punishment, not «&nbsp;pain&nbsp;»." },
+  { q:'Traduisez en français : <em>a survey (such as Pisa)</em>', a:['une enquête','enquête',"l'enquête"], hint:"Un nom féminin, accent circonflexe sur le e. Attention au faux ami « an enquiry »." },
+  { q:'Traduisez en français : <em>pupils from advantaged backgrounds</em>', a:['les élèves favorisés','élèves favorisés','les élèves les plus favorisés'], hint:"Deux mots au pluriel ; le participe passé s'accorde." },
+  { q:'Que signifie <em>en grande difficulté</em> en anglais ?', a:['struggling badly','in serious difficulty','struggling','well below the expected level','below the basic level'], hint:"Pisa's own wording is about being below the basic level — not «&nbsp;in big difficulty&nbsp;»." },
+  { q:'Que signifie <em>redresser la barre</em> en anglais ?', a:['to turn things round','to turn things around','to right the ship','to turn it round','to put things right'], hint:"A steering image: «&nbsp;la barre&nbsp;» is the helm of a boat." }
 ];
 
 const MATCH = [
@@ -492,14 +529,18 @@ const MATCH = [
   { l:'B. Le programme pHARe', a:3 },
   { l:'C. Les CPGE', a:4 },
   { l:'D. Les CFA', a:1 },
-  { l:'E. Parcoursup', a:5 }
+  { l:'E. Parcoursup', a:5 },
+  { l:'F. L\'OCDE', a:6 },
+  { l:'G. Pisa', a:7 }
 ];
 const MATCH_DEFS = {
   1:'1. Centres de formation d\'apprentis',
   2:'2. Établissements d\'enseignement supérieur très sélectifs',
   3:'3. Programme national de prévention du harcèlement',
   4:'4. Classes préparatoires aux grandes écoles',
-  5:'5. Plateforme nationale d\'admission dans le supérieur'
+  5:'5. Plateforme nationale d\'admission dans le supérieur',
+  6:'6. L\'organisation internationale qui publie l\'enquête',
+  7:'7. L\'enquête sur le niveau des élèves de quinze ans'
 };
 
 const SHORT = [
@@ -522,7 +563,17 @@ const SHORT = [
     keys:[['harcèlement','climat','mal-être','souffrance'],['milieu','social','famille','pauvret','inégalit'],['orientation','sens','motivation','ennui','échec','retard'],['garçon','territoire','rural','quartier']],
     need:3,
     labels:['le climat scolaire (harcèlement, mal-être)','les inégalités sociales et familiales','la perte de sens / l\'échec accumulé','les écarts de genre ou de territoire'],
-    model:"Le décrochage naît souvent d'un cumul : un climat scolaire dégradé, parfois le harcèlement, des difficultés familiales et sociales, et une orientation subie qui fait perdre le sens des études. Le texte rappelle en outre que les garçons décrochent presque deux fois plus que les filles." }
+    model:"Le décrochage naît souvent d'un cumul : un climat scolaire dégradé, parfois le harcèlement, des difficultés familiales et sociales, et une orientation subie qui fait perdre le sens des études. Le texte rappelle en outre que les garçons décrochent presque deux fois plus que les filles." },
+  { q:"Pourquoi la baisse mesurée par Pisa est-elle jugée particulièrement inquiétante ? (2 ou 3 phrases)",
+    keys:[['18 point','16 point','44 point','deux années','annee d','année d'],['ocde','moyenne','plus vite','davantage','plus fort'],['tiers','33','36','grande difficult'],['favoris','52','elitis','élitis','inégalit','inegalit']],
+    need:3,
+    labels:['l\'ampleur de la chute (18, 16 ou 44 points)','une baisse plus rapide que la moyenne de l\'OCDE','un tiers des élèves en grande difficulté','le recul des élèves favorisés'],
+    model:"D'abord par son ampleur : 18 points perdus à l'écrit et 16 en mathématiques en trois ans, soit, depuis 2015, deux années entières d'apprentissage. Ensuite parce que la France recule plus vite que la moyenne de l'OCDE. Enfin parce qu'un tiers des élèves se situe désormais sous le niveau de base, et que même les élèves favorisés ont chuté de 52 points." },
+  { q:"Comment l'enquête Pisa éclaire-t-elle les inégalités du système français ? (2 ou 3 phrases)",
+    keys:[['525','generale','générale','estonie'],['406','professionnelle','colombie','mexique'],['favoris','52'],['ecart','écart','inegalit','inégalit','filiere','filière']],
+    need:3,
+    labels:['le score de la voie générale (525, niveau estonien)','le score de la voie professionnelle (406)','le recul de 52 points des élèves favorisés','l\'écart entre les filières'],
+    model:"La moyenne française cache deux écoles : la seconde générale et technologique obtient 525 points en sciences, le niveau de l'Estonie, tandis que la seconde professionnelle plafonne à 406, sous la Colombie. Paradoxalement, l'écart global s'est réduit, mais parce que les élèves favorisés ont perdu 52 points à l'écrit en dix ans : on égalise par le bas." }
 ];
 
 const CRIT = [
@@ -531,7 +582,11 @@ const CRIT = [
   { q:"Comparez les avantages et les inconvénients des rythmes scolaires français (journées longues, vacances nombreuses). Deux avantages, deux inconvénients.", min:80,
     hint:"Vocabulaire utile : la fatigue, la concentration, le rythme de l'enfant, les inégalités pendant les vacances, la garde des enfants, le coût pour les familles." },
   { q:"Quelles réformes proposeriez-vous pour rendre le système éducatif français plus égalitaire ? (2 ou 3 propositions concrètes)", min:80,
-    hint:"Pensez aux moyens (dédoublement des classes), à la formation et à l'affectation des enseignants dans les établissements difficiles, à l'orientation, et à la transparence de Parcoursup." }
+    hint:"Pensez aux moyens (dédoublement des classes), à la formation et à l'affectation des enseignants dans les établissements difficiles, à l'orientation, et à la transparence de Parcoursup." },
+  { q:"« Les résultats de Pisa sont une alerte collective », a déclaré le ministre de l'Éducation nationale. Dans quelle mesure êtes-vous d'accord ? TROIS arguments.", min:80,
+    hint:"Ossature : « Certes, une enquête internationale ne mesure qu'une partie de ce que l'école transmet. Néanmoins, perdre deux années d'apprentissage en dix ans n'est pas un accident statistique. Il faudrait que l'on <strong>agisse</strong> avant que l'écart entre les filières ne <strong>devienne</strong> irréversible. »" },
+  { q:"Réduire les inégalités en faisant baisser les meilleurs élèves : est-ce un progrès ? Justifiez avec TROIS arguments.", min:80,
+    hint:"Le fait à discuter : l'écart s'est resserré parce que les élèves favorisés ont perdu 52 points. Vocabulaire utile : niveler par le bas, l'excellence, l'équité, l'ascenseur social, le décrochage des meilleurs, la mixité sociale." }
 ];
 
 /* ================= état ================= */
@@ -823,7 +878,7 @@ function progress(){
 }
 
 /* ================= minuteur ================= */
-let remaining=45*60, timerId=null;
+let remaining=60*60, timerId=null;
 function renderTimer(){
   const m=Math.floor(Math.abs(remaining)/60), s=Math.abs(remaining)%60;
   $('timer').textContent = (remaining<0?'⏱️ +':'⏱️ ')+m+':'+String(s).padStart(2,'0');
@@ -831,7 +886,7 @@ function renderTimer(){
 }
 function startTimer(){ if(timerId) return; timerId=setInterval(()=>{ remaining--; renderTimer(); },1000); }
 function pauseTimer(){ if(timerId){ clearInterval(timerId); timerId=null; } }
-function resetTimer(){ pauseTimer(); remaining=45*60; renderTimer(); }
+function resetTimer(){ pauseTimer(); remaining=60*60; renderTimer(); }
 
 /* ================= lecture audio ================= */
 function speak(){
