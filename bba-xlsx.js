@@ -159,6 +159,9 @@ function cell(ref, value, colDef) {
   if (value === null || value === undefined || value === '') return '';
 
   var type = colDef && colDef.type;
+  /* NaN and Infinity are legal JavaScript and illegal in a <v>: Excel stops
+     reading the file at the first one. An empty cell is the honest fallback. */
+  if (typeof value === 'number' && !isFinite(value)) return '';
   if (type === 'percent' && typeof value === 'number') {
     var st = band === 'hi' ? S_PCT_HI : band === 'mid' ? S_PCT_MID : band === 'lo' ? S_PCT_LO : S_PCT;
     return '<c r="' + ref + '" s="' + st + '"><v>' + value + '</v></c>';
@@ -173,8 +176,27 @@ function cell(ref, value, colDef) {
 
 function sheetXml(sheet) {
   var cols = sheet.columns || [];
+  var rows = sheet.rows || [];
+  var lastCol = colName(Math.max(cols.length, 1) - 1);
+  var lastRow = rows.length + (cols.length ? 1 : 0);
+
+  /* The order of these children is not a matter of taste. The SpreadsheetML
+     schema declares them as a SEQUENCE, so dimension, sheetViews,
+     sheetFormatPr, cols, sheetData, autoFilter must appear in that order and
+     no other. LibreOffice reads them in any order; Excel refuses the file and
+     offers to repair it, which is what "Excel rejects it" looks like. */
   var xml = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>' +
     '<worksheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main">';
+
+  xml += '<dimension ref="A1' + (lastRow > 1 ? ':' + lastCol + lastRow : '') + '"/>';
+
+  xml += '<sheetViews><sheetView' + (sheet.first ? ' tabSelected="1"' : '') + ' workbookViewId="0">';
+  if (cols.length)
+    xml += '<pane ySplit="1" topLeftCell="A2" activePane="bottomLeft" state="frozen"/>' +
+           '<selection pane="bottomLeft" activeCell="A2" sqref="A2"/>';
+  xml += '</sheetView></sheetViews>';
+
+  xml += '<sheetFormatPr defaultRowHeight="15"/>';
 
   if (cols.length) {
     xml += '<cols>';
@@ -183,38 +205,44 @@ function sheetXml(sheet) {
     });
     xml += '</cols>';
   }
-  xml += '<sheetData>';
 
+  xml += '<sheetData>';
   if (cols.length) {
     xml += '<row r="1" ht="30" customHeight="1">';
     cols.forEach(function (c, i) {
-      xml += '<c r="' + colName(i) + '1" s="' + S_HEAD + '" t="inlineStr"><is><t>' +
+      xml += '<c r="' + colName(i) + '1" s="' + S_HEAD + '" t="inlineStr"><is><t xml:space="preserve">' +
              xmlEscape(c.header) + '</t></is></c>';
     });
     xml += '</row>';
   }
-  (sheet.rows || []).forEach(function (row, r) {
+  rows.forEach(function (row, r) {
     var n = r + 2;
     xml += '<row r="' + n + '">';
     row.forEach(function (v, i) { xml += cell(colName(i) + n, v, cols[i]); });
     xml += '</row>';
   });
   xml += '</sheetData>';
-  /* Freeze the header, and the first column where there is one worth freezing. */
-  xml = xml.replace('<sheetData>',
-    '<sheetViews><sheetView workbookViewId="0">' +
-    '<pane ySplit="1" topLeftCell="A2" activePane="bottomLeft" state="frozen"/>' +
-    '</sheetView></sheetViews><sheetFormatPr defaultRowHeight="15"/><sheetData>');
-  if (cols.length && (sheet.rows || []).length) {
-    xml += '<autoFilter ref="A1:' + colName(cols.length - 1) + ((sheet.rows || []).length + 1) + '"/>';
-  }
+
+  if (cols.length && rows.length)
+    xml += '<autoFilter ref="A1:' + lastCol + lastRow + '"/>';
+
   xml += '</worksheet>';
   return xml;
 }
 
 function build(sheets) {
   var files = [];
-  var names = sheets.map(function (s, i) { return (s.name || ('Sheet' + (i + 1))).slice(0, 31).replace(/[\\\/\?\*\[\]:]/g, ' '); });
+  /* Excel refuses a workbook with two sheets of the same name, and a name is
+     capped at 31 characters, so truncation can create a collision on its own. */
+  var used = {};
+  var names = sheets.map(function (s, i) {
+    var n = String(s.name || ('Sheet' + (i + 1))).replace(/[\\\/\?\*\[\]:]/g, ' ').slice(0, 31).trim() || ('Sheet' + (i + 1));
+    var base = n, k = 2;
+    while (used[n.toLowerCase()]) { var tag = ' (' + (k++) + ')'; n = base.slice(0, 31 - tag.length) + tag; }
+    used[n.toLowerCase()] = 1;
+    return n;
+  });
+  sheets.forEach(function (sh, i) { sh.first = (i === 0); });
 
   files.push({ name: '[Content_Types].xml', data:
     '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>' +
@@ -223,6 +251,8 @@ function build(sheets) {
     '<Default Extension="xml" ContentType="application/xml"/>' +
     '<Override PartName="/xl/workbook.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml"/>' +
     '<Override PartName="/xl/styles.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.styles+xml"/>' +
+    '<Override PartName="/docProps/core.xml" ContentType="application/vnd.openxmlformats-package.core-properties+xml"/>' +
+    '<Override PartName="/docProps/app.xml" ContentType="application/vnd.openxmlformats-officedocument.extended-properties+xml"/>' +
     sheets.map(function (s, i) {
       return '<Override PartName="/xl/worksheets/sheet' + (i + 1) + '.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml"/>';
     }).join('') + '</Types>' });
@@ -231,12 +261,32 @@ function build(sheets) {
     '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>' +
     '<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">' +
     '<Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="xl/workbook.xml"/>' +
+    '<Relationship Id="rId2" Type="http://schemas.openxmlformats.org/package/2006/relationships/metadata/core-properties" Target="docProps/core.xml"/>' +
+    '<Relationship Id="rId3" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/extended-properties" Target="docProps/app.xml"/>' +
     '</Relationships>' });
+
+  var iso = new Date().toISOString().replace(/\.\d+Z$/, 'Z');
+  files.push({ name: 'docProps/core.xml', data:
+    '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>' +
+    '<cp:coreProperties xmlns:cp="http://schemas.openxmlformats.org/package/2006/metadata/core-properties" ' +
+    'xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/terms/" ' +
+    'xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">' +
+    '<dc:creator>BBA dashboard</dc:creator><cp:lastModifiedBy>BBA dashboard</cp:lastModifiedBy>' +
+    '<dcterms:created xsi:type="dcterms:W3CDTF">' + iso + '</dcterms:created>' +
+    '<dcterms:modified xsi:type="dcterms:W3CDTF">' + iso + '</dcterms:modified>' +
+    '</cp:coreProperties>' });
+
+  files.push({ name: 'docProps/app.xml', data:
+    '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>' +
+    '<Properties xmlns="http://schemas.openxmlformats.org/officeDocument/2006/extended-properties" ' +
+    'xmlns:vt="http://schemas.openxmlformats.org/officeDocument/2006/docPropsVTypes">' +
+    '<Application>BBA dashboard</Application></Properties>' });
 
   files.push({ name: 'xl/workbook.xml', data:
     '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>' +
     '<workbook xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" ' +
-    'xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships"><sheets>' +
+    'xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships">' +
+    '<bookViews><workbookView activeTab="0"/></bookViews><sheets>' +
     names.map(function (n, i) {
       return '<sheet name="' + xmlEscape(n) + '" sheetId="' + (i + 1) + '" r:id="rId' + (i + 1) + '"/>';
     }).join('') + '</sheets></workbook>' });
@@ -268,5 +318,5 @@ function download(filename, sheets) {
   setTimeout(function () { URL.revokeObjectURL(url); }, 2000);
 }
 
-window.BBAXlsx = { build: build, download: download, version: 1 };
+window.BBAXlsx = { build: build, download: download, version: 2 };
 })();
