@@ -61,6 +61,13 @@ function xmlEscape(s) {
 function zip(files) {
   var parts = [], central = [], offset = 0;
 
+  /* A zip entry carries the date in the old MS-DOS format. Writing zeros there
+     means "day 0 of month 0", which is not a date at all; some readers shrug
+     and some do not. Writing the real one costs two lines. */
+  var now = new Date();
+  var dosTime = ((now.getHours() & 31) << 11) | ((now.getMinutes() & 63) << 5) | ((now.getSeconds() / 2) & 31);
+  var dosDate = ((Math.max(1980, now.getFullYear()) - 1980) << 9) | ((now.getMonth() + 1) << 5) | now.getDate();
+
   function push(arr) { parts.push(arr); offset += arr.length; }
   function u16(n) { return [n & 255, (n >> 8) & 255]; }
   function u32(n) { return [n & 255, (n >> 8) & 255, (n >> 16) & 255, (n >>> 24) & 255]; }
@@ -68,7 +75,7 @@ function zip(files) {
   files.forEach(function (f) {
     var name = utf8(f.name), data = utf8(f.data), crc = crc32(data);
     var start = offset;
-    var header = [].concat(u32(0x04034b50), u16(20), u16(0x0800), u16(0), u16(0), u16(0),
+    var header = [].concat(u32(0x04034b50), u16(20), u16(0x0800), u16(0), u16(dosTime), u16(dosDate),
                            u32(crc), u32(data.length), u32(data.length),
                            u16(name.length), u16(0));
     push(new Uint8Array(header));
@@ -79,7 +86,7 @@ function zip(files) {
 
   var dirStart = offset;
   central.forEach(function (e) {
-    var rec = [].concat(u32(0x02014b50), u16(20), u16(20), u16(0x0800), u16(0), u16(0), u16(0),
+    var rec = [].concat(u32(0x02014b50), u16(20), u16(20), u16(0x0800), u16(0), u16(dosTime), u16(dosDate),
                         u32(e.crc), u32(e.size), u32(e.size),
                         u16(e.name.length), u16(0), u16(0), u16(0), u16(0), u32(0), u32(e.start));
     push(new Uint8Array(rec));
@@ -271,8 +278,11 @@ function build(sheets) {
     '<cp:coreProperties xmlns:cp="http://schemas.openxmlformats.org/package/2006/metadata/core-properties" ' +
     'xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/terms/" ' +
     'xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">' +
-    '<dc:creator>BBA dashboard</dc:creator><cp:lastModifiedBy>BBA dashboard</cp:lastModifiedBy>' +
+    /* Sequence again, and a different one from the worksheet: created, creator,
+       lastModifiedBy, modified. Excel checks this part too. */
     '<dcterms:created xsi:type="dcterms:W3CDTF">' + iso + '</dcterms:created>' +
+    '<dc:creator>BBA dashboard</dc:creator>' +
+    '<cp:lastModifiedBy>BBA dashboard</cp:lastModifiedBy>' +
     '<dcterms:modified xsi:type="dcterms:W3CDTF">' + iso + '</dcterms:modified>' +
     '</cp:coreProperties>' });
 
@@ -318,5 +328,5 @@ function download(filename, sheets) {
   setTimeout(function () { URL.revokeObjectURL(url); }, 2000);
 }
 
-window.BBAXlsx = { build: build, download: download, version: 2 };
+window.BBAXlsx = { build: build, download: download, version: 3 };
 })();
