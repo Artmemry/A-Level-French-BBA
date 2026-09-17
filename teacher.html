@@ -91,7 +91,26 @@ details.detail .inner{padding:0 13px 13px}
 footer.site{max-width:1180px;margin:0 auto;padding:20px;border-top:1px solid var(--line);
   font-family:var(--mono);font-size:.68rem;color:var(--muted);line-height:1.7}
 @media (max-width:640px){.site-inner{gap:8px}.roster-state{margin-left:0;text-align:left;width:100%}}
-@media print{.btn-row,textarea.code,header.site .roster-state{display:none!important}body{background:#fff}}
+dialog.cls{border:0;border-radius:14px;padding:0;max-width:940px;width:calc(100% - 40px);
+  box-shadow:0 24px 60px rgba(20,25,40,.28);background:var(--card)}
+dialog.cls::backdrop{background:rgba(20,25,40,.45)}
+dialog.cls .dlg-body{padding:22px 24px 20px}
+dialog.cls h2{margin:0 0 6px}
+table.match{width:100%;border-collapse:collapse;font-size:.88rem;margin-top:6px}
+table.match th{text-align:left;font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;
+  color:var(--muted);font-weight:600;padding:6px 8px;border-bottom:1px solid var(--line-strong)}
+table.match td{padding:7px 8px;border-bottom:1px solid var(--line);vertical-align:middle}
+table.match select{font:inherit;padding:4px 6px;border:1px solid var(--line-strong);border-radius:7px;
+  background:#fff;max-width:280px}
+table.match .sent{font-family:var(--mono);font-size:.84rem}
+table.match tr.guess select{border-color:#9FB6D4;background:#F5F9FF}
+.cls-scroll{max-height:46vh;overflow:auto;margin-top:4px}
+.ident-row{display:flex;gap:10px;align-items:flex-start;padding:7px 0;border-top:1px solid var(--line)}
+.ident-row:first-child{border-top:0}
+.ident-row input[type=checkbox]{margin-top:3px;flex:0 0 auto}
+.ident-why{font-size:.78rem;color:var(--muted)}
+.ident-pair{font-family:var(--mono);font-size:.8rem}
+@media print{.btn-row,textarea.code,header.site .roster-state,#identCard,dialog.cls{display:none!important}body{background:#fff}}
 </style>
 <script src="bba-progress.js"></script>
 <script src="bba-catalogue.js"></script>
@@ -132,7 +151,7 @@ footer.site{max-width:1180px;margin:0 auto;padding:20px;border-top:1px solid var
   <div class="card">
     <h2>Paste codes</h2>
     <p class="hint">Accepts <code>LEXFR2.</code> <code>LEXFR1.</code> <code>LEXES2.</code> <code>LEXES1.</code>
-      <code>DOSFR1.</code> <code>DOSES1.</code> — one per line. Several codes from the same student over time
+      <code>DOSFR2.</code> <code>DOSFR1.</code> <code>DOSES2.</code> <code>DOSES1.</code> — one per line. Several codes from the same student over time
       are welcome: the newest is shown, with the change since the previous one.</p>
     <textarea class="code" id="codes" spellcheck="false"
       placeholder="LEXFR2.eyJ2IjoyLCJuIjo…&#10;DOSFR1.eyJ2IjoxLCJuIjo…&#10;LEXES2.eyJ2IjoyLCJuIjo…"></textarea>
@@ -148,6 +167,47 @@ footer.site{max-width:1180px;margin:0 auto;padding:20px;border-top:1px solid var
     <div class="msg err hidden" id="err"></div>
     <div class="msg ok hidden" id="ok"></div>
   </div>
+
+  <div class="card" id="identCard">
+    <h2>Identities</h2>
+    <p class="hint">The same student rarely spells themselves the same way twice — <code>ÇA</code>, <code>C Ackermann</code>,
+      <code>CAC</code>, <code>2435</code>. The page cannot know those are one person, so you state it here.
+      One line per student: the canonical identity, then <code>=</code>, then the name you want displayed,
+      then every spelling you have seen, separated by <code>|</code>.</p>
+    <textarea class="code" id="aliases" spellcheck="false" style="min-height:92px"
+      placeholder="2435 = C Ackermann | ÇA | CAC | Charbel Ackermann&#10;4417 = Sophie K. | S Kowalski | SKO"></textarea>
+    <div class="btn-row">
+      <button class="btn primary" id="btnAliases">Apply identities</button>
+      <button class="btn ghost" id="btnSuggest">Suggest merges</button>
+      <button class="btn ghost" id="btnClassList">Class list and matching…</button>
+    </div>
+    <div class="msg err hidden" id="aliasErr"></div>
+    <div class="msg ok hidden" id="aliasOk"></div>
+    <div id="suggestBox"></div>
+  </div>
+
+  <dialog class="cls" id="clsDlg">
+   <div class="dlg-body">
+    <h2>Class list and matching</h2>
+    <p class="hint">Paste your register once: a candidate number and the name you want to read in the
+      tables. Then every loose spelling in the roster can be attached to one of those students, which is
+      how a name that arrived without a number gets one. Nothing is attached until you press the button
+      at the bottom.</p>
+    <textarea class="code" id="classList" spellcheck="false" style="min-height:104px"
+      placeholder="2435  Charbel Ackermann&#10;3190  Herbert Karajan&#10;4417  Sophie Kowalski"></textarea>
+    <p class="hint" style="margin:7px 0 0">One student per line. Number and name in either order,
+      separated by a tab, two spaces, a comma, a semicolon or <code>=</code> — so a column pair pasted
+      straight out of a spreadsheet works.</p>
+    <div class="btn-row">
+      <button class="btn primary" id="btnClassSave">Save the class list</button>
+      <span style="flex:1"></span>
+      <button class="btn ghost" id="btnClassClose">Close</button>
+    </div>
+    <div class="msg err hidden" id="clsErr"></div>
+    <div class="msg ok hidden" id="clsOk"></div>
+    <div id="matchBox"></div>
+   </div>
+  </dialog>
 
   <div id="results"></div>
 
@@ -286,11 +346,78 @@ function save(){
 }
 /* Identity: prefer the stable id the code carries; fall back to the typed name.
    Codes emitted before ids existed keep working — they just group by name as before. */
-function idKey(p){
+function rawIdKey(p){
   const id = p && p.i != null ? String(p.i).trim() : "";
   return id ? "#"+id.toLowerCase() : "~"+normName(p.n);
 }
-const keyOf = e => e.kind+"|"+e.lang+"|"+idKey(e.p)+"|"+e.p.t;
+
+/* ═══════════════════════════════════════════════════════════════════
+   IDENTITIES
+   One student, several spellings: "ÇA", "C Ackermann", "CAC", "2435".
+   No rule can know those are one person — and fusing two real students
+   is a far worse error than one student showing twice — so the mapping
+   is yours to state. It is stored with the roster and travels in the
+   backup; nothing is ever merged without a line in the box.
+   ═══════════════════════════════════════════════════════════════════ */
+let ALIAS = {};        /* "#2435" | "~c ackermann" -> "#2435" */
+let ALIAS_LABEL = {};  /* "#2435" -> "C Ackermann"            */
+let ALIAS_SEEN  = {};  /* "#2435" -> ["C Ackermann","ÇA",…]   */
+
+function tokenKeys(tok){
+  const t = String(tok==null?"":tok).trim();
+  if(!t) return [];
+  const k = ["#"+t.toLowerCase()];
+  const n = normName(t);
+  if(n) k.push("~"+n);
+  return k;
+}
+function parseAliases(text){
+  const map = {}, label = {}, seen = {}, errs = [];
+  String(text||"").split(/\n+/).forEach((line,i)=>{
+    const raw = line.trim();
+    if(!raw || raw.slice(0,2)==="//") return;
+    if(raw.indexOf("=") < 0){
+      errs.push("Line "+(i+1)+': no "=" — expected  2435 = C Ackermann | \u00c7A | CAC'); return;
+    }
+    const cut = raw.indexOf("=");
+    const canon = raw.slice(0,cut).trim();
+    const parts = raw.slice(cut+1).split("|").map(x=>x.trim()).filter(Boolean);
+    if(!canon){ errs.push("Line "+(i+1)+": nothing before the ="); return; }
+    if(!parts.length){ errs.push("Line "+(i+1)+": nothing after the ="); return; }
+    const target = "#"+canon.toLowerCase();
+    label[target] = parts[0];
+    seen[target]  = parts.slice();
+    [canon].concat(parts).forEach(tok=>{
+      tokenKeys(tok).forEach(k=>{
+        if(map[k] && map[k] !== target){
+          errs.push('"'+tok+'" is claimed by two identities — '+map[k].slice(1)+" and "+canon);
+        }
+        map[k] = target;
+      });
+    });
+  });
+  return {map:map, label:label, seen:seen, errs:errs};
+}
+function applyAliases(){
+  const p = parseAliases(typeof roster.aliases === "string" ? roster.aliases : "");
+  ALIAS = p.map; ALIAS_LABEL = p.label; ALIAS_SEEN = p.seen;
+  return p.errs;
+}
+
+function idKey(p){
+  const k = rawIdKey(p);
+  return ALIAS[k] || k;
+}
+/* the name to print: the identity label when one is set, else what they typed */
+function dispName(c){
+  const k = idKey(c);
+  return ALIAS_LABEL[k] || (c && c.n) || "(no name)";
+}
+function seenTitle(c){
+  const l = ALIAS_SEEN[idKey(c)];
+  return (l && l.length > 1) ? ' title="sent as: '+esc(l.join(", "))+'"' : "";
+}
+const keyOf = e => e.kind+"|"+e.lang+"|"+rawIdKey(e.p)+"|"+e.p.t;
 
 function addEntries(list){
   const have = new Set(roster.entries.map(keyOf));
@@ -310,7 +437,7 @@ function grouped(entries, kind, lang){
   return Object.values(byWho).map(arr=>{
     arr.sort((a,b)=>a.t-b.t);
     return {codes:arr, cur:arr[arr.length-1], prev:arr.length>1?arr[arr.length-2]:null};
-  }).sort((a,b)=>String(a.cur.n).localeCompare(String(b.cur.n)));
+  }).sort((a,b)=>dispName(a.cur).localeCompare(dispName(b.cur)));
 }
 /* does any student in this set carry an id? decides whether the ID column shows */
 const anyId = studs => studs.some(s=>s.codes.some(c=>c.i!=null && String(c.i).trim()));
@@ -349,8 +476,8 @@ function marksGrid(studs, id){
   studs.forEach(st=>{
     const byIndex = {};
     attempted(st.cur).forEach(r=>{ byIndex[r.index] = r; });
-    html += '<tr><td class="name">'+esc(st.cur.n)+'</td>';
-    const out = [st.cur.n];
+    html += '<tr><td class="name"'+seenTitle(st.cur)+'>'+esc(dispName(st.cur))+'</td>';
+    const out = [dispName(st.cur)];
     cols.forEach(i=>{
       const r = byIndex[i];
       if(!r){ html += '<td class="num" style="color:var(--line-strong)">·</td>'; out.push(null); }
@@ -434,7 +561,7 @@ function downloadXlsx(id){
     if (weak.length >= 3) reasons.push(weak.length + " activities under 50 %");
     if ((o.opened||0) >= 8 && att === 0) reasons.push("opening activities but finishing none");
     if (!reasons.length) return;
-    watch.push([c.n, c.i != null ? String(c.i) : "", att,
+    watch.push([dispName(c), c.i != null ? String(c.i) : "", att,
                 o.avg != null ? pctCell(o.avg/100) : null, claimed, reasons.join("; "),
                 weak.map(r=>actName(r.index) + " (" + r.pct + " %)").join("; ")]);
   });
@@ -532,7 +659,7 @@ function lexTable(studs, id){
     const flag = seen >= 20 && mast === 0;
     const ex = examAvg(c.x);
     html += '<tr'+(flag?' class="flag"':'')+'>'
-      + '<td class="name">'+esc(c.n)+'</td>'
+      + '<td class="name"'+seenTitle(c)+'>'+esc(dispName(c))+'</td>'
       + (withId?'<td class="num">'+idCell(c)+'</td>':'')
       + '<td class="num">'+fmtDate(c.t)+'</td>'
       + '<td class="num">'+st.codes.length+'</td>'
@@ -541,7 +668,7 @@ function lexTable(studs, id){
       + '<td class="num">'+(o.sess!=null?o.sess:"—")+'</td>'
       + '<td class="num">'+(o.lee!=null?o.lee:"—")+'</td>'
       + '<td class="num">'+(ex?ex.avg+' % <span style="color:var(--muted)">('+ex.tests+')</span>':"—")+'</td>';
-    const rowOut = [c.n].concat(withId?[c.i!=null?String(c.i):""]:[])
+    const rowOut = [dispName(c)].concat(withId?[c.i!=null?String(c.i):""]:[])
                    .concat([fmtDate(c.t), st.codes.length, seen, total, mast,
                     o.sess!=null?o.sess:"", o.lee!=null?o.lee:"", ex?ex.avg:""]);
     units.forEach(u=>{
@@ -597,7 +724,7 @@ function dosTable(studs, id){
        and ticking without doing. The second is what v2 exists to show. */
     const flag = (opened >= 8 && done === 0) || (claimed != null && claimed >= 10 && att <= 2);
     html += '<tr'+(flag?' class="flag"':'')+'>'
-      + '<td class="name">'+esc(c.n)+(staleCode(c)?' <span title="This code was made against a different list of activities" style="color:var(--or)">⚠</span>':'')+'</td>'
+      + '<td class="name"'+seenTitle(c)+'>'+esc(dispName(c))+(staleCode(c)?' <span title="This code was made against a different list of activities" style="color:var(--or)">⚠</span>':'')+'</td>'
       + (withId?'<td class="num">'+idCell(c)+'</td>':'')
       + '<td class="num">'+fmtDate(c.t)+'</td>'
       + '<td class="num">'+st.codes.length+'</td>'
@@ -608,7 +735,7 @@ function dosTable(studs, id){
       + '<td class="num">'+opened+delta(opened, po?po.opened:null)+'</td>'
       + '<td class="num">'+pct(done,total)+' %</td>'
       + '<td class="num">'+(hard||"—")+'</td>';
-    const rowOut = [c.n].concat(withId?[c.i!=null?String(c.i):""]:[])
+    const rowOut = [dispName(c)].concat(withId?[c.i!=null?String(c.i):""]:[])
                    .concat([fmtDate(c.t), st.codes.length, att, avg, claimed,
                             done, total, opened, pct(done,total), hard]);
     secs.forEach(k=>{
@@ -641,7 +768,7 @@ function detailBlock(studs, g){
     if(g.kind==="lex"){
       const l = Array.isArray(c.l) ? c.l : [];
       if(!l.length) return;
-      inner += '<p style="margin:12px 0 4px"><b>'+esc(c.n)+'</b></p><div class="wrap">'
+      inner += '<p style="margin:12px 0 4px"><b>'+esc(dispName(c))+'</b></p><div class="wrap">'
              + '<table class="stats"><thead><tr><th>Lesson</th><th>Seen</th><th>Of</th><th>Accuracy</th></tr></thead><tbody>';
       l.slice().sort((a,b)=>String(a[0]).localeCompare(String(b[0]),undefined,{numeric:true}))
        .forEach(r=>{
@@ -654,7 +781,7 @@ function detailBlock(studs, g){
     } else {
       const h = Array.isArray(c.h) ? c.h : [];
       if(!h.length) return;
-      inner += '<p style="margin:12px 0 4px"><b>'+esc(c.n)+'</b> — flagged difficult: '
+      inner += '<p style="margin:12px 0 4px"><b>'+esc(dispName(c))+'</b> — flagged difficult: '
              + '<span style="font-family:var(--mono);font-size:.8rem;color:var(--ink-soft)">'
              + h.map(esc).join(", ") + '</span></p>';
     }
@@ -702,7 +829,7 @@ function showOk(msg){
 }
 function paintState(){
   const n = roster.entries.length;
-  const names = new Set(roster.entries.map(e=>e.lang+"|"+normName(e.p.n))).size;
+  const names = new Set(roster.entries.map(e=>e.lang+"|"+idKey(e.p))).size;
   $("#rosterState").textContent = !storageOk
     ? "roster cannot be saved in this browser"
     : (n ? names+" student"+(names>1?"s":"")+" · "+n+" code"+(n>1?"s":"")+" stored" : "roster empty");
@@ -820,10 +947,15 @@ $("#btnWipe").addEventListener("click", ()=>{
   if(!roster.entries.length) return;
   if(!confirm("Empty the roster? Every code stored in this browser will be deleted. This cannot be undone."))
     return;
-  roster = {v:1, entries:[]};
+  const keepAliases = typeof roster.aliases === "string" ? roster.aliases : "";
+  const keepClass   = typeof roster.classList === "string" ? roster.classList : "";
+  /* the identity table and the register are your work, not student data */
+  roster = {v:1, entries:[], aliases:keepAliases, classList:keepClass};
   try{ localStorage.removeItem(LS); }catch(e){}
-  showOk("Roster emptied."); showErr([]);
+  if(keepAliases) save();
+  showOk("Roster emptied. The Identities table was kept."); showErr([]);
   render(roster.entries);
+  paintState();
 });
 
 $("#btnBackup").addEventListener("click", ()=>{
@@ -846,9 +978,24 @@ $("#btnRestore").addEventListener("click", ()=>{
         const o = JSON.parse(rd.result);
         if(!o || !Array.isArray(o.entries)) throw 0;
         const added = addEntries(o.entries.filter(e=>e && e.p && e.kind && e.lang));
-        showOk("Restored — "+added+" new code"+(added===1?"":"s")+" merged into the roster.");
+        /* a backup carries the Identities box; adopt it only if this machine has none,
+           so restoring onto a laptop that already has a table never wipes it */
+        let idMsg = "";
+        if(typeof o.classList === "string" && o.classList.trim()
+           && !(typeof roster.classList === "string" && roster.classList.trim())){
+          roster.classList = o.classList; save();
+        }
+        if(typeof o.aliases === "string" && o.aliases.trim()
+           && !(typeof roster.aliases === "string" && roster.aliases.trim())){
+          roster.aliases = o.aliases; save();
+          $("#aliases").value = roster.aliases;
+          showAliasErr(applyAliases());
+          idMsg = " The identities from the backup were adopted — this machine had none.";
+        }
+        showOk("Restored — "+added+" new code"+(added===1?"":"s")+" merged into the roster."+idMsg);
         showErr([]);
         render(roster.entries);
+        paintState();
       }catch(e){ showErr(["That file is not a roster backup from this page."]); }
     };
     rd.readAsText(f);
@@ -856,7 +1003,408 @@ $("#btnRestore").addEventListener("click", ()=>{
   inp.click();
 });
 
+/* ═══════════════════════════════════════════════════════════════════
+   MERGE SUGGESTIONS — proposals, never actions.
+   Everything here only writes lines into the Identities box for you to
+   read, edit and keep. The page never merges on its own.
+   ═══════════════════════════════════════════════════════════════════ */
+const stripA = s => String(s||"").toLowerCase().normalize("NFD")
+  .replace(/[\u0300-\u036f]/g,"").replace(/[^a-z0-9]/g,"");
+function surnameOf(s){
+  const parts = String(s||"").trim().split(/\s+/);
+  return parts.length > 1 ? stripA(parts[parts.length-1]) : "";
+}
+function firstInitial(s){
+  return stripA(String(s||"").trim().split(/\s+/)[0]).slice(0,1);
+}
+
+/* one object per identity currently in the roster */
+function identities(){
+  const m = new Map();
+  roster.entries.forEach(e=>{
+    const k = idKey(e.p);
+    const o = m.get(k) || {key:k, names:new Set(), ids:new Set(), codes:0, t:0};
+    if(e.p.n) o.names.add(String(e.p.n).trim());
+    if(e.p.i != null && String(e.p.i).trim()) o.ids.add(String(e.p.i).trim());
+    o.codes++; o.t = Math.max(o.t, e.p.t||0);
+    m.set(k,o);
+  });
+  return [...m.values()];
+}
+
+/* why these two might be the same person — or null */
+function pairWhy(a,b){
+  const A = [...a.names], B = [...b.names];
+  for(const x of A) for(const y of B){
+    const sx = stripA(x), sy = stripA(y);
+    if(!sx || !sy) continue;
+    if(sx === sy) return "same name, different spacing or accents";
+    const ax = surnameOf(x), ay = surnameOf(y);
+    if(ax && ay && firstInitial(x) === firstInitial(y)){
+      if(ax === ay) return "same first initial and surname";
+      if(ax.indexOf(ay) === 0 || ay.indexOf(ax) === 0)
+        return "surname is the start of the other — " + ax + " / " + ay;
+    }
+    /* an initials token (\u00c7A, CAC) against a full name */
+    const shortIsX = sx.length <= 4 && sy.length > 4;
+    const shortIsY = sy.length <= 4 && sx.length > 4;
+    if(shortIsX || shortIsY){
+      const sh = shortIsX ? sx : sy;
+      const lgRaw = shortIsX ? y : x;
+      const lg = stripA(lgRaw), sur = surnameOf(lgRaw), ini = firstInitial(lgRaw);
+      if(sur && (sh === ini + sur.slice(0,2) || sh === ini + sur.slice(0,1) ||
+                 sh === sur.slice(0, sh.length)))
+        return '"' + (shortIsX ? x : y) + '" looks like the initials of "' + lgRaw + '"';
+      if(lg.indexOf(sh) === 0)
+        return '"' + (shortIsX ? x : y) + '" is the start of "' + lgRaw + '"';
+    }
+  }
+  return null;
+}
+
+/* Pairs are the wrong unit: four spellings of one student make six pairs, and
+   ticking six boxes to say one thing is how a teacher stops using a feature.
+   So the pairs are joined transitively into one group per suspected student. */
+function suggestions(){
+  const ids = identities().filter(o=>!ALIAS[o.key]);   /* leave settled ones alone */
+  const par = ids.map((_,i)=>i);
+  const find = i => par[i]===i ? i : (par[i]=find(par[i]));
+  const pairs = [];
+  for(let i=0;i<ids.length;i++) for(let j=i+1;j<ids.length;j++){
+    const why = pairWhy(ids[i], ids[j]);
+    if(why){ pairs.push({i:i, j:j, why:why}); par[find(i)] = find(j); }
+  }
+  const byRoot = new Map();
+  ids.forEach((o,i)=>{
+    const r = find(i);
+    if(!byRoot.has(r)) byRoot.set(r, {members:[], idx:[], why:[]});
+    byRoot.get(r).members.push(o);
+    byRoot.get(r).idx.push(i);
+  });
+  const out = [];
+  byRoot.forEach(g=>{
+    if(g.members.length < 2) return;
+    const inG = new Set(g.idx);
+    pairs.forEach(pr=>{ if(inG.has(pr.i) && inG.has(pr.j) && g.why.indexOf(pr.why) < 0) g.why.push(pr.why); });
+    out.push(g);
+  });
+  return out;
+}
+
+const showAliasErr = list => {
+  const box = $("#aliasErr");
+  if(!list.length){ box.classList.add("hidden"); return; }
+  box.innerHTML = "<b>" + list.length + " problem" + (list.length>1?"s":"")
+                + " in the Identities box</b><br>" + list.map(esc).join("<br>");
+  box.classList.remove("hidden");
+};
+const showAliasOk = msg => {
+  const box = $("#aliasOk");
+  if(!msg){ box.classList.add("hidden"); return; }
+  box.innerHTML = msg; box.classList.remove("hidden");
+};
+
+function label(o){
+  const n = [...o.names].sort((x,y)=>y.length-x.length)[0];
+  return n || o.key.slice(1);
+}
+/* the canonical identity: a candidate number if any spelling carried one —
+   that is the thing that will still be true next year — else the fullest name */
+function canonOf(members){
+  for(const m of members){ const id = [...m.ids][0]; if(id) return id; }
+  return label(members.slice().sort((a,b)=>b.names.size-a.names.size)[0]);
+}
+/* every spelling seen, fullest first, so the first one becomes the label */
+function spellings(members){
+  const all = [];
+  members.forEach(m=>m.names.forEach(n=>{ if(all.indexOf(n) < 0) all.push(n); }));
+  return all.sort((a,b)=>b.length-a.length);
+}
+
+function paintSuggestions(){
+  const box = $("#suggestBox");
+  const list = suggestions();
+  if(!roster.entries.length){
+    box.innerHTML = '<p class="hint" style="margin:10px 0 0">Nothing in the roster yet.</p>';
+    return;
+  }
+  if(!list.length){
+    box.innerHTML = '<p class="hint" style="margin:10px 0 0">No likely duplicates left. '
+      + 'Anything still split — a candidate number against a name, for instance — cannot be guessed: '
+      + 'add it by hand above.</p>';
+    return;
+  }
+  let h = '<p class="hint" style="margin:12px 0 4px"><b>' + list.length + ' possible duplicate'
+        + (list.length>1?"s":"") + '.</b> Tick the ones you recognise. Nothing changes until you '
+        + 'press the button, and then only the box above is written — check it before applying.</p>';
+  list.forEach((g,i)=>{
+    const codes = g.members.reduce((a,m)=>a+m.codes, 0);
+    const canon = canonOf(g.members);
+    h += '<label class="ident-row"><input type="checkbox" data-sug="'+i+'">'
+      +  '<span>' + spellings(g.members).map(n=>'<span class="ident-pair">'+esc(n)+'</span>')
+                      .join(' &nbsp;↔&nbsp; ')
+      +  ' <span class="ident-why">— ' + esc(g.why.slice(0,2).join(" · "))
+      +  (g.why.length > 2 ? esc(" · and " + (g.why.length-2) + " more of the same kind") : "") + ' · '
+      +  codes + ' code' + (codes>1?"s":"")
+      +  ' · would be filed under ' + esc(canon) + '</span>'
+      +  '</span></label>';
+  });
+  h += '<div class="btn-row"><button class="btn primary" id="btnTakeSug">'
+    +  'Write the ticked ones into the box</button></div>';
+  box.innerHTML = h;
+  SUG = list;
+}
+let SUG = [];
+
+$("#btnAliases").addEventListener("click", ()=>{
+  roster.aliases = $("#aliases").value;
+  save();
+  const errs = applyAliases();
+  showAliasErr(errs);
+  const n = Object.keys(ALIAS_LABEL).length;
+  showAliasOk(n ? n + " identit" + (n===1?"y":"ies") + " applied." : "No identities set.");
+  render(roster.entries);
+  paintState();
+  if(!$("#suggestBox").innerHTML.trim()) return;
+  paintSuggestions();
+});
+
+$("#btnSuggest").addEventListener("click", ()=>{ applyAliases(); paintSuggestions(); });
+
+document.addEventListener("click", ev=>{
+  if(ev.target && ev.target.id === "btnTakeSug"){
+    const picked = [...document.querySelectorAll("[data-sug]")]
+      .filter(c=>c.checked).map(c=>SUG[+c.getAttribute("data-sug")]);
+    if(!picked.length){ showAliasOk("Nothing ticked."); return; }
+    const lines = picked.map(g => canonOf(g.members) + " = " + spellings(g.members).join(" | "));
+    const box = $("#aliases");
+    box.value = (box.value.trim() ? box.value.replace(/\s*$/,"") + "\n" : "") + lines.join("\n") + "\n";
+    box.focus();
+    showAliasOk(lines.length + " line" + (lines.length>1?"s":"")
+      + ' written into the box. Read them, fix the canonical number if it is wrong, then press '
+      + '<b>Apply identities</b>.');
+  }
+});
+
+/* ═══════════════════════════════════════════════════════════════════
+   CLASS LIST
+   The register, pasted once: candidate number against the name you want
+   to read. Two things fall out of it. Any code that already carried a
+   number is labelled with the register name instead of whatever the
+   student typed. And any spelling that arrived WITHOUT a number can be
+   attached to a student by hand — which is the one link no rule can
+   ever guess, because nothing in the data connects "ÇA" to 2435.
+   ═══════════════════════════════════════════════════════════════════ */
+function parseClassList(text){
+  const out = [], errs = [], seen = {};
+  String(text||"").split(/\n+/).forEach((line,i)=>{
+    const raw = line.trim();
+    if(!raw || raw.slice(0,2) === "//") return;
+    /* tab, two or more spaces, comma, semicolon or = : whatever the paste gives */
+    const bits = raw.split(/\t+|\s{2,}|\s*[;,=]\s*/).map(x=>x.trim()).filter(Boolean);
+    if(bits.length < 2){
+      /* one last try: a leading number followed by a single space */
+      const m = raw.match(/^(\S+)\s+(.+)$/);
+      if(!m){ errs.push("Line "+(i+1)+": needs a number and a name"); return; }
+      bits.length = 0; bits.push(m[1], m[2]);
+    }
+    let num = bits[0], name = bits.slice(1).join(" ");
+    /* the number may be on either side */
+    if(!/\d/.test(num) && /^\S*\d[\d\s-]*$/.test(bits[bits.length-1])){
+      num = bits[bits.length-1]; name = bits.slice(0,-1).join(" ");
+    }
+    num = String(num).replace(/\s+/g,"");
+    if(!num || !name){ errs.push("Line "+(i+1)+": needs a number and a name"); return; }
+    if(seen[num.toLowerCase()]){ errs.push("Line "+(i+1)+": "+num+" appears twice"); return; }
+    seen[num.toLowerCase()] = 1;
+    out.push({num:num, name:name});
+  });
+  return {list:out, errs:errs};
+}
+function classList(){
+  return parseClassList(typeof roster.classList === "string" ? roster.classList : "").list;
+}
+
+/* ── writing into the Identities box, line by line, keeping what is there ── */
+function aliasLines(){
+  return String($("#aliases").value||"").split(/\n/).map(l=>l.trim()).filter(Boolean);
+}
+function splitLine(line){
+  const cut = line.indexOf("=");
+  if(cut < 0) return null;
+  return {canon: line.slice(0,cut).trim(),
+          parts: line.slice(cut+1).split("|").map(x=>x.trim()).filter(Boolean)};
+}
+/* merge: [{canon, label, tokens:[…]}] → the box, without losing hand edits */
+function writeAliasLines(adds){
+  const lines = aliasLines();
+  const parsed = lines.map(splitLine);
+  adds.forEach(a=>{
+    /* the canonical number is already the line's own key: repeating it as a
+       spelling only makes the line harder to read */
+    a.tokens = (a.tokens||[]).filter(t=>String(t).toLowerCase() !== String(a.canon).toLowerCase());
+    let at = -1;
+    parsed.forEach((o,i)=>{ if(o && o.canon.toLowerCase() === a.canon.toLowerCase()) at = i; });
+    if(at < 0){
+      const parts = [a.label].concat(a.tokens.filter(t=>normName(t) !== normName(a.label)));
+      lines.push(a.canon + " = " + parts.join(" | "));
+      parsed.push(splitLine(lines[lines.length-1]));
+      return;
+    }
+    const o = parsed[at];
+    if(a.label && normName(o.parts[0]) !== normName(a.label)){
+      /* the register name wins as the label, the old one stays as a spelling */
+      o.parts = [a.label].concat(o.parts.filter(x=>normName(x) !== normName(a.label)));
+    }
+    a.tokens.forEach(t=>{
+      if(!o.parts.some(x=>normName(x) === normName(t) || x.toLowerCase() === t.toLowerCase()))
+        o.parts.push(t);
+    });
+    lines[at] = o.canon + " = " + o.parts.join(" | ");
+  });
+  $("#aliases").value = lines.join("\n") + "\n";
+  roster.aliases = $("#aliases").value;
+  save();
+  return applyAliases();
+}
+
+const showClsErr = list => {
+  const box = $("#clsErr");
+  if(!list || !list.length){ box.classList.add("hidden"); return; }
+  box.innerHTML = "<b>" + list.length + " problem" + (list.length>1?"s":"") + " in the class list</b><br>"
+                + list.map(esc).join("<br>");
+  box.classList.remove("hidden");
+};
+const showClsOk = msg => {
+  const box = $("#clsOk");
+  if(!msg){ box.classList.add("hidden"); return; }
+  box.innerHTML = msg; box.classList.remove("hidden");
+};
+
+/* every token that should be filed under this identity */
+function tokensOf(o){
+  const t = [];
+  o.ids.forEach(i=>{ if(String(i).trim()) t.push(String(i).trim()); });
+  o.names.forEach(n=>{ if(String(n).trim()) t.push(String(n).trim()); });
+  return t;
+}
+/* the class-list student this spelling probably is — or null. Same evidence as
+   the merge suggestions, so the two agree with each other. */
+function guessFor(o, cls){
+  for(const c of cls){
+    const cand = {names:new Set([c.name]), ids:new Set([c.num])};
+    if(o.ids.has(c.num)) return c;
+    if(pairWhy(o, cand)) return c;
+  }
+  return null;
+}
+
+function paintMatch(){
+  const box = $("#matchBox");
+  const cls = classList();
+  if(!cls.length){
+    box.innerHTML = '<p class="hint" style="margin:14px 0 0">Save a class list above and every '
+      + 'spelling in the roster appears here, ready to attach.</p>';
+    return;
+  }
+  const ids = identities();
+  const loose = ids.filter(o=>!ALIAS[o.key]);
+  const filed = ids.length - loose.length;
+  if(!loose.length){
+    box.innerHTML = '<p class="hint" style="margin:14px 0 0">Every identity in the roster is filed '
+      + 'under a student. ' + filed + ' in total.</p>';
+    return;
+  }
+  const opts = c => cls.map(x=>'<option value="'+esc(x.num)+'">'+esc(x.num+"  ·  "+x.name)
+                              +'</option>').join("");
+  let h = '<p class="hint" style="margin:16px 0 2px"><b>' + loose.length + ' spelling'
+        + (loose.length>1?"s":"") + ' not yet filed under a student.</b> A suggestion is pre-selected '
+        + 'where the names look related; anything else is yours to choose. '
+        + (filed ? filed + ' already filed. ' : '')
+        + 'Nothing is written until you press the button.</p>'
+        + '<div class="cls-scroll"><table class="match"><thead><tr>'
+        + '<th>Sent as</th><th>Number in the code</th><th>Codes</th><th>Last code</th>'
+        + '<th>File under</th></tr></thead><tbody>';
+  MATCH = [];
+  loose.forEach((o,i)=>{
+    const g = guessFor(o, cls);
+    const sent = [...o.names].join(" · ") || o.key.slice(1);
+    h += '<tr' + (g?' class="guess"':'') + '>'
+      +  '<td class="sent">' + esc(sent) + '</td>'
+      +  '<td>' + ([...o.ids].join(", ") || '<span style="color:var(--muted)">—</span>') + '</td>'
+      +  '<td>' + o.codes + '</td>'
+      +  '<td>' + fmtDate(o.t) + '</td>'
+      +  '<td><select data-match="'+i+'">'
+      +  '<option value="">— leave as it is —</option>' + opts()
+      +  '</select>' + (g?' <span class="ident-why">suggested</span>':'') + '</td></tr>';
+    MATCH.push({o:o, guess:g});
+  });
+  h += '</tbody></table></div>'
+    +  '<div class="btn-row"><button class="btn primary" id="btnMatchApply">'
+    +  'File the ones I have chosen</button></div>';
+  box.innerHTML = h;
+  /* pre-select the guesses after the markup exists */
+  MATCH.forEach((m,i)=>{
+    if(m.guess){
+      const sel = document.querySelector('[data-match="'+i+'"]');
+      if(sel) sel.value = m.guess.num;
+    }
+  });
+}
+let MATCH = [];
+
+$("#btnClassList").addEventListener("click", ()=>{
+  $("#classList").value = (typeof roster.classList === "string" ? roster.classList : "");
+  showClsErr([]); showClsOk("");
+  paintMatch();
+  const d = $("#clsDlg");
+  if(d.showModal) d.showModal(); else d.setAttribute("open","open");
+});
+$("#btnClassClose").addEventListener("click", ()=>{
+  const d = $("#clsDlg");
+  if(d.close) d.close(); else d.removeAttribute("open");
+});
+
+$("#btnClassSave").addEventListener("click", ()=>{
+  const parsed = parseClassList($("#classList").value);
+  roster.classList = $("#classList").value;
+  save();
+  showClsErr(parsed.errs);
+  /* a register entry becomes an identity line at once, so codes that already
+     carry a number get the register's name rather than the typed one */
+  const errs = writeAliasLines(parsed.list.map(c=>({canon:c.num, label:c.name, tokens:[c.num]})));
+  showAliasErr(errs);
+  render(roster.entries);
+  paintState();
+  paintMatch();
+  showClsOk(parsed.list.length + " student" + (parsed.list.length===1?"":"s") + " in the class list."
+    + (parsed.list.length ? " Codes that already carry a number now show the register name." : ""));
+});
+
+document.addEventListener("click", ev=>{
+  if(!ev.target || ev.target.id !== "btnMatchApply") return;
+  const cls = classList(), byNum = {};
+  cls.forEach(c=>{ byNum[c.num] = c; });
+  const adds = [];
+  MATCH.forEach((m,i)=>{
+    const sel = document.querySelector('[data-match="'+i+'"]');
+    const num = sel ? sel.value : "";
+    if(!num || !byNum[num]) return;
+    adds.push({canon:num, label:byNum[num].name, tokens:tokensOf(m.o)});
+  });
+  if(!adds.length){ showClsOk("Nothing chosen."); return; }
+  const errs = writeAliasLines(adds);
+  showAliasErr(errs);
+  render(roster.entries);
+  paintState();
+  paintMatch();
+  showClsOk(adds.length + " spelling" + (adds.length===1?"":"s") + " filed. The lines are in the "
+    + "Identities box behind this window, where you can read and change them.");
+});
+
 /* go */
+$("#aliases").value = (typeof roster.aliases === "string" ? roster.aliases : "");
+showAliasErr(applyAliases());
 render(roster.entries);
 paintState();
 })();

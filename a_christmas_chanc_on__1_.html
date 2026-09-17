@@ -57,6 +57,8 @@
         }
 
         .sentence { font-size: 1.15rem; line-height: 2.2; margin-bottom: 20px; }
+        .item { display: inline; }
+        .stage { margin-bottom: 4px; }
 
         input {
             background: rgba(0,0,0,0.3);
@@ -194,28 +196,74 @@
         }
     ];
 
+    /* ---------------------------------------------------------------
+       v2 — real scores for the teacher download.
+       The six stages are built once, all in the DOM, each input with a
+       unique id and its answer on the element, so the kit in the bottom
+       strip can mark all thirty at the end and write a genuine score to
+       localStorage["bba-scores"]. Nothing is removed from the page when
+       the game finishes: the inputs have to survive for the export.
+    --------------------------------------------------------------- */
+    const ANSWER_KEY = {};
+
+    function esc(s){
+        return String(s).replace(/&/g,'&amp;').replace(/"/g,'&quot;')
+                        .replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    }
+
+    function buildStages(){
+        let html = '';
+        levels.forEach(function(l, s){
+            const body = l.text.replace(
+                /<input id='i(\d)'>(\s*\(([^)]*)\))/g,
+                function(_all, j, paren, verb){
+                    const idx = Number(j), num = s * 5 + idx + 1;
+                    const want = l.ans[idx];
+                    ANSWER_KEY['q' + num] = want;
+                    return "<span class='item'><input id='q" + num + "'"
+                         + ' data-answer="' + esc(want) + '"'
+                         + ' aria-label="Q' + num + ' (' + esc(verb) + ') · ' + esc(l.tense) + '"'
+                         + " autocomplete='off' autocapitalize='off' spellcheck='false'></span>" + paren;
+                });
+            html += "<div class='stage' id='stage" + s + "' style='display:none'>" + body + "</div>";
+        });
+        document.getElementById('displayArea').innerHTML = html;
+        window.BBA_ANSWERS = ANSWER_KEY;   /* belt and braces for the kit */
+    }
+
+    function stageInputs(s){
+        return Array.prototype.slice.call(
+            document.querySelectorAll('#stage' + s + ' input'));
+    }
+
     function load() {
         const l = levels[current];
         document.getElementById('chapterTitle').innerText = l.title;
-        document.getElementById('displayArea').innerHTML = l.text;
+        levels.forEach(function(_, s){
+            const st = document.getElementById('stage' + s);
+            if (st) st.style.display = (s === current) ? '' : 'none';
+        });
         document.getElementById('progress').style.width = (current * 16.6) + "%";
         document.getElementById('hint').style.display = "none";
         document.getElementById('status').innerText = "";
+        const first = stageInputs(current)[0];
+        if (first) first.focus();
     }
 
     function verify() {
         const l = levels[current];
+        const inputs = stageInputs(current);
         let mistakesInStep = 0;
-        for(let i=0; i<5; i++) {
-            let inp = document.getElementById('i'+i);
-            if(inp.value.trim().toLowerCase() !== l.ans[i]) {
+        inputs.forEach(function(inp, i){
+            if (inp.value.trim().toLowerCase() !== l.ans[i]) {
                 mistakesInStep++;
                 inp.className = "wrong";
                 errorsPerTense[l.tense]++;
             } else {
                 inp.className = "correct";
             }
-        }
+        });
+        totalAttempts++;
 
         if(mistakesInStep === 0) {
             document.getElementById('status').innerHTML = "✨ PARFAIT !";
@@ -231,15 +279,38 @@
 
     function finish() {
         document.getElementById('progress').style.width = "100%";
-        document.getElementById('gameArea').innerHTML = `
-            <h2 style="color:var(--victorian-gold); text-align:center;">SCROOGE EST SAUVÉ !</h2>
-            <p style="text-align:center;">Vous avez triomphé des 30 verbes. Tiny Tim est en bonne santé et Scrooge est l'homme le plus généreux de Londres.</p>
-            <button class="btn-download" onclick="download()">TÉLÉCHARGER MON BILAN DE RECHERCHE</button>
-            <button class="btn-check" onclick="location.reload()" style="background:#555; color:white;">RECOMMENCER</button>
-        `;
+
+        /* Show every stage, locked, so the work stays on the page and in
+           the export. Replacing gameArea here is what used to throw the
+           thirty answers away before the teacher could download them. */
+        levels.forEach(function(_, s){
+            const st = document.getElementById('stage' + s);
+            if (st) st.style.display = '';
+        });
+        Array.prototype.forEach.call(
+            document.querySelectorAll('#displayArea input'),
+            function(inp){ inp.readOnly = true; });
+
+        document.getElementById('chapterTitle').innerText = "SCROOGE EST SAUVÉ !";
+        document.getElementById('checkBtn').style.display = "none";
+        document.getElementById('accentBar').style.display = "none";
+        document.getElementById('hint').style.display = "none";
+        document.getElementById('status').innerHTML =
+            "<p>Vous avez triomphé des 30 verbes. Tiny Tim est en bonne santé "
+          + "et Scrooge est l'homme le plus généreux de Londres.</p>"
+          + "<button class=\"btn-download\" onclick=\"downloadBilan()\">TÉLÉCHARGER MON BILAN DE RECHERCHE</button> "
+          + "<button class=\"btn-check\" onclick=\"location.reload()\" style=\"background:#555; color:white;\">RECOMMENCER</button>"
+          + "<p style=\"font-size:.9rem;opacity:.85;margin-top:12px\">Ton score est enregistré. "
+          + "Utilise « Télécharger » dans la barre en bas pour le rapport du professeur.</p>";
+
+        /* Hand the thirty answers to the kit: it marks them, shows the
+           score in the strip, and records it where the hub can read it. */
+        try { if (window.BBA && window.BBA.check) window.BBA.check(); } catch(e){}
     }
 
-    function download() {
+    /* Renamed: the kit also defines a download(), and the global name
+       collided. This is the page's own revision report. */
+    function downloadBilan() {
         let advice = "CONSEILS DE RÉVISION :\n";
         if(errorsPerTense["Imparfait"] > 2) advice += "- Revoir les terminaisons de l'Imparfait (-ais, -ait...).\n";
         if(errorsPerTense["Présent"] > 2) advice += "- Pratiquer les verbes irréguliers du 3ème groupe au présent.\n";
@@ -265,8 +336,10 @@ Félicitations, l'esprit de Noël est en vous !`;
         link.click();
     }
 
+    buildStages();
     load();
 </script>
+
      <script src="bba-kit-fr.js" defer></script>
 </body>
 </html>
