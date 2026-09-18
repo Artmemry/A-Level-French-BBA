@@ -113,7 +113,14 @@ table.match tr.guess select{border-color:#9FB6D4;background:#F5F9FF}
 @media print{.btn-row,textarea.code,header.site .roster-state,#identCard,dialog.cls{display:none!important}body{background:#fff}}
 </style>
 <script src="bba-progress.js"></script>
+<!-- This is the one dashboard for all four sites. The French catalogue sits
+     beside this page; the Spanish one is read from the Spanish hub, where it
+     is regenerated whenever activities are added there. Same host, so no
+     cross-origin request — and if it fails to load, DOSES2 codes still
+     decode, only with "activity 12" in place of a title. -->
 <script src="bba-catalogue.js"></script>
+<script src="https://artmemry.github.io/A-Level-Spanish-BBA/bba-catalogue.js"></script>
+<script src="bba-lessons.js"></script>
 <script src="bba-xlsx.js"></script>
 <link rel="stylesheet" href="bba-mobile.css">
 <script src="bba-mobile.js" defer></script>
@@ -130,9 +137,9 @@ table.match tr.guess select{border-color:#9FB6D4;background:#F5F9FF}
 </header>
 
 <main>
-  <p class="intro">Paste the codes your students send you — one per line, any mix of languages and any mix of
-  <b>Le Lexique</b> and <b>revision dossier</b> codes. The page works out which is which. Everything is decoded
-  in this browser: nothing is uploaded, and no server ever sees a student name.</p>
+  <p class="intro">This is the one dashboard for all four sites — the French and Spanish hubs, <b>Le Lexique</b> and
+  <b>El Léxico</b>. Paste the codes your students send you, one per line, in any mix: the page works out which is which.
+  Everything is decoded in this browser: nothing is uploaded, and no server ever sees a student name.</p>
 
   <div class="card">
     <h2>Import the Forms responses</h2>
@@ -258,17 +265,33 @@ const FORMATS = {
    position, best percentage, whether they ticked it, how many attempts.
    The catalogue turns a position back into the activity's name.
    ═══════════════════════════════════════════════════════════════════ */
-const CAT = (window.BBA_CATALOGUE && window.BBA_CATALOGUE.items) || [];
-const CAT_FP = (window.BBA_CATALOGUE && window.BBA_CATALOGUE.fingerprint) || null;
+/* One catalogue per hub. Each bba-catalogue.js registers itself under
+   window.BBA_CATALOGUES[lang]; an older single-catalogue file still works
+   through window.BBA_CATALOGUE, taken as French. */
+const CATS = (function(){
+  const c = Object.assign({}, window.BBA_CATALOGUES || {});
+  if (!c.FR && window.BBA_CATALOGUE && !window.BBA_CATALOGUE.lang) c.FR = window.BBA_CATALOGUE;
+  return c;
+})();
+function catOf(lang){ return (CATS[lang] && CATS[lang].items) || []; }
+function catFp(lang){ return (CATS[lang] && CATS[lang].fingerprint) || null; }
+
+/* Lesson titles for the two vocabulary sites, from bba-lessons.js. */
+const LESSONS = window.BBA_LESSONS || {};
+function lessonLabel(lid, lang){
+  const t = LESSONS[lang] && LESSONS[lang][lid];
+  return t ? esc(lid) + " &middot; " + esc(t) : esc(lid);
+}
 
 function rowsOf(c){
   if (!c || !c.r || !window.BBAProgress) return [];
   try { return BBAProgress.unpack(c.r); } catch(e){ return []; }
 }
 function attempted(c){ return rowsOf(c).filter(r=>r.pct!=null); }
-function staleCode(c){ return !!(c && c.m && CAT_FP && c.m !== CAT_FP); }
-function actName(i){ return CAT[i] ? CAT[i].t : ("activity " + (i+1)); }
-function actSection(i){ return CAT[i] ? CAT[i].s : ""; }
+function staleCode(c, lang){ const fp = catFp(lang); return !!(c && c.m && fp && c.m !== fp); }
+function actName(i, lang){ const C = catOf(lang); return C[i] ? C[i].t : ("activity " + (i+1)); }
+function actSection(i, lang){ const C = catOf(lang); return C[i] ? C[i].s : ""; }
+function langOfId(id){ return String(id||"").slice(-2); }   // "dosFR" → "FR"
 function band(p){ return p>=70 ? "hi" : p>=45 ? "mid" : "lo"; }
 function bandCell(p){
   return '<td class="num" style="background:'
@@ -504,22 +527,23 @@ let lastTables = {};   // id → {header:[], rows:[[]]} for CSV
    has touched it.
    ═══════════════════════════════════════════════════════════════════ */
 function marksGrid(studs, id){
+  const lang = langOfId(id);
   const seen = new Map();                         // index -> count of students
   studs.forEach(st => attempted(st.cur).forEach(r => seen.set(r.index, (seen.get(r.index)||0)+1)));
   if (!seen.size) return null;
 
   const cols = [...seen.keys()].sort((a,b)=>{
-    const sa = actSection(a), sb = actSection(b);
+    const sa = actSection(a, lang), sb = actSection(b, lang);
     return sa === sb ? a-b : String(sa).localeCompare(String(sb), undefined, {numeric:true});
   });
 
-  const header = ["Student"].concat(cols.map(i=>actName(i)));
+  const header = ["Student"].concat(cols.map(i=>actName(i, lang)));
   const rows = [];
 
   let html = '<div class="wrap"><table class="stats"><thead>'
-           + '<tr><th></th>' + cols.map(i=>'<th style="font-size:.6rem;color:var(--muted)">'+esc(actSection(i))+'</th>').join("") + '</tr>'
+           + '<tr><th></th>' + cols.map(i=>'<th style="font-size:.6rem;color:var(--muted)">'+esc(actSection(i, lang))+'</th>').join("") + '</tr>'
            + '<tr><th>Student</th>'
-           + cols.map(i=>'<th style="min-width:92px">'+esc(actName(i))+'</th>').join("")
+           + cols.map(i=>'<th style="min-width:92px">'+esc(actName(i, lang))+'</th>').join("")
            + '</tr></thead><tbody>';
 
   studs.forEach(st=>{
@@ -589,7 +613,7 @@ function downloadXlsx(id){
     sheets.push({
       name: "Marks by activity",
       columns: grid.header.map((h,i)=>({
-        header: i===0 ? h : (actSection(grid.cols[i-1]) + " · " + h),
+        header: i===0 ? h : (actSection(grid.cols[i-1], langOfId(id)) + " · " + h),
         width: i===0 ? 26 : 13,
         type: i===0 ? "name" : "percent"
       })),
@@ -612,7 +636,7 @@ function downloadXlsx(id){
     if (!reasons.length) return;
     watch.push([dispName(c), c.i != null ? String(c.i) : "", att,
                 o.avg != null ? pctCell(o.avg/100) : null, claimed, reasons.join("; "),
-                weak.map(r=>actName(r.index) + " (" + r.pct + " %)").join("; ")]);
+                weak.map(r=>actName(r.index, langOfId(id)) + " (" + r.pct + " %)").join("; ")]);
   });
   if (watch.length){
     sheets.push({
@@ -739,6 +763,7 @@ function lexTable(studs, id){
 }
 
 function dosTable(studs, id){
+  const lang = langOfId(id);
   const secSet = new Set();
   studs.forEach(s=>s.codes.forEach(c=>Object.keys(c.s||{}).forEach(k=>secSet.add(k))));
   const secs = [...secSet].sort((a,b)=>a.localeCompare(b,undefined,{numeric:true}));
@@ -773,7 +798,7 @@ function dosTable(studs, id){
        and ticking without doing. The second is what v2 exists to show. */
     const flag = (opened >= 8 && done === 0) || (claimed != null && claimed >= 10 && att <= 2);
     html += '<tr'+(flag?' class="flag"':'')+'>'
-      + '<td class="name"'+seenTitle(c)+'>'+esc(dispName(c))+(staleCode(c)?' <span title="This code was made against a different list of activities" style="color:var(--or)">⚠</span>':'')+'</td>'
+      + '<td class="name"'+seenTitle(c)+'>'+esc(dispName(c))+(staleCode(c, lang)?' <span title="This code was made against a different list of activities" style="color:var(--or)">⚠</span>':'')+'</td>'
       + (withId?'<td class="num">'+idCell(c)+'</td>':'')
       + '<td class="num">'+fmtDate(c.t)+'</td>'
       + '<td class="num">'+st.codes.length+'</td>'
@@ -822,7 +847,7 @@ function detailBlock(studs, g){
       l.slice().sort((a,b)=>String(a[0]).localeCompare(String(b[0]),undefined,{numeric:true}))
        .forEach(r=>{
         const acc = r[3]!=null ? r[3] : pct(r[1]||0, r[2]||0);
-        inner += '<tr><td>'+esc(r[0])+'</td><td class="num">'+(r[1]||0)+'</td>'
+        inner += '<tr><td>'+lessonLabel(String(r[0]), g.lang)+'</td><td class="num">'+(r[1]||0)+'</td>'
                + '<td class="num">'+(r[2]||0)+'</td>'
                + '<td class="num">'+bar(acc)+acc+' %</td></tr>';
        });
@@ -835,8 +860,35 @@ function detailBlock(studs, g){
              + h.map(esc).join(", ") + '</span></p>';
     }
   });
+  /* answers claimed correct — the raw material for widening the lists */
+  let nCl = 0;
+  if(g.kind==="lex"){
+    let cl = "";
+    studs.forEach(st=>{
+      const c = st.cur, rows = Array.isArray(c.c) ? c.c : [];
+      if(!rows.length) return;
+      nCl += rows.length;
+      cl += '<p style="margin:12px 0 4px"><b>'+esc(dispName(c))+'</b></p><div class="wrap">'
+          + '<table class="stats"><thead><tr><th>Card</th><th>The list says</th>'
+          + '<th>They answered</th></tr></thead><tbody>';
+      rows.forEach(r=>{
+        cl += '<tr><td>'+lessonLabel(String(r[0]).split(".").slice(0,2).join("."), g.lang)
+            + ' <span style="color:var(--ink-soft)">'+esc(String(r[0]))+'</span></td>'
+            + '<td>'+esc(String(r[2]||""))+'</td>'
+            + '<td><b>'+esc(String(r[1]||""))+'</b></td></tr>';
+      });
+      cl += '</tbody></table></div>';
+    });
+    if(cl) inner += '<p style="margin:18px 0 4px"><b>Claimed also correct</b> '
+                  + '<span style="color:var(--ink-soft);font-size:.85rem">'
+                  + '— a student pressed &ldquo;my version counts too&rdquo;. Where they are right, '
+                  + 'add the answer to that entry&rsquo;s list in data/corpus.js.'
+                  + '</span></p>' + cl;
+  }
   if(!inner){ d.style.display="none"; return d; }
-  d.innerHTML = '<summary>Per-student breakdown</summary><div class="inner">'+inner+'</div>';
+  /* the flag count rides in the summary line, so it is seen without opening it */
+  const flag = nCl ? ' <span style="color:#b26b00">\u2691 '+nCl+' answer'+(nCl>1?'s':'')+' claimed correct</span>' : '';
+  d.innerHTML = '<summary>Per-student breakdown'+flag+'</summary><div class="inner">'+inner+'</div>';
   return d;
 }
 
