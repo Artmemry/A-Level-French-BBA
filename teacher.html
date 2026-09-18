@@ -172,8 +172,12 @@ table.match tr.guess select{border-color:#9FB6D4;background:#F5F9FF}
     <h2>Identities</h2>
     <p class="hint">The same student rarely spells themselves the same way twice — <code>ÇA</code>, <code>C Ackermann</code>,
       <code>CAC</code>, <code>2435</code>. The page cannot know those are one person, so you state it here.
-      One line per student: the canonical identity, then <code>=</code>, then the name you want displayed,
-      then every spelling you have seen, separated by <code>|</code>.</p>
+      Left of the <code>=</code>, the identity — the candidate number where you have one. Right of it, the
+      name you want to read in the tables, then any other spellings, separated by <code>|</code>.</p>
+    <p class="hint"><b>Lines that end in the same name are one student.</b> So writing to the
+      first-name-and-initial convention, one line per spelling, works as you would expect:
+      <code>ÇA = Charbel A</code> on one line and <code>c Ackermann = Charbel A</code> on the next give
+      a single <i>Charbel A</i>, not two.</p>
     <textarea class="code" id="aliases" spellcheck="false" style="min-height:92px"
       placeholder="2435 = C Ackermann | ÇA | CAC | Charbel Ackermann&#10;4417 = Sophie K. | S Kowalski | SKO"></textarea>
     <div class="btn-row">
@@ -373,6 +377,9 @@ function tokenKeys(tok){
 }
 function parseAliases(text){
   const map = {}, label = {}, seen = {}, errs = [];
+  const rows = [];
+
+  /* first pass: read the lines */
   String(text||"").split(/\n+/).forEach((line,i)=>{
     const raw = line.trim();
     if(!raw || raw.slice(0,2)==="//") return;
@@ -384,19 +391,61 @@ function parseAliases(text){
     const parts = raw.slice(cut+1).split("|").map(x=>x.trim()).filter(Boolean);
     if(!canon){ errs.push("Line "+(i+1)+": nothing before the ="); return; }
     if(!parts.length){ errs.push("Line "+(i+1)+": nothing after the ="); return; }
-    const target = "#"+canon.toLowerCase();
-    label[target] = parts[0];
-    seen[target]  = parts.slice();
-    [canon].concat(parts).forEach(tok=>{
+    rows.push({canon:canon, parts:parts, disp:parts[0]});
+  });
+
+  /* Second pass: group by the NAME you asked to see.
+     Writing one line per spelling, all ending in the same name, is the natural
+     way to work to a "first name + initial" convention:
+         ÇA = Charbel A
+         c Ackermann = Charbel A
+     Those are one student, so they are one identity. Whichever line carries a
+     candidate number gives the group its canonical key, because the number is
+     the thing that will still be true next year. */
+  const groups = {};      /* normalised display name -> group */
+  rows.forEach(r=>{
+    const lk = normName(r.disp);
+    const g = groups[lk] || (groups[lk] = {disp:r.disp, canons:[], parts:[]});
+    g.canons.push(r.canon);
+    r.parts.forEach(x=>{ if(!g.parts.some(y=>normName(y)===normName(x))) g.parts.push(x); });
+  });
+
+  const usedBy = {};      /* target key -> the group already using it */
+  const clashed = {};     /* tokens already reported, so nothing is said twice */
+  let dup = 0;
+  Object.keys(groups).forEach(lk=>{
+    const g = groups[lk];
+    const numeric = g.canons.filter(c=>/\d/.test(c));
+    const canon = numeric.length ? numeric[0] : g.canons[0];
+    let target = "#"+canon.toLowerCase();
+    /* the same identity given to two different names is a mistake worth saying
+       out loud, and the two are kept apart rather than silently fused */
+    if(usedBy[target] && usedBy[target] !== lk){
+      errs.push('"'+canon+'" is used as the identity of two students \u2014 '
+                + groups[usedBy[target]].disp + " and " + g.disp);
+      target = target + "~" + (++dup);
+      clashed[normName(canon)] = 1;
+    }
+    usedBy[target] = lk;
+    label[target] = g.disp;
+    /* the spellings worth showing on hover: everything except the name itself */
+    seen[target] = [g.disp].concat(
+      g.canons.concat(g.parts).filter(x=>normName(x) !== lk && !/^\d+$/.test(x))
+        .filter((x,i,a)=>a.findIndex(y=>normName(y)===normName(x))===i));
+    g.canons.concat(g.parts).forEach(tok=>{
       tokenKeys(tok).forEach(k=>{
-        if(map[k] && map[k] !== target){
-          errs.push('"'+tok+'" is claimed by two identities — '+map[k].slice(1)+" and "+canon);
+        if(map[k] && map[k] !== target && !clashed[normName(tok)]){
+          /* a real collision: the same spelling sent to two different names */
+          const other = label[map[k]] || map[k].slice(1);
+          errs.push('"'+tok+'" is claimed by two students — '+other+" and "+g.disp);
         }
         map[k] = target;
       });
     });
   });
-  return {map:map, label:label, seen:seen, errs:errs};
+
+  /* the same collision is found once from each side: say it once */
+  return {map:map, label:label, seen:seen, errs:[...new Set(errs)]};
 }
 function applyAliases(){
   const p = parseAliases(typeof roster.aliases === "string" ? roster.aliases : "");
