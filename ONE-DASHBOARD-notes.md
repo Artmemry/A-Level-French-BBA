@@ -98,6 +98,47 @@ on Le Lexique the task card first on the home page with its chips, the task
 strip with count and due date staying on the Révision tab and its button
 returning to the task. Screenshots at 1100 px and 390 px looked right.
 
+## Setting the task without touching a file
+
+Nobody should edit code to set homework, so the dashboard now builds the
+task. **Set this week's task**, first card on `teacher.html`: pick the site,
+tick the activities (or lists) from the catalogue, name the task, give it a
+due date, press *Make the link*. The task rides inside the link —
+`…/A-Level-French-BBA/?task=eyJs…` — so posting that link where the class
+already finds the site is all it takes. The site stores the task on the
+student's device, drops the parameter from the address, and shows the task
+first on every visit after that until a newer link replaces it;
+`?task=none` removes it. A `?l=` deep link on the vocabulary sites survives
+alongside it. Where both a linked task and `assignments.js` exist, the more
+recent wins, so the file remains the way to fix a task for everyone —
+including a student who never opened the link — and the builder prints the
+line for it under a fold. The dashboard remembers the last link made per
+site. Verified with 13 further checks (69 in all).
+
+## Classes — set by the link, never by a form
+
+A task is for a class, and the site needs to know which class a student is
+in. Nobody fills in a form for that: the teacher picks the class (Y12, Y13,
+or everyone) when building the link, and posts it in that class's own
+channel. Opening the link stores the task **and** the class on the device.
+From then on the task card carries the class (*Cette semaine — … · Y12*),
+the progress code carries it (`k:"Y12"`), and the dashboard shows a *Class*
+column and filter chips (*All classes · Y12 · Y13*) that split the roster —
+the two-teacher model gets its own view. A Y13 link opened by a Y12 student
+changes nothing: tasks are kept one per class on the device and only the
+student's own is shown.
+
+The class is optional and editable: two buttons under the candidate number
+on the hubs, under the name on the vocabulary sites. The only time a student
+is asked is when a task exists for several classes and the device does not
+know its class yet — a dashed card / blue strip, *Which class are you in?*,
+two buttons, once. That happens only if `assignments.js` is given per-class
+tasks (`window.ASSIGNMENT = { Y12:{…}, Y13:{…} }`), which the link route
+never needs. At the September rollover a Y12 who becomes Y13 opens the new
+year's Y13 link, and the class updates with it — or taps the other button.
+
+Verified with 13 further checks (82 in all).
+
 ## Verified
 
 37 end-to-end checks in headless Chromium against local copies of the four

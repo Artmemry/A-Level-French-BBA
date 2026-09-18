@@ -110,7 +110,26 @@ table.match tr.guess select{border-color:#9FB6D4;background:#F5F9FF}
 .ident-row input[type=checkbox]{margin-top:3px;flex:0 0 auto}
 .ident-why{font-size:.78rem;color:var(--muted)}
 .ident-pair{font-family:var(--mono);font-size:.8rem}
-@media print{.btn-row,textarea.code,header.site .roster-state,#identCard,dialog.cls{display:none!important}body{background:#fff}}
+/* ── the task builder ── */
+.task-tabs{display:flex;gap:6px;flex-wrap:wrap;margin:0 0 12px}
+.task-tabs button{font-family:var(--mono);font-size:.7rem;letter-spacing:.06em;text-transform:uppercase;border:1px solid var(--line-strong);
+  border-radius:99px;padding:6px 13px;background:var(--card);color:var(--ink-soft);cursor:pointer}
+.task-tabs button.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+.task-form{display:grid;grid-template-columns:2fr 1fr 1fr;gap:10px;margin:0 0 10px}
+.task-form label{font-size:.78rem;font-weight:600;color:var(--ink-soft);display:block}
+.task-form input,.task-filter input{font:inherit;font-size:.92rem;width:100%;padding:7px 9px;border:1.5px solid var(--line-strong);border-radius:8px;background:#fff;margin-top:4px}
+.task-form .wide{grid-column:1 / -1}
+.task-filter{margin:0 0 6px}
+.task-list{max-height:42vh;overflow:auto;border:1px solid var(--line);border-radius:8px;padding:6px 12px;background:var(--paper)}
+.task-list .grp{font-family:var(--mono);font-size:.64rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:10px 0 2px}
+.task-list label{display:flex;gap:8px;align-items:baseline;font-size:.9rem;padding:3px 0;cursor:pointer}
+.task-list label.hide{display:none}
+.task-list small{color:var(--muted);font-size:.74rem}
+.task-out{margin-top:12px}
+.task-out textarea.code{min-height:58px}
+.task-now{font-size:.85rem;color:var(--ink-soft);margin:8px 0 0}
+@media(max-width:640px){.task-form{grid-template-columns:1fr 1fr}}
+@media print{.btn-row,textarea.code,header.site .roster-state,#identCard,#taskCard,dialog.cls{display:none!important}body{background:#fff}}
 </style>
 <script src="bba-progress.js"></script>
 <!-- This is the one dashboard for all four sites. The French catalogue sits
@@ -140,6 +159,47 @@ table.match tr.guess select{border-color:#9FB6D4;background:#F5F9FF}
   <p class="intro">This is the one dashboard for all four sites — the French and Spanish hubs, <b>Le Lexique</b> and
   <b>El Léxico</b>. Paste the codes your students send you, one per line, in any mix: the page works out which is which.
   Everything is decoded in this browser: nothing is uploaded, and no server ever sees a student name.</p>
+
+  <div class="card" id="taskCard">
+    <h2>Set this week's task</h2>
+    <p class="hint">Pick a site, tick what the class should do, give the task a name and a date, and copy the
+      link. Post that link where you post the site's address — Teams, the Class Notebook, an email. A student
+      who opens it sees the task first thing, and on every visit after that, until a newer link replaces it.
+      Nothing to edit, nothing to upload. One link per site; the link opens the site as usual.
+      Choose the class and post the link in that class's own channel: the link then also tells the site which
+      class the student is in, so nobody is asked, the code they send carries the class, and the roster below
+      splits by it.</p>
+    <div class="task-tabs" id="taskTabs"></div>
+    <div class="task-form">
+      <div class="wide"><label for="tLabel">Task name — what the student sees</label>
+        <input id="tLabel" placeholder="e.g. Semaine du 21 septembre · Les festivals"></div>
+      <div class="wide"><label>For which class?</label>
+        <div class="task-tabs" id="tCls" style="margin:6px 0 0"></div></div>
+      <div><label for="tDue">Due</label><input id="tDue" type="date"></div>
+      <div><label for="tSince">Counts from</label><input id="tSince" type="date"></div>
+      <div class="wide" id="tNoteWrap"><label for="tNote">One line for the student (optional)</label>
+        <input id="tNote" placeholder="e.g. Bring your score to Thursday's lesson"></div>
+    </div>
+    <div class="task-filter"><input id="tFilter" type="search" placeholder="Filter the list…" aria-label="Filter activities"></div>
+    <div class="task-list" id="tList"></div>
+    <div class="btn-row">
+      <button class="btn primary" id="tMake">Make the link</button>
+      <button class="btn ghost" id="tClearLink">Link that removes the task</button>
+      <span id="tCount" style="font-size:.85rem;color:var(--muted);align-self:center"></span>
+    </div>
+    <div class="task-out hidden" id="tOut">
+      <textarea class="code" id="tLink" readonly spellcheck="false"></textarea>
+      <div class="btn-row">
+        <button class="btn primary" id="tCopy">Copy the link</button>
+        <a class="btn ghost" id="tOpen" href="#" target="_blank" rel="noopener">Open it to check</a>
+      </div>
+      <details style="margin-top:8px"><summary style="font-size:.85rem;color:var(--ink-soft);cursor:pointer">Prefer it fixed for everyone, link or no link? The line for <code>assignments.js</code></summary>
+        <textarea class="code" id="tLine" readonly spellcheck="false" style="margin-top:6px"></textarea>
+        <p class="hint" style="margin:6px 0 0">On GitHub, open the site's <code>assignments.js</code>, click the pencil, replace the last line with this one, commit. A linked task that is newer still wins on a device that opened the link.</p>
+      </details>
+    </div>
+    <p class="task-now" id="tNow"></p>
+  </div>
 
   <div class="card">
     <h2>Import the Forms responses</h2>
@@ -220,6 +280,7 @@ table.match tr.guess select{border-color:#9FB6D4;background:#F5F9FF}
    </div>
   </dialog>
 
+  <div class="task-tabs" id="clsChips" style="margin:18px 0 0;display:none"></div>
   <div id="results"></div>
 
   <div class="card" id="legendCard" style="display:none">
@@ -502,7 +563,7 @@ function addEntries(list){
 /* group entries → one row per student per group, newest first with previous kept */
 function grouped(entries, kind, lang){
   const byWho = {};
-  entries.filter(e=>e.kind===kind && e.lang===lang).forEach(e=>{
+  entries.filter(e=>e.kind===kind && e.lang===lang && (!clsFilter || clsOf(e.p)===clsFilter)).forEach(e=>{
     const k = idKey(e.p);
     (byWho[k] = byWho[k] || []).push(e.p);
   });
@@ -514,6 +575,10 @@ function grouped(entries, kind, lang){
 /* does any student in this set carry an id? decides whether the ID column shows */
 const anyId = studs => studs.some(s=>s.codes.some(c=>c.i!=null && String(c.i).trim()));
 const idCell = c => (c.i!=null && String(c.i).trim()) ? esc(String(c.i).trim()) : '<span style="color:var(--muted)">—</span>';
+/* the class rides in the code (k) — set on the student's device by the task link they opened */
+const clsOf = c => (c && c.k) ? String(c.k).trim() : "";
+const clsCell = c => clsOf(c) ? esc(clsOf(c)) : '<span style="color:var(--muted)">—</span>';
+let clsFilter = "";
 
 /* ============================================================
    RENDER
@@ -654,7 +719,23 @@ function downloadXlsx(id){
 let lastStuds = {};
 
 
+function renderClassChips(entries){
+  const box = $("#clsChips"); if(!box) return;
+  const seen = new Set(entries.map(e=>clsOf(e.p)).filter(Boolean));
+  if(!seen.size){ box.style.display = "none"; box.innerHTML = ""; if(clsFilter){ clsFilter = ""; } return; }
+  box.style.display = "";
+  box.innerHTML = "";
+  const opts = [["", "All classes"]].concat([...seen].sort().map(c=>[c, c]));
+  if(clsFilter && !seen.has(clsFilter)) clsFilter = "";
+  opts.forEach(([v, lab])=>{
+    const b = document.createElement("button");
+    b.textContent = lab; b.className = v===clsFilter ? "on" : "";
+    b.addEventListener("click", ()=>{ clsFilter = v; render(entries); });
+    box.appendChild(b);
+  });
+}
 function render(entries){
+  renderClassChips(entries);
   const R = $("#results");
   R.innerHTML = "";
   lastTables = {};
@@ -713,13 +794,13 @@ function lexTable(studs, id){
   const units = [...unitSet].sort((a,b)=>a.localeCompare(b,undefined,{numeric:true}));
 
   const withId = anyId(studs);
-  const header = ["Student"].concat(withId?["ID"]:[])
+  const header = ["Student"].concat(withId?["ID"]:[]).concat(["Class"])
                  .concat(["Exported","Codes","Seen","Of","Mastered","Sessions","Leeches","Exam avg"])
                  .concat(units.map(u=>u+" %"));
   const rows = [];
 
   let html = '<div class="wrap"><table class="stats"><thead><tr>'
-           + '<th>Student</th>'+(withId?'<th>ID</th>':'')
+           + '<th>Student</th>'+(withId?'<th>ID</th>':'')+'<th>Class</th>'
            + '<th>Exported</th><th>#</th><th>Seen</th><th>Mastered</th>'
            + '<th>Sessions</th><th>Leeches</th><th>Exam avg</th>'
            + units.map(u=>'<th>'+esc(u)+'</th>').join("")
@@ -734,6 +815,7 @@ function lexTable(studs, id){
     html += '<tr'+(flag?' class="flag"':'')+'>'
       + '<td class="name"'+seenTitle(c)+'>'+esc(dispName(c))+'</td>'
       + (withId?'<td class="num">'+idCell(c)+'</td>':'')
+      + '<td class="num">'+clsCell(c)+'</td>'
       + '<td class="num">'+fmtDate(c.t)+'</td>'
       + '<td class="num">'+st.codes.length+'</td>'
       + '<td class="num">'+bar(pct(seen,total))+seen+' / '+total+delta(seen, po?po.seen:null)+'</td>'
@@ -741,7 +823,7 @@ function lexTable(studs, id){
       + '<td class="num">'+(o.sess!=null?o.sess:"—")+'</td>'
       + '<td class="num">'+(o.lee!=null?o.lee:"—")+'</td>'
       + '<td class="num">'+(ex?ex.avg+' % <span style="color:var(--muted)">('+ex.tests+')</span>':"—")+'</td>';
-    const rowOut = [dispName(c)].concat(withId?[c.i!=null?String(c.i):""]:[])
+    const rowOut = [dispName(c)].concat(withId?[c.i!=null?String(c.i):""]:[]).concat([clsOf(c)])
                    .concat([fmtDate(c.t), st.codes.length, seen, total, mast,
                     o.sess!=null?o.sess:"", o.lee!=null?o.lee:"", ex?ex.avg:""]);
     units.forEach(u=>{
@@ -769,14 +851,14 @@ function dosTable(studs, id){
   const secs = [...secSet].sort((a,b)=>a.localeCompare(b,undefined,{numeric:true}));
 
   const withId = anyId(studs);
-  const header = ["Student"].concat(withId?["ID"]:[])
+  const header = ["Student"].concat(withId?["ID"]:[]).concat(["Class"])
                  .concat(["Exported","Codes","Attempted","Average %","Ticked not scored",
                           "Done","Of","Opened","% complete","Flagged hard"])
                  .concat(secs);
   const rows = [];
 
   let html = '<div class="wrap"><table class="stats"><thead><tr>'
-           + '<th>Student</th>'+(withId?'<th>ID</th>':'')
+           + '<th>Student</th>'+(withId?'<th>ID</th>':'')+'<th>Class</th>'
            + '<th>Exported</th><th>#</th>'
            + '<th title="Activities with a real recorded score">Attempted</th>'
            + '<th title="Mean of the best score in each activity attempted">Average</th>'
@@ -800,6 +882,7 @@ function dosTable(studs, id){
     html += '<tr'+(flag?' class="flag"':'')+'>'
       + '<td class="name"'+seenTitle(c)+'>'+esc(dispName(c))+(staleCode(c, lang)?' <span title="This code was made against a different list of activities" style="color:var(--or)">⚠</span>':'')+'</td>'
       + (withId?'<td class="num">'+idCell(c)+'</td>':'')
+      + '<td class="num">'+clsCell(c)+'</td>'
       + '<td class="num">'+fmtDate(c.t)+'</td>'
       + '<td class="num">'+st.codes.length+'</td>'
       + '<td class="num">'+att+delta(att, po?po.scored:null)+'</td>'
@@ -809,7 +892,7 @@ function dosTable(studs, id){
       + '<td class="num">'+opened+delta(opened, po?po.opened:null)+'</td>'
       + '<td class="num">'+pct(done,total)+' %</td>'
       + '<td class="num">'+(hard||"—")+'</td>';
-    const rowOut = [dispName(c)].concat(withId?[c.i!=null?String(c.i):""]:[])
+    const rowOut = [dispName(c)].concat(withId?[c.i!=null?String(c.i):""]:[]).concat([clsOf(c)])
                    .concat([fmtDate(c.t), st.codes.length, att, avg, claimed,
                             done, total, opened, pct(done,total), hard]);
     secs.forEach(k=>{
@@ -1508,6 +1591,127 @@ $("#aliases").value = (typeof roster.aliases === "string" ? roster.aliases : "")
 showAliasErr(applyAliases());
 render(roster.entries);
 paintState();
+
+/* ═══════════════════════════════════════════════════════════════════
+   THE TASK BUILDER
+   Ticks become a link: the task rides in ?task=… as base64url JSON, the
+   site stores it on the device and shows it first. Nothing is written
+   anywhere but the student's browser, so there is no file to edit.
+   ═══════════════════════════════════════════════════════════════════ */
+const TASK_SITES = {
+  hubFR:{title:"French hub",   base:"https://artmemry.github.io/A-Level-French-BBA/",                         kind:"dos", lang:"FR", ex:"Semaine du 21 septembre · Les festivals"},
+  hubES:{title:"Spanish hub",  base:"https://artmemry.github.io/A-Level-Spanish-BBA/",                        kind:"dos", lang:"ES", ex:"Semana del 21 de septiembre · El turismo"},
+  lexFR:{title:"Le Lexique",   base:"https://artmemry.github.io/A-Level-French-Edexcel-Vocab-training/",      kind:"lex", lang:"FR", ex:"Semaine du 21 septembre · U6.1 et U6.2"},
+  lexES:{title:"El Léxico",    base:"https://artmemry.github.io/A-Level-Spanish-Edexcel-Vocabulary-training/", kind:"lex", lang:"ES", ex:"Semana del 21 de septiembre · U6.1 y U6.2"}
+};
+const TASK_LS = "bba-teacher-tasks-v1";
+let taskSite = "hubFR", taskCls = "";
+const TASK_CLASSES = ["Y12", "Y13"];
+function renderTaskCls(){
+  const box = $("#tCls"); box.innerHTML = "";
+  [["", "Both / everyone"]].concat(TASK_CLASSES.map(c=>[c, c])).forEach(([v, lab])=>{
+    const b = document.createElement("button"); b.type = "button";
+    b.textContent = lab; b.className = v===taskCls ? "on" : "";
+    b.addEventListener("click", ()=>{ taskCls = v; renderTaskCls(); });
+    box.appendChild(b);
+  });
+}
+function taskItems(site){
+  const s = TASK_SITES[site];
+  if (s.kind === "dos"){
+    return catOf(s.lang).filter(it => !/^https?:/.test(it.f)).map(it => {
+      let f = it.f; try{ f = decodeURIComponent(f); }catch(e){}
+      return {key:f, label:it.t, sub:it.u, group:it.s + " · " + it.sn};
+    });
+  }
+  const L = LESSONS[s.lang] || {};
+  return Object.keys(L).sort((a,b)=>a.localeCompare(b,undefined,{numeric:true})).map(lid => ({
+    key:lid, label:lid + " · " + L[lid], sub:"", group:lid.split(".")[0]
+  }));
+}
+function b64url(str){
+  return btoa(unescape(encodeURIComponent(str))).replace(/\+/g,"-").replace(/\//g,"_").replace(/=+$/,"");
+}
+function savedTasks(){ try{ return JSON.parse(localStorage.getItem(TASK_LS)||"{}")||{}; }catch(e){ return {}; } }
+function renderTaskTabs(){
+  const box = $("#taskTabs"); box.innerHTML = "";
+  Object.keys(TASK_SITES).forEach(k => {
+    const b = document.createElement("button");
+    b.textContent = TASK_SITES[k].title; b.className = k===taskSite ? "on" : "";
+    b.addEventListener("click", ()=>{ taskSite = k; $("#tFilter").value = ""; renderTaskTabs(); renderTaskList(); });
+    box.appendChild(b);
+  });
+  $("#tLabel").placeholder = "e.g. " + TASK_SITES[taskSite].ex;
+  $("#tNoteWrap").style.display = TASK_SITES[taskSite].kind === "dos" ? "" : "none";
+  $("#tOut").classList.add("hidden");
+  const cur = savedTasks()[taskSite];
+  $("#tNow").innerHTML = cur
+    ? "Last link made here for this site: <b>" + esc(cur.label) + "</b> · " + (cur.items||cur.lessons||[]).length + " item" + ((cur.items||cur.lessons||[]).length>1?"s":"") + (cur.due ? " · due " + esc(cur.due) : "") + " · made " + fmtDate(cur.t)
+    : "No link made here yet for this site.";
+}
+function renderTaskList(){
+  const list = $("#tList"); list.innerHTML = "";
+  const items = taskItems(taskSite);
+  if (!items.length){ list.innerHTML = '<p class="hint" style="margin:6px 0">Nothing to list — the catalogue for this site has not loaded.</p>'; return; }
+  let grp = null;
+  items.forEach(it => {
+    if (it.group !== grp){ grp = it.group; const g = document.createElement("div"); g.className = "grp"; g.textContent = grp; list.appendChild(g); }
+    const l = document.createElement("label");
+    l.innerHTML = '<input type="checkbox" value="' + esc(it.key) + '"> <span>' + esc(it.label) + (it.sub ? ' <small>' + esc(it.sub) + '</small>' : '') + '</span>';
+    l.dataset.hay = (it.label + " " + it.group + " " + it.key).toLowerCase();
+    list.appendChild(l);
+  });
+  filterTaskList(); countTask();
+}
+function filterTaskList(){
+  const q = $("#tFilter").value.trim().toLowerCase();
+  $("#tList").querySelectorAll("label").forEach(l => l.classList.toggle("hide", !!q && l.dataset.hay.indexOf(q) < 0));
+  /* a heading with nothing visible under it goes too */
+  $("#tList").querySelectorAll(".grp").forEach(g => {
+    let n = g.nextElementSibling, any = false;
+    while (n && !n.classList.contains("grp")){ if (!n.classList.contains("hide")) any = true; n = n.nextElementSibling; }
+    g.style.display = any ? "" : "none";
+  });
+}
+function chosen(){ return [...$("#tList").querySelectorAll("input:checked")].map(i => i.value); }
+function countTask(){ const n = chosen().length; $("#tCount").textContent = n ? n + " ticked" : ""; }
+function makeTask(){
+  const s = TASK_SITES[taskSite], keys = chosen();
+  const label = $("#tLabel").value.trim();
+  if (!label){ alert("Give the task a name — it is what the student sees."); $("#tLabel").focus(); return; }
+  if (!keys.length){ alert("Tick at least one " + (s.kind==="dos" ? "activity" : "list") + "."); return; }
+  const o = {label:label, since:$("#tSince").value || new Date().toISOString().slice(0,10), due:$("#tDue").value || "", t:Date.now()};
+  if (taskCls) o.cls = taskCls;
+  if (s.kind === "dos"){ o.items = keys; const n = $("#tNote").value.trim(); if (n) o.note = n; }
+  else o.lessons = keys;
+  const link = s.base + "?task=" + b64url(JSON.stringify(o));
+  $("#tLink").value = link; $("#tOpen").href = link;
+  const line = "window.ASSIGNMENT = " + JSON.stringify(Object.assign({}, o, {t:undefined})).replace(/,"t":null|"t":null,?/,"") + ";";
+  $("#tLine").value = line;
+  $("#tOut").classList.remove("hidden");
+  const all = savedTasks(); all[taskSite] = o; try{ localStorage.setItem(TASK_LS, JSON.stringify(all)); }catch(e){}
+  $("#tNow").innerHTML = "Link made for <b>" + esc(label) + "</b>" + (taskCls ? " · " + taskCls + " — post it in that class's channel only; it also tells the site which class the student is in" : " · everyone") + " · " + keys.length + " item" + (keys.length>1?"s":"") + (o.due ? " · due " + esc(o.due) : "") + ". Post it where the class will see it.";
+  if (link.length > 1800) $("#tNow").innerHTML += " <span style='color:var(--or)'>This link is long (" + link.length + " characters); some chat tools cut long links, so keep the name short or tick fewer items.</span>";
+}
+(function(){
+  if (!$("#taskCard")) return;
+  $("#tSince").value = new Date().toISOString().slice(0,10);
+  renderTaskTabs(); renderTaskList(); renderTaskCls();
+  $("#tFilter").addEventListener("input", filterTaskList);
+  $("#tList").addEventListener("change", countTask);
+  $("#tMake").addEventListener("click", makeTask);
+  $("#tClearLink").addEventListener("click", ()=>{
+    const link = TASK_SITES[taskSite].base + "?task=none";
+    $("#tLink").value = link; $("#tOpen").href = link; $("#tLine").value = 'window.ASSIGNMENT = { label:"" };';
+    $("#tOut").classList.remove("hidden");
+    $("#tNow").textContent = "A student who opens this link has the task removed from their device.";
+  });
+  $("#tCopy").addEventListener("click", async ()=>{
+    const v = $("#tLink").value;
+    try{ await navigator.clipboard.writeText(v); }catch(e){ $("#tLink").select(); document.execCommand("copy"); }
+    $("#tCopy").textContent = "Copied ✓"; setTimeout(()=>{ $("#tCopy").textContent = "Copy the link"; }, 1500);
+  });
+})();
 })();
 </script>
 </body>
