@@ -217,7 +217,7 @@ table.match tr.guess select{border-color:#9FB6D4;background:#F5F9FF}
 
   <div class="card">
     <h2>Paste codes</h2>
-    <p class="hint">Accepts <code>LEXFR2.</code> <code>LEXFR1.</code> <code>LEXES2.</code> <code>LEXES1.</code>
+    <p class="hint">Accepts <code>LEXFR2.</code> <code>LEXFR1.</code> <code>LEXES2.</code> <code>LEXES1.</code> <code>LEXKS2.</code>
       <code>DOSFR2.</code> <code>DOSFR1.</code> <code>DOSES2.</code> <code>DOSES1.</code> — one per line. Several codes from the same student over time
       are welcome: the newest is shown, with the change since the previous one.</p>
     <textarea class="code" id="codes" spellcheck="false"
@@ -314,6 +314,8 @@ table.match tr.guess select{border-color:#9FB6D4;background:#F5F9FF}
 const FORMATS = {
   "LEXFR2.":{kind:"lex",lang:"FR"}, "LEXFR1.":{kind:"lex",lang:"FR"},
   "LEXES2.":{kind:"lex",lang:"ES"}, "LEXES1.":{kind:"lex",lang:"ES"},
+  /* KS3–KS4 Spanish: the same engine, its own lists and its own store */
+  "LEXKS2.":{kind:"lex",lang:"KS"},
   /* DOSFR2 carries real scores; DOSFR1 is the older tick-only code and
      still decodes, so a student who has not refreshed the hub is not lost. */
   "DOSFR2.":{kind:"dos",lang:"FR"}, "DOSFR1.":{kind:"dos",lang:"FR"},
@@ -361,6 +363,7 @@ function bandCell(p){
 const GROUPS = [
   {kind:"lex",lang:"FR",title:"Le Lexique — French",   tag:"LEXFR"},
   {kind:"lex",lang:"ES",title:"El Léxico — Spanish",   tag:"LEXES"},
+  {kind:"lex",lang:"KS",title:"El Léxico — KS3 & KS4 Spanish", tag:"LEXKS"},
   {kind:"dos",lang:"FR",title:"Revision dossier — French", tag:"DOSFR"},
   {kind:"dos",lang:"ES",title:"Pasaporte — Spanish",   tag:"DOSES"}
 ];
@@ -1602,11 +1605,14 @@ const TASK_SITES = {
   hubFR:{title:"French hub",   base:"https://artmemry.github.io/A-Level-French-BBA/",                         kind:"dos", lang:"FR", ex:"Semaine du 21 septembre · Les festivals"},
   hubES:{title:"Spanish hub",  base:"https://artmemry.github.io/A-Level-Spanish-BBA/",                        kind:"dos", lang:"ES", ex:"Semana del 21 de septiembre · El turismo"},
   lexFR:{title:"Le Lexique",   base:"https://artmemry.github.io/A-Level-French-Edexcel-Vocab-training/",      kind:"lex", lang:"FR", ex:"Semaine du 21 septembre · U6.1 et U6.2"},
-  lexES:{title:"El Léxico",    base:"https://artmemry.github.io/A-Level-Spanish-Edexcel-Vocabulary-training/", kind:"lex", lang:"ES", ex:"Semana del 21 de septiembre · U6.1 y U6.2"}
+  lexES:{title:"El Léxico",    base:"https://artmemry.github.io/A-Level-Spanish-Edexcel-Vocabulary-training/", kind:"lex", lang:"ES", ex:"Semana del 21 de septiembre · U6.1 y U6.2"},
+  lexKS:{title:"KS3 & KS4 Spanish", base:"https://artmemry.github.io/KS3-KS4-Spanish-Vocabulary-training/", kind:"lex", lang:"KS", ex:"Semana del 21 de septiembre · Y8 Unidad 4"}
 };
 const TASK_LS = "bba-teacher-tasks-v1";
 let taskSite = "hubFR", taskCls = "";
-const TASK_CLASSES = ["Y12", "Y13"];
+/* The dashboard serves the whole department, so the class list runs from
+   Year 7 to Year 13; a site only ever sees the classes that use it. */
+const TASK_CLASSES = ["Y7", "Y8", "Y9", "Y10", "Y11", "Y12", "Y13"];
 function renderTaskCls(){
   const box = $("#tCls"); box.innerHTML = "";
   [["", "Both / everyone"]].concat(TASK_CLASSES.map(c=>[c, c])).forEach(([v, lab])=>{
@@ -1625,9 +1631,13 @@ function taskItems(site){
     });
   }
   const L = LESSONS[s.lang] || {};
-  return Object.keys(L).sort((a,b)=>a.localeCompare(b,undefined,{numeric:true})).map(lid => ({
-    key:lid, label:lid + " · " + L[lid], sub:"", group:lid.split(".")[0]
-  }));
+  return Object.keys(L).sort((a,b)=>a.localeCompare(b,undefined,{numeric:true})).map(lid => {
+    /* 'Y8U4.3' groups under Y8U4; 'U6.1' under U6 */
+    const g = lid.split(".")[0];
+    const my = /^(Y\d+)U(\d+|X)$/.exec(g);
+    return {key:lid, label:lid + " · " + L[lid], sub:"",
+            group: my ? (my[1] + " · Unidad " + my[2]) : g};
+  });
 }
 function b64url(str){
   return btoa(unescape(encodeURIComponent(str))).replace(/\+/g,"-").replace(/\//g,"_").replace(/=+$/,"");
