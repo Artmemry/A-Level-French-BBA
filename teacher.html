@@ -217,9 +217,13 @@ table.match tr.guess select{border-color:#9FB6D4;background:#F5F9FF}
 
   <div class="card">
     <h2>Paste codes</h2>
-    <p class="hint">Accepts <code>LEXFR2.</code> <code>LEXFR1.</code> <code>LEXES2.</code> <code>LEXES1.</code> <code>LEXKS2.</code>
-      <code>DOSFR2.</code> <code>DOSFR1.</code> <code>DOSES2.</code> <code>DOSES1.</code> — one per line. Several codes from the same student over time
-      are welcome: the newest is shown, with the change since the previous one.</p>
+    <p class="hint">Accepts <code>LEXFR2.</code> <code>LEXFR1.</code> <code>LEXES2.</code> <code>LEXES1.</code> <code>LEXKSFR2.</code> <code>LEXKSES2.</code>
+      <code>DOSFR2.</code> <code>DOSFR1.</code> <code>DOSES2.</code> <code>DOSES1.</code>.</p>
+    <p class="hint"><b>Paste the whole thing.</b> Select the code column in the Forms summary workbook — or the
+      whole sheet, headings, timestamps, email addresses and all — and paste it here. Codes are found wherever
+      they sit, in any column order, so nothing needs tidying first and a weekly copy is one action. Several
+      codes from the same student over time are welcome: the newest is shown, with the change since the
+      previous one, and a code already in the roster is skipped rather than counted twice.</p>
     <textarea class="code" id="codes" spellcheck="false"
       placeholder="LEXFR2.eyJ2IjoyLCJuIjo…&#10;DOSFR1.eyJ2IjoxLCJuIjo…&#10;LEXES2.eyJ2IjoyLCJuIjo…"></textarea>
     <div class="btn-row">
@@ -314,8 +318,8 @@ table.match tr.guess select{border-color:#9FB6D4;background:#F5F9FF}
 const FORMATS = {
   "LEXFR2.":{kind:"lex",lang:"FR"}, "LEXFR1.":{kind:"lex",lang:"FR"},
   "LEXES2.":{kind:"lex",lang:"ES"}, "LEXES1.":{kind:"lex",lang:"ES"},
-  /* KS3–KS4 Spanish: the same engine, its own lists and its own store */
-  "LEXKS2.":{kind:"lex",lang:"KS"},
+  /* KS3–KS4: the same engine, its own lists and its own store, per language */
+  "LEXKSES2.":{kind:"lex",lang:"KSES"}, "LEXKSFR2.":{kind:"lex",lang:"KSFR"},
   /* DOSFR2 carries real scores; DOSFR1 is the older tick-only code and
      still decodes, so a student who has not refreshed the hub is not lost. */
   "DOSFR2.":{kind:"dos",lang:"FR"}, "DOSFR1.":{kind:"dos",lang:"FR"},
@@ -363,7 +367,8 @@ function bandCell(p){
 const GROUPS = [
   {kind:"lex",lang:"FR",title:"Le Lexique — French",   tag:"LEXFR"},
   {kind:"lex",lang:"ES",title:"El Léxico — Spanish",   tag:"LEXES"},
-  {kind:"lex",lang:"KS",title:"El Léxico — KS3 & KS4 Spanish", tag:"LEXKS"},
+  {kind:"lex",lang:"KSFR",title:"Le Lexique — KS3 & KS4 French",  tag:"LEXKSFR"},
+  {kind:"lex",lang:"KSES",title:"El Léxico — KS3 & KS4 Spanish", tag:"LEXKSES"},
   {kind:"dos",lang:"FR",title:"Revision dossier — French", tag:"DOSFR"},
   {kind:"dos",lang:"ES",title:"Pasaporte — Spanish",   tag:"DOSES"}
 ];
@@ -1023,14 +1028,23 @@ function paintState(){
 }
 
 function readBox(){
-  const lines = $("#codes").value.split(/\n+/);
+  const raw = $("#codes").value;
   const good = [], errs = [];
-  lines.forEach((l,i)=>{
-    if(!l.trim()) return;
-    try{ const e = decode(l); if(e) good.push(e); }
-    catch(err){ errs.push("Line "+(i+1)+": "+err.message); }
+  const found = raw.match(CODE_RE) || [];
+  const seen = {};
+  found.forEach(c=>{
+    if(seen[c]) return; seen[c] = 1;            /* the same code twice in one paste */
+    try{ const e = decode(c); if(e) good.push(e); }
+    catch(err){ errs.push(err.message); }
   });
-  showErr(errs);
+  /* Nothing matched, but the box is not empty: say why rather than sit silent.
+     Line-by-line decoding gives the real reason for the first offending row. */
+  if(!found.length && raw.trim()){
+    const first = raw.split(/\n+/).map(l=>l.trim()).filter(Boolean)[0] || "";
+    try{ decode(first); }catch(err){ errs.push(err.message); }
+    if(!errs.length) errs.push("no progress codes found in that paste");
+  }
+  showErr(errs.slice(0,6));
   return good;
 }
 
@@ -1040,7 +1054,8 @@ function readBox(){
    guessing at columns. That survives extra columns, reordered questions,
    renamed headings, and comma-vs-semicolon exports from a localised Excel.
    ============================================================ */
-const CODE_RE = /\b(?:LEX|DOS)(?:FR|ES)[12]\.[A-Za-z0-9+/=]{16,}/g;
+const CODE_RE = new RegExp(
+  "(?:" + Object.keys(FORMATS).map(k=>k.replace(".","\\.")).join("|") + ")[A-Za-z0-9+/=]{16,}", "g");
 
 function importText(text, label, tally){
   const found = String(text).match(CODE_RE) || [];
@@ -1606,7 +1621,8 @@ const TASK_SITES = {
   hubES:{title:"Spanish hub",  base:"https://artmemry.github.io/A-Level-Spanish-BBA/",                        kind:"dos", lang:"ES", ex:"Semana del 21 de septiembre · El turismo"},
   lexFR:{title:"Le Lexique",   base:"https://artmemry.github.io/A-Level-French-Edexcel-Vocab-training/",      kind:"lex", lang:"FR", ex:"Semaine du 21 septembre · U6.1 et U6.2"},
   lexES:{title:"El Léxico",    base:"https://artmemry.github.io/A-Level-Spanish-Edexcel-Vocabulary-training/", kind:"lex", lang:"ES", ex:"Semana del 21 de septiembre · U6.1 y U6.2"},
-  lexKS:{title:"KS3 & KS4 Spanish", base:"https://artmemry.github.io/KS3-KS4-Spanish-Vocabulary-training/", kind:"lex", lang:"KS", ex:"Semana del 21 de septiembre · Y8 Unidad 4"}
+  lexKSFR:{title:"KS3 & KS4 French",  base:"https://artmemry.github.io/KS3-KS4-French-Vocabulary-training/",  kind:"lex", lang:"KSFR", ex:"Semaine du 21 septembre · Y8 Unité 4"},
+  lexKSES:{title:"KS3 & KS4 Spanish", base:"https://artmemry.github.io/KS3-KS4-Spanish-Vocabulary-training/", kind:"lex", lang:"KSES", ex:"Semana del 21 de septiembre · Y8 Unidad 4"}
 };
 const TASK_LS = "bba-teacher-tasks-v1";
 let taskSite = "hubFR", taskCls = "";
@@ -1634,9 +1650,10 @@ function taskItems(site){
   return Object.keys(L).sort((a,b)=>a.localeCompare(b,undefined,{numeric:true})).map(lid => {
     /* 'Y8U4.3' groups under Y8U4; 'U6.1' under U6 */
     const g = lid.split(".")[0];
-    const my = /^(Y\d+)U(\d+|X)$/.exec(g);
+    const my = /^(Y\d+)U(\d+|X|C)$/.exec(g);
+    const part = my && (my[2]==="X" ? "extra" : my[2]==="C" ? "common" : "Unit " + my[2]);
     return {key:lid, label:lid + " · " + L[lid], sub:"",
-            group: my ? (my[1] + " · Unidad " + my[2]) : g};
+            group: my ? (my[1] + " · " + part) : g};
   });
 }
 function b64url(str){
