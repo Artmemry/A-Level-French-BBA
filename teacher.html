@@ -303,6 +303,7 @@ table.match tr.guess select{border-color:#9FB6D4;background:#F5F9FF}
   </dialog>
 
   <div class="task-tabs" id="clsChips" style="margin:18px 0 0;display:none"></div>
+  <div class="card" id="mineBox" style="display:none;margin-top:10px"></div>
   <div id="results"></div>
 
   <div class="card" id="legendCard" style="display:none">
@@ -343,6 +344,40 @@ const FORMATS = {
   "DOSFR2.":{kind:"dos",lang:"FR"}, "DOSFR1.":{kind:"dos",lang:"FR"},
   "DOSES2.":{kind:"dos",lang:"ES"}, "DOSES1.":{kind:"dos",lang:"ES"}
 };
+
+/* The teaching groups as the timetable writes them. The year is the leading
+   number, so one token carries both the group and the year and nothing has to
+   be kept in step. Add a group here when the timetable adds one. */
+const CLASS_GROUPS = [
+  {g:"7Badinter",  lang:"FR"}, {g:"7Duras",     lang:"FR"},
+  {g:"8Beauvoir",  lang:"FR"}, {g:"8Deneuve",   lang:"FR"},
+  {g:"9Brel",      lang:"FR"}, {g:"9Stendhal",  lang:"FR"},
+  {g:"10Montaigne",lang:"FR"}, {g:"11Ernaux",   lang:"FR"},
+  {g:"12Veil",     lang:"FR"}, {g:"13Claudel",  lang:"FR"},
+  {g:"7Banderas",  lang:"ES"}, {g:"7Bolivar",   lang:"ES"}, {g:"7Dario",   lang:"ES"},
+  {g:"8Bardem",    lang:"ES"}, {g:"8Dali",      lang:"ES"}, {g:"8Goya",    lang:"ES"},
+  {g:"9Borges",    lang:"ES"}, {g:"9Ramos",     lang:"ES"}, {g:"9Saura",   lang:"ES"},
+  {g:"10Casas",    lang:"ES"}, {g:"11Bunuel",   lang:"ES"}, {g:"11Kahlo",  lang:"ES"},
+  {g:"12Almodovar",lang:"ES"}, {g:"13Duque",    lang:"ES"}
+];
+/* "8Beauvoir" and the older "Y8" both mean Year 8. */
+function yearNum(c){ const m = /^Y?(\d{1,2})/.exec(String(c||"").trim()); return m ? +m[1] : 0; }
+function groupsFor(lang, lo, hi){
+  const want = /ES$/.test(lang) ? "ES" : "FR";
+  return CLASS_GROUPS.filter(x => x.lang === want)
+               .map(x => Object.assign({y:yearNum(x.g)}, x))
+               .filter(x => x.y >= lo && x.y <= hi)
+               .sort((a,b) => a.y - b.y || a.g.localeCompare(b.g))
+               .map(x => x.g);
+}
+/* Which groups are this teacher's own. Kept on this machine only — it is a
+   view, not data, so it must not travel to colleagues in the shared roster. */
+const MINE_LS = "bba-teacher-mine-v1";
+function myGroups(){
+  try{ const a = JSON.parse(localStorage.getItem(MINE_LS) || "[]"); return Array.isArray(a) ? a : []; }
+  catch(e){ return []; }
+}
+function setMyGroups(a){ try{ localStorage.setItem(MINE_LS, JSON.stringify(a)); }catch(e){} }
 
 /* ═══════════════════════════════════════════════════════════════════
    EVIDENCE
@@ -589,7 +624,7 @@ function addEntries(list){
 /* group entries → one row per student per group, newest first with previous kept */
 function grouped(entries, kind, lang){
   const byWho = {};
-  entries.filter(e=>e.kind===kind && e.lang===lang && (!clsFilter || clsOf(e.p)===clsFilter)).forEach(e=>{
+  entries.filter(e=>e.kind===kind && e.lang===lang && clsPass(e.p)).forEach(e=>{
     const k = idKey(e.p);
     (byWho[k] = byWho[k] || []).push(e.p);
   });
@@ -605,6 +640,13 @@ const idCell = c => (c.i!=null && String(c.i).trim()) ? esc(String(c.i).trim()) 
 const clsOf = c => (c && c.k) ? String(c.k).trim() : "";
 const clsCell = c => clsOf(c) ? esc(clsOf(c)) : '<span style="color:var(--muted)">—</span>';
 let clsFilter = "";
+/* "" every group · "mine" the ones you ticked · anything else that one group */
+function clsPass(c){
+  if(!clsFilter) return true;
+  const k = clsOf(c);
+  if(clsFilter === "mine") return myGroups().indexOf(k) >= 0;
+  return k === clsFilter;
+}
 
 /* ============================================================
    RENDER
@@ -748,17 +790,60 @@ let lastStuds = {};
 function renderClassChips(entries){
   const box = $("#clsChips"); if(!box) return;
   const seen = new Set(entries.map(e=>clsOf(e.p)).filter(Boolean));
-  if(!seen.size){ box.style.display = "none"; box.innerHTML = ""; if(clsFilter){ clsFilter = ""; } return; }
+  /* With nothing in the roster there is nothing to filter and nothing to set
+     up, so the row stays out of the way entirely. */
+  if(!entries.length){ box.style.display = "none"; box.innerHTML = ""; clsFilter = ""; return; }
   box.style.display = "";
   box.innerHTML = "";
-  const opts = [["", "All classes"]].concat([...seen].sort().map(c=>[c, c]));
-  if(clsFilter && !seen.has(clsFilter)) clsFilter = "";
+  const mine = myGroups(), mineHere = mine.filter(g=>seen.has(g));
+  if(clsFilter && clsFilter !== "mine" && !seen.has(clsFilter)) clsFilter = "";
+  if(clsFilter === "mine" && !mineHere.length) clsFilter = "";
+  /* No code carries a group yet — offer only the way to declare your own */
+  const opts = (seen.size ? [["", "All classes"]] : [])
+    .concat(mineHere.length ? [["mine", "My groups (" + mineHere.length + ")"]] : [])
+    /* your own groups first, then everyone else's, each by year */
+    .concat([...seen].sort((a,b)=>
+        (mine.indexOf(b)>=0) - (mine.indexOf(a)>=0) || yearNum(a)-yearNum(b) || a.localeCompare(b)
+      ).map(c=>[c, c]));
   opts.forEach(([v, lab])=>{
     const b = document.createElement("button");
     b.textContent = lab; b.className = v===clsFilter ? "on" : "";
     b.addEventListener("click", ()=>{ clsFilter = v; render(entries); });
     box.appendChild(b);
   });
+  const pick = document.createElement("button");
+  pick.textContent = mine.length ? "My groups\u2026 (" + mine.length + ")" : "Choose my groups\u2026";
+  pick.style.marginLeft = "10px";
+  pick.addEventListener("click", ()=>{ $("#mineBox").style.display =
+      $("#mineBox").style.display === "none" ? "" : "none"; });
+  box.appendChild(pick);
+  renderMineBox(entries);
+}
+/* One tick per group you teach. Nothing here filters anyone else's view: the
+   shared roster still holds the whole department, this only decides what this
+   dashboard opens on. */
+function renderMineBox(entries){
+  const box = $("#mineBox"); if(!box) return;
+  const mine = myGroups();
+  box.innerHTML = "";
+  ["FR","ES"].forEach(lang=>{
+    const wrap = document.createElement("div");
+    wrap.style.cssText = "margin:0 0 8px";
+    wrap.innerHTML = '<div class="grp">' + (lang==="FR" ? "French" : "Spanish") + '</div>';
+    groupsFor(lang, 0, 99).forEach(g=>{
+      const l = document.createElement("label");
+      l.style.cssText = "display:inline-block;margin:0 14px 4px 0";
+      l.innerHTML = '<input type="checkbox"' + (mine.indexOf(g)>=0 ? " checked" : "") +
+                    ' value="' + esc(g) + '"> <span>' + esc(g) + '</span>';
+      wrap.appendChild(l);
+    });
+    box.appendChild(wrap);
+  });
+  box.addEventListener("change", ()=>{
+    setMyGroups([...box.querySelectorAll("input:checked")].map(i=>i.value));
+    renderTaskCls();
+    render(roster.entries);
+  }, {once:true});
 }
 function render(entries){
   renderClassChips(entries);
@@ -1652,20 +1737,22 @@ const TASK_LS = "bba-teacher-tasks-v1";
 let taskSite = "hubFR", taskCls = "", taskPicked = {};
 /* The dashboard serves the whole department, so the class list runs from
    Year 7 to Year 13; a site only ever sees the classes that use it. */
-const TASK_CLASSES = ["Y7", "Y8", "Y9", "Y10", "Y11", "Y12", "Y13"];
 /* A KS site is never set for Y12, and the hub is never set for Y8, so each
    site offers only its own classes. On a KS site the year is not a label but
    a filter: picking Y8 shows the Year 8 lists and nothing else, because
    scrolling 232 lists to find three is not a picker. */
 function isKS(site){ return /^KS/.test(TASK_SITES[site].lang); }
 function classesFor(site){
-  return isKS(site) ? ["Y7","Y8","Y9","Y10","Y11"] : ["Y12","Y13"];
+  const lang = TASK_SITES[site].lang;
+  const all = isKS(site) ? groupsFor(lang, 7, 11) : groupsFor(lang, 12, 13);
+  const mine = myGroups();                       /* your own groups come first */
+  return all.filter(g => mine.indexOf(g) >= 0).concat(all.filter(g => mine.indexOf(g) < 0));
 }
 function renderTaskCls(){
   const box = $("#tCls"); box.innerHTML = "";
   const mine = classesFor(taskSite);
   if (taskCls && mine.indexOf(taskCls) < 0) taskCls = "";
-  const all = isKS(taskSite) ? "Every year" : "Both / everyone";
+  const all = isKS(taskSite) ? "Every group" : "Both / everyone";
   [["", all]].concat(mine.map(c=>[c, c])).forEach(([v, lab])=>{
     const b = document.createElement("button"); b.type = "button";
     b.textContent = lab; b.className = v===taskCls ? "on" : "";
@@ -1673,8 +1760,8 @@ function renderTaskCls(){
     box.appendChild(b);
   });
   $("#tClsHint").textContent = isKS(taskSite)
-    ? "Pick the year to see its lists."
-    : "";
+    ? "Pick your group — the lists narrow to its year, and every code that class sends back carries the group's name."
+    : "The group's name rides in every code that class sends back, and shows in the Class column of the tracking sheet.";
 }
 function taskItems(site){
   const s = TASK_SITES[site];
@@ -1685,7 +1772,7 @@ function taskItems(site){
     });
   }
   const L = LESSONS[s.lang] || {};
-  const only = /^KS/.test(s.lang) && taskCls ? new RegExp("^" + taskCls + "U") : null;
+  const only = /^KS/.test(s.lang) && taskCls ? new RegExp("^Y" + yearNum(taskCls) + "U") : null;
   return Object.keys(L).filter(lid => !only || only.test(lid))
     .sort((a,b)=>a.localeCompare(b,undefined,{numeric:true})).map(lid => {
     /* 'Y8U4.3' groups under Y8U4; 'U6.1' under U6 */
@@ -1725,7 +1812,7 @@ function renderTaskList(){
     const bare = !Object.keys(LESSONS[TASK_SITES[taskSite].lang] || {}).length;
     list.innerHTML = '<p class="hint" style="margin:6px 0">' + (bare
       ? "Nothing to list — <b>bba-lessons.js</b> on this site has not been updated with this site\'s lists."
-      : "No lists for " + esc(taskCls) + " on this site.") + '</p>';
+      : "No Year " + yearNum(taskCls) + " lists on this site, so nothing to set for " + esc(taskCls) + ".") + '</p>';
     countTask(); return;
   }
   let grp = null;
