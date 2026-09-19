@@ -240,6 +240,23 @@ table.match tr.guess select{border-color:#9FB6D4;background:#F5F9FF}
     <div class="msg ok hidden" id="ok"></div>
   </div>
 
+  <div class="card" id="shareCard">
+    <h2>Share the roster with the department</h2>
+    <p class="hint">The roster lives in this browser, so a colleague opening the dashboard sees their own.
+      Point every teacher at the same OneDrive-synced folder and the file in it becomes the shared one.
+      Nothing is ever overwritten: each sync reads what is there, merges it with what is here, and writes
+      the union back, so two people working on the same afternoon combine rather than clobber.
+      <b>Chrome and Edge only.</b></p>
+    <div class="btn-row">
+      <button class="btn primary" id="btnShare">Choose the shared folder</button>
+      <span id="shareOn" style="display:none">
+        <button class="btn ghost" id="btnShareNow">Sync now</button>
+        <button class="btn ghost" id="btnShareOff">Stop sharing</button>
+      </span>
+    </div>
+    <p class="hint" id="shareState" style="margin:8px 0 0"></p>
+  </div>
+
   <div class="card" id="identCard">
     <h2>Identities</h2>
     <p class="hint">The same student rarely spells themselves the same way twice — <code>ÇA</code>, <code>C Ackermann</code>,
@@ -1008,6 +1025,9 @@ function downloadCsv(id){
 /* ============================================================
    UI
    ============================================================ */
+/* Codes added here belong to the department, not to this laptop, so any route
+   that adds them offers them to the shared folder at once. */
+function pushShared(){ try{ if (typeof syncShared === "function") syncShared(false); }catch(e){} }
 function showErr(list){
   const box = $("#err");
   if(!list.length){ box.classList.add("hidden"); return; }
@@ -1105,6 +1125,7 @@ function handleFiles(files){
       + (storageOk ? "" : "<br>WARNING: this browser refused to save — the roster will vanish on reload.");
     box.classList.remove("hidden");
     render(roster.entries);
+    pushShared();
   }
 }
 
@@ -1128,6 +1149,7 @@ $("#btnAdd").addEventListener("click", ()=>{
   const good = readBox();
   if(!good.length){ showOk(""); render(roster.entries); return; }
   const added = addEntries(good);
+  pushShared();
   const dup = good.length - added;
   showOk(added+" code"+(added===1?"":"s")+" added"
         + (dup ? " · "+dup+" already in the roster, skipped" : "")
@@ -1198,6 +1220,7 @@ $("#btnRestore").addEventListener("click", ()=>{
         showOk("Restored — "+added+" new code"+(added===1?"":"s")+" merged into the roster."+idMsg);
         showErr([]);
         render(roster.entries);
+        pushShared();
         paintState();
       }catch(e){ showErr(["That file is not a roster backup from this page."]); }
     };
@@ -1753,6 +1776,171 @@ function makeTask(){
   $("#tNow").innerHTML = "Link made for <b>" + esc(label) + "</b>" + (taskCls ? " · " + taskCls + " — post it in that class's channel only; it also tells the site which class the student is in" : " · everyone") + " · " + keys.length + " item" + (keys.length>1?"s":"") + (o.due ? " · due " + esc(o.due) : "") + ". Post it where the class will see it.";
   if (link.length > 1800) $("#tNow").innerHTML += " <span style='color:var(--or)'>This link is long (" + link.length + " characters); some chat tools cut long links, so keep the name short or tick fewer items.</span>";
 }
+/* ============================================================
+   THE SHARED FOLDER
+   The roster lives in this browser, which is why a colleague sees a different
+   one. A department that has no server still has OneDrive: if every teacher
+   points the dashboard at the same synced folder, the file in it becomes the
+   shared roster and OneDrive does the carrying.
+
+   Nothing is ever replaced. A sync reads every roster file in the folder —
+   including the "-DESKTOP-xyz" copies OneDrive leaves behind when two people
+   save at once — merges them into what this machine holds, and writes the
+   union back. Two teachers pasting different classes on the same afternoon
+   therefore combine rather than clobber, whichever order they land in.
+
+   Chrome and Edge only; Safari and Firefox have no directory access, so there
+   the card says so and Back up / Restore remains the way.
+   ============================================================ */
+const SHARE_OK = typeof window.showDirectoryPicker === "function" &&
+                 typeof indexedDB !== "undefined";
+const SHARE_FILE = "roster.json";
+let shareDir = null, shareTimer = null, shareBusy = false;
+
+/* A directory handle cannot be stringified, so it goes in IndexedDB. */
+function idb(){
+  return new Promise((res, rej)=>{
+    const r = indexedDB.open("bba-teacher", 1);
+    r.onupgradeneeded = ()=>{ r.result.createObjectStore("h"); };
+    r.onsuccess = ()=>res(r.result); r.onerror = ()=>rej(r.error);
+  });
+}
+function idbGet(k){
+  return idb().then(db=>new Promise((res,rej)=>{
+    const t = db.transaction("h","readonly").objectStore("h").get(k);
+    t.onsuccess = ()=>res(t.result); t.onerror = ()=>rej(t.error);
+  })).catch(()=>null);
+}
+function idbPut(k, v){
+  return idb().then(db=>new Promise((res,rej)=>{
+    const t = db.transaction("h","readwrite").objectStore("h").put(v, k);
+    t.onsuccess = ()=>res(true); t.onerror = ()=>rej(t.error);
+  })).catch(()=>false);
+}
+
+/* Two identity tables are merged line by line, this machine's first, because a
+   colleague's spellings are additions rather than corrections. */
+function mergeLines(mine, theirs){
+  const out = [], seen = new Set();
+  [mine, theirs].forEach(t=>String(t||"").split(/\n/).forEach(l=>{
+    const k = l.trim(); if(!k || seen.has(k)) return; seen.add(k); out.push(k);
+  }));
+  return out.join("\n");
+}
+
+async function readShared(){
+  const found = [];
+  for await (const [name, h] of shareDir.entries()){
+    if (h.kind !== "file" || !/^roster.*\.json$/i.test(name)) continue;
+    try{
+      const txt = await (await h.getFile()).text();
+      const o = JSON.parse(txt);
+      if (o && Array.isArray(o.entries)) found.push(o);
+    }catch(e){ /* a half-written file during a sync: skip it, next pass gets it */ }
+  }
+  return found;
+}
+
+async function writeShared(){
+  const h = await shareDir.getFileHandle(SHARE_FILE, {create:true});
+  const w = await h.createWritable();
+  await w.write(JSON.stringify({v:1, entries:roster.entries,
+                                aliases:roster.aliases||"", classList:roster.classList||""}));
+  await w.close();
+}
+
+/* One pass: read everything there, merge in, write the union back. Read again
+   immediately before writing so a colleague who saved while we were merging is
+   not lost. */
+async function syncShared(loud){
+  if (!shareDir || shareBusy) return;
+  shareBusy = true;
+  try{
+    let added = 0, changed = false;
+    for (const round of [0,1]){
+      const files = await readShared();
+      files.forEach(o=>{
+        added += addEntries(o.entries.filter(e=>e && e.p && e.kind && e.lang));
+        const a = mergeLines(roster.aliases, o.aliases);
+        if (a !== (roster.aliases||"")){ roster.aliases = a; changed = true; }
+        const c = mergeLines(roster.classList, o.classList);
+        if (c !== (roster.classList||"")){ roster.classList = c; changed = true; }
+      });
+      if (round === 0) continue;
+      await writeShared();
+    }
+    if (changed){
+      save();
+      if ($("#aliases")) $("#aliases").value = roster.aliases || "";
+      if ($("#classList")) $("#classList").value = roster.classList || "";
+      try{ showAliasErr(applyAliases()); }catch(e){}
+    }
+    if (added || changed) render(roster.entries);
+    paintShare("synced", added);
+    if (loud) showOk(added ? added + " new code" + (added===1?"":"s") + " came in from the shared folder."
+                           : "Up to date with the shared folder.");
+  }catch(e){
+    paintShare("error", 0, e && e.name === "NotAllowedError"
+      ? "permission to the folder has lapsed — choose it again"
+      : (e && e.message) || "could not read the folder");
+  }finally{ shareBusy = false; }
+}
+
+function paintShare(state, added, msg){
+  const s = $("#shareState"); if(!s) return;
+  const now = new Date().toTimeString().slice(0,5);
+  if (state === "off"){ s.textContent = "Not connected — this roster stays on this computer."; }
+  else if (state === "error"){ s.innerHTML = '<b style="color:var(--rd,#B3261E)">Sharing stopped</b> — ' + esc(msg||""); }
+  else if (state === "prompt"){ s.textContent = "Folder remembered — choose it once more to reconnect."; }
+  else { s.textContent = "Sharing with " + (shareDir ? shareDir.name : "the folder") +
+          " · last synced " + now + " · " + roster.entries.length + " codes here" +
+          (added ? " (" + added + " new)" : ""); }
+  const btn = $("#btnShare");
+  if (btn) btn.textContent = shareDir ? "Change folder" : "Choose the shared folder";
+  const on = $("#shareOn"); if (on) on.style.display = shareDir ? "" : "none";
+}
+
+async function useDir(h, loud){
+  shareDir = h;
+  await idbPut("dir", h);
+  await syncShared(loud);
+  clearInterval(shareTimer);
+  /* a colleague's save arrives through OneDrive, not through this page, so the
+     folder is re-read now and then while the dashboard is open */
+  shareTimer = setInterval(()=>syncShared(false), 90000);
+}
+
+(function(){
+  const card = $("#shareCard"); if(!card) return;
+  if (!SHARE_OK){
+    $("#shareState").textContent =
+      "This browser cannot open a folder — use Chrome or Edge for the shared roster. " +
+      "Back up and Restore work here as usual.";
+    $("#btnShare").disabled = true;
+    return;
+  }
+  $("#btnShare").addEventListener("click", async ()=>{
+    try{
+      const h = await window.showDirectoryPicker({id:"bba-roster", mode:"readwrite"});
+      await useDir(h, true);
+    }catch(e){ if (e && e.name !== "AbortError") paintShare("error", 0, e.message); }
+  });
+  $("#btnShareNow").addEventListener("click", ()=>syncShared(true));
+  $("#btnShareOff").addEventListener("click", async ()=>{
+    shareDir = null; clearInterval(shareTimer); await idbPut("dir", null);
+    paintShare("off"); showOk("Disconnected. The roster on this computer is untouched.");
+  });
+  paintShare("off");
+  idbGet("dir").then(async h=>{
+    if (!h) return;
+    let p = "prompt";
+    try{ p = await h.queryPermission({mode:"readwrite"}); }catch(e){}
+    if (p === "granted"){ await useDir(h, false); }
+    else { shareDir = null; paintShare("prompt");
+           $("#btnShare").textContent = "Reconnect the shared folder"; }
+  });
+})();
+
 (function(){
   if (!$("#taskCard")) return;
   $("#tSince").value = new Date().toISOString().slice(0,10);
