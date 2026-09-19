@@ -174,7 +174,8 @@ table.match tr.guess select{border-color:#9FB6D4;background:#F5F9FF}
       <div class="wide"><label for="tLabel">Task name — what the student sees</label>
         <input id="tLabel" placeholder="e.g. Semaine du 21 septembre · Les festivals"></div>
       <div class="wide"><label>For which class?</label>
-        <div class="task-tabs" id="tCls" style="margin:6px 0 0"></div></div>
+        <div class="task-tabs" id="tCls" style="margin:6px 0 0"></div>
+        <p class="hint" id="tClsHint" style="margin:4px 0 0"></p></div>
       <div><label for="tDue">Due</label><input id="tDue" type="date"></div>
       <div><label for="tSince">Counts from</label><input id="tSince" type="date"></div>
       <div class="wide" id="tNoteWrap"><label for="tNote">One line for the student (optional)</label>
@@ -1625,18 +1626,32 @@ const TASK_SITES = {
   lexKSES:{title:"KS3 & KS4 Spanish", base:"https://artmemry.github.io/KS3-KS4-Spanish-Vocabulary-training/", kind:"lex", lang:"KSES", ex:"Semana del 21 de septiembre · Y8 Unidad 4"}
 };
 const TASK_LS = "bba-teacher-tasks-v1";
-let taskSite = "hubFR", taskCls = "";
+let taskSite = "hubFR", taskCls = "", taskPicked = {};
 /* The dashboard serves the whole department, so the class list runs from
    Year 7 to Year 13; a site only ever sees the classes that use it. */
 const TASK_CLASSES = ["Y7", "Y8", "Y9", "Y10", "Y11", "Y12", "Y13"];
+/* A KS site is never set for Y12, and the hub is never set for Y8, so each
+   site offers only its own classes. On a KS site the year is not a label but
+   a filter: picking Y8 shows the Year 8 lists and nothing else, because
+   scrolling 232 lists to find three is not a picker. */
+function isKS(site){ return /^KS/.test(TASK_SITES[site].lang); }
+function classesFor(site){
+  return isKS(site) ? ["Y7","Y8","Y9","Y10","Y11"] : ["Y12","Y13"];
+}
 function renderTaskCls(){
   const box = $("#tCls"); box.innerHTML = "";
-  [["", "Both / everyone"]].concat(TASK_CLASSES.map(c=>[c, c])).forEach(([v, lab])=>{
+  const mine = classesFor(taskSite);
+  if (taskCls && mine.indexOf(taskCls) < 0) taskCls = "";
+  const all = isKS(taskSite) ? "Every year" : "Both / everyone";
+  [["", all]].concat(mine.map(c=>[c, c])).forEach(([v, lab])=>{
     const b = document.createElement("button"); b.type = "button";
     b.textContent = lab; b.className = v===taskCls ? "on" : "";
-    b.addEventListener("click", ()=>{ taskCls = v; renderTaskCls(); });
+    b.addEventListener("click", ()=>{ taskCls = v; renderTaskCls(); renderTaskList(); });
     box.appendChild(b);
   });
+  $("#tClsHint").textContent = isKS(taskSite)
+    ? "Pick the year to see its lists."
+    : "";
 }
 function taskItems(site){
   const s = TASK_SITES[site];
@@ -1647,7 +1662,9 @@ function taskItems(site){
     });
   }
   const L = LESSONS[s.lang] || {};
-  return Object.keys(L).sort((a,b)=>a.localeCompare(b,undefined,{numeric:true})).map(lid => {
+  const only = /^KS/.test(s.lang) && taskCls ? new RegExp("^" + taskCls + "U") : null;
+  return Object.keys(L).filter(lid => !only || only.test(lid))
+    .sort((a,b)=>a.localeCompare(b,undefined,{numeric:true})).map(lid => {
     /* 'Y8U4.3' groups under Y8U4; 'U6.1' under U6 */
     const g = lid.split(".")[0];
     const my = /^(Y\d+)U(\d+|X|C)$/.exec(g);
@@ -1665,7 +1682,7 @@ function renderTaskTabs(){
   Object.keys(TASK_SITES).forEach(k => {
     const b = document.createElement("button");
     b.textContent = TASK_SITES[k].title; b.className = k===taskSite ? "on" : "";
-    b.addEventListener("click", ()=>{ taskSite = k; $("#tFilter").value = ""; renderTaskTabs(); renderTaskList(); });
+    b.addEventListener("click", ()=>{ taskSite = k; taskPicked = {}; $("#tFilter").value = ""; renderTaskTabs(); renderTaskCls(); renderTaskList(); });
     box.appendChild(b);
   });
   $("#tLabel").placeholder = "e.g. " + TASK_SITES[taskSite].ex;
@@ -1677,14 +1694,22 @@ function renderTaskTabs(){
     : "No link made here yet for this site.";
 }
 function renderTaskList(){
-  const list = $("#tList"); list.innerHTML = "";
+  const list = $("#tList");
+  const keep = taskPicked;
+  list.innerHTML = "";
   const items = taskItems(taskSite);
-  if (!items.length){ list.innerHTML = '<p class="hint" style="margin:6px 0">Nothing to list — the catalogue for this site has not loaded.</p>'; return; }
+  if (!items.length){
+    const bare = !Object.keys(LESSONS[TASK_SITES[taskSite].lang] || {}).length;
+    list.innerHTML = '<p class="hint" style="margin:6px 0">' + (bare
+      ? "Nothing to list — <b>bba-lessons.js</b> on this site has not been updated with this site\'s lists."
+      : "No lists for " + esc(taskCls) + " on this site.") + '</p>';
+    countTask(); return;
+  }
   let grp = null;
   items.forEach(it => {
     if (it.group !== grp){ grp = it.group; const g = document.createElement("div"); g.className = "grp"; g.textContent = grp; list.appendChild(g); }
     const l = document.createElement("label");
-    l.innerHTML = '<input type="checkbox" value="' + esc(it.key) + '"> <span>' + esc(it.label) + (it.sub ? ' <small>' + esc(it.sub) + '</small>' : '') + '</span>';
+    l.innerHTML = '<input type="checkbox"' + (keep[it.key] ? " checked" : "") + ' value="' + esc(it.key) + '"> <span>' + esc(it.label) + (it.sub ? ' <small>' + esc(it.sub) + '</small>' : '') + '</span>';
     l.dataset.hay = (it.label + " " + it.group + " " + it.key).toLowerCase();
     list.appendChild(l);
   });
@@ -1700,8 +1725,16 @@ function filterTaskList(){
     g.style.display = any ? "" : "none";
   });
 }
-function chosen(){ return [...$("#tList").querySelectorAll("input:checked")].map(i => i.value); }
-function countTask(){ const n = chosen().length; $("#tCount").textContent = n ? n + " ticked" : ""; }
+function rememberTicks(){
+  $("#tList").querySelectorAll("input").forEach(i => {
+    if (i.checked) taskPicked[i.value] = 1; else delete taskPicked[i.value];
+  });
+}
+function chosen(){ return Object.keys(taskPicked); }
+function countTask(){
+  const n = chosen().length, shown = $("#tList").querySelectorAll("input:checked").length;
+  $("#tCount").textContent = n ? n + " ticked" + (n > shown ? " (" + (n - shown) + " in other years)" : "") : "";
+}
 function makeTask(){
   const s = TASK_SITES[taskSite], keys = chosen();
   const label = $("#tLabel").value.trim();
@@ -1725,7 +1758,7 @@ function makeTask(){
   $("#tSince").value = new Date().toISOString().slice(0,10);
   renderTaskTabs(); renderTaskList(); renderTaskCls();
   $("#tFilter").addEventListener("input", filterTaskList);
-  $("#tList").addEventListener("change", countTask);
+  $("#tList").addEventListener("change", ()=>{ rememberTicks(); countTask(); });
   $("#tMake").addEventListener("click", makeTask);
   $("#tClearLink").addEventListener("click", ()=>{
     const link = TASK_SITES[taskSite].base + "?task=none";
