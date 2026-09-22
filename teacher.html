@@ -208,6 +208,9 @@ table.match tr.guess select{border-color:#9FB6D4;background:#F5F9FF}
       Every code in the sheet is picked up — column order, extra columns and comma-or-semicolon separators
       make no difference. Re-dropping a newer export later only adds what's new, so this is safe to repeat
       each half-term.</p>
+    <p class="hint">Where a row carries the sender's school email, that becomes the student's identity and
+      the account name fills in a blank one — so a name left empty in the app, or three students who all
+      typed the same thing, no longer collapse into one row.</p>
     <div class="drop" id="drop" tabindex="0" role="button" aria-label="Drop a CSV export here, or press Enter to choose a file">
       <b>Drop the CSV here</b>
       <span>or click to choose a file · .csv, .txt, .tsv</span>
@@ -611,7 +614,10 @@ function seenTitle(c){
   const l = ALIAS_SEEN[idKey(c)];
   return (l && l.length > 1) ? ' title="sent as: '+esc(l.join(", "))+'"' : "";
 }
-const keyOf = e => e.kind+"|"+e.lang+"|"+rawIdKey(e.p)+"|"+e.p.t;
+/* One export is one row: kind, language and the export moment identify it.
+   Deliberately NOT the identity - stamping an email onto a code must never
+   make a row that is already in the roster look like a new one. */
+const keyOf = e => e.kind+"|"+e.lang+"|"+e.p.t;
 
 function addEntries(list){
   const have = new Set(roster.entries.map(keyOf));
@@ -633,9 +639,15 @@ function grouped(entries, kind, lang){
     return {codes:arr, cur:arr[arr.length-1], prev:arr.length>1?arr[arr.length-2]:null};
   }).sort((a,b)=>dispName(a.cur).localeCompare(dispName(b.cur)));
 }
-/* does any student in this set carry an id? decides whether the ID column shows */
-const anyId = studs => studs.some(s=>s.codes.some(c=>c.i!=null && String(c.i).trim()));
-const idCell = c => (c.i!=null && String(c.i).trim()) ? esc(String(c.i).trim()) : '<span style="color:var(--muted)">—</span>';
+/* An identity taken from the school account is plumbing: it groups the rows and
+   survives a renamed student, but a column of email addresses tells a teacher
+   nothing and widens every table. So it is used and never displayed — only a
+   candidate number, which is worth reading, reaches the ID column. */
+const isMail = v => MAIL_RE.test(String(v==null?"":v));
+const shownId = c => { const v = (c && c.i!=null) ? String(c.i).trim() : ""; return (v && !isMail(v)) ? v : ""; };
+/* does any student in this set carry an id worth showing? decides the ID column */
+const anyId = studs => studs.some(s=>s.codes.some(c=>shownId(c)));
+const idCell = c => shownId(c) ? esc(shownId(c)) : '<span style="color:var(--muted)">—</span>';
 /* the class rides in the code (k) — set on the student's device by the task link they opened */
 const clsOf = c => (c && c.k) ? String(c.k).trim() : "";
 const clsCell = c => clsOf(c) ? esc(clsOf(c)) : '<span style="color:var(--muted)">—</span>';
@@ -767,7 +779,7 @@ function downloadXlsx(id){
     if (weak.length >= 3) reasons.push(weak.length + " activities under 50 %");
     if ((o.opened||0) >= 8 && att === 0) reasons.push("opening activities but finishing none");
     if (!reasons.length) return;
-    watch.push([dispName(c), c.i != null ? String(c.i) : "", att,
+    watch.push([dispName(c), shownId(c), att,
                 o.avg != null ? pctCell(o.avg/100) : null, claimed, reasons.join("; "),
                 weak.map(r=>actName(r.index, langOfId(id)) + " (" + r.pct + " %)").join("; ")]);
   });
@@ -934,7 +946,7 @@ function lexTable(studs, id){
       + '<td class="num">'+(o.sess!=null?o.sess:"—")+'</td>'
       + '<td class="num">'+(o.lee!=null?o.lee:"—")+'</td>'
       + '<td class="num">'+(ex?ex.avg+' % <span style="color:var(--muted)">('+ex.tests+')</span>':"—")+'</td>';
-    const rowOut = [dispName(c)].concat(withId?[c.i!=null?String(c.i):""]:[]).concat([clsOf(c)])
+    const rowOut = [dispName(c)].concat(withId?[shownId(c)]:[]).concat([clsOf(c)])
                    .concat([fmtDate(c.t), st.codes.length, seen, total, mast,
                     o.sess!=null?o.sess:"", o.lee!=null?o.lee:"", ex?ex.avg:""]);
     units.forEach(u=>{
@@ -1003,7 +1015,7 @@ function dosTable(studs, id){
       + '<td class="num">'+opened+delta(opened, po?po.opened:null)+'</td>'
       + '<td class="num">'+pct(done,total)+' %</td>'
       + '<td class="num">'+(hard||"—")+'</td>';
-    const rowOut = [dispName(c)].concat(withId?[c.i!=null?String(c.i):""]:[]).concat([clsOf(c)])
+    const rowOut = [dispName(c)].concat(withId?[shownId(c)]:[]).concat([clsOf(c)])
                    .concat([fmtDate(c.t), st.codes.length, att, avg, claimed,
                             done, total, opened, pct(done,total), hard]);
     secs.forEach(k=>{
@@ -1136,13 +1148,12 @@ function paintState(){
 function readBox(){
   const raw = $("#codes").value;
   const good = [], errs = [];
-  const found = raw.match(CODE_RE) || [];
-  const seen = {};
-  found.forEach(c=>{
-    if(seen[c]) return; seen[c] = 1;            /* the same code twice in one paste */
-    try{ const e = decode(c); if(e) good.push(e); }
-    catch(err){ errs.push(err.message); }
+  const seen = {};                              /* the same code twice in one paste */
+  const tally = {scanned:0};
+  raw.split(/\r?\n/).forEach(line=>{
+    good.push.apply(good, codesOnLine(line, err=>errs.push(err.message), tally, seen));
   });
+  const found = {length: tally.scanned};
   /* Nothing matched, but the box is not empty: say why rather than sit silent.
      Line-by-line decoding gives the real reason for the first offending row. */
   if(!found.length && raw.trim()){
@@ -1163,13 +1174,84 @@ function readBox(){
 const CODE_RE = new RegExp(
   "(?:" + Object.keys(FORMATS).map(k=>k.replace(".","\\.")).join("|") + ")[A-Za-z0-9+/=]{16,}", "g");
 
-function importText(text, label, tally){
-  const found = String(text).match(CODE_RE) || [];
-  tally.scanned += found.length;
-  const good = [];
+/* -- identity from the Microsoft Forms export ----------------------------
+   Forms records the school account of whoever submitted, so every response
+   row carries Email - and usually the account Name - beside the code. The
+   name a student types into the app can be blank, a single letter, or the
+   same word for three different people; the account cannot. So when a code
+   and an email sit on the same row, the email becomes the identity, and the
+   account name supplies the label when the typed one is missing.
+   rawIdKey already prefers an explicit identity over the typed name, so
+   nothing downstream changes. A row with no email keeps the old behaviour.
+   ----------------------------------------------------------------------- */
+const MAIL_RE = /[A-Za-z0-9._%+\-]+@[A-Za-z0-9.\-]+\.[A-Za-z]{2,}/;
+const NO_NAME = {"(no name)":1, "(sans nom)":1, "(sin nombre)":1, "":1};
+
+/* one exported row into cells: comma, semicolon or tab, quotes respected */
+function rowCells(line){
+  const out = []; let cur = "", q = false;
+  for(let i=0;i<line.length;i++){
+    const ch = line[i];
+    if(q){
+      if(ch === '"'){ if(line[i+1] === '"'){ cur += '"'; i++; } else q = false; }
+      else cur += ch;
+    }
+    else if(ch === '"') q = true;
+    else if(ch === "," || ch === ";" || ch === "\t"){ out.push(cur); cur = ""; }
+    else cur += ch;
+  }
+  out.push(cur);
+  return out;
+}
+/* the account name sits in the column beside the email in a Forms export */
+function accountName(line, mail){
+  const c = rowCells(line).map(x=>x.trim());
+  const i = c.findIndex(x => x.toLowerCase() === mail);
+  if(i < 0) return "";
+  const nb = [i+1, i-1];
+  for(let k=0;k<nb.length;k++){
+    const v = c[nb[k]] || "";
+    if(v && !MAIL_RE.test(v) && !/[0-9@]/.test(v) && v.split(/\s+/).length >= 2) return v;
+  }
+  return "";
+}
+/* "Edward Van Steenberghe" -> "Edward V", to the department convention */
+function shortName(full){
+  const p = String(full||"").trim().split(/\s+/).filter(Boolean);
+  if(!p.length) return "";
+  return p.length === 1 ? p[0] : p[0] + " " + p[1][0].toUpperCase();
+}
+/* stamp one decoded code with the identity found on its own row */
+function stampIdentity(e, line, tally){
+  const m = line.match(MAIL_RE);
+  if(!m) return e;
+  const mail = m[0].toLowerCase();
+  e.p.i = mail;
+  /* The account name is the authoritative one, so it wins outright: a student
+     who types "Toby" is Toby G, and one who types nothing is still named.
+     An Identities line still overrides this, as it overrides everything. */
+  const full = accountName(line, mail);
+  if(full) e.p.n = shortName(full);
+  if(tally) tally.named = (tally.named||0) + 1;
+  return e;
+}
+/* every code on one row, decoded and stamped */
+function codesOnLine(line, onErr, tally, seen){
+  const found = line.match(CODE_RE) || [];
+  const out = [];
   found.forEach(c=>{
-    try{ const e = decode(c); if(e) good.push(e); }
-    catch(err){ tally.bad.push(label+": "+err.message); }
+    if(seen){ if(seen[c]) return; seen[c] = 1; }
+    if(tally) tally.scanned = (tally.scanned||0) + 1;
+    try{ const e = decode(c); if(e) out.push(stampIdentity(e, line, tally)); }
+    catch(err){ onErr(err); }
+  });
+  return out;
+}
+
+function importText(text, label, tally){
+  const good = [];
+  String(text).split(/\r?\n/).forEach(line=>{
+    good.push.apply(good, codesOnLine(line, err=>tally.bad.push(label+": "+err.message), tally));
   });
   return good;
 }
@@ -1206,6 +1288,7 @@ function handleFiles(files){
     box.innerHTML = "<b>"+added+" new code"+(added===1?"":"s")+" imported</b> from "
       + tally.files+" file"+(tally.files===1?"":"s")+"."
       + (dup ? " "+dup+" already in the roster, skipped." : "")
+      + (tally.named ? " "+tally.named+" identified by school account." : "")
       + (tally.bad.length ? "<br>"+tally.bad.length+" could not be decoded: "+esc(tally.bad.slice(0,3).join(" · ")) : "")
       + (storageOk ? "" : "<br>WARNING: this browser refused to save — the roster will vanish on reload.");
     box.classList.remove("hidden");
