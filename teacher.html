@@ -486,6 +486,9 @@ function examAvg(x){
    ROSTER
    ============================================================ */
 let roster = load();
+/* A roster saved before emails existed is reconciled the moment it is opened,
+   so yesterday's duplicates resolve without the teacher doing anything. */
+setTimeout(function(){ try{ if(reconcileEmails()) { save(); render(roster.entries); } }catch(e){} }, 0);
 function load(){
   try{
     const raw = localStorage.getItem(LS);
@@ -613,18 +616,37 @@ function idKey(p, e){
   const k = rawIdKey(p, e);
   return ALIAS[k] || k;
 }
+/* The department shows a student as first name plus the initial of the
+   surname, and nothing else. A register name arrives in full and an email
+   address must never be drawn at all, so every name goes through here before
+   it reaches a cell, a tooltip or an export. */
+const MAIL_LIKE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+function shortName(v){
+  let t = String(v == null ? "" : v).trim();
+  if (!t) return "";
+  if (MAIL_LIKE.test(t)) return "";                 /* never an address */
+  t = t.replace(/\s+/g, " ");
+  const bits = t.split(" ").filter(Boolean);
+  if (bits.length < 2) return bits[0] || "";
+  /* The initial is the surname's, and a surname can be several words: it is
+     the first word after the given name that counts. "Edward Van Steenberghe"
+     is Edward V, not Edward S. "Charbel A" is already right and stays. */
+  const initial = (bits[1].replace(/[^\p{L}]/gu, "")[0] || "").toUpperCase();
+  return initial ? bits[0] + " " + initial : bits[0];
+}
 /* The name to print, best first: a line you wrote in Identities, then the
    register name the Forms row carried, then whatever they typed. */
 function dispName(c, e){
   const k = idKey(c, e);
-  return ALIAS_LABEL[k] || (e && e.who) || (c && c.__who) || (c && c.n) || "(no name)";
+  const raw = ALIAS_LABEL[k] || (e && e.who) || (c && c.__who) || (c && c.n) || "";
+  return shortName(raw) || "(no name)";
 }
 function seenTitle(c){
   const l = ALIAS_SEEN[idKey(c)];
   const parts = [];
-  if (c && c.__mail) parts.push(c.__mail);
-  if (l && l.length > 1) parts.push("sent as: " + l.join(", "));
-  else if (c && c.__who && c.n && c.__who !== c.n) parts.push("typed: " + c.n);
+  if (l && l.length > 1) parts.push("sent as: " + l.map(shortName).filter(Boolean).join(", "));
+  else if (c && c.__who && c.n && shortName(c.__who) !== shortName(c.n))
+    parts.push("typed: " + shortName(c.n));
   return parts.length ? ' title="'+esc(parts.join(" \u00b7 "))+'"' : "";
 }
 const keyOf = e => e.kind+"|"+e.lang+"|"+rawIdKey(e.p, e)+"|"+e.p.t;
@@ -643,6 +665,30 @@ function reconcileEmails(){
     if(e.email) return;
     const twin = mail[e.kind+"|"+e.lang+"|"+e.p.t];
     if(twin){ e.email = twin.email; if(twin.who) e.who = twin.who; joined++; }
+  });
+
+  /* A code pasted before the export existed carries no email, so it keys on
+     the typed name and the same student shows twice. Join it to an address —
+     but only when the short name it resolves to belongs to exactly ONE address
+     across the whole roster. One ambiguous name and nothing is joined, because
+     fusing two real students is far worse than showing one of them twice. */
+  const byShort = {};
+  roster.entries.forEach(e=>{
+    if(!e.email) return;
+    const k = normName(shortName(e.who || e.p.n));
+    if(!k) return;
+    (byShort[k] = byShort[k] || new Set()).add(e.email);
+  });
+  roster.entries.forEach(e=>{
+    if(e.email) return;
+    const k = normName(shortName(e.p.n));
+    const hit = byShort[k];
+    if(hit && hit.size === 1){
+      e.email = [...hit][0];
+      const src = roster.entries.find(x=>x.email===e.email && x.who);
+      if(src) e.who = src.who;
+      joined++;
+    }
   });
   /* now that they key alike, drop the exact duplicate */
   const seen = new Set(), keep = [];
@@ -678,8 +724,15 @@ function grouped(entries, kind, lang){
   }).sort((a,b)=>dispName(a.cur).localeCompare(dispName(b.cur)));
 }
 /* does any student in this set carry an id? decides whether the ID column shows */
-const anyId = studs => studs.some(s=>s.codes.some(c=>c.i!=null && String(c.i).trim()));
-const idCell = c => (c.i!=null && String(c.i).trim()) ? esc(String(c.i).trim()) : '<span style="color:var(--muted)">—</span>';
+/* Whatever a student typed into the optional candidate-number box, an email
+   address is not shown: it identifies them outright and the dashboard is a
+   teaching tool, not a directory. It still works as a key underneath. */
+const idText = c => {
+  const v = (c && c.i != null) ? String(c.i).trim() : "";
+  return (!v || MAIL_LIKE.test(v)) ? "" : v;
+};
+const anyId = studs => studs.some(s=>s.codes.some(c=>idText(c)));
+const idCell = c => idText(c) ? esc(idText(c)) : '<span style="color:var(--muted)">—</span>';
 /* the class rides in the code (k) — set on the student's device by the task link they opened */
 const clsOf = c => (c && c.k) ? String(c.k).trim() : "";
 const clsCell = c => clsOf(c) ? esc(clsOf(c)) : '<span style="color:var(--muted)">—</span>';
@@ -978,7 +1031,7 @@ function lexTable(studs, id){
       + '<td class="num">'+(o.sess!=null?o.sess:"—")+'</td>'
       + '<td class="num">'+(o.lee!=null?o.lee:"—")+'</td>'
       + '<td class="num">'+(ex?ex.avg+' % <span style="color:var(--muted)">('+ex.tests+')</span>':"—")+'</td>';
-    const rowOut = [dispName(c)].concat(withId?[c.i!=null?String(c.i):""]:[]).concat([clsOf(c)])
+    const rowOut = [dispName(c)].concat(withId?[idText(c)]:[]).concat([clsOf(c)])
                    .concat([fmtDate(c.t), st.codes.length, seen, total, mast,
                     o.sess!=null?o.sess:"", o.lee!=null?o.lee:"", ex?ex.avg:""]);
     units.forEach(u=>{
@@ -1047,7 +1100,7 @@ function dosTable(studs, id){
       + '<td class="num">'+opened+delta(opened, po?po.opened:null)+'</td>'
       + '<td class="num">'+pct(done,total)+' %</td>'
       + '<td class="num">'+(hard||"—")+'</td>';
-    const rowOut = [dispName(c)].concat(withId?[c.i!=null?String(c.i):""]:[]).concat([clsOf(c)])
+    const rowOut = [dispName(c)].concat(withId?[idText(c)]:[]).concat([clsOf(c)])
                    .concat([fmtDate(c.t), st.codes.length, att, avg, claimed,
                             done, total, opened, pct(done,total), hard]);
     secs.forEach(k=>{
