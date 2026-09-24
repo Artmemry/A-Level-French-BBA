@@ -208,9 +208,6 @@ table.match tr.guess select{border-color:#9FB6D4;background:#F5F9FF}
       Every code in the sheet is picked up — column order, extra columns and comma-or-semicolon separators
       make no difference. Re-dropping a newer export later only adds what's new, so this is safe to repeat
       each half-term.</p>
-    <p class="hint">Where a row carries the sender's school email, that becomes the student's identity and
-      the account name fills in a blank one — so a name left empty in the app, or three students who all
-      typed the same thing, no longer collapse into one row.</p>
     <div class="drop" id="drop" tabindex="0" role="button" aria-label="Drop a CSV export here, or press Enter to choose a file">
       <b>Drop the CSV here</b>
       <span>or click to choose a file · .csv, .txt, .tsv</span>
@@ -262,6 +259,11 @@ table.match tr.guess select{border-color:#9FB6D4;background:#F5F9FF}
 
   <div class="card" id="identCard">
     <h2>Identities</h2>
+    <p class="hint"><b>Most of the time you will not need this.</b> A file exported from the Form carries each
+      student's school email beside their code, and that is what the roster groups on — so
+      <code>Toby</code>, <code>Toby G</code> and <code>(sans nom)</code> from one address are already one
+      student, named from the register. This box is for the leftovers: codes pasted with no email beside
+      them, or a student who sent from two different addresses.</p>
     <p class="hint">The same student rarely spells themselves the same way twice — <code>ÇA</code>, <code>C Ackermann</code>,
       <code>CAC</code>, <code>2435</code>. The page cannot know those are one person, so you state it here.
       Left of the <code>=</code>, the identity — the candidate number where you have one. Right of it, the
@@ -498,7 +500,13 @@ function save(){
 }
 /* Identity: prefer the stable id the code carries; fall back to the typed name.
    Codes emitted before ids existed keep working — they just group by name as before. */
-function rawIdKey(p){
+/* A Forms row carries the school email, which is the one thing about a
+   student that never varies. The typed name does: the same person arrives as
+   "Toby", "Toby G", "(sans nom)". So when the import kept an email, that is
+   the identity, and no line in the Identities box is needed for them. */
+function rawIdKey(p, e){
+  const mail = (e && e.email) || (p && p.__mail) || "";
+  if (mail) return "@"+String(mail).trim().toLowerCase();
   const id = p && p.i != null ? String(p.i).trim() : "";
   return id ? "#"+id.toLowerCase() : "~"+normName(p.n);
 }
@@ -601,28 +609,54 @@ function applyAliases(){
   return p.errs;
 }
 
-function idKey(p){
-  const k = rawIdKey(p);
+function idKey(p, e){
+  const k = rawIdKey(p, e);
   return ALIAS[k] || k;
 }
-/* the name to print: the identity label when one is set, else what they typed */
-function dispName(c){
-  const k = idKey(c);
-  return ALIAS_LABEL[k] || (c && c.n) || "(no name)";
+/* The name to print, best first: a line you wrote in Identities, then the
+   register name the Forms row carried, then whatever they typed. */
+function dispName(c, e){
+  const k = idKey(c, e);
+  return ALIAS_LABEL[k] || (e && e.who) || (c && c.__who) || (c && c.n) || "(no name)";
 }
 function seenTitle(c){
   const l = ALIAS_SEEN[idKey(c)];
-  return (l && l.length > 1) ? ' title="sent as: '+esc(l.join(", "))+'"' : "";
+  const parts = [];
+  if (c && c.__mail) parts.push(c.__mail);
+  if (l && l.length > 1) parts.push("sent as: " + l.join(", "));
+  else if (c && c.__who && c.n && c.__who !== c.n) parts.push("typed: " + c.n);
+  return parts.length ? ' title="'+esc(parts.join(" \u00b7 "))+'"' : "";
 }
-/* One export is one row: kind, language and the export moment identify it.
-   Deliberately NOT the identity - stamping an email onto a code must never
-   make a row that is already in the roster look like a new one. */
-const keyOf = e => e.kind+"|"+e.lang+"|"+e.p.t;
+const keyOf = e => e.kind+"|"+e.lang+"|"+rawIdKey(e.p, e)+"|"+e.p.t;
+
+/* The same code can arrive twice — pasted from the sheet on Monday, imported
+   from the file on Friday. Only the imported copy carries an email, so the two
+   would key differently and the student would show twice. A code is stamped
+   with the exact millisecond it was made, so an identical stamp in the same
+   language IS the same submission: give the older copy the email its twin
+   brought. This guesses nothing — it matches on the stamp, never on a name. */
+function reconcileEmails(){
+  const mail = {};
+  roster.entries.forEach(e=>{ if(e.email) mail[e.kind+"|"+e.lang+"|"+e.p.t] = e; });
+  let joined = 0;
+  roster.entries.forEach(e=>{
+    if(e.email) return;
+    const twin = mail[e.kind+"|"+e.lang+"|"+e.p.t];
+    if(twin){ e.email = twin.email; if(twin.who) e.who = twin.who; joined++; }
+  });
+  /* now that they key alike, drop the exact duplicate */
+  const seen = new Set(), keep = [];
+  roster.entries.forEach(e=>{ const k = keyOf(e); if(!seen.has(k)){ seen.add(k); keep.push(e); } });
+  const dropped = roster.entries.length - keep.length;
+  roster.entries = keep;
+  return joined + dropped;
+}
 
 function addEntries(list){
   const have = new Set(roster.entries.map(keyOf));
   let added = 0;
   list.forEach(e=>{ const k = keyOf(e); if(!have.has(k)){ have.add(k); roster.entries.push(e); added++; } });
+  reconcileEmails();
   save();
   return added;
 }
@@ -631,7 +665,11 @@ function addEntries(list){
 function grouped(entries, kind, lang){
   const byWho = {};
   entries.filter(e=>e.kind===kind && e.lang===lang && clsPass(e.p)).forEach(e=>{
-    const k = idKey(e.p);
+    const k = idKey(e.p, e);
+    /* the email and the register name ride with the payload, so the row can
+       print the real name and the grouping can key on the address */
+    if(e.email && !e.p.__mail) e.p.__mail = e.email;
+    if(e.who   && !e.p.__who)  e.p.__who  = e.who;
     (byWho[k] = byWho[k] || []).push(e.p);
   });
   return Object.values(byWho).map(arr=>{
@@ -639,15 +677,9 @@ function grouped(entries, kind, lang){
     return {codes:arr, cur:arr[arr.length-1], prev:arr.length>1?arr[arr.length-2]:null};
   }).sort((a,b)=>dispName(a.cur).localeCompare(dispName(b.cur)));
 }
-/* An identity taken from the school account is plumbing: it groups the rows and
-   survives a renamed student, but a column of email addresses tells a teacher
-   nothing and widens every table. So it is used and never displayed — only a
-   candidate number, which is worth reading, reaches the ID column. */
-const isMail = v => MAIL_RE.test(String(v==null?"":v));
-const shownId = c => { const v = (c && c.i!=null) ? String(c.i).trim() : ""; return (v && !isMail(v)) ? v : ""; };
-/* does any student in this set carry an id worth showing? decides the ID column */
-const anyId = studs => studs.some(s=>s.codes.some(c=>shownId(c)));
-const idCell = c => shownId(c) ? esc(shownId(c)) : '<span style="color:var(--muted)">—</span>';
+/* does any student in this set carry an id? decides whether the ID column shows */
+const anyId = studs => studs.some(s=>s.codes.some(c=>c.i!=null && String(c.i).trim()));
+const idCell = c => (c.i!=null && String(c.i).trim()) ? esc(String(c.i).trim()) : '<span style="color:var(--muted)">—</span>';
 /* the class rides in the code (k) — set on the student's device by the task link they opened */
 const clsOf = c => (c && c.k) ? String(c.k).trim() : "";
 const clsCell = c => clsOf(c) ? esc(clsOf(c)) : '<span style="color:var(--muted)">—</span>';
@@ -779,7 +811,7 @@ function downloadXlsx(id){
     if (weak.length >= 3) reasons.push(weak.length + " activities under 50 %");
     if ((o.opened||0) >= 8 && att === 0) reasons.push("opening activities but finishing none");
     if (!reasons.length) return;
-    watch.push([dispName(c), shownId(c), att,
+    watch.push([dispName(c), c.i != null ? String(c.i) : "", att,
                 o.avg != null ? pctCell(o.avg/100) : null, claimed, reasons.join("; "),
                 weak.map(r=>actName(r.index, langOfId(id)) + " (" + r.pct + " %)").join("; ")]);
   });
@@ -946,7 +978,7 @@ function lexTable(studs, id){
       + '<td class="num">'+(o.sess!=null?o.sess:"—")+'</td>'
       + '<td class="num">'+(o.lee!=null?o.lee:"—")+'</td>'
       + '<td class="num">'+(ex?ex.avg+' % <span style="color:var(--muted)">('+ex.tests+')</span>':"—")+'</td>';
-    const rowOut = [dispName(c)].concat(withId?[shownId(c)]:[]).concat([clsOf(c)])
+    const rowOut = [dispName(c)].concat(withId?[c.i!=null?String(c.i):""]:[]).concat([clsOf(c)])
                    .concat([fmtDate(c.t), st.codes.length, seen, total, mast,
                     o.sess!=null?o.sess:"", o.lee!=null?o.lee:"", ex?ex.avg:""]);
     units.forEach(u=>{
@@ -1015,7 +1047,7 @@ function dosTable(studs, id){
       + '<td class="num">'+opened+delta(opened, po?po.opened:null)+'</td>'
       + '<td class="num">'+pct(done,total)+' %</td>'
       + '<td class="num">'+(hard||"—")+'</td>';
-    const rowOut = [dispName(c)].concat(withId?[shownId(c)]:[]).concat([clsOf(c)])
+    const rowOut = [dispName(c)].concat(withId?[c.i!=null?String(c.i):""]:[]).concat([clsOf(c)])
                    .concat([fmtDate(c.t), st.codes.length, att, avg, claimed,
                             done, total, opened, pct(done,total), hard]);
     secs.forEach(k=>{
@@ -1148,12 +1180,13 @@ function paintState(){
 function readBox(){
   const raw = $("#codes").value;
   const good = [], errs = [];
-  const seen = {};                              /* the same code twice in one paste */
-  const tally = {scanned:0};
-  raw.split(/\r?\n/).forEach(line=>{
-    good.push.apply(good, codesOnLine(line, err=>errs.push(err.message), tally, seen));
+  const found = raw.match(CODE_RE) || [];
+  const seen = {};
+  found.forEach(c=>{
+    if(seen[c]) return; seen[c] = 1;            /* the same code twice in one paste */
+    try{ const e = decode(c); if(e) good.push(e); }
+    catch(err){ errs.push(err.message); }
   });
-  const found = {length: tally.scanned};
   /* Nothing matched, but the box is not empty: say why rather than sit silent.
      Line-by-line decoding gives the real reason for the first offending row. */
   if(!found.length && raw.trim()){
@@ -1174,85 +1207,65 @@ function readBox(){
 const CODE_RE = new RegExp(
   "(?:" + Object.keys(FORMATS).map(k=>k.replace(".","\\.")).join("|") + ")[A-Za-z0-9+/=]{16,}", "g");
 
-/* -- identity from the Microsoft Forms export ----------------------------
-   Forms records the school account of whoever submitted, so every response
-   row carries Email - and usually the account Name - beside the code. The
-   name a student types into the app can be blank, a single letter, or the
-   same word for three different people; the account cannot. So when a code
-   and an email sit on the same row, the email becomes the identity, and the
-   account name supplies the label when the typed one is missing.
-   rawIdKey already prefers an explicit identity over the typed name, so
-   nothing downstream changes. A row with no email keeps the old behaviour.
-   ----------------------------------------------------------------------- */
-const MAIL_RE = /[A-Za-z0-9._%+\-]+@[A-Za-z0-9.\-]+\.[A-Za-z]{2,}/;
-const NO_NAME = {"(no name)":1, "(sans nom)":1, "(sin nombre)":1, "":1};
-
-/* one exported row into cells: comma, semicolon or tab, quotes respected */
-function rowCells(line){
-  const out = []; let cur = "", q = false;
-  for(let i=0;i<line.length;i++){
-    const ch = line[i];
+/* A real CSV reader. Forms writes quoted fields that hold commas, quotes and
+   newlines — the Signalements column is full of them — so splitting on commas
+   loses rows, and scanning the whole file for codes loses the row a code came
+   from, which is where the email is. */
+function parseTable(text){
+  const t = String(text).replace(/\r\n?/g, "\n");
+  const sep = (t.split("\n")[0].split("\t").length > t.split("\n")[0].split(",").length) ? "\t" : ",";
+  const rows = []; let row = [], cell = "", q = false, i;
+  for(i = 0; i < t.length; i++){
+    const ch = t[i];
     if(q){
-      if(ch === '"'){ if(line[i+1] === '"'){ cur += '"'; i++; } else q = false; }
-      else cur += ch;
-    }
-    else if(ch === '"') q = true;
-    else if(ch === "," || ch === ";" || ch === "\t"){ out.push(cur); cur = ""; }
-    else cur += ch;
+      if(ch === '"'){ if(t[i+1] === '"'){ cell += '"'; i++; } else q = false; }
+      else cell += ch;
+    } else if(ch === '"'){ q = true; }
+    else if(ch === sep){ row.push(cell); cell = ""; }
+    else if(ch === "\n"){ row.push(cell); cell = ""; rows.push(row); row = []; }
+    else cell += ch;
   }
-  out.push(cur);
-  return out;
+  if(cell !== "" || row.length){ row.push(cell); rows.push(row); }
+  return rows.filter(r => r.some(c => c.trim() !== ""));
 }
-/* the account name sits in the column beside the email in a Forms export */
-function accountName(line, mail){
-  const c = rowCells(line).map(x=>x.trim());
-  const i = c.findIndex(x => x.toLowerCase() === mail);
-  if(i < 0) return "";
-  const nb = [i+1, i-1];
-  for(let k=0;k<nb.length;k++){
-    const v = c[nb[k]] || "";
-    if(v && !MAIL_RE.test(v) && !/[0-9@]/.test(v) && v.split(/\s+/).length >= 2) return v;
-  }
-  return "";
-}
-/* "Edward Van Steenberghe" -> "Edward V", to the department convention */
-function shortName(full){
-  const p = String(full||"").trim().split(/\s+/).filter(Boolean);
-  if(!p.length) return "";
-  return p.length === 1 ? p[0] : p[0] + " " + p[1][0].toUpperCase();
-}
-/* stamp one decoded code with the identity found on its own row */
-function stampIdentity(e, line, tally){
-  const m = line.match(MAIL_RE);
-  if(!m) return e;
-  const mail = m[0].toLowerCase();
-  e.p.i = mail;
-  /* The account name is the authoritative one, so it wins outright: a student
-     who types "Toby" is Toby G, and one who types nothing is still named.
-     An Identities line still overrides this, as it overrides everything. */
-  const full = accountName(line, mail);
-  if(full) e.p.n = shortName(full);
-  if(tally) tally.named = (tally.named||0) + 1;
-  return e;
-}
-/* every code on one row, decoded and stamped */
-function codesOnLine(line, onErr, tally, seen){
-  const found = line.match(CODE_RE) || [];
-  const out = [];
-  found.forEach(c=>{
-    if(seen){ if(seen[c]) return; seen[c] = 1; }
-    if(tally) tally.scanned = (tally.scanned||0) + 1;
-    try{ const e = decode(c); if(e) out.push(stampIdentity(e, line, tally)); }
-    catch(err){ onErr(err); }
-  });
-  return out;
-}
+const MAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
+/* Row by row, so a code keeps the email and the register name beside it. */
 function importText(text, label, tally){
-  const good = [];
-  String(text).split(/\r?\n/).forEach(line=>{
-    good.push.apply(good, codesOnLine(line, err=>tally.bad.push(label+": "+err.message), tally));
+  const good = [], rows = parseTable(text);
+  const head = rows.length ? rows[0].map(h => h.trim().toLowerCase()) : [];
+  /* Which column is which: by heading where there is one, and otherwise by
+     what the values look like, so a re-ordered or renamed export still works. */
+  let cMail = head.findIndex(h => /e-?mail|correo|courriel/.test(h));
+  let cName = head.findIndex(h => h === "name" || /full name|nom complet|nombre/.test(h));
+  const seen = {};
+  rows.forEach((r, ri) => {
+    const line = r.join(" ");
+    const found = line.match(CODE_RE) || [];
+    if(!found.length) return;
+    tally.scanned += found.length;
+    if(cMail < 0) cMail = r.findIndex(v => MAIL_RE.test(v.trim()));
+    const mail = cMail >= 0 && r[cMail] && MAIL_RE.test(r[cMail].trim())
+      ? r[cMail].trim().toLowerCase() : "";
+    const who = cName >= 0 && r[cName] ? r[cName].trim() : "";
+    found.forEach(c => {
+      if(seen[c]) return; seen[c] = 1;
+      try{
+        const e = decode(c);
+        if(e){ if(mail) e.email = mail; if(who) e.who = who; good.push(e); }
+      }catch(err){ tally.bad.push(label+" row "+(ri+1)+": "+err.message); }
+    });
   });
+  /* A file that is not a table at all — a pasted wall of codes, a text file —
+     still yields its codes; it simply carries no email. */
+  if(!good.length && !tally.bad.length){
+    (String(text).match(CODE_RE) || []).forEach(c => {
+      if(seen[c]) return; seen[c] = 1;
+      tally.scanned++;
+      try{ const e = decode(c); if(e) good.push(e); }
+      catch(err){ tally.bad.push(label+": "+err.message); }
+    });
+  }
   return good;
 }
 
@@ -1288,7 +1301,6 @@ function handleFiles(files){
     box.innerHTML = "<b>"+added+" new code"+(added===1?"":"s")+" imported</b> from "
       + tally.files+" file"+(tally.files===1?"":"s")+"."
       + (dup ? " "+dup+" already in the roster, skipped." : "")
-      + (tally.named ? " "+tally.named+" identified by school account." : "")
       + (tally.bad.length ? "<br>"+tally.bad.length+" could not be decoded: "+esc(tally.bad.slice(0,3).join(" · ")) : "")
       + (storageOk ? "" : "<br>WARNING: this browser refused to save — the roster will vanish on reload.");
     box.classList.remove("hidden");
