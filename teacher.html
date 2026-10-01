@@ -33,6 +33,10 @@ main{max-width:1180px;margin:0 auto;padding:24px 20px 90px}
 .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:20px;margin-top:18px}
 h2{font-family:var(--serif);font-size:1.15rem;margin:0 0 4px}
 .hint{font-size:.85rem;color:var(--muted);margin:0 0 10px}
+button.rm{border:0;background:none;color:var(--muted);cursor:pointer;font-size:1rem;
+  line-height:1;padding:0 4px;opacity:0;transition:opacity .12s}
+tr:hover button.rm,button.rm:focus{opacity:1}
+button.rm:hover{color:#B3261E}
 textarea.code{font-family:var(--mono);font-size:.75rem;width:100%;min-height:130px;border:1.5px solid var(--line-strong);
   border-radius:9px;padding:10px 13px;background:var(--card);color:var(--ink);resize:vertical}
 .btn{font-family:var(--sans);font-size:.9rem;font-weight:600;border-radius:9px;border:1.5px solid var(--ink);
@@ -309,6 +313,13 @@ table.match tr.guess select{border-color:#9FB6D4;background:#F5F9FF}
 
   <div class="task-tabs" id="clsChips" style="margin:18px 0 0;display:none"></div>
   <div class="card" id="mineBox" style="display:none;margin-top:10px"></div>
+  <div class="btn-row" id="allOut" style="margin:14px 0 0;display:none">
+    <button class="btn primary" id="btnAllXlsx">Download the whole roster (.xlsx)</button>
+    <button class="btn ghost" id="btnAllCsv">Download the whole roster (.csv)</button>
+    <span class="hint" style="align-self:center">The workbook has one sheet per site: a row per student, a column per
+      exercise or list they have done, by name, with the score in the cell. The CSV is the same roster as one long
+      list, one row per student per exercise — for a tracker or a mail merge.</span>
+  </div>
   <div id="results"></div>
 
   <div class="card" id="legendCard" style="display:none">
@@ -417,6 +428,10 @@ function staleCode(c, lang){ const fp = catFp(lang); return !!(c && c.m && fp &&
 function actName(i, lang){ const C = catOf(lang); return C[i] ? C[i].t : ("activity " + (i+1)); }
 function actSection(i, lang){ const C = catOf(lang); return C[i] ? C[i].s : ""; }
 function langOfId(id){ return String(id||"").slice(-2); }   // "dosFR" → "FR"
+/* The group's own language, which for a KS group is "KSFR", not "FR".
+   langOfId above answers a different question — which catalogue to read — and
+   is left alone. */
+function groupLangOf(id){ return String(id||"").replace(/^(lex|dos)/, ""); }
 function band(p){ return p>=70 ? "hi" : p>=45 ? "mid" : "lo"; }
 function bandCell(p){
   return '<td class="num" style="background:'
@@ -650,6 +665,37 @@ function seenTitle(c){
   return parts.length ? ' title="'+esc(parts.join(" \u00b7 "))+'"' : "";
 }
 const keyOf = e => e.kind+"|"+e.lang+"|"+rawIdKey(e.p, e)+"|"+e.p.t;
+/* who a row belongs to, so the row can offer to remove them */
+const whoKey = e => e.kind+"|"+e.lang+"|"+idKey(e.p, e);
+
+/* Your own test submissions sit in the roster looking like a student, and a
+   left student never leaves. Removing is per person per site, it asks first,
+   and it only touches this dashboard's copy — the shared roster picks the
+   change up on the next sync. */
+function removeStudent(kind, lang, key, label){
+  const before = roster.entries.length;
+  const keep = roster.entries.filter(e => whoKey(e) !== (kind+"|"+lang+"|"+key));
+  const gone = before - keep.length;
+  if(!gone) return 0;
+  if(!confirm("Remove " + label + " from this list?\n\n"
+            + gone + " code" + (gone>1?"s":"") + " will be deleted from this dashboard. "
+            + "Their work is not affected, and they reappear if they send again.")) return 0;
+  roster.entries = keep; save();
+  render(roster.entries);
+  showOk("Removed " + label + " — " + gone + " code" + (gone>1?"s":"") + " deleted.");
+  return gone;
+}
+/* The ✕ beside a name. The identity it refers to is an email, which must not
+   appear in the page at all — not in a cell and not in an attribute — so the
+   button carries a number into a table rebuilt on every render. */
+let RM_KEYS = [];
+function removeBtn(st, kind, lang){
+  const e = st.__entry;
+  if(!e) return "";
+  const n = RM_KEYS.push({kind:kind, lang:lang, who:idKey(st.cur, e),
+                          label:dispName(st.cur, e)}) - 1;
+  return ' <button class="rm" title="Remove this person from the list" data-rm="'+n+'">\u00d7</button>';
+}
 
 /* The same code can arrive twice — pasted from the sheet on Monday, imported
    from the file on Friday. Only the imported copy carries an email, so the two
@@ -718,9 +764,14 @@ function grouped(entries, kind, lang){
     if(e.who   && !e.p.__who)  e.p.__who  = e.who;
     (byWho[k] = byWho[k] || []).push(e.p);
   });
-  return Object.values(byWho).map(arr=>{
+  const src = {};
+  entries.filter(e=>e.kind===kind && e.lang===lang && clsPass(e.p)).forEach(e=>{
+    const k = idKey(e.p, e); if(!src[k]) src[k] = e;
+  });
+  return Object.entries(byWho).map(([k, arr])=>{
     arr.sort((a,b)=>a.t-b.t);
-    return {codes:arr, cur:arr[arr.length-1], prev:arr.length>1?arr[arr.length-2]:null};
+    return {codes:arr, cur:arr[arr.length-1], prev:arr.length>1?arr[arr.length-2]:null,
+            __entry: src[k]};
   }).sort((a,b)=>dispName(a.cur).localeCompare(dispName(b.cur)));
 }
 /* does any student in this set carry an id? decides whether the ID column shows */
@@ -756,61 +807,105 @@ let lastTables = {};   // id → {header:[], rows:[[]]} for CSV
    column per activity anyone in the class has done, blank where nobody
    has touched it.
    ═══════════════════════════════════════════════════════════════════ */
-function marksGrid(studs, id){
-  const lang = langOfId(id);
-  const seen = new Map();                         // index -> count of students
-  studs.forEach(st => attempted(st.cur).forEach(r => seen.set(r.index, (seen.get(r.index)||0)+1)));
-  if (!seen.size) return null;
-
-  const cols = [...seen.keys()].sort((a,b)=>{
-    const sa = actSection(a, lang), sb = actSection(b, lang);
-    return sa === sb ? a-b : String(sa).localeCompare(String(sb), undefined, {numeric:true});
-  });
-
-  const header = ["Student"].concat(cols.map(i=>actName(i, lang)));
-  const rows = [];
-
-  let html = '<div class="wrap"><table class="stats"><thead>'
-           + '<tr><th></th>' + cols.map(i=>'<th style="font-size:.6rem;color:var(--muted)">'+esc(actSection(i, lang))+'</th>').join("") + '</tr>'
-           + '<tr><th>Student</th>'
-           + cols.map(i=>'<th style="min-width:92px">'+esc(actName(i, lang))+'</th>').join("")
-           + '</tr></thead><tbody>';
-
-  studs.forEach(st=>{
-    const byIndex = {};
-    attempted(st.cur).forEach(r=>{ byIndex[r.index] = r; });
-    html += '<tr><td class="name"'+seenTitle(st.cur)+'>'+esc(dispName(st.cur))+'</td>';
-    const out = [dispName(st.cur)];
-    cols.forEach(i=>{
-      const r = byIndex[i];
-      if(!r){ html += '<td class="num" style="color:var(--line-strong)">·</td>'; out.push(null); }
-      else{
-        html += bandCell(r.pct).replace('</td>',
-          (r.attempts>1 ? ' <span style="color:var(--muted);font-size:.7em">×'+r.attempts+'</span>' : '') + '</td>');
-        out.push(r.pct/100);
-      }
+/* What the grid is made of, for either kind of site. The dossier's columns
+   are the activities anyone has a real score in (ticked-only and merely
+   opened do not count as done); the lexicon's are the vocabulary lists anyone
+   has practised, by lesson title, with accuracy in the cell. Every student in
+   the group gets a row, so a blank row is itself information. */
+function gridSpec(studs, id){
+  const kind = id.slice(0,3), lang = langOfId(id), glang = groupLangOf(id);
+  if (kind === "dos"){
+    const seen = new Set();
+    studs.forEach(st => attempted(st.cur).forEach(r => seen.add(r.index)));
+    if (!seen.size) return null;
+    const cols = [...seen].sort((a,b)=>{
+      const sa = actSection(a, lang), sb = actSection(b, lang);
+      return sa === sb ? a-b : String(sa).localeCompare(String(sb), undefined, {numeric:true});
     });
-    html += '</tr>';
+    return {kind:kind, cols:cols,
+      group: i => actSection(i, lang),
+      label: i => actName(i, lang),
+      cells: st => { const by = {}; attempted(st.cur).forEach(r=>{ by[r.index] = r; });
+        return i => by[i] ? {pct:by[i].pct, sub: by[i].attempts>1 ? "×"+by[i].attempts : ""} : null; },
+      sheet:"Marks by activity",
+      caption:"Marks by activity — every activity anyone in this group has attempted"};
+  }
+  const seen = new Set();
+  studs.forEach(st => (Array.isArray(st.cur.l) ? st.cur.l : []).forEach(r => { if (r && r[0] != null) seen.add(String(r[0])); }));
+  if (!seen.size) return null;
+  const cols = [...seen].sort((a,b)=>a.localeCompare(b, undefined, {numeric:true}));
+  return {kind:kind, cols:cols,
+    group: lid => unitOfLesson(lid),
+    label: lid => plain(lessonLabel(lid, glang)),
+    cells: st => { const by = {}; (Array.isArray(st.cur.l) ? st.cur.l : []).forEach(r=>{ by[String(r[0])] = r; });
+      return lid => { const r = by[lid]; if (!r) return null;
+        const acc = r[3] != null ? r[3] : pct(r[1]||0, r[2]||0);
+        return {pct:acc, sub:(r[1]||0)+"/"+(r[2]||0)}; }; },
+    sheet:"Lists by name",
+    caption:"Lists by name — every vocabulary list anyone in this group has practised, with accuracy"};
+}
+
+/* The grid as data: one header, one row per student, a class-average row
+   last. `lead` adds columns in front of the exercises (Class, date) for the
+   whole-roster workbook; the per-site grid has only the name. */
+function gridRows(spec, studs, lead){
+  lead = lead || {header:[], of:()=>[]};
+  const header = ["Student"].concat(lead.header).concat(spec.cols.map(spec.label));
+  const rows = [], sums = spec.cols.map(()=>({n:0, s:0}));
+  studs.forEach(st=>{
+    const at = spec.cells(st);
+    const out = [dispName(st.cur, st.__entry)].concat(lead.of(st));
+    spec.cols.forEach((c,k)=>{
+      const v = at(c);
+      if (!v){ out.push(null); return; }
+      out.push(v.pct/100); sums[k].n++; sums[k].s += v.pct;
+    });
     rows.push(out);
   });
-
   /* A class-average row is the fastest read on the whole page: it says
      which activity the group as a whole has not understood. */
+  const avg = ["Class average"].concat(lead.header.map(()=>null));
+  spec.cols.forEach((c,k)=>avg.push(sums[k].n ? Math.round(sums[k].s/sums[k].n)/100 : null));
+  rows.push(avg);
+  return {header:header, rows:rows, lead:lead.header.length};
+}
+
+function gridHtml(spec, studs){
+  const cols = spec.cols;
+  let html = '<div class="wrap"><table class="stats"><thead>'
+           + '<tr><th></th>' + cols.map(c=>'<th style="font-size:.6rem;color:var(--muted)">'+esc(spec.group(c))+'</th>').join("") + '</tr>'
+           + '<tr><th>Student</th>'
+           + cols.map(c=>'<th style="min-width:92px">'+esc(spec.label(c))+'</th>').join("")
+           + '</tr></thead><tbody>';
+  const sums = cols.map(()=>({n:0, s:0}));
+  studs.forEach(st=>{
+    const at = spec.cells(st);
+    html += '<tr><td class="name"'+seenTitle(st.cur)+'>'+esc(dispName(st.cur))+'</td>';
+    cols.forEach((c,k)=>{
+      const v = at(c);
+      if(!v){ html += '<td class="num" style="color:var(--line-strong)">·</td>'; return; }
+      html += bandCell(v.pct).replace('</td>',
+        (v.sub ? ' <span style="color:var(--muted);font-size:.7em">'+esc(v.sub)+'</span>' : '') + '</td>');
+      sums[k].n++; sums[k].s += v.pct;
+    });
+    html += '</tr>';
+  });
   html += '<tr style="border-top:2px solid var(--ink)"><td class="name"><b>Class average</b></td>';
-  const avgOut = ["Class average"];
-  cols.forEach(i=>{
-    const vals = studs.map(st=>attempted(st.cur).find(r=>r.index===i)).filter(Boolean).map(r=>r.pct);
-    if(!vals.length){ html += '<td class="num">·</td>'; avgOut.push(null); return; }
-    const a = Math.round(vals.reduce((x,y)=>x+y,0)/vals.length);
-    html += bandCell(a).replace('<td','<td style="font-weight:700"').replace('style="background','data-bg="');
-    html += '';
-    avgOut.push(a/100);
+  cols.forEach((c,k)=>{
+    if(!sums[k].n){ html += '<td class="num">·</td>'; return; }
+    html += bandCell(Math.round(sums[k].s/sums[k].n)).replace('<td','<td style="font-weight:700"').replace('style="background','data-bg="');
   });
   html += '</tr></tbody></table></div>';
-  rows.push(avgOut);
-
-  gridTables[id] = {header:header, rows:rows, cols:cols};
   const w = document.createElement("div"); w.innerHTML = html; return w.firstChild;
+}
+
+/* The on-screen grid for one group, remembered for the per-site workbook. */
+function marksGrid(studs, id){
+  const spec = gridSpec(studs, id);
+  if (!spec) return null;
+  const g = gridRows(spec, studs);
+  gridTables[id] = {header:g.header, rows:g.rows, cols:spec.cols, spec:spec};
+  return gridHtml(spec, studs);
 }
 let gridTables = {};
 
@@ -837,19 +932,9 @@ function downloadXlsx(id){
       (sCols[i].type === "percent" && typeof v === "number") ? pctCell(v/100) : v))
   });
 
-  /* 2. the marks grid */
+  /* 2. the grid — marks by activity for a dossier, lists by name for a lexicon */
   const grid = gridTables[id];
-  if (grid){
-    sheets.push({
-      name: "Marks by activity",
-      columns: grid.header.map((h,i)=>({
-        header: i===0 ? h : (actSection(grid.cols[i-1], langOfId(id)) + " · " + h),
-        width: i===0 ? 26 : 13,
-        type: i===0 ? "name" : "percent"
-      })),
-      rows: grid.rows.map(r => r.map((v,i) => i===0 ? v : pctCell(v)))
-    });
-  }
+  if (grid) sheets.push(gridSheet(grid.spec, grid, grid.spec.sheet));
 
   /* 3. who to look at first */
   const watch = [];
@@ -882,6 +967,135 @@ function downloadXlsx(id){
   BBAXlsx.download("bba_" + id + "_" + new Date().toISOString().slice(0,10) + ".xlsx", sheets);
 }
 let lastStuds = {};
+
+/* One grid as a worksheet. The exercise columns carry their section or unit
+   in the heading ("Theme 1 · FR1 · Maîtriser le contenu", "U1 · U1.2 · …"),
+   so a sheet of forty columns still reads when scrolled. */
+function gridSheet(spec, g, name){
+  const lead = g.lead || 0;
+  return {
+    name: name,
+    columns: g.header.map((h,i)=>{
+      if (i === 0) return {header:h, width:26, type:"name"};
+      if (i <= lead) return {header:h, width:14};
+      const grp = spec.group(spec.cols[i-1-lead]);
+      return {header:(grp ? grp + " · " : "") + h, width:13, type:"percent"};
+    }),
+    rows: g.rows.map(r => r.map((v,i) => i <= lead ? v : pctCell(v)))
+  };
+}
+
+/* The whole roster as one workbook: a sheet per site, every student in it, a
+   column per exercise or list anyone has done, named. Same filter as the
+   tables on screen, so "My groups" exports your groups. A site nobody has
+   sent from is left out rather than given an empty sheet. */
+/* ═══════════════════════════════════════════════════════════════════
+   ENGAGEMENT — the first sheet of the whole-roster workbook, and the one
+   meant to be shown: the whole school, then every class, every site and
+   every student, with how much has been done and how well. It is built
+   from the whole roster whatever the class chips say, because "school
+   wide" is the point. Names are first name and initial, nothing else, so
+   it can go on a screen in front of pupils.
+   ═══════════════════════════════════════════════════════════════════ */
+function engagementRows(){
+  const saved = clsFilter; clsFilter = "";
+  const school = tally(), byCls = {}, bySite = {}, byStud = {};
+  const siteLang = l => /ES$/.test(l) ? "Spanish" : "French";
+  try{
+    GROUPS.forEach(g=>{
+      const studs = grouped(roster.entries, g.kind, g.lang);
+      if (!studs.length) return;
+      const site = bySite[g.title] = bySite[g.title] || tally();
+      studs.forEach(st=>{
+        const c = st.cur, e = st.__entry;
+        const cls = clsOf(c) || "(no class)";
+        const person = idKey(c, e);      /* one person, however many sites they use */
+        const m = measure(st, g);
+        [school, site, byCls[cls] = byCls[cls] || tally(), byStud[person] = byStud[person] || tally()]
+          .forEach(t=>{
+            t.people.add(person); t.codes += st.codes.length;
+            t.acts += m.acts; t.lists += m.lists; t.words += m.words;
+            t.scores = t.scores.concat(m.scores); t.last = Math.max(t.last, c.t||0);
+          });
+        const S = byStud[person];
+        S.name = dispName(c, e); S.cls = cls; S.sites.add(g.title);
+        const C = byCls[cls]; C.lang = C.lang || siteLang(g.lang); C.year = yearNum(cls);
+      });
+    });
+  } finally { clsFilter = saved; }
+
+  const avg = t => t.scores.length ? Math.round(t.scores.reduce((a,b)=>a+b,0)/t.scores.length) : null;
+  const line = (label, a, b, t) => [label, a, b, t.people.size, t.codes, t.acts, t.lists, t.words,
+                                    avg(t)!=null ? avg(t)/100 : null, t.last ? fmtDate(t.last) : ""];
+  const head = r => r.map(v => v ? {v:v, band:null, head:true} : null);
+  const rows = [];
+  rows.push(line("Whole school", "", "", school));
+  rows.push([]);
+  rows.push(head(["BY CLASS", "Year", "Language", "Students active", "Codes sent", "Activities scored", "Lists practised", "Words seen", "Average %", "Last sent"]));
+  Object.keys(byCls).sort((a,b)=>yearNum(a)-yearNum(b) || a.localeCompare(b))
+    .forEach(k=>rows.push(line(k, byCls[k].year || "", byCls[k].lang, byCls[k])));
+  rows.push([]);
+  rows.push(head(["BY SITE", "", "Language", "Students active", "Codes sent", "Activities scored", "Lists practised", "Words seen", "Average %", "Last sent"]));
+  GROUPS.forEach(g=>{ if (bySite[g.title]) rows.push(line(g.title, "", siteLang(g.lang), bySite[g.title])); });
+  rows.push([]);
+  rows.push(head(["BY STUDENT", "Class", "Sites used", "", "Codes sent", "Activities scored", "Lists practised", "Words seen", "Average %", "Last sent"]));
+  Object.values(byStud)
+    .sort((a,b)=>(b.acts+b.lists)-(a.acts+a.lists) || b.codes-a.codes || a.name.localeCompare(b.name))
+    .forEach(s=>{ const r = line(s.name, s.cls, s.sites.size, s); r[3] = null; rows.push(r); });
+  return rows;
+
+  function tally(){ return {people:new Set(), sites:new Set(), codes:0, acts:0, lists:0, words:0, scores:[], last:0}; }
+  /* what one student has done on one site: exercises by count, every score */
+  function measure(st, g){
+    const c = st.cur, o = c.o || {};
+    if (g.kind === "dos"){
+      const att = attempted(c);
+      return {acts:att.length, lists:0, words:0, scores:att.map(r=>r.pct)};
+    }
+    const l = Array.isArray(c.l) ? c.l : [];
+    return {acts:0, lists:l.length, words:o.seen||0,
+            scores:l.map(r=>r[3]!=null ? r[3] : pct(r[1]||0, r[2]||0))};
+  }
+}
+function engagementSheet(){
+  const rows = engagementRows();
+  const W = [30, 12, 12, 14, 11, 16, 14, 11, 11, 14];
+  return {
+    name: "Engagement", filter: false,
+    columns: ["Whole school · by class · by site · by student", "", "", "Students active", "Codes sent",
+              "Activities scored", "Lists practised", "Words seen", "Average %", "Last sent"]
+      .map((h,i)=>({header:h, width:W[i], type: i===0 ? "name" : i===8 ? "percent" : undefined})),
+    rows: rows.map(r => r.map((v,i)=>{
+      if (v && typeof v === "object" && v.head) return {v:v.v, name:true};   /* a sub-heading */
+      return i===8 ? pctCell(v) : v;
+    }))
+  };
+}
+
+function downloadAllXlsx(){
+  if (!window.BBAXlsx){ showOk("The Excel writer (bba-xlsx.js) did not load — the CSV still works."); return; }
+  const sheets = [engagementSheet()];
+  let students = 0;
+  GROUPS.forEach(g=>{
+    const studs = grouped(roster.entries, g.kind, g.lang);
+    if (!studs.length) return;
+    students += studs.length;
+    const id = g.kind + g.lang;
+    const spec = gridSpec(studs, id);
+    const lead = {header:["Class", "Last sent"], of: st => [clsOf(st.cur), fmtDate(st.cur.t)]};
+    if (!spec){
+      /* students who have sent but done nothing yet still belong in the file */
+      sheets.push({name:g.title, columns:[{header:"Student",width:26,type:"name"},{header:"Class",width:14},{header:"Last sent",width:14},
+                   {header:"Exercises done",width:40,type:"muted"}],
+                   rows: studs.map(st=>[dispName(st.cur, st.__entry), clsOf(st.cur), fmtDate(st.cur.t), "none yet"])});
+      return;
+    }
+    sheets.push(gridSheet(spec, gridRows(spec, studs, lead), g.title));
+  });
+  if (!students){ showOk("Nothing in the roster yet."); return; }
+  BBAXlsx.download("bba-roster-" + new Date().toISOString().slice(0,10) + ".xlsx", sheets);
+  showOk(students + " student row" + (students===1?"":"s") + " across " + sheets.length + " sheet" + (sheets.length===1?"":"s") + " exported.");
+}
 
 
 function renderClassChips(entries){
@@ -942,7 +1156,22 @@ function renderMineBox(entries){
     render(roster.entries);
   }, {once:true});
 }
+let rmWired = false;
+function wireRemove(){
+  if (rmWired) return; rmWired = true;
+  $("#results").addEventListener("click", ev=>{
+    const b = ev.target.closest && ev.target.closest("button.rm");
+    if(!b) return;
+    const r = RM_KEYS[+b.dataset.rm];
+    if(r) removeStudent(r.kind, r.lang, r.who, r.label);
+  });
+}
+
 function render(entries){
+  wireRemove();
+  RM_KEYS = [];
+  const all = $("#allOut");
+  if (all) all.style.display = (entries && entries.length) ? "" : "none";
   renderClassChips(entries);
   const R = $("#results");
   R.innerHTML = "";
@@ -961,16 +1190,14 @@ function render(entries){
                     + esc(g.title) + ' · ' + studs.length + ' student' + (studs.length>1?"s":"") + '</div>';
     lastStuds[id] = studs;
     block.appendChild(g.kind==="lex" ? lexTable(studs,id) : dosTable(studs,id));
-    if (g.kind !== "lex"){
-      const grid = marksGrid(studs, id);
-      if (grid){
-        const h = document.createElement("div");
-        h.className = "section-label";
-        h.style.marginTop = "18px";
-        h.innerHTML = 'Marks by activity — every activity anyone in this group has attempted';
-        block.appendChild(h);
-        block.appendChild(grid);
-      }
+    const grid = marksGrid(studs, id);
+    if (grid){
+      const h = document.createElement("div");
+      h.className = "section-label";
+      h.style.marginTop = "18px";
+      h.textContent = gridTables[id].spec.caption;
+      block.appendChild(h);
+      block.appendChild(grid);
     }
     block.appendChild(detailBlock(studs, g));
     const row = document.createElement("div");
@@ -997,6 +1224,7 @@ function render(entries){
 }
 
 function lexTable(studs, id){
+  const kind = "lex", lang = langOfId(id), glang = groupLangOf(id);
   const unitSet = new Set();
   studs.forEach(s=>s.codes.forEach(c=>Object.keys(c.u||{}).forEach(u=>unitSet.add(u))));
   const units = [...unitSet].sort((a,b)=>a.localeCompare(b,undefined,{numeric:true}));
@@ -1021,7 +1249,7 @@ function lexTable(studs, id){
     const flag = seen >= 20 && mast === 0;
     const ex = examAvg(c.x);
     html += '<tr'+(flag?' class="flag"':'')+'>'
-      + '<td class="name"'+seenTitle(c)+'>'+esc(dispName(c))+'</td>'
+      + '<td class="name"'+seenTitle(c)+'>'+esc(dispName(c))+removeBtn(st, kind, glang)+'</td>'
       + (withId?'<td class="num">'+idCell(c)+'</td>':'')
       + '<td class="num">'+clsCell(c)+'</td>'
       + '<td class="num">'+fmtDate(c.t)+'</td>'
@@ -1053,7 +1281,7 @@ function lexTable(studs, id){
 }
 
 function dosTable(studs, id){
-  const lang = langOfId(id);
+  const kind = "dos", lang = langOfId(id), glang = groupLangOf(id);
   const secSet = new Set();
   studs.forEach(s=>s.codes.forEach(c=>Object.keys(c.s||{}).forEach(k=>secSet.add(k))));
   const secs = [...secSet].sort((a,b)=>a.localeCompare(b,undefined,{numeric:true}));
@@ -1088,7 +1316,7 @@ function dosTable(studs, id){
        and ticking without doing. The second is what v2 exists to show. */
     const flag = (opened >= 8 && done === 0) || (claimed != null && claimed >= 10 && att <= 2);
     html += '<tr'+(flag?' class="flag"':'')+'>'
-      + '<td class="name"'+seenTitle(c)+'>'+esc(dispName(c))+(staleCode(c, lang)?' <span title="This code was made against a different list of activities" style="color:var(--or)">⚠</span>':'')+'</td>'
+      + '<td class="name"'+seenTitle(c)+'>'+esc(dispName(c))+(staleCode(c, lang)?' <span title="This code was made against a different list of activities" style="color:var(--or)">⚠</span>':'')+removeBtn(st, kind, glang)+'</td>'
       + (withId?'<td class="num">'+idCell(c)+'</td>':'')
       + '<td class="num">'+clsCell(c)+'</td>'
       + '<td class="num">'+fmtDate(c.t)+'</td>'
@@ -1224,7 +1452,7 @@ function showOk(msg){
 }
 function paintState(){
   const n = roster.entries.length;
-  const names = new Set(roster.entries.map(e=>e.lang+"|"+idKey(e.p))).size;
+  const names = new Set(roster.entries.map(e=>e.lang+"|"+idKey(e.p, e))).size;
   $("#rosterState").textContent = !storageOk
     ? "roster cannot be saved in this browser"
     : (n ? names+" student"+(names>1?"s":"")+" · "+n+" code"+(n>1?"s":"")+" stored" : "roster empty");
@@ -1414,6 +1642,79 @@ $("#btnWipe").addEventListener("click", ()=>{
   showOk("Roster emptied. The Identities table was kept."); showErr([]);
   render(roster.entries);
   paintState();
+});
+
+/* One row per student per activity — a list they practised, an activity they
+   did — so the file can be pivoted, filtered or pasted into a tracker. A
+   summary row per student comes first, marked ALL, so both readings are there
+   in one file. Names are first-name-and-initial and no address is written. */
+function rosterCsv(){
+  const head = ["Site","Language","Student","Class","Last sent","Row",
+                "Item","Item name","Unit / Section",
+                "Result %","Seen","Of","Attempts","State"];
+  const out = [head];
+  GROUPS.forEach(g=>{
+    const studs = grouped(roster.entries, g.kind, g.lang);
+    studs.forEach(st=>{
+      const c = st.cur, o = c.o || {}, e = st.__entry;
+      const who = [g.title, g.lang, dispName(c, e), clsOf(c), fmtDate(c.t)];
+      const ex = examAvg(c.x);
+
+      if (g.kind === "lex"){
+        out.push(who.concat(["ALL", "", "Whole course", "",
+          ex ? ex.avg : "", o.seen||0, o.total||0, o.sess!=null?o.sess:"",
+          (o.mast||0) + " mastered, " + (o.lee||0) + " leeches"]));
+        /* every list the student has practised, newest code first */
+        (Array.isArray(c.l) ? c.l : []).forEach(r=>{
+          const lid = r[0], seen = r[1], of = r[2], acc = r[3];
+          out.push(who.concat(["LIST", lid, plain(lessonLabel(lid, g.lang)), unitOfLesson(lid),
+                               acc!=null?acc:"", seen, of, "",
+                               seen >= of ? "list finished" : "part done"]));
+        });
+      } else {
+        const att = o.scored != null ? o.scored : attempted(c).length;
+        out.push(who.concat(["ALL", "", "Whole dossier", "",
+          o.avg!=null?o.avg:"", o.done||0, o.total||0, att,
+          (o.opened||0) + " opened, " + (o.claimed||0) + " ticked not scored"]));
+        /* every activity the code carries: scored, ticked, or merely opened */
+        rowsOf(c).forEach(r=>{
+          out.push(who.concat(["ACTIVITY", "#" + (r.index+1),
+            plain(actName(r.index, langOfId(g.kind+g.lang))),
+            plain(actSection(r.index, langOfId(g.kind+g.lang))),
+            r.pct!=null ? r.pct : "", "", "", r.attempts||"",
+            r.pct!=null ? "scored" : (r.ticked ? "ticked, not scored" : "opened")]));
+        });
+      }
+    });
+  });
+  return out;
+}
+/* lessonLabel builds display HTML, so "·" arrives as an entity. A spreadsheet
+   wants the characters themselves. */
+function plain(v){
+  const d = document.createElement("textarea");
+  d.innerHTML = String(v == null ? "" : v);
+  return d.value.replace(/<[^>]*>/g, "").trim();
+}
+/* a list's own unit, so the file can be grouped by unit without a lookup */
+function unitOfLesson(lid){ return String(lid||"").split(".")[0]; }
+function csvText(rows){
+  return rows.map(r=>r.map(v=>{
+    const t = v==null ? "" : String(v);
+    return /[",\n]/.test(t) ? '"'+t.replace(/"/g,'""')+'"' : t;
+  }).join(",")).join("\r\n");
+}
+$("#btnAllXlsx").addEventListener("click", downloadAllXlsx);
+$("#btnAllCsv").addEventListener("click", ()=>{
+  const rows = rosterCsv();
+  if(rows.length < 2){ showOk("Nothing in the roster yet."); return; }
+  /* a BOM, so Excel opens the accents correctly */
+  const blob = new Blob(["\ufeff" + csvText(rows)], {type:"text/csv;charset=utf-8"});
+  const url = URL.createObjectURL(blob), a = document.createElement("a");
+  a.href = url; a.download = "bba-roster-" + new Date().toISOString().slice(0,10) + ".csv";
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  setTimeout(()=>URL.revokeObjectURL(url), 1000);
+  showOk((rows.length-1) + " row" + (rows.length===2?"":"s") + " exported.");
 });
 
 $("#btnBackup").addEventListener("click", ()=>{
