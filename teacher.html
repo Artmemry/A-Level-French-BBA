@@ -114,6 +114,11 @@ table.match tr.guess select{border-color:#9FB6D4;background:#F5F9FF}
 .ident-row input[type=checkbox]{margin-top:3px;flex:0 0 auto}
 .ident-why{font-size:.78rem;color:var(--muted)}
 .ident-pair{font-family:var(--mono);font-size:.8rem}
+/* ── the A-Level / KS3-KS4 sections ── */
+.sec-head{font-family:var(--serif, Georgia, serif);font-size:1.35rem;margin:34px 0 4px;padding-bottom:6px;border-bottom:2px solid var(--ink)}
+.sec-fold{margin:40px 0 0;border:1.5px dashed var(--line-strong);border-radius:12px;padding:6px 16px 12px;background:var(--paper)}
+.sec-fold summary.sec-head{font-size:1rem;border:0;margin:6px 0;cursor:pointer;color:var(--ink-soft)}
+.task-tabs .sep{flex-basis:100%;font-family:var(--mono);font-size:.64rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:8px 0 0}
 /* ── the task builder ── */
 .task-tabs{display:flex;gap:6px;flex-wrap:wrap;margin:0 0 12px}
 .task-tabs button{font-family:var(--mono);font-size:.7rem;letter-spacing:.06em;text-transform:uppercase;border:1px solid var(--line-strong);
@@ -160,16 +165,19 @@ table.match tr.guess select{border-color:#9FB6D4;background:#F5F9FF}
 </header>
 
 <main>
-  <p class="intro">This is the one dashboard for all four sites — the French and Spanish hubs, <b>Le Lexique</b> and
-  <b>El Léxico</b>. Paste the codes your students send you, one per line, in any mix: the page works out which is which.
+  <p class="intro">This is the one dashboard for A-Level French and Spanish. Each language has two sites:
+  <b>1 · Vocab</b> (Le Lexique / El Léxico) and <b>2 · Site</b> (A-Level-French-BBA / A-Level-Spanish-BBA).
+  The KS3 &amp; KS4 vocabulary sites are kept apart at the bottom — they are not used for A-Level teaching.
+  Paste the codes your students send you, one per line, in any mix: the page works out which is which.
   Everything is decoded in this browser: nothing is uploaded, and no server ever sees a student name.</p>
 
   <div class="card" id="taskCard">
     <h2>Set this week's task</h2>
-    <p class="hint">Pick a site, tick what the class should do, give the task a name and a date, and copy the
-      link. Post that link where you post the site's address — Teams, the Class Notebook, an email. A student
-      who opens it sees the task first thing, and on every visit after that, until a newer link replaces it.
-      Nothing to edit, nothing to upload. One link per site; the link opens the site as usual.
+    <p class="hint">Pick the language, tick what the class should do — vocabulary lists and A-Level site
+      activities together in one link — give the task a name and a date, and copy the link. Post it where you
+      post the site's address — Teams, the Class Notebook, an email. A student who clicks it is taken through
+      the tasks in order, vocabulary first and then the site, with a <b>Next</b> button at the bottom of the
+      screen; the task stays on their device until a newer link replaces it. Nothing to edit, nothing to upload.
       Choose the class and post the link in that class's own channel: the link then also tells the site which
       class the student is in, so nobody is asked, the code they send carries the class, and the roster below
       splits by it.</p>
@@ -208,15 +216,16 @@ table.match tr.guess select{border-color:#9FB6D4;background:#F5F9FF}
 
   <div class="card">
     <h2>Import the Forms responses</h2>
-    <p class="hint">In Microsoft Forms choose <b>Open in Excel</b>, then <b>Save As → CSV</b>, and drop the file here.
-      Every code in the sheet is picked up — column order, extra columns and comma-or-semicolon separators
-      make no difference. Re-dropping a newer export later only adds what's new, so this is safe to repeat
-      each half-term.</p>
-    <div class="drop" id="drop" tabindex="0" role="button" aria-label="Drop a CSV export here, or press Enter to choose a file">
-      <b>Drop the CSV here</b>
-      <span>or click to choose a file · .csv, .txt, .tsv</span>
+    <p class="hint">In Microsoft Forms choose <b>Open in Excel</b> and drop the Excel file that downloads straight
+      here — no need to save it as CSV. A CSV still works too, whichever separator and character set your
+      Excel used. Every code in the sheet is picked up, and each one keeps the school email beside it, so
+      one student is one row however they typed their name. Re-dropping a newer export later only adds
+      what's new, so this is safe to repeat each half-term.</p>
+    <div class="drop" id="drop" tabindex="0" role="button" aria-label="Drop the Forms export here, or press Enter to choose a file">
+      <b>Drop the Forms export here</b>
+      <span>or click to choose a file · .xlsx, .csv, .txt, .tsv</span>
     </div>
-    <input type="file" id="file" accept=".csv,.txt,.tsv,text/csv,text/plain" multiple hidden>
+    <input type="file" id="file" accept=".xlsx,.csv,.txt,.tsv,text/csv,text/plain,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" multiple hidden>
     <div class="msg ok hidden" id="okFile"></div>
   </div>
 
@@ -437,14 +446,19 @@ function bandCell(p){
   return '<td class="num" style="background:'
     + (p>=70?"#EAF4EE":p>=45?"#FFF7E6":"#FDECEA") + '">' + p + ' %</td>';
 }
+/* The order on the page: French A-Level (vocab, then the site), Spanish
+   A-Level (vocab, then the site), and last — folded away, because it is not
+   used for A-Level teaching — the KS3 & KS4 vocabulary sites. */
 const GROUPS = [
-  {kind:"lex",lang:"FR",title:"Le Lexique — French",   tag:"LEXFR"},
-  {kind:"lex",lang:"ES",title:"El Léxico — Spanish",   tag:"LEXES"},
-  {kind:"lex",lang:"KSFR",title:"Le Lexique — KS3 & KS4 French",  tag:"LEXKSFR"},
-  {kind:"lex",lang:"KSES",title:"El Léxico — KS3 & KS4 Spanish", tag:"LEXKSES"},
-  {kind:"dos",lang:"FR",title:"Revision dossier — French", tag:"DOSFR"},
-  {kind:"dos",lang:"ES",title:"Pasaporte — Spanish",   tag:"DOSES"}
+  {kind:"lex",lang:"FR",  sec:"FR", title:"French A-Level · 1 Vocab (Le Lexique)",          sheet:"FR A-Level 1 Vocab", tag:"LEXFR"},
+  {kind:"dos",lang:"FR",  sec:"FR", title:"French A-Level · 2 Site (A-Level-French-BBA)",   sheet:"FR A-Level 2 Site",  tag:"DOSFR"},
+  {kind:"lex",lang:"ES",  sec:"ES", title:"Spanish A-Level · 1 Vocab (El Léxico)",          sheet:"ES A-Level 1 Vocab", tag:"LEXES"},
+  {kind:"dos",lang:"ES",  sec:"ES", title:"Spanish A-Level · 2 Site (A-Level-Spanish-BBA)", sheet:"ES A-Level 2 Site",  tag:"DOSES"},
+  {kind:"lex",lang:"KSFR",sec:"KS", title:"KS3 & KS4 French · Vocab (not A-Level)",         sheet:"KS3-4 French Vocab", tag:"LEXKSFR"},
+  {kind:"lex",lang:"KSES",sec:"KS", title:"KS3 & KS4 Spanish · Vocab (not A-Level)",        sheet:"KS3-4 Spanish Vocab",tag:"LEXKSES"}
 ];
+const SECTIONS = {FR:"French A-Level", ES:"Spanish A-Level",
+                  KS:"KS3 & KS4 vocabulary — not A-Level, not used for this teaching"};
 const LS = "bba-teacher-roster-v1";
 
 /* ============================================================
@@ -504,10 +518,13 @@ let roster = load();
 /* A roster saved before emails existed is reconciled the moment it is opened,
    so yesterday's duplicates resolve without the teacher doing anything. */
 setTimeout(function(){ try{ if(reconcileEmails()) { save(); render(roster.entries); } }catch(e){} }, 0);
+/* an entry with no decoded code in it (a damaged backup, a half-written sync)
+   is left out rather than allowed to stop the whole table from drawing */
+function wellFormed(e){ return !!(e && e.kind && e.lang && e.p && typeof e.p === "object"); }
 function load(){
   try{
     const raw = localStorage.getItem(LS);
-    if(raw){ const o = JSON.parse(raw); if(o && Array.isArray(o.entries)) return o; }
+    if(raw){ const o = JSON.parse(raw); if(o && Array.isArray(o.entries)){ o.entries = o.entries.filter(wellFormed); return o; } }
   }catch(e){}
   return {v:1, entries:[]};
 }
@@ -522,11 +539,18 @@ function save(){
    student that never varies. The typed name does: the same person arrives as
    "Toby", "Toby G", "(sans nom)". So when the import kept an email, that is
    the identity, and no line in the Identities box is needed for them. */
+/* With no email and no candidate number, a code keys on the name exactly as
+   the dashboard prints it — first name and initial — so two rows that would
+   look identical ("Imogen Hart" and "Imogen H") are one row. A code sent
+   with no name at all ("(sans nom)") keys on its own timestamp: it is never
+   fused with another nameless code, because they may be different students. */
 function rawIdKey(p, e){
   const mail = (e && e.email) || (p && p.__mail) || "";
   if (mail) return "@"+String(mail).trim().toLowerCase();
   const id = p && p.i != null ? String(p.i).trim() : "";
-  return id ? "#"+id.toLowerCase() : "~"+normName(p.n);
+  if (id) return "#"+id.toLowerCase();
+  const sn = normName(shortName(p && p.n));
+  return sn ? "~"+sn : "~?"+(p && p.t || "");
 }
 
 /* ═══════════════════════════════════════════════════════════════════
@@ -629,17 +653,23 @@ function applyAliases(){
 
 function idKey(p, e){
   const k = rawIdKey(p, e);
-  return ALIAS[k] || k;
+  if (ALIAS[k]) return ALIAS[k];
+  /* an Identities line written for the full typed name still applies */
+  if (k[0] === "~" && p && p.n){ const full = ALIAS["~"+normName(p.n)]; if (full) return full; }
+  return k;
 }
 /* The department shows a student as first name plus the initial of the
    surname, and nothing else. A register name arrives in full and an email
    address must never be drawn at all, so every name goes through here before
    it reaches a cell, a tooltip or an export. */
 const MAIL_LIKE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+/* what the sites write when a student typed no name — not a name, never cut */
+const NO_NAME = /^\(?\s*(sans nom|sin nombre|no name|ohne name|anonymous|anonyme|an[oó]nimo)\s*\)?$/i;
 function shortName(v){
   let t = String(v == null ? "" : v).trim();
   if (!t) return "";
   if (MAIL_LIKE.test(t)) return "";                 /* never an address */
+  if (NO_NAME.test(t)) return "";                   /* "(sans nom)" is not "(sans N" */
   t = t.replace(/\s+/g, " ");
   const bits = t.split(" ").filter(Boolean);
   if (bits.length < 2) return bits[0] || "";
@@ -654,7 +684,7 @@ function shortName(v){
 function dispName(c, e){
   const k = idKey(c, e);
   const raw = ALIAS_LABEL[k] || (e && e.who) || (c && c.__who) || (c && c.n) || "";
-  return shortName(raw) || "(no name)";
+  return shortName(raw) || shortName(c && c.n) || "(no name)";
 }
 function seenTitle(c){
   const l = ALIAS_SEEN[idKey(c)];
@@ -674,7 +704,8 @@ const whoKey = e => e.kind+"|"+e.lang+"|"+idKey(e.p, e);
    change up on the next sync. */
 function removeStudent(kind, lang, key, label){
   const before = roster.entries.length;
-  const keep = roster.entries.filter(e => whoKey(e) !== (kind+"|"+lang+"|"+key));
+  const gone_ = new Set([].concat(key).map(k => kind+"|"+lang+"|"+k));   /* a joined row has several keys */
+  const keep = roster.entries.filter(e => !gone_.has(whoKey(e)));
   const gone = before - keep.length;
   if(!gone) return 0;
   if(!confirm("Remove " + label + " from this list?\n\n"
@@ -692,7 +723,7 @@ let RM_KEYS = [];
 function removeBtn(st, kind, lang){
   const e = st.__entry;
   if(!e) return "";
-  const n = RM_KEYS.push({kind:kind, lang:lang, who:idKey(st.cur, e),
+  const n = RM_KEYS.push({kind:kind, lang:lang, who:st.__keys || idKey(st.cur, e),
                           label:dispName(st.cur, e)}) - 1;
   return ' <button class="rm" title="Remove this person from the list" data-rm="'+n+'">\u00d7</button>';
 }
@@ -744,34 +775,67 @@ function reconcileEmails(){
   return joined + dropped;
 }
 
+/* What is reported is the roster's real growth: a code that arrives again
+   with its email merges into the copy already there, so it is not "new". */
 function addEntries(list){
-  const have = new Set(roster.entries.map(keyOf));
-  let added = 0;
-  list.forEach(e=>{ const k = keyOf(e); if(!have.has(k)){ have.add(k); roster.entries.push(e); added++; } });
-  reconcileEmails();
+  const have = new Set(roster.entries.map(keyOf)), before = roster.entries.length;
+  list.filter(wellFormed).forEach(e=>{ const k = keyOf(e); if(!have.has(k)){ have.add(k); roster.entries.push(e); } });
+  try{ reconcileEmails(); }catch(e){}
   save();
-  return added;
+  return Math.max(0, roster.entries.length - before);
 }
 
 /* group entries → one row per student per group, newest first with previous kept */
+/* The same code can sit in a roster twice under two identities — once with
+   the school email, once without, from an older dashboard, a paste, a
+   colleague's synced file, or a code a teacher submitted from their own
+   account. A code is stamped with the millisecond it was made, so it belongs
+   to ONE student: each stamp is given to its best-matching copy and the other
+   copies are not drawn. Identities are never merged, and nothing is matched
+   on names alone — the name only decides which copy of the SAME code wins. */
+function stampOwners(list){
+  const score = e => {
+    const n = normName(shortName(e.p && e.p.n)), w = normName(shortName(e.who || (e.p && e.p.__who)));
+    if (e.email && n && w && n === w) return 4;     /* register name agrees with the code */
+    if (e.email && n && w && n.split(" ")[0] === w.split(" ")[0]) return 3;
+    if (e.email) return 2;
+    if (e.p && e.p.i != null && String(e.p.i).trim()) return 1;
+    return 0;
+  };
+  const best = {};
+  list.forEach(e => {
+    const st = e.p && e.p.t; if (!st) return;
+    if (!best[st] || score(e) > score(best[st])) best[st] = e;
+  });
+  return e => !(e.p && e.p.t) || best[e.p.t] === e;
+}
 function grouped(entries, kind, lang){
-  const byWho = {};
-  entries.filter(e=>e.kind===kind && e.lang===lang && clsPass(e.p)).forEach(e=>{
-    const k = idKey(e.p, e);
+  const byWho = {}, keys = {};
+  const all = entries.filter(e=>e.kind===kind && e.lang===lang && clsPass(e.p));
+  const owns = stampOwners(all);
+  const list = all.filter(owns);                  /* one copy of each code */
+  const canon = e => idKey(e.p, e);
+  list.forEach(e=>{
+    const k = canon(e);
+    (keys[k] = keys[k] || new Set()).add(k);
     /* the email and the register name ride with the payload, so the row can
        print the real name and the grouping can key on the address */
     if(e.email && !e.p.__mail) e.p.__mail = e.email;
     if(e.who   && !e.p.__who)  e.p.__who  = e.who;
     (byWho[k] = byWho[k] || []).push(e.p);
   });
+  /* the copy that carries the email speaks for the row (register name, removal) */
   const src = {};
-  entries.filter(e=>e.kind===kind && e.lang===lang && clsPass(e.p)).forEach(e=>{
-    const k = idKey(e.p, e); if(!src[k]) src[k] = e;
+  list.forEach(e=>{
+    const k = canon(e); if(!src[k] || (!src[k].email && e.email)) src[k] = e;
   });
   return Object.entries(byWho).map(([k, arr])=>{
     arr.sort((a,b)=>a.t-b.t);
-    return {codes:arr, cur:arr[arr.length-1], prev:arr.length>1?arr[arr.length-2]:null,
-            __entry: src[k]};
+    const cur = arr[arr.length-1];
+    /* the newest code may be the copy without an email: give it the row's */
+    if (src[k] && src[k].email && !cur.__mail){ cur.__mail = src[k].email; if (src[k].who && !cur.__who) cur.__who = src[k].who; }
+    return {codes:arr, cur:cur, prev:arr.length>1?arr[arr.length-2]:null,
+            __entry: src[k], __keys: [...keys[k]]};
   }).sort((a,b)=>dispName(a.cur).localeCompare(dispName(b.cur)));
 }
 /* does any student in this set carry an id? decides whether the ID column shows */
@@ -1085,12 +1149,12 @@ function downloadAllXlsx(){
     const lead = {header:["Class", "Last sent"], of: st => [clsOf(st.cur), fmtDate(st.cur.t)]};
     if (!spec){
       /* students who have sent but done nothing yet still belong in the file */
-      sheets.push({name:g.title, columns:[{header:"Student",width:26,type:"name"},{header:"Class",width:14},{header:"Last sent",width:14},
+      sheets.push({name:g.sheet, columns:[{header:"Student",width:26,type:"name"},{header:"Class",width:14},{header:"Last sent",width:14},
                    {header:"Exercises done",width:40,type:"muted"}],
                    rows: studs.map(st=>[dispName(st.cur, st.__entry), clsOf(st.cur), fmtDate(st.cur.t), "none yet"])});
       return;
     }
-    sheets.push(gridSheet(spec, gridRows(spec, studs, lead), g.title));
+    sheets.push(gridSheet(spec, gridRows(spec, studs, lead), g.sheet));
   });
   if (!students){ showOk("Nothing in the roster yet."); return; }
   BBAXlsx.download("bba-roster-" + new Date().toISOString().slice(0,10) + ".xlsx", sheets);
@@ -1180,10 +1244,25 @@ function render(entries){
   lastStuds = {};
   let any = false;
 
+  let lastSec = "", host = R, ksFold = null, ksN = 0;
   GROUPS.forEach(g=>{
     const studs = grouped(entries, g.kind, g.lang);
     if(!studs.length) return;
     any = true;
+    if (g.sec !== lastSec){
+      lastSec = g.sec;
+      if (g.sec === "KS"){
+        ksFold = document.createElement("details");
+        ksFold.className = "sec-fold";
+        ksFold.innerHTML = '<summary class="sec-head ks"></summary>';
+        R.appendChild(ksFold); host = ksFold;
+      } else {
+        const h = document.createElement("h2");
+        h.className = "sec-head"; h.textContent = SECTIONS[g.sec];
+        R.appendChild(h); host = R;
+      }
+    }
+    if (g.sec === "KS") ksN += studs.length;
     const id = g.kind + g.lang;
     const block = document.createElement("div");
     block.innerHTML = '<div class="section-label"><span class="tag pill '+g.lang.toLowerCase()+'">'+g.tag+'</span>'
@@ -1205,8 +1284,9 @@ function render(entries){
     row.innerHTML = '<button class="btn primary" data-xlsx="'+id+'">Download Excel workbook</button>'
                   + '<button class="btn ghost" data-csv="'+id+'">Download CSV</button>';
     block.appendChild(row);
-    R.appendChild(block);
+    host.appendChild(block);
   });
+  if (ksFold) ksFold.querySelector("summary").textContent = SECTIONS.KS + " · " + ksN + " row" + (ksN>1?"s":"") + " — click to show";
 
   if(!any){
     R.innerHTML = '<div class="card"><p style="color:var(--muted);margin:0">'
@@ -1492,9 +1572,23 @@ const CODE_RE = new RegExp(
    newlines — the Signalements column is full of them — so splitting on commas
    loses rows, and scanning the whole file for codes loses the row a code came
    from, which is where the email is. */
+/* The separator is whichever of tab, semicolon and comma the heading row
+   uses most outside quotes. Excel on a Mac, and any Excel set to a European
+   locale, saves "CSV" with semicolons; reading those as commas put a whole
+   row in one cell and lost the email column — the cause of the duplicates. */
+function sniffSep(t){
+  const n = {"\t":0, ";":0, ",":0}; let q = false;
+  for (let i = 0; i < t.length; i++){
+    const ch = t[i];
+    if (ch === '"') q = !q;
+    else if (!q && ch === "\n") break;
+    else if (!q && ch in n) n[ch]++;
+  }
+  return ["\t", ";", ","].reduce((a, b) => n[b] > n[a] ? b : a, ",");
+}
 function parseTable(text){
-  const t = String(text).replace(/\r\n?/g, "\n");
-  const sep = (t.split("\n")[0].split("\t").length > t.split("\n")[0].split(",").length) ? "\t" : ",";
+  const t = String(text).replace(/^\uFEFF/, "").replace(/\r\n?/g, "\n");
+  const sep = sniffSep(t);
   const rows = []; let row = [], cell = "", q = false, i;
   for(i = 0; i < t.length; i++){
     const ch = t[i];
@@ -1511,14 +1605,85 @@ function parseTable(text){
 }
 const MAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
+/* Bytes to text. UTF-8 first; a file that is not valid UTF-8 was saved by an
+   older Excel in Windows-1252 or Mac Roman — read as UTF-8 those turned
+   "Zoë" into "ZoÃ«" or "Zo�". The two are told apart by which gives the
+   more ordinary letters. */
+function bytesToText(buf){
+  const u8 = new Uint8Array(buf);
+  try{ return new TextDecoder("utf-8", {fatal:true}).decode(u8); }catch(e){}
+  const score = s => (s.match(/[A-Za-zÀ-ÖØ-öø-ÿ]/g) || []).length - 5 * (s.match(/[\u0080-\u009F\uFFFD√∑∏π∫ªºΩ¿¡¬ƒ≈∆«»…ÀÃÕŒœ–—“”‘’÷◊ÿŸ⁄€‹›ﬁﬂ‡·‚„‰ÂÊÁËÈÍÎÏÌÓÔÒÚÛÙıˆ˜¯˘˙˚¸˝˛ˇ]/g) || []).length;
+  let best = null, bestScore = -Infinity;
+  ["windows-1252", "macintosh"].forEach(enc => {
+    try{ const s = new TextDecoder(enc).decode(u8); const sc = score(s); if (sc > bestScore){ best = s; bestScore = sc; } }catch(e){}
+  });
+  return best != null ? best : new TextDecoder("utf-8").decode(u8);
+}
+
+/* An .xlsx is a zip of XML. The Forms "Open in Excel" download is read as it
+   is: the first worksheet, with shared strings, into the same rows a CSV
+   gives. Unzipping uses the browser's own deflate (Chrome, Edge, Safari). */
+async function xlsxRows(buf){
+  const u8 = new Uint8Array(buf), dv = new DataView(buf);
+  let eocd = -1;
+  for (let i = u8.length - 22; i >= Math.max(0, u8.length - 65557); i--) if (dv.getUint32(i, true) === 0x06054b50){ eocd = i; break; }
+  if (eocd < 0) throw new Error("not an Excel file");
+  const count = dv.getUint16(eocd + 10, true);
+  let p = dv.getUint32(eocd + 16, true);
+  const files = {};
+  for (let k = 0; k < count; k++){
+    const method = dv.getUint16(p + 10, true), csize = dv.getUint32(p + 20, true);
+    const nlen = dv.getUint16(p + 28, true), xlen = dv.getUint16(p + 30, true), clen = dv.getUint16(p + 32, true);
+    const off = dv.getUint32(p + 42, true);
+    const name = new TextDecoder().decode(u8.subarray(p + 46, p + 46 + nlen));
+    files[name] = {method, csize, off};
+    p += 46 + nlen + xlen + clen;
+  }
+  async function read(name){
+    const f = files[name]; if (!f) return null;
+    const start = f.off + 30 + dv.getUint16(f.off + 26, true) + dv.getUint16(f.off + 28, true);
+    const raw = u8.subarray(start, start + f.csize);
+    if (f.method === 0) return new TextDecoder().decode(raw);
+    const ds = new Blob([raw]).stream().pipeThrough(new DecompressionStream("deflate-raw"));
+    return await new Response(ds).text();
+  }
+  const xml = s => new DOMParser().parseFromString(s, "application/xml");
+  const shared = [];
+  const ss = await read("xl/sharedStrings.xml");
+  if (ss) [...xml(ss).getElementsByTagName("si")].forEach(si =>
+    shared.push([...si.getElementsByTagName("t")].map(t => t.textContent).join("")));
+  const sheetName = Object.keys(files).filter(n => /^xl\/worksheets\/sheet\d+\.xml$/.test(n))
+    .sort((a, b) => parseInt(a.replace(/\D/g, "")) - parseInt(b.replace(/\D/g, "")))[0];
+  if (!sheetName) throw new Error("no worksheet inside");
+  const doc = xml(await read(sheetName));
+  const colOf = ref => { let n = 0; for (const ch of String(ref).replace(/\d+$/, "")) n = n * 26 + ch.charCodeAt(0) - 64; return n - 1; };
+  const rows = [];
+  [...doc.getElementsByTagName("row")].forEach(r => {
+    const row = [];
+    [...r.getElementsByTagName("c")].forEach((c, j) => {
+      const t = c.getAttribute("t"), ref = c.getAttribute("r");
+      const v = c.getElementsByTagName("v")[0];
+      let val = "";
+      if (t === "s") val = shared[+(v && v.textContent)] || "";
+      else if (t === "inlineStr") val = [...c.getElementsByTagName("t")].map(x => x.textContent).join("");
+      else val = v ? v.textContent : "";
+      row[ref ? colOf(ref) : j] = val;
+    });
+    for (let j = 0; j < row.length; j++) if (row[j] == null) row[j] = "";
+    if (row.some(x => String(x).trim() !== "")) rows.push(row);
+  });
+  return rows;
+}
+
 /* Row by row, so a code keeps the email and the register name beside it. */
-function importText(text, label, tally){
-  const good = [], rows = parseTable(text);
+function importText(text, label, tally){ return importRows(parseTable(text), text, label, tally); }
+function importRows(rows, text, label, tally){
+  const good = [];
   const head = rows.length ? rows[0].map(h => h.trim().toLowerCase()) : [];
   /* Which column is which: by heading where there is one, and otherwise by
      what the values look like, so a re-ordered or renamed export still works. */
-  let cMail = head.findIndex(h => /e-?mail|correo|courriel/.test(h));
-  let cName = head.findIndex(h => h === "name" || /full name|nom complet|nombre/.test(h));
+  let cMail = head.findIndex(h => /e-?mail|correo|courriel|messagerie/.test(h));
+  let cName = head.findIndex(h => h === "name" || h === "nom" || /full name|nom complet|nombre/.test(h));
   const seen = {};
   rows.forEach((r, ri) => {
     const line = r.join(" ");
@@ -1540,7 +1705,7 @@ function importText(text, label, tally){
   /* A file that is not a table at all — a pasted wall of codes, a text file —
      still yields its codes; it simply carries no email. */
   if(!good.length && !tally.bad.length){
-    (String(text).match(CODE_RE) || []).forEach(c => {
+    (String(text != null ? text : rows.map(r => r.join(" ")).join("\n")).match(CODE_RE) || []).forEach(c => {
       if(seen[c]) return; seen[c] = 1;
       tally.scanned++;
       try{ const e = decode(c); if(e) good.push(e); }
@@ -1556,14 +1721,15 @@ function handleFiles(files){
   const tally = {scanned:0, bad:[], files:0};
   let pending = list.length, collected = [];
   list.forEach(f=>{
-    const rd = new FileReader();
-    rd.onload = ()=>{
+    f.arrayBuffer().then(async buf => {
       tally.files++;
-      collected = collected.concat(importText(rd.result, f.name, tally));
-      if(--pending === 0) finish();
-    };
-    rd.onerror = ()=>{ tally.bad.push(f.name+": could not be read"); if(--pending===0) finish(); };
-    rd.readAsText(f, "utf-8");
+      const u8 = new Uint8Array(buf, 0, Math.min(4, buf.byteLength));
+      if (u8[0] === 0x50 && u8[1] === 0x4B){          /* "PK": an .xlsx */
+        try{ collected = collected.concat(importRows(await xlsxRows(buf), null, f.name, tally)); }
+        catch(err){ tally.bad.push(f.name + ": could not be read as an Excel file (" + err.message + ")"); }
+      } else collected = collected.concat(importText(bytesToText(buf), f.name, tally));
+    }).catch(() => { tally.bad.push(f.name+": could not be read"); })
+      .then(() => { if(--pending === 0) finish(); });
   });
 
   function finish(){
@@ -1571,16 +1737,21 @@ function handleFiles(files){
     if(!tally.scanned){
       box.className = "msg err";
       box.innerHTML = "<b>No codes found in "+tally.files+" file"+(tally.files===1?"":"s")+".</b><br>"
-        + "Check you exported the response sheet rather than the form itself, and saved it as CSV. "
+        + (tally.bad.length ? esc(tally.bad.slice(0,2).join(" · ")) + "<br>" : "")
+        + "Check you exported the response sheet rather than the form itself. "
         + "The column holding the codes can be anywhere.";
       box.classList.remove("hidden");
       return;
     }
     const added = addEntries(collected);
     const dup = collected.length - added;
+    const noMail = collected.filter(e => !e.email).length;
     box.className = "msg ok";
     box.innerHTML = "<b>"+added+" new code"+(added===1?"":"s")+" imported</b> from "
       + tally.files+" file"+(tally.files===1?"":"s")+"."
+      + (collected.length && !noMail ? " Every code came with its school email, so each student is one row." : "")
+      + (noMail ? " <span style='color:var(--or)'>" + noMail + " code" + (noMail===1?"":"s") + " had no email beside "
+        + (noMail===1?"it":"them") + " in the file, so " + (noMail===1?"it is":"they are") + " matched by name only.</span>" : "")
       + (dup ? " "+dup+" already in the roster, skipped." : "")
       + (tally.bad.length ? "<br>"+tally.bad.length+" could not be decoded: "+esc(tally.bad.slice(0,3).join(" · ")) : "")
       + (storageOk ? "" : "<br>WARNING: this browser refused to save — the roster will vanish on reload.");
@@ -2174,7 +2345,15 @@ paintState();
    site stores it on the device and shows it first. Nothing is written
    anywhere but the student's browser, so there is no file to edit.
    ═══════════════════════════════════════════════════════════════════ */
+/* A-Level: one tab per language. The link holds vocabulary lists AND site
+   activities; it opens the vocab site and the student is walked through
+   the tasks in order — vocabulary first, then the site — by the strip in
+   bba-sequence.js. KS3 & KS4 stay one site each, kept apart. */
 const TASK_SITES = {
+  alFR:{title:"French A-Level", base:"https://artmemry.github.io/A-Level-French-Edexcel-Vocab-training/", hub:"https://artmemry.github.io/A-Level-French-BBA/",
+        lexName:"Le Lexique", hubName:"A-Level-French-BBA", kind:"seq", lang:"FR", ex:"Semaine du 21 septembre · Les festivals"},
+  alES:{title:"Spanish A-Level", base:"https://artmemry.github.io/A-Level-Spanish-Edexcel-Vocabulary-training/", hub:"https://artmemry.github.io/A-Level-Spanish-BBA/",
+        lexName:"El Léxico", hubName:"A-Level-Spanish-BBA", kind:"seq", lang:"ES", ex:"Semana del 21 de septiembre · El turismo"},
   hubFR:{title:"French hub",   base:"https://artmemry.github.io/A-Level-French-BBA/",                         kind:"dos", lang:"FR", ex:"Semaine du 21 septembre · Les festivals"},
   hubES:{title:"Spanish hub",  base:"https://artmemry.github.io/A-Level-Spanish-BBA/",                        kind:"dos", lang:"ES", ex:"Semana del 21 de septiembre · El turismo"},
   lexFR:{title:"Le Lexique",   base:"https://artmemry.github.io/A-Level-French-Edexcel-Vocab-training/",      kind:"lex", lang:"FR", ex:"Semaine du 21 septembre · U6.1 et U6.2"},
@@ -2183,7 +2362,7 @@ const TASK_SITES = {
   lexKSES:{title:"KS3 & KS4 Spanish", base:"https://artmemry.github.io/KS3-KS4-Spanish-Vocabulary-training/", kind:"lex", lang:"KSES", ex:"Semana del 21 de septiembre · Y8 Unidad 4"}
 };
 const TASK_LS = "bba-teacher-tasks-v1";
-let taskSite = "hubFR", taskCls = "", taskPicked = {};
+let taskSite = "alFR", taskCls = "", taskPicked = {};
 /* The dashboard serves the whole department, so the class list runs from
    Year 7 to Year 13; a site only ever sees the classes that use it. */
 /* A KS site is never set for Y12, and the hub is never set for Y8, so each
@@ -2214,6 +2393,17 @@ function renderTaskCls(){
 }
 function taskItems(site){
   const s = TASK_SITES[site];
+  if (s.kind === "seq"){
+    const L = LESSONS[s.lang] || {};
+    const lex = Object.keys(L).sort((a,b)=>a.localeCompare(b,undefined,{numeric:true})).map(lid => ({
+      key:"l|" + lid, label:lid + " · " + L[lid], short:lid + " · " + L[lid], sub:"",
+      group:"1 · Vocab — " + s.lexName + " · " + lid.split(".")[0]}));
+    const hub = catOf(s.lang).filter(it => !/^https?:/.test(it.f)).map(it => {
+      let f = it.f; try{ f = decodeURIComponent(f); }catch(e){}
+      return {key:"a|" + f, label:it.t, short:it.t, sub:it.u, group:"2 · Site — " + s.hubName + " · " + it.s + " · " + it.sn};
+    });
+    return lex.concat(hub);
+  }
   if (s.kind === "dos"){
     return catOf(s.lang).filter(it => !/^https?:/.test(it.f)).map(it => {
       let f = it.f; try{ f = decodeURIComponent(f); }catch(e){}
@@ -2238,14 +2428,19 @@ function b64url(str){
 function savedTasks(){ try{ return JSON.parse(localStorage.getItem(TASK_LS)||"{}")||{}; }catch(e){ return {}; } }
 function renderTaskTabs(){
   const box = $("#taskTabs"); box.innerHTML = "";
-  Object.keys(TASK_SITES).forEach(k => {
+  const tabs = ["alFR","alES",null,"lexKSFR","lexKSES"];
+  tabs.forEach(k => {
+    if (k === null){
+      const sep = document.createElement("span"); sep.className = "sep";
+      sep.textContent = "KS3 & KS4 vocabulary — not A-Level"; box.appendChild(sep); return;
+    }
     const b = document.createElement("button");
     b.textContent = TASK_SITES[k].title; b.className = k===taskSite ? "on" : "";
     b.addEventListener("click", ()=>{ taskSite = k; taskPicked = {}; $("#tFilter").value = ""; renderTaskTabs(); renderTaskCls(); renderTaskList(); });
     box.appendChild(b);
   });
   $("#tLabel").placeholder = "e.g. " + TASK_SITES[taskSite].ex;
-  $("#tNoteWrap").style.display = TASK_SITES[taskSite].kind === "dos" ? "" : "none";
+  $("#tNoteWrap").style.display = TASK_SITES[taskSite].kind === "lex" ? "none" : "";
   $("#tOut").classList.add("hidden");
   const cur = savedTasks()[taskSite];
   $("#tNow").innerHTML = cur
@@ -2298,18 +2493,37 @@ function makeTask(){
   const s = TASK_SITES[taskSite], keys = chosen();
   const label = $("#tLabel").value.trim();
   if (!label){ alert("Give the task a name — it is what the student sees."); $("#tLabel").focus(); return; }
-  if (!keys.length){ alert("Tick at least one " + (s.kind==="dos" ? "activity" : "list") + "."); return; }
+  if (!keys.length){ alert("Tick at least one " + (s.kind==="lex" ? "list" : "activity or list") + "."); return; }
   const o = {label:label, since:$("#tSince").value || new Date().toISOString().slice(0,10), due:$("#tDue").value || "", t:Date.now()};
   if (taskCls) o.cls = taskCls;
-  if (s.kind === "dos"){ o.items = keys; const n = $("#tNote").value.trim(); if (n) o.note = n; }
+  let base = s.base;
+  if (s.kind === "seq"){
+    /* list order, which puts vocabulary first and the site second */
+    const all = taskItems(taskSite), pos = {};
+    all.forEach((x, i) => pos[x.key] = i);
+    const ks = keys.filter(k => k in pos).sort((a, b) => pos[a] - pos[b]);
+    const lessons = ks.filter(k => k[0] === "l").map(k => k.slice(2));
+    const items = ks.filter(k => k[0] === "a").map(k => k.slice(2));
+    if (lessons.length) o.lessons = lessons;
+    if (items.length) o.items = items;
+    const n = $("#tNote").value.trim(); if (n) o.note = n;
+    /* one short title per step, in order: lessons first, then items */
+    const cut = t => t.length > 44 ? t.slice(0, 42).trim() + "…" : t;
+    o.seq = ks.map(k => cut(all[pos[k]].short));
+    if (!lessons.length) base = s.hub;
+  }
+  else if (s.kind === "dos"){ o.items = keys; const n = $("#tNote").value.trim(); if (n) o.note = n; }
   else o.lessons = keys;
-  const link = s.base + "?task=" + b64url(JSON.stringify(o));
+  const link = base + "?task=" + b64url(JSON.stringify(o));
   $("#tLink").value = link; $("#tOpen").href = link;
   const line = "window.ASSIGNMENT = " + JSON.stringify(Object.assign({}, o, {t:undefined})).replace(/,"t":null|"t":null,?/,"") + ";";
-  $("#tLine").value = line;
+  $("#tLine").value = s.kind === "seq" ? "// A two-site sequence lives only in the link — post the link." : line;
   $("#tOut").classList.remove("hidden");
   const all = savedTasks(); all[taskSite] = o; try{ localStorage.setItem(TASK_LS, JSON.stringify(all)); }catch(e){}
-  $("#tNow").innerHTML = "Link made for <b>" + esc(label) + "</b>" + (taskCls ? " · " + taskCls + " — post it in that class's channel only; it also tells the site which class the student is in" : " · everyone") + " · " + keys.length + " item" + (keys.length>1?"s":"") + (o.due ? " · due " + esc(o.due) : "") + ". Post it where the class will see it.";
+  const steps = s.kind === "seq"
+    ? " — the student is taken through " + keys.length + " task" + (keys.length>1?"s":"") + " in order, vocabulary first, with a Next button"
+    : "";
+  $("#tNow").innerHTML = "Link made for <b>" + esc(label) + "</b>" + steps + (taskCls ? " · " + taskCls + " — post it in that class's channel only; it also tells the site which class the student is in" : " · everyone") + " · " + keys.length + " item" + (keys.length>1?"s":"") + (o.due ? " · due " + esc(o.due) : "") + ". Post it where the class will see it.";
   if (link.length > 1800) $("#tNow").innerHTML += " <span style='color:var(--or)'>This link is long (" + link.length + " characters); some chat tools cut long links, so keep the name short or tick fewer items.</span>";
 }
 /* ============================================================
