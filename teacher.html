@@ -334,14 +334,18 @@ table.match tr.guess select{border-color:#9FB6D4;background:#F5F9FF}
   <div class="card" id="legendCard" style="display:none">
     <h2>Reading the tables</h2>
     <p class="legend">
-      <b>Seen</b> — distinct items the student has met at least once, out of the whole list.
-      <b>Mastered</b> — items answered correctly enough times to leave the review cycle.
-      <b>Leeches</b> — items failed repeatedly; these are the ones worth teaching directly.
-      <b>Exam avg</b> — mean of the in-app tests, with the number of tests in brackets.
-      <b>Done / Opened</b> — dossier tiles marked finished, and tiles merely opened.
-      <b>Flagged hard</b> — tiles the student marked difficult.
-      <br>An amber row means <b>seen is climbing but mastered is not</b> — the student is browsing rather
-      than learning, which is the pattern most worth catching early.
+      The columns follow the department's order of interest.
+      <b>1 · Answered</b> — every question the student has answered, all time: the key figure, with the
+      change since their previous code. <b>Since task</b> — answers given since the task link's start date.
+      <b>2 · Mastered</b> — on a vocab site, words answered correctly enough times to leave the review cycle;
+      on an exam-practice site, activities with a best score of 80 % or more.
+      <b>3 · Accuracy</b> — the share of answers that were right (vocab), or the mean best mark (exam practice).
+      Then, in grey: <b>Seen</b>, <b>Sessions</b>, <b>Leeches</b> (words failed repeatedly), <b>Exam avg</b>,
+      <b>Done / Opened</b> and <b>Flagged hard</b>.
+      <br>Students are listed with the most questions answered first. An amber row means <b>few questions
+      answered compared with the rest of the group</b> (under half the group's middle figure), or ticking
+      activities as done without doing them. A "—" means the code was sent before questions were counted;
+      it fills in when the student sends a new one.
     </p>
   </div>
 </main>
@@ -471,6 +475,42 @@ const pct = (a,b) => b ? Math.round(100*a/b) : 0;
 const fmtDate = ts => { const d=new Date(ts); return isNaN(d) ? "—" :
   d.toLocaleDateString(undefined,{day:"2-digit",month:"short",year:"numeric"}); };
 
+/* ═══════════════════════════════════════════════════════════════════
+   THE THREE MEASURES, in the department's order of interest:
+   1. questions answered — all time (the key figure), and since the task
+   2. mastered — words on a vocab site; activities scored 80 % or more on
+      an exam-practice site
+   3. accuracy — last.
+   Codes sent before questions were counted carry no answer figure; they
+   show "—" until the student sends a new one.
+   ═══════════════════════════════════════════════════════════════════ */
+const MASTER_PCT = 80;
+function ansAll(c){ const o = (c && c.o) || {}; return typeof o.ans === "number" ? o.ans : null; }
+function ansTask(c){ const o = (c && c.o) || {}; return typeof o.ansT === "number" ? o.ansT : null; }
+function mastOf(c, kind){
+  const o = (c && c.o) || {};
+  if (kind === "dos") return typeof o.mast === "number" ? o.mast : attempted(c).filter(r=>r.pct>=MASTER_PCT).length;
+  return o.mast || 0;
+}
+/* overall accuracy of a vocab code: lists weighted by questions answered when known */
+function lexAcc(c){
+  const l = Array.isArray(c && c.l) ? c.l : [];
+  let w = 0, s = 0, n = 0, m = 0;
+  l.forEach(r=>{ const a = r[3]!=null ? r[3] : pct(r[1]||0, r[2]||0); m += a; n++;
+                 if (typeof r[4] === "number" && r[4] > 0){ w += r[4]; s += a*r[4]; } });
+  return w ? Math.round(s/w) : (n ? Math.round(m/n) : null);
+}
+function ansCell(v, pv){
+  return v == null ? '<td class="num" style="color:var(--muted)" title="This code was sent before questions were counted">—</td>'
+                   : '<td class="num"><b>'+v+'</b>'+delta(v, pv)+'</td>';
+}
+/* the amber row: few questions answered compared with the rest of the group */
+function fewAnswers(studs){
+  const v = studs.map(st=>ansAll(st.cur)).filter(x=>x!=null).sort((a,b)=>a-b);
+  if (v.length < 3) return ()=>false;
+  const med = v[Math.floor(v.length/2)];
+  return st => { const a = ansAll(st.cur); return a != null && a < med/2; };
+}
 function delta(cur, prev){
   if(prev==null || cur==null || cur===prev) return "";
   const n = cur - prev;
@@ -836,7 +876,8 @@ function grouped(entries, kind, lang){
     if (src[k] && src[k].email && !cur.__mail){ cur.__mail = src[k].email; if (src[k].who && !cur.__who) cur.__who = src[k].who; }
     return {codes:arr, cur:cur, prev:arr.length>1?arr[arr.length-2]:null,
             __entry: src[k], __keys: [...keys[k]]};
-  }).sort((a,b)=>dispName(a.cur).localeCompare(dispName(b.cur)));
+  }).sort((a,b)=>((ansAll(b.cur)==null?-1:ansAll(b.cur)) - (ansAll(a.cur)==null?-1:ansAll(a.cur)))
+            || dispName(a.cur).localeCompare(dispName(b.cur)));   /* most questions answered first */
 }
 /* does any student in this set carry an id? decides whether the ID column shows */
 /* Whatever a student typed into the optional candidate-number box, an email
@@ -876,11 +917,16 @@ let lastTables = {};   // id → {header:[], rows:[[]]} for CSV
    opened do not count as done); the lexicon's are the vocabulary lists anyone
    has practised, by lesson title, with accuracy in the cell. Every student in
    the group gets a row, so a blank row is itself information. */
+/* The grid: one row per student, one column per list or activity. Each cell
+   carries questions answered (the figure shown large and exported first) and
+   accuracy (shown small, exported on its own sheet). */
 function gridSpec(studs, id){
   const kind = id.slice(0,3), lang = langOfId(id), glang = groupLangOf(id);
   if (kind === "dos"){
     const seen = new Set();
     studs.forEach(st => attempted(st.cur).forEach(r => seen.add(r.index)));
+    /* open tasks (no answer key) are answered but never marked: they belong in the grid too */
+    studs.forEach(st => (Array.isArray(st.cur.q) ? st.cur.q : []).forEach(x => { if (x[1] > 0) seen.add(x[0]); }));
     if (!seen.size) return null;
     const cols = [...seen].sort((a,b)=>{
       const sa = actSection(a, lang), sb = actSection(b, lang);
@@ -889,10 +935,14 @@ function gridSpec(studs, id){
     return {kind:kind, cols:cols,
       group: i => actSection(i, lang),
       label: i => actName(i, lang),
-      cells: st => { const by = {}; attempted(st.cur).forEach(r=>{ by[r.index] = r; });
-        return i => by[i] ? {pct:by[i].pct, sub: by[i].attempts>1 ? "×"+by[i].attempts : ""} : null; },
-      sheet:"Marks by activity",
-      caption:"Marks by activity — every activity anyone in this group has attempted"};
+      cells: st => { const by = {}, q = {};
+        attempted(st.cur).forEach(r=>{ by[r.index] = r; });
+        (Array.isArray(st.cur.q) ? st.cur.q : []).forEach(x=>{ q[x[0]] = x; });
+        return i => (by[i] || q[i]) ? {ans: q[i] ? q[i][1] : (Array.isArray(st.cur.q) ? 0 : null),
+                                       acc: by[i] ? by[i].pct : null,
+                                       sub: by[i] ? (by[i].attempts>1 ? "×"+by[i].attempts : "") : "open task"} : null; },
+      sheet:"Answered by activity", accSheet:"Marks by activity",
+      caption:"Questions answered by activity — every activity anyone in this group has attempted (best mark small)"};
   }
   const seen = new Set();
   studs.forEach(st => (Array.isArray(st.cur.l) ? st.cur.l : []).forEach(r => { if (r && r[0] != null) seen.add(String(r[0])); }));
@@ -904,34 +954,33 @@ function gridSpec(studs, id){
     cells: st => { const by = {}; (Array.isArray(st.cur.l) ? st.cur.l : []).forEach(r=>{ by[String(r[0])] = r; });
       return lid => { const r = by[lid]; if (!r) return null;
         const acc = r[3] != null ? r[3] : pct(r[1]||0, r[2]||0);
-        return {pct:acc, sub:(r[1]||0)+"/"+(r[2]||0)}; }; },
-    sheet:"Lists by name",
-    caption:"Lists by name — every vocabulary list anyone in this group has practised, with accuracy"};
+        return {ans: typeof r[4] === "number" ? r[4] : null, acc:acc,
+                sub: typeof r[5] === "number" ? r[5]+" mastered" : (r[1]||0)+"/"+(r[2]||0)}; }; },
+    sheet:"Answered by list", accSheet:"Accuracy by list",
+    caption:"Lists by name — questions answered per list, all time (mastered and accuracy small)"};
 }
 
-/* The grid as data: one header, one row per student, a class-average row
-   last. `lead` adds columns in front of the exercises (Class, date) for the
-   whole-roster workbook; the per-site grid has only the name. */
-function gridRows(spec, studs, lead){
-  lead = lead || {header:[], of:()=>[]};
+/* The grid as data: one header, one row per student, a class row last.
+   mode "ans" gives questions answered (class row: total), "acc" accuracy
+   (class row: average). `lead` adds columns in front (Class, date). */
+function gridRows(spec, studs, lead, mode){
+  lead = lead || {header:[], of:()=>[]}; mode = mode || "ans";
   const header = ["Student"].concat(lead.header).concat(spec.cols.map(spec.label));
   const rows = [], sums = spec.cols.map(()=>({n:0, s:0}));
   studs.forEach(st=>{
     const at = spec.cells(st);
     const out = [dispName(st.cur, st.__entry)].concat(lead.of(st));
     spec.cols.forEach((c,k)=>{
-      const v = at(c);
-      if (!v){ out.push(null); return; }
-      out.push(v.pct/100); sums[k].n++; sums[k].s += v.pct;
+      const v = at(c), x = v ? (mode === "ans" ? v.ans : v.acc) : null;
+      if (x == null){ out.push(null); return; }
+      out.push(mode === "ans" ? x : x/100); sums[k].n++; sums[k].s += x;
     });
     rows.push(out);
   });
-  /* A class-average row is the fastest read on the whole page: it says
-     which activity the group as a whole has not understood. */
-  const avg = ["Class average"].concat(lead.header.map(()=>null));
-  spec.cols.forEach((c,k)=>avg.push(sums[k].n ? Math.round(sums[k].s/sums[k].n)/100 : null));
-  rows.push(avg);
-  return {header:header, rows:rows, lead:lead.header.length};
+  const last = [mode === "ans" ? "Class total" : "Class average"].concat(lead.header.map(()=>null));
+  spec.cols.forEach((c,k)=>last.push(!sums[k].n ? null : mode === "ans" ? sums[k].s : Math.round(sums[k].s/sums[k].n)/100));
+  rows.push(last);
+  return {header:header, rows:rows, lead:lead.header.length, mode:mode};
 }
 
 function gridHtml(spec, studs){
@@ -941,23 +990,25 @@ function gridHtml(spec, studs){
            + '<tr><th>Student</th>'
            + cols.map(c=>'<th style="min-width:92px">'+esc(spec.label(c))+'</th>').join("")
            + '</tr></thead><tbody>';
-  const sums = cols.map(()=>({n:0, s:0}));
+  const sums = cols.map(()=>({a:0, n:0, s:0}));
+  const small = (v)=>'<br><span style="color:var(--muted);font-size:.72em">'
+      + (v.sub ? esc(v.sub) : '') + (v.acc == null ? '' : (v.sub ? ' · ' : '')
+      + '<span style="color:'+(v.acc>=70?'#2E7D52':v.acc>=45?'#9a6a00':'#a5281b')+'">'+v.acc+' %</span>') + '</span>';
   studs.forEach(st=>{
     const at = spec.cells(st);
     html += '<tr><td class="name"'+seenTitle(st.cur)+'>'+esc(dispName(st.cur))+'</td>';
     cols.forEach((c,k)=>{
       const v = at(c);
       if(!v){ html += '<td class="num" style="color:var(--line-strong)">·</td>'; return; }
-      html += bandCell(v.pct).replace('</td>',
-        (v.sub ? ' <span style="color:var(--muted);font-size:.7em">'+esc(v.sub)+'</span>' : '') + '</td>');
-      sums[k].n++; sums[k].s += v.pct;
+      html += '<td class="num">'+(v.ans!=null ? '<b>'+v.ans+'</b>' : '<span style="color:var(--muted)" title="Sent before questions were counted">—</span>')+small(v)+'</td>';
+      if (v.ans!=null){ sums[k].a += v.ans; sums[k].ka = 1; } if (v.acc!=null){ sums[k].n++; sums[k].s += v.acc; } sums[k].any = 1;
     });
     html += '</tr>';
   });
-  html += '<tr style="border-top:2px solid var(--ink)"><td class="name"><b>Class average</b></td>';
+  html += '<tr style="border-top:2px solid var(--ink)"><td class="name"><b>Class</b> <span style="color:var(--muted);font-size:.8em">total · average</span></td>';
   cols.forEach((c,k)=>{
-    if(!sums[k].n){ html += '<td class="num">·</td>'; return; }
-    html += bandCell(Math.round(sums[k].s/sums[k].n)).replace('<td','<td style="font-weight:700"').replace('style="background','data-bg="');
+    if(!sums[k].any){ html += '<td class="num">·</td>'; return; }
+    html += '<td class="num">'+(sums[k].ka ? '<b>'+sums[k].a+'</b>' : '<span style="color:var(--muted)">—</span>')+'<br><span style="color:var(--muted);font-size:.72em">'+(sums[k].n ? Math.round(sums[k].s/sums[k].n)+' %' : 'open task')+'</span></td>';
   });
   html += '</tr></tbody></table></div>';
   const w = document.createElement("div"); w.innerHTML = html; return w.firstChild;
@@ -967,8 +1018,8 @@ function gridHtml(spec, studs){
 function marksGrid(studs, id){
   const spec = gridSpec(studs, id);
   if (!spec) return null;
-  const g = gridRows(spec, studs);
-  gridTables[id] = {header:g.header, rows:g.rows, cols:spec.cols, spec:spec};
+  const g = gridRows(spec, studs, null, "ans");
+  gridTables[id] = {header:g.header, rows:g.rows, cols:spec.cols, spec:spec, studs:studs};
   return gridHtml(spec, studs);
 }
 let gridTables = {};
@@ -984,10 +1035,10 @@ function downloadXlsx(id){
   if (!summary || !window.BBAXlsx) return;
   const sheets = [];
 
-  /* 1. the class summary, as shown */
+  /* 1. the class summary, as shown: answered, mastered, then accuracy */
   const sCols = summary.header.map((h,i)=>({
     header: h, width: i===0 ? 26 : (h.length>14 ? 16 : 12),
-    type: i===0 ? "name" : (h === "Average %" ? "percent" : undefined)
+    type: i===0 ? "name" : (/^(Average %|Accuracy %)$/.test(h) ? "percent" : undefined)
   }));
   sheets.push({
     name: "Class summary",
@@ -996,33 +1047,43 @@ function downloadXlsx(id){
       (sCols[i].type === "percent" && typeof v === "number") ? pctCell(v/100) : v))
   });
 
-  /* 2. the grid — marks by activity for a dossier, lists by name for a lexicon */
+  /* 2–3. the grid — questions answered first, then accuracy */
   const grid = gridTables[id];
-  if (grid) sheets.push(gridSheet(grid.spec, grid, grid.spec.sheet));
+  if (grid){
+    sheets.push(gridSheet(grid.spec, gridRows(grid.spec, grid.studs, null, "ans"), grid.spec.sheet));
+    sheets.push(gridSheet(grid.spec, gridRows(grid.spec, grid.studs, null, "acc"), grid.spec.accSheet));
+  }
 
-  /* 3. who to look at first */
+  /* 4. who to look at first */
+  const studs = lastStuds[id]||[], few = fewAnswers(studs), isDos = id.slice(0,3) === "dos";
   const watch = [];
-  (lastStuds[id]||[]).forEach(st=>{
+  studs.forEach(st=>{
     const c = st.cur, o = c.o||{};
-    const att = o.scored != null ? o.scored : attempted(c).length;
-    const claimed = o.claimed || 0;
-    const weak = attempted(c).filter(r=>r.pct<50);
     const reasons = [];
-    if (claimed >= 10 && att <= 2) reasons.push("ticking without doing — " + claimed + " ticked, " + att + " scored");
-    if (att && o.avg != null && o.avg < 50) reasons.push("average below 50 %");
-    if (weak.length >= 3) reasons.push(weak.length + " activities under 50 %");
-    if ((o.opened||0) >= 8 && att === 0) reasons.push("opening activities but finishing none");
+    if (few(st)) reasons.push("few questions answered compared with the group");
+    let weak = [];
+    if (isDos){
+      const att = o.scored != null ? o.scored : attempted(c).length;
+      const claimed = o.claimed || 0;
+      weak = attempted(c).filter(r=>r.pct<50);
+      if (claimed >= 10 && att <= 2) reasons.push("ticking without doing — " + claimed + " ticked, " + att + " scored");
+      if ((o.opened||0) >= 8 && att === 0) reasons.push("opening activities but finishing none");
+      if (att && o.avg != null && o.avg < 50) reasons.push("average below 50 %");
+    } else {
+      if ((o.lee||0) >= 10) reasons.push(o.lee + " words failed repeatedly");
+    }
     if (!reasons.length) return;
-    watch.push([dispName(c), c.i != null ? String(c.i) : "", att,
-                o.avg != null ? pctCell(o.avg/100) : null, claimed, reasons.join("; "),
+    const acc = isDos ? (o.avg != null ? o.avg : null) : lexAcc(c);
+    watch.push([dispName(c), clsOf(c), ansAll(c), mastOf(c, isDos ? "dos" : "lex"),
+                acc != null ? pctCell(acc/100) : null, reasons.join("; "),
                 weak.map(r=>actName(r.index, langOfId(id)) + " (" + r.pct + " %)").join("; ")]);
   });
   if (watch.length){
     sheets.push({
       name: "Needs a look",
-      columns: [{header:"Student",width:24,type:"name"},{header:"Candidate",width:12},
-                {header:"Attempted",width:11},{header:"Average",width:11,type:"percent"},
-                {header:"Ticked not scored",width:16},{header:"Why",width:44},
+      columns: [{header:"Student",width:24,type:"name"},{header:"Class",width:12},
+                {header:"Questions answered",width:14},{header:isDos?"Mastered (80 %+)":"Words mastered",width:14},
+                {header:"Accuracy",width:11,type:"percent"},{header:"Why",width:46},
                 {header:"Weakest activities",width:60,type:"muted"}],
       rows: watch
     });
@@ -1036,16 +1097,16 @@ let lastStuds = {};
    in the heading ("Theme 1 · FR1 · Maîtriser le contenu", "U1 · U1.2 · …"),
    so a sheet of forty columns still reads when scrolled. */
 function gridSheet(spec, g, name){
-  const lead = g.lead || 0;
+  const lead = g.lead || 0, acc = g.mode === "acc";
   return {
     name: name,
     columns: g.header.map((h,i)=>{
       if (i === 0) return {header:h, width:26, type:"name"};
       if (i <= lead) return {header:h, width:14};
       const grp = spec.group(spec.cols[i-1-lead]);
-      return {header:(grp ? grp + " · " : "") + h, width:13, type:"percent"};
+      return {header:(grp ? grp + " · " : "") + h, width:13, type: acc ? "percent" : undefined};
     }),
-    rows: g.rows.map(r => r.map((v,i) => i <= lead ? v : pctCell(v)))
+    rows: g.rows.map(r => r.map((v,i) => i <= lead ? v : (acc ? pctCell(v) : v)))
   };
 }
 
@@ -1078,7 +1139,10 @@ function engagementRows(){
         [school, site, byCls[cls] = byCls[cls] || tally(), byStud[person] = byStud[person] || tally()]
           .forEach(t=>{
             t.people.add(person); t.codes += st.codes.length;
-            t.acts += m.acts; t.lists += m.lists; t.words += m.words;
+            if (m.ans != null){ t.ans += m.ans; t.known = true; }
+            if (m.ansT != null){ t.ansT += m.ansT; t.knownT = true; }
+            t.wmast += m.wmast; t.amast += m.amast;
+            t.acts += m.acts; t.lists += m.lists;
             t.scores = t.scores.concat(m.scores); t.last = Math.max(t.last, c.t||0);
           });
         const S = byStud[person];
@@ -1089,49 +1153,57 @@ function engagementRows(){
   } finally { clsFilter = saved; }
 
   const avg = t => t.scores.length ? Math.round(t.scores.reduce((a,b)=>a+b,0)/t.scores.length) : null;
-  const line = (label, a, b, t) => [label, a, b, t.people.size, t.codes, t.acts, t.lists, t.words,
-                                    avg(t)!=null ? avg(t)/100 : null, t.last ? fmtDate(t.last) : ""];
+  /* answered first, mastered second, accuracy third, then the activity counts */
+  const line = (label, a, b, t) => [label, a, b,
+      t.known ? t.ans : null, t.knownT ? t.ansT : null, t.wmast, t.amast,
+      avg(t)!=null ? avg(t)/100 : null,
+      t.people.size, t.codes, t.acts, t.lists, t.last ? fmtDate(t.last) : ""];
+  const H = ["Questions answered", "Since the task", "Words mastered", "Activities mastered (80 %+)", "Average %",
+             "Students active", "Codes sent", "Activities scored", "Lists practised", "Last sent"];
   const head = r => r.map(v => v ? {v:v, band:null, head:true} : null);
   const rows = [];
   rows.push(line("Whole school", "", "", school));
   rows.push([]);
-  rows.push(head(["BY CLASS", "Year", "Language", "Students active", "Codes sent", "Activities scored", "Lists practised", "Words seen", "Average %", "Last sent"]));
+  rows.push(head(["BY CLASS", "Year", "Language"].concat(H)));
   Object.keys(byCls).sort((a,b)=>yearNum(a)-yearNum(b) || a.localeCompare(b))
     .forEach(k=>rows.push(line(k, byCls[k].year || "", byCls[k].lang, byCls[k])));
   rows.push([]);
-  rows.push(head(["BY SITE", "", "Language", "Students active", "Codes sent", "Activities scored", "Lists practised", "Words seen", "Average %", "Last sent"]));
+  rows.push(head(["BY SITE", "", "Language"].concat(H)));
   GROUPS.forEach(g=>{ if (bySite[g.title]) rows.push(line(g.title, "", siteLang(g.lang), bySite[g.title])); });
   rows.push([]);
-  rows.push(head(["BY STUDENT", "Class", "Sites used", "", "Codes sent", "Activities scored", "Lists practised", "Words seen", "Average %", "Last sent"]));
+  rows.push(head(["BY STUDENT", "Class", "Sites used"].concat(H)));
   Object.values(byStud)
-    .sort((a,b)=>(b.acts+b.lists)-(a.acts+a.lists) || b.codes-a.codes || a.name.localeCompare(b.name))
-    .forEach(s=>{ const r = line(s.name, s.cls, s.sites.size, s); r[3] = null; rows.push(r); });
+    .sort((a,b)=>(b.ans - a.ans) || (b.acts+b.lists)-(a.acts+a.lists) || a.name.localeCompare(b.name))
+    .forEach(s=>{ const r = line(s.name, s.cls, s.sites.size, s); r[8] = null; rows.push(r); });
   return rows;
 
-  function tally(){ return {people:new Set(), sites:new Set(), codes:0, acts:0, lists:0, words:0, scores:[], last:0}; }
-  /* what one student has done on one site: exercises by count, every score */
+  function tally(){ return {people:new Set(), sites:new Set(), codes:0, ans:0, ansT:0, known:false, knownT:false,
+                            wmast:0, amast:0, acts:0, lists:0, scores:[], last:0}; }
+  /* what one student has done on one site */
   function measure(st, g){
     const c = st.cur, o = c.o || {};
+    const base = {ans:ansAll(c), ansT:ansTask(c)};
     if (g.kind === "dos"){
       const att = attempted(c);
-      return {acts:att.length, lists:0, words:0, scores:att.map(r=>r.pct)};
+      return Object.assign(base, {acts:att.length, lists:0, wmast:0, amast:mastOf(c, "dos"), scores:att.map(r=>r.pct)});
     }
     const l = Array.isArray(c.l) ? c.l : [];
-    return {acts:0, lists:l.length, words:o.seen||0,
-            scores:l.map(r=>r[3]!=null ? r[3] : pct(r[1]||0, r[2]||0))};
+    return Object.assign(base, {acts:0, lists:l.length, wmast:o.mast||0, amast:0,
+            scores:l.map(r=>r[3]!=null ? r[3] : pct(r[1]||0, r[2]||0))});
   }
 }
 function engagementSheet(){
   const rows = engagementRows();
-  const W = [30, 12, 12, 14, 11, 16, 14, 11, 11, 14];
+  const W = [30, 12, 12, 16, 13, 13, 16, 11, 13, 11, 14, 13, 14];
   return {
     name: "Engagement", filter: false,
-    columns: ["Whole school · by class · by site · by student", "", "", "Students active", "Codes sent",
-              "Activities scored", "Lists practised", "Words seen", "Average %", "Last sent"]
-      .map((h,i)=>({header:h, width:W[i], type: i===0 ? "name" : i===8 ? "percent" : undefined})),
+    columns: ["Whole school · by class · by site · by student", "", "",
+              "Questions answered", "Since the task", "Words mastered", "Activities mastered (80 %+)", "Average %",
+              "Students active", "Codes sent", "Activities scored", "Lists practised", "Last sent"]
+      .map((h,i)=>({header:h, width:W[i], type: i===0 ? "name" : i===7 ? "percent" : undefined})),
     rows: rows.map(r => r.map((v,i)=>{
       if (v && typeof v === "object" && v.head) return {v:v.v, name:true};   /* a sub-heading */
-      return i===8 ? pctCell(v) : v;
+      return i===7 ? pctCell(v) : v;
     }))
   };
 }
@@ -1154,7 +1226,8 @@ function downloadAllXlsx(){
                    rows: studs.map(st=>[dispName(st.cur, st.__entry), clsOf(st.cur), fmtDate(st.cur.t), "none yet"])});
       return;
     }
-    sheets.push(gridSheet(spec, gridRows(spec, studs, lead), g.sheet));
+    sheets.push(gridSheet(spec, gridRows(spec, studs, lead, "ans"), g.sheet));
+    sheets.push(gridSheet(spec, gridRows(spec, studs, lead, "acc"), (g.sheet + " accuracy").slice(0, 31)));
   });
   if (!students){ showOk("Nothing in the roster yet."); return; }
   BBAXlsx.download("bba-roster-" + new Date().toISOString().slice(0,10) + ".xlsx", sheets);
@@ -1308,48 +1381,56 @@ function lexTable(studs, id){
   const unitSet = new Set();
   studs.forEach(s=>s.codes.forEach(c=>Object.keys(c.u||{}).forEach(u=>unitSet.add(u))));
   const units = [...unitSet].sort((a,b)=>a.localeCompare(b,undefined,{numeric:true}));
+  const few = fewAnswers(studs);
 
   const withId = anyId(studs);
   const header = ["Student"].concat(withId?["ID"]:[]).concat(["Class"])
-                 .concat(["Exported","Codes","Seen","Of","Mastered","Sessions","Leeches","Exam avg"])
-                 .concat(units.map(u=>u+" %"));
+                 .concat(["Questions answered","Since the task","Words mastered","Accuracy %",
+                          "Words seen","Of","Sessions","Leeches","Exam avg","Last sent","Codes"])
+                 .concat(units.map(u=>u+" answered"));
   const rows = [];
 
   let html = '<div class="wrap"><table class="stats"><thead><tr>'
            + '<th>Student</th>'+(withId?'<th>ID</th>':'')+'<th>Class</th>'
-           + '<th>Exported</th><th>#</th><th>Seen</th><th>Mastered</th>'
-           + '<th>Sessions</th><th>Leeches</th><th>Exam avg</th>'
+           + '<th title="Every answer given, all time — the key figure">Answered</th>'
+           + '<th title="Answers given since the task link\'s start date">Since task</th>'
+           + '<th>Mastered</th><th>Accuracy</th>'
+           + '<th>Seen</th><th>Sessions</th><th>Leeches</th><th>Exam avg</th><th>Sent</th><th>#</th>'
            + units.map(u=>'<th>'+esc(u)+'</th>').join("")
            + '</tr></thead><tbody>';
 
   studs.forEach(st=>{
     const c = st.cur, o = c.o||{}, po = st.prev ? (st.prev.o||{}) : null;
     const seen = o.seen||0, total = o.total||0, mast = o.mast||0;
-    // browsing-not-learning flag: meaningful exposure, nothing retained
-    const flag = seen >= 20 && mast === 0;
+    const a = ansAll(c), aT = ansTask(c), acc = lexAcc(c);
+    const flag = few(st);
     const ex = examAvg(c.x);
-    html += '<tr'+(flag?' class="flag"':'')+'>'
+    html += '<tr'+(flag?' class="flag" title="Few questions answered compared with the rest of the group"':'')+'>'
       + '<td class="name"'+seenTitle(c)+'>'+esc(dispName(c))+removeBtn(st, kind, glang)+'</td>'
       + (withId?'<td class="num">'+idCell(c)+'</td>':'')
       + '<td class="num">'+clsCell(c)+'</td>'
-      + '<td class="num">'+fmtDate(c.t)+'</td>'
-      + '<td class="num">'+st.codes.length+'</td>'
-      + '<td class="num">'+bar(pct(seen,total))+seen+' / '+total+delta(seen, po?po.seen:null)+'</td>'
+      + ansCell(a, po && typeof po.ans === "number" ? po.ans : null)
+      + (aT==null ? '<td class="num" style="color:var(--muted)">—</td>' : '<td class="num">'+aT+'</td>')
       + '<td class="num">'+mast+delta(mast, po?po.mast:null)+'</td>'
-      + '<td class="num">'+(o.sess!=null?o.sess:"—")+'</td>'
-      + '<td class="num">'+(o.lee!=null?o.lee:"—")+'</td>'
-      + '<td class="num">'+(ex?ex.avg+' % <span style="color:var(--muted)">('+ex.tests+')</span>':"—")+'</td>';
+      + (acc==null ? '<td class="num" style="color:var(--muted)">—</td>' : '<td class="num" style="color:var(--ink-soft)">'+acc+' %</td>')
+      + '<td class="num" style="color:var(--ink-soft)">'+seen+' / '+total+'</td>'
+      + '<td class="num" style="color:var(--ink-soft)">'+(o.sess!=null?o.sess:"—")+'</td>'
+      + '<td class="num" style="color:var(--ink-soft)">'+(o.lee!=null?o.lee:"—")+'</td>'
+      + '<td class="num" style="color:var(--ink-soft)">'+(ex?ex.avg+' % <span style="color:var(--muted)">('+ex.tests+')</span>':"—")+'</td>'
+      + '<td class="num" style="color:var(--ink-soft)">'+fmtDate(c.t)+'</td>'
+      + '<td class="num" style="color:var(--ink-soft)">'+st.codes.length+'</td>';
     const rowOut = [dispName(c)].concat(withId?[idText(c)]:[]).concat([clsOf(c)])
-                   .concat([fmtDate(c.t), st.codes.length, seen, total, mast,
-                    o.sess!=null?o.sess:"", o.lee!=null?o.lee:"", ex?ex.avg:""]);
+                   .concat([a==null?"":a, aT==null?"":aT, mast, acc==null?"":acc,
+                            seen, total, o.sess!=null?o.sess:"", o.lee!=null?o.lee:"", ex?ex.avg:"",
+                            fmtDate(c.t), st.codes.length]);
     units.forEach(u=>{
       const d = (c.u||{})[u];
       if(!d){ html += '<td class="num" style="color:var(--muted)">—</td>'; rowOut.push(""); }
       else{
-        const acc = d[3]!=null ? d[3] : pct(d[0]||0, d[1]||0);
-        html += '<td class="num">'+acc+' %<br><span style="color:var(--muted);font-size:.85em">'
-              + (d[0]||0)+'/'+(d[1]||0)+'</span></td>';
-        rowOut.push(acc);
+        const uacc = d[3]!=null ? d[3] : pct(d[0]||0, d[1]||0), ua = typeof d[4] === "number" ? d[4] : null;
+        html += '<td class="num">'+(ua!=null?'<b>'+ua+'</b>':'<span style="color:var(--muted)">—</span>')
+              + '<br><span style="color:var(--muted);font-size:.8em">'+(d[2]||0)+' mastered · '+uacc+' %</span></td>';
+        rowOut.push(ua!=null?ua:"");
       }
     });
     html += '</tr>';
@@ -1365,22 +1446,24 @@ function dosTable(studs, id){
   const secSet = new Set();
   studs.forEach(s=>s.codes.forEach(c=>Object.keys(c.s||{}).forEach(k=>secSet.add(k))));
   const secs = [...secSet].sort((a,b)=>a.localeCompare(b,undefined,{numeric:true}));
+  const few = fewAnswers(studs);
 
   const withId = anyId(studs);
   const header = ["Student"].concat(withId?["ID"]:[]).concat(["Class"])
-                 .concat(["Exported","Codes","Attempted","Average %","Ticked not scored",
-                          "Done","Of","Opened","% complete","Flagged hard"])
+                 .concat(["Questions answered","Since the task","Activities mastered (80 %+)","Average %",
+                          "Activities attempted","Ticked not scored","Done","Of","Opened","Flagged hard","Last sent","Codes"])
                  .concat(secs);
   const rows = [];
 
   let html = '<div class="wrap"><table class="stats"><thead><tr>'
            + '<th>Student</th>'+(withId?'<th>ID</th>':'')+'<th>Class</th>'
-           + '<th>Exported</th><th>#</th>'
-           + '<th title="Activities with a real recorded score">Attempted</th>'
+           + '<th title="Every question answered, all time — the key figure">Answered</th>'
+           + '<th title="Answers given since the task link\'s start date">Since task</th>'
+           + '<th title="Activities with a best score of 80 % or more">Mastered</th>'
            + '<th title="Mean of the best score in each activity attempted">Average</th>'
+           + '<th title="Activities with a real recorded score">Attempted</th>'
            + '<th title="Marked done by the student with no score behind it">Ticked only</th>'
-           + '<th>Done</th><th>Opened</th>'
-           + '<th>% complete</th><th>Flagged hard</th>'
+           + '<th>Done</th><th>Opened</th><th>Flagged hard</th><th>Sent</th><th>#</th>'
            + secs.map(s=>'<th>'+esc(s)+'</th>').join("")
            + '</tr></thead><tbody>';
 
@@ -1388,37 +1471,37 @@ function dosTable(studs, id){
     const c = st.cur, o = c.o||{}, po = st.prev ? (st.prev.o||{}) : null;
     const done = o.done||0, total = o.total||0, opened = o.opened||0;
     const hard = Array.isArray(c.h) ? c.h.length : 0;
-    const o2 = c.o || {};
-    const att = o2.scored != null ? o2.scored : attempted(c).length;
-    const avg = o2.avg != null ? o2.avg : null;
-    const claimed = o2.claimed != null ? o2.claimed : null;
-    /* Two things worth catching at a glance: browsing without finishing,
-       and ticking without doing. The second is what v2 exists to show. */
-    const flag = (opened >= 8 && done === 0) || (claimed != null && claimed >= 10 && att <= 2);
-    html += '<tr'+(flag?' class="flag"':'')+'>'
+    const att = o.scored != null ? o.scored : attempted(c).length;
+    const avg = o.avg != null ? o.avg : null;
+    const claimed = o.claimed != null ? o.claimed : null;
+    const a = ansAll(c), aT = ansTask(c), mast = mastOf(c, "dos");
+    const ticking = claimed != null && claimed >= 10 && att <= 2;
+    const flag = few(st) || ticking;
+    html += '<tr'+(flag?' class="flag" title="'+(ticking?'Ticking activities without doing them':'Few questions answered compared with the rest of the group')+'"':'')+'>'
       + '<td class="name"'+seenTitle(c)+'>'+esc(dispName(c))+(staleCode(c, lang)?' <span title="This code was made against a different list of activities" style="color:var(--or)">⚠</span>':'')+removeBtn(st, kind, glang)+'</td>'
       + (withId?'<td class="num">'+idCell(c)+'</td>':'')
       + '<td class="num">'+clsCell(c)+'</td>'
-      + '<td class="num">'+fmtDate(c.t)+'</td>'
-      + '<td class="num">'+st.codes.length+'</td>'
-      + '<td class="num">'+att+delta(att, po?po.scored:null)+'</td>'
-      + (avg==null ? '<td class="num" style="color:var(--muted)">—</td>' : bandCell(avg))
-      + '<td class="num">'+(claimed==null?'—':(claimed||'—'))+'</td>'
-      + '<td class="num">'+bar(pct(done,total))+done+' / '+total+delta(done, po?po.done:null)+'</td>'
-      + '<td class="num">'+opened+delta(opened, po?po.opened:null)+'</td>'
-      + '<td class="num">'+pct(done,total)+' %</td>'
-      + '<td class="num">'+(hard||"—")+'</td>';
+      + ansCell(a, po && typeof po.ans === "number" ? po.ans : null)
+      + (aT==null ? '<td class="num" style="color:var(--muted)">—</td>' : '<td class="num">'+aT+'</td>')
+      + '<td class="num">'+mast+'</td>'
+      + (avg==null ? '<td class="num" style="color:var(--muted)">—</td>' : '<td class="num" style="color:var(--ink-soft)">'+avg+' %</td>')
+      + '<td class="num" style="color:var(--ink-soft)">'+att+'</td>'
+      + '<td class="num" style="color:var(--ink-soft)">'+(claimed==null?'—':(claimed||'—'))+'</td>'
+      + '<td class="num" style="color:var(--ink-soft)">'+done+' / '+total+'</td>'
+      + '<td class="num" style="color:var(--ink-soft)">'+opened+'</td>'
+      + '<td class="num" style="color:var(--ink-soft)">'+(hard||"—")+'</td>'
+      + '<td class="num" style="color:var(--ink-soft)">'+fmtDate(c.t)+'</td>'
+      + '<td class="num" style="color:var(--ink-soft)">'+st.codes.length+'</td>';
     const rowOut = [dispName(c)].concat(withId?[idText(c)]:[]).concat([clsOf(c)])
-                   .concat([fmtDate(c.t), st.codes.length, att, avg, claimed,
-                            done, total, opened, pct(done,total), hard]);
+                   .concat([a==null?"":a, aT==null?"":aT, mast, avg==null?"":avg,
+                            att, claimed==null?"":claimed, done, total, opened, hard, fmtDate(c.t), st.codes.length]);
     secs.forEach(k=>{
       const d = (c.s||{})[k];
       if(!d){ html += '<td class="num" style="color:var(--muted)">—</td>'; rowOut.push(""); }
       else{
-        /* v2 sections carry [done, of, scored, average]; v1 only the first two. */
         const secAvg = d.length>3 && d[3]!=null ? d[3] : null;
         html += '<td class="num">'+(d[0]||0)+'/'+(d[1]||0)
-              + (secAvg!=null ? ' <span style="color:var(--muted)">·</span> <b>'+secAvg+' %</b>' : '')
+              + (secAvg!=null ? ' <span style="color:var(--muted)">· '+secAvg+' %</span>' : '')
               + '</td>';
         rowOut.push((d[0]||0)+"/"+(d[1]||0)+(secAvg!=null?(" · "+secAvg+" %"):""));
       }
@@ -1442,13 +1525,17 @@ function detailBlock(studs, g){
       const l = Array.isArray(c.l) ? c.l : [];
       if(!l.length) return;
       inner += '<p style="margin:12px 0 4px"><b>'+esc(dispName(c))+'</b></p><div class="wrap">'
-             + '<table class="stats"><thead><tr><th>Lesson</th><th>Seen</th><th>Of</th><th>Accuracy</th></tr></thead><tbody>';
-      l.slice().sort((a,b)=>String(a[0]).localeCompare(String(b[0]),undefined,{numeric:true}))
+             + '<table class="stats"><thead><tr><th>Lesson</th><th>Answered</th><th>Since task</th><th>Mastered</th><th>Accuracy</th><th>Seen</th></tr></thead><tbody>';
+      l.slice().sort((a,b)=>((typeof b[4]==="number"?b[4]:-1)-(typeof a[4]==="number"?a[4]:-1))
+                          || String(a[0]).localeCompare(String(b[0]),undefined,{numeric:true}))
        .forEach(r=>{
         const acc = r[3]!=null ? r[3] : pct(r[1]||0, r[2]||0);
-        inner += '<tr><td>'+lessonLabel(String(r[0]), g.lang)+'</td><td class="num">'+(r[1]||0)+'</td>'
-               + '<td class="num">'+(r[2]||0)+'</td>'
-               + '<td class="num">'+bar(acc)+acc+' %</td></tr>';
+        const m = v => typeof v === "number" ? v : '<span style="color:var(--muted)">—</span>';
+        inner += '<tr><td>'+lessonLabel(String(r[0]), g.lang)+'</td>'
+               + '<td class="num"><b>'+m(r[4])+'</b></td><td class="num">'+m(r[6])+'</td>'
+               + '<td class="num">'+m(r[5])+'</td>'
+               + '<td class="num" style="color:var(--ink-soft)">'+acc+' %</td>'
+               + '<td class="num" style="color:var(--ink-soft)">'+(r[1]||0)+' / '+(r[2]||0)+'</td></tr>';
        });
       inner += '</tbody></table></div>';
     } else {
