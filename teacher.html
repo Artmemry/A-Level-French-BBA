@@ -190,6 +190,12 @@ table.match tr.guess select{border-color:#9FB6D4;background:#F5F9FF}
         <p class="hint" id="tClsHint" style="margin:4px 0 0"></p></div>
       <div><label for="tDue">Due</label><input id="tDue" type="date"></div>
       <div><label for="tSince">Counts from</label><input id="tSince" type="date"></div>
+      <div class="wide" id="tModeWrap"><label>How the vocabulary lists are practised</label>
+        <div style="display:flex;gap:8px 20px;flex-wrap:wrap;margin-top:6px;font-size:.9rem">
+          <label style="font-weight:400;display:flex;gap:6px;align-items:center"><input type="checkbox" id="tRead" checked> Reading first (into English), word by word until recognised</label>
+          <label style="font-weight:400;display:flex;gap:6px;align-items:center;color:var(--ink-soft)"><input type="checkbox" checked disabled> Writing (into the target language) — always; a list is done at 95 % written correctly</label>
+          <label style="font-weight:400;display:flex;gap:6px;align-items:center"><input type="checkbox" id="tDict"> Listening (dictation)</label>
+        </div></div>
       <div class="wide" id="tNoteWrap"><label for="tNote">One line for the student (optional)</label>
         <input id="tNote" placeholder="e.g. Bring your score to Thursday's lesson"></div>
     </div>
@@ -337,6 +343,8 @@ table.match tr.guess select{border-color:#9FB6D4;background:#F5F9FF}
       The columns follow the department's order of interest.
       <b>1 · Answered</b> — every question the student has answered, all time: the key figure, with the
       change since their previous code. <b>Since task</b> — answers given since the task link's start date.
+      <b>Writing</b> — the part of those answers typed in the target language. <b>Task</b> — lists of the
+      student's current homework that are done: 95 % of the words written correctly since the task was set.
       <b>2 · Mastered</b> — on a vocab site, words answered correctly enough times to leave the review cycle;
       on an exam-practice site, activities with a best score of 80 % or more.
       <b>3 · Accuracy</b> — the share of answers that were right (vocab), or the mean best mark (exam practice).
@@ -510,6 +518,14 @@ function fewAnswers(studs){
   if (v.length < 3) return ()=>false;
   const med = v[Math.floor(v.length/2)];
   return st => { const a = ansAll(st.cur); return a != null && a < med/2; };
+}
+/* the student's current task: lists done (95 % written) out of lists set */
+function taskText(c){ const t = c && c.a; return t && Array.isArray(t.done) ? t.done.filter(Boolean).length + " / " + t.done.length : ""; }
+function taskCell(c){
+  const t = c && c.a;
+  if (!t || !Array.isArray(t.done)) return '<td class="num" style="color:var(--muted)">—</td>';
+  const d = t.done.filter(Boolean).length, n = t.done.length;
+  return '<td class="num" title="'+esc(t.lab||"")+'" style="color:'+(d===n?'#2E7D52':'var(--ink)')+'">'+d+' / '+n+(d===n?' ✓':'')+'</td>';
 }
 function delta(cur, prev){
   if(prev==null || cur==null || cur===prev) return "";
@@ -1385,7 +1401,7 @@ function lexTable(studs, id){
 
   const withId = anyId(studs);
   const header = ["Student"].concat(withId?["ID"]:[]).concat(["Class"])
-                 .concat(["Questions answered","Since the task","Words mastered","Accuracy %",
+                 .concat(["Questions answered","of which writing","Task lists done","Since the task","Words mastered","Accuracy %",
                           "Words seen","Of","Sessions","Leeches","Exam avg","Last sent","Codes"])
                  .concat(units.map(u=>u+" answered"));
   const rows = [];
@@ -1393,6 +1409,8 @@ function lexTable(studs, id){
   let html = '<div class="wrap"><table class="stats"><thead><tr>'
            + '<th>Student</th>'+(withId?'<th>ID</th>':'')+'<th>Class</th>'
            + '<th title="Every answer given, all time — the key figure">Answered</th>'
+           + '<th title="Answers typed in the target language (English → target), all time">Writing</th>'
+           + '<th title="Lists of the current task with 95 % of their words written correctly">Task</th>'
            + '<th title="Answers given since the task link\'s start date">Since task</th>'
            + '<th>Mastered</th><th>Accuracy</th>'
            + '<th>Seen</th><th>Sessions</th><th>Leeches</th><th>Exam avg</th><th>Sent</th><th>#</th>'
@@ -1410,6 +1428,8 @@ function lexTable(studs, id){
       + (withId?'<td class="num">'+idCell(c)+'</td>':'')
       + '<td class="num">'+clsCell(c)+'</td>'
       + ansCell(a, po && typeof po.ans === "number" ? po.ans : null)
+      + (typeof o.ansW === "number" ? '<td class="num">'+o.ansW+'</td>' : '<td class="num" style="color:var(--muted)">—</td>')
+      + taskCell(c)
       + (aT==null ? '<td class="num" style="color:var(--muted)">—</td>' : '<td class="num">'+aT+'</td>')
       + '<td class="num">'+mast+delta(mast, po?po.mast:null)+'</td>'
       + (acc==null ? '<td class="num" style="color:var(--muted)">—</td>' : '<td class="num" style="color:var(--ink-soft)">'+acc+' %</td>')
@@ -1420,7 +1440,7 @@ function lexTable(studs, id){
       + '<td class="num" style="color:var(--ink-soft)">'+fmtDate(c.t)+'</td>'
       + '<td class="num" style="color:var(--ink-soft)">'+st.codes.length+'</td>';
     const rowOut = [dispName(c)].concat(withId?[idText(c)]:[]).concat([clsOf(c)])
-                   .concat([a==null?"":a, aT==null?"":aT, mast, acc==null?"":acc,
+                   .concat([a==null?"":a, typeof o.ansW === "number" ? o.ansW : "", taskText(c), aT==null?"":aT, mast, acc==null?"":acc,
                             seen, total, o.sess!=null?o.sess:"", o.lee!=null?o.lee:"", ex?ex.avg:"",
                             fmtDate(c.t), st.codes.length]);
     units.forEach(u=>{
@@ -2528,6 +2548,8 @@ function renderTaskTabs(){
   });
   $("#tLabel").placeholder = "e.g. " + TASK_SITES[taskSite].ex;
   $("#tNoteWrap").style.display = TASK_SITES[taskSite].kind === "lex" ? "none" : "";
+  /* reading / writing / listening apply to the A-Level vocab sites; the KS3 & KS4 sites keep their own choice */
+  $("#tModeWrap").style.display = (TASK_SITES[taskSite].kind === "seq" || (TASK_SITES[taskSite].kind === "lex" && !isKS(taskSite))) ? "" : "none";
   $("#tOut").classList.add("hidden");
   const cur = savedTasks()[taskSite];
   $("#tNow").innerHTML = cur
@@ -2583,6 +2605,13 @@ function makeTask(){
   if (!keys.length){ alert("Tick at least one " + (s.kind==="lex" ? "list" : "activity or list") + "."); return; }
   const o = {label:label, since:$("#tSince").value || new Date().toISOString().slice(0,10), due:$("#tDue").value || "", t:Date.now()};
   if (taskCls) o.cls = taskCls;
+  /* the teacher's choice of skills, only when it differs from the default (reading on, dictation off) */
+  if ($("#tModeWrap").style.display !== "none"){
+    const m = {};
+    if (!$("#tRead").checked) m.r = 0;
+    if ($("#tDict").checked) m.d = 1;
+    if (Object.keys(m).length) o.m = m;
+  }
   let base = s.base;
   if (s.kind === "seq"){
     /* list order, which puts vocabulary first and the site second */
