@@ -702,6 +702,7 @@ Je ne pensais plus à rien. Mais le président m'a demandé si je n'avais rien �
                     <div class="question-number">3</div>
                     <div class="question-text">Analyse : Comment le point de vue à la première personne renforce-t-il le sentiment d'exclusion de Meursault ? (100-150 mots)</div>
                     <textarea id="answer3" placeholder="Écrivez votre analyse ici..."></textarea>
+                    <button class="btn" onclick="writeFeedback(3)">Commentaires</button>
                     <button class="btn" onclick="showModelAnswer(3)">Voir un exemple de réponse</button>
                     <div class="feedback"></div>
                 </div>
@@ -758,6 +759,7 @@ Je ne pensais plus à rien. Mais le président m'a demandé si je n'avais rien �
                     <div class="question-number">7</div>
                     <div class="question-text">Analyse : En quoi le discours du procureur révèle-t-il que Meursault est jugé pour son refus des conventions sociales plutôt que pour le meurtre ? (150-200 mots)</div>
                     <textarea id="answer7" placeholder="Développez votre analyse..."></textarea>
+                    <button class="btn" onclick="writeFeedback(7)">Commentaires</button>
                     <button class="btn" onclick="showModelAnswer(7)">Voir un exemple de réponse</button>
                     <div class="feedback"></div>
                 </div>
@@ -801,6 +803,7 @@ Je ne pensais plus à rien. Mais le président m'a demandé si je n'avais rien �
                     <div class="question-number">10</div>
                     <div class="question-text">Analyse stylistique : Pourquoi Meursault met-il certains mots entre guillemets (comme "sa maîtresse" ou "de moralité douteuse") ? (100-150 mots)</div>
                     <textarea id="answer10" placeholder="Analysez le rapport au langage..."></textarea>
+                    <button class="btn" onclick="writeFeedback(10)">Commentaires</button>
                     <button class="btn" onclick="showModelAnswer(10)">Voir un exemple de réponse</button>
                     <div class="feedback"></div>
                 </div>
@@ -857,6 +860,7 @@ Je ne pensais plus à rien. Mais le président m'a demandé si je n'avais rien �
                     <div class="question-number">14</div>
                     <div class="question-text">Analyse : En quoi la défense de l'avocat est-elle aussi absurde que l'accusation du procureur ? (150-200 mots)</div>
                     <textarea id="answer14" placeholder="Développez votre analyse..."></textarea>
+                    <button class="btn" onclick="writeFeedback(14)">Commentaires</button>
                     <button class="btn" onclick="showModelAnswer(14)">Voir un exemple de réponse</button>
                     <div class="feedback"></div>
                 </div>
@@ -913,6 +917,7 @@ Je ne pensais plus à rien. Mais le président m'a demandé si je n'avais rien �
                     <div class="question-number">18</div>
                     <div class="question-text">Analyse : Comment les souvenirs sensoriels contrastent-ils avec la froideur du procès ? Que révèle ce contraste sur la perception de Meursault ? (150-200 mots)</div>
                     <textarea id="answer18" placeholder="Analysez ce contraste..."></textarea>
+                    <button class="btn" onclick="writeFeedback(18)">Commentaires</button>
                     <button class="btn" onclick="showModelAnswer(18)">Voir un exemple de réponse</button>
                     <div class="feedback"></div>
                 </div>
@@ -924,12 +929,12 @@ Je ne pensais plus à rien. Mais le président m'a demandé si je n'avais rien �
                 
                 <div class="question">
                     <div class="question-number">19</div>
-                    <div class="question-text">Selon vous, pourquoi Meursault est-il condamné à mort ?</div>
+                    <div class="question-text">D'après ce chapitre, sur quoi repose surtout la condamnation de Meursault ?</div>
                     <div class="options">
-                        <div class="option" data-answer="a" data-question="19">a) Pour le meurtre de l'Arabe</div>
-                        <div class="option" data-answer="b" data-question="19">b) Pour n'avoir pas pleuré à l'enterrement de sa mère</div>
-                        <div class="option" data-answer="c" data-question="19">c) Pour son refus des conventions sociales et son incapacité à jouer le jeu social</div>
-                        <div class="option" data-answer="d" data-question="19">d) Pour son manque de remords</div>
+                        <div class="option" data-answer="a" data-question="19">a) Uniquement sur le meurtre de l'Arabe</div>
+                        <div class="option" data-answer="b" data-question="19">b) Sur des aveux obtenus sous la pression</div>
+                        <div class="option" data-answer="c" data-question="19">c) Sur sa personnalité et son refus des conventions sociales, autant que sur le meurtre</div>
+                        <div class="option" data-answer="d" data-question="19">d) Sur le témoignage de Raymond</div>
                     </div>
                     <button class="btn" onclick="checkAnswer(this, 'c', 5)">Vérifier</button>
                     <div class="feedback"></div>
@@ -940,6 +945,7 @@ Je ne pensais plus à rien. Mais le président m'a demandé si je n'avais rien �
                     <div class="question-text">Dissertation courte : En quoi ce chapitre illustre-t-il l'absurdité du système judiciaire et plus généralement de la société ? Rédigez une réponse structurée. (250-300 mots)</div>
                     <div class="hint">💡 Structure possible : I. L'exclusion de l'accusé / II. Le jugement des apparences plutôt que des actes / III. Le langage comme instrument d'aliénation</div>
                     <textarea id="answer20" style="min-height: 150px;" placeholder="Rédigez votre dissertation..."></textarea>
+                    <button class="btn" onclick="writeFeedback(20)">Commentaires</button>
                     <button class="btn" onclick="showModelAnswer(20)">Voir un exemple de réponse</button>
                     <div class="feedback"></div>
                 </div>
@@ -1229,8 +1235,15 @@ Je ne pensais plus à rien. Mais le président m'a demandé si je n'avais rien �
                     scores[questionId] = true;
                 }
             } else {
+                if (question.dataset.last !== selectedAnswer) { question.dataset.tries = (+question.dataset.tries || 0) + 1; question.dataset.last = selectedAnswer; }
+                if (+question.dataset.tries < 2) {
+                    feedback.className = 'feedback show incorrect';
+                    feedback.innerHTML = '✗ Not yet. Read the passage again, choose another answer and check.';
+                    options.forEach(option => { if (option.dataset.answer === selectedAnswer) option.classList.add('incorrect'); });
+                    return;
+                }
                 feedback.className = 'feedback show incorrect';
-                feedback.innerHTML = '✗ Pas tout à fait. Relisez le texte et réfléchissez à nouveau.';
+                feedback.innerHTML = '✗ Second try. The right answer is now highlighted.';
                 options.forEach(option => {
                     if (option.dataset.answer === correctAnswer) {
                         option.classList.add('correct');
@@ -1248,6 +1261,34 @@ Je ne pensais plus à rien. Mais le président m'a demandé si je n'avais rien �
             
             button.disabled = true;
             updateScore();
+        }
+
+
+        /* Click feedback on written answers: length, quotation, connectors, analytical verbs */
+        function writeFeedback(n) {
+            const ta = document.getElementById('answer' + n);
+            const q = ta.closest('.question');
+            const fb = q.querySelector('.feedback');
+            const txt = ta.value.trim();
+            const words = (txt.match(/[A-Za-zÀ-ÿœŒ'’-]+/g) || []).length;
+            const m = (q.querySelector('.question-text') || q).textContent.match(/(\d+)\s*-\s*(\d+)\s*mots/);
+            const lo = m ? +m[1] : 80, hi = m ? +m[2] : 200;
+            if (words < 25) { fb.className = 'feedback show incorrect'; fb.innerHTML = 'Write at least ' + lo + ' words first, then ask for comments.'; return; }
+            const t = ' ' + txt.toLowerCase().replace(/[’]/g, "'") + ' ';
+            const quote = /«[^»]{4,}»|"[^"]{4,}"/.test(txt);
+            const conn = ['cependant','pourtant','néanmoins','toutefois','en revanche','alors que','par conséquent','ainsi','de plus','en outre','par ailleurs',"c'est pourquoi",'en effet','bien que',"bien qu'",'donc'].filter(k => t.includes(' ' + k));
+            const verbs = ['souligne','révèle','illustre','traduit','met en évidence','met en lumière','suggère','symbolise','dénonce','montre','incarne','reflète','témoigne'].filter(k => t.includes(' ' + k));
+            const lenOk = words >= lo && words <= hi + 30;
+            const rows = [
+                [lenOk, words + ' words (target ' + lo + '–' + hi + ')'],
+                [quote, 'a short quotation from the text in « »'],
+                [conn.length >= 2, 'connectors' + (conn.length ? ': ' + conn.join(', ') : '')],
+                [verbs.length >= 1, 'analytical verbs' + (verbs.length ? ': ' + verbs.join(', ') : '')]
+            ];
+            const k = rows.filter(r => r[0]).length;
+            fb.className = 'feedback show ' + (k >= 3 ? 'correct' : 'incorrect');
+            fb.innerHTML = '<strong>Commentaires — ' + k + ' of 4</strong><br>' + rows.map(r => (r[0] ? '✔ ' : '✘ ') + r[1]).join('<br>') +
+                '<br><em>The check looks for key features, not for meaning: compare with the example answer next.</em>';
         }
 
         function showModelAnswer(questionNum) {

@@ -441,6 +441,7 @@
                 <div class="question">
                     <div class="question-text">3. Réponse courte : En quoi le titre « L'Étranger » s'applique-t-il à Meursault dans cette scène de procès ? (50-100 mots)</div>
                     <textarea id="answer3" placeholder="Écrivez votre réponse ici..."></textarea>
+                    <button class="btn" onclick="writeFeedback(3)">Commentaires</button>
                     <button class="btn" onclick="showModelAnswer(3)">Voir un exemple de réponse</button>
                     <div class="feedback"></div>
                 </div>
@@ -481,6 +482,7 @@
                 <div class="question">
                     <div class="question-text">6. Analyse : Expliquez comment le point de vue interne crée un effet de distanciation. Citez des expressions précises du texte. (150-200 mots)</div>
                     <textarea id="answer6" placeholder="Développez votre analyse..."></textarea>
+                    <button class="btn" onclick="writeFeedback(6)">Commentaires</button>
                     <button class="btn" onclick="showModelAnswer(6)">Voir un exemple de réponse</button>
                     <div class="feedback"></div>
                 </div>
@@ -533,6 +535,7 @@
                 <div class="question">
                     <div class="question-text">10. Réponse développée : Analysez le paradoxe de la situation de Meursault - comment peut-il être simultanément au centre (comme accusé) et exclu de son propre procès ? (200-250 mots)</div>
                     <textarea id="answer10" placeholder="Rédigez votre réponse..."></textarea>
+                    <button class="btn" onclick="writeFeedback(10)">Commentaires</button>
                     <button class="btn" onclick="showModelAnswer(10)">Voir un exemple de réponse</button>
                     <div class="feedback"></div>
                 </div>
@@ -581,6 +584,7 @@
                 <div class="question">
                     <div class="question-text">14. Analyse stylistique : Pourquoi Meursault met-il certains mots entre guillemets (par exemple "sa maîtresse") ? Que montre cela sur son rapport au langage ? (150-200 mots)</div>
                     <textarea id="answer14" placeholder="Analysez le rapport au langage..."></textarea>
+                    <button class="btn" onclick="writeFeedback(14)">Commentaires</button>
                     <button class="btn" onclick="showModelAnswer(14)">Voir un exemple de réponse</button>
                     <div class="feedback"></div>
                 </div>
@@ -617,6 +621,7 @@
                 <div class="question">
                     <div class="question-text">17. Réponse de synthèse : Comment Camus utilise-t-il le langage pour montrer l'aliénation de Meursault ? Analysez avec des exemples du texte. (200-250 mots)</div>
                     <textarea id="answer17" placeholder="Analysez l'utilisation du langage..."></textarea>
+                    <button class="btn" onclick="writeFeedback(17)">Commentaires</button>
                     <button class="btn" onclick="showModelAnswer(17)">Voir un exemple de réponse</button>
                     <div class="feedback"></div>
                 </div>
@@ -641,6 +646,7 @@
                 <div class="question">
                     <div class="question-text">19. Pourquoi peut-on dire que Meursault est condamné pour son refus des conventions sociales plutôt que pour le meurtre lui-même ?</div>
                     <textarea id="answer19" placeholder="Réfléchissez à cette question centrale..."></textarea>
+                    <button class="btn" onclick="writeFeedback(19)">Commentaires</button>
                     <button class="btn" onclick="showModelAnswer(19)">Voir un exemple de réponse</button>
                     <div class="feedback"></div>
                 </div>
@@ -649,6 +655,7 @@
                     <div class="question-text">20. Dissertation courte : Comment ce passage illustre-t-il les thèmes de l'aliénation et de l'incompréhension dans L'Étranger ? Rédigez une réponse structurée. (300-400 mots)</div>
                     <div class="hint">💡 Pensez à structurer votre réponse : I. L'aliénation de Meursault face au langage / II. L'exclusion du procès / III. Le refus des conventions sociales</div>
                     <textarea id="answer20" style="min-height: 200px;" placeholder="Rédigez votre dissertation..."></textarea>
+                    <button class="btn" onclick="writeFeedback(20)">Commentaires</button>
                     <button class="btn" onclick="showModelAnswer(20)">Voir un exemple de réponse</button>
                     <div class="feedback"></div>
                 </div>
@@ -755,8 +762,15 @@
                     scores[questionId] = true;
                 }
             } else {
+                if (question.dataset.last !== selectedAnswer) { question.dataset.tries = (+question.dataset.tries || 0) + 1; question.dataset.last = selectedAnswer; }
+                if (+question.dataset.tries < 2) {
+                    feedback.className = 'feedback show incorrect';
+                    feedback.innerHTML = '✗ Not yet. Read the passage again, choose another answer and check.';
+                    options.forEach(option => { if (option.dataset.answer === selectedAnswer) option.classList.add('incorrect'); });
+                    return;
+                }
                 feedback.className = 'feedback show incorrect';
-                feedback.innerHTML = '✗ Pas tout à fait. Relisez le texte et réfléchissez à nouveau.';
+                feedback.innerHTML = '✗ Second try. The right answer is now highlighted.';
                 options.forEach(option => {
                     if (option.dataset.answer === correctAnswer) {
                         option.classList.add('correct');
@@ -774,6 +788,34 @@
             
             button.disabled = true;
             updateScore();
+        }
+
+
+        /* Click feedback on written answers: length, quotation, connectors, analytical verbs */
+        function writeFeedback(n) {
+            const ta = document.getElementById('answer' + n);
+            const q = ta.closest('.question');
+            const fb = q.querySelector('.feedback');
+            const txt = ta.value.trim();
+            const words = (txt.match(/[A-Za-zÀ-ÿœŒ'’-]+/g) || []).length;
+            const m = (q.querySelector('.question-text') || q).textContent.match(/(\d+)\s*-\s*(\d+)\s*mots/);
+            const lo = m ? +m[1] : 80, hi = m ? +m[2] : 200;
+            if (words < 25) { fb.className = 'feedback show incorrect'; fb.innerHTML = 'Write at least ' + lo + ' words first, then ask for comments.'; return; }
+            const t = ' ' + txt.toLowerCase().replace(/[’]/g, "'") + ' ';
+            const quote = /«[^»]{4,}»|"[^"]{4,}"/.test(txt);
+            const conn = ['cependant','pourtant','néanmoins','toutefois','en revanche','alors que','par conséquent','ainsi','de plus','en outre','par ailleurs',"c'est pourquoi",'en effet','bien que',"bien qu'",'donc'].filter(k => t.includes(' ' + k));
+            const verbs = ['souligne','révèle','illustre','traduit','met en évidence','met en lumière','suggère','symbolise','dénonce','montre','incarne','reflète','témoigne'].filter(k => t.includes(' ' + k));
+            const lenOk = words >= lo && words <= hi + 30;
+            const rows = [
+                [lenOk, words + ' words (target ' + lo + '–' + hi + ')'],
+                [quote, 'a short quotation from the text in « »'],
+                [conn.length >= 2, 'connectors' + (conn.length ? ': ' + conn.join(', ') : '')],
+                [verbs.length >= 1, 'analytical verbs' + (verbs.length ? ': ' + verbs.join(', ') : '')]
+            ];
+            const k = rows.filter(r => r[0]).length;
+            fb.className = 'feedback show ' + (k >= 3 ? 'correct' : 'incorrect');
+            fb.innerHTML = '<strong>Commentaires — ' + k + ' of 4</strong><br>' + rows.map(r => (r[0] ? '✔ ' : '✘ ') + r[1]).join('<br>') +
+                '<br><em>The check looks for key features, not for meaning: compare with the example answer next.</em>';
         }
 
         function showModelAnswer(questionNum) {

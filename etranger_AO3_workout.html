@@ -3,1024 +3,305 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>L'Étranger – AO3 Range of Language Workout (19/19/10)</title>
+<title>L'Étranger – AO3 Range of Language Workout</title>
+<meta name="description" content="A-Level French AO3: a top-band Edexcel essay on L'Étranger used to spot complex structures, correct slips, transform sentences, vary vocabulary and write a paragraph.">
 <style>
-  :root {
-    --bg: #0f1226;
-    --bg2: #181c3a;
-    --panel: #1f2447;
-    --panel2: #262c55;
-    --ink: #f4f4ff;
-    --muted: #b6bbe0;
-    --accent: #ffd166;
-    --ok: #06d6a0;
-    --bad: #ef476f;
-    --shadow: 0 10px 30px rgba(0,0,0,.35);
-
-    --c-subj:   #f7b801;   /* Subjunctive */
-    --c-pass:   #7b6df1;   /* Passive */
-    --c-cond:   #ff7ab6;   /* Conditional / hypothetical */
-    --c-plup:   #4cc9f0;   /* Pluperfect */
-    --c-rel:    #00bbf9;   /* Relative pronouns */
-    --c-link:   #06d6a0;   /* Linking phrases */
-    --c-lit:    #ffd166;   /* Literary / analytic vocab */
-    --c-eval:   #ff9f1c;   /* Evaluative adjectives */
-    --c-cleft:  #c77dff;   /* Cleft / emphatic */
-    --c-imp:    #80ed99;   /* Impersonal */
-    --c-rep:    #ff5d8f;   /* Repetition / weak spots */
-  }
-  * { box-sizing: border-box; }
-  html, body {
-    margin: 0; padding: 0; min-height: 100%;
-    font-family: "Georgia", "Iowan Old Style", serif;
-    background:
-      radial-gradient(1200px 600px at 10% -10%, #2a2370 0%, transparent 60%),
-      radial-gradient(900px 500px at 110% 10%, #41207a 0%, transparent 60%),
-      linear-gradient(180deg, var(--bg) 0%, #0a0d1f 100%);
-    color: var(--ink);
-    overflow-x: hidden;
-  }
-  header.hero {
-    padding: 36px 28px 18px;
-    text-align: center;
-  }
-  header.hero h1 {
-    margin: 0 0 6px;
-    font-size: clamp(1.6rem, 3vw, 2.4rem);
-    letter-spacing: .3px;
-  }
-  header.hero h1 span.score {
-    background: linear-gradient(90deg, #ffd166, #ef476f);
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-    font-weight: 800;
-  }
-  header.hero p {
-    margin: 6px auto 0;
-    max-width: 820px;
-    color: var(--muted);
-    font-family: "Inter","Helvetica Neue",Arial,sans-serif;
-    font-size: .98rem;
-    line-height: 1.55;
-  }
-  .wrap {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 18px 160px;
-  }
-  .panel {
-    background: linear-gradient(180deg, var(--panel) 0%, var(--panel2) 100%);
-    border-radius: 18px;
-    padding: 22px;
-    box-shadow: var(--shadow);
-    margin: 18px 0;
-    border: 1px solid rgba(255,255,255,.05);
-  }
-  h2.section {
-    margin: 0 0 12px;
-    font-size: 1.25rem;
-    letter-spacing: .3px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-  h2.section .badge {
-    font-family: "Inter",sans-serif;
-    font-size: .65rem;
-    background: var(--accent);
-    color: #2b1d00;
-    border-radius: 999px;
-    padding: 4px 10px;
-    font-weight: 800;
-    letter-spacing: .5px;
-  }
-
-  /* Category toggles */
-  .legend {
-    display: flex; flex-wrap: wrap; gap: 8px;
-    margin-bottom: 14px;
-    font-family: "Inter",sans-serif;
-    font-size: .82rem;
-  }
-  .legend button {
-    border: 1px solid rgba(255,255,255,.18);
-    background: rgba(255,255,255,.04);
-    color: var(--ink);
-    padding: 7px 11px;
-    border-radius: 999px;
-    cursor: pointer;
-    display: inline-flex; align-items: center; gap: 7px;
-    transition: transform .12s ease, background .2s;
-  }
-  .legend button:hover { transform: translateY(-1px); }
-  .legend button.off { opacity: .35; }
-  .legend .dot {
-    width: 12px; height: 12px; border-radius: 50%;
-    box-shadow: 0 0 0 2px rgba(0,0,0,.25) inset;
-  }
-  /* Highlight styles */
-  .hl { padding: 1px 4px; border-radius: 4px; transition: background .25s, color .25s; }
-  .essay { line-height: 1.85; font-size: 1.04rem; }
-  .essay .qn { color: var(--muted); font-style: italic; margin-bottom: 10px; display: block; }
-
-  body.show-subj  .subj  { background: color-mix(in srgb, var(--c-subj) 35%, transparent); }
-  body.show-pass  .pass  { background: color-mix(in srgb, var(--c-pass) 40%, transparent); }
-  body.show-cond  .cond  { background: color-mix(in srgb, var(--c-cond) 35%, transparent); }
-  body.show-plup  .plup  { background: color-mix(in srgb, var(--c-plup) 35%, transparent); }
-  body.show-rel   .rel   { background: color-mix(in srgb, var(--c-rel) 35%, transparent); }
-  body.show-link  .link  { background: color-mix(in srgb, var(--c-link) 40%, transparent); }
-  body.show-lit   .lit   { background: color-mix(in srgb, var(--c-lit) 40%, transparent); color:#1b1a00;}
-  body.show-eval  .eval  { background: color-mix(in srgb, var(--c-eval) 45%, transparent); color:#2a1300;}
-  body.show-cleft .cleft { background: color-mix(in srgb, var(--c-cleft) 35%, transparent); }
-  body.show-imp   .imp   { background: color-mix(in srgb, var(--c-imp) 35%, transparent); color:#0a2614;}
-  body.show-rep   .rep   { outline: 2px dashed var(--c-rep); outline-offset: 1px; }
-
-  /* Typology table */
-  table.typo {
-    width: 100%; border-collapse: collapse;
-    font-family: "Inter",sans-serif; font-size: .92rem;
-  }
-  table.typo th, table.typo td {
-    text-align: left; padding: 9px 10px;
-    border-bottom: 1px solid rgba(255,255,255,.08);
-    vertical-align: top;
-  }
-  table.typo th { color: var(--accent); font-weight: 700; }
-  table.typo td.cat { width: 170px; font-weight: 700; }
-  table.typo td.eg { color: var(--muted); }
-  table.typo td.eg em { color: #fff; font-style: normal; background: rgba(255,255,255,.06); padding:1px 4px; border-radius:4px;}
-
-  /* Tabs */
-  .tabs {
-    display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 14px;
-    font-family: "Inter",sans-serif; font-size: .9rem;
-  }
-  .tabs button {
-    padding: 9px 14px;
-    border: 1px solid rgba(255,255,255,.12);
-    background: rgba(255,255,255,.04);
-    color: var(--ink);
-    border-radius: 10px 10px 0 0;
-    cursor: pointer;
-  }
-  .tabs button.active {
-    background: var(--accent);
-    color: #2b1d00;
-    border-color: var(--accent);
-    font-weight: 700;
-  }
-  .tab-content { display: none; }
-  .tab-content.active { display: block; }
-
-  /* Activity styles */
-  .activity { font-family: "Inter",sans-serif; font-size: .98rem; line-height: 1.7; }
-  .activity .prompt { background: rgba(255,255,255,.05); border-left: 4px solid var(--accent);
-    padding: 10px 14px; border-radius: 8px; margin: 10px 0; }
-  .gap input, textarea, .answer-input {
-    background: #11142e;
-    border: 1px solid rgba(255,255,255,.15);
-    color: var(--ink);
-    border-radius: 6px;
-    padding: 6px 8px;
-    font-family: inherit;
-    font-size: .95rem;
-    transition: border-color .15s, box-shadow .15s;
-  }
-  .gap input { width: 170px; margin: 2px; }
-  textarea { width: 100%; min-height: 84px; resize: vertical; }
-  .gap input.correct, textarea.correct { border-color: var(--ok); box-shadow: 0 0 0 3px rgba(6,214,160,.18); }
-  .gap input.wrong,   textarea.wrong   { border-color: var(--bad); box-shadow: 0 0 0 3px rgba(239,71,111,.18); }
-  .wordbank {
-    display: flex; flex-wrap: wrap; gap: 8px;
-    margin: 8px 0 14px;
-  }
-  .wordbank .chip {
-    background: rgba(255,255,255,.07);
-    padding: 6px 10px; border-radius: 999px;
-    border: 1px dashed rgba(255,255,255,.15);
-    cursor: grab; user-select: none;
-    transition: transform .1s;
-    font-size: .9rem;
-  }
-  .wordbank .chip:hover { transform: translateY(-1px); }
-  .wordbank .chip.used { opacity: .35; text-decoration: line-through; }
-
-  .btn {
-    background: var(--accent); color: #2b1d00; border: none;
-    padding: 9px 16px; border-radius: 10px; cursor: pointer;
-    font-family: "Inter",sans-serif; font-weight: 700; font-size: .9rem;
-    box-shadow: 0 6px 14px rgba(255,209,102,.2);
-    transition: transform .1s ease, box-shadow .15s ease;
-  }
-  .btn:hover { transform: translateY(-1px); }
-  .btn.ghost {
-    background: transparent; color: var(--ink); border: 1px solid rgba(255,255,255,.2);
-    box-shadow: none;
-  }
-  .btn.ok { background: var(--ok); color: #052b1f; }
-  .btn-row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px; }
-
-  .score-bar {
-    display: flex; justify-content: space-between; align-items: center;
-    margin: 6px 0 8px; font-family: "Inter", sans-serif; font-size: .9rem;
-    color: var(--muted);
-  }
-  .score-bar .score-pill {
-    background: rgba(255,255,255,.07);
-    padding: 4px 10px; border-radius: 999px;
-    color: var(--ink); font-weight: 700;
-  }
-  .timer {
-    font-variant-numeric: tabular-nums;
-    background: rgba(239,71,111,.15);
-    color: #ffc4d4;
-    padding: 4px 10px; border-radius: 999px;
-    border: 1px solid rgba(239,71,111,.3);
-  }
-  .feedback {
-    margin-top: 8px;
-    font-family: "Inter",sans-serif;
-    font-size: .9rem;
-    min-height: 24px;
-  }
-  .feedback.ok { color: var(--ok); }
-  .feedback.bad { color: var(--bad); }
-
-  /* Floating accent keyboard */
-  #accent-kb {
-    position: fixed;
-    bottom: 18px; right: 18px;
-    z-index: 50;
-    background: rgba(20,22,52,.95);
-    backdrop-filter: blur(8px);
-    border: 1px solid rgba(255,255,255,.12);
-    border-radius: 14px;
-    padding: 10px;
-    box-shadow: var(--shadow);
-    max-width: 320px;
-    font-family: "Inter", sans-serif;
-    user-select: none;
-  }
-  #accent-kb header {
-    display: flex; align-items:center; justify-content: space-between;
-    font-size: .75rem; color: var(--muted); margin-bottom: 6px;
-    cursor: move;
-  }
-  #accent-kb header .grip { letter-spacing: 2px; }
-  #accent-kb .keys {
-    display: grid; grid-template-columns: repeat(8, 1fr); gap: 4px;
-  }
-  #accent-kb .keys button {
-    background: rgba(255,255,255,.06);
-    color: var(--ink);
-    border: 1px solid rgba(255,255,255,.1);
-    border-radius: 7px;
-    padding: 7px 0;
-    font-size: 1rem;
-    cursor: pointer;
-    transition: background .15s, transform .1s;
-  }
-  #accent-kb .keys button:hover { background: rgba(255,255,255,.15); transform: translateY(-1px); }
-  #accent-kb .hint {
-    font-size: .7rem; color: var(--muted); margin-top: 6px; text-align:center;
-  }
-  #accent-kb.collapsed .keys, #accent-kb.collapsed .hint { display: none; }
-
-  /* Download bar */
-  .download-bar {
-    position: fixed;
-    bottom: 18px; left: 18px;
-    z-index: 50;
-    display: flex; gap: 8px;
-  }
-
-  /* Synonym chain */
-  .chain-row { display:flex; align-items:center; gap:8px; flex-wrap: wrap; margin:6px 0;}
-  .chain-row .seed {
-    background: rgba(255,209,102,.18); color: var(--accent);
-    padding: 4px 10px; border-radius: 8px; font-weight: 700;
-  }
-  .chain-row input { flex: 1; min-width: 130px; }
-
-  /* Examiner notes */
-  .note {
-    background: rgba(255,255,255,.04);
-    border-left: 4px solid var(--c-rep);
-    padding: 10px 14px; border-radius: 6px;
-    font-family: "Inter",sans-serif; font-size: .92rem;
-    color: var(--muted);
-  }
-  .note strong { color: #fff; }
-
-  /* Small */
-  .muted { color: var(--muted); font-family: "Inter",sans-serif; font-size: .85rem; }
-  details.alt {
-    margin-top: 8px;
-    background: rgba(255,255,255,.03);
-    border-radius: 8px; padding: 6px 10px;
-    font-family: "Inter",sans-serif; font-size: .88rem;
-  }
-  details.alt summary { cursor: pointer; color: var(--accent); }
-  .kbd {
-    font-family: ui-monospace, monospace; background: rgba(255,255,255,.08);
-    padding: 1px 5px; border-radius: 4px; font-size: .85em;
-  }
-  @media (max-width: 640px) {
-    #accent-kb { right: 8px; bottom: 8px; max-width: 280px; }
-    #accent-kb .keys { grid-template-columns: repeat(7, 1fr); }
-    .download-bar { left: 8px; bottom: 8px; }
-  }
+:root{
+  --paper:#f6f1e7; --card:#fffdf8; --ink:#2a2320; --soft:#6a5a4c; --line:#dcd0bb;
+  --ox:#6e1f2a; --ox2:#8f3340; --oxs:#f4e4e4; --green:#1f4d3a; --gs:#e3efe8;
+  --gold:#a8843a; --golds:#f7efd9; --bad:#a23b2a; --bads:#fbe9e5; --ok:#226a43;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--paper);color:var(--ink);font:17px/1.55 Georgia,"Times New Roman",serif}
+.ui{font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+.wrap{max-width:920px;margin:0 auto;padding:22px 16px 160px}
+header{border-bottom:3px double var(--ox);padding-bottom:14px;margin-bottom:8px}
+.kicker{font:600 12px/1.2 system-ui,sans-serif;letter-spacing:.16em;text-transform:uppercase;color:var(--ox)}
+h1{font-size:31px;line-height:1.15;margin:6px 0 6px;color:var(--ox)}
+.lead{color:var(--soft);margin:0 0 4px;font:15px/1.55 system-ui,sans-serif}
+.score{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;margin-top:10px;font:14px system-ui,sans-serif;color:var(--soft)}
+.score b{color:var(--ink);font-size:16px}
+.meter{flex:1 1 180px;height:8px;background:#e8dfcf;border-radius:99px;overflow:hidden;min-width:140px}
+.meter i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--green),#2f7a58);transition:width .4s}
+nav.tabs{display:flex;flex-wrap:wrap;gap:6px;margin:16px 0 12px;position:sticky;top:0;background:var(--paper);padding:8px 0;z-index:5;border-bottom:1px solid var(--line)}
+nav.tabs button{font:600 13.5px system-ui,sans-serif;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:999px;padding:7px 12px;cursor:pointer;display:flex;gap:6px;align-items:center}
+nav.tabs button .n{font-weight:500;color:var(--soft);font-size:12px}
+nav.tabs button[aria-selected="true"]{background:var(--ox);border-color:var(--ox);color:#fff}
+nav.tabs button[aria-selected="true"] .n{color:#f1d7d9}
+nav.tabs button.done:not([aria-selected="true"]){border-color:var(--green);color:var(--green)}
+section.ex{display:none}
+section.ex.active{display:block}
+h2{font-size:24px;margin:4px 0 6px;color:var(--green)}
+h3{font:700 13px system-ui,sans-serif;letter-spacing:.12em;text-transform:uppercase;color:var(--ox);margin:22px 0 8px}
+.how{font:15px/1.55 system-ui,sans-serif;color:var(--soft);margin:0 0 14px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px 16px;margin:10px 0;position:relative}
+.card.ok{border-color:#9cc7ae;background:#fbfefc}
+.card.rev{border-color:#e3b6ad}
+.card .qn{font:700 13px system-ui,sans-serif;color:var(--ox);margin-right:6px}
+.quote{font-style:italic}
+blockquote{margin:2px 0 10px;padding:6px 0 6px 14px;border-left:3px solid var(--gold);font-style:italic;font-size:18px}
+.ctl{display:flex;flex-wrap:wrap;gap:8px 10px;align-items:center;margin-top:10px}
+input[type=text],select,textarea{font:16px Georgia,serif;color:var(--ink);background:#fff;border:1px solid #bdae95;border-radius:7px;padding:7px 10px;max-width:100%}
+input[type=text]{width:15em}
+input.w8{width:8.5em} input.w6{width:7em}
+input.okf{border-color:var(--ok);background:#f2faf5} input.badf{border-color:var(--bad);background:var(--bads)}
+textarea{width:100%;min-height:200px;resize:vertical;line-height:1.6}
+button.b{font:600 14px system-ui,sans-serif;border-radius:7px;padding:7px 13px;cursor:pointer;border:1px solid var(--ox);background:var(--ox);color:#fff}
+button.b:disabled{opacity:.45;cursor:default}
+button.g{font:600 14px system-ui,sans-serif;border-radius:7px;padding:7px 12px;cursor:pointer;border:1px solid var(--line);background:#fff;color:var(--green)}
+button.g:disabled{opacity:.45;cursor:default}
+.opts{display:grid;gap:7px;margin-top:8px}
+.opt{display:flex;gap:10px;align-items:flex-start;text-align:left;font:15.5px/1.45 system-ui,sans-serif;border:1px solid var(--line);background:#fff;border-radius:8px;padding:9px 12px;cursor:pointer;color:var(--ink)}
+.opt:before{content:"";flex:0 0 16px;height:16px;border:2px solid #b8a98f;border-radius:50%;margin-top:2px}
+.opt.sel{border-color:var(--ox);background:var(--oxs)}
+.opt.sel:before{border-color:var(--ox);background:radial-gradient(var(--ox) 45%,transparent 50%)}
+.opt.right{border-color:var(--ok);background:#eef8f2}
+.opt.wrong{border-color:var(--bad);background:var(--bads)}
+.opt:disabled{cursor:default}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.chip{font:600 13px system-ui,sans-serif;border:1px solid #c9bba3;background:#fff;color:var(--soft);border-radius:999px;padding:6px 11px;cursor:pointer}
+.chip[aria-pressed="true"]{background:var(--green);border-color:var(--green);color:#fff}
+.chip.core{outline:2px solid var(--ok);outline-offset:1px}
+.chip.acc{outline:2px dashed var(--gold);outline-offset:1px}
+.chip.wrongc{background:var(--bad);border-color:var(--bad);color:#fff}
+.chip:disabled{cursor:default}
+.fb{margin-top:10px;font:14.5px/1.55 system-ui,sans-serif;border-radius:8px;padding:9px 12px;display:none}
+.fb.show{display:block}
+.fb.okb{background:var(--gs);color:#163a2b}
+.fb.hint{background:var(--golds);color:#4d3c14}
+.fb.revb{background:var(--bads);color:#5a1d12}
+.fb .why{margin-top:6px;color:#2b2a26}
+.tag{display:inline-block;font:700 11px system-ui,sans-serif;letter-spacing:.1em;text-transform:uppercase;padding:2px 7px;border-radius:4px;margin-right:6px}
+.tag.okt{background:var(--ok);color:#fff}.tag.ht{background:var(--gold);color:#fff}.tag.rt{background:var(--bad);color:#fff}
+.legend{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:12px 14px;font:14.5px/1.55 system-ui,sans-serif;margin-bottom:10px}
+.legend b{color:var(--ox)}
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:8px 18px}
+.who{font:13px system-ui,sans-serif;color:var(--soft)}
+.tr{line-height:2.25;font-size:17px;background:#faf6ee;border-left:3px solid var(--gold);padding:6px 12px;border-radius:4px;margin-top:6px}
+.secfoot{display:flex;justify-content:space-between;align-items:center;gap:10px;margin:18px 0 6px;flex-wrap:wrap}
+.reto{border:2px solid var(--ox);background:#fff}
+.reto .rt2{font:700 12px system-ui,sans-serif;letter-spacing:.16em;color:var(--ox)}
+.check li{margin:4px 0;list-style:none;padding-left:0}
+.check{padding:0;margin:10px 0 0;font:14.5px/1.5 system-ui,sans-serif}
+.check li:before{content:"○ ";color:#b8a98f;font-weight:700}
+.check li.on:before{content:"● ";color:var(--ok)}
+.check li.warn:before{content:"● ";color:var(--bad)}
+.qcheck{font:14px/1.5 system-ui,sans-serif;margin-top:8px}
+.qcheck div{padding:3px 0}
+.qcheck .y{color:var(--ok)} .qcheck .n{color:var(--bad)}
+.titles label{display:flex;gap:8px;align-items:flex-start;font:15.5px/1.45 Georgia,serif;margin:6px 0;cursor:pointer}
+.tips{font:14.5px/1.55 system-ui,sans-serif;background:var(--oxs);border-radius:8px;padding:10px 12px;margin:10px 0}
+.res{font:15px/1.6 system-ui,sans-serif}
+.res table{border-collapse:collapse;width:100%;margin:8px 0}
+.res td,.res th{border-bottom:1px solid var(--line);padding:6px 4px;text-align:left}
+.src{font:13px/1.5 system-ui,sans-serif;color:var(--soft);margin-top:22px}
+@media (max-width:640px){h1{font-size:25px}.cols{grid-template-columns:1fr}input[type=text]{width:100%}input.w8,input.w6{width:8em}nav.tabs{flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}nav.tabs::-webkit-scrollbar{display:none}nav.tabs button{padding:6px 10px;font-size:12.5px;flex:0 0 auto;white-space:nowrap}}
+@media print{nav.tabs,.secfoot,button{display:none!important}section.ex{display:block!important}}
+</style>
+<style>
+.sent{font-size:18px;line-height:2.1}
+.sent input{width:9em;font-size:16px;padding:4px 8px;margin:0 2px}
+.en{font:14px/1.45 system-ui,sans-serif;color:var(--soft);margin:0 0 4px}
+.cue{font:13px system-ui,sans-serif;color:var(--soft)}
+.rule{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--green);border-radius:8px;padding:10px 14px;font:14.5px/1.55 system-ui,sans-serif;margin:6px 0 12px}
 </style>
 </head>
-<body class="show-subj show-pass show-cond show-plup show-rel show-link show-lit show-eval show-cleft show-imp">
-
-<header class="hero">
-  <h1>L'Étranger — AO3 Range of Language <span class="score">Workout</span></h1>
-  <p>Modelled on an examiner-marked A-Level Edexcel essay (<strong>19/20 • 19/20 • 10/10</strong>) on the role of secondary characters in Camus's <em>L'Étranger</em>. Fast-paced drills to push you into the top band (17–20): consistent variation of complex structures, vocabulary, and analytic terminology.</p>
-</header>
-
+<body>
 <div class="wrap">
-
-  <!-- ====================== COLOUR LEGEND ====================== -->
-  <section class="panel">
-    <h2 class="section">Step 1 — The model essay, colour-coded <span class="badge">CLICK A CATEGORY TO TOGGLE</span></h2>
-    <div class="legend" id="legend">
-      <button data-cat="subj"><span class="dot" style="background:var(--c-subj)"></span>Subjonctif</button>
-      <button data-cat="pass"><span class="dot" style="background:var(--c-pass)"></span>Voix passive</button>
-      <button data-cat="cond"><span class="dot" style="background:var(--c-cond)"></span>Conditionnel / hypothétique</button>
-      <button data-cat="plup"><span class="dot" style="background:var(--c-plup)"></span>Plus-que-parfait</button>
-      <button data-cat="rel"><span class="dot" style="background:var(--c-rel)"></span>Pronoms relatifs complexes</button>
-      <button data-cat="link"><span class="dot" style="background:var(--c-link)"></span>Connecteurs / phrases-charnières</button>
-      <button data-cat="lit"><span class="dot" style="background:var(--c-lit)"></span>Lexique analytique</button>
-      <button data-cat="eval"><span class="dot" style="background:var(--c-eval)"></span>Adjectifs évaluatifs</button>
-      <button data-cat="cleft"><span class="dot" style="background:var(--c-cleft)"></span>Tournures clivées (c'est… qui/que)</button>
-      <button data-cat="imp"><span class="dot" style="background:var(--c-imp)"></span>Tournures impersonnelles</button>
-      <button data-cat="rep" class="off"><span class="dot" style="background:var(--c-rep)"></span>Répétitions à surveiller</button>
-    </div>
-
-    <div class="essay">
-      <span class="qn">a) « Les personnages secondaires sont superflus dans ce livre. » Analysez jusqu'à quel point ce jugement est justifié en vous référant à au moins deux personnages à part Meursault et Marie.</span>
-
-      <p>Le jugement que « les <span class="hl lit">personnages secondaires</span> sont <span class="hl eval">superflus</span> dans ce livre » est un jugement <span class="hl imp">qu'on peut dire</span> est <span class="hl eval">injustifié</span>. <span class="hl imp">Il est peut-être plus raisonnable de</span> soutenir l'idée que les <span class="hl lit">personnages secondaires</span> sont <span class="hl eval">essentiels</span> pour ce <span class="hl lit">roman</span> ; en fait, ils aident à faire progresser <span class="hl lit">l'intrigue</span>, ils soulignent des aspects importants du <span class="hl lit">caractère du personnage principal</span> et ils permettent à <span class="hl lit">l'écrivain</span> d'expliquer des <span class="hl lit">thèmes clés</span> du livre ; <span class="hl link">tels que</span> la religion et la philosophie.</p>
-
-      <p>L'histoire de ce livre se centre sur le meurtre d'un Arabe par Meursault. <span class="hl imp">On peut dire</span> que c'est l'événement le plus important pour <span class="hl lit">l'intrigue</span>. <span class="hl link rep">Pourtant</span>, sans les <span class="hl lit">personnages secondaires</span> – comme Raymond, cet événement <span class="hl cond">ne se passerait jamais</span>. Meursault lui-même dit que « Raymond lui a donné son revolver, qu'il utilise pour tuer l'Arabe » et <span class="hl rel">la raison pour laquelle</span> Meursault connaît l'Arabe en premier lieu est <span class="hl link">car</span> il est le frère de la maîtresse de Raymond. <span class="hl link rep">Alors</span>, <span class="hl imp">on ne peut pas justifier</span> l'argument que les <span class="hl lit">personnages secondaires</span> sont <span class="hl eval">superflus</span>, <span class="hl link">puisqu'ils</span> sont <span class="hl eval">clés</span> en <span class="hl rel">ce qui concerne</span> la progression de <span class="hl lit">l'intrigue</span>.</p>
-
-      <p><span class="hl link">De façon similaire</span>, <span class="hl link">bien que</span> Meursault <span class="hl subj">soit</span> <span class="hl pass">condamné</span> pour ses propres actes, en grande partie, c'est en dehors de son <span class="hl lit">procès</span>. <span class="hl link rep">Donc</span>, <span class="hl cleft">c'est seulement les personnages secondaires qui causent</span> la <span class="hl lit">condamnation</span> du <span class="hl lit">personnage principal</span>. Un autre événement clé est le juge d'instruction du livre. Le <span class="hl lit">procureur</span> décrit Meursault comme ayant « une âme criminelle » et <span class="hl link rep">alors</span>, il <span class="hl pass">est condamné</span> à mort. Ceci <span class="hl pass">est causé</span> par les actes de <span class="hl lit">personnages secondaires</span>. <span class="hl link">En guise d'exemple</span>, <span class="hl imp">on peut prendre</span> les <span class="hl lit">témoignages</span>. Beaucoup des <span class="hl lit">personnages secondaires</span> donnent des <span class="hl lit">témoignages</span> qui mènent à la <span class="hl lit">condamnation</span> de Meursault. <span class="hl link rep">Par exemple</span>, le concierge de l'asile dit que Meursault « n'<span class="hl plup">avait pas voulu</span> voir maman, qu'il <span class="hl plup">avait fumé</span>, qu'il <span class="hl plup">avait dormi</span> et qu'il <span class="hl plup">avait pris</span> du café au lait ». <span class="hl cleft">C'est pour ces raisons, et ce que les autres témoins disent, que Meursault finit</span> par être en prison. <span class="hl link">De cette manière</span>, c'est difficile de soutenir le jugement que les <span class="hl lit">personnages secondaires</span> sont <span class="hl eval">superflus</span> <span class="hl link">parce qu'ils</span> aident à causer la <span class="hl lit">condamnation</span> de Meursault.</p>
-
-      <p><span class="hl link">En outre</span>, le <span class="hl lit">caractère du personnage principal</span> est un sujet qui a beaucoup d'importance pour le <span class="hl lit">roman</span>. Quelques aspects de son <span class="hl lit">caractère</span> <span class="hl pass">sont soulignés</span> en utilisant les <span class="hl lit">personnages secondaires</span>. <span class="hl link rep">Par exemple</span>, lorsque Raymond lui demande s'il veut être son copain, Meursault répond que « ça m'était égal ». <span class="hl link">De cet exemple</span>, <span class="hl imp">on peut déduire</span> que Meursault est un homme indifférent ; quelque chose qu'il montre à travers le livre entier. <span class="hl link">Par ailleurs</span>, les <span class="hl lit">personnages secondaires</span> permettent à Meursault de démontrer son honnêteté complète. <span class="hl imp">Il est possible</span> qu'il <span class="hl cond">aurait pu se sauver</span> en disant que Raymond n'était pas son ami, mais quand le <span class="hl lit">procureur</span> lui demande si Raymond – « un monstre moral » – est son ami, il répond que oui. <span class="hl cond">Si le procureur et Raymond <span class="hl plup">avaient été exclus</span> de l'histoire par Camus</span>, <span class="hl cond">on n'aurait pas ce moment-ci</span> ; <span class="hl rel">qui nous aide</span> à mieux comprendre le <span class="hl lit">personnage principal</span>. <span class="hl link rep">Donc</span>, les <span class="hl lit">personnages secondaires</span> sont vraiment importants.</p>
-
-      <p><span class="hl link">En tant que</span> <span class="hl lit">roman philosophique</span>, « L'Étranger » discute des <span class="hl lit">thèmes</span> sérieux, comme la religion et le sens (ou plutôt le manque de sens) de la vie. Ces discussions <span class="hl pass">sont souvent provoquées</span> par les <span class="hl lit">personnages secondaires</span>. <span class="hl link rep">Par exemple</span>, lors de l'interrogatoire de Meursault, le juge d'instruction se fâche quand il parle de la religion. Il décrit Meursault comme « Monsieur l'Antéchrist » et est bouleversé quand Meursault lui dit qu'il ne « croyait pas en Dieu ». Plus tard, cette discussion de la religion <span class="hl pass">est recommencée</span> par l'aumônier quand il dit qu'il priera pour Meursault. <span class="hl link">D'une manière similaire</span>, Meursault montre au lecteur ses croyances philosophiques – comment on a tous « un seul destin » et comment « <span class="hl cond">on les condamneraient tous</span> ». <span class="hl link rep">Alors</span>, les discussions religieuses et philosophiques qui sont <span class="hl eval">essentielles</span> pour le but du <span class="hl lit">roman</span>, <span class="hl pass">sont souvent provoquées</span> par les <span class="hl lit">personnages secondaires</span> comme le juge d'instruction et l'aumônier.</p>
-
-      <p><span class="hl link">Pour conclure</span>, le jugement que « les <span class="hl lit">personnages secondaires</span> sont <span class="hl eval">superflus</span> dans ce livre » ne peut pas <span class="hl pass">être justifié</span> beaucoup car tous ces personnages jouent des rôles importants pour le <span class="hl lit">roman</span>. Ils <span class="hl pass">étaient créés</span> par <span class="hl lit">l'écrivain</span> <span class="hl link">pour que</span> <span class="hl lit">l'intrigue</span> <span class="hl subj">progresse</span>, <span class="hl link">pour qu'</span>on mieux <span class="hl subj">comprenne</span> le <span class="hl lit">personnage principal</span> et <span class="hl link">pour que</span> des discussions importantes <span class="hl subj">puissent</span> <span class="hl pass">être évoquées</span>. <span class="hl link rep">Alors</span>, ils ne sont pas <span class="hl eval">superflus</span>, ils sont <span class="hl eval">intégraux</span>.</p>
-    </div>
-  </section>
-
-  <!-- ====================== TYPOLOGY ====================== -->
-  <section class="panel">
-    <h2 class="section">Step 2 — Typology of high-level strategies <span class="badge">YOUR TOP-BAND TOOLKIT</span></h2>
-    <table class="typo">
-      <tr><th>Category</th><th>Why examiners love it (AO3)</th><th>From this essay</th></tr>
-      <tr><td class="cat" style="color:var(--c-subj)">Subjonctif</td>
-        <td>Complex mood — concession, purpose, doubt. A reliable top-band signal.</td>
-        <td class="eg"><em>bien que Meursault soit condamné</em> · <em>pour que l'intrigue progresse</em> · <em>pour qu'on mieux comprenne</em> · <em>pour que… puissent être évoquées</em></td></tr>
-      <tr><td class="cat" style="color:var(--c-pass)">Voix passive</td>
-        <td>Foregrounds the action / theme rather than the agent — analytic, formal.</td>
-        <td class="eg"><em>il est condamné à mort</em> · <em>est causé par les actes</em> · <em>sont souvent provoquées par</em> · <em>étaient créés par l'écrivain</em> · <em>être évoquées</em></td></tr>
-      <tr><td class="cat" style="color:var(--c-cond)">Conditionnel / si + plus-que-parfait</td>
-        <td>Hypothetical reasoning ("if X hadn't…, we wouldn't have…") — pure essay sophistication.</td>
-        <td class="eg"><em>cet événement ne se passerait jamais</em> · <em>il aurait pu se sauver</em> · <em>Si… avaient été exclus, on n'aurait pas…</em></td></tr>
-      <tr><td class="cat" style="color:var(--c-plup)">Plus-que-parfait</td>
-        <td>Layered timeline inside quotations and counterfactuals.</td>
-        <td class="eg"><em>n'avait pas voulu… avait fumé… avait dormi… avait pris</em> · <em>avaient été exclus</em></td></tr>
-      <tr><td class="cat" style="color:var(--c-rel)">Pronoms relatifs complexes</td>
-        <td>Beyond <em>qui/que</em>: <em>pour laquelle, ce qui, ce que, dont</em>.</td>
-        <td class="eg"><em>la raison pour laquelle</em> · <em>en ce qui concerne</em> · <em>ce que les autres témoins disent</em></td></tr>
-      <tr><td class="cat" style="color:var(--c-link)">Connecteurs / phrases-charnières</td>
-        <td>Drive the argument forward; the wider the range, the more articulate.</td>
-        <td class="eg"><em>Pourtant · De façon similaire · D'une manière similaire · En outre · Par ailleurs · En guise d'exemple · De cet exemple · De cette manière · Pour conclure · En tant que · puisque · bien que · tels que</em></td></tr>
-      <tr><td class="cat" style="color:var(--c-lit)">Lexique analytique</td>
-        <td>Terminology of literary analysis (AO3 explicitly rewards this).</td>
-        <td class="eg"><em>l'intrigue · le personnage principal/secondaire · le caractère · le thème · le roman philosophique · l'écrivain · le lecteur · le procureur · le procès · les témoignages · la condamnation</em></td></tr>
-      <tr><td class="cat" style="color:var(--c-eval)">Adjectifs évaluatifs</td>
-        <td>The job of analysis is to <em>judge</em> — precise evaluative adjectives matter.</td>
-        <td class="eg"><em>superflus · injustifié · essentiels · clés · intégraux · indifférent · bouleversé</em></td></tr>
-      <tr><td class="cat" style="color:var(--c-cleft)">Tournures clivées</td>
-        <td><em>C'est… qui/que…</em> isolates the agent or cause — analytic emphasis.</td>
-        <td class="eg"><em>c'est seulement les personnages secondaires qui causent…</em> · <em>c'est pour ces raisons que Meursault finit…</em></td></tr>
-      <tr><td class="cat" style="color:var(--c-imp)">Tournures impersonnelles</td>
-        <td>Detached, essay-like tone: <em>on peut, il est, il est possible que…</em>.</td>
-        <td class="eg"><em>on peut dire · on peut prendre · on peut déduire · il est peut-être plus raisonnable de · il est possible que…</em></td></tr>
-      <tr><td class="cat" style="color:var(--c-rep)">Stratégies anti-répétition</td>
-        <td>Synonym chains, pronominalisation, nominalisation, register switches.</td>
-        <td class="eg"><em>essentiels → clés → intégraux</em> · <em>De façon similaire / D'une manière similaire</em> · <em>En guise d'exemple / De cet exemple / Par exemple</em> · nominalisation: <em>la condamnation de Meursault</em></td></tr>
-    </table>
-
-    <details class="alt" open>
-      <summary>Examiner-style note on repetition (the small things that stop a 19 becoming a 20)</summary>
-      <div class="note" style="margin-top:8px">
-        <p><strong>Strengths:</strong> the candidate clearly cycles synonyms for the central evaluative claim — <em>essentiels → clés → intégraux</em> — and varies similarity-markers between paragraphs (<em>De façon similaire</em> / <em>D'une manière similaire</em>).</p>
-        <p><strong>Repetition to watch:</strong></p>
-        <ul>
-          <li><em>Alors</em> opens or transitions a clause <strong>5×</strong>, sometimes back-to-back. Alternatives already in the candidate's range: <em>Donc, Par conséquent, Ainsi, De ce fait, Aussi (+ inv.), C'est pourquoi…</em></li>
-          <li><em>Par exemple</em> appears <strong>4×</strong> despite <em>En guise d'exemple</em> and <em>De cet exemple</em> being used once each — full rotation would have been ideal.</li>
-          <li><em>important / importance</em> recurs; could be diversified into <em>capital, central, primordial, crucial, déterminant</em>.</li>
-          <li><em>personnages secondaires</em> is, of course, the question's terminology — but a few cataphoric/pronoun replacements (<em>ces figures, ces protagonistes, ces derniers</em>) would help.</li>
-        </ul>
-        <p>None of this prevents 19/20 — but spotting these is exactly the eye you need at top-band level.</p>
-      </div>
-    </details>
-  </section>
-
-  <!-- ====================== ACTIVITIES ====================== -->
-  <section class="panel">
-    <h2 class="section">Step 3 — Fast-paced AO3 drills <span class="badge">SPRINT MODE</span></h2>
-    <div class="score-bar">
-      <div>Global score: <span class="score-pill" id="globalScore">0</span> &nbsp; Streak: <span class="score-pill" id="streak">0</span></div>
-      <div class="timer" id="timer">⏱ 00:00</div>
-    </div>
-
-    <div class="tabs" id="tabs">
-      <button data-tab="t1" class="active">① Connecteurs</button>
-      <button data-tab="t2">② Lexique analytique</button>
-      <button data-tab="t3">③ Traduction sprint</button>
-      <button data-tab="t4">④ Transforme la phrase</button>
-      <button data-tab="t5">⑤ Chaîne de synonymes</button>
-      <button data-tab="t6">⑥ Chasse à la répétition</button>
-    </div>
-
-    <!-- Tab 1: Connecteurs gap fill -->
-    <div class="tab-content active" id="t1">
-      <div class="activity" data-activity="t1">
-        <div class="prompt">Drag-or-type the right connector into each gap. <strong>30-second target per gap.</strong> Each phrase is from the model essay.</div>
-        <div class="wordbank" id="bank1">
-          <span class="chip" draggable="true">Pourtant</span>
-          <span class="chip" draggable="true">De façon similaire</span>
-          <span class="chip" draggable="true">En outre</span>
-          <span class="chip" draggable="true">Par ailleurs</span>
-          <span class="chip" draggable="true">En guise d'exemple</span>
-          <span class="chip" draggable="true">D'une manière similaire</span>
-          <span class="chip" draggable="true">Pour conclure</span>
-          <span class="chip" draggable="true">En tant que</span>
-          <span class="chip" draggable="true">bien que</span>
-          <span class="chip" draggable="true">puisqu'</span>
-          <span class="chip" draggable="true">tels que</span>
-          <span class="chip" draggable="true">De cette manière</span>
-        </div>
-        <div class="gap" id="gap1">
-          <p>1. …ils permettent à l'écrivain d'expliquer des thèmes clés du livre&nbsp;; <input data-a="tels que"> la religion et la philosophie.</p>
-          <p>2. <input data-a="Pourtant">, sans les personnages secondaires – comme Raymond, cet événement ne se passerait jamais.</p>
-          <p>3. Alors, on ne peut pas justifier l'argument que les personnages secondaires sont superflus, <input data-a="puisqu'">ils sont clés en ce qui concerne la progression de l'intrigue.</p>
-          <p>4. <input data-a="De façon similaire">, bien que Meursault soit condamné pour ses propres actes, en grande partie, c'est en dehors de son procès.</p>
-          <p>5. <input data-a="En guise d'exemple">, on peut prendre les témoignages.</p>
-          <p>6. <input data-a="De cette manière">, c'est difficile de soutenir le jugement que les personnages secondaires sont superflus…</p>
-          <p>7. <input data-a="En outre">, le caractère du personnage principal est un sujet qui a beaucoup d'importance pour le roman.</p>
-          <p>8. <input data-a="Par ailleurs">, les personnages secondaires permettent à Meursault de démontrer son honnêteté complète.</p>
-          <p>9. <input data-a="En tant que"> roman philosophique, « L'Étranger » discute des thèmes sérieux.</p>
-          <p>10. <input data-a="D'une manière similaire">, Meursault montre au lecteur ses croyances philosophiques.</p>
-          <p>11. <input data-a="Pour conclure">, le jugement que « les personnages secondaires sont superflus dans ce livre » ne peut pas être justifié.</p>
-          <p>12. …<input data-a="bien que"> Meursault soit condamné pour ses propres actes…</p>
-        </div>
-        <div class="btn-row">
-          <button class="btn" onclick="checkGaps('t1')">Vérifier</button>
-          <button class="btn ghost" onclick="revealGaps('t1')">Révéler</button>
-          <button class="btn ghost" onclick="resetActivity('t1')">Réinitialiser</button>
-        </div>
-        <div class="feedback" id="fb-t1"></div>
-      </div>
-    </div>
-
-    <!-- Tab 2: Analytic vocab -->
-    <div class="tab-content" id="t2">
-      <div class="activity" data-activity="t2">
-        <div class="prompt">Insert the right <strong>analytic / literary term</strong>. These are the words that move you from 12 to 19 on AO3.</div>
-        <div class="wordbank" id="bank2">
-          <span class="chip" draggable="true">l'intrigue</span>
-          <span class="chip" draggable="true">le personnage principal</span>
-          <span class="chip" draggable="true">personnages secondaires</span>
-          <span class="chip" draggable="true">le caractère</span>
-          <span class="chip" draggable="true">l'écrivain</span>
-          <span class="chip" draggable="true">le lecteur</span>
-          <span class="chip" draggable="true">roman philosophique</span>
-          <span class="chip" draggable="true">le procureur</span>
-          <span class="chip" draggable="true">témoignages</span>
-          <span class="chip" draggable="true">la condamnation</span>
-          <span class="chip" draggable="true">thèmes</span>
-          <span class="chip" draggable="true">le procès</span>
-        </div>
-        <div class="gap" id="gap2">
-          <p>1. Ils aident à faire progresser <input data-a="l'intrigue">.</p>
-          <p>2. Ils soulignent des aspects importants du <input data-a="le caractère"> du <input data-a="le personnage principal">.</p>
-          <p>3. Ils permettent à <input data-a="l'écrivain"> d'expliquer des <input data-a="thèmes"> clés.</p>
-          <p>4. En grande partie, c'est en dehors de son <input data-a="le procès">.</p>
-          <p>5. C'est seulement les <input data-a="personnages secondaires"> qui causent la <input data-a="la condamnation"> du personnage principal.</p>
-          <p>6. <input data-a="le procureur"> décrit Meursault comme ayant « une âme criminelle ».</p>
-          <p>7. Beaucoup des personnages secondaires donnent des <input data-a="témoignages"> qui mènent à la condamnation.</p>
-          <p>8. En tant que <input data-a="roman philosophique">, « L'Étranger » discute des thèmes sérieux.</p>
-          <p>9. Meursault montre à <input data-a="le lecteur"> ses croyances philosophiques.</p>
-        </div>
-        <div class="btn-row">
-          <button class="btn" onclick="checkGaps('t2')">Vérifier</button>
-          <button class="btn ghost" onclick="revealGaps('t2')">Révéler</button>
-          <button class="btn ghost" onclick="resetActivity('t2')">Réinitialiser</button>
-        </div>
-        <div class="feedback" id="fb-t2"></div>
-      </div>
-    </div>
-
-    <!-- Tab 3: Translation sprint -->
-    <div class="tab-content" id="t3">
-      <div class="activity" data-activity="t3">
-        <div class="prompt">Translate into <strong>top-band French</strong>. Aim to reproduce the candidate's exact structure (subjunctive, passive, conditional perfect…). Click "Vérifier" — answers are <em>fuzzy-matched</em>, so commas and accents matter less than the key structure.</div>
-
-        <div id="trans-items">
-          <div class="trans-item">
-            <p><strong>1.</strong> "Although Meursault is condemned for his own acts, in large part, it is outside his trial."</p>
-            <textarea data-a="bien que meursault soit condamne pour ses propres actes en grande partie c est en dehors de son proces" data-must="bien que;soit condamné;procès"></textarea>
-            <details class="alt"><summary>Cible</summary>Bien que Meursault <u>soit condamné</u> pour ses propres actes, en grande partie, c'est en dehors de son procès.</details>
-          </div>
-          <div class="trans-item">
-            <p><strong>2.</strong> "If the prosecutor and Raymond had been excluded from the story by Camus, we wouldn't have this moment."</p>
-            <textarea data-a="si le procureur et raymond avaient ete exclus de l histoire par camus on n aurait pas ce moment" data-must="avaient été exclus;n'aurait;par Camus"></textarea>
-            <details class="alt"><summary>Cible</summary>Si le procureur et Raymond <u>avaient été exclus</u> de l'histoire par Camus, on <u>n'aurait pas</u> ce moment-ci.</details>
-          </div>
-          <div class="trans-item">
-            <p><strong>3.</strong> "They were created by the writer so that the plot progresses, so that we better understand the main character, and so that important discussions can be raised."</p>
-            <textarea data-a="ils etaient crees par l ecrivain pour que l intrigue progresse pour qu on mieux comprenne le personnage principal et pour que des discussions importantes puissent etre evoquees" data-must="étaient créés;pour que;progresse;comprenne;puissent;être évoquées"></textarea>
-            <details class="alt"><summary>Cible</summary>Ils <u>étaient créés</u> par l'écrivain <u>pour que</u> l'intrigue <u>progresse</u>, <u>pour qu'</u>on mieux <u>comprenne</u> le personnage principal et <u>pour que</u> des discussions importantes <u>puissent</u> <u>être évoquées</u>.</details>
-          </div>
-          <div class="trans-item">
-            <p><strong>4.</strong> "These discussions are often provoked by the secondary characters."</p>
-            <textarea data-a="ces discussions sont souvent provoquees par les personnages secondaires" data-must="sont souvent provoquées;par les personnages"></textarea>
-            <details class="alt"><summary>Cible</summary>Ces discussions <u>sont souvent provoquées</u> par les personnages secondaires.</details>
-          </div>
-          <div class="trans-item">
-            <p><strong>5.</strong> "The reason why Meursault knows the Arab in the first place is because he is the brother of Raymond's mistress."</p>
-            <textarea data-a="la raison pour laquelle meursault connait l arabe en premier lieu est car il est le frere de la maitresse de raymond" data-must="la raison pour laquelle;en premier lieu;maîtresse"></textarea>
-            <details class="alt"><summary>Cible</summary><u>La raison pour laquelle</u> Meursault connaît l'Arabe en premier lieu est car il est le frère de la maîtresse de Raymond.</details>
-          </div>
-          <div class="trans-item">
-            <p><strong>6.</strong> "It is possible that he could have saved himself by saying that Raymond was not his friend."</p>
-            <textarea data-a="il est possible qu il aurait pu se sauver en disant que raymond n etait pas son ami" data-must="Il est possible;aurait pu se sauver;n'était pas"></textarea>
-            <details class="alt"><summary>Cible</summary><u>Il est possible</u> qu'il <u>aurait pu se sauver</u> en disant que Raymond n'était pas son ami.</details>
-          </div>
-        </div>
-        <div class="btn-row">
-          <button class="btn" onclick="checkTranslations()">Vérifier</button>
-          <button class="btn ghost" onclick="resetTranslations()">Réinitialiser</button>
-        </div>
-        <div class="feedback" id="fb-t3"></div>
-      </div>
-    </div>
-
-    <!-- Tab 4: Transformation -->
-    <div class="tab-content" id="t4">
-      <div class="activity" data-activity="t4">
-        <div class="prompt">Rewrite each sentence in the target structure. <strong>One change per item.</strong></div>
-        <div id="transform-items">
-          <div class="trans-item">
-            <p><strong>1. Mets à la voix passive :</strong> « Camus a créé ces personnages. »</p>
-            <textarea data-a="ces personnages ont ete crees par camus" data-must="ont été créés;par Camus"></textarea>
-            <details class="alt"><summary>Modèle</summary>Ces personnages <u>ont été créés</u> par Camus.</details>
-          </div>
-          <div class="trans-item">
-            <p><strong>2. Concession au subjonctif :</strong> "Meursault is condemned for his own acts, but Camus wants to highlight the absurdity of the trial." → Commence par <em>Bien que…</em></p>
-            <textarea data-a="bien que meursault soit condamne pour ses propres actes camus veut souligner l absurdite du proces" data-must="Bien que;soit condamné;l'absurdité"></textarea>
-            <details class="alt"><summary>Modèle</summary><u>Bien que</u> Meursault <u>soit condamné</u> pour ses propres actes, Camus veut souligner l'absurdité du procès.</details>
-          </div>
-          <div class="trans-item">
-            <p><strong>3. Si + plus-que-parfait → conditionnel passé :</strong> Réécris « Sans Raymond, Meursault n'aurait pas tué l'Arabe » avec <em>Si Raymond n'avait pas existé…</em></p>
-            <textarea data-a="si raymond n avait pas existe meursault n aurait pas tue l arabe" data-must="n'avait pas existé;n'aurait pas tué"></textarea>
-            <details class="alt"><summary>Modèle</summary><u>Si Raymond n'avait pas existé</u>, Meursault <u>n'aurait pas tué</u> l'Arabe.</details>
-          </div>
-          <div class="trans-item">
-            <p><strong>4. Tournure clivée :</strong> « Les personnages secondaires causent la condamnation de Meursault. » → <em>Ce sont…</em></p>
-            <textarea data-a="ce sont les personnages secondaires qui causent la condamnation de meursault" data-must="Ce sont;qui causent"></textarea>
-            <details class="alt"><summary>Modèle</summary><u>Ce sont</u> les personnages secondaires <u>qui causent</u> la condamnation de Meursault.</details>
-          </div>
-          <div class="trans-item">
-            <p><strong>5. Nominalisation :</strong> Remplace le verbe par un nom. « Meursault est condamné par le tribunal. » → <em>La…</em></p>
-            <textarea data-a="la condamnation de meursault par le tribunal" data-must="condamnation de Meursault;tribunal"></textarea>
-            <details class="alt"><summary>Modèle</summary><u>La condamnation</u> de Meursault par le tribunal.</details>
-          </div>
-          <div class="trans-item">
-            <p><strong>6. Pour que + subjonctif :</strong> "Camus uses secondary characters; he wants the plot to progress." Combine en une phrase avec <em>pour que</em>.</p>
-            <textarea data-a="camus utilise des personnages secondaires pour que l intrigue progresse" data-must="pour que;l'intrigue progresse"></textarea>
-            <details class="alt"><summary>Modèle</summary>Camus utilise des personnages secondaires <u>pour que</u> <u>l'intrigue progresse</u>.</details>
-          </div>
-        </div>
-        <div class="btn-row">
-          <button class="btn" onclick="checkTransforms()">Vérifier</button>
-          <button class="btn ghost" onclick="resetTransforms()">Réinitialiser</button>
-        </div>
-        <div class="feedback" id="fb-t4"></div>
-      </div>
-    </div>
-
-    <!-- Tab 5: Synonym chain -->
-    <div class="tab-content" id="t5">
-      <div class="activity" data-activity="t5">
-        <div class="prompt">Build a <strong>3-link synonym chain</strong> for each seed adjective or connector. At least one of your answers must come from the model essay.</div>
-
-        <div class="chain-row">
-          <span class="seed">essentiel</span> →
-          <input data-a="clé,clés,clef,clefs,capital,capitale,central,centrale,crucial,cruciale,primordial,primordiale,fondamental,fondamentale" placeholder="syn. 1">
-          <input data-a="integral,integrale,intégral,intégrale,intégraux,integraux,vital,vitale,indispensable,déterminant,determinant,decisif,décisif" placeholder="syn. 2">
-          <input data-a="incontournable,necessaire,nécessaire,important,importante,significatif,significative,majeur,majeure" placeholder="syn. 3">
-        </div>
-
-        <div class="chain-row">
-          <span class="seed">Par exemple</span> →
-          <input data-a="en guise d exemple,en guise d'exemple" placeholder="syn. 1">
-          <input data-a="de cet exemple,a titre d exemple,à titre d'exemple,a titre d'exemple,à titre d exemple" placeholder="syn. 2">
-          <input data-a="notamment,pour illustrer,comme l illustre,comme l'illustre,prenons l exemple,prenons l'exemple" placeholder="syn. 3">
-        </div>
-
-        <div class="chain-row">
-          <span class="seed">Alors</span> (cause/conséquence) →
-          <input data-a="donc" placeholder="syn. 1">
-          <input data-a="par consequent,par conséquent,ainsi" placeholder="syn. 2">
-          <input data-a="de ce fait,c est pourquoi,c'est pourquoi,d ou,d'où,des lors,dès lors" placeholder="syn. 3">
-        </div>
-
-        <div class="chain-row">
-          <span class="seed">important</span> →
-          <input data-a="cle,clé,clés,cles,capital,capitale,central,centrale,crucial,cruciale" placeholder="syn. 1">
-          <input data-a="primordial,primordiale,fondamental,fondamentale,majeur,majeure,significatif,significative" placeholder="syn. 2">
-          <input data-a="essentiel,essentielle,decisif,décisif,determinant,déterminant,considerable,considérable" placeholder="syn. 3">
-        </div>
-
-        <div class="chain-row">
-          <span class="seed">De façon similaire</span> →
-          <input data-a="d une maniere similaire,d'une manière similaire" placeholder="syn. 1">
-          <input data-a="de meme,de même,pareillement" placeholder="syn. 2">
-          <input data-a="parallelement,parallèlement,par analogie,a l instar de,à l'instar de" placeholder="syn. 3">
-        </div>
-
-        <div class="btn-row">
-          <button class="btn" onclick="checkChains()">Vérifier</button>
-          <button class="btn ghost" onclick="resetChains()">Réinitialiser</button>
-        </div>
-        <div class="feedback" id="fb-t5"></div>
-      </div>
-    </div>
-
-    <!-- Tab 6: Repetition hunt -->
-    <div class="tab-content" id="t6">
-      <div class="activity" data-activity="t6">
-        <div class="prompt">In each passage, <strong>spot the repetition</strong> and propose a more elegant alternative for the underlined word. There's no single right answer — your score reflects coverage.</div>
-
-        <div class="trans-item">
-          <p><strong>1.</strong> « <u>Alors</u>, on ne peut pas justifier l'argument… <u>Alors</u>, il est condamné à mort… <u>Alors</u>, les personnages secondaires sont vraiment importants. »<br>
-          Suggère <strong>trois</strong> alternatives à <em>Alors</em> :</p>
-          <input data-a="donc,par consequent,par conséquent,ainsi,de ce fait,c est pourquoi,c'est pourquoi,des lors,dès lors,aussi" placeholder="alt 1">
-          <input data-a="donc,par consequent,par conséquent,ainsi,de ce fait,c est pourquoi,c'est pourquoi,des lors,dès lors,aussi" placeholder="alt 2">
-          <input data-a="donc,par consequent,par conséquent,ainsi,de ce fait,c est pourquoi,c'est pourquoi,des lors,dès lors,aussi" placeholder="alt 3">
-        </div>
-
-        <div class="trans-item">
-          <p><strong>2.</strong> « <u>Par exemple</u>… <u>Par exemple</u>… <u>Par exemple</u>… »<br>
-          Trois alternatives à <em>Par exemple</em> :</p>
-          <input data-a="en guise d exemple,en guise d'exemple,a titre d exemple,à titre d'exemple,a titre d'exemple,à titre d exemple,de cet exemple,notamment,pour illustrer,comme l illustre,comme l'illustre,prenons l exemple,prenons l'exemple,citons" placeholder="alt 1">
-          <input data-a="en guise d exemple,en guise d'exemple,a titre d exemple,à titre d'exemple,a titre d'exemple,à titre d exemple,de cet exemple,notamment,pour illustrer,comme l illustre,comme l'illustre,prenons l exemple,prenons l'exemple,citons" placeholder="alt 2">
-          <input data-a="en guise d exemple,en guise d'exemple,a titre d exemple,à titre d'exemple,a titre d'exemple,à titre d exemple,de cet exemple,notamment,pour illustrer,comme l illustre,comme l'illustre,prenons l exemple,prenons l'exemple,citons" placeholder="alt 3">
-        </div>
-
-        <div class="trans-item">
-          <p><strong>3.</strong> « Un sujet qui a beaucoup d'<u>importance</u> pour le roman… des aspects <u>importants</u> du caractère… des discussions <u>importantes</u>… »<br>
-          Trois adjectifs/noms variés :</p>
-          <input data-a="capital,capitale,central,centrale,crucial,cruciale,primordial,primordiale,fondamental,fondamentale,majeur,majeure,decisif,décisif,determinant,déterminant,significatif,significative,essentiel,essentielle,cle,clé,clés,clefs,vital,vitale" placeholder="alt 1">
-          <input data-a="capital,capitale,central,centrale,crucial,cruciale,primordial,primordiale,fondamental,fondamentale,majeur,majeure,decisif,décisif,determinant,déterminant,significatif,significative,essentiel,essentielle,cle,clé,clés,clefs,vital,vitale" placeholder="alt 2">
-          <input data-a="capital,capitale,central,centrale,crucial,cruciale,primordial,primordiale,fondamental,fondamentale,majeur,majeure,decisif,décisif,determinant,déterminant,significatif,significative,essentiel,essentielle,cle,clé,clés,clefs,vital,vitale" placeholder="alt 3">
-        </div>
-
-        <div class="trans-item">
-          <p><strong>4.</strong> Le nom <u>« personnages secondaires »</u> est répété ≈ 12×. Propose trois <strong>reprises élégantes</strong> (anaphoriques) :</p>
-          <input data-a="ces figures,ces protagonistes,ces derniers,ces protagonistes mineurs,ces acteurs,ces comparses,ces personnages mineurs,ils" placeholder="reprise 1">
-          <input data-a="ces figures,ces protagonistes,ces derniers,ces protagonistes mineurs,ces acteurs,ces comparses,ces personnages mineurs,ils" placeholder="reprise 2">
-          <input data-a="ces figures,ces protagonistes,ces derniers,ces protagonistes mineurs,ces acteurs,ces comparses,ces personnages mineurs,ils" placeholder="reprise 3">
-        </div>
-
-        <div class="btn-row">
-          <button class="btn" onclick="checkRepetition()">Vérifier</button>
-          <button class="btn ghost" onclick="resetRepetition()">Réinitialiser</button>
-        </div>
-        <div class="feedback" id="fb-t6"></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ====================== EXAM CHECKLIST ====================== -->
-  <section class="panel">
-    <h2 class="section">Step 4 — Pre-essay checklist <span class="badge">17–20 BAND</span></h2>
-    <p class="muted">Before submitting any A-Level essay, tick that you've used at least one of each:</p>
-    <ul style="font-family:'Inter',sans-serif; line-height:1.9;">
-      <li>☐ Two subjunctive triggers (<em>bien que / pour que / il faut que / il est possible que…</em>)</li>
-      <li>☐ One passive construction beyond <em>être + p.p.</em> in the present (<em>a été créé, sont provoquées par…</em>)</li>
-      <li>☐ One <em>si + plus-que-parfait + conditionnel passé</em> hypothetical</li>
-      <li>☐ One complex relative pronoun (<em>pour laquelle, ce que, dont, parmi lesquels…</em>)</li>
-      <li>☐ One cleft sentence (<em>C'est… qui/que…</em>)</li>
-      <li>☐ Five distinct connectors across the essay (target <strong>8+</strong>)</li>
-      <li>☐ Five analytic-vocabulary terms (<em>intrigue, caractère, thème, lecteur, roman, écrivain, narrateur…</em>)</li>
-      <li>☐ A synonym chain for your central evaluative adjective</li>
-      <li>☐ No connector / no adverb used more than 3× total</li>
-    </ul>
-  </section>
-
+<header>
+  <div class="kicker">L'Étranger · AO3</div>
+  <h1>L'Étranger — atelier de gamme (AO3)</h1>
+  <p class="lead">An examiner-marked Edexcel essay on <i>L'Étranger</i> (19/20 · 19/20 · 10/10) used as a workout for AO3 range. The essay is shown as the student wrote it: top-band range, with a few slips the examiner forgave. You will spot its structures, correct its slips, transform sentences, vary repeated words, then write your own paragraph. Press <b>Enter</b> or « Vérifier ». If you are wrong the first time you get an <i>indice</i>; the second time you see the answer. Your work saves itself on this device.</p>
+  <div class="score" aria-live="polite"><span>Points <b id="sc">0</b> / <b id="tot">0</b></span><span>du premier coup <b id="first">0</b></span><div class="meter"><i id="bar"></i></div></div>
+</header>
+<nav class="tabs" role="tablist" aria-label="Exercices" id="tabs"></nav>
+<main id="main"></main>
+<p class="src">Model essay: a BBA student's examined answer, reproduced for study. Quotations: Albert Camus, <i>L'Étranger</i> (Gallimard, 1942).</p>
 </div>
-
-<!-- ============== FLOATING ACCENT KEYBOARD ============== -->
-<div id="accent-kb">
-  <header>
-    <span class="grip">⋮⋮ ACCENTS</span>
-    <button class="btn ghost" style="padding:2px 8px;font-size:.7rem" onclick="document.getElementById('accent-kb').classList.toggle('collapsed')">⌃</button>
-  </header>
-  <div class="keys">
-    <button data-c="é">é</button>
-    <button data-c="è">è</button>
-    <button data-c="ê">ê</button>
-    <button data-c="ë">ë</button>
-    <button data-c="à">à</button>
-    <button data-c="â">â</button>
-    <button data-c="ç">ç</button>
-    <button data-c="ï">ï</button>
-    <button data-c="î">î</button>
-    <button data-c="ô">ô</button>
-    <button data-c="ö">ö</button>
-    <button data-c="ù">ù</button>
-    <button data-c="û">û</button>
-    <button data-c="ü">ü</button>
-    <button data-c="œ">œ</button>
-    <button data-c="æ">æ</button>
-    <button data-c="É">É</button>
-    <button data-c="È">È</button>
-    <button data-c="Ê">Ê</button>
-    <button data-c="À">À</button>
-    <button data-c="Ç">Ç</button>
-    <button data-c="«">«</button>
-    <button data-c="»">»</button>
-    <button data-c="…">…</button>
-  </div>
-  <div class="hint">Click into any answer box, then tap a key.</div>
-</div>
-
-<div class="download-bar">
-  <button class="btn" onclick="downloadHtml()">⬇ Download this file</button>
-  <button class="btn ghost" onclick="window.print()">🖨 Print mode</button>
-</div>
-
+<script>window.BBA_KIT = {check:false, download:false, save:false, enter:false};</script>
+<script>var D = {"key": "letranger-ao3-v2", "dlhead": "L'ÉTRANGER — ATELIER AO3", "dlfile": "LEtranger_AO3_", "sections": [{"tab": "1 · Repérer", "h2": "1 · Repérer les structures du modèle", "intro": "Read the essay, then name the structure in each extract. This is what “range” means in the AO3 grid: different types of complex language.", "rule": "**Sujet :** « Les personnages secondaires sont superflus dans ce livre. » Analysez jusqu'à quel point ce jugement est justifié en vous référant à au moins deux personnages à part Meursault et Marie.<br><br>Le jugement que « les personnages secondaires sont superflus dans ce livre » est un jugement qu'on peut dire est injustifié. Il est peut-être plus raisonnable de soutenir l'idée que les personnages secondaires sont essentiels pour ce roman ; en fait, ils aident à faire progresser l'intrigue, ils soulignent des aspects importants du caractère du personnage principal et ils permettent à l'écrivain d'expliquer des thèmes clés du livre ; tels que la religion et la philosophie.<br><br>L'histoire de ce livre se centre sur le meurtre d'un Arabe par Meursault. On peut dire que c'est l'événement le plus important pour l'intrigue. Pourtant, sans les personnages secondaires – comme Raymond, cet événement ne se passerait jamais. Meursault lui-même dit que « Raymond lui a donné son revolver, qu'il utilise pour tuer l'Arabe » et la raison pour laquelle Meursault connaît l'Arabe en premier lieu est car il est le frère de la maîtresse de Raymond. Alors, on ne peut pas justifier l'argument que les personnages secondaires sont superflus, puisqu'ils sont clés en ce qui concerne la progression de l'intrigue.<br><br>De façon similaire, bien que Meursault soit condamné pour ses propres actes, en grande partie, c'est en dehors de son procès. Donc, c'est seulement les personnages secondaires qui causent la condamnation du personnage principal. Un autre événement clé est le juge d'instruction du livre. Le procureur décrit Meursault comme ayant « une âme criminelle » et alors, il est condamné à mort. Ceci est causé par les actes de personnages secondaires. En guise d'exemple, on peut prendre les témoignages. Beaucoup des personnages secondaires donnent des témoignages qui mènent à la condamnation de Meursault. Par exemple, le concierge de l'asile dit que Meursault « n'avait pas voulu voir maman, qu'il avait fumé, qu'il avait dormi et qu'il avait pris du café au lait ». C'est pour ces raisons, et ce que les autres témoins disent, que Meursault finit par être en prison. De cette manière, c'est difficile de soutenir le jugement que les personnages secondaires sont superflus parce qu'ils aident à causer la condamnation de Meursault.<br><br>En outre, le caractère du personnage principal est un sujet qui a beaucoup d'importance pour le roman. Quelques aspects de son caractère sont soulignés en utilisant les personnages secondaires. Par exemple, lorsque Raymond lui demande s'il veut être son copain, Meursault répond que « ça m'était égal ». De cet exemple, on peut déduire que Meursault est un homme indifférent ; quelque chose qu'il montre à travers le livre entier. Par ailleurs, les personnages secondaires permettent à Meursault de démontrer son honnêteté complète. Il est possible qu'il aurait pu se sauver en disant que Raymond n'était pas son ami, mais quand le procureur lui demande si Raymond – « un monstre moral » – est son ami, il répond que oui. Si le procureur et Raymond avaient été exclus de l'histoire par Camus, on n'aurait pas ce moment-ci ; qui nous aide à mieux comprendre le personnage principal. Donc, les personnages secondaires sont vraiment importants.<br><br>En tant que roman philosophique, « L'Étranger » discute des thèmes sérieux, comme la religion et le sens (ou plutôt le manque de sens) de la vie. Ces discussions sont souvent provoquées par les personnages secondaires. Par exemple, lors de l'interrogatoire de Meursault, le juge d'instruction se fâche quand il parle de la religion. Il décrit Meursault comme « Monsieur l'Antéchrist » et est bouleversé quand Meursault lui dit qu'il ne « croyait pas en Dieu ». Plus tard, cette discussion de la religion est recommencée par l'aumônier quand il dit qu'il priera pour Meursault. D'une manière similaire, Meursault montre au lecteur ses croyances philosophiques – comment on a tous « un seul destin » et comment « on les condamneraient tous ». Alors, les discussions religieuses et philosophiques qui sont essentielles pour le but du roman, sont souvent provoquées par les personnages secondaires comme le juge d'instruction et l'aumônier.<br><br>Pour conclure, le jugement que « les personnages secondaires sont superflus dans ce livre » ne peut pas être justifié beaucoup car tous ces personnages jouent des rôles importants pour le roman. Ils étaient créés par l'écrivain pour que l'intrigue progresse, pour qu'on mieux comprenne le personnage principal et pour que des discussions importantes puissent être évoquées. Alors, ils ne sont pas superflus, ils sont intégraux.", "items": [{"t": "mc", "q": "« bien que Meursault soit condamné pour ses propres actes »", "opts": ["subjonctif après une conjonction de concession", "conditionnel passé", "voix passive au passé composé"], "a": 0, "pista": "Bien que + ?", "why": "**Subjonctif**: bien que always takes it."}, {"t": "mc", "q": "« Si le procureur et Raymond avaient été exclus de l'histoire par Camus, on n'aurait pas ce moment-ci »", "opts": ["hypothèse : si + plus-que-parfait, puis conditionnel", "subjonctif imparfait", "discours indirect libre"], "a": 0, "pista": "Si + a past tense, then a would-form.", "why": "**Si + plus-que-parfait** (passive, too: avaient été exclus) → **conditionnel**. Strictly, « on n'aurait pas eu » would match the past better."}, {"t": "mc", "q": "« la raison pour laquelle Meursault connaît l'Arabe »", "opts": ["pronom relatif composé après une préposition", "tournure clivée", "nominalisation"], "a": 0, "pista": "Pour + lequel/laquelle…", "why": "**pour laquelle**: a compound relative after a preposition."}, {"t": "mc", "q": "« c'est seulement les personnages secondaires qui causent la condamnation »", "opts": ["tournure clivée (c'est… qui) pour mettre en relief", "pronom relatif composé", "voix passive"], "a": 0, "pista": "C'est … qui …", "why": "**Clivée**. With a plural noun, the careful form is « ce sont… qui »: see section 2."}, {"t": "mc", "q": "« Ces discussions sont souvent provoquées par les personnages secondaires. »", "opts": ["voix passive avec complément d'agent", "voix active", "forme pronominale"], "a": 0, "pista": "être + participe + par…", "why": "**Passive**: the theme comes first, the agent second, as in analysis."}, {"t": "mc", "q": "« essentiels … clés … intégraux »", "opts": ["chaîne de synonymes pour éviter la répétition", "accumulation de connecteurs", "gradation de verbes"], "a": 0, "pista": "Three adjectives for one idea.", "why": "A **synonym chain**: the AO3 grid rewards “using synonyms and a variety of expressions”."}]}, {"tab": "2 · Corriger", "h2": "2 · Corriger les petites erreurs", "intro": "These slips did not cost the student marks, but they are worth fixing in your own writing. Type the corrected form.", "items": [{"t": "gap", "en": null, "es": "Il est possible qu'il {0} pu se sauver en disant que Raymond n'était pas son ami.", "gaps": [{"acc": ["ait"], "cue": "avoir, subjunctive"}], "pista": "“Il est possible que” takes the subjunctive, never the conditional.", "why": "qu'il **ait** pu (subjonctif passé), not “aurait pu”."}, {"t": "gap", "en": null, "es": "… pour qu'on {0} {1} le personnage principal.", "gaps": [{"acc": ["comprenne"], "cue": "comprendre, subjunctive"}, {"acc": ["mieux"], "cue": "better"}], "pista": "The adverb goes after the conjugated verb.", "why": "pour qu'on **comprenne mieux**: in French the adverb follows the verb."}, {"t": "gap", "en": null, "es": "Ils {0} créés par l'écrivain pour que l'intrigue progresse.", "gaps": [{"acc": ["ont été"], "cue": "passive, passé composé"}], "pista": "A completed action in the past: the passé composé of être + participle.", "why": "Ils **ont été** créés: “étaient créés” describes a state or habit, not the act of creating."}, {"t": "gap", "en": null, "es": "La raison pour laquelle Meursault connaît l'Arabe, c'est {0} il est le frère de la maîtresse de Raymond.", "gaps": [{"acc": ["qu'", "que"], "cue": "that"}], "pista": "“est car” is not French: la raison… c'est que…", "why": "c'est **qu'**il est le frère… (car cannot follow être)."}, {"t": "gap", "en": null, "es": "Donc, {0} seulement les personnages secondaires qui causent la condamnation du personnage principal.", "gaps": [{"acc": ["ce sont"], "cue": "it is (plural)"}], "pista": "A cleft sentence with a plural noun.", "why": "**ce sont** … qui (c'est … qui is common in speech, ce sont in an essay)."}, {"t": "gap", "en": null, "es": "Meursault comprend que les autres aussi, « on les {0} un jour ».", "gaps": [{"acc": ["condamnerait"], "cue": "condamner, conditional"}], "pista": "« On » takes a singular verb. The novel has it right.", "why": "« on les condamnerait un jour »: the essay misquoted it as “condamneraient”."}, {"t": "mc", "q": "L'essai écrit : “Meursault lui-même dit que « Raymond lui a donné son revolver »”. Que se passe-t-il vraiment sur la plage ?", "opts": ["Meursault demande le revolver à Raymond pour l'empêcher de tirer : « donne-moi ton revolver »", "Raymond donne son revolver à Meursault pour qu'il tue l'Arabe", "Meursault trouve le revolver dans le cabanon de Masson"], "a": 0, "pista": "Who asks for the gun, and why?", "why": "Meursault asks for it to stop Raymond shooting. A quotation must be exact: when you paraphrase, drop the « »."}]}, {"tab": "3 · Transformer", "h2": "3 · Transformer la phrase", "intro": "One change per sentence. Type the missing words.", "items": [{"t": "gap", "en": "Passive: « Camus a créé ces personnages. »", "es": "Ces personnages {0} par Camus.", "gaps": [{"acc": ["ont été créés"], "cue": "passive"}], "pista": "ont été + participle agreeing with « personnages ».", "why": "Ces personnages **ont été créés** par Camus."}, {"t": "gap", "en": "Concession: Meursault is condemned for his own acts, but Camus wants to show the absurdity of the trial.", "es": "{0} Meursault {1} condamné pour ses propres actes, Camus veut souligner l'absurdité du procès.", "gaps": [{"acc": ["Bien que", "Quoique"], "cue": "although"}, {"acc": ["soit"], "cue": "être, subjunctive"}], "pista": "Concession + subjunctive.", "why": "**Bien que** Meursault **soit** condamné…"}, {"t": "gap", "en": "Hypothesis: « Sans Raymond, Meursault n'aurait pas tué l'Arabe. »", "es": "Si Raymond n'{0} pas {1}, Meursault n'aurait pas tué l'Arabe.", "gaps": [{"acc": ["avait"], "cue": "avoir, plus-que-parfait"}, {"acc": ["existé"], "cue": "exister"}], "pista": "Si + plus-que-parfait → conditionnel passé.", "why": "Si Raymond n'**avait** pas **existé**…"}, {"t": "gap", "en": "Cleft: « Les personnages secondaires causent la condamnation de Meursault. »", "es": "{0} les personnages secondaires {1} causent la condamnation de Meursault.", "gaps": [{"acc": ["Ce sont"], "cue": "it is"}, {"acc": ["qui"], "cue": "who"}], "pista": "Ce sont… qui…", "why": "**Ce sont** les personnages secondaires **qui** causent…"}, {"t": "gap", "en": "Nominalisation: « Meursault est condamné par le tribunal, ce qui choque le lecteur. »", "es": "La {0} de Meursault par le tribunal choque le lecteur.", "gaps": [{"acc": ["condamnation"], "cue": "noun of condamner"}], "pista": "condamner → la …", "why": "La **condamnation** de Meursault…"}, {"t": "gap", "en": "Purpose: Camus uses secondary characters; he wants the plot to progress.", "es": "Camus utilise des personnages secondaires pour que l'intrigue {0}.", "gaps": [{"acc": ["progresse", "avance"], "cue": "progresser, subjunctive"}], "pista": "pour que + subjunctive (same form as the present here).", "why": "pour que l'intrigue **progresse**."}]}, {"tab": "4 · Varier", "h2": "4 · Éviter les répétitions", "intro": "The essay repeats « Alors » five times, « Par exemple » four times and « important » often. Replace the word in bold with a different expression.", "items": [{"t": "gap", "en": null, "es": "**Alors**, on ne peut pas justifier l'argument que les personnages secondaires sont superflus. → {0}, on ne peut pas justifier l'argument…", "gaps": [{"acc": ["Par conséquent", "Ainsi", "De ce fait", "C'est pourquoi", "Donc", "En conséquence"], "cue": "therefore"}], "pista": "A connector of consequence.", "why": "**Par conséquent** (ainsi, de ce fait, c'est pourquoi)."}, {"t": "gap", "en": null, "es": "**Par exemple**, le concierge de l'asile témoigne contre Meursault. → {0}, le concierge de l'asile témoigne contre Meursault.", "gaps": [{"acc": ["Ainsi", "En guise d'exemple", "Prenons le cas du concierge", "À titre d'exemple", "C'est le cas du concierge"], "cue": "for instance"}], "pista": "“À titre d'…” or a single word.", "why": "**À titre d'exemple** (ainsi, en guise d'exemple)."}, {"t": "gap", "en": null, "es": "Le caractère du personnage principal est un sujet **important** pour le roman. → … un sujet {0} pour le roman.", "gaps": [{"acc": ["essentiel", "central", "capital", "primordial", "crucial", "déterminant", "majeur"], "cue": "key"}], "pista": "One adjective, masculine singular.", "why": "**essentiel** (central, capital, primordial, crucial)."}, {"t": "gap", "en": null, "es": "« les personnages secondaires » (répété) → Raymond, le concierge, l'aumônier : {0} jouent tous un rôle décisif.", "gaps": [{"acc": ["ces derniers", "ces personnages", "ces figures", "ils", "tous ces personnages"], "cue": "these"}], "pista": "A pronoun or a demonstrative phrase that points back.", "why": "**ces derniers** (ces figures, ces personnages)."}]}, {"tab": "5 · Écrire", "h2": "5 · À vous : un paragraphe du sujet", "intro": "Write in French, then click « Commentaires ».", "items": [{"t": "w", "label": "PARAGRAPHE", "min": 100, "q": "Write one paragraph (100–150 words) answering the same question about ONE secondary character (Raymond, Salamano, Céleste, le juge d'instruction or l'aumônier). Use at least: one subjunctive, one passive, one si + plus-que-parfait, one compound relative pronoun, and one exact quotation.", "points": [["Subjunctive", ["bien que", "bien qu'", "pour que", "pour qu'", "il est possible que", "il faut que", "quoique", "sans que"]], ["Passive", ["a été", "ont été", "est provoqué", "sont provoqu", "est condamné", "est jugé", "est présenté"]], ["Si + plus-que-parfait", ["si raymond n'avait", "s'il n'avait", "si l'aumônier n'avait", "si le juge n'avait", "si salamano n'avait", "si céleste n'avait", "n'avait pas", "avait été"]], ["Compound relative pronoun", ["lequel", "laquelle", "lesquels", "auquel", "duquel", "dont", "pour laquelle"]], ["Exact quotation in « »", ["«"]]], "model": "Raymond n'est pas superflu : c'est lui qui déclenche l'intrigue. Bien que Meursault ne le juge jamais, il accepte d'écrire la lettre qui va punir la maîtresse de Raymond, parce qu'il n'avait « pas de raison de ne pas le contenter ». Sur la plage, c'est encore par Raymond que l'Arabe, frère de cette femme, entre dans la vie de Meursault. Si Raymond n'avait pas existé, la rencontre au cours de laquelle Meursault prend le revolver n'aurait jamais eu lieu. Au procès, enfin, Raymond est présenté comme un souteneur, et l'amitié de Meursault pour lui est retournée contre l'accusé. Ainsi, ce personnage secondaire relie le hasard du meurtre au jugement de la société."}]}]};</script>
 <script>
-/* ============ Category toggles ============ */
-const legendBtns = document.querySelectorAll('#legend button');
-legendBtns.forEach(b => {
-  b.addEventListener('click', () => {
-    const cat = b.dataset.cat;
-    const cls = 'show-' + cat;
-    document.body.classList.toggle(cls);
-    b.classList.toggle('off', !document.body.classList.contains(cls));
+(function(){
+"use strict";
+var KEY = D.key;
+var S = {v:1, it:{}, tab:null, pub:false};
+try{ var raw=localStorage.getItem(KEY); if(raw){ var o=JSON.parse(raw); if(o&&o.v===1) S=o; } }catch(e){}
+function save(){ try{ localStorage.setItem(KEY, JSON.stringify(S)); }catch(e){} }
+function nfc(s){ return (s||"").normalize ? s.normalize("NFC") : (s||""); }
+function deacc(s){ return nfc(s).toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,""); }
+function clean(s){ return nfc(s).replace(/[’‘ʼ]/g,"'").toLowerCase().replace(/[!?.,;:«»"“”()\[\]…]/g," ").replace(/\s+/g," ").trim(); }
+function esc(s){ return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
+function fmt(s){ return esc(s).replace(/&lt;br&gt;/g,"<br>").replace(/\*\*(.+?)\*\*/g,"<b>$1</b>"); }
+function h(tag, attrs, html){ var e=document.createElement(tag); if(attrs) for(var k in attrs){ if(k==="class") e.className=attrs[k]; else e.setAttribute(k,attrs[k]); } if(html!=null) e.innerHTML=html; return e; }
+/* strict judge: exact (case, spacing, punctuation ignored) or accent-only slip */
+function judge(given, acc){
+  var g=clean(given); if(!g) return "blank";
+  for(var i=0;i<acc.length;i++){ if(g===clean(acc[i])) return "ok"; }
+  for(i=0;i<acc.length;i++){ if(deacc(g)===deacc(clean(acc[i]))) return "accent"; }
+  return "no";
+}
+var ITEMS=[], SECS=[];
+function fbBox(card){ var f=card.querySelector(".fb"); if(!f){ f=h("div",{"class":"fb ui","aria-live":"polite"}); card.appendChild(f); } return f; }
+function wire(it){
+  var st = S.it[it.id] || (S.it[it.id]={st:null, tries:0, first:false, given:null});
+  it.state = st;
+  it.run = function(){
+    if(st.st) return;
+    var r = it.check(); if(r==="blank") return;
+    st.tries++; st.given = it.given();
+    var fb = fbBox(it.card);
+    if(r==="ok"){ st.st="ok"; st.first=(st.tries===1); it.lock(true);
+      fb.className="fb ui show okb"; fb.innerHTML='<span class="tag okt">Correct</span>'+(st.first?"First time.":"Second try.")+(it.why?'<div class="why">'+fmt(it.why)+'</div>':"");
+      it.card.classList.add("ok"); save(); refresh(); return; }
+    if(st.tries<2){
+      fb.className="fb ui show hint";
+      fb.innerHTML='<span class="tag ht">Indice</span>'+(r==="accent"?"Almost: the right form, but check the accent. ":"Not yet. ")+fmt(it.pista||"");
+      it.mark(); save(); return; }
+    st.st="rev"; it.lock(false); it.reveal();
+    fb.className="fb ui show revb"; fb.innerHTML='<span class="tag rt">Réponse</span>'+fmt(it.answerText())+(it.why?'<div class="why">'+fmt(it.why)+'</div>':"");
+    it.card.classList.add("rev"); save(); refresh();
+  };
+  it.restore = function(){
+    if(!st.st) return; it.setGiven(st.given);
+    var fb=fbBox(it.card);
+    if(st.st==="ok"){ it.lock(true); it.card.classList.add("ok"); fb.className="fb ui show okb"; fb.innerHTML='<span class="tag okt">Correct</span>'+(st.first?"First time.":"Second try.")+(it.why?'<div class="why">'+fmt(it.why)+'</div>':""); }
+    else { it.lock(false); it.reveal(); it.card.classList.add("rev"); fb.className="fb ui show revb"; fb.innerHTML='<span class="tag rt">Réponse</span>'+fmt(it.answerText())+(it.why?'<div class="why">'+fmt(it.why)+'</div>':""); }
+  };
+  ITEMS.push(it);
+}
+function controls(card, it){
+  var row=h("div",{"class":"ctl ui"}); var b=h("button",{"class":"b",type:"button"},"Vérifier");
+  var p=h("button",{"class":"g",type:"button"},"Indice");
+  b.addEventListener("click", function(){ it.run(); });
+  p.addEventListener("click", function(){ var fb=fbBox(card); if(it.state.st) return; fb.className="fb ui show hint"; fb.innerHTML='<span class="tag ht">Indice</span>'+fmt(it.pista||""); });
+  row.appendChild(b); row.appendChild(p); card.appendChild(row);
+  it.btns=[b,p];
+}
+function gapItem(sec, id, n, Q){
+  var card=h("div",{"class":"card"});
+  if(Q.en) card.appendChild(h("p",{"class":"en"},esc(Q.en)));
+  var parts=Q.es.split(/\{(\d+)\}/), html='<span class="qn">'+n+' ·</span>';
+  for(var i=0;i<parts.length;i++){
+    if(i%2===0) html+=fmt(parts[i]);
+    else { var g=Q.gaps[+parts[i]]; html+='<input type="text" data-g="'+parts[i]+'" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="trou '+(+parts[i]+1)+'">'+(g.cue?' <span class="cue">('+esc(g.cue)+')</span>':""); }
+  }
+  var s=h("div",{"class":"sent"},html); card.appendChild(s);
+  var inputs=[].slice.call(s.querySelectorAll("input"));
+  var it={id:id, sec:sec, card:card, q:Q.es.replace(/\{\d+\}/g,"___"), pista:Q.pista, why:Q.why};
+  it.given=function(){ return inputs.map(function(x){return x.value.trim();}).join(" | "); };
+  it.setGiven=function(v){ (v||"").split(" | ").forEach(function(x,i){ if(inputs[i]) inputs[i].value=x; }); };
+  it.res=function(){ return inputs.map(function(x){ return judge(x.value, Q.gaps[+x.getAttribute("data-g")].acc); }); };
+  it.check=function(){ var r=it.res(); if(r.some(function(x){return x==="blank";})) { var fb=fbBox(card); fb.className="fb ui show hint"; fb.innerHTML="Fill in every gap first."; return "blank"; }
+    if(r.every(function(x){return x==="ok";})) return "ok"; if(r.every(function(x){return x==="ok"||x==="accent";})) return "accent"; return "no"; };
+  it.mark=function(){ var r=it.res(); inputs.forEach(function(x,i){ x.classList.toggle("okf",r[i]==="ok"); x.classList.toggle("badf",r[i]!=="ok"); }); };
+  it.lock=function(good){ inputs.forEach(function(x){ x.disabled=true; x.classList.toggle("okf",good); }); it.btns.forEach(function(b){ b.disabled=true; }); };
+  it.reveal=function(){ it.mark(); };
+  it.answerText=function(){ return "**"+Q.gaps.map(function(g){return g.acc[0];}).join(" … ")+"**"+(Q.gaps.some(function(g){return g.acc.length>1;})?" (also accepted: "+Q.gaps.map(function(g){return g.acc.slice(1).join(", ");}).filter(Boolean).join("; ")+")":"")+"."; };
+  it.ans=Q.gaps.map(function(g){return g.acc[0];}).join(" | ");
+  inputs.forEach(function(x){ x.addEventListener("keydown",function(e){ if(e.key==="Enter"){ e.preventDefault(); it.run(); } }); });
+  controls(card,it); wire(it); return card;
+}
+function seeded(n,seed){ var a=[]; for(var i=0;i<n;i++) a.push(i); var x=seed; for(i=n-1;i>0;i--){ x=(x*9301+49297)%233280; var j=Math.floor(x/233280*(i+1)); var t=a[i]; a[i]=a[j]; a[j]=t; } return a; }
+function mcItem(sec, id, n, Q){
+  var card=h("div",{"class":"card"});
+  if(Q.en) card.appendChild(h("p",{"class":"en"},esc(Q.en)));
+  card.appendChild(h("div",null,'<span class="qn">'+n+' ·</span>'+fmt(Q.q)));
+  var box=h("div",{"class":"opts"}); var order=seeded(Q.opts.length, id.length*31+n*7), btns=[], sel=null;
+  order.forEach(function(k){ var b=h("button",{"class":"opt",type:"button"},fmt(Q.opts[k])); b._i=k; b.addEventListener("click",function(){ if(it.state.st) return; sel=k; btns.forEach(function(x){x.classList.toggle("sel",x._i===k);}); it.run(); }); btns.push(b); box.appendChild(b); });
+  card.appendChild(box);
+  var it={id:id, sec:sec, card:card, q:Q.q, pista:Q.pista, why:Q.why};
+  it.given=function(){ return sel==null?"":Q.opts[sel]; };
+  it.setGiven=function(v){ var k=Q.opts.indexOf(v); if(k>=0){ sel=k; btns.forEach(function(x){x.classList.toggle("sel",x._i===k);}); } };
+  it.check=function(){ return sel==null?"blank":(sel===Q.a?"ok":"no"); };
+  it.mark=function(){ btns.forEach(function(x){ if(x._i===sel) x.classList.add("wrong"); }); };
+  it.lock=function(){ btns.forEach(function(x){ x.disabled=true; if(x._i===Q.a) x.classList.add("right"); }); if(it.pb) it.pb.disabled=true; };
+  it.reveal=function(){};
+  it.answerText=function(){ return "**"+Q.opts[Q.a]+"**."; };
+  it.ans=Q.opts[Q.a];
+  var row=h("div",{"class":"ctl ui"}); var p=h("button",{"class":"g",type:"button"},"Indice"); it.pb=p;
+  p.addEventListener("click",function(){ if(it.state.st) return; var fb=fbBox(card); fb.className="fb ui show hint"; fb.innerHTML='<span class="tag ht">Indice</span>'+fmt(Q.pista||""); });
+  row.appendChild(p); card.appendChild(row);
+  wire(it); return card;
+}
+var WRITES=[];
+function covered(points, txt){ var d=" "+deacc(txt)+" "; return points.map(function(pt){ return {label:pt[0], ok: pt[1].some(function(k){ return d.indexOf(deacc(k))>=0; })}; }); }
+function wItem(sec, id, n, Q){
+  var card=h("div",{"class":"card reto"});
+  card.innerHTML='<div class="rt2 ui">'+(Q.label||"ÉCRIRE")+'</div><p class="ui" style="margin:6px 0 4px;font-size:15px">'+fmt(Q.q)+'</p>';
+  S.w=S.w||{}; var t=h("textarea",{"aria-label":Q.label||"Écrire",style:"min-height:120px"}); t.value=S.w[id]||"";
+  t.addEventListener("input",function(){ S.w[id]=t.value; save(); });
+  card.appendChild(t);
+  var row=h("div",{"class":"ctl ui"}); var b=h("button",{"class":"b",type:"button"},"Commentaires"); row.appendChild(b); card.appendChild(row);
+  var fb=h("div",{"class":"fb ui","aria-live":"polite"}); card.appendChild(fb);
+  b.addEventListener("click",function(){
+    var txt=t.value.trim(), words=(txt.match(/[A-Za-zÀ-ÿŒœ'’-]+/g)||[]).length;
+    if(words<25){ fb.className="fb ui show hint"; fb.innerHTML='<span class="tag ht">Indice</span>Write at least '+(Q.min||40)+' words first, then ask for comments. A strong answer covers:<ul class="check">'+Q.points.map(function(p){return "<li>"+esc(p[0])+"</li>";}).join("")+'</ul>'; return; }
+    var cv=covered(Q.points,txt), k=cv.filter(function(x){return x.ok;}).length;
+    fb.className="fb ui show "+(k>=Q.points.length-1?"okb":"hint");
+    fb.innerHTML='<span class="tag '+(k>=Q.points.length-1?"okt":"ht")+'">Commentaires</span>'+k+' of '+cv.length+' key points ('+words+' words).<ul class="check">'+cv.map(function(x){return '<li class="'+(x.ok?"on":"")+'">'+esc(x.label)+'</li>';}).join("")+'</ul><div class="why">The check looks for the key words of each point: a guide, not a mark.</div>'+(Q.model?'<details style="margin-top:8px"><summary>Une réponse possible</summary><p style="margin:6px 0 0">'+fmt(Q.model)+'</p></details>':"");
   });
+  WRITES.push({sec:sec,q:Q.q,get:function(){return t.value.trim();}});
+  return card;
+}
+var main=document.getElementById("main"), tabs=document.getElementById("tabs");
+D.sections.forEach(function(sx, si){
+  var id="s"+(si+1);
+  var s=h("section",{"class":"ex",id:id}); s.appendChild(h("h2",null,esc(sx.h2)));
+  if(sx.intro) s.appendChild(h("p",{"class":"how ui"},fmt(sx.intro)));
+  if(sx.rule) s.appendChild(h("div",{"class":"rule"},fmt(sx.rule)));
+  var n=0;
+  sx.items.forEach(function(Q,qi){ n++; if(Q.h3) s.appendChild(h("h3",null,esc(Q.h3)));
+    s.appendChild(Q.t==="mc" ? mcItem(id,id+"_"+qi,n,Q) : Q.t==="w" ? wItem(id,id+"_"+qi,n,Q) : gapItem(id,id+"_"+qi,n,Q)); });
+  var f=h("div",{"class":"secfoot ui"}), l=h("div"), r=h("div");
+  if(si>0) l.appendChild(h("button",{"class":"g",type:"button","data-go":"s"+si},"← Retour"));
+  var rs=h("button",{"class":"g",type:"button"},"Recommencer la section");
+  rs.addEventListener("click",function(){ if(!rs._a){ rs._a=true; rs.textContent="Cliquez encore pour effacer"; setTimeout(function(){ rs._a=false; rs.textContent="Recommencer la section"; },3000); return; }
+    ITEMS.filter(function(it){return it.sec===id;}).forEach(function(it){ delete S.it[it.id]; }); save(); location.reload(); });
+  l.appendChild(document.createTextNode(" ")); l.appendChild(rs);
+  if(si<D.sections.length-1) r.appendChild(h("button",{"class":"b",type:"button","data-go":"s"+(si+2)},"Suivant →"));
+  else { var dl=h("button",{"class":"b",type:"button"},"Télécharger mes réponses"); dl.addEventListener("click",download); r.appendChild(dl); }
+  f.appendChild(l); f.appendChild(r); s.appendChild(f);
+  main.appendChild(s);
+  var tb=h("button",{type:"button",role:"tab","data-go":id},esc(sx.tab)+' <span class="n"></span>'); tabs.appendChild(tb);
+  SECS.push({id:id, el:s, tab:tb});
 });
-
-/* ============ Tabs ============ */
-document.querySelectorAll('#tabs button').forEach(b => {
-  b.addEventListener('click', () => {
-    document.querySelectorAll('#tabs button').forEach(x => x.classList.remove('active'));
-    document.querySelectorAll('.tab-content').forEach(x => x.classList.remove('active'));
-    b.classList.add('active');
-    document.getElementById(b.dataset.tab).classList.add('active');
-  });
-});
-
-/* ============ Score + Timer ============ */
-let globalScore = 0, streak = 0, seconds = 0;
-const fmt = s => String(Math.floor(s/60)).padStart(2,'0') + ':' + String(s%60).padStart(2,'0');
-setInterval(() => { seconds++; document.getElementById('timer').textContent = '⏱ ' + fmt(seconds); }, 1000);
-
-function addScore(delta, ok) {
-  globalScore = Math.max(0, globalScore + delta);
-  document.getElementById('globalScore').textContent = globalScore;
-  if (ok) { streak++; } else { streak = 0; }
-  document.getElementById('streak').textContent = streak;
+function totals(){ var tot=ITEMS.length, sc=0, first=0, done=0; ITEMS.forEach(function(it){ var st=it.state; if(st.st==="ok"){ sc++; done++; if(st.first) first++; } else if(st.st==="rev") done++; }); return {tot:tot,sc:sc,first:first,done:done}; }
+function refresh(){
+  var T=totals(); document.getElementById("sc").textContent=T.sc; document.getElementById("tot").textContent=T.tot; document.getElementById("first").textContent=T.first;
+  document.getElementById("bar").style.width=(T.tot?Math.round(100*T.sc/T.tot):0)+"%";
+  SECS.forEach(function(s){ var its=ITEMS.filter(function(it){return it.sec===s.id;}); var d=its.filter(function(it){return it.state.st;}).length, ok=its.filter(function(it){return it.state.st==="ok";}).length; s.tab.querySelector(".n").textContent=ok+"/"+its.length; s.tab.classList.toggle("done",d===its.length); });
+  publish();
 }
-
-/* ============ Normalisation ============ */
-function norm(s){
-  return (s||'')
-    .toLowerCase()
-    .normalize('NFD').replace(/[̀-ͯ]/g,'')   // strip accents
-    .replace(/[''`]/g,"'")
-    .replace(/[^a-z0-9' ]/g,' ')
-    .replace(/\s+/g,' ')
-    .trim();
+function publish(){
+  try{ var T=totals(); var all=JSON.parse(localStorage.getItem("bba-scores")||"{}"); var f=decodeURIComponent(location.pathname.split("/").pop()||"index"); var prev=all[f]||{};
+    var rec={title:(document.title||"").slice(0,120), score:T.sc, total:T.tot, best:Math.max(T.sc,prev.best||0), attempts:(prev.attempts||0)+(S.pub?0:1), t:Date.now()};
+    var n=Math.max(0,T.done-(S.pubDone||0)); rec.ans=(prev.ans||0)+n; rec.lg={}; for(var k in (prev.lg||{})) rec.lg[k]=prev.lg[k];
+    var day=String(Math.floor(Date.now()/86400000)); if(n) rec.lg[day]=(rec.lg[day]||0)+n;
+    all[f]=rec; localStorage.setItem("bba-scores",JSON.stringify(all)); S.pub=true; S.pubDone=T.done; save(); }catch(e){}
 }
-function fuzzy(input, target) {
-  return norm(input) === norm(target);
+function studentName(){ var nm=document.querySelector("#bba-kit .nm"); var v=nm&&nm.value.trim(); if(!v){ try{ v=localStorage.getItem("bba-name")||""; }catch(e){} } return v||""; }
+function download(){
+  var T=totals(), name=studentName(), L=[];
+  L.push(D.dlhead); L.push("Nom : "+(name||"(sans nom)")); L.push("Date : "+new Date().toLocaleString("fr-FR")); L.push("Points : "+T.sc+" / "+T.tot+"  ·  du premier coup : "+T.first); L.push("");
+  SECS.forEach(function(s){ L.push("== "+s.el.querySelector("h2").textContent+" ==");
+    ITEMS.filter(function(it){return it.sec===s.id;}).forEach(function(it,i){ var st=it.state;
+      var mark=st.st==="ok"?(st.first?"✓":"✓ (2e essai)"):st.st==="rev"?"✗ → "+it.ans:"— sans réponse";
+      L.push((i+1)+". "+it.q.replace(/\*\*/g,"").replace(/\s+/g," ").slice(0,160)); L.push("   Réponse : "+(it.given()||"—")+"   ["+mark+"]"); });
+    WRITES.filter(function(w){return w.sec===s.id;}).forEach(function(w){ L.push("TEXTE : "+w.q.replace(/\*\*/g,"")); L.push(w.get()||"—"); });
+    L.push(""); });
+  var blob=new Blob([L.join("\r\n")],{type:"text/plain;charset=utf-8"}); var a=document.createElement("a"); a.href=URL.createObjectURL(blob);
+  a.download=D.dlfile+(name||"sans_nom").replace(/[^\wÀ-ÿ-]+/g,"_")+".txt"; document.body.appendChild(a); a.click(); setTimeout(function(){ URL.revokeObjectURL(a.href); a.remove(); },500);
 }
-function looseContains(text, mustList){
-  const n = norm(text);
-  return mustList.every(m => n.includes(norm(m)));
-}
-
-/* ============ Drag-and-drop helper for chips ============ */
-let draggedChip = null;
-document.querySelectorAll('.wordbank .chip').forEach(chip => {
-  chip.addEventListener('dragstart', e => {
-    draggedChip = chip;
-    e.dataTransfer.setData('text/plain', chip.textContent);
-  });
-});
-document.querySelectorAll('.gap input').forEach(inp => {
-  inp.addEventListener('dragover', e => e.preventDefault());
-  inp.addEventListener('drop', e => {
-    e.preventDefault();
-    inp.value = e.dataTransfer.getData('text/plain');
-    if (draggedChip) draggedChip.classList.add('used');
-  });
-});
-
-/* ============ Gap-fill activities (t1,t2) ============ */
-function checkGaps(tab){
-  const root = document.getElementById(tab);
-  const inputs = root.querySelectorAll('.gap input');
-  let correct = 0;
-  inputs.forEach(i => {
-    if (fuzzy(i.value, i.dataset.a)) {
-      i.classList.add('correct'); i.classList.remove('wrong'); correct++;
-    } else {
-      i.classList.add('wrong'); i.classList.remove('correct');
-    }
-  });
-  const fb = document.getElementById('fb-' + tab);
-  const pct = Math.round(correct / inputs.length * 100);
-  fb.className = 'feedback ' + (pct >= 70 ? 'ok' : 'bad');
-  fb.textContent = `${correct} / ${inputs.length} (${pct}%) — ${pct === 100 ? 'sans-faute, top band !' : pct >=70 ? 'solide, vise la perfection.' : 'révise les connecteurs avancés.'}`;
-  addScore(correct, pct === 100);
-}
-function revealGaps(tab){
-  document.querySelectorAll(`#${tab} .gap input`).forEach(i => {
-    i.value = i.dataset.a;
-    i.classList.add('correct');
-  });
-}
-function resetActivity(tab){
-  document.querySelectorAll(`#${tab} .gap input`).forEach(i => { i.value=''; i.classList.remove('correct','wrong'); });
-  document.querySelectorAll(`#${tab} .wordbank .chip`).forEach(c => c.classList.remove('used'));
-  document.getElementById('fb-' + tab).textContent = '';
-}
-
-/* ============ Translation sprint (t3) ============ */
-function checkTranslations(){
-  let correct = 0;
-  const items = document.querySelectorAll('#t3 .trans-item textarea');
-  items.forEach(ta => {
-    const must = (ta.dataset.must || '').split(';').map(s => s.trim()).filter(Boolean);
-    const ok = looseContains(ta.value, must);
-    ta.classList.toggle('correct', ok);
-    ta.classList.toggle('wrong', !ok);
-    if (ok) correct++;
-  });
-  const fb = document.getElementById('fb-t3');
-  const pct = Math.round(correct / items.length * 100);
-  fb.className = 'feedback ' + (pct >= 67 ? 'ok' : 'bad');
-  fb.textContent = `${correct} / ${items.length} key structures hit. ${pct === 100 ? 'Impeccable.' : pct >=67 ? 'Bon travail — affine la précision.' : 'Reviens sur les structures complexes.'}`;
-  addScore(correct * 2, pct === 100);
-}
-function resetTranslations(){
-  document.querySelectorAll('#t3 textarea').forEach(ta => { ta.value=''; ta.classList.remove('correct','wrong'); });
-  document.getElementById('fb-t3').textContent = '';
-}
-
-/* ============ Transforms (t4) ============ */
-function checkTransforms(){
-  let correct = 0;
-  const items = document.querySelectorAll('#t4 .trans-item textarea');
-  items.forEach(ta => {
-    const must = (ta.dataset.must || '').split(';').map(s => s.trim()).filter(Boolean);
-    const ok = looseContains(ta.value, must);
-    ta.classList.toggle('correct', ok);
-    ta.classList.toggle('wrong', !ok);
-    if (ok) correct++;
-  });
-  const fb = document.getElementById('fb-t4');
-  const pct = Math.round(correct / items.length * 100);
-  fb.className = 'feedback ' + (pct >= 67 ? 'ok' : 'bad');
-  fb.textContent = `${correct} / ${items.length} transformations réussies.`;
-  addScore(correct * 2, pct === 100);
-}
-function resetTransforms(){
-  document.querySelectorAll('#t4 textarea').forEach(ta => { ta.value=''; ta.classList.remove('correct','wrong'); });
-  document.getElementById('fb-t4').textContent = '';
-}
-
-/* ============ Chains (t5) ============ */
-function checkOneOf(input){
-  const accepted = (input.dataset.a || '').split(',').map(s => norm(s));
-  return accepted.includes(norm(input.value));
-}
-function checkChains(){
-  let correct = 0;
-  const inputs = document.querySelectorAll('#t5 input');
-  inputs.forEach(i => {
-    const ok = checkOneOf(i);
-    i.classList.toggle('correct', ok);
-    i.classList.toggle('wrong', !ok && i.value.trim() !== '');
-    if (ok) correct++;
-  });
-  const fb = document.getElementById('fb-t5');
-  const pct = Math.round(correct / inputs.length * 100);
-  fb.className = 'feedback ' + (pct >= 67 ? 'ok' : 'bad');
-  fb.textContent = `${correct} / ${inputs.length} synonymes acceptés. ${pct >= 80 ? 'Belle gamme lexicale.' : 'Diversifie davantage.'}`;
-  addScore(correct, pct === 100);
-}
-function resetChains(){
-  document.querySelectorAll('#t5 input').forEach(i => { i.value=''; i.classList.remove('correct','wrong'); });
-  document.getElementById('fb-t5').textContent = '';
-}
-
-/* ============ Repetition hunt (t6) ============ */
-function checkRepetition(){
-  let correct = 0;
-  const inputs = document.querySelectorAll('#t6 input');
-  // Ensure no duplicates within a single group
-  const groups = document.querySelectorAll('#t6 .trans-item');
-  groups.forEach(g => {
-    const seen = new Set();
-    g.querySelectorAll('input').forEach(i => {
-      const accepted = (i.dataset.a || '').split(',').map(s => norm(s));
-      const v = norm(i.value);
-      const ok = accepted.includes(v) && v !== '' && !seen.has(v);
-      if (ok) seen.add(v);
-      i.classList.toggle('correct', ok);
-      i.classList.toggle('wrong', !ok && i.value.trim() !== '');
-      if (ok) correct++;
-    });
-  });
-  const fb = document.getElementById('fb-t6');
-  const pct = Math.round(correct / inputs.length * 100);
-  fb.className = 'feedback ' + (pct >= 67 ? 'ok' : 'bad');
-  fb.textContent = `${correct} / ${inputs.length} alternatives valides. ${pct >= 80 ? 'Excellent flair stylistique.' : 'Continue à étoffer ton lexique.'}`;
-  addScore(correct, pct === 100);
-}
-function resetRepetition(){
-  document.querySelectorAll('#t6 input').forEach(i => { i.value=''; i.classList.remove('correct','wrong'); });
-  document.getElementById('fb-t6').textContent = '';
-}
-
-/* ============ Accent keyboard ============ */
-let lastFocus = null;
-document.addEventListener('focusin', e => {
-  if (e.target.matches('input, textarea')) lastFocus = e.target;
-});
-document.querySelectorAll('#accent-kb .keys button').forEach(b => {
-  b.addEventListener('click', () => {
-    if (!lastFocus) return;
-    const start = lastFocus.selectionStart ?? lastFocus.value.length;
-    const end   = lastFocus.selectionEnd ?? lastFocus.value.length;
-    const v = lastFocus.value;
-    lastFocus.value = v.slice(0,start) + b.dataset.c + v.slice(end);
-    const newPos = start + b.dataset.c.length;
-    lastFocus.focus();
-    lastFocus.setSelectionRange(newPos, newPos);
-  });
-});
-
-/* Make keyboard draggable */
-(function makeDraggable(){
-  const kb = document.getElementById('accent-kb');
-  const head = kb.querySelector('header');
-  let drag = false, ox=0, oy=0;
-  head.addEventListener('mousedown', e => {
-    drag = true;
-    const r = kb.getBoundingClientRect();
-    ox = e.clientX - r.left; oy = e.clientY - r.top;
-    kb.style.transition = 'none';
-  });
-  document.addEventListener('mousemove', e => {
-    if (!drag) return;
-    kb.style.left = (e.clientX - ox) + 'px';
-    kb.style.top  = (e.clientY - oy) + 'px';
-    kb.style.right = 'auto'; kb.style.bottom = 'auto';
-  });
-  document.addEventListener('mouseup', () => drag = false);
+function go(id){ SECS.forEach(function(s){ var on=s.id===id; s.el.classList.toggle("active",on); s.tab.setAttribute("aria-selected",on?"true":"false"); }); S.tab=id; save();
+  var nav=document.getElementById("tabs"); if(window.scrollY>nav.offsetTop) window.scrollTo({top:nav.offsetTop,behavior:"smooth"}); }
+document.addEventListener("click",function(e){ var b=e.target.closest("[data-go]"); if(b){ e.preventDefault(); go(b.getAttribute("data-go")); } });
+ITEMS.forEach(function(it){ it.restore(); });
+go(S.tab && document.getElementById(S.tab) ? S.tab : "s1"); refresh();
+window.BBAG={items:ITEMS, totals:totals, judge:judge};
 })();
-
-/* ============ Download this HTML as blob ============ */
-function downloadHtml(){
-  // Read this very document as a string
-  const doctype = '<!DOCTYPE html>\n';
-  const html = doctype + document.documentElement.outerHTML;
-  const blob = new Blob([html], {type: 'text/html;charset=utf-8'});
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = 'etranger_AO3_workout.html';
-  document.body.appendChild(a);
-  a.click();
-  a.remove();
-  setTimeout(() => URL.revokeObjectURL(url), 1000);
-}
 </script>
-   <script src="bba-kit-fr.js" defer></script>
+<script src="bba-kit-fr.js" defer></script>
 <script src="bba-send-strip.js" defer></script>
 </body>
 </html>

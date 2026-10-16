@@ -622,6 +622,7 @@
                     <div class="question-number">3</div>
                     <div class="question-text">Analyse : Que représente "la mécanique" dont Meursault veut échapper ? (100-150 mots)</div>
                     <textarea id="answer3" placeholder="Écrivez votre analyse ici..."></textarea>
+                    <button class="btn" onclick="writeFeedback(3)">Commentaires</button>
                     <button class="btn" onclick="showModelAnswer(3)">Voir un exemple de réponse</button>
                     <div class="feedback"></div>
                 </div>
@@ -678,6 +679,7 @@
                     <div class="question-number">7</div>
                     <div class="question-text">Analyse : Comment Meursault rationalise-t-il l'idée de sa propre mort ? Que révèle cette rationalisation sur sa conception de l'existence ? (150-200 mots)</div>
                     <textarea id="answer7" placeholder="Développez votre analyse..."></textarea>
+                    <button class="btn" onclick="writeFeedback(7)">Commentaires</button>
                     <button class="btn" onclick="showModelAnswer(7)">Voir un exemple de réponse</button>
                     <div class="feedback"></div>
                 </div>
@@ -721,6 +723,7 @@
                     <div class="question-number">10</div>
                     <div class="question-text">Analyse : En quoi la confrontation avec l'aumônier représente-t-elle l'affrontement entre deux visions du monde opposées ? (150-200 mots)</div>
                     <textarea id="answer10" placeholder="Analysez cette confrontation..."></textarea>
+                    <button class="btn" onclick="writeFeedback(10)">Commentaires</button>
                     <button class="btn" onclick="showModelAnswer(10)">Voir un exemple de réponse</button>
                     <div class="feedback"></div>
                 </div>
@@ -777,6 +780,7 @@
                     <div class="question-number">14</div>
                     <div class="question-text">Analyse : Pourquoi cette crise représente-t-elle une forme de libération pour Meursault ? (150-200 mots)</div>
                     <textarea id="answer14" placeholder="Développez votre analyse..."></textarea>
+                    <button class="btn" onclick="writeFeedback(14)">Commentaires</button>
                     <button class="btn" onclick="showModelAnswer(14)">Voir un exemple de réponse</button>
                     <div class="feedback"></div>
                 </div>
@@ -833,6 +837,7 @@
                     <div class="question-number">18</div>
                     <div class="question-text">Analyse : Que signifie l'expression "tendre indifférence du monde" ? Pourquoi est-ce une notion centrale dans la philosophie de Camus ? (150-200 mots)</div>
                     <textarea id="answer18" placeholder="Analysez cette expression..."></textarea>
+                    <button class="btn" onclick="writeFeedback(18)">Commentaires</button>
                     <button class="btn" onclick="showModelAnswer(18)">Voir un exemple de réponse</button>
                     <div class="feedback"></div>
                 </div>
@@ -860,6 +865,7 @@
                     <div class="question-text">Dissertation courte : Comment ce chapitre final résume-t-il et achève-t-il la philosophie de l'absurde développée dans tout le roman ? (250-300 mots)</div>
                     <div class="hint">💡 Structure possible : I. La prise de conscience de l'absurde / II. La révolte comme réponse / III. La réconciliation et la liberté ultime</div>
                     <textarea id="answer20" style="min-height: 150px;" placeholder="Rédigez votre dissertation..."></textarea>
+                    <button class="btn" onclick="writeFeedback(20)">Commentaires</button>
                     <button class="btn" onclick="showModelAnswer(20)">Voir un exemple de réponse</button>
                     <div class="feedback"></div>
                 </div>
@@ -1146,8 +1152,15 @@
                     scores[questionId] = true;
                 }
             } else {
+                if (question.dataset.last !== selectedAnswer) { question.dataset.tries = (+question.dataset.tries || 0) + 1; question.dataset.last = selectedAnswer; }
+                if (+question.dataset.tries < 2) {
+                    feedback.className = 'feedback show incorrect';
+                    feedback.innerHTML = '✗ Not yet. Read the passage again, choose another answer and check.';
+                    options.forEach(option => { if (option.dataset.answer === selectedAnswer) option.classList.add('incorrect'); });
+                    return;
+                }
                 feedback.className = 'feedback show incorrect';
-                feedback.innerHTML = '✗ Pas tout à fait. Relisez le texte et réfléchissez à nouveau.';
+                feedback.innerHTML = '✗ Second try. The right answer is now highlighted.';
                 options.forEach(option => {
                     if (option.dataset.answer === correctAnswer) {
                         option.classList.add('correct');
@@ -1165,6 +1178,34 @@
             
             button.disabled = true;
             updateScore();
+        }
+
+
+        /* Click feedback on written answers: length, quotation, connectors, analytical verbs */
+        function writeFeedback(n) {
+            const ta = document.getElementById('answer' + n);
+            const q = ta.closest('.question');
+            const fb = q.querySelector('.feedback');
+            const txt = ta.value.trim();
+            const words = (txt.match(/[A-Za-zÀ-ÿœŒ'’-]+/g) || []).length;
+            const m = (q.querySelector('.question-text') || q).textContent.match(/(\d+)\s*-\s*(\d+)\s*mots/);
+            const lo = m ? +m[1] : 80, hi = m ? +m[2] : 200;
+            if (words < 25) { fb.className = 'feedback show incorrect'; fb.innerHTML = 'Write at least ' + lo + ' words first, then ask for comments.'; return; }
+            const t = ' ' + txt.toLowerCase().replace(/[’]/g, "'") + ' ';
+            const quote = /«[^»]{4,}»|"[^"]{4,}"/.test(txt);
+            const conn = ['cependant','pourtant','néanmoins','toutefois','en revanche','alors que','par conséquent','ainsi','de plus','en outre','par ailleurs',"c'est pourquoi",'en effet','bien que',"bien qu'",'donc'].filter(k => t.includes(' ' + k));
+            const verbs = ['souligne','révèle','illustre','traduit','met en évidence','met en lumière','suggère','symbolise','dénonce','montre','incarne','reflète','témoigne'].filter(k => t.includes(' ' + k));
+            const lenOk = words >= lo && words <= hi + 30;
+            const rows = [
+                [lenOk, words + ' words (target ' + lo + '–' + hi + ')'],
+                [quote, 'a short quotation from the text in « »'],
+                [conn.length >= 2, 'connectors' + (conn.length ? ': ' + conn.join(', ') : '')],
+                [verbs.length >= 1, 'analytical verbs' + (verbs.length ? ': ' + verbs.join(', ') : '')]
+            ];
+            const k = rows.filter(r => r[0]).length;
+            fb.className = 'feedback show ' + (k >= 3 ? 'correct' : 'incorrect');
+            fb.innerHTML = '<strong>Commentaires — ' + k + ' of 4</strong><br>' + rows.map(r => (r[0] ? '✔ ' : '✘ ') + r[1]).join('<br>') +
+                '<br><em>The check looks for key features, not for meaning: compare with the example answer next.</em>';
         }
 
         function showModelAnswer(questionNum) {
