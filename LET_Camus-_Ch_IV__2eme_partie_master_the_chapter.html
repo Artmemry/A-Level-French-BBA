@@ -1,538 +1,321 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>L'Étranger - Chapitre 4 (2ème Partie) - Le Procès</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            font-family: 'Georgia', serif;
-            line-height: 1.6;
-            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
-            color: #333;
-            padding: 20px;
-            min-height: 100vh;
-        }
-        
-        .container {
-            max-width: 900px;
-            margin: 0 auto;
-            background: white;
-            border-radius: 15px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-            overflow: hidden;
-        }
-        
-        .header {
-            background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
-            color: white;
-            padding: 40px;
-            text-align: center;
-        }
-        
-        .header h1 {
-            font-size: 2.2em;
-            margin-bottom: 10px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
-        }
-        
-        .header p {
-            font-size: 1.1em;
-            opacity: 0.95;
-        }
-        
-        /* Toolbar */
-        .toolbar {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            z-index: 1000;
-        }
-        
-        .toolbar-btn {
-            background: #3498db;
-            color: white;
-            border: none;
-            padding: 15px 25px;
-            border-radius: 50px;
-            cursor: pointer;
-            font-size: 1em;
-            box-shadow: 0 5px 20px rgba(52, 152, 219, 0.5);
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            min-width: 60px;
-        }
-        
-        .toolbar-btn:hover {
-            background: #2980b9;
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(52, 152, 219, 0.6);
-        }
-        
-        .toolbar-btn.secondary {
-            background: #9b59b6;
-            box-shadow: 0 5px 20px rgba(155, 89, 182, 0.5);
-        }
-        
-        .toolbar-btn.secondary:hover {
-            background: #8e44ad;
-            box-shadow: 0 8px 25px rgba(155, 89, 182, 0.6);
-        }
-        
-        .toolbar-btn.download {
-            background: #e74c3c;
-            box-shadow: 0 5px 20px rgba(231, 76, 60, 0.5);
-        }
-        
-        .toolbar-btn.download:hover {
-            background: #c0392b;
-            box-shadow: 0 8px 25px rgba(231, 76, 60, 0.6);
-        }
-        
-        /* French Keyboard */
-        .french-keyboard {
-            position: fixed;
-            bottom: 200px;
-            right: 30px;
-            background: white;
-            border-radius: 10px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-            padding: 15px;
-            display: none;
-            flex-direction: column;
-            gap: 8px;
-            z-index: 1001;
-            border: 2px solid #3498db;
-        }
-        
-        .french-keyboard.show {
-            display: flex;
-            animation: fadeIn 0.3s ease;
-        }
-        
-        .keyboard-title {
-            font-size: 0.9em;
-            color: #3498db;
-            font-weight: bold;
-            margin-bottom: 5px;
-            text-align: center;
-            border-bottom: 1px solid #eee;
-            padding-bottom: 5px;
-        }
-        
-        .keyboard-row {
-            display: flex;
-            gap: 8px;
-            justify-content: center;
-        }
-        
-        .keyboard-key {
-            background: #f8f9fa;
-            border: 2px solid #e9ecef;
-            border-radius: 5px;
-            padding: 8px 12px;
-            cursor: pointer;
-            font-size: 1.1em;
-            transition: all 0.2s ease;
-            min-width: 40px;
-            text-align: center;
-        }
-        
-        .keyboard-key:hover {
-            background: #3498db;
-            color: white;
-            border-color: #3498db;
-            transform: translateY(-2px);
-        }
-        
-        .floating-text {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            max-width: 800px;
-            max-height: 80vh;
-            background: white;
-            padding: 40px;
-            border-radius: 15px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.4);
-            overflow-y: auto;
-            z-index: 999;
-            display: none;
-        }
-        
-        .floating-text.show {
-            display: block;
-            animation: fadeIn 0.3s ease;
-        }
-        
-        .floating-text h2 {
-            color: #3498db;
-            margin-bottom: 20px;
-            font-size: 1.8em;
-        }
-        
-        .floating-text p {
-            margin-bottom: 15px;
-            line-height: 1.8;
-            text-align: justify;
-        }
-        
-        .close-text {
-            position: absolute;
-            top: 15px;
-            right: 20px;
-            background: #e74c3c;
-            color: white;
-            border: none;
-            width: 35px;
-            height: 35px;
-            border-radius: 50%;
-            cursor: pointer;
-            font-size: 1.2em;
-            font-weight: bold;
-        }
-        
-        .close-text:hover {
-            background: #c0392b;
-        }
-        
-        .overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.7);
-            z-index: 998;
-            display: none;
-        }
-        
-        .overlay.show {
-            display: block;
-        }
-        
-        .content {
-            padding: 40px;
-        }
-        
-        .section {
-            margin-bottom: 40px;
-            padding: 30px;
-            background: #f8f9fa;
-            border-radius: 10px;
-            border-left: 5px solid #3498db;
-            display: none;
-        }
-        
-        .section.active {
-            display: block;
-            animation: fadeIn 0.5s ease;
-        }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        .section h2 {
-            color: #3498db;
-            margin-bottom: 20px;
-            font-size: 1.8em;
-            border-bottom: 2px solid #3498db;
-            padding-bottom: 10px;
-        }
-        
-        .question {
-            background: white;
-            padding: 20px;
-            margin: 20px 0;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            position: relative;
-        }
-        
-        .question-number {
-            position: absolute;
-            top: -10px;
-            left: -10px;
-            background: #3498db;
-            color: white;
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            font-size: 0.9em;
-        }
-        
-        .question-text {
-            font-weight: bold;
-            color: #2c3e50;
-            margin-bottom: 15px;
-            font-size: 1.1em;
-            padding-left: 10px;
-        }
-        
-        .options {
-            margin: 15px 0;
-        }
-        
-        .option {
-            padding: 12px 15px;
-            margin: 8px 0;
-            background: #f8f9fa;
-            border: 2px solid #e9ecef;
-            border-radius: 6px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        
-        .option:hover {
-            background: #e9ecef;
-            border-color: #3498db;
-            transform: translateX(5px);
-        }
-        
-        .option.selected {
-            background: #3498db;
-            color: white;
-            border-color: #3498db;
-        }
-        
-        .option.correct {
-            background: #27ae60;
-            color: white;
-            border-color: #27ae60;
-        }
-        
-        .option.incorrect {
-            background: #e74c3c;
-            color: white;
-            border-color: #e74c3c;
-        }
-        
-        textarea {
-            width: 100%;
-            padding: 15px;
-            border: 2px solid #e9ecef;
-            border-radius: 6px;
-            font-family: inherit;
-            font-size: 1em;
-            resize: vertical;
-            min-height: 100px;
-        }
-        
-        textarea:focus {
-            outline: none;
-            border-color: #3498db;
-        }
-        
-        .btn {
-            background: #3498db;
-            color: white;
-            border: none;
-            padding: 12px 30px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 1em;
-            transition: all 0.3s ease;
-            margin: 10px 5px;
-        }
-        
-        .btn:hover {
-            background: #2980b9;
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.4);
-        }
-        
-        .btn:disabled {
-            background: #ccc;
-            cursor: not-allowed;
-            transform: none;
-        }
-        
-        .feedback {
-            margin-top: 15px;
-            padding: 15px;
-            border-radius: 6px;
-            display: none;
-        }
-        
-        .feedback.show {
-            display: block;
-            animation: slideIn 0.3s ease;
-        }
-        
-        @keyframes slideIn {
-            from { opacity: 0; transform: translateY(-10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        .feedback.correct {
-            background: #d4edda;
-            color: #155724;
-            border: 1px solid #c3e6cb;
-        }
-        
-        .feedback.incorrect {
-            background: #f8d7da;
-            color: #721c24;
-            border: 1px solid #f5c6cb;
-        }
-        
-        .feedback.info {
-            background: #d1ecf1;
-            color: #0c5460;
-            border: 1px solid #bee5eb;
-        }
-        
-        .nav-buttons {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 30px;
-            padding-top: 20px;
-            border-top: 2px solid #e9ecef;
-        }
-        
-        .progress {
-            background: #e9ecef;
-            height: 8px;
-            border-radius: 10px;
-            margin: 20px 0;
-            overflow: hidden;
-        }
-        
-        .progress-bar {
-            background: linear-gradient(90deg, #3498db 0%, #2980b9 100%);
-            height: 100%;
-            transition: width 0.3s ease;
-            border-radius: 10px;
-        }
-        
-        .quote {
-            background: #fff3cd;
-            border-left: 4px solid #f39c12;
-            padding: 15px;
-            margin: 15px 0;
-            font-style: italic;
-            color: #856404;
-        }
-        
-        .hint {
-            background: #e7f3ff;
-            border-left: 4px solid #3498db;
-            padding: 12px;
-            margin: 10px 0;
-            font-size: 0.95em;
-            color: #014361;
-        }
-        
-        .score-display {
-            text-align: center;
-            font-size: 1.5em;
-            color: #3498db;
-            margin: 20px 0;
-            font-weight: bold;
-        }
-        
-        .theme-box {
-            background: #ecf0f1;
-            padding: 15px;
-            border-radius: 5px;
-            margin: 15px 0;
-            border-left: 4px solid #3498db;
-        }
-        
-        .theme-title {
-            font-weight: bold;
-            color: #2c3e50;
-            margin-bottom: 8px;
-            font-size: 1.1em;
-        }
-        
-        .theme-desc {
-            color: #7f8c8d;
-        }
-        
-        .completion-info {
-            background: #d4edda;
-            padding: 15px;
-            border-radius: 8px;
-            margin: 20px 0;
-            text-align: center;
-            border: 2px solid #c3e6cb;
-        }
-        
-        .student-info {
-            background: #e7f3ff;
-            padding: 15px;
-            border-radius: 8px;
-            margin: 20px 0;
-            border: 2px solid #3498db;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>L'Étranger · II, 4 — Le procès</title>
+<meta name="description" content="A-Level French: L'Étranger Part II chapter IV — the two speeches, the prosecutor's rewriting of Part I, key words, interpretation and writing with feedback.">
+<style>
+:root{
+  --paper:#f6f1e7; --card:#fffdf8; --ink:#2a2320; --soft:#6a5a4c; --line:#dcd0bb;
+  --ox:#6e1f2a; --ox2:#8f3340; --oxs:#f4e4e4; --green:#1f4d3a; --gs:#e3efe8;
+  --gold:#a8843a; --golds:#f7efd9; --bad:#a23b2a; --bads:#fbe9e5; --ok:#226a43;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--paper);color:var(--ink);font:17px/1.55 Georgia,"Times New Roman",serif}
+.ui{font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+.wrap{max-width:920px;margin:0 auto;padding:22px 16px 160px}
+header{border-bottom:3px double var(--ox);padding-bottom:14px;margin-bottom:8px}
+.kicker{font:600 12px/1.2 system-ui,sans-serif;letter-spacing:.16em;text-transform:uppercase;color:var(--ox)}
+h1{font-size:31px;line-height:1.15;margin:6px 0 6px;color:var(--ox)}
+.lead{color:var(--soft);margin:0 0 4px;font:15px/1.55 system-ui,sans-serif}
+.score{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;margin-top:10px;font:14px system-ui,sans-serif;color:var(--soft)}
+.score b{color:var(--ink);font-size:16px}
+.meter{flex:1 1 180px;height:8px;background:#e8dfcf;border-radius:99px;overflow:hidden;min-width:140px}
+.meter i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--green),#2f7a58);transition:width .4s}
+nav.tabs{display:flex;flex-wrap:wrap;gap:6px;margin:16px 0 12px;position:sticky;top:0;background:var(--paper);padding:8px 0;z-index:5;border-bottom:1px solid var(--line)}
+nav.tabs button{font:600 13.5px system-ui,sans-serif;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:999px;padding:7px 12px;cursor:pointer;display:flex;gap:6px;align-items:center}
+nav.tabs button .n{font-weight:500;color:var(--soft);font-size:12px}
+nav.tabs button[aria-selected="true"]{background:var(--ox);border-color:var(--ox);color:#fff}
+nav.tabs button[aria-selected="true"] .n{color:#f1d7d9}
+nav.tabs button.done:not([aria-selected="true"]){border-color:var(--green);color:var(--green)}
+section.ex{display:none}
+section.ex.active{display:block}
+h2{font-size:24px;margin:4px 0 6px;color:var(--green)}
+h3{font:700 13px system-ui,sans-serif;letter-spacing:.12em;text-transform:uppercase;color:var(--ox);margin:22px 0 8px}
+.how{font:15px/1.55 system-ui,sans-serif;color:var(--soft);margin:0 0 14px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px 16px;margin:10px 0;position:relative}
+.card.ok{border-color:#9cc7ae;background:#fbfefc}
+.card.rev{border-color:#e3b6ad}
+.card .qn{font:700 13px system-ui,sans-serif;color:var(--ox);margin-right:6px}
+.quote{font-style:italic}
+blockquote{margin:2px 0 10px;padding:6px 0 6px 14px;border-left:3px solid var(--gold);font-style:italic;font-size:18px}
+.ctl{display:flex;flex-wrap:wrap;gap:8px 10px;align-items:center;margin-top:10px}
+input[type=text],select,textarea{font:16px Georgia,serif;color:var(--ink);background:#fff;border:1px solid #bdae95;border-radius:7px;padding:7px 10px;max-width:100%}
+input[type=text]{width:15em}
+input.w8{width:8.5em} input.w6{width:7em}
+input.okf{border-color:var(--ok);background:#f2faf5} input.badf{border-color:var(--bad);background:var(--bads)}
+textarea{width:100%;min-height:200px;resize:vertical;line-height:1.6}
+button.b{font:600 14px system-ui,sans-serif;border-radius:7px;padding:7px 13px;cursor:pointer;border:1px solid var(--ox);background:var(--ox);color:#fff}
+button.b:disabled{opacity:.45;cursor:default}
+button.g{font:600 14px system-ui,sans-serif;border-radius:7px;padding:7px 12px;cursor:pointer;border:1px solid var(--line);background:#fff;color:var(--green)}
+button.g:disabled{opacity:.45;cursor:default}
+.opts{display:grid;gap:7px;margin-top:8px}
+.opt{display:flex;gap:10px;align-items:flex-start;text-align:left;font:15.5px/1.45 system-ui,sans-serif;border:1px solid var(--line);background:#fff;border-radius:8px;padding:9px 12px;cursor:pointer;color:var(--ink)}
+.opt:before{content:"";flex:0 0 16px;height:16px;border:2px solid #b8a98f;border-radius:50%;margin-top:2px}
+.opt.sel{border-color:var(--ox);background:var(--oxs)}
+.opt.sel:before{border-color:var(--ox);background:radial-gradient(var(--ox) 45%,transparent 50%)}
+.opt.right{border-color:var(--ok);background:#eef8f2}
+.opt.wrong{border-color:var(--bad);background:var(--bads)}
+.opt:disabled{cursor:default}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.chip{font:600 13px system-ui,sans-serif;border:1px solid #c9bba3;background:#fff;color:var(--soft);border-radius:999px;padding:6px 11px;cursor:pointer}
+.chip[aria-pressed="true"]{background:var(--green);border-color:var(--green);color:#fff}
+.chip.core{outline:2px solid var(--ok);outline-offset:1px}
+.chip.acc{outline:2px dashed var(--gold);outline-offset:1px}
+.chip.wrongc{background:var(--bad);border-color:var(--bad);color:#fff}
+.chip:disabled{cursor:default}
+.fb{margin-top:10px;font:14.5px/1.55 system-ui,sans-serif;border-radius:8px;padding:9px 12px;display:none}
+.fb.show{display:block}
+.fb.okb{background:var(--gs);color:#163a2b}
+.fb.hint{background:var(--golds);color:#4d3c14}
+.fb.revb{background:var(--bads);color:#5a1d12}
+.fb .why{margin-top:6px;color:#2b2a26}
+.tag{display:inline-block;font:700 11px system-ui,sans-serif;letter-spacing:.1em;text-transform:uppercase;padding:2px 7px;border-radius:4px;margin-right:6px}
+.tag.okt{background:var(--ok);color:#fff}.tag.ht{background:var(--gold);color:#fff}.tag.rt{background:var(--bad);color:#fff}
+.legend{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:12px 14px;font:14.5px/1.55 system-ui,sans-serif;margin-bottom:10px}
+.legend b{color:var(--ox)}
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:8px 18px}
+.who{font:13px system-ui,sans-serif;color:var(--soft)}
+.tr{line-height:2.25;font-size:17px;background:#faf6ee;border-left:3px solid var(--gold);padding:6px 12px;border-radius:4px;margin-top:6px}
+.secfoot{display:flex;justify-content:space-between;align-items:center;gap:10px;margin:18px 0 6px;flex-wrap:wrap}
+.reto{border:2px solid var(--ox);background:#fff}
+.reto .rt2{font:700 12px system-ui,sans-serif;letter-spacing:.16em;color:var(--ox)}
+.check li{margin:4px 0;list-style:none;padding-left:0}
+.check{padding:0;margin:10px 0 0;font:14.5px/1.5 system-ui,sans-serif}
+.check li:before{content:"○ ";color:#b8a98f;font-weight:700}
+.check li.on:before{content:"● ";color:var(--ok)}
+.check li.warn:before{content:"● ";color:var(--bad)}
+.qcheck{font:14px/1.5 system-ui,sans-serif;margin-top:8px}
+.qcheck div{padding:3px 0}
+.qcheck .y{color:var(--ok)} .qcheck .n{color:var(--bad)}
+.titles label{display:flex;gap:8px;align-items:flex-start;font:15.5px/1.45 Georgia,serif;margin:6px 0;cursor:pointer}
+.tips{font:14.5px/1.55 system-ui,sans-serif;background:var(--oxs);border-radius:8px;padding:10px 12px;margin:10px 0}
+.res{font:15px/1.6 system-ui,sans-serif}
+.res table{border-collapse:collapse;width:100%;margin:8px 0}
+.res td,.res th{border-bottom:1px solid var(--line);padding:6px 4px;text-align:left}
+.src{font:13px/1.5 system-ui,sans-serif;color:var(--soft);margin-top:22px}
+@media (max-width:640px){h1{font-size:25px}.cols{grid-template-columns:1fr}input[type=text]{width:100%}input.w8,input.w6{width:8em}nav.tabs{flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}nav.tabs::-webkit-scrollbar{display:none}nav.tabs button{padding:6px 10px;font-size:12.5px;flex:0 0 auto;white-space:nowrap}}
+@media print{nav.tabs,.secfoot,button{display:none!important}section.ex{display:block!important}}
+</style>
+<style>
+.sent{font-size:18px;line-height:2.1}
+.sent input{width:9em;font-size:16px;padding:4px 8px;margin:0 2px}
+.en{font:14px/1.45 system-ui,sans-serif;color:var(--soft);margin:0 0 4px}
+.cue{font:13px system-ui,sans-serif;color:var(--soft)}
+.rule{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--green);border-radius:8px;padding:10px 14px;font:14.5px/1.55 system-ui,sans-serif;margin:6px 0 12px}
+</style>
+<style>
+#txtBtn{position:fixed;top:12px;right:12px;z-index:900;background:#7a1f2b;color:#fff;border:0;border-radius:20px;padding:8px 14px;font:600 14px system-ui,sans-serif;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.2)}
+#txtPanel{position:fixed;top:0;right:0;bottom:0;width:min(460px,100vw);z-index:950;background:#fffdf7;border-left:1px solid #d8cfbd;box-shadow:-6px 0 18px rgba(0,0,0,.15);transform:translateX(105%);transition:transform .25s;display:flex;flex-direction:column}
+#txtPanel.open{transform:none}
+#txtPanel header{display:flex;justify-content:space-between;align-items:center;padding:10px 14px;border-bottom:1px solid #e6dcc8;font:600 14px system-ui,sans-serif}
+#txtPanel header button{border:0;background:none;font-size:22px;cursor:pointer;color:#555}
+#txtBody{overflow:auto;padding:6px 18px 110px;font:15.5px/1.6 Georgia,serif;color:#222}
+#txtBody h2{font-size:17px;margin:12px 0}
+#txtBody p{white-space:pre-line;margin:0 0 12px}
+@media (min-width:1300px){body.txt-open .wrap{margin-right:480px}}
+</style>
 </head>
 <body>
-    <!-- Toolbar -->
-    <div class="toolbar">
-        <button class="toolbar-btn" onclick="toggleText()" title="Voir le texte intégral">
-            📖 Texte
-        </button>
-        <button class="toolbar-btn secondary" onclick="toggleKeyboard()" title="Clavier accents français">
-            ⌨️ Accents
-        </button>
-        <button class="toolbar-btn download" onclick="downloadStudentWork()" title="Télécharger mes réponses et score">
-            📥 Mes Réponses
-        </button>
-    </div>
-    
-    <!-- French Keyboard -->
-    <div class="french-keyboard" id="frenchKeyboard">
-        <div class="keyboard-title">Accents Français</div>
-        <div class="keyboard-row">
-            <button class="keyboard-key" data-char="é" onclick="insertAccent('é')">é</button>
-            <button class="keyboard-key" data-char="è" onclick="insertAccent('è')">è</button>
-            <button class="keyboard-key" data-char="ê" onclick="insertAccent('ê')">ê</button>
-            <button class="keyboard-key" data-char="ë" onclick="insertAccent('ë')">ë</button>
-        </div>
-        <div class="keyboard-row">
-            <button class="keyboard-key" data-char="à" onclick="insertAccent('à')">à</button>
-            <button class="keyboard-key" data-char="â" onclick="insertAccent('â')">â</button>
-            <button class="keyboard-key" data-char="ç" onclick="insertAccent('ç')">ç</button>
-            <button class="keyboard-key" data-char="î" onclick="insertAccent('î')">î</button>
-            <button class="keyboard-key" data-char="ï" onclick="insertAccent('ï')">ï</button>
-        </div>
-        <div class="keyboard-row">
-            <button class="keyboard-key" data-char="ô" onclick="insertAccent('ô')">ô</button>
-            <button class="keyboard-key" data-char="œ" onclick="insertAccent('œ')">œ</button>
-            <button class="keyboard-key" data-char="ù" onclick="insertAccent('ù')">ù</button>
-            <button class="keyboard-key" data-char="û" onclick="insertAccent('û')">û</button>
-            <button class="keyboard-key" data-char="ü" onclick="insertAccent('ü')">ü</button>
-        </div>
-        <button class="btn" style="margin-top: 10px; padding: 8px;" onclick="toggleKeyboard()">
-            Fermer
-        </button>
-    </div>
-    
-    <div class="overlay" id="overlay" onclick="closeAllModals()"></div>
-    
-    <div class="floating-text" id="floatingText">
-        <button class="close-text" onclick="toggleText()">×</button>
-        <h2>L'Étranger - Chapitre 4 (Deuxième Partie)</h2>
+<div class="wrap">
+<header>
+  <div class="kicker">L'Étranger · Deuxième partie, chapitre IV</div>
+  <h1>L'Étranger — II, 4 : le procès</h1>
+  <p class="lead">Part II, chapter IV: the two speeches and the verdict. The whole chapter is in the « 📖 Texte » panel: keep it open beside the questions, which send you back to the text. Several wrong answers are what a quick reader would believe. Press <b>Enter</b> or « Vérifier ». If you are wrong the first time you get an <i>indice</i>; the second time you see the answer and why. In section 5 the example answer only opens once you have written your own. Your work saves itself on this device.</p>
+  <div class="score" aria-live="polite"><span>Points <b id="sc">0</b> / <b id="tot">0</b></span><span>du premier coup <b id="first">0</b></span><div class="meter"><i id="bar"></i></div></div>
+</header>
+<nav class="tabs" role="tablist" aria-label="Exercices" id="tabs"></nav>
+<main id="main"></main>
+<p class="src">Quotations: Albert Camus, <i>L'Étranger</i> (Gallimard, 1942), II, 4, short extracts quoted for study.</p>
+</div>
+<script>window.BBA_KIT = {check:false, download:false, save:false, enter:false};</script>
+<script>var D = {"key": "letranger-ch4-v2", "dlhead": "L'ÉTRANGER — II, 4 : LE PROCÈS", "dlfile": "LEtranger_II4_", "sections": [{"tab": "1 · Qui parle ?", "h2": "1 · Le procureur, l'avocat… ou les deux ?", "intro": "Meursault notices that the two speeches are less different than they should be. For each move, decide who makes it.", "rule": "«Étaient-elles si différentes, d'ailleurs, ces plaidoiries ? L'avocat levait les bras et plaidait coupable, mais avec excuses. Le procureur tendait ses mains et dénonçait la culpabilité, mais sans excuses.»", "items": [{"t": "mc", "q": "« Je me suis penché sur cette âme » : qui le dit ?", "opts": ["le procureur", "l'avocat", "les deux"], "a": 2, "pista": "One of them finds « rien », the other finds « quelque chose ».", "why": "**Les deux.** The prosecutor « s'était penché sur elle et […] n'avait rien trouvé »; the lawyer answers « Moi aussi […] je me suis penché sur cette âme ». Both put the soul on trial, not the act."}, {"t": "mc", "q": "Qui dit « je » à la place de Meursault ?", "opts": ["le procureur", "l'avocat", "les deux"], "a": 1, "pista": "« Il est vrai que j'ai tué. »", "why": "**L'avocat.** Meursault feels it is « m'écarter encore de l'affaire, me réduire à zéro et, en un certain sens, se substituer à moi »."}, {"t": "mc", "q": "Qui ne parle pas de l'enterrement ?", "opts": ["le procureur", "l'avocat", "les deux"], "a": 1, "pista": "Meursault notices a gap, and says « cela manquait ».", "why": "**L'avocat**, and Meursault feels « que cela manquait dans sa plaidoirie »: even he knows the funeral is the real case."}, {"t": "mc", "q": "Qui parle plus longtemps de l'attitude de Meursault envers sa mère que de son crime ?", "opts": ["le procureur", "l'avocat", "les deux"], "a": 0, "pista": "« Il a été beaucoup plus long que lorsqu'il parlait de mon crime. »", "why": "**Le procureur.** The funeral takes more time than the murder."}, {"t": "mc", "q": "Qui fait de Meursault « un fils modèle » ?", "opts": ["le procureur", "l'avocat", "les deux"], "a": 1, "pista": "The opposite portrait to « cette âme criminelle ».", "why": "**L'avocat**: « un honnête homme, un travailleur régulier, infatigable ». Two portraits, neither of which Meursault recognises."}, {"t": "mc", "q": "Qui invente une émotion que Meursault n'a jamais exprimée ?", "opts": ["le procureur", "l'avocat", "les deux"], "a": 1, "pista": "Read the very end of the speech for the defence.", "why": "**L'avocat**: he pleads for a man who already bears « le remords éternel ». Meursault has just said « Je ne regrettais pas beaucoup mon acte »."}]}, {"tab": "2 · Le récit", "h2": "2 · Le procureur réécrit la première partie", "intro": "The prosecutor retells Part I as a plan. Compare with what you read in chapters 3 to 6.", "rule": "«J'avais écrit la lettre d'accord avec Raymond pour attirer sa maîtresse […]. J'avais provoqué sur la plage les adversaires de Raymond. Celui-ci avait été blessé. Je lui avais demandé son revolver. J'étais revenu seul pour m'en servir. J'avais abattu l'Arabe comme je le projetais.»", "items": [{"t": "mc", "q": "Laquelle de ces affirmations du procureur est vraie, d'après la première partie ?", "opts": ["« Je lui avais demandé son revolver. »", "« J'avais provoqué sur la plage les adversaires de Raymond. »", "« J'étais revenu seul pour m'en servir. »"], "a": 0, "pista": "Meursault did ask: « donne-moi ton revolver ». But why?", "why": "Only the first is a fact, and its purpose is reversed: he asked for the gun to stop Raymond shooting. Raymond went to the Arabs; Meursault went back to the beach thinking of « la source fraîche derrière le rocher »."}, {"t": "mc", "q": "Pourquoi Meursault est-il retourné seul vers le rocher, selon la première partie ?", "opts": ["Pour retrouver l'ombre et la fraîcheur de la source", "Pour retrouver l'Arabe et venger Raymond", "Pour rapporter le revolver à Masson"], "a": 0, "pista": "« J'avais envie de retrouver le murmure de son eau… »", "why": "To escape the sun: « envie de fuir le soleil, l'effort et les pleurs de femme ». The prosecutor turns a search for shade into a plan."}, {"t": "mc", "q": "« J'ai trouvé que sa façon de voir les événements ne manquait pas de clarté. Ce qu'il disait était plausible. » Que montre ce commentaire de Meursault ?", "opts": ["Un récit peut être cohérent sans être vrai, et Meursault juge le récit, pas sa propre culpabilité", "Meursault avoue enfin qu'il a prémédité son crime", "Meursault se moque de la bêtise du procureur"], "a": 0, "pista": "« Plausible » is not « vrai ».", "why": "Meursault reviews the story like a reader. The trial needs a coherent story; the truth of Part I was a chain of chances."}, {"t": "mc", "q": "Le procureur dit des quatre derniers coups de feu qu'ils étaient tirés « pour être sûr que la besogne était bien faite ». Que fait-il ?", "opts": ["Il prête une intention à un geste que Meursault n'a jamais expliqué", "Il cite les aveux de Meursault", "Il reprend le rapport du juge d'instruction"], "a": 0, "pista": "Did Meursault ever give a reason for the pause?", "why": "Meursault never answered the judge's « Pourquoi avez-vous attendu… ? ». The prosecutor fills that silence with intent."}, {"t": "mc", "q": "« Cet homme est intelligent. […] Il connaît la valeur des mots. » Comment Meursault reçoit-il ce compliment ?", "opts": ["Il ne comprend pas comment « les qualités d'un homme ordinaire » deviennent des « charges écrasantes »", "Il est flatté et se met à écouter attentivement", "Il en conclut que le procureur veut l'aider"], "a": 0, "pista": "A quality becomes evidence.", "why": "« Je ne comprenais pas bien comment les qualités d'un homme ordinaire pouvaient devenir des charges écrasantes contre un coupable. » Everything ordinary becomes proof."}, {"t": "mc", "q": "Le procureur affirme que Meursault est « coupable aussi du meurtre que cette cour devra juger demain ». Sur quoi repose ce raisonnement ?", "opts": ["Un homme « qui tuait moralement sa mère » préparerait le crime du parricide", "Meursault a aidé l'assassin du père", "Meursault connaissait le parricide"], "a": 0, "pista": "Read the passage on « le meurtre d'un père ».", "why": "Guilt by analogy: an attitude at a funeral is equated with a murder that another man committed."}, {"t": "mc", "q": "Meursault voudrait expliquer qu'il n'a « jamais pu regretter vraiment quelque chose ». Comment justifie-t-il cela ?", "opts": ["« J'étais toujours pris par ce qui allait arriver, par aujourd'hui ou par demain. »", "« Je ne regrettais pas beaucoup mon acte. »", "« Tout se déroulait sans mon intervention. »"], "a": 0, "pista": "All three are in the chapter: which one gives a reason?", "why": "He lives in the present and the next moment. The other two lines are true, but they state, they do not explain."}]}, {"tab": "3 · Les mots", "h2": "3 · Les mots qui portent le sens", "intro": "Each gap is the word the sentence turns on. Find it in your copy if you need to, then say why it matters in your head before you check.", "items": [{"t": "gap", "en": null, "es": "« Mon {0} se réglait sans qu'on prenne mon avis. »", "gaps": [{"acc": ["sort"], "cue": "fate"}], "pista": "His fate, decided without him.", "why": "**sort**: the accused is the object of his own trial."}, {"t": "gap", "en": null, "es": "Le procureur prouvera le crime « sous l'aveuglante {0} des faits d'abord et ensuite dans l'éclairage sombre que me fournira la psychologie de cette âme criminelle ».", "gaps": [{"acc": ["clarté"], "cue": "brightness"}], "pista": "The opposite of « l'éclairage sombre ».", "why": "**clarté**: light against dark, facts against psychology. The same sun-dazzle as on the beach."}, {"t": "gap", "en": null, "es": "« … le vide du cœur tel qu'on le découvre chez cet homme devient un {0} où la société peut succomber. »", "gaps": [{"acc": ["gouffre"], "cue": "abyss"}], "pista": "A hole without a bottom.", "why": "**gouffre**: the prosecutor makes an empty heart a danger to society."}, {"t": "gap", "en": null, "es": "« Je vous demande la tête de cet homme, a-t-il dit, et c'est le cœur {0} que je vous la demande. »", "gaps": [{"acc": ["léger"], "cue": "light"}], "pista": "The opposite of « lourd ».", "why": "**léger**: the man who reproaches Meursault for feeling nothing asks for a death with a light heart."}, {"t": "gap", "en": null, "es": "Pendant la plaidoirie, Meursault a « l'impression que tout devenait comme une eau {0} où je trouvais le vertige ».", "gaps": [{"acc": ["incolore"], "cue": "colourless"}], "pista": "In- + couleur.", "why": "**incolore**: the words lose all colour; only the memories of summer will bring it back."}, {"t": "gap", "en": null, "es": "Le président annonce que Meursault aura « la tête {0} sur une place publique au nom du peuple français ».", "gaps": [{"acc": ["tranchée"], "cue": "cut off"}], "pista": "Trancher: past participle, feminine (la tête).", "why": "**tranchée**: agreement with « la tête »."}]}, {"tab": "4 · Interpréter", "h2": "4 · Interpréter", "intro": "Each answer can be argued; one is best supported by the text.", "items": [{"t": "mc", "q": "Quand Meursault dit « que c'était à cause du soleil », « il y a eu des rires dans la salle ». Que montrent ces rires ?", "opts": ["La seule vérité que Meursault peut dire est inaudible pour le tribunal", "Le public est du côté de Meursault", "Meursault cherche à faire rire pour se défendre"], "a": 0, "pista": "Meursault adds: « en me rendant compte de mon ridicule ».", "why": "Part I showed the sun at work; in court the true cause sounds absurd. The trial can only hear motives."}, {"t": "mc", "q": "Pendant la plaidoirie, « la trompette d'un marchand de glace » fait surgir « des souvenirs d'une vie qui ne m'appartenait plus ». Quelle est la fonction de ce passage ?", "opts": ["Opposer la vie concrète et sensible aux mots vides du procès", "Montrer que Meursault n'écoute jamais rien", "Annoncer qu'il va s'évader"], "a": 0, "pista": "« des odeurs d'été, le quartier que j'aimais, un certain ciel du soir, le rire et les robes de Marie »", "why": "While they argue about his soul, his real life comes back through the senses: the novel's values against the court's."}, {"t": "mc", "q": "Après le verdict, Meursault croit lire sur les visages « de la considération ». Comment lire ce mot ?", "opts": ["Avec ironie : il devient enfin important au moment où on le condamne", "Au sens propre : tout le monde le respecte depuis le début", "Comme une erreur de lecture sans importance"], "a": 0, "pista": "Think of « C'est important d'être l'accusé » at the start of the chapter.", "why": "The man nobody listened to is finally the centre of attention: the death sentence gives him a status."}, {"t": "mc", "q": "Pourquoi Meursault, qui voulait dire « Et j'ai quelque chose à dire ! », conclut-il « Mais réflexion faite, je n'avais rien à dire » ?", "opts": ["Ce qu'il aurait à dire ne correspond à aucun langage que le tribunal attend", "Son avocat lui a promis de tout dire à sa place", "Il a décidé de se taire pour protéger Raymond"], "a": 0, "pista": "Compare with what happens when he does speak (« à cause du soleil »).", "why": "His truth has no place in the court's language of motives, remorse and soul."}]}, {"tab": "5 · Écrire", "h2": "5 · Écrire", "intro": "Write in French, then click « Commentaires ». The example answer opens once you have written enough.", "items": [{"t": "w", "label": "COMMENTAIRE", "min": 100, "q": "Commentaire (100–150 words): how does the prosecutor turn the events of Part I into a premeditated crime? Use two precise examples from his speech and compare each with what really happened.", "points": [["Quotes the prosecutor exactly", ["«"]], ["Names a distortion: the revolver, the return to the rock, the letter, the four shots", ["revolver", "rocher", "source", "lettre", "quatre", "besogne", "seul"]], ["Compares with Part I", ["en réalité", "pourtant", "or ", "alors que", "première partie", "en fait"]], ["Says what this shows about the trial", ["récit", "intention", "préméditation", "cohérent", "plausible", "justice", "absurde"]]], "model": "Le procureur transforme une suite de hasards en plan. Il affirme : « J'étais revenu seul pour m'en servir ». Or, dans la première partie, Meursault retourne vers le rocher parce qu'il pense à « la source fraîche » et veut fuir le soleil. De même, il dit que Meursault a demandé le revolver de Raymond, ce qui est vrai, mais il en inverse le sens : Meursault l'avait pris pour empêcher Raymond de tirer. Enfin, les quatre derniers coups deviennent une manière d'être « sûr que la besogne était bien faite », alors que Meursault n'a jamais expliqué ce temps d'arrêt. Le procès a besoin d'un récit cohérent ; Meursault lui-même le trouve « plausible ». Camus montre ainsi qu'une justice qui cherche des intentions fabrique une vérité."}, {"t": "w", "label": "DISSERTATION", "min": 150, "q": "« Dans ce procès, on juge un homme plutôt qu'un crime. » Discutez (150–250 words). Use at least two quotations from the chapter and one counter-argument.", "points": [["Quotes the chapter twice", ["«"]], ["Uses the funeral / the soul / the mother", ["enterrement", "âme", "mère", "maman", "parricide"]], ["Gives a counter-argument", ["cependant", "pourtant", "néanmoins", "toutefois", "certes", "en revanche"]], ["Uses the lawyer as well as the prosecutor", ["avocat", "plaidoirie"]], ["Concludes on the meaning for the novel", ["absurde", "société", "étranger", "justice", "en définitive", "en conclusion", "ainsi"]]], "model": "Meursault le remarque dès la première ligne : « je peux dire qu'on a beaucoup parlé de moi et peut-être plus de moi que de mon crime ». Le procureur passe plus de temps sur l'attitude de Meursault envers sa mère que sur le meurtre, et va jusqu'à le rendre « coupable aussi » du parricide jugé le lendemain. Certes, il raconte aussi le crime, et sa version des faits paraît « plausible ». Cependant, ce récit sert surtout à prouver qu'il n'y a dans cette âme « rien d'humain ». L'avocat ne fait pas mieux : il plaide un « fils modèle » et invente un « remords éternel ». Les deux discours jugent donc un caractère, pas un acte, et la victime, elle, n'a même pas de nom. En définitive, Camus montre une société qui condamne celui qui ne joue pas son jeu : Meursault est exécuté comme étranger aux règles plus que comme meurtrier."}]}]};</script>
+<script>
+(function(){
+"use strict";
+var KEY = D.key;
+var S = {v:1, it:{}, tab:null, pub:false};
+try{ var raw=localStorage.getItem(KEY); if(raw){ var o=JSON.parse(raw); if(o&&o.v===1) S=o; } }catch(e){}
+function save(){ try{ localStorage.setItem(KEY, JSON.stringify(S)); }catch(e){} }
+function nfc(s){ return (s||"").normalize ? s.normalize("NFC") : (s||""); }
+function deacc(s){ return nfc(s).toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,""); }
+function clean(s){ return nfc(s).replace(/[’‘ʼ]/g,"'").toLowerCase().replace(/[!?.,;:«»"“”()\[\]…]/g," ").replace(/\s+/g," ").trim(); }
+function esc(s){ return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
+function fmt(s){ return esc(s).replace(/&lt;br&gt;/g,"<br>").replace(/\*\*(.+?)\*\*/g,"<b>$1</b>"); }
+function h(tag, attrs, html){ var e=document.createElement(tag); if(attrs) for(var k in attrs){ if(k==="class") e.className=attrs[k]; else e.setAttribute(k,attrs[k]); } if(html!=null) e.innerHTML=html; return e; }
+/* strict judge: exact (case, spacing, punctuation ignored) or accent-only slip */
+function judge(given, acc){
+  var g=clean(given); if(!g) return "blank";
+  for(var i=0;i<acc.length;i++){ if(g===clean(acc[i])) return "ok"; }
+  for(i=0;i<acc.length;i++){ if(deacc(g)===deacc(clean(acc[i]))) return "accent"; }
+  return "no";
+}
+var ITEMS=[], SECS=[];
+function fbBox(card){ var f=card.querySelector(".fb"); if(!f){ f=h("div",{"class":"fb ui","aria-live":"polite"}); card.appendChild(f); } return f; }
+function wire(it){
+  var st = S.it[it.id] || (S.it[it.id]={st:null, tries:0, first:false, given:null});
+  it.state = st;
+  it.run = function(){
+    if(st.st) return;
+    var r = it.check(); if(r==="blank") return;
+    st.tries++; st.given = it.given();
+    var fb = fbBox(it.card);
+    if(r==="ok"){ st.st="ok"; st.first=(st.tries===1); it.lock(true);
+      fb.className="fb ui show okb"; fb.innerHTML='<span class="tag okt">Correct</span>'+(st.first?"First time.":"Second try.")+(it.why?'<div class="why">'+fmt(it.why)+'</div>':"");
+      it.card.classList.add("ok"); save(); refresh(); return; }
+    if(st.tries<2){
+      fb.className="fb ui show hint";
+      fb.innerHTML='<span class="tag ht">Indice</span>'+(r==="accent"?"Almost: the right form, but check the accent. ":"Not yet. ")+fmt(it.pista||"");
+      it.mark(); save(); return; }
+    st.st="rev"; it.lock(false); it.reveal();
+    fb.className="fb ui show revb"; fb.innerHTML='<span class="tag rt">Réponse</span>'+fmt(it.answerText())+(it.why?'<div class="why">'+fmt(it.why)+'</div>':"");
+    it.card.classList.add("rev"); save(); refresh();
+  };
+  it.restore = function(){
+    if(!st.st) return; it.setGiven(st.given);
+    var fb=fbBox(it.card);
+    if(st.st==="ok"){ it.lock(true); it.card.classList.add("ok"); fb.className="fb ui show okb"; fb.innerHTML='<span class="tag okt">Correct</span>'+(st.first?"First time.":"Second try.")+(it.why?'<div class="why">'+fmt(it.why)+'</div>':""); }
+    else { it.lock(false); it.reveal(); it.card.classList.add("rev"); fb.className="fb ui show revb"; fb.innerHTML='<span class="tag rt">Réponse</span>'+fmt(it.answerText())+(it.why?'<div class="why">'+fmt(it.why)+'</div>':""); }
+  };
+  ITEMS.push(it);
+}
+function controls(card, it){
+  var row=h("div",{"class":"ctl ui"}); var b=h("button",{"class":"b",type:"button"},"Vérifier");
+  var p=h("button",{"class":"g",type:"button"},"Indice");
+  b.addEventListener("click", function(){ it.run(); });
+  p.addEventListener("click", function(){ var fb=fbBox(card); if(it.state.st) return; fb.className="fb ui show hint"; fb.innerHTML='<span class="tag ht">Indice</span>'+fmt(it.pista||""); });
+  row.appendChild(b); row.appendChild(p); card.appendChild(row);
+  it.btns=[b,p];
+}
+function gapItem(sec, id, n, Q){
+  var card=h("div",{"class":"card"});
+  if(Q.en) card.appendChild(h("p",{"class":"en"},esc(Q.en)));
+  var parts=Q.es.split(/\{(\d+)\}/), html='<span class="qn">'+n+' ·</span>';
+  for(var i=0;i<parts.length;i++){
+    if(i%2===0) html+=fmt(parts[i]);
+    else { var g=Q.gaps[+parts[i]]; html+='<input type="text" data-g="'+parts[i]+'" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="trou '+(+parts[i]+1)+'">'+(g.cue?' <span class="cue">('+esc(g.cue)+')</span>':""); }
+  }
+  var s=h("div",{"class":"sent"},html); card.appendChild(s);
+  var inputs=[].slice.call(s.querySelectorAll("input"));
+  var it={id:id, sec:sec, card:card, q:Q.es.replace(/\{\d+\}/g,"___"), pista:Q.pista, why:Q.why};
+  it.given=function(){ return inputs.map(function(x){return x.value.trim();}).join(" | "); };
+  it.setGiven=function(v){ (v||"").split(" | ").forEach(function(x,i){ if(inputs[i]) inputs[i].value=x; }); };
+  it.res=function(){ return inputs.map(function(x){ return judge(x.value, Q.gaps[+x.getAttribute("data-g")].acc); }); };
+  it.check=function(){ var r=it.res(); if(r.some(function(x){return x==="blank";})) { var fb=fbBox(card); fb.className="fb ui show hint"; fb.innerHTML="Fill in every gap first."; return "blank"; }
+    if(r.every(function(x){return x==="ok";})) return "ok"; if(r.every(function(x){return x==="ok"||x==="accent";})) return "accent"; return "no"; };
+  it.mark=function(){ var r=it.res(); inputs.forEach(function(x,i){ x.classList.toggle("okf",r[i]==="ok"); x.classList.toggle("badf",r[i]!=="ok"); }); };
+  it.lock=function(good){ inputs.forEach(function(x){ x.disabled=true; x.classList.toggle("okf",good); }); it.btns.forEach(function(b){ b.disabled=true; }); };
+  it.reveal=function(){ it.mark(); };
+  it.answerText=function(){ return "**"+Q.gaps.map(function(g){return g.acc[0];}).join(" … ")+"**"+(Q.gaps.some(function(g){return g.acc.length>1;})?" (also accepted: "+Q.gaps.map(function(g){return g.acc.slice(1).join(", ");}).filter(Boolean).join("; ")+")":"")+"."; };
+  it.ans=Q.gaps.map(function(g){return g.acc[0];}).join(" | ");
+  inputs.forEach(function(x){ x.addEventListener("keydown",function(e){ if(e.key==="Enter"){ e.preventDefault(); it.run(); } }); });
+  controls(card,it); wire(it); return card;
+}
+function seeded(n,seed){ var a=[]; for(var i=0;i<n;i++) a.push(i); var x=seed; for(i=n-1;i>0;i--){ x=(x*9301+49297)%233280; var j=Math.floor(x/233280*(i+1)); var t=a[i]; a[i]=a[j]; a[j]=t; } return a; }
+function mcItem(sec, id, n, Q){
+  var card=h("div",{"class":"card"});
+  if(Q.en) card.appendChild(h("p",{"class":"en"},esc(Q.en)));
+  card.appendChild(h("div",null,'<span class="qn">'+n+' ·</span>'+fmt(Q.q)));
+  var box=h("div",{"class":"opts"}); var order=seeded(Q.opts.length, id.length*31+n*7), btns=[], sel=null;
+  order.forEach(function(k){ var b=h("button",{"class":"opt",type:"button"},fmt(Q.opts[k])); b._i=k; b.addEventListener("click",function(){ if(it.state.st) return; sel=k; btns.forEach(function(x){x.classList.toggle("sel",x._i===k);}); it.run(); }); btns.push(b); box.appendChild(b); });
+  card.appendChild(box);
+  var it={id:id, sec:sec, card:card, q:Q.q, pista:Q.pista, why:Q.why};
+  it.given=function(){ return sel==null?"":Q.opts[sel]; };
+  it.setGiven=function(v){ var k=Q.opts.indexOf(v); if(k>=0){ sel=k; btns.forEach(function(x){x.classList.toggle("sel",x._i===k);}); } };
+  it.check=function(){ return sel==null?"blank":(sel===Q.a?"ok":"no"); };
+  it.mark=function(){ btns.forEach(function(x){ if(x._i===sel) x.classList.add("wrong"); }); };
+  it.lock=function(){ btns.forEach(function(x){ x.disabled=true; if(x._i===Q.a) x.classList.add("right"); }); if(it.pb) it.pb.disabled=true; };
+  it.reveal=function(){};
+  it.answerText=function(){ return "**"+Q.opts[Q.a]+"**."; };
+  it.ans=Q.opts[Q.a];
+  var row=h("div",{"class":"ctl ui"}); var p=h("button",{"class":"g",type:"button"},"Indice"); it.pb=p;
+  p.addEventListener("click",function(){ if(it.state.st) return; var fb=fbBox(card); fb.className="fb ui show hint"; fb.innerHTML='<span class="tag ht">Indice</span>'+fmt(Q.pista||""); });
+  row.appendChild(p); card.appendChild(row);
+  wire(it); return card;
+}
+var WRITES=[];
+function covered(points, txt){ var d=" "+deacc(txt)+" "; return points.map(function(pt){ return {label:pt[0], ok: pt[1].some(function(k){ return d.indexOf(deacc(k))>=0; })}; }); }
+function wItem(sec, id, n, Q){
+  var card=h("div",{"class":"card reto"});
+  card.innerHTML='<div class="rt2 ui">'+(Q.label||"ÉCRIRE")+'</div><p class="ui" style="margin:6px 0 4px;font-size:15px">'+fmt(Q.q)+'</p>';
+  S.w=S.w||{}; var t=h("textarea",{"aria-label":Q.label||"Écrire",style:"min-height:120px"}); t.value=S.w[id]||"";
+  t.addEventListener("input",function(){ S.w[id]=t.value; save(); });
+  card.appendChild(t);
+  var row=h("div",{"class":"ctl ui"}); var b=h("button",{"class":"b",type:"button"},"Commentaires"); row.appendChild(b); card.appendChild(row);
+  var fb=h("div",{"class":"fb ui","aria-live":"polite"}); card.appendChild(fb);
+  b.addEventListener("click",function(){
+    var txt=t.value.trim(), words=(txt.match(/[A-Za-zÀ-ÿŒœ'’-]+/g)||[]).length;
+    if(words<25){ fb.className="fb ui show hint"; fb.innerHTML='<span class="tag ht">Indice</span>Write at least '+(Q.min||40)+' words first, then ask for comments. A strong answer covers:<ul class="check">'+Q.points.map(function(p){return "<li>"+esc(p[0])+"</li>";}).join("")+'</ul>'; return; }
+    var cv=covered(Q.points,txt), k=cv.filter(function(x){return x.ok;}).length;
+    fb.className="fb ui show "+(k>=Q.points.length-1?"okb":"hint");
+    fb.innerHTML='<span class="tag '+(k>=Q.points.length-1?"okt":"ht")+'">Commentaires</span>'+k+' of '+cv.length+' key points ('+words+' words).<ul class="check">'+cv.map(function(x){return '<li class="'+(x.ok?"on":"")+'">'+esc(x.label)+'</li>';}).join("")+'</ul><div class="why">The check looks for the key words of each point: a guide, not a mark.</div>'+(Q.model?(words>=(Q.min||40)?'<details style="margin-top:8px"><summary>Une réponse possible</summary><p style="margin:6px 0 0">'+fmt(Q.model)+'</p></details>':'<div class="why">The example answer opens once you have written at least '+(Q.min||40)+' words.</div>'):"");
+  });
+  WRITES.push({sec:sec,q:Q.q,get:function(){return t.value.trim();}});
+  return card;
+}
+var main=document.getElementById("main"), tabs=document.getElementById("tabs");
+D.sections.forEach(function(sx, si){
+  var id="s"+(si+1);
+  var s=h("section",{"class":"ex",id:id}); s.appendChild(h("h2",null,esc(sx.h2)));
+  if(sx.intro) s.appendChild(h("p",{"class":"how ui"},fmt(sx.intro)));
+  if(sx.rule) s.appendChild(h("div",{"class":"rule"},fmt(sx.rule)));
+  var n=0;
+  sx.items.forEach(function(Q,qi){ n++; if(Q.h3) s.appendChild(h("h3",null,esc(Q.h3)));
+    s.appendChild(Q.t==="mc" ? mcItem(id,id+"_"+qi,n,Q) : Q.t==="w" ? wItem(id,id+"_"+qi,n,Q) : gapItem(id,id+"_"+qi,n,Q)); });
+  var f=h("div",{"class":"secfoot ui"}), l=h("div"), r=h("div");
+  if(si>0) l.appendChild(h("button",{"class":"g",type:"button","data-go":"s"+si},"← Retour"));
+  var rs=h("button",{"class":"g",type:"button"},"Recommencer la section");
+  rs.addEventListener("click",function(){ if(!rs._a){ rs._a=true; rs.textContent="Cliquez encore pour effacer"; setTimeout(function(){ rs._a=false; rs.textContent="Recommencer la section"; },3000); return; }
+    ITEMS.filter(function(it){return it.sec===id;}).forEach(function(it){ delete S.it[it.id]; }); save(); location.reload(); });
+  l.appendChild(document.createTextNode(" ")); l.appendChild(rs);
+  if(si<D.sections.length-1) r.appendChild(h("button",{"class":"b",type:"button","data-go":"s"+(si+2)},"Suivant →"));
+  else { var dl=h("button",{"class":"b",type:"button"},"Télécharger mes réponses"); dl.addEventListener("click",download); r.appendChild(dl); }
+  f.appendChild(l); f.appendChild(r); s.appendChild(f);
+  main.appendChild(s);
+  var tb=h("button",{type:"button",role:"tab","data-go":id},esc(sx.tab)+' <span class="n"></span>'); tabs.appendChild(tb);
+  SECS.push({id:id, el:s, tab:tb});
+});
+function totals(){ var tot=ITEMS.length, sc=0, first=0, done=0; ITEMS.forEach(function(it){ var st=it.state; if(st.st==="ok"){ sc++; done++; if(st.first) first++; } else if(st.st==="rev") done++; }); return {tot:tot,sc:sc,first:first,done:done}; }
+function refresh(){
+  var T=totals(); document.getElementById("sc").textContent=T.sc; document.getElementById("tot").textContent=T.tot; document.getElementById("first").textContent=T.first;
+  document.getElementById("bar").style.width=(T.tot?Math.round(100*T.sc/T.tot):0)+"%";
+  SECS.forEach(function(s){ var its=ITEMS.filter(function(it){return it.sec===s.id;}); var d=its.filter(function(it){return it.state.st;}).length, ok=its.filter(function(it){return it.state.st==="ok";}).length; s.tab.querySelector(".n").textContent=ok+"/"+its.length; s.tab.classList.toggle("done",d===its.length); });
+  publish();
+}
+function publish(){
+  try{ var T=totals(); var all=JSON.parse(localStorage.getItem("bba-scores")||"{}"); var f=decodeURIComponent(location.pathname.split("/").pop()||"index"); var prev=all[f]||{};
+    var rec={title:(document.title||"").slice(0,120), score:T.sc, total:T.tot, best:Math.max(T.sc,prev.best||0), attempts:(prev.attempts||0)+(S.pub?0:1), t:Date.now()};
+    var n=Math.max(0,T.done-(S.pubDone||0)); rec.ans=(prev.ans||0)+n; rec.lg={}; for(var k in (prev.lg||{})) rec.lg[k]=prev.lg[k];
+    var day=String(Math.floor(Date.now()/86400000)); if(n) rec.lg[day]=(rec.lg[day]||0)+n;
+    all[f]=rec; localStorage.setItem("bba-scores",JSON.stringify(all)); S.pub=true; S.pubDone=T.done; save(); }catch(e){}
+}
+function studentName(){ var nm=document.querySelector("#bba-kit .nm"); var v=nm&&nm.value.trim(); if(!v){ try{ v=localStorage.getItem("bba-name")||""; }catch(e){} } return v||""; }
+function download(){
+  var T=totals(), name=studentName(), L=[];
+  L.push(D.dlhead); L.push("Nom : "+(name||"(sans nom)")); L.push("Date : "+new Date().toLocaleString("fr-FR")); L.push("Points : "+T.sc+" / "+T.tot+"  ·  du premier coup : "+T.first); L.push("");
+  SECS.forEach(function(s){ L.push("== "+s.el.querySelector("h2").textContent+" ==");
+    ITEMS.filter(function(it){return it.sec===s.id;}).forEach(function(it,i){ var st=it.state;
+      var mark=st.st==="ok"?(st.first?"✓":"✓ (2e essai)"):st.st==="rev"?"✗ → "+it.ans:"— sans réponse";
+      L.push((i+1)+". "+it.q.replace(/\*\*/g,"").replace(/\s+/g," ").slice(0,160)); L.push("   Réponse : "+(it.given()||"—")+"   ["+mark+"]"); });
+    WRITES.filter(function(w){return w.sec===s.id;}).forEach(function(w){ L.push("TEXTE : "+w.q.replace(/\*\*/g,"")); L.push(w.get()||"—"); });
+    L.push(""); });
+  var blob=new Blob([L.join("\r\n")],{type:"text/plain;charset=utf-8"}); var a=document.createElement("a"); a.href=URL.createObjectURL(blob);
+  a.download=D.dlfile+(name||"sans_nom").replace(/[^\wÀ-ÿ-]+/g,"_")+".txt"; document.body.appendChild(a); a.click(); setTimeout(function(){ URL.revokeObjectURL(a.href); a.remove(); },500);
+}
+function go(id){ SECS.forEach(function(s){ var on=s.id===id; s.el.classList.toggle("active",on); s.tab.setAttribute("aria-selected",on?"true":"false"); }); S.tab=id; save();
+  var nav=document.getElementById("tabs"); if(window.scrollY>nav.offsetTop) window.scrollTo({top:nav.offsetTop,behavior:"smooth"}); }
+document.addEventListener("click",function(e){ var b=e.target.closest("[data-go]"); if(b){ e.preventDefault(); go(b.getAttribute("data-go")); } });
+ITEMS.forEach(function(it){ it.restore(); });
+go(S.tab && document.getElementById(S.tab) ? S.tab : "s1"); refresh();
+window.BBAG={items:ITEMS, totals:totals, judge:judge};
+})();
+</script>
+<script src="bba-kit-fr.js" defer></script>
+<script src="bba-send-strip.js" defer></script>
+<button id="txtBtn" type="button" aria-controls="txtPanel" aria-expanded="false">📖 Texte</button>
+<aside id="txtPanel" aria-label="Texte du chapitre"><header><span>Albert Camus, <i>L'Étranger</i>, II, 4</span><button type="button" id="txtClose" aria-label="Fermer">×</button></header><div id="txtBody"><h2>L'Étranger - Chapitre 4 (Deuxième Partie)</h2>
         <p>Même sur un banc d'accusé, il est toujours intéressant d'entendre parler de soi. Pendant les plaidoiries du procureur et de mon avocat, je peux dire qu'on a beaucoup parlé de moi et peut-être plus de moi que de mon crime. Étaient-elles si différentes, d'ailleurs, ces plaidoiries ? L'avocat levait les bras et plaidait coupable, mais avec excuses. Le procureur tendait ses mains et dénonçait la culpabilité, mais sans excuses.  
 
 Une chose pourtant me gênait vaguement. Malgré mes préoccupations, j'étais parfois tenté d'intervenir et mon avocat me disait alors : « Taisez-vous, cela vaut mieux pour votre affaire. » En quelque sorte, on avait l'air de traiter cette affaire en dehors de moi. Tout se déroulait sans mon intervention. Mon sort se réglait sans qu'on prenne mon avis. De temps en temps, j'avais envie d'interrompre tout le monde et de dire : « Mais tout de même, qui est l'accusé ? C'est important d'être l'accusé. Et j'ai quelque chose à dire ! » Mais réflexion faite, je n'avais rien à dire.  
@@ -630,767 +413,9 @@ Je n'ai pas regardé du côté de Marie. Je n'en ai pas eu le temps parce que le
 Il m'a semblé alors reconnaître le sentiment que je lisais sur tous les visages. Je crois bien que c'était de la considération. Les gendarmes étaient très doux avec moi. L'avocat a posé sa main sur mon poignet.  
 
 Je ne pensais plus à rien. Mais le président m'a demandé si je n'avais rien à ajouter. J'ai réfléchi. J'ai dit : « Non. » C'est alors qu'on m'a emmené.</p>
-    </div>
-    
-    <div class="container">
-        <div class="header">
-            <h1>L'Étranger - Albert Camus</h1>
-            <p>Chapitre 4, Deuxième Partie : Le Procès de Meursault</p>
-        </div>
-        
-        <div class="content">
-            <div class="student-info">
-                <h3>Informations Étudiant</h3>
-                <p><strong>Nom :</strong> <input type="text" id="studentName" placeholder="Votre nom" style="padding: 5px; margin-left: 10px;"></p>
-                <p><strong>Classe :</strong> <input type="text" id="studentClass" placeholder="Votre classe" style="padding: 5px; margin-left: 10px;"></p>
-            </div>
-            
-            <div class="progress">
-                <div class="progress-bar" id="progressBar"></div>
-            </div>
-            <div class="score-display" id="scoreDisplay">Score : 0/0</div>
-            
-            <div class="completion-info" id="completionInfo" style="display: none;">
-                <strong>📊 Progression :</strong> <span id="completionText">0% complété</span>
-            </div>
-            
-            <!-- Key Themes Overview -->
-            <div class="theme-box">
-                <div class="theme-title">Thèmes Clés de ce Chapitre</div>
-                <div class="theme-desc">
-                    • L'exclusion et l'aliénation • Le regard détaché de Meursault • 
-                    L'absurdité du système judiciaire • Le décalage entre la réalité et le langage • 
-                    La condamnation pour non-conformité sociale
-                </div>
-            </div>
-            
-            <!-- Section 1: L'exclusion de Meursault -->
-            <div class="section active" id="section1">
-                <h2>I. L'Exclusion de Meursault</h2>
-                
-                <div class="quote">
-                    "En quelque sorte, on avait l'air de traiter cette affaire en dehors de moi. Tout se déroulait sans mon intervention."
-                </div>
-                
-                <div class="question">
-                    <div class="question-number">1</div>
-                    <div class="question-text">Que dit l'avocat de Meursault quand celui-ci veut intervenir pendant le procès ?</div>
-                    <div class="options">
-                        <div class="option" data-answer="a" data-question="1">a) « Parlez librement, c'est votre droit »</div>
-                        <div class="option" data-answer="b" data-question="1">b) « Taisez-vous, cela vaut mieux pour votre affaire »</div>
-                        <div class="option" data-answer="c" data-question="1">c) « Dites ce que vous pensez »</div>
-                        <div class="option" data-answer="d" data-question="1">d) « Attendez votre tour »</div>
-                    </div>
-                    <button class="btn" onclick="checkAnswer(this, 'b', 5)">Vérifier</button>
-                    <div class="feedback"></div>
-                </div>
-                
-                <div class="question">
-                    <div class="question-number">2</div>
-                    <div class="question-text">Pourquoi Meursault ne dit-il finalement rien quand il veut intervenir ?</div>
-                    <div class="options">
-                        <div class="option" data-answer="a" data-question="2">a) Il a peur du jugement</div>
-                        <div class="option" data-answer="b" data-question="2">b) Il réalise qu'il n'a rien à dire</div>
-                        <div class="option" data-answer="c" data-question="2">c) Il est trop en colère pour parler</div>
-                        <div class="option" data-answer="d" data-question="2">d) Son avocat le lui interdit</div>
-                    </div>
-                    <button class="btn" onclick="checkAnswer(this, 'b', 5)">Vérifier</button>
-                    <div class="feedback"></div>
-                </div>
-                
-                <div class="question">
-                    <div class="question-number">3</div>
-                    <div class="question-text">Analyse : Comment le point de vue à la première personne renforce-t-il le sentiment d'exclusion de Meursault ? (100-150 mots)</div>
-                    <textarea id="answer3" placeholder="Écrivez votre analyse ici..."></textarea>
-                    <button class="btn" onclick="writeFeedback(3)">Commentaires</button>
-                    <button class="btn" onclick="showModelAnswer(3)">Voir un exemple de réponse</button>
-                    <div class="feedback"></div>
-                </div>
-            </div>
-            
-            <!-- Section 2: Le discours du procureur -->
-            <div class="section" id="section2">
-                <h2>II. Le Discours du Procureur</h2>
-                
-                <div class="hint">
-                    💡 Observez comment le procureur construit son réquisitoire non pas sur le meurtre, mais sur la personnalité de Meursault.
-                </div>
-                
-                <div class="question">
-                    <div class="question-number">4</div>
-                    <div class="question-text">Quels comportements de Meursault après la mort de sa mère le procureur utilise-t-il contre lui ?</div>
-                    <div class="options">
-                        <div class="option" data-answer="a" data-question="4">a) Son insensibilité, ne pas connaître l'âge de sa mère, aller se baigner avec une femme, aller au cinéma voir Fernandel</div>
-                        <div class="option" data-answer="b" data-question="4">b) Seulement le fait qu'il ait tué un homme</div>
-                        <div class="option" data-answer="c" data-question="4">c) Ses relations avec Raymond uniquement</div>
-                        <div class="option" data-answer="d" data-question="4">d) Son refus de pleurer au tribunal</div>
-                    </div>
-                    <button class="btn" onclick="checkAnswer(this, 'a', 5)">Vérifier</button>
-                    <div class="feedback"></div>
-                </div>
-                
-                <div class="question">
-                    <div class="question-number">5</div>
-                    <div class="question-text">Comment le procureur interprète-t-il le fait que Meursault est "intelligent" ?</div>
-                    <div class="options">
-                        <div class="option" data-answer="a" data-question="5">a) Comme une circonstance atténuante</div>
-                        <div class="option" data-answer="b" data-question="5">b) Comme une preuve de préméditation</div>
-                        <div class="option" data-answer="c" data-question="5">c) Comme un compliment</div>
-                        <div class="option" data-answer="d" data-question="5">d) Comme une excuse</div>
-                    </div>
-                    <button class="btn" onclick="checkAnswer(this, 'b', 5)">Vérifier</button>
-                    <div class="feedback"></div>
-                </div>
-                
-                <div class="question">
-                    <div class="question-number">6</div>
-                    <div class="question-text">Quelle comparaison choquante le procureur fait-il entre Meursault et un autre criminel ?</div>
-                    <div class="options">
-                        <div class="option" data-answer="a" data-question="6">a) Il le compare à un parricide</div>
-                        <div class="option" data-answer="b" data-question="6">b) Il le compare à un voleur</div>
-                        <div class="option" data-answer="c" data-question="6">c) Il le compare à un menteur</div>
-                        <div class="option" data-answer="d" data-question="6">d) Il le compare à un terroriste</div>
-                    </div>
-                    <button class="btn" onclick="checkAnswer(this, 'a', 5)">Vérifier</button>
-                    <div class="feedback"></div>
-                </div>
-                
-                <div class="question">
-                    <div class="question-number">7</div>
-                    <div class="question-text">Analyse : En quoi le discours du procureur révèle-t-il que Meursault est jugé pour son refus des conventions sociales plutôt que pour le meurtre ? (150-200 mots)</div>
-                    <textarea id="answer7" placeholder="Développez votre analyse..."></textarea>
-                    <button class="btn" onclick="writeFeedback(7)">Commentaires</button>
-                    <button class="btn" onclick="showModelAnswer(7)">Voir un exemple de réponse</button>
-                    <div class="feedback"></div>
-                </div>
-            </div>
-            
-            <!-- Section 3: Le décalage langagier -->
-            <div class="section" id="section3">
-                <h2>III. Le Décalage Langagier</h2>
-                
-                <div class="quote">
-                    "Il disait « sa maîtresse » et pour moi, elle était Marie."
-                </div>
-                
-                <div class="question">
-                    <div class="question-number">8</div>
-                    <div class="question-text">Quand le procureur dit "sa maîtresse", comment Meursault réagit-il ?</div>
-                    <div class="options">
-                        <div class="option" data-answer="a" data-question="8">a) Il comprend exactement la même chose</div>
-                        <div class="option" data-answer="b" data-question="8">b) Pour lui, "elle était Marie" - il ne comprend pas cette étiquette morale</div>
-                        <div class="option" data-answer="c" data-question="8">c) Il pense à une autre personne</div>
-                        <div class="option" data-answer="d" data-question="8">d) Il ne comprend pas le mot "maîtresse"</div>
-                    </div>
-                    <button class="btn" onclick="checkAnswer(this, 'b', 5)">Vérifier</button>
-                    <div class="feedback"></div>
-                </div>
-                
-                <div class="question">
-                    <div class="question-number">9</div>
-                    <div class="question-text">Comment Camus montre-t-il que Meursault et le procureur ne parlent pas le même langage ?</div>
-                    <div class="options">
-                        <div class="option" data-answer="a" data-question="9">a) Ils parlent des langues différentes</div>
-                        <div class="option" data-answer="b" data-question="9">b) Le procureur utilise un langage moral et dramatique, Meursault un langage simple et factuel</div>
-                        <div class="option" data-answer="c" data-question="9">c) Meursault ne comprend pas le français</div>
-                        <div class="option" data-answer="d" data-question="9">d) Il n'y a aucun décalage</div>
-                    </div>
-                    <button class="btn" onclick="checkAnswer(this, 'b', 5)">Vérifier</button>
-                    <div class="feedback"></div>
-                </div>
-                
-                <div class="question">
-                    <div class="question-number">10</div>
-                    <div class="question-text">Analyse stylistique : Pourquoi Meursault met-il certains mots entre guillemets (comme "sa maîtresse" ou "de moralité douteuse") ? (100-150 mots)</div>
-                    <textarea id="answer10" placeholder="Analysez le rapport au langage..."></textarea>
-                    <button class="btn" onclick="writeFeedback(10)">Commentaires</button>
-                    <button class="btn" onclick="showModelAnswer(10)">Voir un exemple de réponse</button>
-                    <div class="feedback"></div>
-                </div>
-            </div>
-            
-            <!-- Section 4: La plaidoirie de l'avocat -->
-            <div class="section" id="section4">
-                <h2>IV. La Plaidoirie de l'Avocat</h2>
-                
-                <div class="hint">
-                    💡 L'avocat utilise également un langage qui dépersonnalise Meursault.
-                </div>
-                
-                <div class="question">
-                    <div class="question-number">11</div>
-                    <div class="question-text">Qu'est-ce qui étonne Meursault dans la plaidoirie de son avocat ?</div>
-                    <div class="options">
-                        <div class="option" data-answer="a" data-question="11">a) L'avocat dit « je » chaque fois qu'il parle de Meursault</div>
-                        <div class="option" data-answer="b" data-question="11">b) L'avocat ne dit rien</div>
-                        <div class="option" data-answer="c" data-question="11">c) L'avocat le critique</div>
-                        <div class="option" data-answer="d" data-question="11">d) L'avocat parle trop vite</div>
-                    </div>
-                    <button class="btn" onclick="checkAnswer(this, 'a', 5)">Vérifier</button>
-                    <div class="feedback"></div>
-                </div>
-                
-                <div class="question">
-                    <div class="question-number">12</div>
-                    <div class="question-text">Comment l'avocat décrit-il Meursault ?</div>
-                    <div class="options">
-                        <div class="option" data-answer="a" data-question="12">a) Comme un criminel endurci</div>
-                        <div class="option" data-answer="b" data-question="12">b) Comme un honnête homme, un travailleur régulier, un fils modèle</div>
-                        <div class="option" data-answer="c" data-question="12">c) Comme un homme perturbé</div>
-                        <div class="option" data-answer="d" data-question="12">d) Comme un étranger inadapté</div>
-                    </div>
-                    <button class="btn" onclick="checkAnswer(this, 'b', 5)">Vérifier</button>
-                    <div class="feedback"></div>
-                </div>
-                
-                <div class="question">
-                    <div class="question-number">13</div>
-                    <div class="question-text">Que manque-t-il dans la plaidoirie de l'avocat selon Meursault ?</div>
-                    <div class="options">
-                        <div class="option" data-answer="a" data-question="13">a) La mention de l'enterrement de sa mère</div>
-                        <div class="option" data-answer="b" data-question="13">b) La mention du meurtre</div>
-                        <div class="option" data-answer="c" data-question="13">c) La mention de Marie</div>
-                        <div class="option" data-answer="d" data-question="13">d) La mention du soleil</div>
-                    </div>
-                    <button class="btn" onclick="checkAnswer(this, 'a', 5)">Vérifier</button>
-                    <div class="feedback"></div>
-                </div>
-                
-                <div class="question">
-                    <div class="question-number">14</div>
-                    <div class="question-text">Analyse : En quoi la défense de l'avocat est-elle aussi absurde que l'accusation du procureur ? (150-200 mots)</div>
-                    <textarea id="answer14" placeholder="Développez votre analyse..."></textarea>
-                    <button class="btn" onclick="writeFeedback(14)">Commentaires</button>
-                    <button class="btn" onclick="showModelAnswer(14)">Voir un exemple de réponse</button>
-                    <div class="feedback"></div>
-                </div>
-            </div>
-            
-            <!-- Section 5: Les souvenirs et le jugement -->
-            <div class="section" id="section5">
-                <h2>V. Les Souvenirs et le Jugement</h2>
-                
-                <div class="quote">
-                    "La trompette d'un marchand de glace a résonné jusqu'à moi. J'ai été assailli des souvenirs d'une vie qui ne m'appartenait plus."
-                </div>
-                
-                <div class="question">
-                    <div class="question-number">15</div>
-                    <div class="question-text">Quel souvenir sensoriel vient assaillir Meursault pendant la plaidoirie de son avocat ?</div>
-                    <div class="options">
-                        <div class="option" data-answer="a" data-question="15">a) La trompette d'un marchand de glace</div>
-                        <div class="option" data-answer="b" data-question="15">b) Le son des vagues</div>
-                        <div class="option" data-answer="c" data-question="15">c) La voix de sa mère</div>
-                        <div class="option" data-answer="d" data-question="15">d) Le bruit de la pluie</div>
-                    </div>
-                    <button class="btn" onclick="checkAnswer(this, 'a', 5)">Vérifier</button>
-                    <div class="feedback"></div>
-                </div>
-                
-                <div class="question">
-                    <div class="question-number">16</div>
-                    <div class="question-text">Quelle est la réaction de Meursault quand il voit Marie dans la salle d'audience ?</div>
-                    <div class="options">
-                        <div class="option" data-answer="a" data-question="16">a) Il lui sourit chaleureusement</div>
-                        <div class="option" data-answer="b" data-question="16">b) Il ne peut pas répondre à son sourire car son cœur est fermé</div>
-                        <div class="option" data-answer="c" data-question="16">c) Il lui fait un signe de la main</div>
-                        <div class="option" data-answer="d" data-question="16">d) Il détourne les yeux</div>
-                    </div>
-                    <button class="btn" onclick="checkAnswer(this, 'b', 5)">Vérifier</button>
-                    <div class="feedback"></div>
-                </div>
-                
-                <div class="question">
-                    <div class="question-number">17</div>
-                    <div class="question-text">Quelle peine est prononcée contre Meursault ?</div>
-                    <div class="options">
-                        <div class="option" data-answer="a" data-question="17">a) La prison à vie</div>
-                        <div class="option" data-answer="b" data-question="17">b) La tête tranchée sur une place publique</div>
-                        <div class="option" data-answer="c" data-question="17">c) Vingt ans de bagne</div>
-                        <div class="option" data-answer="d" data-question="17">d) Dix ans de prison</div>
-                    </div>
-                    <button class="btn" onclick="checkAnswer(this, 'b', 5)">Vérifier</button>
-                    <div class="feedback"></div>
-                </div>
-                
-                <div class="question">
-                    <div class="question-number">18</div>
-                    <div class="question-text">Analyse : Comment les souvenirs sensoriels contrastent-ils avec la froideur du procès ? Que révèle ce contraste sur la perception de Meursault ? (150-200 mots)</div>
-                    <textarea id="answer18" placeholder="Analysez ce contraste..."></textarea>
-                    <button class="btn" onclick="writeFeedback(18)">Commentaires</button>
-                    <button class="btn" onclick="showModelAnswer(18)">Voir un exemple de réponse</button>
-                    <div class="feedback"></div>
-                </div>
-            </div>
-            
-            <!-- Section 6: Synthèse et réflexion -->
-            <div class="section" id="section6">
-                <h2>VI. Synthèse et Réflexion</h2>
-                
-                <div class="question">
-                    <div class="question-number">19</div>
-                    <div class="question-text">D'après ce chapitre, sur quoi repose surtout la condamnation de Meursault ?</div>
-                    <div class="options">
-                        <div class="option" data-answer="a" data-question="19">a) Uniquement sur le meurtre de l'Arabe</div>
-                        <div class="option" data-answer="b" data-question="19">b) Sur des aveux obtenus sous la pression</div>
-                        <div class="option" data-answer="c" data-question="19">c) Sur sa personnalité et son refus des conventions sociales, autant que sur le meurtre</div>
-                        <div class="option" data-answer="d" data-question="19">d) Sur le témoignage de Raymond</div>
-                    </div>
-                    <button class="btn" onclick="checkAnswer(this, 'c', 5)">Vérifier</button>
-                    <div class="feedback"></div>
-                </div>
-                
-                <div class="question">
-                    <div class="question-number">20</div>
-                    <div class="question-text">Dissertation courte : En quoi ce chapitre illustre-t-il l'absurdité du système judiciaire et plus généralement de la société ? Rédigez une réponse structurée. (250-300 mots)</div>
-                    <div class="hint">💡 Structure possible : I. L'exclusion de l'accusé / II. Le jugement des apparences plutôt que des actes / III. Le langage comme instrument d'aliénation</div>
-                    <textarea id="answer20" style="min-height: 150px;" placeholder="Rédigez votre dissertation..."></textarea>
-                    <button class="btn" onclick="writeFeedback(20)">Commentaires</button>
-                    <button class="btn" onclick="showModelAnswer(20)">Voir un exemple de réponse</button>
-                    <div class="feedback"></div>
-                </div>
-                
-                <div class="question">
-                    <div class="question-number">21</div>
-                    <div class="question-text">Réflexion personnelle : Pensez-vous que Meursault mérite sa condamnation ? Pourquoi ou pourquoi pas ?</div>
-                    <textarea id="answer21" placeholder="Réflexion personnelle..."></textarea>
-                    <div class="feedback info show">
-                        <strong>💭 Réflexion libre :</strong> Il n'y a pas de "bonne" réponse unique. Réfléchissez à la justice, à la société, et à la notion de culpabilité.
-                    </div>
-                </div>
-            </div>
-            
-            <div class="nav-buttons">
-                <button class="btn" id="prevBtn" onclick="changeSection(-1)">← Précédent</button>
-                <button class="btn" id="nextBtn" onclick="changeSection(1)">Suivant →</button>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        let currentSection = 1;
-        const totalSections = 6;
-        let scores = {};
-        let totalQuestions = 0;
-        let correctAnswers = 0;
-        let activeTextArea = null;
-        let studentAnswers = {};
-        let completionStatus = {};
-
-        // Text viewer functions
-        function toggleText() {
-            const floatingText = document.getElementById('floatingText');
-            const overlay = document.getElementById('overlay');
-            
-            if (floatingText.classList.contains('show')) {
-                floatingText.classList.remove('show');
-                overlay.classList.remove('show');
-            } else {
-                floatingText.classList.add('show');
-                overlay.classList.add('show');
-            }
-        }
-
-        // French keyboard functions
-        function toggleKeyboard() {
-            const keyboard = document.getElementById('frenchKeyboard');
-            const overlay = document.getElementById('overlay');
-            
-            if (keyboard.classList.contains('show')) {
-                keyboard.classList.remove('show');
-                overlay.classList.remove('show');
-            } else {
-                keyboard.classList.add('show');
-                overlay.classList.add('show');
-                // Store reference to active textarea
-                activeTextArea = document.activeElement;
-            }
-        }
-
-        function insertAccent(accent) {
-            if (activeTextArea && activeTextArea.tagName === 'TEXTAREA') {
-                const start = activeTextArea.selectionStart;
-                const end = activeTextArea.selectionEnd;
-                const text = activeTextArea.value;
-                const newText = text.substring(0, start) + accent + text.substring(end);
-                activeTextArea.value = newText;
-                activeTextArea.focus();
-                activeTextArea.selectionStart = activeTextArea.selectionEnd = start + 1;
-                
-                // Save answer
-                const questionId = activeTextArea.id.replace('answer', '');
-                if (questionId) {
-                    studentAnswers[questionId] = newText;
-                    updateCompletionStatus();
-                }
-            }
-        }
-
-        // Track text input for essay questions
-        document.querySelectorAll('textarea').forEach(textarea => {
-            textarea.addEventListener('input', function(e) {
-                const questionId = this.id.replace('answer', '');
-                if (questionId) {
-                    studentAnswers[questionId] = this.value;
-                    updateCompletionStatus();
-                }
-            });
-        });
-
-        // Download student work function
-        function downloadStudentWork() {
-            const studentName = document.getElementById('studentName').value || 'Étudiant';
-            const studentClass = document.getElementById('studentClass').value || 'Classe non spécifiée';
-            const now = new Date();
-            const dateStr = now.toLocaleDateString('fr-FR');
-            const timeStr = now.toLocaleTimeString('fr-FR', {hour: '2-digit', minute: '2-digit'});
-            
-            let content = `RÉPONSES DE L'ÉTUDIANT - L'ÉTRANGER CHAPITRE 4\n`;
-            content += `====================================================\n\n`;
-            content += `Étudiant : ${studentName}\n`;
-            content += `Classe : ${studentClass}\n`;
-            content += `Date : ${dateStr}\n`;
-            content += `Heure : ${timeStr}\n`;
-            content += `Score : ${correctAnswers}/${totalQuestions} (${totalQuestions > 0 ? Math.round((correctAnswers/totalQuestions)*100) : 0}%)\n`;
-            content += `Progression : ${calculateCompletionPercentage()}%\n\n`;
-            content += `====================================================\n`;
-            content += `RÉPONSES DÉTAILLÉES\n`;
-            content += `====================================================\n\n`;
-            
-            // Multiple choice questions
-            for (let i = 1; i <= 21; i++) {
-                if ([3, 7, 10, 14, 18, 20, 21].includes(i)) {
-                    // Essay questions
-                    if (studentAnswers[i]) {
-                        content += `Question ${i} (Réponse développée) :\n`;
-                        content += studentAnswers[i] + '\n';
-                        content += `---\n\n`;
-                    }
-                } else {
-                    // Multiple choice questions
-                    const questionElement = document.querySelector(`[data-question="${i}"]`);
-                    if (questionElement && questionElement.classList.contains('selected')) {
-                        const selectedAnswer = questionElement.dataset.answer;
-                        const isCorrect = scores[`Q${i}`];
-                        content += `Question ${i} : ${selectedAnswer} ${isCorrect ? '✓' : '✗'}\n`;
-                        content += `---\n\n`;
-                    }
-                }
-            }
-            
-            content += `====================================================\n`;
-            content += `ANALYSE DE LA PERFORMANCE\n`;
-            content += `====================================================\n\n`;
-            
-            // Calculate statistics
-            const completedQuestions = Object.keys(completionStatus).length;
-            const essayQuestions = [3, 7, 10, 14, 18, 20, 21];
-            const essayAnswers = essayQuestions.filter(q => studentAnswers[q] && studentAnswers[q].trim().length > 10).length;
-            
-            content += `Statistiques :\n`;
-            content += `- Questions totales : 21\n`;
-            content += `- Questions à choix multiples : 14\n`;
-            content += `- Questions de rédaction : 7\n`;
-            content += `- Réponses données : ${completedQuestions}/21\n`;
-            content += `- Rédactions complétées : ${essayAnswers}/7\n`;
-            content += `- Score aux QCM : ${correctAnswers}/${totalQuestions}\n\n`;
-            
-            content += `Commentaire :\n`;
-            if (correctAnswers === totalQuestions && totalQuestions > 0) {
-                content += `Excellent travail ! Vous avez parfaitement compris ce chapitre crucial du roman.\n`;
-            } else if (correctAnswers >= totalQuestions * 0.7) {
-                content += `Bon travail ! Vous avez bien saisi les enjeux principaux du procès de Meursault.\n`;
-            } else {
-                content += `Il serait bénéfique de relire attentivement le texte et de revoir les thèmes principaux.\n`;
-            }
-            
-            const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
-            const link = document.createElement('a');
-            link.href = URL.createObjectURL(blob);
-            link.download = `L_Etranger_Ch4_${studentName.replace(/\s+/g, '_')}_${dateStr.replace(/\//g, '-')}.txt`;
-            link.click();
-        }
-
-        // Calculate completion percentage
-        function calculateCompletionPercentage() {
-            const totalPossible = 21;
-            let completed = 0;
-            
-            // Count multiple choice questions answered
-            for (let i = 1; i <= 21; i++) {
-                if ([3, 7, 10, 14, 18, 20, 21].includes(i)) {
-                    // Essay questions
-                    if (studentAnswers[i] && studentAnswers[i].trim().length > 10) {
-                        completed++;
-                    }
-                } else {
-                    // Multiple choice questions
-                    const selectedOption = document.querySelector(`[data-question="${i}"].selected`);
-                    if (selectedOption) {
-                        completed++;
-                    }
-                }
-            }
-            
-            return Math.round((completed / totalPossible) * 100);
-        }
-
-        function updateCompletionStatus() {
-            const percentage = calculateCompletionPercentage();
-            const completionInfo = document.getElementById('completionInfo');
-            const completionText = document.getElementById('completionText');
-            
-            if (percentage > 0) {
-                completionInfo.style.display = 'block';
-                completionText.textContent = `${percentage}% complété (${Object.keys(completionStatus).length}/21 questions)`;
-            }
-        }
-
-        // Close all modals
-        function closeAllModals() {
-            document.getElementById('floatingText').classList.remove('show');
-            document.getElementById('frenchKeyboard').classList.remove('show');
-            document.getElementById('overlay').classList.remove('show');
-        }
-
-        // Track active textarea for keyboard
-        document.addEventListener('focusin', function(e) {
-            if (e.target.tagName === 'TEXTAREA') {
-                activeTextArea = e.target;
-            }
-        });
-
-        // Exercise functions
-        function updateProgress() {
-            const progress = (currentSection / totalSections) * 100;
-            document.getElementById('progressBar').style.width = progress + '%';
-        }
-
-        function updateScore() {
-            document.getElementById('scoreDisplay').textContent = 
-                `Score : ${correctAnswers}/${totalQuestions} questions correctes`;
-        }
-
-        function changeSection(direction) {
-            const sections = document.querySelectorAll('.section');
-            sections[currentSection - 1].classList.remove('active');
-            
-            currentSection += direction;
-            
-            if (currentSection < 1) currentSection = 1;
-            if (currentSection > totalSections) currentSection = totalSections;
-            
-            sections[currentSection - 1].classList.add('active');
-            
-            document.getElementById('prevBtn').disabled = currentSection === 1;
-            document.getElementById('nextBtn').disabled = currentSection === totalSections;
-            
-            updateProgress();
-            window.scrollTo({top: 0, behavior: 'smooth'});
-        }
-
-        function checkAnswer(button, correctAnswer, points) {
-            const question = button.closest('.question');
-            const options = question.querySelectorAll('.option');
-            const feedback = question.querySelector('.feedback');
-            
-            let selectedAnswer = null;
-            let selectedOption = null;
-            
-            options.forEach(option => {
-                if (option.classList.contains('selected')) {
-                    selectedAnswer = option.dataset.answer;
-                    selectedOption = option;
-                }
-            });
-            
-            if (!selectedAnswer) {
-                feedback.className = 'feedback show incorrect';
-                feedback.innerHTML = '⚠️ Veuillez sélectionner une réponse.';
-                return;
-            }
-            
-            const questionNumber = question.querySelector('.question-number').textContent;
-            const questionId = `Q${questionNumber}`;
-            
-            if (!scores[questionId]) {
-                totalQuestions++;
-            }
-            
-            // Store the student's answer
-            completionStatus[questionNumber] = true;
-            updateCompletionStatus();
-            
-            if (selectedAnswer === correctAnswer) {
-                feedback.className = 'feedback show correct';
-                feedback.innerHTML = '✓ Excellent ! Réponse correcte.';
-                options.forEach(option => {
-                    if (option.dataset.answer === correctAnswer) {
-                        option.classList.add('correct');
-                    }
-                });
-                
-                if (!scores[questionId]) {
-                    correctAnswers++;
-                    scores[questionId] = true;
-                }
-            } else {
-                if (question.dataset.last !== selectedAnswer) { question.dataset.tries = (+question.dataset.tries || 0) + 1; question.dataset.last = selectedAnswer; }
-                if (+question.dataset.tries < 2) {
-                    feedback.className = 'feedback show incorrect';
-                    feedback.innerHTML = '✗ Not yet. Read the passage again, choose another answer and check.';
-                    options.forEach(option => { if (option.dataset.answer === selectedAnswer) option.classList.add('incorrect'); });
-                    return;
-                }
-                feedback.className = 'feedback show incorrect';
-                feedback.innerHTML = '✗ Second try. The right answer is now highlighted.';
-                options.forEach(option => {
-                    if (option.dataset.answer === correctAnswer) {
-                        option.classList.add('correct');
-                    }
-                    if (option.dataset.answer === selectedAnswer) {
-                        option.classList.add('incorrect');
-                    }
-                });
-                
-                if (scores[questionId]) {
-                    correctAnswers--;
-                }
-                scores[questionId] = false;
-            }
-            
-            button.disabled = true;
-            updateScore();
-        }
-
-
-        /* Click feedback on written answers: length, quotation, connectors, analytical verbs */
-        function writeFeedback(n) {
-            const ta = document.getElementById('answer' + n);
-            const q = ta.closest('.question');
-            const fb = q.querySelector('.feedback');
-            const txt = ta.value.trim();
-            const words = (txt.match(/[A-Za-zÀ-ÿœŒ'’-]+/g) || []).length;
-            const m = (q.querySelector('.question-text') || q).textContent.match(/(\d+)\s*-\s*(\d+)\s*mots/);
-            const lo = m ? +m[1] : 80, hi = m ? +m[2] : 200;
-            if (words < 25) { fb.className = 'feedback show incorrect'; fb.innerHTML = 'Write at least ' + lo + ' words first, then ask for comments.'; return; }
-            const t = ' ' + txt.toLowerCase().replace(/[’]/g, "'") + ' ';
-            const quote = /«[^»]{4,}»|"[^"]{4,}"/.test(txt);
-            const conn = ['cependant','pourtant','néanmoins','toutefois','en revanche','alors que','par conséquent','ainsi','de plus','en outre','par ailleurs',"c'est pourquoi",'en effet','bien que',"bien qu'",'donc'].filter(k => t.includes(' ' + k));
-            const verbs = ['souligne','révèle','illustre','traduit','met en évidence','met en lumière','suggère','symbolise','dénonce','montre','incarne','reflète','témoigne'].filter(k => t.includes(' ' + k));
-            const lenOk = words >= lo && words <= hi + 30;
-            const rows = [
-                [lenOk, words + ' words (target ' + lo + '–' + hi + ')'],
-                [quote, 'a short quotation from the text in « »'],
-                [conn.length >= 2, 'connectors' + (conn.length ? ': ' + conn.join(', ') : '')],
-                [verbs.length >= 1, 'analytical verbs' + (verbs.length ? ': ' + verbs.join(', ') : '')]
-            ];
-            const k = rows.filter(r => r[0]).length;
-            fb.className = 'feedback show ' + (k >= 3 ? 'correct' : 'incorrect');
-            fb.innerHTML = '<strong>Commentaires — ' + k + ' of 4</strong><br>' + rows.map(r => (r[0] ? '✔ ' : '✘ ') + r[1]).join('<br>') +
-                '<br><em>The check looks for key features, not for meaning: compare with the example answer next.</em>';
-        }
-
-        function showModelAnswer(questionNum) {
-            const question = document.getElementById(`answer${questionNum}`).closest('.question');
-            const feedback = question.querySelector('.feedback');
-            
-            const modelAnswers = {
-                3: `<strong>Exemple de réponse :</strong><br><br>
-                Le point de vue à la première personne renforce puissamment le sentiment d'exclusion de Meursault. En nous faisant vivre le procès à travers ses yeux, Camus nous montre directement son incompréhension face au langage judiciaire. Le lecteur ressent la même distance que Meursault face aux discours du procureur et de l'avocat. Les expressions comme "en quelque sorte", "si j'ai bien compris" montrent sa difficulté à saisir la logique du procès. Cette narration interne crée un effet de distanciation : nous sommes avec Meursault, spectateurs impuissants de son propre jugement.`,
-                
-                7: `<strong>Exemple de réponse :</strong><br><br>
-                Le procureur ne juge pas Meursault pour le meurtre de l'Arabe, mais pour son comportement après la mort de sa mère. Les "preuves" qu'il cite sont révélatrices : "mon insensibilité, l'ignorance où j'étais de l'âge de maman, mon bain du lendemain, avec une femme, le cinéma, Fernandel". Ces éléments n'ont aucun lien juridique avec le meurtre, mais ils violent les conventions sociales du deuil. Meursault est coupable de ne pas avoir pleuré, de ne pas avoir feint une émotion qu'il ne ressentait pas. Le procureur le dit lui-même : "on a beaucoup parlé de moi et peut-être plus de moi que de mon crime". C'est bien la personne de Meursault, son refus des codes sociaux, qui est jugée.`,
-                
-                10: `<strong>Exemple de réponse :</strong><br><br>
-                Meursault met certains mots entre guillemets pour montrer sa distance par rapport à ce langage qui n'est pas le sien. Ces guillemets indiquent que ces termes lui sont étrangers, qu'il les emprunte au discours des autres. Quand le procureur dit "sa maîtresse", Meursault précise : "pour moi, elle était Marie". Cette distinction est cruciale : le procureur utilise un vocabulaire chargé de jugements moraux ("maîtresse", "moralité douteuse"), tandis que Meursault utilise des noms propres, simples et concrets. Ce décalage langagier montre que Meursault et le système judiciaire ne partagent pas le même rapport au langage ni à la réalité.`,
-                
-                14: `<strong>Exemple de réponse :</strong><br><br>
-                La défense de l'avocat est aussi absurde que l'accusation du procureur car elle repose sur les mêmes codes sociaux que Meursault refuse. L'avocat tente de présenter Meursault comme "un honnête homme, un travailleur régulier, un fils modèle", c'est-à-dire qu'il essaie de le faire rentrer dans les cases sociales que Meursault a toujours rejetées. De plus, l'avocat dit "je" à la place de Meursault, le dépossédant encore davantage de son procès. Comme le procureur, il parle de "l'âme" de Meursault, notion qui n'a pas de sens pour ce dernier. Les deux plaidoiries sont symétriques dans leur absurdité : l'une accuse, l'autre défend, mais toutes deux jugent Meursault selon des critères qui lui sont étrangers.`,
-                
-                18: `<strong>Exemple de réponse :</strong><br><br>
-                Les souvenirs sensoriels contrastent violemment avec la froideur du procès. Alors que le tribunal parle un langage abstrait et moralisateur, Meursault est assailli par des sensations concrètes : "la trompette d'un marchand de glace", "des odeurs d'été", "un certain ciel du soir", "le rire et les robes de Marie". Ces souvenirs représentent la vie réelle, simple et sensorielle que Meursault a perdue. Ce contraste révèle que Meursault vit dans un monde sensible, immédiat, alors que le procès se déroule dans un monde de concepts et de conventions. La réalité de Meursault est faite de sensations, celle du tribunal de mots et de jugements. C'est ce décalage fondamental qui le condamne.`,
-                
-                20: `<strong>Exemple de dissertation :</strong><br><br>
-                <strong>Introduction :</strong> Le procès de Meursault dans L'Étranger illustre magistralement l'absurdité du système judiciaire et, plus largement, de la société qui exige la conformité aux conventions.<br><br>
-                
-                <strong>I. L'exclusion de l'accusé</strong><br>
-                Meursault est physiquement présent mais totalement exclu de son propre procès. "On avait l'air de traiter cette affaire en dehors de moi", observe-t-il. Quand il veut intervenir, son avocat le fait taire. Il n'est plus qu'un objet sur lequel s'exerce la mécanique judiciaire, réduit au silence dans son propre jugement.<br><br>
-                
-                <strong>II. Le jugement des apparences plutôt que des actes</strong><br>
-                Meursault n'est pas jugé pour le meurtre, mais pour son comportement après la mort de sa mère. Le procureur énumère des "preuves" qui n'ont aucun lien juridique avec le crime : ne pas connaître l'âge de sa mère, aller se baigner, aller au cinéma. La société juge les apparences, la conformité aux rituels sociaux, plutôt que les actes eux-mêmes.<br><br>
-                
-                <strong>III. Le langage comme instrument d'aliénation</strong><br>
-                Meursault ne comprend pas le langage du tribunal. Quand le procureur parle de "sa maîtresse", pour Meursault "elle était Marie". Le langage judiciaire, chargé de moralité, lui est étranger. Ce décalage linguistique symbolise son exclusion de la société.<br><br>
-                
-                <strong>Conclusion :</strong> Le procès révèle que la société condamne non les crimes, mais les différences. Meursault est un étranger parce qu'il refuse de jouer le jeu social, et c'est cette étrangeté que la justice punit.`
-            };
-            
-            feedback.className = 'feedback show info';
-            feedback.innerHTML = modelAnswers[questionNum];
-        }
-
-        // Event listeners for options
-        document.addEventListener('click', function(e) {
-            if (e.target.classList.contains('option')) {
-                const question = e.target.closest('.question');
-                const options = question.querySelectorAll('.option');
-                options.forEach(opt => opt.classList.remove('selected'));
-                e.target.classList.add('selected');
-                
-                // Store the answer
-                const questionNumber = question.querySelector('.question-number').textContent;
-                const answer = e.target.dataset.answer;
-                studentAnswers[questionNumber] = answer;
-                updateCompletionStatus();
-            }
-        });
-
-        // Initialisation
-        updateProgress();
-        updateScore();
-        document.getElementById('prevBtn').disabled = true;
-    </script>
-<script>
-/* === Correctif clavier d'accents (maintenance 2026) ===
-   Sous Chrome/Edge, cliquer un bouton déplace le focus : document.activeElement
-   n'était plus le champ de l'élève et l'accent n'était jamais inséré.
-   On empêche le vol de focus et on garde en mémoire le dernier champ utilisé. */
-(function () {
-  var last = null;
-  function isField(el) {
-    return !!el && (el.tagName === 'TEXTAREA' ||
-      (el.tagName === 'INPUT' && /^(text|search|email|)$/i.test(el.type || '')));
-  }
-  ['focus','focusin'].forEach(function(ev){ document.addEventListener(ev, function (e) { if (isField(e.target)) last = e.target; }, true); });
-  function isPadButton(b) {
-    if (!b || b.tagName !== 'BUTTON') return false;
-    var t = (b.textContent || '').trim();
-    if (t.length > 2) return false;
-    return /[À-ſŒœ«»']/.test(t) ||
-           (typeof b.className === 'string' && /accent|accent-key|accent-btn/i.test(b.className));
-  }
-  document.addEventListener('mousedown', function (e) {
-    var b = e.target && e.target.closest ? e.target.closest('button') : null;
-    if (isPadButton(b)) e.preventDefault();           /* le champ conserve le curseur */
-  }, true);
-  document.addEventListener('click', function (e) {
-    var b = e.target && e.target.closest ? e.target.closest('button') : null;
-    if (!isPadButton(b)) return;
-    if (!isField(document.activeElement) && last) last.focus();   /* filet de sécurité */
-  }, true);
-})();
-</script>
-<script>
-/* Correctif clavier Camus : mémoriser le champ dès qu'il reçoit le focus,
-   et non au moment où l'on ouvre le clavier (le bouton volait le focus). */
-['focus','focusin'].forEach(function (ev) {
-  document.addEventListener(ev, function (e) {
-    if (e.target && e.target.tagName === 'TEXTAREA') { try { activeTextArea = e.target; } catch (err) {} }
-  }, true);
-});
-</script>
-     <script src="bba-kit-fr.js" defer></script>
-<script src="bba-send-strip.js" defer></script>
+    </div></aside>
+<script>(function(){var p=document.getElementById("txtPanel"),b=document.getElementById("txtBtn");
+function set(o){p.classList.toggle("open",o);document.body.classList.toggle("txt-open",o);b.setAttribute("aria-expanded",o?"true":"false");b.textContent=o?"✕ Texte":"📖 Texte";}
+b.addEventListener("click",function(){set(!p.classList.contains("open"));});document.getElementById("txtClose").addEventListener("click",function(){set(false);});})();</script>
 </body>
 </html>
