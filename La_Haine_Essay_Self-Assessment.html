@@ -156,6 +156,8 @@
         <h2>✍️ Your paragraph / essay</h2>
         <textarea id="essayText" placeholder="Paste or type your essay paragraph here (optional)…" oninput="updateWordCount()"></textarea>
         <p style="font-size:0.78rem;color:#555;margin-top:5px;" id="wordCount">0 mots</p>
+        <button type="button" class="print-btn" style="margin-top:8px" onclick="scanText()">🔎 Vérifier mon texte</button>
+        <p id="scanMsg" style="font-size:0.85rem;margin-top:6px;"></p>
       </div>
 
       <!-- AO4 -->
@@ -238,6 +240,15 @@
         <div class="band-number" id="bandNum">—</div>
         <div class="band-desc" id="bandDesc">Tick criteria to see your band</div>
       </div>
+      <div class="band-display" style="margin-top:10px">
+        <div class="band-label">Indicative AO3 band: range of structures and vocabulary</div>
+        <div class="band-desc" id="band_ao3g">Tick criteria to see your band</div>
+      </div>
+      <div class="band-display" style="margin-top:10px">
+        <div class="band-label">Indicative AO3 band: accuracy of language</div>
+        <div class="band-desc" id="band_ao3a">Tick criteria to see your band</div>
+      </div>
+      <details style="margin-top:10px;font-size:.85rem"><summary><b>Full Edexcel mark grids</b></summary><div id="fullGrids"></div></details>
       <div class="feedback-box" id="feedbackBox">
         <h3>💡 Suggestions to improve</h3>
         <ul id="feedbackList"><li>Start ticking criteria above to get personalised tips.</li></ul>
@@ -253,19 +264,20 @@ const scores = { ao4: 0, ao3g: 0, ao3a: 0 };
 const maxScores = { ao4: 20, ao3g: 20, ao3a: 10 };
 const ticked = { ao4: new Set(), ao3g: new Set(), ao3a: new Set() };
 
-const BAND_CONFIG = [
-  { min: 0, max: 4, label: 'Band 1', color: '#c62828', desc: 'Simplistic justification; limited argument; mainly descriptive.' },
-  { min: 5, max: 8, label: 'Band 2', color: '#e65100', desc: 'Some interpretation attempted; arguments inconsistent; occasional loss of focus.' },
-  { min: 9, max: 12, label: 'Band 3', color: '#f9a825', desc: 'Critical analysis evident on some aspects; logical arguments on parts of question.' },
-  { min: 13, max: 16, label: 'Band 4', color: '#1565c0', desc: 'Frequently convincing analysis; generally detailed arguments; mostly relevant.' },
-  { min: 17, max: 20, label: 'Band 5', color: '#2e7d32', desc: 'Consistently convincing analysis; detailed, logical arguments; fully relevant throughout.' },
-];
+/* Edexcel essay mark grids, verbatim (supplied by the department, Oct 2026) */
+const GRIDS = {"ao4": [{"min": 0, "max": 0, "label": "0 marks", "color": "#9e9e9e", "desc": ["No rewardable material."]}, {"min": 1, "max": 4, "label": "1–4 marks", "color": "#c62828", "desc": ["Points of view relating to issues/themes/cultural or social contexts are presented, with simplistic justification; limited interpretation with frequent misunderstanding or confusion; any evidence from the work is descriptive.", "Limited ability to form arguments or draw conclusions.", "Response relates to the work but limited focus on the question."]}, {"min": 5, "max": 8, "label": "5–8 marks", "color": "#e65100", "desc": ["Points of view relating to issues/themes/cultural or social contexts are presented, with attempts made at interpretation, but they occasionally show misunderstanding or confusion; evidence selected from the work for justification is occasionally appropriate but often descriptive.", "Arguments are made but with inconsistencies; conclusions are drawn but do not fully link to arguments.", "Response relates to the work but often loses focus on the question."]}, {"min": 9, "max": 12, "label": "9–12 marks", "color": "#f9a825", "desc": ["Critical analysis of issues /themes/cultural or social contexts is evident in relation to particular aspects of the question, with some appropriate interpretations and points of view, sometimes justified by appropriately selected evidence from the work.", "Logical arguments are followed through on particular aspects of the question, occasionally detailed and with linked conclusions; some points are made without exploration.", "Response is relevant to particular aspects of the question, occasional loss of focus."]}, {"min": 13, "max": 16, "label": "13–16 marks", "color": "#1565c0", "desc": ["Critical analysis of issues/themes/cultural or social contexts is frequently demonstrated, with some convincing interpretations and points of view, predominantly justified with appropriately selected evidence from the work.", "Generally detailed, logical arguments are made, with some persuasive conclusions that mostly link together.", "Predominantly relevant response to the question."]}, {"min": 17, "max": 20, "label": "17–20 marks", "color": "#2e7d32", "desc": ["Critical analysis of issues/themes/cultural or social contexts is demonstrated through convincing interpretations and points of view, consistently justified with appropriately selected evidence from the work.", "Detailed, logical arguments and conclusions are made that consistently link together.", "Relevant response to the question throughout."]}], "ao3g": [{"min": 0, "max": 0, "label": "0 marks", "color": "#9e9e9e", "desc": ["No rewardable language."]}, {"min": 1, "max": 4, "label": "1–4 marks", "color": "#c62828", "desc": ["Limited variation of straightforward grammatical structures with much repetition, producing writing that is often restricted and stilted.", "Limited range of vocabulary resulting in repetitive expression.", "Limited use of terminology appropriate to literary and cinematic analysis."]}, {"min": 5, "max": 8, "label": "5–8 marks", "color": "#e65100", "desc": ["Occasional variation in use of mostly straightforward grammatical structures, infrequent use of complex language, producing writing that is sometimes stilted.", "Vocabulary is mostly high frequency with occasional variation, expression is frequently repetitive.", "Occasional use of terminology appropriate to literary and cinematic analysis."]}, {"min": 9, "max": 12, "label": "9–12 marks", "color": "#f9a825", "desc": ["Some variation in the use of grammatical structures, including some recurrent examples of complex language; sections of articulate writing with occasionally stilted phrasing.", "Some variation in use of vocabulary, resulting in variation of expression but this is not sustained.", "Some use of terminology appropriate for literary and cinematic analysis."]}, {"min": 13, "max": 16, "label": "13–16 marks", "color": "#1565c0", "desc": ["Frequent variation in use of grammatical structures, including different types of complex language, producing writing that is articulate throughout the majority of the essay.", "Frequently varied use of vocabulary, resulting in regular variation of expression.", "Frequent use of terminology appropriate for literary and cinematic analysis."]}, {"min": 17, "max": 20, "label": "17–20 marks", "color": "#2e7d32", "desc": ["Consistent variation in use of grammatical structures, including in use of complex language, producing consistently articulate writing.", "Consistently varied use of vocabulary, allowing ideas to be conveyed in a variety of different ways.", "Consistent use of terminology appropriate for literary and cinematic analysis."]}], "ao3a": [{"min": 0, "max": 0, "label": "0 marks", "color": "#9e9e9e", "desc": ["No rewardable language."]}, {"min": 1, "max": 2, "label": "1–2 marks", "color": "#c62828", "desc": ["Limited sequences of accurate language resulting in lapses in coherence.", "Errors occur that often prevent meaning being conveyed."]}, {"min": 3, "max": 4, "label": "3–4 marks", "color": "#e65100", "desc": ["Some accurate sequences of language resulting in some coherent writing.", "Errors occur that sometimes hinder clarity of communication and occasionally prevent meaning being conveyed."]}, {"min": 5, "max": 6, "label": "5–6 marks", "color": "#f9a825", "desc": ["Frequent sequences of accurate language resulting in generally coherent writing.", "Errors occur that occasionally hinder clarity of communication"]}, {"min": 7, "max": 8, "label": "7–8 marks", "color": "#1565c0", "desc": ["Accurate language throughout most of the essay, resulting in mostly coherent writing.", "Errors occur that rarely hinder clarity of communication."]}, {"min": 9, "max": 10, "label": "9–10 marks", "color": "#2e7d32", "desc": ["Accurate language throughout, resulting in consistently coherent writing.", "Any errors do not hinder clarity of communication."]}]};
+const BAND_CONFIG = GRIDS.ao4;
+const GRID_TITLES = {"ao4": "Critical and analytical response (AO4)", "ao3g": "Range of grammatical structures and vocabulary (AO3)", "ao3a": "Accuracy of language (AO3)"};
+const GRID_GUIDANCE = "Additional guidance\nVariation of vocabulary and grammatical structures: the traits in the mark grid differentiate between the variation of grammatical structures and vocabulary used by students. Examiners will judge in which mark band to place students and which mark to award, based on the effect that the variety of grammatical structures and vocabulary has on the quality of the communication; the wider the variety, the more articulate the communication will become (see definition of articulate below).\nExamples of a variety of grammatical structures and vocabulary are: a selection of different verbs, tenses, adjectives, vocabulary, including to express literary and cinematic analysis (see further detail below), complex language (see definition below) for a variety of purposes, including to present and justify points of view, develop arguments, draw conclusions based on understanding.\nArticulate: articulate communication is fluent, effective and coherent as students control/manipulate the language to say what they want to say rather than what they can say, for a number of different purposes. If students are restricted to what they can say, they may not be able to express themselves for all purposes, for example to develop arguments.\nTerminology for literary and cinematic analysis: vocabulary for critical analysis according to the work being studied, for example ‘plot’, ‘character’; figures of speech such as ‘metaphor’, ‘similes’; to describe theme and style such as, ‘camera technique’, ‘hand-held camera’, ‘use of black and white’, ‘first person narrative.’\nComplex language is considered to include the following:\n● conceptually challenging tenses such as the pluperfect, future perfect\n● passive voice\n● subjunctive mood\n● use of relative pronouns\n● using extended sentences to express abstract ideas/ convey justified arguments that require a range of lexis and structures, for example conjunctions and pronouns\n● using synonyms and a variety of expressions to say things indifferent ways\n● all grammar and structures included in the grammar list that are specific to A Level. Straightforward language is considered to be:\n● simple sentences with limited linking of sentences and clauses\n● high frequency grammatical structures and vocabulary.";
+document.addEventListener('DOMContentLoaded', () => { const e = x => x.replace(/&/g,'&amp;').replace(/</g,'&lt;'); const fg = document.getElementById('fullGrids'); if (!fg) return;
+  fg.innerHTML = Object.keys(GRIDS).map(k => '<h4 style="margin:10px 0 4px">' + GRID_TITLES[k] + '</h4>' + GRIDS[k].map(b => '<p style="margin:4px 0"><b>' + b.label.replace(' marks','') + '</b></p><ul style="margin:0 0 0 16px;padding:0">' + b.desc.map(d => '<li>' + e(d) + '</li>').join('') + '</ul>').join('')).join('')
+    + '<h4 style="margin:10px 0 4px">Additional guidance</h4>' + GRID_GUIDANCE.split('\n').slice(1).map(l => '<p style="margin:4px 0">' + e(l.replace(/^● /,'• ')) + '</p>').join(''); });
 
 const TIPS = {
   ao4: [
-    { key: 'Evidence cited from La Haine', tip: 'Add a specific scene reference — e.g. the rooftop fall, the nightclub/Paris sequence, Vinz pointing the gun, the final freeze-frame. Avoid vague "il y a beaucoup d\'exemples".' },
+    { key: 'Evidence cited from La Haine', tip: 'Add a specific scene reference — e.g. the police clearing the rooftop, the Paris police station, Vinz unable to shoot the skinhead, the final gunshot. Avoid vague "il y a beaucoup d\'exemples".' },
     { key: 'Interpretation / point of view offered', tip: 'After citing evidence, add: "cela suggère que…", "cela met en lumière…", "cela implique que…", "cela symbolise…".' },
-    { key: 'Critical analysis of themes or social context', tip: 'Connect a moment in the film to a broader theme (l\'exclusion sociale, la brutalité policière, la fatalité) or the 1995 French banlieue riots context.' },
+    { key: 'Critical analysis of themes or social context', tip: 'Connect a moment in the film to a broader theme (l\'exclusion sociale, la brutalité policière, la fatalité) or the 1990s context of police violence and banlieue riots.' },
     { key: 'Logical argument developed', tip: 'Use connectors to build an argument: "Cela se voit également dans…", "De plus, il convient de souligner que…", "C\'est pour cette raison que…".' },
     { key: 'Convincing conclusion drawn', tip: 'End with: "En fin de compte…", "En définitive…", "On peut donc conclure que…", "Force est de constater que…".' },
     { key: 'Sustained focus on the question', tip: 'Check: does every sentence directly answer the question? Remove any plot summary that doesn\'t serve your argument.' },
@@ -293,9 +305,43 @@ const TIPS = {
   ]
 };
 
+
+/* Click feedback: find in the student's own text the evidence for the criteria a machine can see.
+   It marks them "found in your text"; ticking stays the student's decision. */
+const DETECT = {
+  'Evidence cited from La Haine': t => /«[^»]{6,}»/.test(t) || /(scene|sequence|commissariat|skinhead|toit|affiche|prologue|miroir|journalistes|toilettes|grunwalski|generique)/.test(t),
+  'Interpretation / point of view offered': t => /(cela suggere|cela implique|met en lumiere|met en evidence|symbolise|revele|traduit|on peut interpreter)/.test(t),
+  'Convincing conclusion drawn': t => /(en fin de compte|en definitive|on peut donc conclure|pour conclure|force est de constater|en conclusion)/.test(t),
+  'Counter-argument / alternative perspective considered': t => /(cependant|en revanche|toutefois|neanmoins|on pourrait arguer|on pourrait objecter|certes)/.test(t),
+  "Reference to the director's craft / intentionality": t => /(kassovitz|le realisateur|le cineaste|la camera|le cadrage|le montage)/.test(t),
+  'Subjunctive mood used correctly': t => /(bien qu|quoiqu|pour qu|afin qu|a moins qu|avant qu|il faut qu|il est possible qu|il se peut qu|il semble qu|je doute qu|il est regrettable qu|sans qu)/.test(t),
+  'Relative pronouns used (qui / que / dont / lequel / ce qui)': t => /( dont |lequel|laquelle|lesquels|lesquelles|auquel|ce qui|ce que| qui )/.test(t),
+  'Complex tense used (pluperfect / conditional / future)': t => /( avait | avaient | etait | aurait | auraient | serait | seraient |\w{3,}rait |\w{3,}raient |\w{3,}ront )/.test(t),
+  'Passive voice or impersonal constructions': t => /(il s'agit|on peut|est presente|est mis|sont presentes|est montre|est filme|il convient|on voit)/.test(t),
+  "Varied analytical verbs (not just 'montre' / 'est')": t => ['souligne','illustre','denonce','traduit','met en evidence','incarne','reflete','revele','temoigne','symbolise','suggere','met en lumiere'].filter(v => t.indexOf(v) >= 0).length >= 3,
+  'Sophisticated connectors / discourse markers': t => /(au fur et a mesure|il convient de|quoi qu'il en soit|en fin de compte|d'une part|de surcroit|par ailleurs|en outre|force est de constater)/.test(t),
+  'Film / literary analysis terminology': t => /(plan large|plan general|gros plan|plan rapproche|noir et blanc|hors-champ|hors champ|montage|camera a l'epaule|denouement|intrigue|mise en scene|protagoniste|long metrage|travelling|dolly)/.test(t),
+  'Synonyms used to avoid repetition': t => /(long metrage|l'oeuvre|l'œuvre|le film de kassovitz|cette production|le cineaste|le realisateur)/.test(t),
+  'Extended sentences expressing abstract ideas': (t, raw) => raw.split(/[.!?]+/).some(x => (x.match(/\S+/g) || []).length >= 30)
+};
+function scanText() {
+  const raw = document.getElementById('essayText').value;
+  const t = ' ' + raw.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/[’]/g, "'").replace(/\s+/g, ' ') + ' ';
+  const msg = document.getElementById('scanMsg');
+  document.querySelectorAll('.found-tag').forEach(e => e.remove());
+  if ((raw.match(/\S+/g) || []).length < 40) { msg.textContent = 'Paste or write at least 40 words first, then click again.'; return; }
+  let found = 0, total = 0;
+  document.querySelectorAll('li[onclick^="toggleCheck"]').forEach(li => {
+    const key = li.querySelector('strong').textContent, f = DETECT[key];
+    if (!f) return; total++;
+    if (f(t, raw)) { found++; const tag = document.createElement('em'); tag.className = 'found-tag'; tag.textContent = ' ✔ found in your text'; tag.style.cssText = 'color:#2e7d32;font-size:.8em;font-style:normal;font-weight:700'; li.querySelector('strong').appendChild(tag); }
+  });
+  msg.textContent = found + ' of the ' + total + ' criteria a computer can spot are present in your text (marked ✔ below). Tick a criterion only when you are sure it is done well; accuracy and focus on the question need your own judgement.';
+}
+
 function toggleCheck(li, category, points) {
   const cb = li.querySelector('input[type="checkbox"]');
-  const label = li.querySelector('strong').textContent;
+  const label = li.querySelector('strong').firstChild.textContent;
   if (cb.checked) {
     cb.checked = false; li.classList.remove('checked');
     ticked[category].delete(label);
@@ -316,11 +362,15 @@ function updateDisplay() {
   document.getElementById('scTotal').textContent = total;
   const ao4 = scores.ao4;
   const band = BAND_CONFIG.find(b => ao4 >= b.min && ao4 <= b.max) || BAND_CONFIG[0];
+  const esc = x => x.replace(/&/g,'&amp;').replace(/</g,'&lt;');
+  const list = b => '<ul style="margin:4px 0 0 16px;padding:0">' + b.desc.map(d => '<li>' + esc(d) + '</li>').join('') + '</ul>';
+  ['ao3g','ao3a'].forEach(k => { const g = GRIDS[k].find(b => scores[k] >= b.min && scores[k] <= b.max) || GRIDS[k][0];
+    const el = document.getElementById('band_' + k); if (el) el.innerHTML = '<b style="color:' + g.color + '">' + g.label + '</b>' + list(g); });
   const bd = document.getElementById('bandDisplay');
   bd.style.background = band.color + '22'; bd.style.borderColor = band.color;
   document.getElementById('bandNum').textContent = band.label;
   document.getElementById('bandNum').style.color = band.color;
-  document.getElementById('bandDesc').textContent = band.desc;
+  document.getElementById('bandDesc').innerHTML = list(band);
   document.getElementById('bandMarker').style.left = `${Math.min(98, Math.max(2, (ao4 / 20) * 100))}%`;
   const allChecked = new Set([...ticked.ao4, ...ticked.ao3g, ...ticked.ao3a]);
   const allTips = [...TIPS.ao4, ...TIPS.ao3g, ...TIPS.ao3a];

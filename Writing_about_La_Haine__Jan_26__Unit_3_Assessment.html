@@ -1,530 +1,307 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8" />
+<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>La Haine – Prologue & JT : passé composé et accords</title>
-    <script src="bba-pdf.js"></script>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 20px;
-      line-height: 1.6;
-    }
-    h1, h2 {
-      margin-bottom: 0.2em;
-    }
-    .instructions {
-      margin-bottom: 1em;
-    }
-    .gap {
-      border-bottom: 1px solid #999;
-      padding: 0 2px;
-      margin: 0 2px;
-    }
-    .gap input {
-      border: none;
-      border-bottom: 1px solid #666;
-      min-width: 70px;
-      font-size: 0.95em;
-    }
-    .gap input.correct {
-      background-color: #d8ffd8;
-    }
-    .gap input.incorrect {
-      background-color: #ffd8d8;
-    }
-    .english-hint {
-      font-size: 0.8em;
-      color: #555;
-      display: block;
-    }
-    .controls {
-      margin-top: 1.5em;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      align-items: center;
-    }
-    #score {
-      font-weight: bold;
-    }
-    #feedback {
-      margin-top: 0.8em;
-      white-space: pre-line;
-    }
-    .text-block {
-      max-width: 900px;
-    }
-    /* Floating accent keyboard */
-    #accentKeyboard {
-      position: absolute;
-      background: #f5f5f5;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-      padding: 4px 6px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
-      z-index: 9999;
-      font-size: 0.9em;
-      display: none;
-    }
-    #accentKeyboard button {
-      margin: 1px;
-      padding: 2px 4px;
-      border-radius: 4px;
-      border: 1px solid #888;
-      background: #fff;
-      cursor: pointer;
-      min-width: 22px;
-    }
-    #accentKeyboard button:hover {
-      background: #e0e0e0;
-    }
-  </style>
+<title>La Haine – Prologue & JT : passé composé et accords</title>
+<meta name="description" content="A-Level French: an analytical paragraph on the opening of La Haine (prologue, credits, TV news report) with the passé composé and adjective agreement.">
+<style>
+:root{
+  --paper:#f6f1e7; --card:#fffdf8; --ink:#2a2320; --soft:#6a5a4c; --line:#dcd0bb;
+  --ox:#6e1f2a; --ox2:#8f3340; --oxs:#f4e4e4; --green:#1f4d3a; --gs:#e3efe8;
+  --gold:#a8843a; --golds:#f7efd9; --bad:#a23b2a; --bads:#fbe9e5; --ok:#226a43;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--paper);color:var(--ink);font:17px/1.55 Georgia,"Times New Roman",serif}
+.ui{font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+.wrap{max-width:920px;margin:0 auto;padding:22px 16px 160px}
+header{border-bottom:3px double var(--ox);padding-bottom:14px;margin-bottom:8px}
+.kicker{font:600 12px/1.2 system-ui,sans-serif;letter-spacing:.16em;text-transform:uppercase;color:var(--ox)}
+h1{font-size:31px;line-height:1.15;margin:6px 0 6px;color:var(--ox)}
+.lead{color:var(--soft);margin:0 0 4px;font:15px/1.55 system-ui,sans-serif}
+.score{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;margin-top:10px;font:14px system-ui,sans-serif;color:var(--soft)}
+.score b{color:var(--ink);font-size:16px}
+.meter{flex:1 1 180px;height:8px;background:#e8dfcf;border-radius:99px;overflow:hidden;min-width:140px}
+.meter i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--green),#2f7a58);transition:width .4s}
+nav.tabs{display:flex;flex-wrap:wrap;gap:6px;margin:16px 0 12px;position:sticky;top:0;background:var(--paper);padding:8px 0;z-index:5;border-bottom:1px solid var(--line)}
+nav.tabs button{font:600 13.5px system-ui,sans-serif;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:999px;padding:7px 12px;cursor:pointer;display:flex;gap:6px;align-items:center}
+nav.tabs button .n{font-weight:500;color:var(--soft);font-size:12px}
+nav.tabs button[aria-selected="true"]{background:var(--ox);border-color:var(--ox);color:#fff}
+nav.tabs button[aria-selected="true"] .n{color:#f1d7d9}
+nav.tabs button.done:not([aria-selected="true"]){border-color:var(--green);color:var(--green)}
+section.ex{display:none}
+section.ex.active{display:block}
+h2{font-size:24px;margin:4px 0 6px;color:var(--green)}
+h3{font:700 13px system-ui,sans-serif;letter-spacing:.12em;text-transform:uppercase;color:var(--ox);margin:22px 0 8px}
+.how{font:15px/1.55 system-ui,sans-serif;color:var(--soft);margin:0 0 14px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px 16px;margin:10px 0;position:relative}
+.card.ok{border-color:#9cc7ae;background:#fbfefc}
+.card.rev{border-color:#e3b6ad}
+.card .qn{font:700 13px system-ui,sans-serif;color:var(--ox);margin-right:6px}
+.quote{font-style:italic}
+blockquote{margin:2px 0 10px;padding:6px 0 6px 14px;border-left:3px solid var(--gold);font-style:italic;font-size:18px}
+.ctl{display:flex;flex-wrap:wrap;gap:8px 10px;align-items:center;margin-top:10px}
+input[type=text],select,textarea{font:16px Georgia,serif;color:var(--ink);background:#fff;border:1px solid #bdae95;border-radius:7px;padding:7px 10px;max-width:100%}
+input[type=text]{width:15em}
+input.w8{width:8.5em} input.w6{width:7em}
+input.okf{border-color:var(--ok);background:#f2faf5} input.badf{border-color:var(--bad);background:var(--bads)}
+textarea{width:100%;min-height:200px;resize:vertical;line-height:1.6}
+button.b{font:600 14px system-ui,sans-serif;border-radius:7px;padding:7px 13px;cursor:pointer;border:1px solid var(--ox);background:var(--ox);color:#fff}
+button.b:disabled{opacity:.45;cursor:default}
+button.g{font:600 14px system-ui,sans-serif;border-radius:7px;padding:7px 12px;cursor:pointer;border:1px solid var(--line);background:#fff;color:var(--green)}
+button.g:disabled{opacity:.45;cursor:default}
+.opts{display:grid;gap:7px;margin-top:8px}
+.opt{display:flex;gap:10px;align-items:flex-start;text-align:left;font:15.5px/1.45 system-ui,sans-serif;border:1px solid var(--line);background:#fff;border-radius:8px;padding:9px 12px;cursor:pointer;color:var(--ink)}
+.opt:before{content:"";flex:0 0 16px;height:16px;border:2px solid #b8a98f;border-radius:50%;margin-top:2px}
+.opt.sel{border-color:var(--ox);background:var(--oxs)}
+.opt.sel:before{border-color:var(--ox);background:radial-gradient(var(--ox) 45%,transparent 50%)}
+.opt.right{border-color:var(--ok);background:#eef8f2}
+.opt.wrong{border-color:var(--bad);background:var(--bads)}
+.opt:disabled{cursor:default}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.chip{font:600 13px system-ui,sans-serif;border:1px solid #c9bba3;background:#fff;color:var(--soft);border-radius:999px;padding:6px 11px;cursor:pointer}
+.chip[aria-pressed="true"]{background:var(--green);border-color:var(--green);color:#fff}
+.chip.core{outline:2px solid var(--ok);outline-offset:1px}
+.chip.acc{outline:2px dashed var(--gold);outline-offset:1px}
+.chip.wrongc{background:var(--bad);border-color:var(--bad);color:#fff}
+.chip:disabled{cursor:default}
+.fb{margin-top:10px;font:14.5px/1.55 system-ui,sans-serif;border-radius:8px;padding:9px 12px;display:none}
+.fb.show{display:block}
+.fb.okb{background:var(--gs);color:#163a2b}
+.fb.hint{background:var(--golds);color:#4d3c14}
+.fb.revb{background:var(--bads);color:#5a1d12}
+.fb .why{margin-top:6px;color:#2b2a26}
+.tag{display:inline-block;font:700 11px system-ui,sans-serif;letter-spacing:.1em;text-transform:uppercase;padding:2px 7px;border-radius:4px;margin-right:6px}
+.tag.okt{background:var(--ok);color:#fff}.tag.ht{background:var(--gold);color:#fff}.tag.rt{background:var(--bad);color:#fff}
+.legend{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:12px 14px;font:14.5px/1.55 system-ui,sans-serif;margin-bottom:10px}
+.legend b{color:var(--ox)}
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:8px 18px}
+.who{font:13px system-ui,sans-serif;color:var(--soft)}
+.tr{line-height:2.25;font-size:17px;background:#faf6ee;border-left:3px solid var(--gold);padding:6px 12px;border-radius:4px;margin-top:6px}
+.secfoot{display:flex;justify-content:space-between;align-items:center;gap:10px;margin:18px 0 6px;flex-wrap:wrap}
+.reto{border:2px solid var(--ox);background:#fff}
+.reto .rt2{font:700 12px system-ui,sans-serif;letter-spacing:.16em;color:var(--ox)}
+.check li{margin:4px 0;list-style:none;padding-left:0}
+.check{padding:0;margin:10px 0 0;font:14.5px/1.5 system-ui,sans-serif}
+.check li:before{content:"○ ";color:#b8a98f;font-weight:700}
+.check li.on:before{content:"● ";color:var(--ok)}
+.check li.warn:before{content:"● ";color:var(--bad)}
+.qcheck{font:14px/1.5 system-ui,sans-serif;margin-top:8px}
+.qcheck div{padding:3px 0}
+.qcheck .y{color:var(--ok)} .qcheck .n{color:var(--bad)}
+.titles label{display:flex;gap:8px;align-items:flex-start;font:15.5px/1.45 Georgia,serif;margin:6px 0;cursor:pointer}
+.tips{font:14.5px/1.55 system-ui,sans-serif;background:var(--oxs);border-radius:8px;padding:10px 12px;margin:10px 0}
+.res{font:15px/1.6 system-ui,sans-serif}
+.res table{border-collapse:collapse;width:100%;margin:8px 0}
+.res td,.res th{border-bottom:1px solid var(--line);padding:6px 4px;text-align:left}
+.src{font:13px/1.5 system-ui,sans-serif;color:var(--soft);margin-top:22px}
+@media (max-width:640px){h1{font-size:25px}.cols{grid-template-columns:1fr}input[type=text]{width:100%}input.w8,input.w6{width:8em}nav.tabs{flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}nav.tabs::-webkit-scrollbar{display:none}nav.tabs button{padding:6px 10px;font-size:12.5px;flex:0 0 auto;white-space:nowrap}}
+@media print{nav.tabs,.secfoot,button{display:none!important}section.ex{display:block!important}}
+</style>
+<style>
+.sent{font-size:18px;line-height:2.1}
+.sent input{width:9em;font-size:16px;padding:4px 8px;margin:0 2px}
+.en{font:14px/1.45 system-ui,sans-serif;color:var(--soft);margin:0 0 4px}
+.cue{font:13px system-ui,sans-serif;color:var(--soft)}
+.rule{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--green);border-radius:8px;padding:10px 14px;font:14.5px/1.55 system-ui,sans-serif;margin:6px 0 12px}
+</style>
 </head>
 <body>
-
-<h1>La Haine – début du film</h1>
-<h2>Passé composé & accords (prologue, générique, JT)</h2>
-
-<div class="instructions">
-  Complétez ce paragraphe analytique sur le prologue, le générique et le reportage télévisé au début de <em>La Haine</em>.<br>
-  - Dans la partie « prologue / générique », faites attention aux <strong>accords</strong> (genre / nombre) et au registre analytique.<br>
-  - Dans la partie « reportage télévisé », utilisez systématiquement le <strong>passé</strong> composé (présent de l’auxiliaire + participe passé).
+<div class="wrap">
+<header>
+  <div class="kicker">La Haine · Unit 3</div>
+  <h1>La Haine – début du film : passé composé et accords</h1>
+  <p class="lead">An analytical paragraph on the opening of the film: the prologue, the credits and the TV news report. Type the form the English cue asks for and press <b>Enter</b> or « Vérifier ». Agreements and accents count: <i>violente</i> is not <i>violentes</i>. If only an accent is wrong you are told so and can try again. If you are wrong the first time you get an <i>indice</i>; the second time you see the answer and the rule. Your work saves itself on this device.</p>
+  <div class="score" aria-live="polite"><span>Points <b id="sc">0</b> / <b id="tot">0</b></span><span>du premier coup <b id="first">0</b></span><div class="meter"><i id="bar"></i></div></div>
+</header>
+<nav class="tabs" role="tablist" aria-label="Exercices" id="tabs"></nav>
+<main id="main"></main>
+<p class="src">Dialogue: Mathieu Kassovitz, <i>La Haine</i> (1995), short extracts quoted for study.</p>
 </div>
-
-<div id="exercise" class="text-block">
-
-  <!-- PROLOGUE & GENERIQUE -->
-  <p>
-    Au début du film, la célèbre phrase « Jusqu’ici, tout va bien » est présentée comme une
-    <span class="gap"><input data-id="g1"><span class="english-hint">(metaphor)</span></span>
-    qui annonce déjà la situation
-    <span class="gap"><input data-id="g2"><span class="english-hint">(precarious, feminine singular)</span></span>
-    de la banlieue.
-    Le prologue
-    <span class="gap"><input data-id="g3"><span class="english-hint">(to create, present)</span></span>
-    une atmosphère
-    <span class="gap"><input data-id="g4"><span class="english-hint">(oppressive, feminine singular)</span></span>
-    et met en avant une vision
-    <span class="gap"><input data-id="g5"><span class="english-hint">(pessimistic, feminine singular)</span></span>
-    de l’avenir des jeunes.
-  </p>
-
-  <p>
-    Le générique, accompagné de la chanson de Bob Marley, montre des images
-    <span class="gap"><input data-id="g6"><span class="english-hint">(violent, feminine plural)</span></span>
-    qui opposent les jeunes aux forces de l’ordre.
-    Cette utilisation d’images
-    <span class="gap"><input data-id="g7"><span class="english-hint">(real, feminine plural)</span></span>
-    renforce l’impression d’un contexte social déjà
-    <span class="gap"><input data-id="g8"><span class="english-hint">(explosive, masculine singular)</span></span>.
-    Dans cet ensemble, la mise en scène paraît particulièrement
-    <span class="gap"><input data-id="g9"><span class="english-hint">(engaged, feminine singular)</span></span>
-    et dénonce une société profondément
-    <span class="gap"><input data-id="g10"><span class="english-hint">(divided, feminine singular)</span></span>.
-  </p>
-
-  <!-- TV REPORT – PASSE COMPOSE -->
-  <p>
-    Le reportage télévisé qui suit présente les événements de la nuit en utilisant le passé composé, ce qui donne une impression de bilan officiel.
-    On apprend que la Cité des Muguets
-    <span class="gap"><input data-id="g11"><span class="english-hint">(has lived through)</span></span>
-    une nuit
-    <span class="gap"><input data-id="g12"><span class="english-hint">(marked, feminine singular)</span></span>
-    par les émeutes.
-    Une centaine de jeunes
-    <span class="gap"><input data-id="g13"><span class="english-hint">(has laid siege to – infinitive: assiéger)</span></span>
-    le commissariat, et les affrontements
-    <span class="gap"><input data-id="g14"><span class="english-hint">(have caused)</span></span>
-    plusieurs blessés.
-  </p>
-
-  <p>
-    Le journaliste explique aussi que les forces de l’ordre
-    <span class="gap"><input data-id="g15"><span class="english-hint">(have arrested)</span></span>
-    des dizaines d’émeutiers, et que les casseurs
-    <span class="gap"><input data-id="g16"><span class="english-hint">(have ransacked – infinitive: saccager)</span></span>
-    une partie du centre commercial.
-    Selon ce discours officiel, ces émeutes
-    <span class="gap"><input data-id="g17"><span class="english-hint">(have followed / are the result of)</span></span>
-    une bavure policière qui
-    <span class="gap"><input data-id="g18"><span class="english-hint">(has seriously injured)</span></span>
-    un jeune homme.
-  </p>
-
-  <p>
-    En conclusion de ce début, on apprend qu’Abdel
-    <span class="gap"><input data-id="g19"><span class="english-hint">(has been kept)</span></span>
-    en observation et que son état est jugé
-    <span class="gap"><input data-id="g20"><span class="english-hint">(serious, masculine singular)</span></span>.
-    Cette présentation
-    <span class="gap"><input data-id="g21"><span class="english-hint">(has already highlighted)</span></span>
-    les tensions
-    <span class="gap"><input data-id="g22"><span class="english-hint">(structural, feminine plural)</span></span>
-    entre les jeunes de la banlieue et la police, ce qui prépare le spectateur à un récit profondément
-    <span class="gap"><input data-id="g23"><span class="english-hint">(conflictual, masculine singular)</span></span>.
-  </p>
-
-  <!-- SYNTHESIS -->
-  <p>
-    Dans un essai, on peut donc dire que ce début de film
-    <span class="gap"><input data-id="g24"><span class="english-hint">(has established)</span></span>
-    un univers
-    <span class="gap"><input data-id="g25"><span class="english-hint">(marginalised, masculine singular – infinitive: marginaliser)</span></span>,
-    où les personnages principaux
-    <span class="gap"><input data-id="g26"><span class="english-hint">(have already been presented)</span></span>
-    comme des jeunes
-    <span class="gap"><input data-id="g27"><span class="english-hint">(angry, masculine plural, past participle used adjectivally)</span></span>
-    et
-    <span class="gap"><input data-id="g28"><span class="english-hint">(disillusioned, masculine plural, past participle)</span></span>.
-    Le ton du film
-    <span class="gap"><input data-id="g29"><span class="english-hint">(has been set)</span></span>
-    dès ces premières scènes, qui apparaissent comme une introduction
-    <span class="gap"><input data-id="g30"><span class="english-hint">(powerful, feminine singular)</span></span>
-    à la critique sociale de Kassovitz.
-  </p>
-</div>
-
-<div class="controls">
-  <button id="markBtn">Corriger</button>
-  <button id="resetBtn">Réinitialiser</button>
-  <button id="pdfBtn">Télécharger en PDF</button>
-  <span id="score"></span>
-</div>
-
-<div id="feedback"></div>
-
-<div id="accentKeyboard">
-  <button data-char="é">é</button>
-  <button data-char="è">è</button>
-  <button data-char="ê">ê</button>
-  <button data-char="à">à</button>
-  <button data-char="ù">ù</button>
-  <button data-char="ç">ç</button>
-</div>
-
+<script>window.BBA_KIT = {check:false, download:false, save:false, enter:false};</script>
+<script>var D = {"key": "lahaine-u3-v2", "dlhead": "LA HAINE — PROLOGUE & JT : PASSÉ COMPOSÉ ET ACCORDS", "dlfile": "LaHaine_debut_", "sections": [{"tab": "1 · Prologue", "h2": "1 · Prologue et générique : les accords", "intro": "Each adjective agrees with the noun it describes. The cue tells you the gender and number: use it.", "items": [{"t": "gap", "en": null, "es": "Au début du film, la célèbre phrase « Jusqu'ici, tout va bien » est présentée comme une {0} qui annonce déjà la situation {1} de la banlieue.", "gaps": [{"acc": ["métaphore"], "cue": "metaphor"}, {"acc": ["précaire"], "cue": "precarious, f. sg."}], "pista": "Both words already end in -e in the masculine.", "why": "une **métaphore** · la situation **précaire** (-aire: same form in both genders)."}, {"t": "gap", "en": null, "es": "Le prologue {0} une atmosphère {1} et met en avant une vision {2} de l'avenir des jeunes.", "gaps": [{"acc": ["crée"], "cue": "to create, present"}, {"acc": ["oppressive", "oppressante"], "cue": "oppressive, f. sg."}, {"acc": ["pessimiste"], "cue": "pessimistic, f. sg."}], "pista": "créer: the stem keeps its é. Oppressif → feminine in -ive. Pessimiste does not change.", "why": "**crée** (cré- + e) · **oppressive** (-if → -ive) · **pessimiste** (-iste: same form)."}, {"t": "gap", "en": null, "es": "Le générique, accompagné de la chanson de Bob Marley, montre des images {0} qui opposent les jeunes aux forces de l'ordre.", "gaps": [{"acc": ["violentes"], "cue": "violent, f. pl."}], "pista": "Des images: feminine plural, so two endings.", "why": "des images **violentes**: -e for the feminine, -s for the plural."}, {"t": "gap", "en": null, "es": "Cette utilisation d'images {0} renforce l'impression d'un contexte social déjà {1}.", "gaps": [{"acc": ["réelles"], "cue": "real, f. pl."}, {"acc": ["explosif"], "cue": "explosive, m. sg."}], "pista": "Réel doubles its l in the feminine. Which noun does the second adjective describe?", "why": "images **réelles** (-el → -elle) · un contexte **explosif**: it agrees with contexte, masculine."}, {"t": "gap", "en": null, "es": "Dans cet ensemble, la mise en scène paraît particulièrement {0} et dénonce une société profondément {1}.", "gaps": [{"acc": ["engagée"], "cue": "engaged, f. sg."}, {"acc": ["divisée"], "cue": "divided, f. sg."}], "pista": "La mise en scène, une société: both feminine. Past participles used as adjectives agree.", "why": "**engagée** · **divisée** (participle + e)."}]}, {"tab": "2 · Le reportage", "h2": "2 · Le reportage télévisé : le passé composé", "intro": "The news report sums up the night in the passé composé. Rewrite what it says with avoir + past participle, and watch the agreements.", "rule": "«La Cité des Muguets a vécu cette nuit au rythme des émeutes.» · «Une centaine de jeunes a assiégé le commissariat.» · «Les casseurs ont saccagé une partie du centre commercial.» (the TV journalist)<br>**passé composé** = avoir (or être) in the present + past participle. Verbs in -er → -é: assiéger → **assiégé**.", "items": [{"t": "gap", "en": null, "es": "On apprend que la Cité des Muguets {0} une nuit {1} par les émeutes.", "gaps": [{"acc": ["a vécu"], "cue": "has lived through"}, {"acc": ["marquée"], "cue": "marked, f. sg."}], "pista": "Vivre has an irregular participle. Une nuit: feminine.", "why": "**a vécu** (vivre → vécu) · une nuit **marquée**."}, {"t": "gap", "en": null, "es": "Une centaine de jeunes {0} le commissariat, et les affrontements {1} plusieurs blessés.", "gaps": [{"acc": ["a assiégé", "ont assiégé"], "cue": "has laid siege to – assiéger"}, {"acc": ["ont fait", "ont causé", "ont provoqué"], "cue": "have caused"}], "pista": "“Une centaine” is grammatically singular; “les affrontements” is plural.", "why": "**a assiégé** (the journalist's own words) · **ont fait** (also: ont causé, ont provoqué)."}, {"t": "gap", "en": null, "es": "Le journaliste explique aussi que les forces de l'ordre {0} des dizaines d'émeutiers, et que les casseurs {1} une partie du centre commercial.", "gaps": [{"acc": ["ont arrêté"], "cue": "have arrested"}, {"acc": ["ont saccagé"], "cue": "have ransacked – saccager"}], "pista": "Two plural subjects: ont + participle in -é.", "why": "**ont arrêté** · **ont saccagé**."}, {"t": "gap", "en": null, "es": "Selon ce discours officiel, ces émeutes {0} une bavure policière qui {1} un jeune homme.", "gaps": [{"acc": ["ont fait suite à", "sont la conséquence de", "sont le résultat de"], "cue": "have followed / are the result of"}, {"acc": ["a gravement blessé", "a grièvement blessé", "a blessé gravement", "a sérieusement blessé"], "cue": "has seriously injured"}], "pista": "The report says «Ces émeutes font suite à…». The adverb goes between avoir and the participle.", "why": "**ont fait suite à** · **a gravement blessé** (also: a grièvement blessé)."}, {"t": "gap", "en": null, "es": "En conclusion de ce début, on apprend qu'Abdel {0} en observation et que son état est jugé {1}.", "gaps": [{"acc": ["a été maintenu", "a été gardé"], "cue": "has been kept"}, {"acc": ["grave"], "cue": "serious, m. sg."}], "pista": "A passive in the passé composé: a été + participle agreeing with Abdel.", "why": "**a été maintenu** · **grave**. The report: «Son état est jugé grave…»"}]}, {"tab": "3 · Le bilan", "h2": "3 · Le bilan pour l'essai", "intro": "Now the essay voice: the passé composé to say what the opening has achieved, and agreements on every adjective.", "items": [{"t": "gap", "en": null, "es": "Cette présentation {0} les tensions {1} entre les jeunes de la banlieue et la police, ce qui prépare le spectateur à un récit profondément {2}.", "gaps": [{"acc": ["a déjà mis en avant", "a déjà souligné", "a déjà mis en évidence", "a déjà mis en lumière"], "cue": "has already highlighted"}, {"acc": ["structurelles"], "cue": "structural, f. pl."}, {"acc": ["conflictuel"], "cue": "conflictual, m. sg."}], "pista": "Déjà sits between the auxiliary and the participle. Les tensions: feminine plural.", "why": "**a déjà mis en avant** · **structurelles** · un récit **conflictuel**."}, {"t": "gap", "en": null, "es": "Dans un essai, on peut donc dire que ce début de film {0} un univers {1}, où les personnages principaux {2} comme des jeunes {3} et {4}.", "gaps": [{"acc": ["a établi", "a mis en place", "a installé"], "cue": "has established"}, {"acc": ["marginalisé"], "cue": "marginalised, m. sg."}, {"acc": ["ont déjà été présentés", "ont été présentés"], "cue": "have already been presented"}, {"acc": ["énervés", "en colère", "enragés"], "cue": "angry, m. pl."}, {"acc": ["désillusionnés", "désabusés"], "cue": "disillusioned, m. pl."}], "pista": "A passive with être: the participle agrees with “les personnages”, masculine plural. So do the two adjectives.", "why": "**a établi** · **marginalisé** · **ont déjà été présentés** · **énervés** (en colère is invariable) · **désillusionnés**."}, {"t": "gap", "en": null, "es": "Le ton du film {0} dès ces premières scènes, qui apparaissent comme une introduction {1} à la critique sociale de Kassovitz.", "gaps": [{"acc": ["a été fixé", "a été posé", "a été établi", "a été donné"], "cue": "has been set"}, {"acc": ["puissante"], "cue": "powerful, f. sg."}], "pista": "Passive again: a été + participle agreeing with “le ton”. Une introduction: feminine.", "why": "**a été fixé** (also: a été posé, a été donné) · une introduction **puissante**."}, {"t": "w", "label": "DÉFI", "min": 60, "q": "The ending repeats the opening. Write 60–100 words in French comparing the prologue « C'est l'histoire d'un homme qui tombe d'un immeuble de 50 étages » with the last words « C'est l'histoire d'une société qui tombe ». Use at least two verbs in the passé composé and two agreed adjectives.", "points": [["Compares the two versions: a man → a society", ["homme", "société"]], ["Says what the change means (from one person to the whole country)", ["collectif", "collective", "toute la société", "france", "pays", "individu", "général", "élargit", "élargi"]], ["Uses the passé composé", ["a montré", "a annoncé", "a présenté", "a préparé", "a révélé", "a dénoncé", "a mis", "a souligné", "ont vu", "a vu", "a compris", "est devenu"]], ["Links the fall to the ending: the landing / the shot", ["atterrissage", "coup de feu", "chute", "fin", "dénouement"]]], "model": "Au début, Hubert raconte l'histoire d'un homme qui tombe ; à la fin, la même fable devient « l'histoire d'une société qui tombe ». Kassovitz a donc élargi la métaphore : la chute individuelle est devenue collective. Le spectateur, qui a vu vingt-quatre heures de tensions, comprend que la phrase « Jusqu'ici, tout va bien » est une illusion rassurante. Le dernier coup de feu a rendu l'atterrissage brutal et inévitable : c'est toute la société française, profondément divisée, que le film a mise en accusation."}]}]};</script>
 <script>
-  // Acceptable answers per gap
-  const gaps = {
-    g1: ["métaphore","metaphore"],
-    g2: ["précaire","precaire"],
-    g3: ["crée","cree"],
-    g4: ["oppressive"],
-    g5: ["pessimiste"],
-    g6: ["violentes"],
-    g7: ["réelles","reelles"],
-    g8: ["explosif"],
-    g9: ["engagée","engagee"],
-    g10: ["divisée","divisee"],
-
-    g11: ["a vécu","a vecu"],
-    g12: ["marquée","marquee","a été marquée","a ete marquee"],
-    g13: ["a assiégé","a assiege"],
-    g14: ["ont causé","ont cause","ont fait","ont provoqué","ont provoque"],
-    g15: ["ont arrêté","ont arrete"],
-    g16: ["ont saccagé","ont saccage"],
-    g17: [
-      "ont fait suite à",
-      "ont fait suite a",
-      "sont le résultat de",
-      "sont le resultat de",
-      "sont la conséquence de",
-      "sont la consequence de"
-    ],
-    g18: [
-      "a gravement blessé",
-      "a gravement blesse",
-      "a blessé gravement",
-      "a blesse gravement",
-      "a grièvement blessé",
-      "a grievement blesse",
-      "a très gravement blessé",
-      "a tres gravement blesse",
-      "a sérieusement blessé",
-      "a serieusement blesse",
-      "a violemment blessé",
-      "a violemment blesse"
-    ],
-
-    g19: ["a été maintenu","a ete maintenu"],
-    g20: ["grave"],
-    g21: ["a déjà mis en avant","a deja mis en avant","a déjà souligné","a deja souligne"],
-    g22: ["structurelles"],
-    g23: ["conflictuel"],
-
-    g24: ["a établi","a etabli","a mis en place"],
-    g25: ["marginalisé","marginalise"],
-    g26: [
-      "ont déjà été présentés",
-      "ont deja ete presentes",
-      "ont été présentés",
-      "ont ete presentes"
-    ],
-    g27: ["énervés","enervés","enerves","énerves"],
-    g28: ["désillusionnés","desillusionnes","desillusionnés","désillusionnes"],
-    g29: [
-      "a été fixé",
-      "a ete fixe",
-      "a été posé",
-      "a ete pose",
-      "a été établi",
-      "a ete etabli"
-    ],
-    g30: ["puissante"]
+(function(){
+"use strict";
+var KEY = D.key;
+var S = {v:1, it:{}, tab:null, pub:false};
+try{ var raw=localStorage.getItem(KEY); if(raw){ var o=JSON.parse(raw); if(o&&o.v===1) S=o; } }catch(e){}
+function save(){ try{ localStorage.setItem(KEY, JSON.stringify(S)); }catch(e){} }
+function nfc(s){ return (s||"").normalize ? s.normalize("NFC") : (s||""); }
+function deacc(s){ return nfc(s).toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,""); }
+function clean(s){ return nfc(s).replace(/[’‘ʼ]/g,"'").toLowerCase().replace(/[!?.,;:«»"“”()\[\]…]/g," ").replace(/\s+/g," ").trim(); }
+function esc(s){ return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
+function fmt(s){ return esc(s).replace(/&lt;br&gt;/g,"<br>").replace(/\*\*(.+?)\*\*/g,"<b>$1</b>"); }
+function h(tag, attrs, html){ var e=document.createElement(tag); if(attrs) for(var k in attrs){ if(k==="class") e.className=attrs[k]; else e.setAttribute(k,attrs[k]); } if(html!=null) e.innerHTML=html; return e; }
+/* strict judge: exact (case, spacing, punctuation ignored) or accent-only slip */
+function judge(given, acc){
+  var g=clean(given); if(!g) return "blank";
+  for(var i=0;i<acc.length;i++){ if(g===clean(acc[i])) return "ok"; }
+  for(i=0;i<acc.length;i++){ if(deacc(g)===deacc(clean(acc[i]))) return "accent"; }
+  return "no";
+}
+var ITEMS=[], SECS=[];
+function fbBox(card){ var f=card.querySelector(".fb"); if(!f){ f=h("div",{"class":"fb ui","aria-live":"polite"}); card.appendChild(f); } return f; }
+function wire(it){
+  var st = S.it[it.id] || (S.it[it.id]={st:null, tries:0, first:false, given:null});
+  it.state = st;
+  it.run = function(){
+    if(st.st) return;
+    var r = it.check(); if(r==="blank") return;
+    st.tries++; st.given = it.given();
+    var fb = fbBox(it.card);
+    if(r==="ok"){ st.st="ok"; st.first=(st.tries===1); it.lock(true);
+      fb.className="fb ui show okb"; fb.innerHTML='<span class="tag okt">Correct</span>'+(st.first?"First time.":"Second try.")+(it.why?'<div class="why">'+fmt(it.why)+'</div>':"");
+      it.card.classList.add("ok"); save(); refresh(); return; }
+    if(st.tries<2){
+      fb.className="fb ui show hint";
+      fb.innerHTML='<span class="tag ht">Indice</span>'+(r==="accent"?"Almost: the right form, but check the accent. ":"Not yet. ")+fmt(it.pista||"");
+      it.mark(); save(); return; }
+    st.st="rev"; it.lock(false); it.reveal();
+    fb.className="fb ui show revb"; fb.innerHTML='<span class="tag rt">Réponse</span>'+fmt(it.answerText())+(it.why?'<div class="why">'+fmt(it.why)+'</div>':"");
+    it.card.classList.add("rev"); save(); refresh();
   };
-
-  const totalGaps = Object.keys(gaps).length;
-  const MAX_LEV_DIST = 1; // typo tolerance
-
-  // Tracking initial vs final correctness
-  const firstCorrect = {}; // id -> true/false (first time marked)
-  let hasFirstMarkDone = false;
-
-  function normalise(str) {
-    return str
-      .toLowerCase()
-      .normalize("NFD")
-      .replace(/[\u0300-\u036f]/g, "")
-      .replace(/\s+/g, " ")
-      .trim();
+  it.restore = function(){
+    if(!st.st) return; it.setGiven(st.given);
+    var fb=fbBox(it.card);
+    if(st.st==="ok"){ it.lock(true); it.card.classList.add("ok"); fb.className="fb ui show okb"; fb.innerHTML='<span class="tag okt">Correct</span>'+(st.first?"First time.":"Second try.")+(it.why?'<div class="why">'+fmt(it.why)+'</div>':""); }
+    else { it.lock(false); it.reveal(); it.card.classList.add("rev"); fb.className="fb ui show revb"; fb.innerHTML='<span class="tag rt">Réponse</span>'+fmt(it.answerText())+(it.why?'<div class="why">'+fmt(it.why)+'</div>':""); }
+  };
+  ITEMS.push(it);
+}
+function controls(card, it){
+  var row=h("div",{"class":"ctl ui"}); var b=h("button",{"class":"b",type:"button"},"Vérifier");
+  var p=h("button",{"class":"g",type:"button"},"Indice");
+  b.addEventListener("click", function(){ it.run(); });
+  p.addEventListener("click", function(){ var fb=fbBox(card); if(it.state.st) return; fb.className="fb ui show hint"; fb.innerHTML='<span class="tag ht">Indice</span>'+fmt(it.pista||""); });
+  row.appendChild(b); row.appendChild(p); card.appendChild(row);
+  it.btns=[b,p];
+}
+function gapItem(sec, id, n, Q){
+  var card=h("div",{"class":"card"});
+  if(Q.en) card.appendChild(h("p",{"class":"en"},esc(Q.en)));
+  var parts=Q.es.split(/\{(\d+)\}/), html='<span class="qn">'+n+' ·</span>';
+  for(var i=0;i<parts.length;i++){
+    if(i%2===0) html+=fmt(parts[i]);
+    else { var g=Q.gaps[+parts[i]]; html+='<input type="text" data-g="'+parts[i]+'" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="trou '+(+parts[i]+1)+'">'+(g.cue?' <span class="cue">('+esc(g.cue)+')</span>':""); }
   }
-
-  function levenshtein(a, b) {
-    if (a === b) return 0;
-    if (!a.length) return b.length;
-    if (!b.length) return a.length;
-    const matrix = [];
-    for (let i = 0; i <= b.length; i++) matrix[i] = [i];
-    for (let j = 0; j <= a.length; j++) matrix[0][j] = j;
-    for (let i = 1; i <= b.length; i++) {
-      for (let j = 1; j <= a.length; j++) {
-        const cost = b.charAt(i - 1) === a.charAt(j - 1) ? 0 : 1;
-        matrix[i][j] = Math.min(
-          matrix[i - 1][j] + 1,
-          matrix[i][j - 1] + 1,
-          matrix[i - 1][j - 1] + cost
-        );
-      }
-    }
-    return matrix[b.length][a.length];
-  }
-
-  function isCorrect(userInput, solutions) {
-    const u = normalise(userInput);
-    if (!u) return false;
-    const normSolutions = solutions.map(s => normalise(s));
-    if (normSolutions.includes(u)) return true;
-    return normSolutions.some(sol => levenshtein(u, sol) <= MAX_LEV_DIST);
-  }
-
-  document.getElementById("markBtn").addEventListener("click", () => {
-    let correctCount = 0;
-    let incorrectList = [];
-
-    const inputs = document.querySelectorAll('#exercise input[data-id]');
-    inputs.forEach(input => {
-      const id = input.getAttribute('data-id');
-      const user = input.value;
-      const correctNow = isCorrect(user, gaps[id]);
-
-      // store first-mark correctness
-      if (!hasFirstMarkDone) {
-        firstCorrect[id] = correctNow;
-      }
-
-      if (correctNow) {
-        input.classList.add("correct");
-        input.classList.remove("incorrect");
-        correctCount++;
-      } else {
-        input.classList.add("incorrect");
-        input.classList.remove("correct");
-        incorrectList.push(id);
-      }
-    });
-
-    hasFirstMarkDone = true;
-
-    const scoreText = `${correctCount} / ${totalGaps}`;
-    document.getElementById("score").textContent = "Score (actuel) : " + scoreText;
-
-    const ratio = correctCount / totalGaps;
-    let feedback = "";
-    if (ratio === 1) {
-      feedback = "Excellent : passé composé, accords et registre analytique sont très bien maîtrisés.";
-    } else if (ratio >= 0.75) {
-      feedback = "Très bon ensemble : quelques erreurs d’accord ou de forme verbale, mais la base est solide.";
-    } else if (ratio >= 0.5) {
-      feedback = "Résultat correct : à retravailler, surtout la formation du passé composé et certains accords d’adjectifs.";
-    } else {
-      feedback = "Niveau à consolider : révisez les auxiliaires, les participes passés et les accords avant l’essai complet.";
-    }
-
-    if (incorrectList.length > 0) {
-      feedback += "\n\nRévisez particulièrement les blancs : " + incorrectList.join(", ") + ".";
-    }
-
-    document.getElementById("feedback").textContent = feedback;
+  var s=h("div",{"class":"sent"},html); card.appendChild(s);
+  var inputs=[].slice.call(s.querySelectorAll("input"));
+  var it={id:id, sec:sec, card:card, q:Q.es.replace(/\{\d+\}/g,"___"), pista:Q.pista, why:Q.why};
+  it.given=function(){ return inputs.map(function(x){return x.value.trim();}).join(" | "); };
+  it.setGiven=function(v){ (v||"").split(" | ").forEach(function(x,i){ if(inputs[i]) inputs[i].value=x; }); };
+  it.res=function(){ return inputs.map(function(x){ return judge(x.value, Q.gaps[+x.getAttribute("data-g")].acc); }); };
+  it.check=function(){ var r=it.res(); if(r.some(function(x){return x==="blank";})) { var fb=fbBox(card); fb.className="fb ui show hint"; fb.innerHTML="Fill in every gap first."; return "blank"; }
+    if(r.every(function(x){return x==="ok";})) return "ok"; if(r.every(function(x){return x==="ok"||x==="accent";})) return "accent"; return "no"; };
+  it.mark=function(){ var r=it.res(); inputs.forEach(function(x,i){ x.classList.toggle("okf",r[i]==="ok"); x.classList.toggle("badf",r[i]!=="ok"); }); };
+  it.lock=function(good){ inputs.forEach(function(x){ x.disabled=true; x.classList.toggle("okf",good); }); it.btns.forEach(function(b){ b.disabled=true; }); };
+  it.reveal=function(){ it.mark(); };
+  it.answerText=function(){ return "**"+Q.gaps.map(function(g){return g.acc[0];}).join(" … ")+"**"+(Q.gaps.some(function(g){return g.acc.length>1;})?" (also accepted: "+Q.gaps.map(function(g){return g.acc.slice(1).join(", ");}).filter(Boolean).join("; ")+")":"")+"."; };
+  it.ans=Q.gaps.map(function(g){return g.acc[0];}).join(" | ");
+  inputs.forEach(function(x){ x.addEventListener("keydown",function(e){ if(e.key==="Enter"){ e.preventDefault(); it.run(); } }); });
+  controls(card,it); wire(it); return card;
+}
+function seeded(n,seed){ var a=[]; for(var i=0;i<n;i++) a.push(i); var x=seed; for(i=n-1;i>0;i--){ x=(x*9301+49297)%233280; var j=Math.floor(x/233280*(i+1)); var t=a[i]; a[i]=a[j]; a[j]=t; } return a; }
+function mcItem(sec, id, n, Q){
+  var card=h("div",{"class":"card"});
+  if(Q.en) card.appendChild(h("p",{"class":"en"},esc(Q.en)));
+  card.appendChild(h("div",null,'<span class="qn">'+n+' ·</span>'+fmt(Q.q)));
+  var box=h("div",{"class":"opts"}); var order=seeded(Q.opts.length, id.length*31+n*7), btns=[], sel=null;
+  order.forEach(function(k){ var b=h("button",{"class":"opt",type:"button"},fmt(Q.opts[k])); b._i=k; b.addEventListener("click",function(){ if(it.state.st) return; sel=k; btns.forEach(function(x){x.classList.toggle("sel",x._i===k);}); it.run(); }); btns.push(b); box.appendChild(b); });
+  card.appendChild(box);
+  var it={id:id, sec:sec, card:card, q:Q.q, pista:Q.pista, why:Q.why};
+  it.given=function(){ return sel==null?"":Q.opts[sel]; };
+  it.setGiven=function(v){ var k=Q.opts.indexOf(v); if(k>=0){ sel=k; btns.forEach(function(x){x.classList.toggle("sel",x._i===k);}); } };
+  it.check=function(){ return sel==null?"blank":(sel===Q.a?"ok":"no"); };
+  it.mark=function(){ btns.forEach(function(x){ if(x._i===sel) x.classList.add("wrong"); }); };
+  it.lock=function(){ btns.forEach(function(x){ x.disabled=true; if(x._i===Q.a) x.classList.add("right"); }); if(it.pb) it.pb.disabled=true; };
+  it.reveal=function(){};
+  it.answerText=function(){ return "**"+Q.opts[Q.a]+"**."; };
+  it.ans=Q.opts[Q.a];
+  var row=h("div",{"class":"ctl ui"}); var p=h("button",{"class":"g",type:"button"},"Indice"); it.pb=p;
+  p.addEventListener("click",function(){ if(it.state.st) return; var fb=fbBox(card); fb.className="fb ui show hint"; fb.innerHTML='<span class="tag ht">Indice</span>'+fmt(Q.pista||""); });
+  row.appendChild(p); card.appendChild(row);
+  wire(it); return card;
+}
+var WRITES=[];
+function covered(points, txt){ var d=" "+deacc(txt)+" "; return points.map(function(pt){ return {label:pt[0], ok: pt[1].some(function(k){ return d.indexOf(deacc(k))>=0; })}; }); }
+function wItem(sec, id, n, Q){
+  var card=h("div",{"class":"card reto"});
+  card.innerHTML='<div class="rt2 ui">'+(Q.label||"ÉCRIRE")+'</div><p class="ui" style="margin:6px 0 4px;font-size:15px">'+fmt(Q.q)+'</p>';
+  S.w=S.w||{}; var t=h("textarea",{"aria-label":Q.label||"Écrire",style:"min-height:120px"}); t.value=S.w[id]||"";
+  t.addEventListener("input",function(){ S.w[id]=t.value; save(); });
+  card.appendChild(t);
+  var row=h("div",{"class":"ctl ui"}); var b=h("button",{"class":"b",type:"button"},"Commentaires"); row.appendChild(b); card.appendChild(row);
+  var fb=h("div",{"class":"fb ui","aria-live":"polite"}); card.appendChild(fb);
+  b.addEventListener("click",function(){
+    var txt=t.value.trim(), words=(txt.match(/[A-Za-zÀ-ÿŒœ'’-]+/g)||[]).length;
+    if(words<25){ fb.className="fb ui show hint"; fb.innerHTML='<span class="tag ht">Indice</span>Write at least '+(Q.min||40)+' words first, then ask for comments. A strong answer covers:<ul class="check">'+Q.points.map(function(p){return "<li>"+esc(p[0])+"</li>";}).join("")+'</ul>'; return; }
+    var cv=covered(Q.points,txt), k=cv.filter(function(x){return x.ok;}).length;
+    fb.className="fb ui show "+(k>=Q.points.length-1?"okb":"hint");
+    fb.innerHTML='<span class="tag '+(k>=Q.points.length-1?"okt":"ht")+'">Commentaires</span>'+k+' of '+cv.length+' key points ('+words+' words).<ul class="check">'+cv.map(function(x){return '<li class="'+(x.ok?"on":"")+'">'+esc(x.label)+'</li>';}).join("")+'</ul><div class="why">The check looks for the key words of each point: a guide, not a mark.</div>'+(Q.model?'<details style="margin-top:8px"><summary>Une réponse possible</summary><p style="margin:6px 0 0">'+fmt(Q.model)+'</p></details>':"");
   });
-
-  // Reset
-  document.getElementById("resetBtn").addEventListener("click", () => {
-    const inputs = document.querySelectorAll('#exercise input[data-id]');
-    inputs.forEach(input => {
-      input.value = "";
-      input.classList.remove("correct","incorrect");
-    });
-    document.getElementById("score").textContent = "";
-    document.getElementById("feedback").textContent = "";
-    for (const k in firstCorrect) delete firstCorrect[k];
-    hasFirstMarkDone = false;
-  });
-
-  // Floating accent keyboard
-  const keyboard = document.getElementById("accentKeyboard");
-  let currentInput = null;
-
-  function positionKeyboard(input) {
-    const rect = input.getBoundingClientRect();
-    const scrollY = window.scrollY || window.pageYOffset;
-    const scrollX = window.scrollX || window.pageXOffset;
-    keyboard.style.top = (rect.bottom + scrollY + 4) + "px";
-    keyboard.style.left = (rect.left + scrollX) + "px";
-    keyboard.style.display = "inline-block";
-  }
-
-  document.addEventListener("focusin", (e) => {
-    if (e.target.tagName === "INPUT" && e.target.hasAttribute("data-id")) {
-      currentInput = e.target;
-      positionKeyboard(currentInput);
-    }
-  });
-
-  document.addEventListener("scroll", () => {
-    if (currentInput) {
-      positionKeyboard(currentInput);
-    }
-  });
-
-  keyboard.addEventListener("click", (e) => {
-    if (e.target.tagName === "BUTTON" && e.target.dataset.char && currentInput) {
-      const ch = e.target.dataset.char;
-      const start = currentInput.selectionStart || 0;
-      const end = currentInput.selectionEnd || 0;
-      const val = currentInput.value;
-      currentInput.value = val.slice(0, start) + ch + val.slice(end);
-      const newPos = start + ch.length;
-      currentInput.focus();
-      currentInput.setSelectionRange(newPos, newPos);
-    }
-  });
-
-  // PDF export: include student vs suggested answers and both scores
-  document.getElementById("pdfBtn").addEventListener("click", async () => {
-    const { jsPDF } = window.jspdf;
-    const doc = new jsPDF({ unit: "pt", format: "a4" });
-
-    const marginLeft = 40;
-    let y = 40;
-    const lineHeight = 14;
-    const maxWidth = 515;
-
-    function addWrappedText(text) {
-      const lines = doc.splitTextToSize(text, maxWidth);
-      lines.forEach(line => {
-        if (y > 780) {
-          doc.addPage();
-          y = 40;
-        }
-        doc.text(line, marginLeft, y);
-        y += lineHeight;
-      });
-    }
-
-    // collect final answers and correctness
-    const inputs = document.querySelectorAll('#exercise input[data-id]');
-    const reportRows = [];
-    let finalCorrectCount = 0;
-    let initialCorrectCount = 0;
-
-    inputs.forEach(input => {
-      const id = input.getAttribute('data-id');
-      const studentAns = input.value || "";
-      const correctNow = isCorrect(studentAns, gaps[id]);
-      if (correctNow) finalCorrectCount++;
-      if (firstCorrect[id]) initialCorrectCount++;
-
-      const suggested = gaps[id].join(" / ");
-      reportRows.push({
-        id,
-        student: studentAns || "(vide)",
-        suggested
-      });
-    });
-
-    // header
-    doc.setFont("Times","Normal");
-    doc.setFontSize(14);
-    addWrappedText("La Haine – début du film : rapport d'exercice");
-
-    y += 6;
-    doc.setFontSize(11);
-
-    // scores
-    addWrappedText(
-      "Score initial (première correction) : " +
-      (hasFirstMarkDone ? `${initialCorrectCount} / ${totalGaps}` : "non calculé")
-    );
-    addWrappedText(
-      "Score final (dernière correction) : " +
-      `${finalCorrectCount} / ${totalGaps}`
-    );
-    y += lineHeight;
-
-    // Completed text (for reference)
-    const exercise = document.getElementById("exercise");
-    const clone = exercise.cloneNode(true);
-    const cloneInputs = clone.querySelectorAll('input[data-id]');
-    cloneInputs.forEach(inp => {
-      const val = inp.value || "_____";
-      const span = document.createElement("span");
-      span.textContent = val;
-      inp.parentNode.replaceChild(span, inp);
-    });
-    const plainText = clone.innerText.replace(/\s+\n/g, "\n").replace(/\n{2,}/g, "\n\n");
-    addWrappedText("\nTexte complété :\n");
-    addWrappedText(plainText);
-    y += lineHeight;
-
-    // Detailed table of answers
-    addWrappedText("\nDétail des réponses : (N° – réponse de l'élève / réponses suggérées)\n");
-    reportRows.forEach(row => {
-      const line = `${row.id} : ${row.student}  /  ${row.suggested}`;
-      addWrappedText(line);
-    });
-
-    const fb = document.getElementById("feedback").textContent || "Pas de feedback (corrigez d'abord l'exercice).";
-    y += lineHeight;
-    addWrappedText("\nFeedback global :\n" + fb);
-
-    const blob = doc.output("blob");
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = "la-haine-debut-exercice-grammaire-rapport.pdf";
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
-  });
+  WRITES.push({sec:sec,q:Q.q,get:function(){return t.value.trim();}});
+  return card;
+}
+var main=document.getElementById("main"), tabs=document.getElementById("tabs");
+D.sections.forEach(function(sx, si){
+  var id="s"+(si+1);
+  var s=h("section",{"class":"ex",id:id}); s.appendChild(h("h2",null,esc(sx.h2)));
+  if(sx.intro) s.appendChild(h("p",{"class":"how ui"},fmt(sx.intro)));
+  if(sx.rule) s.appendChild(h("div",{"class":"rule"},fmt(sx.rule)));
+  var n=0;
+  sx.items.forEach(function(Q,qi){ n++; if(Q.h3) s.appendChild(h("h3",null,esc(Q.h3)));
+    s.appendChild(Q.t==="mc" ? mcItem(id,id+"_"+qi,n,Q) : Q.t==="w" ? wItem(id,id+"_"+qi,n,Q) : gapItem(id,id+"_"+qi,n,Q)); });
+  var f=h("div",{"class":"secfoot ui"}), l=h("div"), r=h("div");
+  if(si>0) l.appendChild(h("button",{"class":"g",type:"button","data-go":"s"+si},"← Retour"));
+  var rs=h("button",{"class":"g",type:"button"},"Recommencer la section");
+  rs.addEventListener("click",function(){ if(!rs._a){ rs._a=true; rs.textContent="Cliquez encore pour effacer"; setTimeout(function(){ rs._a=false; rs.textContent="Recommencer la section"; },3000); return; }
+    ITEMS.filter(function(it){return it.sec===id;}).forEach(function(it){ delete S.it[it.id]; }); save(); location.reload(); });
+  l.appendChild(document.createTextNode(" ")); l.appendChild(rs);
+  if(si<D.sections.length-1) r.appendChild(h("button",{"class":"b",type:"button","data-go":"s"+(si+2)},"Suivant →"));
+  else { var dl=h("button",{"class":"b",type:"button"},"Télécharger mes réponses"); dl.addEventListener("click",download); r.appendChild(dl); }
+  f.appendChild(l); f.appendChild(r); s.appendChild(f);
+  main.appendChild(s);
+  var tb=h("button",{type:"button",role:"tab","data-go":id},esc(sx.tab)+' <span class="n"></span>'); tabs.appendChild(tb);
+  SECS.push({id:id, el:s, tab:tb});
+});
+function totals(){ var tot=ITEMS.length, sc=0, first=0, done=0; ITEMS.forEach(function(it){ var st=it.state; if(st.st==="ok"){ sc++; done++; if(st.first) first++; } else if(st.st==="rev") done++; }); return {tot:tot,sc:sc,first:first,done:done}; }
+function refresh(){
+  var T=totals(); document.getElementById("sc").textContent=T.sc; document.getElementById("tot").textContent=T.tot; document.getElementById("first").textContent=T.first;
+  document.getElementById("bar").style.width=(T.tot?Math.round(100*T.sc/T.tot):0)+"%";
+  SECS.forEach(function(s){ var its=ITEMS.filter(function(it){return it.sec===s.id;}); var d=its.filter(function(it){return it.state.st;}).length, ok=its.filter(function(it){return it.state.st==="ok";}).length; s.tab.querySelector(".n").textContent=ok+"/"+its.length; s.tab.classList.toggle("done",d===its.length); });
+  publish();
+}
+function publish(){
+  try{ var T=totals(); var all=JSON.parse(localStorage.getItem("bba-scores")||"{}"); var f=decodeURIComponent(location.pathname.split("/").pop()||"index"); var prev=all[f]||{};
+    var rec={title:(document.title||"").slice(0,120), score:T.sc, total:T.tot, best:Math.max(T.sc,prev.best||0), attempts:(prev.attempts||0)+(S.pub?0:1), t:Date.now()};
+    var n=Math.max(0,T.done-(S.pubDone||0)); rec.ans=(prev.ans||0)+n; rec.lg={}; for(var k in (prev.lg||{})) rec.lg[k]=prev.lg[k];
+    var day=String(Math.floor(Date.now()/86400000)); if(n) rec.lg[day]=(rec.lg[day]||0)+n;
+    all[f]=rec; localStorage.setItem("bba-scores",JSON.stringify(all)); S.pub=true; S.pubDone=T.done; save(); }catch(e){}
+}
+function studentName(){ var nm=document.querySelector("#bba-kit .nm"); var v=nm&&nm.value.trim(); if(!v){ try{ v=localStorage.getItem("bba-name")||""; }catch(e){} } return v||""; }
+function download(){
+  var T=totals(), name=studentName(), L=[];
+  L.push(D.dlhead); L.push("Nom : "+(name||"(sans nom)")); L.push("Date : "+new Date().toLocaleString("fr-FR")); L.push("Points : "+T.sc+" / "+T.tot+"  ·  du premier coup : "+T.first); L.push("");
+  SECS.forEach(function(s){ L.push("== "+s.el.querySelector("h2").textContent+" ==");
+    ITEMS.filter(function(it){return it.sec===s.id;}).forEach(function(it,i){ var st=it.state;
+      var mark=st.st==="ok"?(st.first?"✓":"✓ (2e essai)"):st.st==="rev"?"✗ → "+it.ans:"— sans réponse";
+      L.push((i+1)+". "+it.q.replace(/\*\*/g,"").replace(/\s+/g," ").slice(0,160)); L.push("   Réponse : "+(it.given()||"—")+"   ["+mark+"]"); });
+    WRITES.filter(function(w){return w.sec===s.id;}).forEach(function(w){ L.push("TEXTE : "+w.q.replace(/\*\*/g,"")); L.push(w.get()||"—"); });
+    L.push(""); });
+  var blob=new Blob([L.join("\r\n")],{type:"text/plain;charset=utf-8"}); var a=document.createElement("a"); a.href=URL.createObjectURL(blob);
+  a.download=D.dlfile+(name||"sans_nom").replace(/[^\wÀ-ÿ-]+/g,"_")+".txt"; document.body.appendChild(a); a.click(); setTimeout(function(){ URL.revokeObjectURL(a.href); a.remove(); },500);
+}
+function go(id){ SECS.forEach(function(s){ var on=s.id===id; s.el.classList.toggle("active",on); s.tab.setAttribute("aria-selected",on?"true":"false"); }); S.tab=id; save();
+  var nav=document.getElementById("tabs"); if(window.scrollY>nav.offsetTop) window.scrollTo({top:nav.offsetTop,behavior:"smooth"}); }
+document.addEventListener("click",function(e){ var b=e.target.closest("[data-go]"); if(b){ e.preventDefault(); go(b.getAttribute("data-go")); } });
+ITEMS.forEach(function(it){ it.restore(); });
+go(S.tab && document.getElementById(S.tab) ? S.tab : "s1"); refresh();
+window.BBAG={items:ITEMS, totals:totals, judge:judge};
+})();
 </script>
-
-<script>
-/* jsPDF now comes from bba-pdf.js in this folder, so the old
-   CDN-blocked fallback that downgraded the report to .txt is gone. */
-  </script>
-  <script src="bba-kit-fr.js" defer></script>
+<script src="bba-kit-fr.js" defer></script>
 <script src="bba-send-strip.js" defer></script>
 </body>
 </html>

@@ -145,7 +145,7 @@ Attention : <strong>après que</strong> se construit avec l'<strong>indicatif</s
     <div class="fb"></div>
   </div>
   <div class="item" data-type="text" data-a="cmV2aWVubmU=" data-exp="wqsgUmV2ZW5pciDCuyBzdWl0IGxlIG1vZMOobGUgZGUgwqsgdmVuaXIgwrsgOiByYWRpY2FsIGlycsOpZ3VsaWVyIMKrIHJldmllbm4tIMK7IChpbHMgcmV2aWVubmVudCkg4oaSIHJldmllbm5lLg==">
-    <p class="q">11. Avant que Vinz ne (revenir) sur ses résolutions, Hubert tente de lui reprendre l'arme.</p>
+    <p class="q">11. Hubert veut que Vinz se débarrasse du revolver avant que la police ne (revenir) dans la cité.</p>
     <input type="text" autocomplete="off" spellcheck="false">
     <details class="aide"><summary>Indice</summary><div>Même famille que « venir ».</div></details>
     <div class="fb"></div>
@@ -218,7 +218,7 @@ Attention : <strong>après que</strong> se construit avec l'<strong>indicatif</s
     <div class="fb"></div>
   </div>
   <div class="item" data-type="text" data-a="YWl0IGNvbW1pcw==" data-exp="UGFydGljaXBlIHBhc3PDqSBpcnLDqWd1bGllciBkZSDCqyBjb21tZXR0cmUgwrsgOiBjb21taXMuIEF1eGlsaWFpcmUgYXZvaXIgYXUgc3Viam9uY3RpZiA6IGFpdC4=">
-    <p class="q">3. Il se peut que la police (commettre — subjonctif passé) une bavure avant même le début du film.</p>
+    <p class="q">3. Il est inadmissible que la police (commettre — subjonctif passé) une bavure sur Abdel pendant sa garde à vue.</p>
     <input type="text" autocomplete="off" spellcheck="false">
     <div class="fb"></div>
   </div>
@@ -278,7 +278,7 @@ Attention : <strong>après que</strong> se construit avec l'<strong>indicatif</s
     <div class="fb"></div>
   </div>
   <div class="item" data-type="mcq" data-a="MQ==" data-exp="wqsgQmllbiBxdWUgwrsgZXN0IHVuZSBjb25qb25jdGlvbiBxdWkgZMOpY2xlbmNoZSBzeXN0w6ltYXRpcXVlbWVudCBsZSBzdWJqb25jdGlmLg==">
-    <p class="q">6. « Bien que le film ___ triste, il reste plein d'espoir. »</p>
+    <p class="q">6. « Bien que le film ___ en noir et blanc, il paraît étonnamment actuel. »</p>
     <div class="opts">
       <label><input type="radio" name="b_ex5_q6" value="0"> A) est</label>
       <label><input type="radio" name="b_ex5_q6" value="1"> B) soit</label>
@@ -292,14 +292,14 @@ Attention : <strong>après que</strong> se construit avec l'<strong>indicatif</s
 
   <div class="stretch">
     <h2>Défi A* — Pour aller plus loin</h2>
-    <div class="consigne">Rédigez <strong>trois phrases</strong> que vous pourriez utiliser dans une dissertation sur <em>La Haine</em> ou <em>L'Étranger</em>, en employant chacune un subjonctif différent (présent ou passé). Variez les déclencheurs (bien que, il est indéniable que, il se peut que, quoique…).</div>
-    <p><em>Amorces :</em> « Bien que Vinz…», « Il est indéniable que la société… », « Quoique Meursault…», « Il se peut que le lecteur… »</p>
+    <div class="consigne">Rédigez <strong>trois phrases</strong> que vous pourriez utiliser dans une dissertation sur <em>La Haine</em> ou <em>L'Étranger</em>, en employant chacune un subjonctif différent (présent ou passé). Variez les déclencheurs (bien que, il est regrettable que, il se peut que, quoique…).</div>
+    <p><em>Amorces :</em> « Bien que Vinz…», « Il est regrettable que la société… », « Quoique Meursault…», « Il se peut que le lecteur… »</p>
     <div class="item" data-type="free" data-min="35">
       <textarea placeholder="Rédigez vos trois phrases ici (35 mots minimum au total)…"></textarea>
       <div class="fb"></div>
     </div>
     <details class="aide"><summary>Voir un modèle de réponse (après avoir écrit le vôtre)</summary>
-      <div id="modelAnswer">Modèle : « Bien que Vinz veuille venger Abdel, Hubert parvient à le raisonner in extremis. Il est indéniable que la société ait sa part de responsabilité dans l'engrenage de violence qui touche les cités. Quoique Meursault soit conscient de la gravité de son crime, il refuse de feindre un remords qu'il ne ressent pas. »</div></details>
+      <div id="modelAnswer">Modèle : « Bien que Vinz veuille venger Abdel, Hubert parvient à le raisonner in extremis. Il est regrettable que la société ait laissé s'installer l'engrenage de violence qui touche les cités. Quoique Meursault soit conscient de la gravité de son crime, il refuse de feindre un remords qu'il ne ressent pas. »</div></details>
   </div>
 
   <button class="btn dl" onclick="downloadResults()">📥 Télécharger mes résultats</button>
@@ -350,9 +350,14 @@ function checkAll(){
       const inp=it.querySelector("input,textarea");
       const accepted=d(it.dataset.a).split("|"), exp=d(it.dataset.exp||"");
       const r=judge(inp.value,accepted);
-      if(r==="ok"){score++;fb.className="fb ok";fb.textContent="✔ Correct. "+exp;}
-      else if(r==="accents"){fb.className="fb almost";fb.textContent="≈ Presque ! Vérifiez les accents : "+accepted[0]+". "+exp;}
-      else{fb.className="fb bad";fb.textContent="✘ Réponse attendue : "+accepted[0]+". "+exp;}
+      const v=norm(inp.value);
+      if(r!=="ok" && v && it.dataset.last!==v){ it.dataset.tries=(+it.dataset.tries||0)+1; it.dataset.last=v; }
+      const tries=+it.dataset.tries||0, aide=it.querySelector(".aide div");
+      if(!v){fb.className="fb";fb.textContent="";}
+      else if(r==="ok"){score++;fb.className="fb ok";fb.textContent="✔ Correct. "+exp;}
+      else if(tries<2 && r==="accents"){fb.className="fb almost";fb.textContent="≈ Almost: the right form, but check the accent, then click « Vérifier » again.";}
+      else if(tries<2){fb.className="fb almost";fb.textContent="✘ Not yet. "+(aide?"Indice : "+aide.textContent+" Then check again.":"Check the tense the brackets ask for and the stem of the verb (subjunctive present: ils form minus -ent, plus -e, -es, -e…); then check again.");}
+      else{fb.className="fb bad";fb.textContent="✘ Réponse : "+accepted[0]+". "+exp;}
       results.push({label,given:inp.value||"—",ok:r==="ok"});
     }
     if(type==="free"){
@@ -360,7 +365,13 @@ function checkAll(){
       const words=(ta.value.trim().match(/\S+/g)||[]).length;
       if(words===0){fb.className="fb";fb.textContent="";}
       else if(words<min){fb.className="fb almost";fb.textContent="≈ "+words+" mots — visez au moins "+min+". Développez avec un connecteur (cependant, en revanche…).";}
-      else{fb.className="fb ok";fb.textContent="✔ "+words+" mots. Comparez maintenant avec le modèle, puis améliorez une phrase.";}
+      else{
+        const t=" "+norm(ta.value)+" ";
+        const subj=["bien que","bien qu'","quoique","quoiqu'","il se peut que","il se peut qu'","il est regrettable que","il est regrettable qu'","il faut que","il faut qu'","pour que","pour qu'","à moins que","avant que","il est possible que","il est possible qu'","je doute que","je ne pense pas que","il est essentiel que","il est important que","il semble que","sans que","afin que"];
+        const ind=["il est indéniable que","il est certain que","il est évident que","je pense que","après que","il est clair que"];
+        const got=subj.filter(k=>t.includes(" "+k)), trap=ind.filter(k=>t.includes(" "+k));
+        fb.className=got.length>=3&&!trap.length?"fb ok":"fb almost";
+        fb.textContent="✔ "+words+" words. Subjunctive triggers found: "+(got.length?got.join(", "):"none")+(got.length<3?". Aim for three different ones.":".")+(trap.length?" Careful: « "+trap.join(" », « ")+" » expresses certainty and takes the indicative, not the subjunctive.":"")+" Compare with the model, then improve one sentence.";}
       results.push({label,given:ta.value||"—",ok:words>=min});
     }
   });
@@ -381,17 +392,16 @@ function resetAll(){
 
 function downloadResults(){
   const name=document.getElementById("studentName").value.trim();
-  if(!name){alert("Écrivez d'abord votre nom en haut de la page.");document.getElementById("studentName").focus();return}
-  if(!window._score){alert("Cliquez d'abord sur « Vérifier mes réponses ».");return}
+  if(!window._score) checkAll();
   let txt="RÉSULTATS — "+document.title+"\n";
-  txt+="Élève : "+name+"\nDate : "+new Date().toLocaleString("fr-FR")+"\n";
+  txt+="Élève : "+(name||"(sans nom)")+"\nDate : "+new Date().toLocaleString("fr-FR")+"\n";
   txt+="Score : "+window._score.score+" / "+window._score.max+"\n";
   txt+="".padEnd(60,"=")+"\n\n";
   results.forEach((r,i)=>{txt+=(i+1)+". "+r.label+"\n   Réponse : "+r.given+"\n   "+(r.ok?"✔ correct":"✘ à revoir")+"\n\n";});
   const blob=new Blob([txt],{type:"text/plain;charset=utf-8"});
   const a=document.createElement("a");
   a.href=URL.createObjectURL(blob);
-  a.download=(document.title.split("—")[0].trim()||"resultats").replace(/\s+/g,"_")+"_"+name.replace(/\s+/g,"_")+".txt";
+  a.download=(document.title.split("—")[0].trim()||"resultats").replace(/\s+/g,"_")+"_"+(name||"sans_nom").replace(/\s+/g,"_")+".txt";
   document.body.appendChild(a);a.click();document.body.removeChild(a);URL.revokeObjectURL(a.href);
 }
 

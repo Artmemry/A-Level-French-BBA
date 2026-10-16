@@ -1,444 +1,305 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>La Haine – Essay Paragraph Builder</title>
-  <style>
-    :root {
-      --red: #d9232d;
-      --dark-bg: #0a0a14;
-      --panel: #16213e;
-      --panel2: #1a1a2e;
-      --border: #0f3460;
-      --text: #f0f0f0;
-      --muted: #c0c0c0;
-      --success: #4caf50;
-      --warning: #f39c12;
-      --info: #3498db;
-    }
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-    body { background: var(--dark-bg); color: var(--text); min-height: 100vh; padding: 20px; }
-    .container { max-width: 1080px; margin: 0 auto; }
-
-    header {
-      text-align: center; padding: 28px 20px;
-      border-bottom: 3px solid var(--red); margin-bottom: 20px;
-      background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.85)); border-radius: 12px;
-    }
-    header h1 { font-size: 2.2rem; color: var(--red); text-transform: uppercase; letter-spacing: 3px; text-shadow: 2px 2px 6px rgba(0,0,0,0.8); margin-bottom: 8px; }
-    header p { font-size: 0.9rem; color: var(--muted); max-width: 620px; margin: 0 auto; }
-
-    .question-bar { background: var(--panel2); padding: 16px 20px; border-radius: 10px; margin-bottom: 18px; border: 1px solid var(--border); }
-    .question-bar label { font-weight: 700; color: var(--red); font-size: 0.88rem; display: block; margin-bottom: 8px; }
-    .q-select {
-      width: 100%; padding: 10px 13px; border: 2px solid var(--border);
-      border-radius: 8px; font-size: 0.92rem; color: var(--text);
-      background: var(--dark-bg); cursor: pointer;
-    }
-    .q-select:focus { outline: none; border-color: var(--red); }
-    .question-text {
-      margin-top: 10px; padding: 10px 14px;
-      background: #1a0505; border-left: 4px solid var(--red);
-      border-radius: 6px; font-size: 0.92rem; font-style: italic; color: #ff8a80;
-      display: none;
-    }
-    .question-text.show { display: block; }
-
-    .builder-grid { display: grid; grid-template-columns: 1fr 380px; min-height: 580px; gap: 0; }
-    @media (max-width: 860px) { .builder-grid { grid-template-columns: 1fr; } }
-
-    /* STEPS */
-    .steps-panel { border-right: 2px solid var(--border); overflow-y: auto; padding: 18px 20px; }
-    .step { border: 2px solid var(--border); border-radius: 12px; margin-bottom: 14px; overflow: hidden; transition: border-color 0.2s; }
-    .step.active { border-color: var(--red); box-shadow: 0 4px 14px rgba(217,35,45,0.25); }
-    .step.done { border-color: var(--success); }
-    .step-header { display: flex; align-items: center; gap: 10px; padding: 11px 14px; background: var(--panel2); cursor: pointer; user-select: none; }
-    .step.active .step-header { background: #1a0508; }
-    .step.done .step-header { background: #0a180a; }
-    .step-num { width: 27px; height: 27px; border-radius: 50%; background: var(--red); color: white; font-weight: 700; font-size: 0.82rem; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-    .step.done .step-num { background: var(--success); }
-    .step-title { font-weight: 700; font-size: 0.88rem; color: var(--muted); flex: 1; }
-    .step.active .step-title { color: #ff8a80; }
-    .step.done .step-title { color: #a5d6a7; }
-    .step-status { font-size: 0.72rem; color: #555; }
-    .step-body { padding: 14px; display: none; }
-    .step.active .step-body { display: block; }
-    .step-desc { font-size: 0.8rem; color: var(--muted); margin-bottom: 10px; line-height: 1.5; background: var(--panel); padding: 8px 10px; border-radius: 6px; border-left: 3px solid var(--border); }
-    .phrase-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-bottom: 10px; }
-    @media (max-width: 600px) { .phrase-grid { grid-template-columns: 1fr; } }
-    .phrase-btn {
-      padding: 8px 10px; border: 1px solid var(--border); border-radius: 7px;
-      cursor: pointer; font-size: 0.79rem; text-align: left;
-      background: var(--panel2); color: var(--muted); line-height: 1.35;
-      transition: all 0.15s;
-    }
-    .phrase-btn:hover { background: var(--panel); border-color: var(--red); color: var(--text); }
-    .phrase-btn.selected { background: var(--red); color: white; border-color: var(--red); font-weight: 600; }
-    .custom-input {
-      width: 100%; padding: 9px 12px; border: 2px solid var(--border); border-radius: 8px;
-      font-size: 0.86rem; margin-top: 6px; background: var(--dark-bg); color: var(--text);
-    }
-    .custom-input:focus { outline: none; border-color: var(--red); }
-    .step-btns { display: flex; gap: 8px; margin-top: 10px; }
-    .step-next-btn { padding: 9px 18px; border: none; border-radius: 7px; background: var(--red); color: white; font-weight: 700; font-size: 0.83rem; cursor: pointer; transition: background 0.2s; }
-    .step-next-btn:hover { background: #b71c1c; }
-    .step-clear-btn { padding: 9px 13px; border: 1px solid var(--border); border-radius: 7px; background: transparent; color: var(--muted); font-size: 0.83rem; cursor: pointer; }
-    .step-clear-btn:hover { border-color: var(--muted); color: var(--text); }
-    .char-count { font-size: 0.72rem; color: #444; margin-top: 4px; }
-
-    /* PREVIEW */
-    .preview-panel { padding: 20px; background: var(--panel2); }
-    .preview-panel h2 { font-size: 0.95rem; color: var(--red); margin-bottom: 12px; display: flex; align-items: center; gap: 7px; }
-    .para-preview {
-      background: var(--panel); border: 2px solid var(--border); border-radius: 10px;
-      padding: 18px; min-height: 210px; font-size: 0.9rem; line-height: 2;
-      color: var(--text); margin-bottom: 14px;
-    }
-    .seg-topic { color: #90caf9; font-weight: 600; }
-    .seg-point { color: #a5d6a7; font-weight: 600; }
-    .seg-evidence { color: #ffe082; font-weight: 600; }
-    .seg-analysis { color: #cf94da; font-weight: 600; }
-    .seg-connector { color: #ff8a65; font-weight: 600; }
-    .seg-conclusion { color: #80deea; font-weight: 600; }
-    .seg-placeholder { color: #333; font-style: italic; }
-    .legend { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 12px; font-size: 0.7rem; }
-    .legend span { padding: 2px 7px; border-radius: 10px; font-weight: 700; }
-    .leg-topic { background: #0d1a30; color: #90caf9; border: 1px solid #1e3a5f; }
-    .leg-point { background: #0a1a0a; color: #a5d6a7; border: 1px solid #1a3a1a; }
-    .leg-evidence { background: #1a1500; color: #ffe082; border: 1px solid #3a3000; }
-    .leg-analysis { background: #1a0a1a; color: #cf94da; border: 1px solid #3a1a3a; }
-    .leg-connector { background: #1a0a00; color: #ff8a65; border: 1px solid #3a1a00; }
-    .leg-conclusion { background: #001a1a; color: #80deea; border: 1px solid #003a3a; }
-
-    .word-count-bar { display: flex; justify-content: space-between; align-items: center; font-size: 0.78rem; color: #555; margin-bottom: 12px; }
-    .wc-num { font-weight: 700; color: var(--red); font-size: 1rem; }
-    .action-btns { display: flex; flex-direction: column; gap: 7px; }
-    .copy-btn, .reset-btn-main, .print-btn2 { padding: 11px 14px; border: none; border-radius: 8px; cursor: pointer; font-weight: 700; font-size: 0.85rem; transition: all 0.2s; text-align: center; }
-    .copy-btn { background: var(--info); color: white; }
-    .copy-btn:hover { background: #1a6fa0; }
-    .print-btn2 { background: var(--red); color: white; }
-    .print-btn2:hover { background: #b71c1c; }
-    .reset-btn-main { background: var(--panel); color: var(--muted); border: 1px solid var(--border); }
-    .reset-btn-main:hover { background: var(--border); color: var(--text); }
-    .copy-feedback { font-size: 0.75rem; color: var(--success); text-align: center; height: 15px; margin-top: 2px; }
-
-    @media print {
-      body { background: white; color: black; }
-      header, .question-bar, .steps-panel, .legend, .action-btns, .word-count-bar { display: none !important; }
-      .builder-grid { grid-template-columns: 1fr; }
-      .preview-panel { background: white; padding: 0; }
-      .para-preview { border: 1px solid #ccc; background: white; font-size: 1rem; color: black; }
-      .seg-topic, .seg-point, .seg-evidence, .seg-analysis, .seg-connector, .seg-conclusion { color: black; font-weight: normal; }
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>La Haine – Paragraph Builder</title>
+<meta name="description" content="A-Level French: build an analytical paragraph on La Haine in four steps (true evidence, analysis, connectors, writing) with feedback on six essay questions.">
+<style>
+:root{
+  --paper:#f6f1e7; --card:#fffdf8; --ink:#2a2320; --soft:#6a5a4c; --line:#dcd0bb;
+  --ox:#6e1f2a; --ox2:#8f3340; --oxs:#f4e4e4; --green:#1f4d3a; --gs:#e3efe8;
+  --gold:#a8843a; --golds:#f7efd9; --bad:#a23b2a; --bads:#fbe9e5; --ok:#226a43;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--paper);color:var(--ink);font:17px/1.55 Georgia,"Times New Roman",serif}
+.ui{font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+.wrap{max-width:920px;margin:0 auto;padding:22px 16px 160px}
+header{border-bottom:3px double var(--ox);padding-bottom:14px;margin-bottom:8px}
+.kicker{font:600 12px/1.2 system-ui,sans-serif;letter-spacing:.16em;text-transform:uppercase;color:var(--ox)}
+h1{font-size:31px;line-height:1.15;margin:6px 0 6px;color:var(--ox)}
+.lead{color:var(--soft);margin:0 0 4px;font:15px/1.55 system-ui,sans-serif}
+.score{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;margin-top:10px;font:14px system-ui,sans-serif;color:var(--soft)}
+.score b{color:var(--ink);font-size:16px}
+.meter{flex:1 1 180px;height:8px;background:#e8dfcf;border-radius:99px;overflow:hidden;min-width:140px}
+.meter i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--green),#2f7a58);transition:width .4s}
+nav.tabs{display:flex;flex-wrap:wrap;gap:6px;margin:16px 0 12px;position:sticky;top:0;background:var(--paper);padding:8px 0;z-index:5;border-bottom:1px solid var(--line)}
+nav.tabs button{font:600 13.5px system-ui,sans-serif;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:999px;padding:7px 12px;cursor:pointer;display:flex;gap:6px;align-items:center}
+nav.tabs button .n{font-weight:500;color:var(--soft);font-size:12px}
+nav.tabs button[aria-selected="true"]{background:var(--ox);border-color:var(--ox);color:#fff}
+nav.tabs button[aria-selected="true"] .n{color:#f1d7d9}
+nav.tabs button.done:not([aria-selected="true"]){border-color:var(--green);color:var(--green)}
+section.ex{display:none}
+section.ex.active{display:block}
+h2{font-size:24px;margin:4px 0 6px;color:var(--green)}
+h3{font:700 13px system-ui,sans-serif;letter-spacing:.12em;text-transform:uppercase;color:var(--ox);margin:22px 0 8px}
+.how{font:15px/1.55 system-ui,sans-serif;color:var(--soft);margin:0 0 14px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px 16px;margin:10px 0;position:relative}
+.card.ok{border-color:#9cc7ae;background:#fbfefc}
+.card.rev{border-color:#e3b6ad}
+.card .qn{font:700 13px system-ui,sans-serif;color:var(--ox);margin-right:6px}
+.quote{font-style:italic}
+blockquote{margin:2px 0 10px;padding:6px 0 6px 14px;border-left:3px solid var(--gold);font-style:italic;font-size:18px}
+.ctl{display:flex;flex-wrap:wrap;gap:8px 10px;align-items:center;margin-top:10px}
+input[type=text],select,textarea{font:16px Georgia,serif;color:var(--ink);background:#fff;border:1px solid #bdae95;border-radius:7px;padding:7px 10px;max-width:100%}
+input[type=text]{width:15em}
+input.w8{width:8.5em} input.w6{width:7em}
+input.okf{border-color:var(--ok);background:#f2faf5} input.badf{border-color:var(--bad);background:var(--bads)}
+textarea{width:100%;min-height:200px;resize:vertical;line-height:1.6}
+button.b{font:600 14px system-ui,sans-serif;border-radius:7px;padding:7px 13px;cursor:pointer;border:1px solid var(--ox);background:var(--ox);color:#fff}
+button.b:disabled{opacity:.45;cursor:default}
+button.g{font:600 14px system-ui,sans-serif;border-radius:7px;padding:7px 12px;cursor:pointer;border:1px solid var(--line);background:#fff;color:var(--green)}
+button.g:disabled{opacity:.45;cursor:default}
+.opts{display:grid;gap:7px;margin-top:8px}
+.opt{display:flex;gap:10px;align-items:flex-start;text-align:left;font:15.5px/1.45 system-ui,sans-serif;border:1px solid var(--line);background:#fff;border-radius:8px;padding:9px 12px;cursor:pointer;color:var(--ink)}
+.opt:before{content:"";flex:0 0 16px;height:16px;border:2px solid #b8a98f;border-radius:50%;margin-top:2px}
+.opt.sel{border-color:var(--ox);background:var(--oxs)}
+.opt.sel:before{border-color:var(--ox);background:radial-gradient(var(--ox) 45%,transparent 50%)}
+.opt.right{border-color:var(--ok);background:#eef8f2}
+.opt.wrong{border-color:var(--bad);background:var(--bads)}
+.opt:disabled{cursor:default}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.chip{font:600 13px system-ui,sans-serif;border:1px solid #c9bba3;background:#fff;color:var(--soft);border-radius:999px;padding:6px 11px;cursor:pointer}
+.chip[aria-pressed="true"]{background:var(--green);border-color:var(--green);color:#fff}
+.chip.core{outline:2px solid var(--ok);outline-offset:1px}
+.chip.acc{outline:2px dashed var(--gold);outline-offset:1px}
+.chip.wrongc{background:var(--bad);border-color:var(--bad);color:#fff}
+.chip:disabled{cursor:default}
+.fb{margin-top:10px;font:14.5px/1.55 system-ui,sans-serif;border-radius:8px;padding:9px 12px;display:none}
+.fb.show{display:block}
+.fb.okb{background:var(--gs);color:#163a2b}
+.fb.hint{background:var(--golds);color:#4d3c14}
+.fb.revb{background:var(--bads);color:#5a1d12}
+.fb .why{margin-top:6px;color:#2b2a26}
+.tag{display:inline-block;font:700 11px system-ui,sans-serif;letter-spacing:.1em;text-transform:uppercase;padding:2px 7px;border-radius:4px;margin-right:6px}
+.tag.okt{background:var(--ok);color:#fff}.tag.ht{background:var(--gold);color:#fff}.tag.rt{background:var(--bad);color:#fff}
+.legend{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:12px 14px;font:14.5px/1.55 system-ui,sans-serif;margin-bottom:10px}
+.legend b{color:var(--ox)}
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:8px 18px}
+.who{font:13px system-ui,sans-serif;color:var(--soft)}
+.tr{line-height:2.25;font-size:17px;background:#faf6ee;border-left:3px solid var(--gold);padding:6px 12px;border-radius:4px;margin-top:6px}
+.secfoot{display:flex;justify-content:space-between;align-items:center;gap:10px;margin:18px 0 6px;flex-wrap:wrap}
+.reto{border:2px solid var(--ox);background:#fff}
+.reto .rt2{font:700 12px system-ui,sans-serif;letter-spacing:.16em;color:var(--ox)}
+.check li{margin:4px 0;list-style:none;padding-left:0}
+.check{padding:0;margin:10px 0 0;font:14.5px/1.5 system-ui,sans-serif}
+.check li:before{content:"○ ";color:#b8a98f;font-weight:700}
+.check li.on:before{content:"● ";color:var(--ok)}
+.check li.warn:before{content:"● ";color:var(--bad)}
+.qcheck{font:14px/1.5 system-ui,sans-serif;margin-top:8px}
+.qcheck div{padding:3px 0}
+.qcheck .y{color:var(--ok)} .qcheck .n{color:var(--bad)}
+.titles label{display:flex;gap:8px;align-items:flex-start;font:15.5px/1.45 Georgia,serif;margin:6px 0;cursor:pointer}
+.tips{font:14.5px/1.55 system-ui,sans-serif;background:var(--oxs);border-radius:8px;padding:10px 12px;margin:10px 0}
+.res{font:15px/1.6 system-ui,sans-serif}
+.res table{border-collapse:collapse;width:100%;margin:8px 0}
+.res td,.res th{border-bottom:1px solid var(--line);padding:6px 4px;text-align:left}
+.src{font:13px/1.5 system-ui,sans-serif;color:var(--soft);margin-top:22px}
+@media (max-width:640px){h1{font-size:25px}.cols{grid-template-columns:1fr}input[type=text]{width:100%}input.w8,input.w6{width:8em}nav.tabs{flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}nav.tabs::-webkit-scrollbar{display:none}nav.tabs button{padding:6px 10px;font-size:12.5px;flex:0 0 auto;white-space:nowrap}}
+@media print{nav.tabs,.secfoot,button{display:none!important}section.ex{display:block!important}}
+</style>
+<style>
+.sent{font-size:18px;line-height:2.1}
+.sent input{width:9em;font-size:16px;padding:4px 8px;margin:0 2px}
+.en{font:14px/1.45 system-ui,sans-serif;color:var(--soft);margin:0 0 4px}
+.cue{font:13px system-ui,sans-serif;color:var(--soft)}
+.rule{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--green);border-radius:8px;padding:10px 14px;font:14.5px/1.55 system-ui,sans-serif;margin:6px 0 12px}
+</style>
 </head>
 <body>
-<div class="container">
-  <header>
-    <h1>La Haine – Paragraph Builder</h1>
-    <p>Choose a question, then build a structured analytical paragraph step by step using the phrase bank. Colour-coded preview updates live.</p>
-  </header>
-
-  <div class="question-bar">
-    <label>📋 Choose an essay question:</label>
-    <select class="q-select" id="questionSelect" onchange="pickQuestion()">
-      <option value="">— Select a question —</option>
-      <option value="q1">1. Dans quelle mesure La Haine représente-t-elle l'exclusion sociale comme une force destructrice ? (To what extent does La Haine represent social exclusion as a destructive force?)</option>
-      <option value="q2">2. « La violence dans La Haine est inévitable. » Discutez. ("Violence in La Haine is inevitable." Discuss.)</option>
-      <option value="q3">3. Comment Kassovitz utilise-t-il la banlieue comme cadre pour explorer les thèmes du film ? (How does Kassovitz use the banlieue setting to explore the film's themes?)</option>
-      <option value="q4">4. Analysez l'importance du choix du noir et blanc dans La Haine. (Analyse the importance of the choice of black and white in La Haine.)</option>
-      <option value="q5">5. « Vinz, Hubert et Saïd représentent trois façons différentes de réagir à la marginalisation. » Êtes-vous d'accord ? (Do you agree that the three characters represent three different responses to marginalisation?)</option>
-      <option value="q6">6. Dans quelle mesure La Haine est-elle une critique du système policier français ? (To what extent is La Haine a criticism of the French police system?)</option>
-    </select>
-    <div class="question-text" id="questionText"></div>
-  </div>
-
-  <div class="builder-grid">
-    <div class="steps-panel" id="stepsPanel">
-      <p style="color:#333;font-size:0.9rem;text-align:center;padding:20px 0;">← Select a question above to begin.</p>
-    </div>
-
-    <div class="preview-panel">
-      <h2>📝 Paragraph preview</h2>
-      <div class="legend">
-        <span class="leg-topic">Topic</span>
-        <span class="leg-point">Point</span>
-        <span class="leg-evidence">Evidence</span>
-        <span class="leg-analysis">Analysis</span>
-        <span class="leg-connector">Connector</span>
-        <span class="leg-conclusion">Conclusion</span>
-      </div>
-      <div class="para-preview" id="paraPreview">
-        <span class="seg-placeholder">Your paragraph will appear here as you complete each step…</span>
-      </div>
-      <div class="word-count-bar">
-        <span>Mots : <span class="wc-num" id="wordCountPrev">0</span></span>
-        <span id="qualityNote" style="color:#444"></span>
-      </div>
-      <div class="action-btns">
-        <button class="copy-btn" onclick="copyParagraph()">📋 Copy paragraph</button>
-        <button class="print-btn2" onclick="window.print()">🖨️ Print / Save as PDF</button>
-        <button class="reset-btn-main" onclick="resetAll()">↺ Start over</button>
-      </div>
-      <div class="copy-feedback" id="copyFeedback"></div>
-    </div>
-  </div>
+<div class="wrap">
+<header>
+  <div class="kicker">La Haine · Dissertation</div>
+  <h1>La Haine – construire un paragraphe</h1>
+  <p class="lead">Build an analytical paragraph in four steps: choose evidence that is true to the film, turn description into analysis, link your ideas, then write your own paragraph on one of six essay questions and click « Commentaires » for feedback. If you are wrong the first time you get an <i>indice</i>; the second time you see the answer and why. Your work saves itself on this device.</p>
+  <div class="score" aria-live="polite"><span>Points <b id="sc">0</b> / <b id="tot">0</b></span><span>du premier coup <b id="first">0</b></span><div class="meter"><i id="bar"></i></div></div>
+</header>
+<nav class="tabs" role="tablist" aria-label="Exercices" id="tabs"></nav>
+<main id="main"></main>
+<p class="src">Dialogue: Mathieu Kassovitz, <i>La Haine</i> (1995), short extracts quoted for study.</p>
 </div>
-
+<script>window.BBA_KIT = {check:false, download:false, save:false, enter:false};</script>
+<script>var D = {"key": "lahaine-pb-v2", "dlhead": "LA HAINE — CONSTRUIRE UN PARAGRAPHE", "dlfile": "LaHaine_paragraphe_", "sections": [{"tab": "1 · La preuve", "h2": "1 · Choisir une preuve exacte", "intro": "An examiner forgives a clumsy sentence, not a false one. Choose the evidence that is true to the film.", "items": [{"t": "mc", "q": "Point : la police elle-même produit de la violence. Quelle preuve est exacte ?", "opts": ["Au commissariat de Paris, un policier apprend à un jeune collègue à frapper : « Le plus dur, c'est de s'arrêter à temps. »", "Au commissariat, la police tue Abdel devant Hubert et Saïd.", "Au commissariat, Vinz tire sur un policier pour défendre ses amis."], "a": 0, "pista": "Who is at the Paris police station, and who is missing?", "why": "The first. Abdel was beaten in custody before the film begins and dies in hospital; Vinz is not at the station, and he never shoots a police officer."}, {"t": "mc", "q": "Point : Vinz se construit une image de dur. Quelle preuve est exacte ?", "opts": ["Devant le miroir de la salle de bains, il imite Travis Bickle de Taxi Driver : « C'est à moi que tu parles ? »", "Devant le miroir, il rejoue la mort d'Abdel avec le revolver.", "Devant le miroir, il répète le discours qu'il va faire aux journalistes."], "a": 0, "pista": "The scene comes early in the day, before anyone knows Abdel will die.", "why": "The first: the Taxi Driver imitation, in the morning. Abdel's death comes much later, in Paris."}, {"t": "mc", "q": "Point : la vengeance est une impasse. Quelle preuve est exacte ?", "opts": ["Face au skinhead, Hubert pousse Vinz à tirer (« Un bon skin, c'est un skin mort ! ») et Vinz en est incapable.", "Vinz tue le skinhead pour venger Abdel, puis le regrette.", "Saïd tire sur le skinhead à la place de Vinz."], "a": 0, "pista": "Does anyone fire at the skinhead?", "why": "The first. Hubert calls Vinz's bluff; Vinz cannot shoot, and the next morning he hands the gun to Hubert."}, {"t": "mc", "q": "Point : le dénouement reste ouvert. Quelle description est exacte ?", "opts": ["Vinz est tué par accident ; Hubert et le policier se mettent en joue ; Saïd ferme les yeux et l'on entend un coup de feu.", "Vinz et Hubert sont tués tous les deux sous les yeux de Saïd.", "Les trois amis rentrent dans la cité et le film se termine sur une image d'espoir."], "a": 0, "pista": "What do we actually see after Vinz falls?", "why": "The first. We never see who fires the last shot or who is hit: that is why the ending is ambiguous."}, {"t": "mc", "q": "Point : les médias regardent la cité de l'extérieur. Quelle preuve est exacte ?", "opts": ["Les journalistes interrogent les trois amis sans sortir de leur voiture, et Hubert leur lance : « C'est pas à Thoiry, ici. »", "Vinz accepte l'interview et accuse la police à la télévision.", "Les journalistes suivent les trois amis jusqu'à Paris."], "a": 0, "pista": "Thoiry is a safari park you drive through.", "why": "The first: the car is the safari window. The trio refuse the interview."}, {"t": "mc", "q": "Point : Hubert voudrait échapper à la cité. Quelle preuve est exacte ?", "opts": ["Après l'incendie de sa salle de boxe, il dit à sa mère : « J'en ai marre de la cité. Je vais partir. »", "Hubert déménage à Paris au milieu du film.", "Hubert refuse de suivre ses amis à Paris pour rester à la salle de boxe."], "a": 0, "pista": "Does he leave, or does he say he wants to?", "why": "The first. He says it, but he never leaves: that tension is the point."}]}, {"tab": "2 · Analyser", "h2": "2 · De la description à l'analyse", "intro": "Each time, choose the sentence that analyses rather than retells.", "items": [{"t": "mc", "q": "Preuve : le refrain « Jusqu'ici, tout va bien ». Quelle phrase analyse ?", "opts": ["Ce refrain traduit l'aveuglement d'une société qui se rassure pendant qu'elle tombe.", "Hubert dit plusieurs fois cette phrase au début et à la fin du film.", "Cette phrase est très célèbre et tout le monde la connaît."], "a": 0, "pista": "Look for a verb of analysis and an idea.", "why": "The first: it says what the line means. The second retells; the third says nothing about the film."}, {"t": "mc", "q": "Preuve : le noir et blanc. Quelle phrase analyse ?", "opts": ["Le noir et blanc confère aux images une dimension documentaire, comme un reportage sur la cité.", "Le film est tourné en noir et blanc, il n'y a pas de couleurs.", "Le noir et blanc est joli et original."], "a": 0, "pista": "What effect does the choice have?", "why": "The first: an effect (documentary realism). The others describe or give an opinion."}, {"t": "mc", "q": "Preuve : l'affiche « Le monde est à vous », vue du train, puis transformée par Saïd en « Le monde est à nous ». Quelle phrase analyse ?", "opts": ["La répétition souligne l'ironie : la promesse publicitaire ne s'adresse pas à eux, et Saïd ne peut se l'approprier qu'en la détournant.", "On voit l'affiche deux fois dans le film.", "Saïd change le mot « vous » avec une bombe de peinture."], "a": 0, "pista": "Why show the poster twice?", "why": "The first: it interprets the repetition. The other two only describe it."}, {"t": "mc", "q": "Preuve : l'histoire de Grunwalski racontée dans les toilettes. Quelle phrase analyse ?", "opts": ["Le vieil homme semble suggérer que celui qui ne lâche rien rate le train : comme les trois amis, qui manqueront leur dernier train.", "Un vieil homme raconte une histoire sur un ami en Sibérie.", "La scène est drôle parce qu'elle se passe dans les toilettes."], "a": 0, "pista": "Link the story to what happens next.", "why": "The first: it links the parable to the trio's night in Paris."}, {"t": "mc", "q": "Preuve : « Si Abdel y passe, je tue un keuf. » (Vinz). Quelle phrase analyse ?", "opts": ["Cette menace fait de Vinz l'incarnation d'une logique de vengeance qui alimente le cercle vicieux de la violence.", "Vinz dit qu'il va tuer un policier si Abdel meurt.", "Vinz parle mal et utilise des mots d'argot."], "a": 0, "pista": "What does the line reveal about Vinz and the film?", "why": "The first: it connects the line to a theme. The second paraphrases it."}]}, {"tab": "3 · Relier", "h2": "3 · Relier les idées", "intro": "Choose the connector that fits the logic, then type it.", "items": [{"t": "gap", "en": null, "es": "Vinz menace de tuer un policier ; {0}, il est incapable de tirer sur le skinhead.", "gaps": [{"acc": ["cependant", "pourtant", "néanmoins", "toutefois"], "cue": "however"}], "pista": "A contrast between words and acts.", "why": "**cependant** (pourtant, néanmoins)."}, {"t": "gap", "en": null, "es": "Hubert veut quitter la cité ; Vinz, {0}, veut se venger.", "gaps": [{"acc": ["en revanche", "quant à lui", "au contraire"], "cue": "on the other hand"}], "pista": "Two characters, two choices.", "why": "**en revanche** (quant à lui)."}, {"t": "gap", "en": null, "es": "Abdel a été blessé pendant une garde à vue ; {0}, la cité s'est embrasée.", "gaps": [{"acc": ["c'est pourquoi", "par conséquent", "en conséquence", "donc"], "cue": "that is why"}], "pista": "Cause → consequence.", "why": "**c'est pourquoi** (par conséquent)."}, {"t": "gap", "en": null, "es": "{0} la fin reste ambiguë, le message du film est clair : « la haine attire la haine ».", "gaps": [{"acc": ["Bien que"], "cue": "Although"}], "pista": "A conjunction followed by the subjunctive (reste can be subjunctive).", "why": "**Bien que** + subjunctive."}, {"t": "gap", "en": null, "es": "{0}, Kassovitz ne donne aucune solution : il montre une société qui tombe.", "gaps": [{"acc": ["Quoi qu'il en soit", "En fin de compte", "En définitive"], "cue": "In any case / ultimately"}], "pista": "A closing connector.", "why": "**Quoi qu'il en soit** (En fin de compte)."}]}, {"tab": "4 · Écrire", "h2": "4 · Écrire un paragraphe", "intro": "Pick one question (or more). Write in French, then click « Commentaires ».", "items": [{"t": "w", "label": "PARAGRAPHE", "min": 90, "q": "Choose this question if you like, and write a paragraph of 100–150 words: topic sentence, point, exact evidence, analysis, development and link back to the question.<br>**1. Dans quelle mesure La Haine représente-t-elle l'exclusion sociale comme une force destructrice ?**", "points": [["Answers the question: exclusion as a destructive force", ["exclusion", "exclu", "marginal", "destructrice", "détrui"]], ["Gives precise, true evidence (a scene or a quotation)", ["«", "scène", "séquence", "plan", "commissariat", "skinhead", "toit", "affiche", "miroir", "prologue", "journalistes"]], ["Analyses rather than retells", ["traduit", "souligne", "dénonce", "incarne", "met en lumière", "met en évidence", "suggère", "symbolise", "révèle", "témoigne"]], ["Develops or qualifies the point", ["cependant", "pourtant", "en revanche", "néanmoins", "toutefois", "quoi qu'il en soit", "bien que", "même si"]]], "model": "Dans La Haine, l'exclusion sociale apparaît comme une force qui détruit lentement les trois amis. Hubert, dont la salle de boxe a brûlé, le dit sans détour : « J'en ai marre de la cité. Je vais partir. » Pourtant, il ne part jamais : la cité fonctionne comme un piège dont on parle de sortir sans y parvenir. À Paris, les trois amis sont traités en intrus, ce qui souligne que l'exclusion n'est pas seulement géographique mais sociale. Cependant, Kassovitz ne fait pas d'eux de simples victimes : leur humour et leur amitié résistent, jusqu'au coup de feu final qui montre que cette exclusion finit par tuer."}, {"t": "w", "label": "PARAGRAPHE", "min": 90, "q": "Choose this question if you like, and write a paragraph of 100–150 words: topic sentence, point, exact evidence, analysis, development and link back to the question.<br>**2. « La violence dans La Haine est inévitable. » Discutez.**", "points": [["Takes a position on “inevitable”", ["inévitable", "inéluctable", "fatal", "évitable", "destin"]], ["Gives precise, true evidence (a scene or a quotation)", ["«", "scène", "séquence", "plan", "commissariat", "skinhead", "toit", "affiche", "miroir", "prologue", "journalistes"]], ["Analyses rather than retells", ["traduit", "souligne", "dénonce", "incarne", "met en lumière", "met en évidence", "suggère", "symbolise", "révèle", "témoigne"]], ["Develops or qualifies the point", ["cependant", "pourtant", "en revanche", "néanmoins", "toutefois", "quoi qu'il en soit", "bien que", "même si"]]], "model": "La structure du film semble rendre la violence inévitable : le prologue de l'homme qui tombe préfigure une chute que le compte à rebours des vingt-quatre heures rend inéluctable. Pourtant, Kassovitz montre aussi que la violence peut être refusée. Face au skinhead, Vinz est incapable de tirer, et le lendemain il donne le revolver à Hubert. Le paradoxe est donc cruel : au moment où Vinz renonce à la violence, il est tué par accident par un policier. La violence n'est pas inévitable chez les individus ; elle le devient dans un système où « la haine attire la haine »."}, {"t": "w", "label": "PARAGRAPHE", "min": 90, "q": "Choose this question if you like, and write a paragraph of 100–150 words: topic sentence, point, exact evidence, analysis, development and link back to the question.<br>**3. Comment Kassovitz utilise-t-il la banlieue comme cadre pour explorer les thèmes du film ?**", "points": [["Uses the setting: cité, toits, béton, Paris", ["cité", "banlieue", "toit", "immeuble", "béton", "paris"]], ["Gives precise, true evidence (a scene or a quotation)", ["«", "scène", "séquence", "plan", "commissariat", "skinhead", "toit", "affiche", "miroir", "prologue", "journalistes"]], ["Analyses rather than retells", ["traduit", "souligne", "dénonce", "incarne", "met en lumière", "met en évidence", "suggère", "symbolise", "révèle", "témoigne"]], ["Develops or qualifies the point", ["cependant", "pourtant", "en revanche", "néanmoins", "toutefois", "quoi qu'il en soit", "bien que", "même si"]]], "model": "Kassovitz fait de la cité un espace clos. Sur le toit, où les jeunes se retrouvent, la police vient les faire descendre : même le seul lieu ouvert sur le ciel leur est refusé. Les journalistes, eux, restent dans leur voiture, comme au zoo, et Hubert leur lance : « C'est pas à Thoiry, ici. » Le cadre met ainsi en lumière l'enfermement et le regard extérieur porté sur la banlieue. En revanche, Paris, où les trois amis se perdent et manquent leur dernier train, n'offre aucune issue : le cadre révèle que l'exclusion les suit partout."}, {"t": "w", "label": "PARAGRAPHE", "min": 90, "q": "Choose this question if you like, and write a paragraph of 100–150 words: topic sentence, point, exact evidence, analysis, development and link back to the question.<br>**4. Analysez l'importance du choix du noir et blanc dans La Haine.**", "points": [["Explains effects of black and white", ["noir et blanc", "documentaire", "réalisme", "contraste", "intemporel", "gris"]], ["Gives precise, true evidence (a scene or a quotation)", ["«", "scène", "séquence", "plan", "commissariat", "skinhead", "toit", "affiche", "miroir", "prologue", "journalistes"]], ["Analyses rather than retells", ["traduit", "souligne", "dénonce", "incarne", "met en lumière", "met en évidence", "suggère", "symbolise", "révèle", "témoigne"]], ["Develops or qualifies the point", ["cependant", "pourtant", "en revanche", "néanmoins", "toutefois", "quoi qu'il en soit", "bien que", "même si"]]], "model": "Le choix du noir et blanc confère au film une dimension documentaire : le générique mêle d'ailleurs de vraies images d'émeutes aux scènes de fiction. Cette esthétique souligne aussi la dureté du béton de la cité et l'absence de couleur dans la vie des personnages. Cependant, le noir et blanc ne simplifie pas le monde moral du film : ni la police ni les jeunes ne sont entièrement bons ou mauvais : le policier Samir, qui aide Saïd à sortir du commissariat, en est la preuve. Le noir et blanc donne enfin au film un caractère intemporel, comme si cette histoire pouvait se répéter."}, {"t": "w", "label": "PARAGRAPHE", "min": 90, "q": "Choose this question if you like, and write a paragraph of 100–150 words: topic sentence, point, exact evidence, analysis, development and link back to the question.<br>**5. « Vinz, Hubert et Saïd représentent trois façons différentes de réagir à la marginalisation. » Êtes-vous d'accord ?**", "points": [["Deals with all three characters", ["vinz", "hubert", "saïd", "said"]], ["Gives precise, true evidence (a scene or a quotation)", ["«", "scène", "séquence", "plan", "commissariat", "skinhead", "toit", "affiche", "miroir", "prologue", "journalistes"]], ["Analyses rather than retells", ["traduit", "souligne", "dénonce", "incarne", "met en lumière", "met en évidence", "suggère", "symbolise", "révèle", "témoigne"]], ["Develops or qualifies the point", ["cependant", "pourtant", "en revanche", "néanmoins", "toutefois", "quoi qu'il en soit", "bien que", "même si"]]], "model": "Les trois amis incarnent des réponses différentes à la marginalisation. Vinz choisit la colère : « Si Abdel y passe, je tue un keuf. » Hubert, plus lucide, refuse cette logique : « Tu peux pas trouer tous les keufs. » Saïd, entre les deux, se défend par l'humour et la parole. Cependant, ces réponses ne sont pas figées : Hubert, humilié au commissariat, pousse Vinz à tirer sur le skinhead, tandis que Vinz finit par renoncer à l'arme. Le film suggère donc que la marginalisation peut faire basculer n'importe lequel des trois."}, {"t": "w", "label": "PARAGRAPHE", "min": 90, "q": "Choose this question if you like, and write a paragraph of 100–150 words: topic sentence, point, exact evidence, analysis, development and link back to the question.<br>**6. Dans quelle mesure La Haine est-elle une critique du système policier français ?**", "points": [["Answers on the police system, with nuance", ["police", "policier", "flic", "commissariat", "système", "bavure"]], ["Gives precise, true evidence (a scene or a quotation)", ["«", "scène", "séquence", "plan", "commissariat", "skinhead", "toit", "affiche", "miroir", "prologue", "journalistes"]], ["Analyses rather than retells", ["traduit", "souligne", "dénonce", "incarne", "met en lumière", "met en évidence", "suggère", "symbolise", "révèle", "témoigne"]], ["Develops or qualifies the point", ["cependant", "pourtant", "en revanche", "néanmoins", "toutefois", "quoi qu'il en soit", "bien que", "même si"]]], "model": "La Haine dénonce une violence policière qui semble faire partie du système. Au commissariat de Paris, un policier apprend à un collègue plus jeune à maltraiter Hubert et Saïd : « Le plus dur, c'est de s'arrêter à temps. » La brutalité devient une méthode que l'on transmet. Cependant, Kassovitz nuance sa critique : Samir, l'inspecteur de la cité, aide Saïd et conseille à Hubert de garder la tête froide. C'est pourtant un policier qui tue Vinz par accident à la fin, ce qui suggère que le système produit la bavure même sans intention de tuer."}]}]};</script>
 <script>
-const QUESTIONS = {
-  q1: { full: "Dans quelle mesure La Haine représente-t-elle l'exclusion sociale comme une force destructrice ?", keyword: "l'exclusion sociale" },
-  q2: { full: "« La violence dans La Haine est inévitable. » Discutez.", keyword: "la violence / la fatalité" },
-  q3: { full: "Comment Kassovitz utilise-t-il la banlieue comme cadre pour explorer les thèmes du film ?", keyword: "le cadre de la banlieue" },
-  q4: { full: "Analysez l'importance du choix du noir et blanc dans La Haine.", keyword: "le noir et blanc" },
-  q5: { full: "« Vinz, Hubert et Saïd représentent trois façons différentes de réagir à la marginalisation. » Êtes-vous d'accord ?", keyword: "la marginalisation / les trois protagonistes" },
-  q6: { full: "Dans quelle mesure La Haine est-elle une critique du système policier français ?", keyword: "la critique du système policier" },
-};
-
-const STEP_DATA = {
-  q1: [
-    { title: 'Topic Sentence', role: 'topic', desc: 'Introduce your main argument in response to the question. Use an essay-opening phrase.', phrases: [
-      "Dans La Haine, l'exclusion sociale constitue le moteur central de la tragédie qui se déroule au fil des vingt-quatre heures du récit…",
-      "Kassovitz met en évidence que l'exclusion sociale n'est pas seulement un contexte décor, mais la force motrice qui conduit inévitablement les personnages vers leur destin…",
-      "Le fait est que la cité dans La Haine fonctionne comme un espace clos dont les habitants ne peuvent s'échapper ni physiquement ni socialement…",
-      "Au fur et à mesure que le film avance, on se rend compte que l'exclusion sociale opère à plusieurs niveaux : spatial, économique, identitaire et symbolique…",
-    ]},
-    { title: 'Key Point', role: 'point', desc: 'State your main analytical point about social exclusion in the film.', phrases: [
-      "Les trois protagonistes sont enfermés dans un espace géographique dont la société majoritaire les exclut délibérément, ce qui rend toute perspective d'avenir quasi impossible…",
-      "Il convient de souligner que Kassovitz présente la banlieue non comme un simple décor, mais comme une prison invisible dont les barreaux sont faits de pauvreté, de discrimination et d'absence d'opportunités…",
-      "Le personnage de Vinz se distingue comme l'incarnation de cette exclusion : sa rage est la conséquence directe d'une société qui refuse de le reconnaître comme citoyen à part entière…",
-      "On ne peut pas nier que les personnages sont condamnés à une identité négative : définis non par ce qu'ils sont, mais par ce que la société refuse de leur accorder…",
-    ]},
-    { title: 'Evidence from the film', role: 'evidence', desc: 'Cite a specific scene, quote or cinematic technique from La Haine.', phrases: [
-      "À titre d'exemple, la séquence d'ouverture — la chute libre symbolisée par la phrase « Jusqu'ici, tout va bien » — pose immédiatement la question de la fatalité comme conséquence de l'exclusion…",
-      "Prenons l'exemple de la scène à Paris, où les trois amis se trouvent déplacés dans un monde qui ne les reconnaît pas : les plans montrant leur malaise en dehors de la cité illustrent cette exclusion de façon poignante…",
-      "La scène où Vinz pointe le pistolet contre son reflet dans le miroir — « Tu me parles ? » — met en évidence l'isolement psychologique et l'absence de modèles positifs dans son environnement…",
-      "L'image de la cité filmée en plan large au lever du jour traduit visuellement cet isolement : un univers à part, enclavé, séparé du reste de la France par une frontière invisible mais omniprésente…",
-    ]},
-    { title: 'Analysis', role: 'analysis', desc: 'Interpret the significance of the evidence. Use analytical verbs and avoid retelling.', phrases: [
-      "Cela met en lumière que Kassovitz ne présente pas l'exclusion comme un simple fait divers, mais comme une structure systémique qui produit inévitablement de la violence et du désespoir…",
-      "On peut donc conclure que cette scène illustre comment l'identité des personnages est façonnée par le regard de l'Autre : ils n'existent socialement que dans la négation…",
-      "Il s'agit, en définitive, d'un commentaire politique autant qu'artistique : en filmant l'exclusion de l'intérieur, Kassovitz force le spectateur à l'habiter plutôt que l'observer de loin…",
-      "On pourrait même dire que la caméra à l'épaule, en maintenant le spectateur au niveau des personnages, refuse toute distanciation : l'exclusion sociale devient ainsi une expérience partagée…",
-    ]},
-    { title: 'Connector & Development', role: 'connector', desc: 'Extend or qualify your argument with a sophisticated connecting phrase.', phrases: [
-      "Cependant, il serait réducteur de considérer les trois personnages comme de simples victimes : Hubert, en particulier, tente de résister à la fatalité par la discipline et l'ambition, ce qui complexifie la thèse d'une exclusion totalement déterministe…",
-      "En revanche, on pourrait arguer que le film idéalise légèrement la solidarité entre les trois amis, présentant leur amitié comme un espace de résistance à l'exclusion que la réalité sociale rend plus fragile…",
-      "Quoi qu'il en soit, force est de constater que la structure narrative des vingt-quatre heures accentue l'impression que l'exclusion est une spirale sans issue : chaque heure qui passe rapproche les personnages d'un dénouement inévitable…",
-      "Il convient également de souligner que la violence policière représentée dans le film n'est pas indépendante de l'exclusion sociale : elle en est la manifestation institutionnelle, la face officielle de la même logique de rejet…",
-    ]},
-    { title: 'Conclusion', role: 'conclusion', desc: 'Draw a convincing conclusion linked to the question.', phrases: [
-      "En fin de compte, on peut conclure que La Haine présente l'exclusion sociale non comme un problème parmi d'autres, mais comme la condition fondatrice d'une tragédie collective inévitable si rien ne change…",
-      "En résumé, Kassovitz démontre que l'exclusion sociale est une force non seulement destructrice au niveau individuel, mais également mortelle pour le tissu social dans son ensemble…",
-      "En définitive, La Haine est moins un film sur la violence qu'un film sur ses causes : en mettant l'exclusion au cœur du récit, Kassovitz transforme ce long métrage en acte politique autant qu'en œuvre cinématographique…",
-      "Force est de constater que le dénouement tragique du film n'est pas présenté comme un accident, mais comme la conséquence logique et inéluctable d'une société qui a choisi de marginaliser une partie de sa jeunesse…",
-    ]},
-  ],
-  q2: [
-    { title: 'Topic Sentence', role: 'topic', desc: 'Introduce your argument about whether violence in La Haine is inevitable.', phrases: [
-      "La Haine suggère que la violence n'est pas un choix individuel, mais le produit inévitable d'un système social qui marginalise et ignore une partie de sa population…",
-      "Bien que l'affirmation selon laquelle la violence est inévitable dans La Haine soit en grande partie justifiée, il convient de la nuancer en examinant les différentes façons dont les personnages répondent à la pression sociale…",
-      "Au fur et à mesure que le film avance, on se rend compte que la violence représentée n'est ni gratuite ni accidentelle : elle est la continuation logique de l'injustice sociale par d'autres moyens…",
-      "Le fait est que la métaphore de la chute libre — « jusqu'ici, tout va bien » — positionne la violence non comme une possibilité mais comme une certitude : la question n'est pas de savoir si elle arrivera, mais quand…",
-    ]},
-    { title: 'Key Point', role: 'point', desc: 'State your main point about violence and inevitability.', phrases: [
-      "Vinz incarne cette fatalité de la violence : son obsession avec le pistolet représente une logique de réaction à l'humiliation que la société lui impose quotidiennement…",
-      "Il convient de souligner que Kassovitz présente deux formes de violence : la violence institutionnelle de la police et la violence réactive des jeunes — et que la première génère inévitablement la seconde…",
-      "Le personnage d'Hubert se distingue comme un contrepoint : sa tentative de résister à la spirale de la violence suggère que le déterminisme n'est pas absolu, même si l'issue du film semble contredire cet espoir…",
-      "On ne peut pas nier que la structure narrative en temps réel crée un sentiment de compte à rebours inexorable : chaque scène rapproche les personnages d'un affrontement que le spectateur pressent dès les premières minutes…",
-    ]},
-    { title: 'Evidence from the film', role: 'evidence', desc: 'Cite a specific scene or cinematic technique related to violence.', phrases: [
-      "La scène finale — où Saïd est contraint d'assister à la mort de ses deux amis — constitue le dénouement tragique annoncé par la métaphore de la chute : la violence s'est révélée inévitable…",
-      "Prenons l'exemple de la séquence à Paris, dans laquelle les trois amis se retrouvent désœuvrés et humiliés : la violence latente de leur déplacement social préfigure l'explosion finale…",
-      "La scène de la salle de bain — où Vinz rejoue la mort d'Abdel devant le miroir — illustre comment la violence imaginaire devient une obsession qui finit par matérialiser la réalité qu'elle redoutait…",
-      "Le choix de Kassovitz de filmer en noir et blanc traduit visuellement cette fatalité : l'absence de couleur suggère un monde sans nuances, sans issue, où la violence est la seule logique opérante…",
-    ]},
-    { title: 'Analysis', role: 'analysis', desc: 'Interpret the significance of the evidence for the question of inevitability.', phrases: [
-      "Cela démontre que pour Kassovitz, la violence n'est pas présentée comme un trait de caractère, mais comme une réponse structurellement conditionnée à une oppression systémique…",
-      "On pourrait même dire que le film invite le spectateur à interroger sa propre complicité : en regardant passivement, on reproduit le silence de la société qui laisse la violence devenir inévitable…",
-      "Il s'agit, en fin de compte, d'un argument sur la responsabilité collective : si la violence est inévitable dans La Haine, c'est parce que personne — ni la police, ni le gouvernement, ni la société — ne choisit de l'éviter…",
-      "Cette scène met en lumière que le pistolet n'est pas seulement une arme : il est le symbole d'une société qui n'a donné aux personnages aucun autre outil pour affirmer leur existence…",
-    ]},
-    { title: 'Connector & Development', role: 'connector', desc: 'Qualify or extend your argument with a counterpoint.', phrases: [
-      "Cependant, on pourrait arguer que le personnage d'Hubert démontre que la violence n'est pas totalement inévitable : ses efforts pour s'extraire de la spirale destructrice montrent qu'une forme de résistance individuelle est possible…",
-      "En revanche, il serait simpliste de réduire la violence du film à une simple fatalité : Kassovitz montre aussi des moments de tendresse, d'humour et de solidarité qui suggèrent que les personnages auraient pu choisir autrement dans un contexte différent…",
-      "Quoi qu'il en soit, force est de constater que la fin du film semble donner raison à la thèse de l'inévitabilité : en faisant mourir à la fois Vinz et Hubert, Kassovitz ferme la porte à tout espoir d'issue non violente…",
-      "Il convient également de souligner que la violence policière n'est jamais présentée comme une réponse à la violence des jeunes, mais comme son déclencheur : dans ce sens, l'inévitabilité est le produit d'un système, non d'une nature humaine…",
-    ]},
-    { title: 'Conclusion', role: 'conclusion', desc: 'Draw a conclusion about violence and inevitability in La Haine.', phrases: [
-      "En fin de compte, La Haine soutient que la violence est inévitable non pas parce que les personnages sont violents par nature, mais parce que la société les a placés dans des conditions où toute autre issue a été systématiquement fermée…",
-      "En résumé, Kassovitz ne glorifie pas la violence : il la présente comme le symptôme d'une injustice sociale profonde, et c'est précisément ce regard critique qui fait de La Haine un long métrage politiquement engagé et toujours d'actualité…",
-      "En définitive, la fatalité de la violence dans La Haine est moins une vérité anthropologique qu'un avertissement : si une société refuse de s'interroger sur ses propres injustices, elle fabrique elle-même les conditions de son autodestruction…",
-    ]},
-  ],
-};
-
-const GENERIC_STEPS = (qKey) => {
-  const q = QUESTIONS[qKey];
-  return [
-    { title: 'Topic Sentence', role: 'topic', desc: 'Introduce your main argument in response to the question.', phrases: [
-      `Le fait est que ${q.keyword} est l'un des aspects les plus frappants de La Haine, et Kassovitz l'aborde de façon délibérée et nuancée…`,
-      `Au fur et à mesure que le film avance, on se rend compte que ${q.keyword} est fondamental pour comprendre le message politique et artistique du réalisateur…`,
-      `En regardant le film, on se rend compte que ${q.keyword} n'est pas un simple détail formel, mais une décision esthétique lourde de sens…`,
-      `On affirme souvent que La Haine est un chef-d'œuvre du cinéma français, et le traitement de ${q.keyword} en est l'une des raisons essentielles…`,
-    ]},
-    { title: 'Key Point', role: 'point', desc: 'State your main analytical point.', phrases: [
-      `Il convient de souligner que ${q.keyword} contribue directement à la construction du propos politique de Kassovitz…`,
-      `Le personnage de Vinz se distingue comme la figure qui incarne le plus clairement les enjeux liés à ${q.keyword}…`,
-      `On ne peut pas nier que ${q.keyword} traverse l'ensemble du film, de l'ouverture symbolique au dénouement tragique…`,
-      `Ce qui frappe le spectateur, c'est que ${q.keyword} est traité avec une ambiguïté morale qui refuse les jugements faciles…`,
-    ]},
-    { title: 'Evidence from the film', role: 'evidence', desc: 'Cite a specific scene, quote or cinematic technique.', phrases: [
-      "À titre d'exemple, la séquence d'ouverture — la métaphore de la chute libre — pose immédiatement le ton du film et illustre ce thème de façon saisissante…",
-      "Prenons l'exemple de la scène finale : c'est le moment où tous les fils narratifs convergent et où Kassovitz révèle pleinement son intention…",
-      "La scène dans laquelle Vinz rejoint ses amis après la mort d'Abdel est particulièrement révélatrice : elle montre comment la pression collective conditionne les choix individuels…",
-      "Le choix du noir et blanc est en lui-même une déclaration : Kassovitz refuse la couleur pour imposer une vision sans compromis, sans nuance, d'un monde en noir et blanc moral autant que visuel…",
-    ]},
-    { title: 'Analysis', role: 'analysis', desc: 'Interpret the significance of your evidence using analytical verbs.', phrases: [
-      "Cela met en lumière que Kassovitz utilise le cinéma comme un outil de dénonciation sociale, et non comme un simple divertissement…",
-      "On ne peut pas nier que cette décision de mise en scène traduit une position idéologique claire : le réalisateur refuse de neutraliser la violence en la rendant esthétique…",
-      "On pourrait même dire que cette scène constitue le moment où le film bascule de la chronique sociale au tragique grec : le destin des personnages semble scellé…",
-      "Il s'agit, en fin de compte, d'un geste cinématographique d'une grande cohérence : chaque choix formel renforce et prolonge le sens thématique de l'œuvre…",
-    ]},
-    { title: 'Connector & Development', role: 'connector', desc: 'Extend or qualify your argument.', phrases: [
-      "Cependant, il serait réducteur d'ignorer la complexité de la position de Kassovitz : son film n'offre pas de solutions faciles ni de coupables évidents…",
-      "En revanche, certains critiques ont souligné que cette approche risque de renforcer les stéréotypes qu'elle prétend déconstruire : c'est une tension inhérente au projet…",
-      "Quoi qu'il en soit, force est de constater que La Haine reste, trente ans après sa sortie, un film aussi pertinent que lors de sa première : ses thèmes résonnent avec une actualité troublante…",
-      "Il convient également de souligner que la réception du film en France a elle-même illustré ses thèmes : la controverse qu'il a suscitée révèle les zones d'inconfort d'une société confrontée à son propre miroir…",
-    ]},
-    { title: 'Conclusion', role: 'conclusion', desc: 'Draw a convincing conclusion linked to the question.', phrases: [
-      `En fin de compte, on peut conclure que ${q.keyword} est central dans La Haine, et que Kassovitz le traite avec une profondeur qui justifie une analyse attentive…`,
-      `En résumé, La Haine démontre que ${q.keyword} n'est pas un thème accessoire mais la clé interprétative de l'ensemble du film…`,
-      `En définitive, la capacité de Kassovitz à transformer ${q.keyword} en matière cinématographique de première qualité est l'une des raisons pour lesquelles ce long métrage reste une œuvre de référence du cinéma français contemporain…`,
-    ]},
-  ];
-};
-
-let currentQ = null;
-let steps = [];
-let selections = {};
-
-function pickQuestion() {
-  const val = document.getElementById('questionSelect').value;
-  if (!val) return;
-  currentQ = val;
-  const q = QUESTIONS[val];
-  document.getElementById('questionText').textContent = q.full;
-  document.getElementById('questionText').classList.add('show');
-  steps = STEP_DATA[val] || GENERIC_STEPS(val);
-  selections = {};
-  renderSteps();
-  updatePreview();
+(function(){
+"use strict";
+var KEY = D.key;
+var S = {v:1, it:{}, tab:null, pub:false};
+try{ var raw=localStorage.getItem(KEY); if(raw){ var o=JSON.parse(raw); if(o&&o.v===1) S=o; } }catch(e){}
+function save(){ try{ localStorage.setItem(KEY, JSON.stringify(S)); }catch(e){} }
+function nfc(s){ return (s||"").normalize ? s.normalize("NFC") : (s||""); }
+function deacc(s){ return nfc(s).toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,""); }
+function clean(s){ return nfc(s).replace(/[’‘ʼ]/g,"'").toLowerCase().replace(/[!?.,;:«»"“”()\[\]…]/g," ").replace(/\s+/g," ").trim(); }
+function esc(s){ return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
+function fmt(s){ return esc(s).replace(/&lt;br&gt;/g,"<br>").replace(/\*\*(.+?)\*\*/g,"<b>$1</b>"); }
+function h(tag, attrs, html){ var e=document.createElement(tag); if(attrs) for(var k in attrs){ if(k==="class") e.className=attrs[k]; else e.setAttribute(k,attrs[k]); } if(html!=null) e.innerHTML=html; return e; }
+/* strict judge: exact (case, spacing, punctuation ignored) or accent-only slip */
+function judge(given, acc){
+  var g=clean(given); if(!g) return "blank";
+  for(var i=0;i<acc.length;i++){ if(g===clean(acc[i])) return "ok"; }
+  for(i=0;i<acc.length;i++){ if(deacc(g)===deacc(clean(acc[i]))) return "accent"; }
+  return "no";
 }
-
-function renderSteps() {
-  const panel = document.getElementById('stepsPanel');
-  panel.innerHTML = '';
-  steps.forEach((step, i) => {
-    const div = document.createElement('div');
-    div.className = `step${i === 0 ? ' active' : ''}`;
-    div.id = `step${i}`;
-    const sel = selections[i];
-    div.innerHTML = `
-      <div class="step-header" onclick="toggleStep(${i})">
-        <div class="step-num">${i + 1}</div>
-        <div class="step-title">${step.title}</div>
-        <div class="step-status">${sel ? '✓' : ''}</div>
-      </div>
-      <div class="step-body">
-        <div class="step-desc">${step.desc}</div>
-        <div class="phrase-grid" id="pg${i}">
-          ${step.phrases.map((p, j) => `
-            <button class="phrase-btn${sel && sel.text === p ? ' selected' : ''}" onclick="selectPhrase(${i},${j},this)">${p}</button>
-          `).join('')}
-        </div>
-        <div style="font-size:0.78rem;color:#444;margin-bottom:3px;">Or write your own:</div>
-        <input class="custom-input" type="text" id="custom${i}" placeholder="Écrivez votre propre phrase…"
-          value="${sel && sel.custom ? sel.text : ''}"
-          oninput="selectCustom(${i},this.value)">
-        <div class="char-count" id="cc${i}">${sel ? sel.text.length : 0} caractères</div>
-        <div class="step-btns">
-          <button class="step-next-btn" onclick="nextStep(${i})">Étape suivante →</button>
-          <button class="step-clear-btn" onclick="clearStep(${i})">Effacer</button>
-        </div>
-      </div>
-    `;
-    panel.appendChild(div);
+var ITEMS=[], SECS=[];
+function fbBox(card){ var f=card.querySelector(".fb"); if(!f){ f=h("div",{"class":"fb ui","aria-live":"polite"}); card.appendChild(f); } return f; }
+function wire(it){
+  var st = S.it[it.id] || (S.it[it.id]={st:null, tries:0, first:false, given:null});
+  it.state = st;
+  it.run = function(){
+    if(st.st) return;
+    var r = it.check(); if(r==="blank") return;
+    st.tries++; st.given = it.given();
+    var fb = fbBox(it.card);
+    if(r==="ok"){ st.st="ok"; st.first=(st.tries===1); it.lock(true);
+      fb.className="fb ui show okb"; fb.innerHTML='<span class="tag okt">Correct</span>'+(st.first?"First time.":"Second try.")+(it.why?'<div class="why">'+fmt(it.why)+'</div>':"");
+      it.card.classList.add("ok"); save(); refresh(); return; }
+    if(st.tries<2){
+      fb.className="fb ui show hint";
+      fb.innerHTML='<span class="tag ht">Indice</span>'+(r==="accent"?"Almost: the right form, but check the accent. ":"Not yet. ")+fmt(it.pista||"");
+      it.mark(); save(); return; }
+    st.st="rev"; it.lock(false); it.reveal();
+    fb.className="fb ui show revb"; fb.innerHTML='<span class="tag rt">Réponse</span>'+fmt(it.answerText())+(it.why?'<div class="why">'+fmt(it.why)+'</div>':"");
+    it.card.classList.add("rev"); save(); refresh();
+  };
+  it.restore = function(){
+    if(!st.st) return; it.setGiven(st.given);
+    var fb=fbBox(it.card);
+    if(st.st==="ok"){ it.lock(true); it.card.classList.add("ok"); fb.className="fb ui show okb"; fb.innerHTML='<span class="tag okt">Correct</span>'+(st.first?"First time.":"Second try.")+(it.why?'<div class="why">'+fmt(it.why)+'</div>':""); }
+    else { it.lock(false); it.reveal(); it.card.classList.add("rev"); fb.className="fb ui show revb"; fb.innerHTML='<span class="tag rt">Réponse</span>'+fmt(it.answerText())+(it.why?'<div class="why">'+fmt(it.why)+'</div>':""); }
+  };
+  ITEMS.push(it);
+}
+function controls(card, it){
+  var row=h("div",{"class":"ctl ui"}); var b=h("button",{"class":"b",type:"button"},"Vérifier");
+  var p=h("button",{"class":"g",type:"button"},"Indice");
+  b.addEventListener("click", function(){ it.run(); });
+  p.addEventListener("click", function(){ var fb=fbBox(card); if(it.state.st) return; fb.className="fb ui show hint"; fb.innerHTML='<span class="tag ht">Indice</span>'+fmt(it.pista||""); });
+  row.appendChild(b); row.appendChild(p); card.appendChild(row);
+  it.btns=[b,p];
+}
+function gapItem(sec, id, n, Q){
+  var card=h("div",{"class":"card"});
+  if(Q.en) card.appendChild(h("p",{"class":"en"},esc(Q.en)));
+  var parts=Q.es.split(/\{(\d+)\}/), html='<span class="qn">'+n+' ·</span>';
+  for(var i=0;i<parts.length;i++){
+    if(i%2===0) html+=fmt(parts[i]);
+    else { var g=Q.gaps[+parts[i]]; html+='<input type="text" data-g="'+parts[i]+'" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="trou '+(+parts[i]+1)+'">'+(g.cue?' <span class="cue">('+esc(g.cue)+')</span>':""); }
+  }
+  var s=h("div",{"class":"sent"},html); card.appendChild(s);
+  var inputs=[].slice.call(s.querySelectorAll("input"));
+  var it={id:id, sec:sec, card:card, q:Q.es.replace(/\{\d+\}/g,"___"), pista:Q.pista, why:Q.why};
+  it.given=function(){ return inputs.map(function(x){return x.value.trim();}).join(" | "); };
+  it.setGiven=function(v){ (v||"").split(" | ").forEach(function(x,i){ if(inputs[i]) inputs[i].value=x; }); };
+  it.res=function(){ return inputs.map(function(x){ return judge(x.value, Q.gaps[+x.getAttribute("data-g")].acc); }); };
+  it.check=function(){ var r=it.res(); if(r.some(function(x){return x==="blank";})) { var fb=fbBox(card); fb.className="fb ui show hint"; fb.innerHTML="Fill in every gap first."; return "blank"; }
+    if(r.every(function(x){return x==="ok";})) return "ok"; if(r.every(function(x){return x==="ok"||x==="accent";})) return "accent"; return "no"; };
+  it.mark=function(){ var r=it.res(); inputs.forEach(function(x,i){ x.classList.toggle("okf",r[i]==="ok"); x.classList.toggle("badf",r[i]!=="ok"); }); };
+  it.lock=function(good){ inputs.forEach(function(x){ x.disabled=true; x.classList.toggle("okf",good); }); it.btns.forEach(function(b){ b.disabled=true; }); };
+  it.reveal=function(){ it.mark(); };
+  it.answerText=function(){ return "**"+Q.gaps.map(function(g){return g.acc[0];}).join(" … ")+"**"+(Q.gaps.some(function(g){return g.acc.length>1;})?" (also accepted: "+Q.gaps.map(function(g){return g.acc.slice(1).join(", ");}).filter(Boolean).join("; ")+")":"")+"."; };
+  it.ans=Q.gaps.map(function(g){return g.acc[0];}).join(" | ");
+  inputs.forEach(function(x){ x.addEventListener("keydown",function(e){ if(e.key==="Enter"){ e.preventDefault(); it.run(); } }); });
+  controls(card,it); wire(it); return card;
+}
+function seeded(n,seed){ var a=[]; for(var i=0;i<n;i++) a.push(i); var x=seed; for(i=n-1;i>0;i--){ x=(x*9301+49297)%233280; var j=Math.floor(x/233280*(i+1)); var t=a[i]; a[i]=a[j]; a[j]=t; } return a; }
+function mcItem(sec, id, n, Q){
+  var card=h("div",{"class":"card"});
+  if(Q.en) card.appendChild(h("p",{"class":"en"},esc(Q.en)));
+  card.appendChild(h("div",null,'<span class="qn">'+n+' ·</span>'+fmt(Q.q)));
+  var box=h("div",{"class":"opts"}); var order=seeded(Q.opts.length, id.length*31+n*7), btns=[], sel=null;
+  order.forEach(function(k){ var b=h("button",{"class":"opt",type:"button"},fmt(Q.opts[k])); b._i=k; b.addEventListener("click",function(){ if(it.state.st) return; sel=k; btns.forEach(function(x){x.classList.toggle("sel",x._i===k);}); it.run(); }); btns.push(b); box.appendChild(b); });
+  card.appendChild(box);
+  var it={id:id, sec:sec, card:card, q:Q.q, pista:Q.pista, why:Q.why};
+  it.given=function(){ return sel==null?"":Q.opts[sel]; };
+  it.setGiven=function(v){ var k=Q.opts.indexOf(v); if(k>=0){ sel=k; btns.forEach(function(x){x.classList.toggle("sel",x._i===k);}); } };
+  it.check=function(){ return sel==null?"blank":(sel===Q.a?"ok":"no"); };
+  it.mark=function(){ btns.forEach(function(x){ if(x._i===sel) x.classList.add("wrong"); }); };
+  it.lock=function(){ btns.forEach(function(x){ x.disabled=true; if(x._i===Q.a) x.classList.add("right"); }); if(it.pb) it.pb.disabled=true; };
+  it.reveal=function(){};
+  it.answerText=function(){ return "**"+Q.opts[Q.a]+"**."; };
+  it.ans=Q.opts[Q.a];
+  var row=h("div",{"class":"ctl ui"}); var p=h("button",{"class":"g",type:"button"},"Indice"); it.pb=p;
+  p.addEventListener("click",function(){ if(it.state.st) return; var fb=fbBox(card); fb.className="fb ui show hint"; fb.innerHTML='<span class="tag ht">Indice</span>'+fmt(Q.pista||""); });
+  row.appendChild(p); card.appendChild(row);
+  wire(it); return card;
+}
+var WRITES=[];
+function covered(points, txt){ var d=" "+deacc(txt)+" "; return points.map(function(pt){ return {label:pt[0], ok: pt[1].some(function(k){ return d.indexOf(deacc(k))>=0; })}; }); }
+function wItem(sec, id, n, Q){
+  var card=h("div",{"class":"card reto"});
+  card.innerHTML='<div class="rt2 ui">'+(Q.label||"ÉCRIRE")+'</div><p class="ui" style="margin:6px 0 4px;font-size:15px">'+fmt(Q.q)+'</p>';
+  S.w=S.w||{}; var t=h("textarea",{"aria-label":Q.label||"Écrire",style:"min-height:120px"}); t.value=S.w[id]||"";
+  t.addEventListener("input",function(){ S.w[id]=t.value; save(); });
+  card.appendChild(t);
+  var row=h("div",{"class":"ctl ui"}); var b=h("button",{"class":"b",type:"button"},"Commentaires"); row.appendChild(b); card.appendChild(row);
+  var fb=h("div",{"class":"fb ui","aria-live":"polite"}); card.appendChild(fb);
+  b.addEventListener("click",function(){
+    var txt=t.value.trim(), words=(txt.match(/[A-Za-zÀ-ÿŒœ'’-]+/g)||[]).length;
+    if(words<25){ fb.className="fb ui show hint"; fb.innerHTML='<span class="tag ht">Indice</span>Write at least '+(Q.min||40)+' words first, then ask for comments. A strong answer covers:<ul class="check">'+Q.points.map(function(p){return "<li>"+esc(p[0])+"</li>";}).join("")+'</ul>'; return; }
+    var cv=covered(Q.points,txt), k=cv.filter(function(x){return x.ok;}).length;
+    fb.className="fb ui show "+(k>=Q.points.length-1?"okb":"hint");
+    fb.innerHTML='<span class="tag '+(k>=Q.points.length-1?"okt":"ht")+'">Commentaires</span>'+k+' of '+cv.length+' key points ('+words+' words).<ul class="check">'+cv.map(function(x){return '<li class="'+(x.ok?"on":"")+'">'+esc(x.label)+'</li>';}).join("")+'</ul><div class="why">The check looks for the key words of each point: a guide, not a mark.</div>'+(Q.model?'<details style="margin-top:8px"><summary>Une réponse possible</summary><p style="margin:6px 0 0">'+fmt(Q.model)+'</p></details>':"");
   });
+  WRITES.push({sec:sec,q:Q.q,get:function(){return t.value.trim();}});
+  return card;
 }
-
-function toggleStep(i) { document.querySelectorAll('.step').forEach((s, idx) => s.classList.toggle('active', idx === i)); }
-
-function selectPhrase(si, pi, btn) {
-  const phrase = steps[si].phrases[pi];
-  selections[si] = { text: phrase, custom: false };
-  document.querySelectorAll(`#pg${si} .phrase-btn`).forEach(b => b.classList.remove('selected'));
-  btn.classList.add('selected');
-  document.getElementById(`custom${si}`).value = '';
-  document.getElementById(`cc${si}`).textContent = phrase.length + ' caractères';
-  document.getElementById(`step${si}`).querySelector('.step-status').textContent = '✓';
-  document.getElementById(`step${si}`).classList.add('done');
-  updatePreview();
+var main=document.getElementById("main"), tabs=document.getElementById("tabs");
+D.sections.forEach(function(sx, si){
+  var id="s"+(si+1);
+  var s=h("section",{"class":"ex",id:id}); s.appendChild(h("h2",null,esc(sx.h2)));
+  if(sx.intro) s.appendChild(h("p",{"class":"how ui"},fmt(sx.intro)));
+  if(sx.rule) s.appendChild(h("div",{"class":"rule"},fmt(sx.rule)));
+  var n=0;
+  sx.items.forEach(function(Q,qi){ n++; if(Q.h3) s.appendChild(h("h3",null,esc(Q.h3)));
+    s.appendChild(Q.t==="mc" ? mcItem(id,id+"_"+qi,n,Q) : Q.t==="w" ? wItem(id,id+"_"+qi,n,Q) : gapItem(id,id+"_"+qi,n,Q)); });
+  var f=h("div",{"class":"secfoot ui"}), l=h("div"), r=h("div");
+  if(si>0) l.appendChild(h("button",{"class":"g",type:"button","data-go":"s"+si},"← Retour"));
+  var rs=h("button",{"class":"g",type:"button"},"Recommencer la section");
+  rs.addEventListener("click",function(){ if(!rs._a){ rs._a=true; rs.textContent="Cliquez encore pour effacer"; setTimeout(function(){ rs._a=false; rs.textContent="Recommencer la section"; },3000); return; }
+    ITEMS.filter(function(it){return it.sec===id;}).forEach(function(it){ delete S.it[it.id]; }); save(); location.reload(); });
+  l.appendChild(document.createTextNode(" ")); l.appendChild(rs);
+  if(si<D.sections.length-1) r.appendChild(h("button",{"class":"b",type:"button","data-go":"s"+(si+2)},"Suivant →"));
+  else { var dl=h("button",{"class":"b",type:"button"},"Télécharger mes réponses"); dl.addEventListener("click",download); r.appendChild(dl); }
+  f.appendChild(l); f.appendChild(r); s.appendChild(f);
+  main.appendChild(s);
+  var tb=h("button",{type:"button",role:"tab","data-go":id},esc(sx.tab)+' <span class="n"></span>'); tabs.appendChild(tb);
+  SECS.push({id:id, el:s, tab:tb});
+});
+function totals(){ var tot=ITEMS.length, sc=0, first=0, done=0; ITEMS.forEach(function(it){ var st=it.state; if(st.st==="ok"){ sc++; done++; if(st.first) first++; } else if(st.st==="rev") done++; }); return {tot:tot,sc:sc,first:first,done:done}; }
+function refresh(){
+  var T=totals(); document.getElementById("sc").textContent=T.sc; document.getElementById("tot").textContent=T.tot; document.getElementById("first").textContent=T.first;
+  document.getElementById("bar").style.width=(T.tot?Math.round(100*T.sc/T.tot):0)+"%";
+  SECS.forEach(function(s){ var its=ITEMS.filter(function(it){return it.sec===s.id;}); var d=its.filter(function(it){return it.state.st;}).length, ok=its.filter(function(it){return it.state.st==="ok";}).length; s.tab.querySelector(".n").textContent=ok+"/"+its.length; s.tab.classList.toggle("done",d===its.length); });
+  publish();
 }
-
-function selectCustom(si, val) {
-  if (!val.trim()) { delete selections[si]; document.getElementById(`step${si}`).querySelector('.step-status').textContent = ''; document.getElementById(`step${si}`).classList.remove('done'); }
-  else { selections[si] = { text: val.trim(), custom: true }; document.querySelectorAll(`#pg${si} .phrase-btn`).forEach(b => b.classList.remove('selected')); document.getElementById(`step${si}`).querySelector('.step-status').textContent = '✓'; document.getElementById(`step${si}`).classList.add('done'); }
-  document.getElementById(`cc${si}`).textContent = val.length + ' caractères';
-  updatePreview();
+function publish(){
+  try{ var T=totals(); var all=JSON.parse(localStorage.getItem("bba-scores")||"{}"); var f=decodeURIComponent(location.pathname.split("/").pop()||"index"); var prev=all[f]||{};
+    var rec={title:(document.title||"").slice(0,120), score:T.sc, total:T.tot, best:Math.max(T.sc,prev.best||0), attempts:(prev.attempts||0)+(S.pub?0:1), t:Date.now()};
+    var n=Math.max(0,T.done-(S.pubDone||0)); rec.ans=(prev.ans||0)+n; rec.lg={}; for(var k in (prev.lg||{})) rec.lg[k]=prev.lg[k];
+    var day=String(Math.floor(Date.now()/86400000)); if(n) rec.lg[day]=(rec.lg[day]||0)+n;
+    all[f]=rec; localStorage.setItem("bba-scores",JSON.stringify(all)); S.pub=true; S.pubDone=T.done; save(); }catch(e){}
 }
-
-function nextStep(i) {
-  const next = i + 1;
-  if (next < steps.length) { document.querySelectorAll('.step').forEach((s, idx) => s.classList.toggle('active', idx === next)); document.getElementById(`step${next}`).scrollIntoView({ behavior: 'smooth', block: 'nearest' }); }
+function studentName(){ var nm=document.querySelector("#bba-kit .nm"); var v=nm&&nm.value.trim(); if(!v){ try{ v=localStorage.getItem("bba-name")||""; }catch(e){} } return v||""; }
+function download(){
+  var T=totals(), name=studentName(), L=[];
+  L.push(D.dlhead); L.push("Nom : "+(name||"(sans nom)")); L.push("Date : "+new Date().toLocaleString("fr-FR")); L.push("Points : "+T.sc+" / "+T.tot+"  ·  du premier coup : "+T.first); L.push("");
+  SECS.forEach(function(s){ L.push("== "+s.el.querySelector("h2").textContent+" ==");
+    ITEMS.filter(function(it){return it.sec===s.id;}).forEach(function(it,i){ var st=it.state;
+      var mark=st.st==="ok"?(st.first?"✓":"✓ (2e essai)"):st.st==="rev"?"✗ → "+it.ans:"— sans réponse";
+      L.push((i+1)+". "+it.q.replace(/\*\*/g,"").replace(/\s+/g," ").slice(0,160)); L.push("   Réponse : "+(it.given()||"—")+"   ["+mark+"]"); });
+    WRITES.filter(function(w){return w.sec===s.id;}).forEach(function(w){ L.push("TEXTE : "+w.q.replace(/\*\*/g,"")); L.push(w.get()||"—"); });
+    L.push(""); });
+  var blob=new Blob([L.join("\r\n")],{type:"text/plain;charset=utf-8"}); var a=document.createElement("a"); a.href=URL.createObjectURL(blob);
+  a.download=D.dlfile+(name||"sans_nom").replace(/[^\wÀ-ÿ-]+/g,"_")+".txt"; document.body.appendChild(a); a.click(); setTimeout(function(){ URL.revokeObjectURL(a.href); a.remove(); },500);
 }
-
-function clearStep(i) {
-  delete selections[i];
-  document.querySelectorAll(`#pg${i} .phrase-btn`).forEach(b => b.classList.remove('selected'));
-  document.getElementById(`custom${i}`).value = '';
-  document.getElementById(`cc${i}`).textContent = '0 caractères';
-  document.getElementById(`step${i}`).querySelector('.step-status').textContent = '';
-  document.getElementById(`step${i}`).classList.remove('done');
-  updatePreview();
-}
-
-function updatePreview() {
-  const roleClasses = { topic: 'seg-topic', point: 'seg-point', evidence: 'seg-evidence', analysis: 'seg-analysis', connector: 'seg-connector', conclusion: 'seg-conclusion' };
-  const placeholders = { topic: '[phrase d\'introduction]', point: '[point clé]', evidence: '[citation / scène]', analysis: '[analyse]', connector: '[connecteur / développement]', conclusion: '[conclusion]' };
-  let html = '', fullText = '';
-  steps.forEach((step, i) => {
-    const sel = selections[i];
-    const cls = roleClasses[step.role] || '';
-    if (sel) { html += `<span class="para-segment ${cls}">${sel.text} </span>`; fullText += sel.text + ' '; }
-    else { html += `<span class="para-segment seg-placeholder">${placeholders[step.role]} </span>`; }
-  });
-  document.getElementById('paraPreview').innerHTML = html || '<span class="seg-placeholder">Your paragraph will appear here…</span>';
-  const words = fullText.trim() ? fullText.trim().split(/\s+/).length : 0;
-  document.getElementById('wordCountPrev').textContent = words;
-  let quality = '';
-  if (words > 0 && words < 60) quality = '💡 Visez 80–120 mots par paragraphe';
-  else if (words >= 60 && words < 100) quality = '✅ Bonne longueur';
-  else if (words >= 100) quality = '🌟 Excellent !';
-  document.getElementById('qualityNote').textContent = quality;
-}
-
-function copyParagraph() {
-  const text = steps.map((s, i) => selections[i] ? selections[i].text : '').filter(Boolean).join(' ');
-  if (!text) { document.getElementById('copyFeedback').textContent = 'Rien à copier !'; return; }
-  navigator.clipboard.writeText(text).then(() => { document.getElementById('copyFeedback').textContent = '✓ Copié !'; setTimeout(() => document.getElementById('copyFeedback').textContent = '', 2500); });
-}
-
-function resetAll() {
-  currentQ = null; steps = []; selections = {};
-  document.getElementById('questionSelect').value = '';
-  document.getElementById('questionText').classList.remove('show');
-  document.getElementById('stepsPanel').innerHTML = '<p style="color:#333;font-size:0.9rem;text-align:center;padding:20px 0;">← Select a question above to begin.</p>';
-  document.getElementById('paraPreview').innerHTML = '<span class="seg-placeholder">Your paragraph will appear here as you complete each step…</span>';
-  document.getElementById('wordCountPrev').textContent = '0';
-  document.getElementById('qualityNote').textContent = '';
-}
+function go(id){ SECS.forEach(function(s){ var on=s.id===id; s.el.classList.toggle("active",on); s.tab.setAttribute("aria-selected",on?"true":"false"); }); S.tab=id; save();
+  var nav=document.getElementById("tabs"); if(window.scrollY>nav.offsetTop) window.scrollTo({top:nav.offsetTop,behavior:"smooth"}); }
+document.addEventListener("click",function(e){ var b=e.target.closest("[data-go]"); if(b){ e.preventDefault(); go(b.getAttribute("data-go")); } });
+ITEMS.forEach(function(it){ it.restore(); });
+go(S.tab && document.getElementById(S.tab) ? S.tab : "s1"); refresh();
+window.BBAG={items:ITEMS, totals:totals, judge:judge};
+})();
 </script>
 <script src="bba-kit-fr.js" defer></script>
 <script src="bba-send-strip.js" defer></script>

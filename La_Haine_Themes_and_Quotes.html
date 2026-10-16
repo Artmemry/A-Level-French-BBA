@@ -510,6 +510,12 @@
             gap: 8px;
         }
         
+        .hint-feedback {
+            color: #e0a800;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+        
         .incorrect-feedback {
             color: #d9232d;
             font-weight: bold;
@@ -1322,8 +1328,8 @@
             },
             {
                 id: 46,
-                french: "Il faut savoir se calmer. Le plus dur, c'est de s'arrêter à temps.",
-                english: "You have to know how to calm down. The hardest part is stopping in time.",
+                french: "Le plus dur, c'est de s'arrêter à temps. Il faut savoir se calmer.",
+                english: "The hardest part is stopping in time. You have to know how to calm down.",
                 theme: "police",
                 context: "A police officer talking about interrogation 'technique'.",
                 analysis: "The institutionalization and normalization of police violence."
@@ -1358,15 +1364,7 @@
                 english: "This is the story of a society that falls... The important thing isn't the fall... It's the landing.",
                 theme: "metaphor",
                 context: "The final, adapted metaphor. The focus shifts from individual to society.",
-                analysis: "The film's final statement on societal, not just individual, responsibility."
-            },
-            {
-                id: 51,
-                french: "Bruit de coup de feu",
-                english: "Sound of a gunshot",
-                theme: "violence",
-                context: "The final, ambiguous landing.",
-                analysis: "The unresolved, cyclical nature of violence that leaves the audience questioning."
+                analysis: "The film's final statement on societal, not just individual, responsibility. The voice-over ends on a single gunshot whose outcome we never see: the landing is left to the audience."
             },
             // Police station scene quotes
             {
@@ -1663,7 +1661,7 @@
                 : quotes.filter(q => q.theme === userProgress.currentTheme);
             
             if (filteredQuotes.length === 0) {
-                alert('No quotes available for the selected theme. Try "All Themes".');
+                say('No quotes for this theme yet: try "All Themes".');
                 return;
             }
             
@@ -1679,6 +1677,7 @@
             currentThemeEl.textContent = `Theme: ${quote.theme.toUpperCase()}`;
             currentContextEl.textContent = `Context: ${quote.context}`;
             quoteInputEl.value = '';
+            tries = 0; hintWords = 0;
             quoteInputEl.focus();
             
             // Clear any previous feedback
@@ -1701,10 +1700,22 @@
             });
         }
 
+        // Inline messages instead of pop-ups
+        let tries = 0, hintWords = 0;
+        function say(html, cls) {
+            const f = document.getElementById('feedback');
+            f.className = cls || 'incorrect-feedback'; f.classList.remove('hidden'); f.innerHTML = html;
+        }
+        function studentName() {
+            let v = ''; const nm = document.querySelector('#bba-kit .nm'); if (nm) v = nm.value.trim();
+            if (!v) { try { v = localStorage.getItem('bba-name') || ''; } catch (e) {} }
+            return v;
+        }
+
         // Check the user's answer
         function checkAnswer() {
             if (!userProgress.currentQuote) {
-                alert('Please select a quote first!');
+                say('Choose a quote from the list, or click "New Practice Quote", first.');
                 return;
             }
             
@@ -1712,11 +1723,12 @@
             const correctAnswer = userProgress.currentQuote.french;
             
             if (userAnswer === '') {
-                alert('Please type your answer before checking!');
+                say('Type the French quote first, then check.');
                 return;
             }
             
             userProgress.attempted++;
+            tries++;
             
             // Calculate similarity
             const similarity = calculateSimilarity(userAnswer, correctAnswer);
@@ -1732,7 +1744,7 @@
                     userProgress.mastered.push(userProgress.currentQuote.id);
                 }
                 
-                feedbackEl.innerHTML = `<i class="fas fa-check-circle"></i> Correct! ${Math.round(similarity * 100)}% accuracy.`;
+                feedbackEl.innerHTML = `<i class="fas fa-check-circle"></i> Correct! ${Math.round(similarity * 100)}% accuracy.` + (similarity < 1 ? ` Exact wording: « ${correctAnswer} »` : '');
                 
                 // Update mastery badge in all lists
                 document.querySelectorAll(`.quote-item[data-id="${userProgress.currentQuote.id}"]`).forEach(item => {
@@ -1745,7 +1757,7 @@
                     }
                 });
             } else {
-                feedbackEl.innerHTML = `<i class="fas fa-times-circle"></i> Not quite. ${Math.round(similarity * 100)}% accuracy. Try again or click "Reveal Answer".`;
+                feedbackEl.innerHTML = `<i class="fas fa-times-circle"></i> Not quite: ${Math.round(similarity * 100)}% accuracy. Try again, or click "Show Hint" for the first words. "Reveal Answer" is now open.`;
             }
             
             updateStats();
@@ -1755,7 +1767,7 @@
         // Calculate similarity between two strings
         function calculateSimilarity(str1, str2) {
             // Remove punctuation and normalize whitespace
-            const normalize = (s) => s.toLowerCase().replace(/[.,;!?'"()]/g, '').replace(/\s+/g, ' ').trim();
+            const normalize = (s) => s.toLowerCase().replace(/[.,;!?'’"()«»…]/g, '').replace(/\s+/g, ' ').trim();
             
             const s1 = normalize(str1);
             const s2 = normalize(str2);
@@ -1801,21 +1813,23 @@
         // Show a hint for the current quote
         function showHint() {
             if (!userProgress.currentQuote) {
-                alert('Please select a quote first!');
+                say('Choose a quote from the list, or click "New Practice Quote", first.');
                 return;
             }
             
-            const hint = userProgress.currentQuote.analysis || userProgress.currentQuote.context;
-            alert(`Analysis Hint:\n\n${hint}`);
+            const words = userProgress.currentQuote.french.split(/\s+/);
+            hintWords = Math.min(words.length - 1, hintWords + 2);
+            say(`<b>Indice</b> — the quote has ${words.length} words and begins: « ${words.slice(0, hintWords).join(' ')} … »`, 'hint-feedback');
         }
 
         // Reveal the full answer
         function revealAnswer() {
             if (!userProgress.currentQuote) {
-                alert('Please select a quote first!');
+                say('Choose a quote from the list, or click "New Practice Quote", first.');
                 return;
             }
             
+            if (tries < 1) { say('Have one go first: type what you remember and click "Check Answer". The answer opens after that.'); return; }
             const correctAnswer = userProgress.currentQuote.french;
             const analysis = userProgress.currentQuote.analysis;
             
@@ -1860,7 +1874,9 @@
 
         // Reset all progress
         function resetProgress() {
-            if (confirm('Are you sure you want to reset all progress? This cannot be undone.')) {
+            if (resetProgressBtn.dataset.armed !== '1') { resetProgressBtn.dataset.armed = '1'; const t = resetProgressBtn.innerHTML; resetProgressBtn.innerHTML = 'Click again to erase all progress'; setTimeout(() => { resetProgressBtn.dataset.armed = ''; resetProgressBtn.innerHTML = t; }, 3000); return; }
+            resetProgressBtn.dataset.armed = '';
+            {
                 userProgress = {
                     mastered: [],
                     attempted: 0,
@@ -1896,7 +1912,7 @@
                     feedbackEl.innerHTML = '';
                 }
                 
-                alert('Progress has been reset.');
+                say('Progress has been reset.', 'correct-feedback');
             }
         }
 
@@ -1905,7 +1921,7 @@
             const mastered = quotes.filter(q => userProgress.mastered.includes(q.id));
             
             if (mastered.length === 0) {
-                alert("You haven't mastered any quotes yet. Practice some quotes first!");
+                say("You haven't mastered any quotes yet: practise a few first, then download.");
                 return;
             }
             
@@ -1990,7 +2006,10 @@
 
         // Generic download function
         function downloadFile(content, filename) {
-            const blob = new Blob([content], { type: 'text/plain' });
+            const nm = studentName();
+            content = 'Nom : ' + (nm || '(sans nom)') + '\n' + content;
+            filename = filename.replace('.txt', '_' + (nm || 'sans_nom').replace(/[^\wÀ-ÿ-]+/g, '_') + '.txt');
+            const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
             const url = URL.createObjectURL(blob);
             const a = document.createElement('a');
             a.href = url;
