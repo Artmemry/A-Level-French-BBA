@@ -1637,5 +1637,15 @@
 </script>
      <script src="bba-kit-fr.js" defer></script>
 <script src="bba-send-strip.js" defer></script>
+<script>/* BBA progress hookup: counter + saved score for the hub tile (Oct 2026) */
+window.BBA_HOOKED=true;
+window.addEventListener("load",function(){
+  if(!window.BBAMeter||typeof window.updateScoreDisplay!=="function")return;
+  var o=window.updateScoreDisplay;
+  function report(){ try{ BBAMeter.set(userProgress.total, userProgress.score, Math.max(userProgress.total, document.querySelectorAll('.exercise-item input, .exercise-item select').length)); }catch(e){} }
+  window.updateScoreDisplay=function(){ var r=o.apply(this,arguments); report(); return r; };
+  report();
+});
+</script>
 </body>
 </html>

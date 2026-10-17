@@ -1370,5 +1370,15 @@ showIntro();
 </script>
    <script src="bba-kit-fr.js" defer></script>
 <script src="bba-send-strip.js" defer></script>
+<script>/* BBA progress hookup: counter + saved score for the hub tile (Oct 2026) */
+window.BBA_HOOKED=true;
+window.addEventListener("load",function(){
+  if(!window.BBAMeter||typeof window.renderProgress!=="function")return;
+  var o=window.renderProgress;
+  function report(){ try{ BBAMeter.set(state.total, state.score, TOTAL_QUESTIONS); }catch(e){} }
+  window.renderProgress=function(){ var r=o.apply(this,arguments); report(); return r; };
+  report();
+});
+</script>
 </body>
 </html>

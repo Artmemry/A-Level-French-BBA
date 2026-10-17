@@ -1159,5 +1159,16 @@ const MARK = (function () {
     </script>
      <script src="bba-kit-fr.js" defer></script>
 <script src="bba-send-strip.js" defer></script>
+<script>/* BBA progress hookup: counter + saved score for the hub tile (Oct 2026) */
+window.BBA_HOOKED=true;
+window.addEventListener("load",function(){
+  if(!window.BBAMeter||typeof window.updateProgress!=="function")return;
+  var o=window.updateProgress;
+  function report(r){ try{ var D=studentData, n=0; ["comprehension","matching","cloze","grammar"].forEach(function(k){ var o2=D[k]||{}; Object.keys(o2).forEach(function(q){ var v=o2[q]; if(v&&typeof v==='object'&&'answer' in v){ if(String(v.answer==null?'':v.answer).trim()) n++; } else n++; }); });
+      var t=totalScore(); BBAMeter.set(n, t.score, t.max); }catch(e){} }
+  window.updateProgress=function(){ var r=o.apply(this,arguments); report(r); return r; };
+  report(null);
+});
+</script>
 </body>
 </html>

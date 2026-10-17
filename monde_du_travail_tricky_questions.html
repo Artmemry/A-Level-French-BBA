@@ -677,5 +677,16 @@ function updateProgress() {
 </script>
      <script src="bba-kit-fr.js" defer></script>
 <script src="bba-send-strip.js" defer></script>
+<script>/* BBA progress hookup: counter + saved score for the hub tile (Oct 2026) */
+window.BBA_HOOKED=true;
+window.addEventListener("load",function(){
+  if(!window.BBAMeter)return;
+  var T=15;
+  function calc(rec){ var a=0,c=0; document.querySelectorAll(".item-score").forEach(function(e){ var t=(e.textContent||"").trim(); if(e.style.color){a++; if(t==="1/1")c++;} }); BBAMeter.set(a,c,T,{record:!!rec}); }
+  var mo=new MutationObserver(function(){ clearTimeout(mo.t); mo.t=setTimeout(function(){calc(true);},60); });
+  document.querySelectorAll(".item-score").forEach(function(e){ mo.observe(e,{childList:true,characterData:true,subtree:true,attributes:true,attributeFilter:['style']}); });
+  calc(false);
+});
+</script>
 </body>
 </html>

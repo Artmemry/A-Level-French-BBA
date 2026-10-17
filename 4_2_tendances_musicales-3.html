@@ -353,5 +353,23 @@ function downloadPage(){
 </script>
      <script src="bba-kit-fr.js" defer></script>
 <script src="bba-send-strip.js" defer></script>
+<script>/* BBA progress hookup: counter + saved score for the hub tile (Oct 2026) */
+window.BBA_HOOKED=true;
+window.addEventListener("load",function(){
+  if(!window.BBAMeter)return;
+  var TASKS=[{"fb": "orderFeedback", "ok": "correct"}, {"fb": "vocabFeedback", "n": 2, "frac": true, "inp": ["v1", "v2"]}, {"fb": "grammarFeedback", "n": 2, "ok": "^Correct", "inp": ["g1", "g2"]}, {"fb": "listenFeedback", "ok": "Bonne r\u00e9ponse", "inp": ["listenQ"]}, {"fb": "exitFeedback", "ok": "soumis", "inp": ["exitParagraph"]}], total=TASKS.reduce(function(a,t){return a+(t.n||1);},0);
+  function calc(rec){ var a=0,c=0;
+    TASKS.forEach(function(t){ var e=document.getElementById(t.fb), tx=e?(e.textContent||"").trim():""; if(!tx) return;
+      if(t.skip&&new RegExp(t.skip,"i").test(tx)) return;
+      if(t.inp&&!t.inp.some(function(id){var x=document.getElementById(id);return x&&String(x.value||"").trim();})) return;
+      var n=t.n||1; a+=n;
+      if(t.frac){ var m=tx.match(/(\d+(?:[.,]\d+)?)\s*\/\s*(\d+)/); if(m) c+=Math.min(n,Math.round(parseFloat(m[1].replace(",","."))*n/(+m[2]||n))); }
+      else if(new RegExp(t.ok,"i").test(tx)) c+=n; });
+    BBAMeter.set(a,c,total,{record:!!rec}); }
+  var mo=new MutationObserver(function(){ clearTimeout(mo.t); mo.t=setTimeout(function(){calc(true);},60); });
+  TASKS.forEach(function(t){ var e=document.getElementById(t.fb); if(e) mo.observe(e,{childList:true,characterData:true,subtree:true}); });
+  calc(false);
+});
+</script>
 </body>
 </html>
