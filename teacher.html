@@ -138,7 +138,45 @@ table.match tr.guess select{border-color:#9FB6D4;background:#F5F9FF}
 .task-out textarea.code{min-height:58px}
 .task-now{font-size:.85rem;color:var(--ink-soft);margin:8px 0 0}
 @media(max-width:640px){.task-form{grid-template-columns:1fr 1fr}}
-@media print{.btn-row,textarea.code,header.site .roster-state,#identCard,#taskCard,dialog.cls{display:none!important}body{background:#fff}}
+/* ── tabs, the compact overview and the profile ── */
+nav.tabs{display:flex;gap:4px;margin:18px 0 0;border-bottom:2px solid var(--ink);flex-wrap:wrap}
+nav.tabs button{font:inherit;font-size:.95rem;font-weight:600;border:1.5px solid var(--line-strong);border-bottom:0;
+  border-radius:9px 9px 0 0;background:var(--paper);color:var(--ink-soft);padding:8px 16px;cursor:pointer;margin-bottom:-2px}
+nav.tabs button.on{background:var(--card);color:var(--ink);border-color:var(--ink);border-bottom:2px solid var(--card)}
+nav.tabs .count{font-family:var(--mono);font-size:.7rem;color:var(--muted);margin-left:5px}
+.ov-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:10px;background:var(--card)}
+table.ov,table.pf{width:100%;border-collapse:collapse;font-size:.9rem}
+table.ov th,table.pf th{text-align:left;font-size:.78rem;font-weight:700;color:var(--ink);border-bottom:2px solid var(--ink);
+  padding:7px 10px;vertical-align:bottom;background:var(--card)}
+table.ov th{cursor:pointer;user-select:none}
+table.ov th small,table.ov td small{display:block;font-weight:400;font-size:.72rem;color:var(--muted);line-height:1.25}
+table.ov th[data-dir=d]::after{content:" ▾"}
+table.ov th[data-dir=a]::after{content:" ▴"}
+table.ov td,table.pf td{border-bottom:1px solid var(--line);padding:6px 10px;vertical-align:top}
+table.ov .n,table.pf .n{text-align:right}
+table.ov td.n{font-family:var(--mono);font-size:.86rem}
+table.ov tbody tr:hover{background:var(--bleu-pale)}
+table.ov td.nm{white-space:nowrap}
+.mut{color:var(--muted)}
+.est{font-family:var(--sans);font-size:.72rem;color:var(--or);cursor:help}
+.pf-kpis b small{font-size:.8rem;color:var(--or);font-family:var(--sans)}
+button.who{font:inherit;font-weight:700;color:var(--bleu);background:none;border:0;padding:0;cursor:pointer;text-align:left;
+  text-decoration:underline;text-decoration-color:#C4D2EC;text-underline-offset:3px}
+button.who:hover{text-decoration-color:var(--bleu)}
+dialog.prof{max-width:1000px}
+dialog.prof .dlg-body{max-height:86vh;overflow:auto}
+dialog.prof h3{font-family:var(--serif);font-size:1.1rem;margin:26px 0 8px;padding-bottom:4px;border-bottom:2px solid var(--ink)}
+dialog.prof h4{font-size:.9rem;margin:16px 0 6px;color:var(--bleu)}
+.pf-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap}
+.pf-head h2{font-size:1.5rem}
+.pf-kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:16px 0 0}
+.pf-kpis div{border:1px solid var(--line);border-radius:10px;padding:10px 14px;background:var(--paper)}
+.pf-kpis b{display:block;font-family:var(--mono);font-size:1.6rem}
+.pf-kpis span{font-size:.82rem;color:var(--ink-soft)}
+table.pf td:first-child{min-width:150px}
+table.pf td:nth-child(2) b{white-space:nowrap}
+@media(max-width:640px){.pf-kpis{grid-template-columns:1fr}}
+@media print{nav.tabs{display:none!important}.btn-row,textarea.code,header.site .roster-state,#identCard,#taskCard,dialog.cls{display:none!important}body{background:#fff}}
 </style>
 <script src="bba-progress.js"></script>
 <!-- This is the one dashboard for all four sites. The French catalogue sits
@@ -165,12 +203,61 @@ table.match tr.guess select{border-color:#9FB6D4;background:#F5F9FF}
 </header>
 
 <main>
-  <p class="intro">This is the one dashboard for A-Level French and Spanish. Each language has two sites:
-  <b>1 · Vocab</b> (Le Lexique / El Léxico) and <b>2 · Site</b> (A-Level-French-BBA / A-Level-Spanish-BBA).
-  The KS3 &amp; KS4 vocabulary sites are kept apart at the bottom — they are not used for A-Level teaching.
-  Paste the codes your students send you, one per line, in any mix: the page works out which is which.
-  Everything is decoded in this browser: nothing is uploaded, and no server ever sees a student name.</p>
+  <p class="intro">One dashboard for A-Level French and Spanish. Each language has two sites:
+  <b>1 · Vocab</b> (Le Lexique / El Léxico) and <b>2 · Site</b> (the exam-practice hub). Students send progress codes
+  through the Form; bring them in under <b>Add codes &amp; settings</b>. <b>Click a student's name</b> for their full
+  profile and a Word copy for students, parents and carers. Everything is decoded in this browser: nothing is
+  uploaded, and no server ever sees a student name.</p>
 
+  <nav class="tabs" id="tabs" role="tablist">
+    <button role="tab" data-pane="paneOverview" class="on">Class overview</button>
+    <button role="tab" data-pane="paneTask">Set a task</button>
+    <button role="tab" data-pane="paneSetup">Add codes &amp; settings</button>
+  </nav>
+
+  <section class="pane" id="paneOverview">
+  <div class="task-tabs" id="clsChips" style="margin:18px 0 0;display:none"></div>
+  <div class="card" id="mineBox" style="display:none;margin-top:10px"></div>
+  <div class="btn-row" id="allOut" style="margin:14px 0 0;display:none">
+    <button class="btn primary" id="btnAllXlsx">Download the whole roster (.xlsx)</button>
+    <button class="btn ghost" id="btnAllCsv">Download the whole roster (.csv)</button>
+    <button class="btn ghost" id="btnAllDocx">Word profiles for everyone shown</button>
+    <details class="hint" style="flex-basis:100%;margin:0"><summary style="cursor:pointer">What is in each download?</summary>
+      The workbook has one sheet per site: a row per student, a column per exercise or list they have done, by name,
+      with the score in the cell. The CSV is the same roster as one long list, one row per student per exercise — for a
+      tracker or a mail merge. The Word file has one profile per student, each starting on a new page, written so that
+      students, parents and carers can read it: questions answered, what each score measures, month by month, by unit
+      and by activity, with a box for your comment.</details>
+  </div>
+  <div id="results"></div>
+
+  <div class="card" id="legendCard" style="display:none">
+    <h2>Reading the tables</h2>
+    <p class="legend">
+      <b>Questions answered</b> is the key figure, counted from the day the student started. <b>About</b> — Progress codes sent before 12 October 2026 did not record the number of answers, so on the vocabulary sites that earlier work is estimated at about 20 questions for each practice session. Later work is counted exactly.
+            Recent work is shown on its own. <b>The task</b> — the newest task recorded under <b>Set a task</b> for the
+      student's language and class: lists or activities done out of those set, and questions answered since its start
+      date, worked out from the codes received before and after that date (it does not matter whether the student
+      clicked the link). A vocabulary list counts as done once it has had at least as many answers since the start as it
+      has words; an activity once every question has an answer. "No code since" means nothing has been sent since the
+      task was set. <b>This month so far</b> — answers during the month.
+      <br><b>Exam-practice sites</b> are measured in activities, because each one is a whole task:
+      <b>Activities completed</b> — every question or task in the activity has an answer; <b>Activities started</b>
+      — at least one answer; <b>Questions answered</b> — the share of the questions in the activities started that
+      have an answer (codes sent before 12 October 2026 only record the questions answered correctly, so for those
+      the share may be higher).
+      <br><b>Accuracy</b> (vocab) is the percentage of all answers that were correct. <b>Average best score</b>
+      (exam practice) is, for each activity attempted, the best score reached as a percentage of questions correct,
+      averaged over those activities. <b>Words mastered</b> — words answered correctly often enough to leave the
+      review cycle.
+      <br>Click any heading to sort by it. An amber row means <b>no questions answered since the task was set</b>,
+      or few questions compared with the rest of the group (under half its middle figure). Every other figure the
+      codes carry is in <b>Every figure, one column each</b> and in the downloads.
+    </p>
+  </div>
+  </section>
+
+  <section class="pane" id="paneTask" hidden>
   <div class="card" id="taskCard">
     <h2>Set this week's task</h2>
     <p class="hint">Pick the language, tick what the class should do — vocabulary lists and A-Level site
@@ -219,7 +306,16 @@ table.match tr.guess select{border-color:#9FB6D4;background:#F5F9FF}
     </div>
     <p class="task-now" id="tNow"></p>
   </div>
+  <div class="card" id="taskRecCard">
+    <h2>Tasks recorded</h2>
+    <p class="hint">Every link made above is recorded here and shared with the roster. The Class overview measures
+      each student against the newest task for their language and class whose start date has passed — from their
+      codes, whether or not they clicked the link. Remove a task here if it was made by mistake.</p>
+    <div id="taskRecords"></div>
+  </div>
+  </section>
 
+  <section class="pane" id="paneSetup" hidden>
   <div class="card">
     <h2>Import the Forms responses</h2>
     <p class="hint">In Microsoft Forms choose <b>Open in Excel</b> and drop the Excel file that downloads straight
@@ -257,6 +353,22 @@ table.match tr.guess select{border-color:#9FB6D4;background:#F5F9FF}
     </div>
     <div class="msg err hidden" id="err"></div>
     <div class="msg ok hidden" id="ok"></div>
+  </div>
+
+  <div class="card" id="classCard">
+    <h2>Classes</h2>
+    <p class="hint">One student per line: the name as first name and surname initial, then <code>=</code>, then the
+      class. The class appears in the Class column, in the class buttons above the tables and on the profiles,
+      whatever the student's code says. Spaces, capitals and accents do not matter: <code>CharbelA</code>,
+      <code>Charbel A</code> and <code>charbel a.</code> are the same student. A full name works too and is
+      shortened to the first name and initial.</p>
+    <textarea class="code" id="classAssign" spellcheck="false" style="min-height:120px"
+      placeholder="CharbelA = teacher&#10;ImogenH = Y13FR&#10;JosephC = Y13SP&#10;BiancaF = Y12SP"></textarea>
+    <div class="btn-row">
+      <button class="btn primary" id="btnClassAssign">Apply classes</button>
+    </div>
+    <div class="msg ok hidden" id="classAssignOk"></div>
+    <div class="msg err hidden" id="classAssignErr"></div>
   </div>
 
   <div class="card" id="shareCard">
@@ -303,6 +415,8 @@ table.match tr.guess select{border-color:#9FB6D4;background:#F5F9FF}
     <div id="suggestBox"></div>
   </div>
 
+  </section>
+
   <dialog class="cls" id="clsDlg">
    <div class="dlg-body">
     <h2>Class list and matching</h2>
@@ -326,36 +440,7 @@ table.match tr.guess select{border-color:#9FB6D4;background:#F5F9FF}
    </div>
   </dialog>
 
-  <div class="task-tabs" id="clsChips" style="margin:18px 0 0;display:none"></div>
-  <div class="card" id="mineBox" style="display:none;margin-top:10px"></div>
-  <div class="btn-row" id="allOut" style="margin:14px 0 0;display:none">
-    <button class="btn primary" id="btnAllXlsx">Download the whole roster (.xlsx)</button>
-    <button class="btn ghost" id="btnAllCsv">Download the whole roster (.csv)</button>
-    <span class="hint" style="align-self:center">The workbook has one sheet per site: a row per student, a column per
-      exercise or list they have done, by name, with the score in the cell. The CSV is the same roster as one long
-      list, one row per student per exercise — for a tracker or a mail merge.</span>
-  </div>
-  <div id="results"></div>
-
-  <div class="card" id="legendCard" style="display:none">
-    <h2>Reading the tables</h2>
-    <p class="legend">
-      The columns follow the department's order of interest.
-      <b>1 · Answered</b> — every question the student has answered, all time: the key figure, with the
-      change since their previous code. <b>Since task</b> — answers given since the task link's start date.
-      <b>Writing</b> — the part of those answers typed in the target language. <b>Task</b> — lists of the
-      student's current homework that are done: 95 % of the words written correctly since the task was set.
-      <b>2 · Mastered</b> — on a vocab site, words answered correctly enough times to leave the review cycle;
-      on an exam-practice site, activities with a best score of 80 % or more.
-      <b>3 · Accuracy</b> — the share of answers that were right (vocab), or the mean best mark (exam practice).
-      Then, in grey: <b>Seen</b>, <b>Sessions</b>, <b>Leeches</b> (words failed repeatedly), <b>Exam avg</b>,
-      <b>Done / Opened</b> and <b>Flagged hard</b>.
-      <br>Students are listed with the most questions answered first. An amber row means <b>few questions
-      answered compared with the rest of the group</b> (under half the group's middle figure), or ticking
-      activities as done without doing them. A "—" means the code was sent before questions were counted;
-      it fills in when the student sends a new one.
-    </p>
-  </div>
+  <dialog class="cls prof" id="profDlg"><div class="dlg-body"></div></dialog>
 </main>
 
 <footer class="site">
@@ -431,6 +516,12 @@ const CATS = (function(){
   return c;
 })();
 function catOf(lang){ return (CATS[lang] && CATS[lang].items) || []; }
+/* Questions in each exam-practice activity, by catalogue id, read from the
+   activities' own question counters (Oct 2026). Used only to estimate work
+   from codes made before the sites counted answers. Regenerate with
+   qcount.js when activities are added; a missing activity counts as the
+   median. */
+const Q_COUNT = {"FR":{"a79d44e52":42,"a99795fb6":30,"a771fe937":20,"a6a32dbbf":25,"a42f823c4":8,"a90e7b26f":51,"a8a4d2d0b":43,"a38942194":43,"a735545de":39,"a5b005e50":48,"ad353112e":20,"a033a3035":15,"ac07b3b8c":11,"a6bb57130":10,"a8bda25f1":20,"a5097be9c":18,"ad33d5c21":47,"a12136036":20,"a12d72c99":7,"a4b922e18":12,"affcdbfb4":10,"a036d7142":50,"a3abca149":17,"a4d14a223":24,"aa4910e9b":8,"a05fbc0ed":48,"a10fbabbe":20,"d7b21e5a1":79,"d7b21e5a2":56,"aa62c932b":46,"a4d9cfc93":20,"ad4001b54":41,"a5ace279e":58,"ac4806066":20,"a2362e737":21,"a96968dd5":47,"a07629bd4":17,"a5636e0f4":16,"a2a80ed08":36,"a34627c7a":21,"a7f8a8295":10,"a8fd70e21":12,"a32b238c2":34,"ae0fa69ef":58,"ac4af3b00":18,"a686f7bb3":18,"a292ff6da":46,"a091865b1":1,"a214baf6c":33,"a9edaec61":33,"a4773e9bb":34,"a037f180f":46,"a6a1d8a96":19,"a0f690f5c":21,"a1b9f123e":21,"afb556746":14,"a6cff0a17":46,"a3b2e2832":33,"a64756c39":60,"a6d335136":6,"a71873780":50,"ad296c830":24,"a48691a72":24,"adaef64c9":2,"a5a937992":20,"a38ce4483":8,"a4bfdca0d":31,"aa2e681b9":20,"a1fcd5bf1":7,"af677be82":8,"a2fec6fb7":31,"ad11b8408":1,"a4e18d7c2":94,"af115132e":53,"ab5cf77e6":16,"af98a249c":126,"a9343382d":62,"a8c621594":32,"add4f6ed2":62,"ab2233cb7":60,"a62f0a851":24,"ac851e241":30,"a76cb4027":135,"a7c3e91d4":58,"a2f60b8ae":44,"ad48a5c07":42,"a420c4e3d":33,"a9dd381a5":62,"a6b18cbbc":203,"a418b15eb":4},"FR_median":27,"ES":{"a14998b28":28,"a02dcf75d":15,"af38d8d9d":21,"af2566a8c":18,"add8b2cbd":36,"a911e3519":23,"a3eaeb983":23,"aa9a1fdfa":24,"ae53baaad":18,"aed32b536":17,"af02d8921":16,"acd6f1a64":23,"a6e79bb8d":1,"af73ff17e":100,"a2b4a1310":1,"ad4fd8397":18,"ab17c16b2":17,"a37b78927":70,"aa873730a":27,"ae2c0c591":18,"a4eb4aac4":28,"afdbd11b4":30,"ae9c0fd1a":21,"a784434a6":7,"aa1e116bb":20,"a7c4e91bd":53,"ad2dd0620":17,"a3f583499":37,"a90fb7c95":23,"aca541e6b":6,"a9645ac4d":31,"a094f50a7":9,"ac7d7cea6":56,"c3f1a0d01":38,"c3f1a0d02":47,"c3f1a0d03":43,"a6e21082f":11,"a6f1cb50a":3,"aa7eb79a0":79,"c3f1a0d04":44,"a2f8d0c91":1,"afea4c3ec":20,"aee9ac720":199,"a3bfb36ee":66,"adc66a84b":24,"a0e53ef46":19,"a5dcba963":29,"a9989092f":4,"a8aee1f01":7,"a300cbb9d":16,"a47af3835":20,"b2a10c5e1":20,"b2a10c5e2":20,"b2a10c5e3":20,"b2a10c5f1":20,"b2a10c5f2":20,"b2a10c5f3":20,"a2f7b31c8":94,"ae95663ce":32,"a00d3cfa3":18,"a73daf1a3":10,"aacbb0cda":24,"ab32d52d3":34,"a19b6e8d1":101,"a759c1625":70,"a8fbabd27":12,"aecccaf0c":32,"aa3fd1d3c":22,"a92e709d3":75,"ab1175800":25,"a2b23ff13":20,"ae69795d5":25,"a0e34b737":23,"a50542791":101,"aa6f8304a":39,"a07fe19f6":24,"a350a9028":90,"a8f2a8df9":90,"a617ba69d":258,"aaed063f7":10},"ES_median":23};
 function catFp(lang){ return (CATS[lang] && CATS[lang].fingerprint) || null; }
 
 /* Lesson titles for the two vocabulary sites, from bba-lessons.js. */
@@ -441,6 +532,7 @@ function lessonLabel(lid, lang){
 }
 
 function rowsOf(c){
+  if (c && c.__rows) return c.__rows;                /* several devices, already combined */
   if (!c || !c.r || !window.BBAProgress) return [];
   try { return BBAProgress.unpack(c.r); } catch(e){ return []; }
 }
@@ -509,15 +601,16 @@ function lexAcc(c){
   return w ? Math.round(s/w) : (n ? Math.round(m/n) : null);
 }
 function ansCell(v, pv){
-  return v == null ? '<td class="num" style="color:var(--muted)" title="This code was sent before questions were counted">—</td>'
+  return v == null ? '<td class="num" style="color:var(--muted)" title="Appears with the student&#39;s next code">—</td>'
                    : '<td class="num"><b>'+v+'</b>'+delta(v, pv)+'</td>';
 }
 /* the amber row: few questions answered compared with the rest of the group */
 function fewAnswers(studs){
-  const v = studs.map(st=>ansAll(st.cur)).filter(x=>x!=null).sort((a,b)=>a-b);
+  const tot = st => st.w ? st.w.total : ansAll(st.cur);
+  const v = studs.map(tot).filter(x=>x!=null).sort((a,b)=>a-b);
   if (v.length < 3) return ()=>false;
   const med = v[Math.floor(v.length/2)];
-  return st => { const a = ansAll(st.cur); return a != null && a < med/2; };
+  return st => { const a = tot(st); return a != null && a < med/2; };
 }
 /* the student's current task: lists done (95 % written) out of lists set */
 function taskText(c){ const t = c && c.a; return t && Array.isArray(t.done) ? t.done.filter(Boolean).length + " / " + t.done.length : ""; }
@@ -891,8 +984,11 @@ function grouped(entries, kind, lang){
     /* the newest code may be the copy without an email: give it the row's */
     if (src[k] && src[k].email && !cur.__mail){ cur.__mail = src[k].email; if (src[k].who && !cur.__who) cur.__who = src[k].who; }
     return {codes:arr, cur:cur, prev:arr.length>1?arr[arr.length-2]:null,
+            w: studentWork(arr, kind, langOfId(kind+lang)),
             __entry: src[k], __keys: [...keys[k]]};
-  }).sort((a,b)=>((ansAll(b.cur)==null?-1:ansAll(b.cur)) - (ansAll(a.cur)==null?-1:ansAll(a.cur)))
+  }).sort((a,b)=> kind === "dos"
+       ? ((x => x.comp*1000 + x.started)(dosMetrics(b.w.mc, langOfId(kind+lang))) - (x => x.comp*1000 + x.started)(dosMetrics(a.w.mc, langOfId(kind+lang))))
+       : ((b.w.total==null?-1:b.w.total) - (a.w.total==null?-1:a.w.total))
             || dispName(a.cur).localeCompare(dispName(b.cur)));   /* most questions answered first */
 }
 /* does any student in this set carry an id? decides whether the ID column shows */
@@ -906,7 +1002,32 @@ const idText = c => {
 const anyId = studs => studs.some(s=>s.codes.some(c=>idText(c)));
 const idCell = c => idText(c) ? esc(idText(c)) : '<span style="color:var(--muted)">—</span>';
 /* the class rides in the code (k) — set on the student's device by the task link they opened */
-const clsOf = c => (c && c.k) ? String(c.k).trim() : "";
+/* A class the teacher wrote in the Classes box wins over the one in the code. */
+const nameKey = s => String(s == null ? "" : s).normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().replace(/[^a-z0-9]/g, "");
+let CLASS_OF = {};
+function parseClassAssign(text){
+  const map = {}, bad = [];
+  String(text || "").split(/\r?\n/).forEach(line => {
+    const l = line.trim(); if (!l || l[0] === "#") return;
+    const m = /^(.+?)\s*(?:=|\t|;|,)\s*(.+)$/.exec(l);
+    if (!m){ bad.push(l); return; }
+    const who = m[1].trim(), cls = m[2].trim();
+    const k = nameKey(/\s/.test(who) ? shortName(who) : who);
+    if (!k || !cls){ bad.push(l); return; }
+    map[k] = {cls: cls, label: who};
+  });
+  return {map: map, bad: bad};
+}
+function applyClassAssign(){
+  CLASS_OF = parseClassAssign(typeof roster.classAssign === "string" ? roster.classAssign : "").map;
+}
+const clsOf = c => {
+  if (c){
+    const a = CLASS_OF[nameKey(dispName(c))] || CLASS_OF[nameKey(shortName(c.n))];
+    if (a) return a.cls;
+  }
+  return (c && c.k) ? String(c.k).trim() : "";
+};
 const clsCell = c => clsOf(c) ? esc(clsOf(c)) : '<span style="color:var(--muted)">—</span>';
 let clsFilter = "";
 /* "" every group · "mine" the ones you ticked · anything else that one group */
@@ -1016,7 +1137,7 @@ function gridHtml(spec, studs){
     cols.forEach((c,k)=>{
       const v = at(c);
       if(!v){ html += '<td class="num" style="color:var(--line-strong)">·</td>'; return; }
-      html += '<td class="num">'+(v.ans!=null ? '<b>'+v.ans+'</b>' : '<span style="color:var(--muted)" title="Sent before questions were counted">—</span>')+small(v)+'</td>';
+      html += '<td class="num">'+(v.ans!=null ? '<b>'+v.ans+'</b>' : '<span style="color:var(--muted)" title="Appears with the student&#39;s next code">—</span>')+small(v)+'</td>';
       if (v.ans!=null){ sums[k].a += v.ans; sums[k].ka = 1; } if (v.acc!=null){ sums[k].n++; sums[k].s += v.acc; } sums[k].any = 1;
     });
     html += '</tr>';
@@ -1313,6 +1434,8 @@ let rmWired = false;
 function wireRemove(){
   if (rmWired) return; rmWired = true;
   $("#results").addEventListener("click", ev=>{
+    const w = ev.target.closest && ev.target.closest("button.who");
+    if (w){ openProfile(PROF_KEYS[+w.dataset.prof]); return; }
     const b = ev.target.closest && ev.target.closest("button.rm");
     if(!b) return;
     const r = RM_KEYS[+b.dataset.rm];
@@ -1321,8 +1444,11 @@ function wireRemove(){
 }
 
 function render(entries){
+  (entries || []).forEach(e => { if (e && e.p){ if (e.who && !e.p.__who) e.p.__who = e.who; if (e.email && !e.p.__mail) e.p.__mail = e.email; } });
   wireRemove();
   RM_KEYS = [];
+  PROF_KEYS = [];
+  KNOWN_CLS = null;
   const all = $("#allOut");
   if (all) all.style.display = (entries && entries.length) ? "" : "none";
   renderClassChips(entries);
@@ -1357,15 +1483,26 @@ function render(entries){
     block.innerHTML = '<div class="section-label"><span class="tag pill '+g.lang.toLowerCase()+'">'+g.tag+'</span>'
                     + esc(g.title) + ' · ' + studs.length + ' student' + (studs.length>1?"s":"") + '</div>';
     lastStuds[id] = studs;
-    block.appendChild(g.kind==="lex" ? lexTable(studs,id) : dosTable(studs,id));
+    studs.forEach(st => { st.tp = taskProgress(st, g.kind, g.lang); });
+    const strip = document.createElement("div"); strip.innerHTML = taskStrip(studs);
+    block.appendChild(strip);
+    block.appendChild(overviewTable(studs, id));
+    /* the wide tables and the grid: still built, because the downloads read
+       them, but folded away so the page reads at a glance */
+    const wide = g.kind==="lex" ? lexTable(studs,id) : dosTable(studs,id);
+    const fold = document.createElement("details");
+    fold.className = "detail";
+    fold.innerHTML = '<summary>Every figure in the newest code, one column each</summary><div class="inner"></div>';
+    fold.querySelector(".inner").appendChild(wide);
+    block.appendChild(fold);
     const grid = marksGrid(studs, id);
     if (grid){
-      const h = document.createElement("div");
-      h.className = "section-label";
-      h.style.marginTop = "18px";
-      h.textContent = gridTables[id].spec.caption;
-      block.appendChild(h);
-      block.appendChild(grid);
+      const gf = document.createElement("details");
+      gf.className = "detail";
+      gf.innerHTML = '<summary></summary><div class="inner"></div>';
+      gf.querySelector("summary").textContent = gridTables[id].spec.caption + " — one column per " + (g.kind==="lex" ? "list" : "activity");
+      gf.querySelector(".inner").appendChild(grid);
+      block.appendChild(gf);
     }
     block.appendChild(detailBlock(studs, g));
     const row = document.createElement("div");
@@ -1383,6 +1520,11 @@ function render(entries){
   }
   $("#legendCard").style.display = any ? "" : "none";
 
+  wireSort(R);
+  const pa = $("#btnAllDocx");
+  if (pa){ const n = any ? allProfileKeys().length : 0;
+           pa.textContent = "Word profiles for all " + n + " student" + (n===1?"":"s") + " shown";
+           pa.style.display = n ? "" : "none"; }
   R.querySelectorAll("[data-csv]").forEach(b=>{
     b.addEventListener("click", ()=>downloadCsv(b.getAttribute("data-csv")));
   });
@@ -1390,6 +1532,866 @@ function render(entries){
     b.addEventListener("click", ()=>downloadXlsx(b.getAttribute("data-xlsx")));
   });
   paintState();
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   CLASS OVERVIEW — one short table per site that fits on the screen.
+   The key figure is questions answered: all time, since the task was set,
+   and this calendar month (worked out from the codes received). Every
+   score says what it measures. The wide tables and the full grid are
+   still built — the downloads read them — but sit folded underneath.
+   ═══════════════════════════════════════════════════════════════════ */
+const DAYMS = 86400000;
+const nf = v => (typeof v === "number") ? v.toLocaleString("en-GB") : "—";
+const dLong = t => new Date(t).toLocaleDateString("en-GB",{day:"numeric",month:"long",year:"numeric"});
+const dShort = t => new Date(t).toLocaleDateString("en-GB",{day:"numeric",month:"short"});
+function monthKey(t){ const d = new Date(t); return d.getFullYear()*12 + d.getMonth(); }
+function monthName(k){ return new Date(Math.floor(k/12), k%12, 1).toLocaleDateString("en-GB",{month:"long",year:"numeric"}); }
+const THIS_MONTH = monthKey(Date.now());
+const THIS_MONTH_NAME = new Date().toLocaleDateString("en-GB",{month:"long"});
+
+/* ═══════════════════════════════════════════════════════════════════
+   ONE STUDENT, SEVERAL DEVICES
+   Progress is kept in the browser a student works in. A student who
+   practises on a school computer, a phone and a laptop sends codes from
+   three separate stores, and a school computer that clears itself starts
+   from nothing every time. Reading only the newest code then shows a
+   fraction of the work: the code from this morning's school PC, not the
+   evening's laptop. So the codes are first sorted into devices:
+   a code continues an earlier one only if it holds everything the earlier
+   one held (every list at least as far on, the counts no lower). Anything
+   else is another device, or a browser that was cleared. The work is the
+   sum over the devices, each counted up to its newest code — never the
+   same work twice, and never less than the newest code alone.
+
+   Codes made before 12 October 2026 carry no count of questions answered;
+   see workOf for how that earlier work is estimated (shown as "about").
+   ═══════════════════════════════════════════════════════════════════ */
+function exactAns(c){ return typeof ((c && c.o) || {}).ans === "number"; }
+/* The work in one code: the exact count when the code carries it. Codes made
+   before 12 October 2026 do not, so the work is estimated from what they do
+   carry — never left out, because the point is engagement from the start.
+   Vocabulary: practice sessions × SESSION_Q (the codes that carry both put a
+   session at 21–72 questions, most around 25; 20 keeps the estimate on the
+   low side), and never fewer than the words practised.
+   Exam practice: the questions in each activity with a score (Q_COUNT, read
+   from the activities themselves), counted once — an attempt can be a single
+   section checked, so multiplying by attempts would overstate the work. */
+const SESSION_Q = 20;
+function qOf(lang, index){
+  const it = catOf(lang)[index], m = Q_COUNT[lang] || {};
+  const v = it && m[it.id];
+  return typeof v === "number" && v > 0 ? v : (Q_COUNT[lang + "_median"] || 20);
+}
+function workOf(c, kind, lang){
+  const o = (c && c.o) || {};
+  if (typeof o.ans === "number") return {n: o.ans, exact: true};
+  if (kind === "lex") return {n: Math.max(o.seen || 0, (o.sess || 0) * SESSION_Q), exact: false};
+  let n = 0;
+  rowsOf(c).forEach(r => { if (r.pct != null) n += qOf(lang, r.index); });
+  return {n: n, exact: false};
+}
+function lexLists(c){ const m = {}; (Array.isArray(c.l) ? c.l : []).forEach(r => { m[r[0]] = r; }); return m; }
+function scoredRows(c){ const m = {}; rowsOf(c).forEach(r => { if (r.pct != null) m[r.index] = r; }); return m; }
+function continuesFrom(a, b, kind){
+  const oa = a.o || {}, ob = b.o || {};
+  if (exactAns(a) && exactAns(b) && ob.ans < oa.ans) return false;
+  if (kind === "lex"){
+    if ((ob.seen || 0) < (oa.seen || 0)) return false;
+    const A = lexLists(a), B = lexLists(b);
+    let missing = 0, shared = 0;
+    for (const k in A){
+      if (!B[k]){ missing += A[k][1] || 0; continue; }
+      if ((B[k][1] || 0) < (A[k][1] || 0)) return false;
+      shared++;
+    }
+    /* a list can drop out when the site renames it (the set-text lists did
+       in October), so a small gap is tolerated; a code that shares no list,
+       or lacks a large part of the earlier one, is another device */
+    return (!Object.keys(A).length || shared > 0) && missing <= 0.2 * (oa.seen || 0);
+  }
+  if ((ob.opened || 0) < (oa.opened || 0) || (ob.scored || 0) < (oa.scored || 0)) return false;
+  const A = scoredRows(a), B = scoredRows(b);
+  for (const k in A) if (!B[k] || (B[k].attempts || 0) < (A[k].attempts || 0)) return false;
+  const qa = {}, qb = {};
+  (Array.isArray(a.q) ? a.q : []).forEach(e => { qa[e[0]] = e[1]; });
+  (Array.isArray(b.q) ? b.q : []).forEach(e => { qb[e[0]] = e[1]; });
+  for (const k in qa) if ((qb[k] || 0) < qa[k]) return false;
+  const wa = {}, wb = {};
+  (Array.isArray(a.w) ? a.w : []).forEach(e => { wa[e[0]] = e[1]; });
+  (Array.isArray(b.w) ? b.w : []).forEach(e => { wb[e[0]] = e[1]; });
+  if (Array.isArray(b.w)) for (const k in wa) if ((wb[k] || 0) < wa[k]) return false;
+  return true;
+}
+/* Replays the codes in the order they were made. Each code either continues
+   one device, or — when it holds the work of several earlier ones, which
+   happens when two stores were really one — takes them all over, or opens a
+   new device. After every code the running total is the sum over the
+   devices of their newest code. A month's figure is the rise in that total
+   during the month. */
+function replayDevices(codes, kind, lang){
+  let chains = [];
+  const months = {};
+  let W = 0, Wexact = true;
+  const total = () => {
+    let n = 0, ex = true;
+    chains.forEach(ch => { const w = workOf(ch[ch.length - 1], kind, lang); if (w.n != null) n += w.n; if (!w.exact) ex = false; });
+    return {n: n, exact: ex};
+  };
+  codes.slice().sort((x, y) => x.t - y.t).forEach(c => {
+    const hits = chains.filter(ch => continuesFrom(ch[ch.length - 1], c, kind));
+    let isNew = false;
+    if (!hits.length){ chains.push([c]); isNew = true; }
+    else {
+      const merged = [].concat.apply([], hits).concat([c]).sort((x, y) => x.t - y.t);
+      chains = chains.filter(ch => hits.indexOf(ch) < 0);
+      chains.push(merged);
+    }
+    const k = monthKey(c.t), r = months[k] = months[k] || {k: k, start: W, startExact: Wexact, newDev: 0};
+    if (isNew) r.newDev++;
+    const T = total();
+    r.end = T.n; r.endExact = T.exact; W = T.n; Wexact = T.exact;
+  });
+  const keys = Object.keys(months).map(Number).sort((a, b) => a - b);
+  const rows = keys.map((k, i) => {
+    const r = months[k], first = i === 0;
+    const approx = !r.endExact || !r.startExact;
+    const notes = [];
+    if (first) notes.push("includes all work since the student started");
+    return {k: k, label: monthName(k), n: Math.max(0, r.end - r.start), approx: approx, note: notes.join("; ")};
+  });
+  const last = rows[rows.length - 1], cur = last && last.k === THIS_MONTH;
+  return {chains: chains, months: {rows: rows, thisMonth: cur ? last.n : null, thisApprox: !!(cur && last.approx),
+                                   thisMonthNote: cur ? last.note : "no code received this month yet"}};
+}
+/* one code standing for all the devices: the heads of the chains combined */
+function mergeHeads(heads, kind, lang){
+  const newest = heads.slice().sort((a, b) => b.t - a.t)[0];
+  if (heads.length === 1) return Object.assign({}, newest);
+  const m = JSON.parse(JSON.stringify(newest));
+  const o = m.o = Object.assign({}, newest.o);
+  const sumOf = f => heads.reduce((s, h) => { const v = f(h.o || {}); return typeof v === "number" ? s + v : s; }, 0);
+  const anyNum = f => heads.some(h => typeof f(h.o || {}) === "number");
+  ["sess", "lee", "ansW", "ansR", "claimed"].forEach(k => { if (anyNum(x => x[k])) o[k] = sumOf(x => x[k]); });
+  const tsMax = Math.max.apply(null, heads.map(h => (h.o || {}).ts == null ? -1 : h.o.ts));
+  if (tsMax >= 0){
+    o.ts = tsMax;
+    o.ansT = heads.reduce((s, h) => (h.o && h.o.ts === tsMax && typeof h.o.ansT === "number") ? s + h.o.ansT : s, 0);
+  }
+  if (kind === "lex"){
+    const L = {};
+    heads.forEach(h => (Array.isArray(h.l) ? h.l : []).forEach(r => {
+      const x = L[r[0]] = L[r[0]] || [r[0], 0, r[2], null, null, null, null, null, 0, 0];
+      x[1] = Math.max(x[1], r[1] || 0); x[2] = r[2];
+      if (typeof r[4] === "number") x[4] = (x[4] || 0) + r[4];
+      if (typeof r[5] === "number") x[5] = Math.max(x[5] || 0, r[5]);
+      if (typeof r[6] === "number") x[6] = (x[6] || 0) + r[6];
+      const w = typeof r[4] === "number" ? r[4] : (r[1] || 0);
+      if (r[3] != null){ x[8] += r[3] * w; x[9] += w; }
+    }));
+    m.l = Object.values(L).map(x => { x[3] = x[9] ? Math.round(x[8] / x[9]) : null; return x.slice(0, 8); });
+    const U = {};
+    heads.forEach(h => Object.keys(h.u || {}).forEach(k => {
+      const d = h.u[k], x = U[k] = U[k] || [0, d[1], 0, 0, null, 0];
+      const w = typeof d[4] === "number" ? d[4] : (d[0] || 0);
+      x[0] = Math.max(x[0], d[0] || 0); x[2] = Math.max(x[2], d[2] || 0);
+      if (d[3] != null){ x[3] += d[3] * w; x[5] += w; }
+      if (typeof d[4] === "number") x[4] = (x[4] || 0) + d[4];
+    }));
+    m.u = {}; Object.keys(U).forEach(k => { const x = U[k]; m.u[k] = [x[0], x[1], x[2], x[5] ? Math.round(x[3] / x[5]) : 0, x[4]]; });
+    o.seen = m.l.reduce((s, r) => s + (r[1] || 0), 0) || Math.max.apply(null, heads.map(h => (h.o || {}).seen || 0));
+    o.mast = Math.max.apply(null, heads.map(h => (h.o || {}).mast || 0));
+    m.x = [].concat.apply([], heads.map(h => Array.isArray(h.x) ? h.x : []));
+    const seenC = {}; m.c = [];
+    heads.forEach(h => (Array.isArray(h.c) ? h.c : []).forEach(r => { const k = JSON.stringify(r); if (!seenC[k]){ seenC[k] = 1; m.c.push(r); } }));
+  } else {
+    const R = {}, Q = {};
+    heads.forEach(h => {
+      rowsOf(h).forEach(r => {
+        const x = R[r.index];
+        if (!x) R[r.index] = Object.assign({}, r);
+        else {
+          if (r.pct != null && (x.pct == null || r.pct > x.pct)) x.pct = r.pct;
+          x.ticked = x.ticked || r.ticked; x.attempts = (x.attempts || 0) + (r.attempts || 0); x.conf = x.conf || r.conf;
+        }
+      });
+      (Array.isArray(h.q) ? h.q : []).forEach(e => {
+        const x = Q[e[0]] = Q[e[0]] || [e[0], 0, -1];
+        x[1] += e[1] || 0; if (e[2] >= 0) x[2] = (x[2] < 0 ? 0 : x[2]) + e[2];
+      });
+    });
+    m.__rows = Object.values(R).sort((a, b) => a.index - b.index);
+    m.q = Object.values(Q).sort((a, b) => a[0] - b[0]);
+    /* how far into each activity: the furthest any store got */
+    if (heads.some(h => Array.isArray(h.w))){
+      const Wm = {};
+      heads.forEach(h => (Array.isArray(h.w) ? h.w : dosWorkList(h, lang)).forEach(e => {
+        const x = Wm[e[0]]; if (!x || (e[1] || 0) > x[1]) Wm[e[0]] = [e[0], e[1] || 0, e[2]];
+      }));
+      m.w = Object.values(Wm).sort((a, b) => a[0] - b[0]);
+    }
+    const sc = m.__rows.filter(r => r.pct != null);
+    o.scored = sc.length; o.avg = sc.length ? Math.round(sc.reduce((s, r) => s + r.pct, 0) / sc.length) : null;
+    o.mast = sc.filter(r => r.pct >= MASTER_PCT).length;
+    o.opened = Math.max(o.opened || 0, m.__rows.length);
+    o.done = m.__rows.filter(r => r.ticked).length;
+    m.h = [...new Set([].concat.apply([], heads.map(h => Array.isArray(h.h) ? h.h : [])))];
+    const s = {};
+    heads.forEach(h => Object.keys(h.s || {}).forEach(k => { const d = h.s[k]; s[k] = !s[k] || (d[0] || 0) > (s[k][0] || 0) ? d : s[k]; }));
+    m.s = s;
+  }
+  return m;
+}
+/* everything the overview and the profile need, for one student on one site */
+function studentWork(codes, kind, lang){
+  const R = replayDevices(codes, kind, lang), chains = R.chains;
+  const heads = chains.map(ch => ch[ch.length - 1]);
+  const works = heads.map(h => workOf(h, kind, lang));
+  const known = works.filter(w => w.n != null);
+  const W = {chains: chains, devices: chains.length,
+             total: known.length ? known.reduce((s, w) => s + w.n, 0) : null,
+             approx: works.some(w => !w.exact),
+             unknownDevices: works.filter(w => w.n == null).length,
+             months: R.months};
+  W.mc = mergeHeads(heads, kind, lang);
+  W.mc.o = Object.assign({}, W.mc.o, {ans: W.total});
+  W.since = typeof W.mc.o.ansT === "number" && W.mc.o.ts != null ? W.mc.o.ansT : null;
+  return W;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   THE TASK, AS THE TEACHER SET IT
+   A task is recorded here when the link is made (and can be removed). It is
+   shared with the roster. For each student, the task in force is the newest
+   one for their language and class whose start date has passed. Progress on
+   it is read from the student's codes, not from whatever task their browser
+   happens to hold: questions answered since the start = the total now minus
+   the total in the last codes received before the start date; a vocabulary
+   list counts as done once it has had at least as many answers since the
+   start as it has words; an activity once every question has an answer.
+   ═══════════════════════════════════════════════════════════════════ */
+function taskList(){ return Array.isArray(roster.tasks) ? roster.tasks : []; }
+function taskStart(tk){ const d = new Date((tk.since || "") + "T00:00:00"); return isNaN(d) ? 0 : d.getTime(); }
+function mergeTasks(mine, theirs){
+  const m = {};
+  [].concat(mine || [], theirs || []).forEach(x => { if (x && x.id) m[x.id] = Object.assign({}, m[x.id] || {}, x); });
+  return Object.values(m).sort((a, b) => taskStart(a) - taskStart(b) || a.id - b.id);
+}
+let KNOWN_CLS = null;
+function taskFor(c, lang){
+  if (!KNOWN_CLS) KNOWN_CLS = new Set(roster.entries.map(e => e && e.p ? clsOf(e.p) : "").filter(Boolean));
+  const cls = clsOf(c), now = Date.now();
+  const ok = taskList().filter(tk => !tk.gone && tk.lang === lang && taskStart(tk) <= now &&
+    (!tk.cls || tk.cls === cls || (!KNOWN_CLS.has(tk.cls) && cls && yearNum(tk.cls) && yearNum(tk.cls) === yearNum(cls))));
+  return ok.sort((a, b) => taskStart(b) - taskStart(a) || b.id - a.id)[0] || null;
+}
+function listVal(r){ return !r ? 0 : (typeof r[4] === "number" ? r[4] : (r[1] || 0)); }
+function taskProgress(st, kind, lang){
+  const tk = taskFor(st.w.mc, groupLangOf(kind + lang));
+  if (!tk) return null;
+  const t0 = taskStart(tk), cl = langOfId(kind + lang);
+  const before = st.codes.filter(c => c.t < t0), after = st.codes.filter(c => c.t >= t0);
+  const P = {task: tk, start: t0, noCode: !after.length, base: !!before.length, items: [], done: 0, of: 0, since: null};
+  /* device by device: what each one did after the start = its newest code
+     minus its last code before the start (nothing, if it began afterwards) */
+  const chains = st.w.chains || [];
+  const pairs = chains.map(ch => { const pre = ch.filter(c => c.t < t0); return {head: ch[ch.length - 1], base: pre.length ? pre[pre.length - 1] : null}; })
+                      .filter(x => x.head.t >= t0);
+  if (!P.noCode){
+    let s = 0, known = false;
+    pairs.forEach(x => { const a = workOf(x.head, kind, cl).n, b = x.base ? workOf(x.base, kind, cl).n : 0;
+      if (a != null){ s += Math.max(0, a - (b || 0)); known = true; } });
+    P.since = known ? s : null;
+  }
+  if (kind === "lex"){
+    (tk.lessons || []).forEach(lid => {
+      let n = 0, words = 0;
+      pairs.forEach(x => {
+        const r = (Array.isArray(x.head.l) ? x.head.l : []).find(q => q[0] === lid);
+        if (!r) return;
+        const rb = x.base && Array.isArray(x.base.l) ? x.base.l.find(q => q[0] === lid) : null;
+        words = Math.max(words, r[2] || 0);
+        n += Math.max(0, listVal(r) - listVal(rb));
+      });
+      const tl = LESSONS[lang] && LESSONS[lang][lid];
+      const done = words > 0 && n >= words;
+      P.items.push({name: lid + (tl ? " · " + tl : ""), prog: n + " answer" + (n === 1 ? "" : "s") + (words ? " · " + words + " words" : ""), done: done});
+      P.of++; if (done) P.done++;
+    });
+  } else {
+    const W = {}; dosWorkList(st.w.mc, cl).forEach(e => { W[e[0]] = e; });
+    const C = catOf(cl), idx = {};
+    C.forEach((it, i) => { let f = it.f; try{ f = decodeURIComponent(f); }catch(e){} idx[f] = i; });
+    (tk.items || []).forEach(f => {
+      const i = idx[f], e = i != null ? W[i] : null, done = !!e && e[1] >= e[2];
+      P.items.push({name: i != null ? actName(i, cl) : f, prog: e ? e[1] + " of " + e[2] + " questions" : "not started", done: done});
+      P.of++; if (done) P.done++;
+    });
+  }
+  return P;
+}
+function taskCell(P){
+  if (!P) return {html: MUTED("no task recorded"), v: -2};
+  const when = dShort(P.start);
+  if (P.noCode) return {html: '<span class="mut">no code since ' + when + '</span>', v: -1};
+  const head = P.of ? '<b>' + P.done + ' of ' + P.of + '</b> done' : '';
+  const q = P.since == null ? '' : nf(P.since) + ' question' + (P.since === 1 ? '' : 's') + ' since ' + when;
+  return {html: (head || nf(P.since)) + (q ? '<small>' + q + '</small>' : ''), v: P.done * 100000 + (P.since || 0)};
+}
+function taskStrip(studs){
+  const seen = {};
+  studs.forEach(st => { if (st.tp) seen[st.tp.task.id] = st.tp.task; });
+  const T = Object.values(seen);
+  if (!T.length) return '<p class="hint" style="margin:4px 0 8px">No task recorded for these students. Make one under <b>Set a task</b> — making the link records it.</p>';
+  return T.map(tk => '<p class="task-in" style="margin:4px 0 8px;font-size:.88rem"><b>Task:</b> ' + esc(tk.label)
+    + ' · set ' + dShort(taskStart(tk)) + (tk.due ? ' · due ' + dShort(new Date(tk.due + "T00:00:00").getTime()) : '')
+    + ' · ' + (tk.cls ? esc(tk.cls) : 'all classes') + ' · '
+    + [(tk.lessons || []).length ? (tk.lessons.length + ' list' + (tk.lessons.length > 1 ? 's' : '')) : '',
+       (tk.items || []).length ? (tk.items.length + ' activit' + (tk.items.length > 1 ? 'ies' : 'y')) : ''].filter(Boolean).join(' + ')
+    + '</p>').join('');
+}
+/* the recorded tasks, listed under Set a task */
+function renderTaskRecords(){
+  const box = $("#taskRecords"); if (!box) return;
+  const T = taskList().filter(x => !x.gone).slice().sort((a, b) => taskStart(b) - taskStart(a));
+  if (!T.length){ box.innerHTML = '<p class="hint" style="margin:0">None yet. Making a link above records the task.</p>'; return; }
+  const LN = {FR: "French", ES: "Spanish", KSFR: "KS3–4 French", KSES: "KS3–4 Spanish"};
+  box.innerHTML = '<div class="ov-wrap"><table class="pf"><thead><tr><th>Set</th><th>Due</th><th>Language</th><th>For</th><th>Task</th><th>Items</th><th></th></tr></thead><tbody>'
+    + T.map(tk => '<tr><td>' + dShort(taskStart(tk)) + '</td><td>' + (tk.due ? dShort(new Date(tk.due + "T00:00:00").getTime()) : '—') + '</td><td>'
+      + esc(LN[tk.lang] || tk.lang) + '</td><td>' + (tk.cls ? esc(tk.cls) : 'all classes') + '</td><td>' + esc(tk.label) + '</td><td>'
+      + ((tk.lessons || []).length + (tk.items || []).length) + '</td><td><button class="rm" style="opacity:1" data-tk="' + tk.id + '" title="Remove this task">×</button></td></tr>').join('')
+    + '</tbody></table></div>';
+  box.querySelectorAll("button[data-tk]").forEach(b => b.addEventListener("click", () => {
+    if (!confirm("Remove this task from the dashboard? Links already posted keep working for students.")) return;
+    roster.tasks = taskList().map(x => String(x.id) === b.dataset.tk ? Object.assign({}, x, {gone: 1}) : x);
+    save(); pushShared(); renderTaskRecords(); render(roster.entries);
+  }));
+}
+
+/* ---------- the compact tables ---------- */
+let PROF_KEYS = [];
+function profBtn(st){
+  const n = PROF_KEYS.push(idKey(st.cur, st.__entry)) - 1;
+  return '<button class="who" data-prof="'+n+'" title="Open this student\'s profile">'+esc(dispName(st.cur, st.__entry))+'</button>';
+}
+function th(label, sub, key, num){
+  return '<th data-sort="'+key+'"'+(num?' class="n"':'')+'>'+label+(sub?'<small>'+sub+'</small>':'')+'</th>';
+}
+function td(html, sortVal, cls){
+  return '<td'+(cls?' class="'+cls+'"':'')+' data-v="'+esc(sortVal==null?"":sortVal)+'">'+html+'</td>';
+}
+const MUTED = t => '<span class="mut">'+t+'</span>';
+
+function totalCell(w){
+  if (w.total == null) return {html: MUTED("—"), v: -1};
+  const est = w.approx && w.total ? '<span class="est" title="Progress codes sent before 12 October 2026 did not record the number of answers, so on the vocabulary sites that earlier work is estimated at about 20 questions for each practice session. Later work is counted exactly.">about </span>' : '';
+  return {html: est + '<b>' + nf(w.total) + '</b>', v: w.total};
+}
+/* ═══════════════════════════════════════════════════════════════════
+   EXAM-PRACTICE SITES — activities completed
+   An exam-practice activity is a whole task (a reading, a translation, an
+   essay plan), so the measure is activities: completed (every question
+   answered), started, and how much of what was started has been answered.
+   Codes from the hub carry, per activity, questions answered out of the
+   questions on the page (w). Older codes carry only the best score; the
+   number answered is then at least the number right, out of the questions
+   counted on the page (Q_COUNT).
+   ═══════════════════════════════════════════════════════════════════ */
+function dosWorkList(c, lang){
+  if (Array.isArray(c.w)) return c.w.filter(e => e && e[2] > 0).map(e => [e[0], Math.min(e[1] || 0, e[2]), e[2]]);
+  const m = {};
+  rowsOf(c).forEach(r => { if (r.pct != null){ const n = qOf(lang, r.index); m[r.index] = [r.index, Math.min(n, Math.round(r.pct / 100 * n)), n]; } });
+  /* answers counted on the page (q) also show the activity was started */
+  (Array.isArray(c.q) ? c.q : []).forEach(e => { const n = qOf(lang, e[0]), x = m[e[0]] || [e[0], 0, n];
+    x[1] = Math.max(x[1], Math.min(n, e[1] || 0)); m[e[0]] = x; });
+  return Object.values(m).sort((x, y) => x[0] - y[0]);
+}
+function dosMetrics(c, lang){
+  const W = dosWorkList(c, lang).filter(e => e[1] > 0);
+  const comp = W.filter(e => e[1] >= e[2]).length;
+  const d = W.reduce((s, e) => s + e[1], 0), n = W.reduce((s, e) => s + e[2], 0);
+  const sc = rowsOf(c).filter(r => r.pct != null);
+  return {comp: comp, started: W.length, share: n ? Math.round(100 * d / n) : null, d: d, n: n,
+          avg: sc.length ? Math.round(sc.reduce((s, r) => s + r.pct, 0) / sc.length) : null,
+          exact: Array.isArray(c.w), list: W};
+}
+function dosOverviewTable(studs, id){
+  const glang = groupLangOf(id), lang = langOfId(id);
+  const M = studs.map(st => dosMetrics(st.w.mc, lang));
+  const v = M.map(m => m.started).sort((a, b) => a - b), med = v.length >= 3 ? v[Math.floor(v.length / 2)] : 0;
+  let h = '<div class="ov-wrap"><table class="ov" data-ov="'+id+'"><thead><tr>'
+    + th("Student", "click for profile", "s")
+    + th("Class", "", "s")
+    + th("Activities completed", "every question answered", "n", 1)
+    + th("Activities started", "at least one answer", "n", 1)
+    + th("Questions answered", "% of the questions in the activities started", "n", 1)
+    + th("Average best score", "mean best % correct per activity", "n", 1)
+    + th("The task", "activities completed", "n", 1)
+    + th("Last code", "received", "n", 1)
+    + '</tr></thead><tbody>';
+  studs.forEach((st, i) => {
+    const c = st.w.mc, o = c.o || {}, m = M[i], P = st.tp, TC = taskCell(P);
+    const idle = !!P && (P.noCode || (P.of ? P.done === 0 && !P.since : P.since === 0)), few = med && m.started < med / 2;
+    const flag = idle || few;
+    const why = idle ? (P.noCode ? "No code received since the task was set" : "Nothing done on the task yet") : "Few activities started compared with the rest of the group";
+    const total = catOf(lang).length || o.total || 0;
+    h += '<tr'+(flag?' class="flag" title="'+why+'"':'')+'>'
+      + td(profBtn(st) + removeBtn(st, "dos", glang), dispName(st.cur, st.__entry), "nm")
+      + td(clsOf(c) ? esc(clsOf(c)) : MUTED("—"), clsOf(c))
+      + td('<b>' + nf(m.comp) + '</b>' + (total ? '<small>of ' + nf(total) + '</small>' : ''), m.comp * 1000 + m.started, "n")
+      + td(nf(m.started), m.started, "n")
+      + td(m.share == null ? MUTED("—") : m.share + ' %' + '<small>' + nf(m.d) + ' of ' + nf(m.n) + '</small>', m.share == null ? -1 : m.share, "n")
+      + td(m.avg == null ? MUTED("—") : m.avg + ' %', m.avg == null ? -1 : m.avg, "n")
+      + td(TC.html, TC.v, "n")
+      + td(dShort(st.cur.t) + '<small>' + st.codes.length + ' code' + (st.codes.length > 1 ? 's' : '') + '</small>', st.cur.t, "n")
+      + '</tr>';
+  });
+  h += '</tbody></table></div>';
+  const d = document.createElement("div"); d.innerHTML = h; return d.firstChild;
+}
+function overviewTable(studs, id){
+  const kind = id.slice(0,3), glang = groupLangOf(id), isLex = kind === "lex";
+  if (!isLex) return dosOverviewTable(studs, id);
+  const few = fewAnswers(studs);
+  let h = '<div class="ov-wrap"><table class="ov" data-ov="'+id+'"><thead><tr>'
+    + th("Student", "click for profile", "s")
+    + th("Class", "", "s")
+    + th("Questions answered", "total since starting", "n", 1)
+    + th("The task", "lists done", "n", 1)
+    + th(esc(THIS_MONTH_NAME) + " so far", "questions answered", "n", 1)
+    + (isLex ? th("Accuracy", "% of answers correct", "n", 1) + th("Words mastered", "out of all words", "n", 1)
+             : th("Average best score", "mean best % correct per activity", "n", 1) + th("Activities", "attempted with a score", "n", 1))
+    + th("Last code", "received", "n", 1)
+    + '</tr></thead><tbody>';
+  studs.forEach(st => {
+    const w = st.w, c = w.mc, o = c.o || {};
+    const m = w.months, P = st.tp, TC = taskCell(P);
+    const idle = !!P && (P.noCode || P.since === 0);
+    const flag = few(st) || idle;
+    const why = idle ? (P.noCode ? "No code received since the task was set" : "No questions answered since the task was set") : "Few questions answered compared with the rest of the group";
+    const T = totalCell(w);
+    h += '<tr'+(flag?' class="flag" title="'+why+'"':'')+'>'
+      + td(profBtn(st) + removeBtn(st, kind, glang), dispName(st.cur, st.__entry), "nm")
+      + td(clsOf(c) ? esc(clsOf(c)) : MUTED("—"), clsOf(c))
+      + td(T.html, T.v, "n")
+      + td(TC.html, TC.v, "n")
+      + td(m.thisMonth == null ? MUTED("—") : (m.thisApprox && m.thisMonth ? '<span class="est">about </span>' : '') + nf(m.thisMonth), m.thisMonth == null ? -1 : m.thisMonth, "n");
+    if (isLex){
+      const acc = lexAcc(c);
+      h += td(acc == null ? MUTED("—") : acc + ' %', acc == null ? -1 : acc, "n")
+         + td(nf(o.mast||0) + (o.total ? '<small>of '+nf(o.total)+'</small>' : ''), o.mast||0, "n");
+    } else {
+      const att = o.scored != null ? o.scored : attempted(c).length;
+      h += td(o.avg == null ? MUTED("—") : o.avg + ' %', o.avg == null ? -1 : o.avg, "n")
+         + td(nf(att) + (o.total ? '<small>of '+nf(o.total)+'</small>' : ''), att, "n");
+    }
+    h += td(dShort(st.cur.t) + '<small>'+st.codes.length+' code'+(st.codes.length>1?'s':'')+'</small>', st.cur.t, "n") + '</tr>';
+  });
+  h += '</tbody></table></div>';
+  const d = document.createElement("div"); d.innerHTML = h; return d.firstChild;
+}
+/* click a heading to sort; click again to reverse */
+function wireSort(root){
+  root.querySelectorAll("table.ov th[data-sort]").forEach((thEl, col) => {
+    thEl.addEventListener("click", () => {
+      const tb = thEl.closest("table").tBodies[0];
+      const dir = thEl.dataset.dir === "d" ? "a" : "d";
+      thEl.closest("tr").querySelectorAll("th").forEach(x => { delete x.dataset.dir; });
+      thEl.dataset.dir = dir;
+      const num = thEl.dataset.sort === "n";
+      const rows = [...tb.rows].sort((r1, r2) => {
+        const a = r1.cells[col].dataset.v, b = r2.cells[col].dataset.v;
+        const c = num ? (+a) - (+b) : String(a).localeCompare(String(b));
+        return dir === "d" ? -c : c;
+      });
+      rows.forEach(r => tb.appendChild(r));
+    });
+  });
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   THE STUDENT PROFILE — everything the codes say about one student, on
+   every site they sent from, in words a parent can read. The same model
+   draws the panel on screen and the Word document.
+   ═══════════════════════════════════════════════════════════════════ */
+const SITE_NAME = {
+  lexFR:"French vocabulary — Le Lexique", dosFR:"French exam practice — A-Level-French-BBA",
+  lexES:"Spanish vocabulary — El Léxico",  dosES:"Spanish exam practice — A-Level-Spanish-BBA",
+  lexKSFR:"KS3 & KS4 French vocabulary",   lexKSES:"KS3 & KS4 Spanish vocabulary"
+};
+function catById(lang){
+  const m = {}; catOf(lang).forEach((it, i) => { m[it.id] = i; }); return m;
+}
+function profileModel(key){
+  const parts = [];
+  GROUPS.forEach(g => {
+    (lastStuds[g.kind+g.lang] || []).forEach(st => { if (idKey(st.cur, st.__entry) === key) parts.push({g:g, st:st}); });
+  });
+  if (!parts.length) return null;
+  const first = parts[0].st;
+  const M = {name: dispName(first.cur, first.__entry), cls: "", made: Date.now(), last: 0, sites: []};
+  parts.forEach(({g, st}) => {
+    const w = st.w, c = w.mc, o = c.o || {}, lang = langOfId(g.kind+g.lang);
+    if (!M.cls && clsOf(c)) M.cls = clsOf(c);
+    M.last = Math.max(M.last, st.cur.t);
+    const S = {id: g.kind+g.lang, name: SITE_NAME[g.kind+g.lang] || g.title, kind: g.kind,
+               last: st.cur.t, firstCode: st.codes[0].t, codes: st.codes.length, devices: w.devices,
+               ans: w.total, approx: w.approx, tp: st.tp, since: st.tp ? st.tp.since : null, sinceDate: st.tp ? st.tp.start : null,
+               task: (c.a && Array.isArray(c.a.done)) ? {lab: c.a.lab || "", done: c.a.done.filter(Boolean).length, of: c.a.done.length} : null,
+               months: w.months, units: [], items: [], hard: [], claims: Array.isArray(c.c) ? c.c.length : 0};
+    if (g.kind === "lex"){
+      S.score = {label: "Accuracy", what: "% of answers correct", v: lexAcc(c)};
+      S.mast = o.mast || 0; S.total = o.total || 0; S.seen = o.seen || 0;
+      S.writing = typeof o.ansW === "number" ? o.ansW : null; S.sess = o.sess; S.lee = o.lee;
+      S.exam = examAvg(c.x);
+      Object.keys(c.u || {}).sort((a,b)=>a.localeCompare(b,undefined,{numeric:true})).forEach(u => {
+        const d = c.u[u];
+        S.units.push({name: /^U\d/.test(u) ? "Unit " + u.slice(1) : u, ans: typeof d[4] === "number" ? d[4] : null,
+                      seen: d[0]||0, of: d[1]||0, mast: d[2]||0, acc: d[3] != null ? d[3] : pct(d[0]||0, d[1]||0)});
+      });
+      (Array.isArray(c.l) ? c.l : []).slice()
+        .sort((a,b)=>String(a[0]).localeCompare(String(b[0]),undefined,{numeric:true}))
+        .forEach(r => {
+          const t = LESSONS[g.lang] && LESSONS[g.lang][r[0]];
+          S.items.push({name: String(r[0]) + (t ? " · " + t : ""), ans: typeof r[4] === "number" ? r[4] : null,
+                        since: typeof r[6] === "number" ? r[6] : null, acc: r[3] != null ? r[3] : null,
+                        mast: typeof r[5] === "number" ? r[5] : null, seen: r[1]||0, of: r[2]||0});
+        });
+    } else {
+      S.score = {label: "Average best score", what: "the mean of the best % correct in each activity attempted", v: o.avg != null ? o.avg : null};
+      S.mast = mastOf(c, "dos"); S.total = o.total || 0;
+      S.attempted = o.scored != null ? o.scored : attempted(c).length;
+      S.dm = dosMetrics(c, lang); S.total = catOf(lang).length || S.total;
+      const C = catOf(lang), rows = rowsOf(c), byIdx = {}, qi = {}, wi = {};
+      dosWorkList(c, lang).forEach(e => { wi[e[0]] = e; });
+      rows.forEach(r => { byIdx[r.index] = r; });
+      (Array.isArray(c.q) ? c.q : []).forEach(e => { qi[e[0]] = e; });
+      const idx = new Set(rows.filter(r => r.pct != null || r.ticked).map(r => r.index).concat(Object.keys(qi).map(Number)).concat(Object.keys(wi).map(Number)));
+      [...idx].sort((a,b)=>a-b).forEach(i => {
+        const r = byIdx[i], q = qi[i], it = C[i] || {};
+        S.items.push({name: actName(i, lang), sec: it.sn || it.s || "", unit: it.u || "",
+                      ans: q ? q[1] : null, since: q && q[2] >= 0 ? q[2] : null,
+                      best: r && r.pct != null ? r.pct : null, tries: r ? r.attempts : 0, ticked: !!(r && r.ticked),
+                      done: wi[i] ? wi[i][1] : null, of: wi[i] ? wi[i][2] : null});
+      });
+      const U = {};
+      S.items.forEach(it => {
+        const k = (it.sec || "Other") + (it.unit && !/^(Film|Text|Both|Grammar|Vocabulary|Speaking|Section [A-C])$/.test(it.unit) ? " · " + it.unit : "");
+        const u = U[k] = U[k] || {name: k, ans: 0, ansKnown: false, n: 0, sum: 0, scored: 0, comp: 0, started: 0, d: 0, of: 0};
+        if (typeof it.ans === "number"){ u.ans += it.ans; u.ansKnown = true; }
+        if (it.done){ u.started++; u.d += it.done; u.of += it.of; if (it.done >= it.of) u.comp++; }
+        u.n++; if (it.best != null){ u.sum += it.best; u.scored++; }
+      });
+      S.units = Object.values(U).map(u => ({name: u.name, ans: u.ansKnown ? u.ans : null, n: u.n, scored: u.scored,
+                                             avg: u.scored ? Math.round(u.sum/u.scored) : null,
+                                             comp: u.comp, started: u.started, share: u.of ? Math.round(100 * u.d / u.of) : null}));
+      const ids = catById(lang);
+      S.hard = (Array.isArray(c.h) ? c.h : []).map(h => ids[h] != null ? actName(ids[h], lang) : null).filter(Boolean);
+    }
+    M.sites.push(S);
+  });
+  const sum = f => { const v = M.sites.map(f).filter(x => typeof x === "number"); return v.length ? v.reduce((a,b)=>a+b,0) : null; };
+  M.approx = M.sites.some(s => s.approx); M.monthApprox = M.sites.some(s => s.months.thisApprox);
+  const lex = M.sites.filter(s => s.kind === "lex"), dos = M.sites.filter(s => s.kind === "dos");
+  const sumOf = (arr, f) => { const v = arr.map(f).filter(x => typeof x === "number"); return v.length ? v.reduce((a,b)=>a+b,0) : null; };
+  M.approx = lex.some(s => s.approx); M.monthApprox = lex.some(s => s.months.thisApprox);
+  M.ans = sumOf(lex, s => s.ans); M.since = sumOf(lex, s => s.since); M.month = sumOf(lex, s => s.months.thisMonth);
+  M.comp = dos.length ? sumOf(dos, s => s.dm.comp) : null; M.started = dos.length ? sumOf(dos, s => s.dm.started) : null;
+  return M;
+}
+
+/* plain-English lines, shared by the panel and the Word file */
+const EST_TXT = "Progress codes sent before 12 October 2026 did not record the number of answers, so on the vocabulary sites that earlier work is estimated at about 20 questions for each practice session. Later work is counted exactly.";
+const EXPLAIN = {
+  ans: "Every question answered on this site since the student started using it.",
+  month: "Questions answered during the month, worked out from the progress codes received.",
+  lexAcc: "Of all the answers given, the percentage that were correct.",
+  dosAvg: "For each activity, the best score the student has reached (% of questions correct); this is the average of those best scores.",
+  mast: "Words answered correctly often enough to leave the review cycle.",
+  dosMast: "Activities with a best score of 80 % or more.",
+  task: "Lists in the current task with 95 % of their words written correctly since the task was set."
+};
+function taskFigures(S){
+  const P = S.tp;
+  if (!P) return [["The task", "none recorded", "No task has been recorded on the dashboard for this student's class."]];
+  const tk = P.task, nm = "The task — " + tk.label + " (set " + dLong(P.start) + (tk.due ? ", due " + dLong(new Date(tk.due + "T00:00:00").getTime()) : "") + ")";
+  if (P.noCode) return [[nm, "no code since", "The student has not sent a progress code since the task was set, so their work on it cannot be seen yet."]];
+  const L = [];
+  if (P.of) L.push([nm, P.done + " of " + P.of + " done",
+    S.kind === "lex" ? "A list counts as done once it has had at least as many answers since the task was set as it has words."
+                     : "An activity counts as done once every question in it has an answer."]);
+  if (P.since != null) L.push(["Questions answered since the task was set", nf(P.since),
+    P.base ? "Worked out from the codes received before and after the start date." : "No code from before the start date, so this includes all the work so far."]);
+  return L;
+}
+function keyFigures(S){
+  const L = [];
+  if (S.kind === "dos"){
+    const m = S.dm;
+    L.push(["Activities completed", nf(m.comp) + " of " + nf(S.total), "Activities where every question or task has an answer."]);
+    L.push(["Activities started", nf(m.started), "Activities with at least one question answered."]);
+    L.push(["Questions answered in the activities started", m.share == null ? "—" : m.share + " % (" + nf(m.d) + " of " + nf(m.n) + ")",
+            "How much of the activities the student has started has been answered so far."
+            + (m.exact ? "" : " From codes sent before 12 October 2026 only the questions answered correctly are known, so the real share may be higher.")]);
+    L.push(["Average best score — % correct", S.score.v == null ? "—" : S.score.v + " %", EXPLAIN.dosAvg]);
+    taskFigures(S).forEach(r => L.push(r));
+    L.push(["Last code received", dLong(S.last), "This profile shows the work up to this date. Codes received: " + S.codes + "."]);
+    return L;
+  }
+  L.push(["Questions answered — all time", S.ans == null ? "—" : (S.approx && S.ans ? "about " : "") + nf(S.ans),
+          S.ans == null ? "Appears with the student's next progress code, which counts all their work since they started."
+                        : EXPLAIN.ans + (S.approx ? " " + EST_TXT : "")]);
+  taskFigures(S).forEach(r => L.push(r));
+  L.push(["Questions answered — " + THIS_MONTH_NAME + " so far", S.months.thisMonth == null ? "—" : (S.months.thisApprox && S.months.thisMonth ? "about " : "") + nf(S.months.thisMonth),
+          S.months.thisMonth == null ? "Not known yet: " + S.months.thisMonthNote + "." : EXPLAIN.month]);
+  if (S.kind === "lex"){
+    L.push(["Accuracy — % of answers correct", S.score.v == null ? "—" : S.score.v + " %", EXPLAIN.lexAcc]);
+    L.push(["Words mastered", nf(S.mast) + " of " + nf(S.total), EXPLAIN.mast]);
+    if (S.writing != null) L.push(["Answers written in the target language", nf(S.writing), "The part of all answers typed from English into the target language — harder than recognising a word."]);
+    if (S.task) L.push(["Task lists done" + (S.task.lab ? " — " + S.task.lab : ""), S.task.done + " of " + S.task.of, EXPLAIN.task]);
+    if (S.exam) L.push(["Vocabulary tests — average % correct", S.exam.avg + " %", "Average over the last " + S.exam.tests + " test" + (S.exam.tests>1?"s":"") + " taken on the site."]);
+  } else {
+    L.push(["Average best score — % correct", S.score.v == null ? "—" : S.score.v + " %", EXPLAIN.dosAvg]);
+    L.push(["Activities attempted with a score", nf(S.attempted) + " of " + nf(S.total), "Activities where the site recorded a score."]);
+    L.push(["Activities mastered", nf(S.mast), EXPLAIN.dosMast]);
+  }
+  L.push(["Last code received", dLong(S.last), "This profile shows the work up to this date. Codes received: " + S.codes
+          + "."]);
+  return L;
+}
+function weakLists(S){
+  return S.items.filter(it => it.acc != null && (it.ans||0) >= 20).sort((a,b)=>a.acc-b.acc).slice(0, 8);
+}
+function lowActivities(S){
+  return S.items.filter(it => it.best != null && it.best < 60).sort((a,b)=>a.best-b.best).slice(0, 8);
+}
+
+/* ---------- on screen ---------- */
+function tbl(head, rows, numFrom, numTo){
+  const isN = i => i >= numFrom && (numTo == null || i <= numTo);
+  return '<div class="ov-wrap"><table class="pf"><thead><tr>' + head.map((x,i)=>'<th'+(isN(i)?' class="n"':'')+'>'+x+'</th>').join("")
+    + '</tr></thead><tbody>' + rows.map(r => '<tr>' + r.map((x,i)=>'<td'+(isN(i)?' class="n"':'')+'>'+x+'</td>').join("") + '</tr>').join("")
+    + '</tbody></table></div>';
+}
+function profileHtml(M){
+  let h = '<div class="pf-head"><div><h2>'+esc(M.name)+'</h2><p class="hint" style="margin:0">'
+        + (M.cls ? 'Class ' + esc(M.cls) + ' · ' : '') + 'from the codes received up to ' + dLong(M.last) + '</p></div>'
+        + '<div class="btn-row" style="margin:0"><button class="btn primary" id="pfDocx">Download Word profile</button>'
+        + '<button class="btn ghost" id="pfClose">Close</button></div></div>';
+  h += '<div class="pf-kpis">'
+     + (M.ans != null ? '<div><b>'+((M.approx && M.ans ? '<small>about</small> ' : '') + nf(M.ans))+'</b><span>vocabulary questions answered since starting'
+        + '</span></div>' : '')
+     + (M.ans != null ? '<div><b>'+(M.month == null ? '—' : nf(M.month))+'</b><span>vocabulary questions, ' + esc(THIS_MONTH_NAME) + ' so far</span></div>' : '')
+     + (M.comp != null ? '<div><b>'+nf(M.comp)+'</b><span>exam-practice activities completed · ' + nf(M.started) + ' started</span></div>' : '')
+     + '</div>';
+  M.sites.forEach(S => {
+    h += '<h3>'+esc(S.name)+'</h3>';
+    h += tbl(["Figure","Value","What it means"], keyFigures(S).map(r => [esc(r[0]), '<b>'+esc(r[1])+'</b>', '<span class="mut">'+esc(r[2])+'</span>']), 9);
+    if (S.tp && !S.tp.noCode && S.tp.items.length) h += '<h4>The task, item by item</h4>' + tbl([S.kind === "lex" ? "List" : "Activity", "Since the task was set", "Done"],
+        S.tp.items.map(it => [esc(it.name), esc(it.prog), it.done ? '<span style="color:var(--vert)">✓</span>' : '']), 9);
+    if (S.kind === "lex") h += '<h4>Questions answered by month</h4>'
+       + tbl(["Month","Answered","Note"], S.months.rows.map(r => [esc(r.label), r.n == null ? '—' : (r.approx && r.n ? 'about ' : '') + nf(r.n), '<span class="mut">'+esc(r.note)+'</span>']), 1, 1);
+    if (S.kind === "lex"){
+      if (S.units.length) h += '<h4>By unit</h4>' + tbl(["Unit","Answered","Words practised","Accuracy (% correct)","Mastered"],
+          S.units.map(u => [esc(u.name), nf(u.ans), u.seen + ' of ' + u.of, u.acc + ' %', nf(u.mast)]), 1);
+      const wl = weakLists(S);
+      if (wl.length) h += '<h4>Lists to revisit — lowest accuracy</h4>' + tbl(["List","Answered","Accuracy (% correct)"],
+          wl.map(it => [esc(it.name), nf(it.ans), it.acc + ' %']), 1);
+      if (S.items.length) h += '<details class="detail"><summary>Every list practised ('+S.items.length+')</summary><div class="inner">'
+          + tbl(["List","Answered","Since task","Accuracy (% correct)","Mastered","Words practised"],
+                S.items.map(it => [esc(it.name), nf(it.ans), it.since == null ? '—' : nf(it.since), it.acc == null ? '—' : it.acc + ' %', nf(it.mast), it.seen + ' of ' + it.of]), 1)
+          + '</div></details>';
+    } else {
+      if (S.units.length) h += '<h4>By theme and unit</h4>' + tbl(["Theme / unit","Completed","Started","Questions answered (% of started)","Average best score (% correct)"],
+          S.units.map(u => [esc(u.name), nf(u.comp), nf(u.started), u.share == null ? '—' : u.share + ' %', u.avg == null ? '—' : u.avg + ' %']), 1);
+      const la = lowActivities(S);
+      if (la.length) h += '<h4>Activities to revisit — best score under 60 %</h4>' + tbl(["Activity","Best score (% correct)","Attempts"],
+          la.map(it => [esc(it.name), it.best + ' %', nf(it.tries)]), 1);
+      if (S.hard.length) h += '<h4>Marked as hard by the student</h4><p>' + S.hard.map(esc).join(" · ") + '</p>';
+      if (S.items.length) h += '<details class="detail"><summary>Every activity ('+S.items.length+')</summary><div class="inner">'
+          + tbl(["Activity","Theme","Questions answered","Best score (% correct)","Attempts"],
+                S.items.map(it => [esc(it.name) + (it.done != null && it.done >= it.of ? ' <span style="color:var(--vert)">✓</span>' : ''), esc(it.sec),
+                                   it.done == null ? (it.ticked ? 'ticked, no answers' : 'opened') : it.done + ' of ' + it.of,
+                                   it.best == null ? '—' : it.best + ' %', nf(it.tries)]), 2)
+          + '</div></details>';
+    }
+  });
+  return h;
+}
+let PROF_NOW = null;
+function openProfile(key){
+  const M = profileModel(key);
+  if (!M) return;
+  PROF_NOW = key;
+  const d = $("#profDlg");
+  d.querySelector(".dlg-body").innerHTML = profileHtml(M);
+  $("#pfClose").addEventListener("click", () => d.close());
+  $("#pfDocx").addEventListener("click", () => downloadProfiles([key]));
+  if (!d.open) d.showModal();
+  d.querySelector(".dlg-body").scrollTop = 0;
+}
+
+/* ---------- the Word file ---------- */
+const WX = s => String(s == null ? "" : s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;")
+                 .replace(/"/g,"&quot;").replace(/[\x00-\x08\x0B\x0C\x0E-\x1F]/g,"");
+function wR(t, o){ o = o || {};
+  const pr = (o.b?'<w:b/>':'') + (o.i?'<w:i/>':'') + (o.color?'<w:color w:val="'+o.color+'"/>':'') + (o.sz?'<w:sz w:val="'+o.sz+'"/><w:szCs w:val="'+o.sz+'"/>':'');
+  return '<w:r>' + (pr ? '<w:rPr>'+pr+'</w:rPr>' : '') + '<w:t xml:space="preserve">' + WX(t) + '</w:t></w:r>'; }
+function wP(runs, o){ o = o || {};
+  const pr = (o.style?'<w:pStyle w:val="'+o.style+'"/>':'') + (o.keep?'<w:keepNext/>':'') + (o.pb?'<w:pageBreakBefore/>':'')
+           + (o.after!=null||o.before!=null?'<w:spacing'+(o.before!=null?' w:before="'+o.before+'"':'')+(o.after!=null?' w:after="'+o.after+'"':'')+'/>':'')
+           + (o.jc?'<w:jc w:val="'+o.jc+'"/>':'');
+  return '<w:p>' + (pr ? '<w:pPr>'+pr+'</w:pPr>' : '') + (Array.isArray(runs) ? runs.join("") : (runs || "")) + '</w:p>'; }
+const W_FULL = 9638;   /* A4 less 2 cm margins, in twentieths of a point */
+function wTable(head, rows, widths, numFrom, numTo){
+  const tot = widths.reduce((a,b)=>a+b,0), ws = widths.map(w => Math.round(w*W_FULL/tot));
+  const bd = '<w:tblBorders>' + ["top","left","bottom","right","insideH","insideV"].map(s => '<w:'+s+' w:val="single" w:sz="4" w:space="0" w:color="BFC5D2"/>').join("") + '</w:tblBorders>';
+  const cell = (t, i, hd) => '<w:tc><w:tcPr><w:tcW w:w="'+ws[i]+'" w:type="dxa"/>' + (hd ? '<w:shd w:val="clear" w:color="auto" w:fill="E8ECF4"/>' : '') + '</w:tcPr>'
+    + wP(typeof t === "object" && t ? wR(t.t, {b: hd || t.b, color: t.color, sz: hd ? 18 : 20}) : wR(t, {b: hd, sz: hd ? 18 : 20}),
+         {after: 0, before: 0, jc: (i >= numFrom && (numTo == null || i <= numTo)) ? "right" : null}) + '</w:tc>';
+  return '<w:tbl><w:tblPr><w:tblW w:w="'+W_FULL+'" w:type="dxa"/>' + bd + '<w:tblLayout w:type="fixed"/>'
+    + '<w:tblCellMar><w:top w:w="40" w:type="dxa"/><w:left w:w="90" w:type="dxa"/><w:bottom w:w="40" w:type="dxa"/><w:right w:w="90" w:type="dxa"/></w:tblCellMar></w:tblPr>'
+    + '<w:tblGrid>' + ws.map(w => '<w:gridCol w:w="'+w+'"/>').join("") + '</w:tblGrid>'
+    + '<w:tr><w:trPr><w:tblHeader/></w:trPr>' + head.map((t,i) => cell(t, i, true)).join("") + '</w:tr>'
+    + rows.map(r => '<w:tr><w:trPr><w:cantSplit/></w:trPr>' + r.map((t,i) => cell(t, i, false)).join("") + '</w:tr>').join("")
+    + '</w:tbl>' + wP("", {after: 60});
+}
+function wBox(title, lines){
+  return '<w:tbl><w:tblPr><w:tblW w:w="'+W_FULL+'" w:type="dxa"/><w:tblBorders>'
+    + ["top","left","bottom","right"].map(s => '<w:'+s+' w:val="single" w:sz="6" w:space="0" w:color="8A8F9E"/>').join("")
+    + '</w:tblBorders><w:tblCellMar><w:top w:w="80" w:type="dxa"/><w:left w:w="120" w:type="dxa"/><w:bottom w:w="80" w:type="dxa"/><w:right w:w="120" w:type="dxa"/></w:tblCellMar></w:tblPr>'
+    + '<w:tblGrid><w:gridCol w:w="'+W_FULL+'"/></w:tblGrid><w:tr><w:tc><w:tcPr><w:tcW w:w="'+W_FULL+'" w:type="dxa"/></w:tcPr>'
+    + wP(wR(title, {b: true}), {after: 60}) + lines.map(l => wP(l === "" ? "" : wR(l, {sz: 20}), {after: 40})).join("")
+    + '</w:tc></w:tr></w:tbl>' + wP("", {after: 60});
+}
+function profileDocBody(M, firstPage){
+  let b = wP(wR("Progress profile — " + M.name), {style: "Title", pb: !firstPage});
+  b += wP(wR((M.cls ? "Class " + M.cls + "  ·  " : "") + "A-Level languages  ·  produced on " + dLong(M.made)
+            + " from the progress codes received up to " + dLong(M.last), {color: "555B6E", sz: 20}), {after: 160});
+  b += wBox("How to read this profile", [
+    "The language sites record every question a student answers. To let the teacher see their work, the student sends a progress code through the Microsoft Form; this profile is built from those codes. It shows the work up to the date of the last code received — it is not live.",
+    "Questions answered is the main measure: it shows how much practice has been done. Each score below says exactly what it measures.",
+    "Where a figure says \u201cabout\u201d: " + EST_TXT
+  ]);
+  b += wP(wR("At a glance"), {style: "Heading1", keep: true});
+  const glance = M.sites.map(S => S.kind === "lex"
+      ? [S.name, (S.approx && S.ans ? "about " : "") + nf(S.ans) + " questions answered since starting",
+         !S.tp ? "no task recorded" : S.tp.noCode ? "no code since it was set" : (S.tp.of ? S.tp.done + " of " + S.tp.of + " done" : nf(S.since) + " questions"),
+         S.score.v == null ? "—" : "Accuracy: " + S.score.v + " % of answers correct"]
+      : [S.name, nf(S.dm.comp) + " activities completed, " + nf(S.dm.started) + " started"
+                 + (S.dm.share == null ? "" : " (" + S.dm.share + " % of their questions answered)"),
+         !S.tp ? "no task recorded" : S.tp.noCode ? "no code since it was set" : (S.tp.of ? S.tp.done + " of " + S.tp.of + " done" : nf(S.since) + " questions"),
+         S.score.v == null ? "—" : "Average best score: " + S.score.v + " % correct"]);
+  b += wTable(["Site", "Work done", "The task", "Score — what it measures"], glance, [28, 34, 14, 24], 9);
+  b += wP(wR("Teacher's comment"), {style: "Heading1", keep: true});
+  b += '<w:tbl><w:tblPr><w:tblW w:w="'+W_FULL+'" w:type="dxa"/><w:tblBorders>'
+     + ["top","left","bottom","right"].map(s => '<w:'+s+' w:val="single" w:sz="6" w:space="0" w:color="8A8F9E"/>').join("")
+     + '</w:tblBorders></w:tblPr><w:tblGrid><w:gridCol w:w="'+W_FULL+'"/></w:tblGrid><w:tr><w:trPr><w:trHeight w:val="2200"/></w:trPr><w:tc><w:tcPr><w:tcW w:w="'+W_FULL+'" w:type="dxa"/></w:tcPr>'
+     + wP("") + '</w:tc></w:tr></w:tbl>';
+  b += wP(wR("Next steps agreed with the student"), {style: "Heading2", keep: true});
+  b += wP(wR("1. ", {sz: 20}), {after: 120}) + wP(wR("2. ", {sz: 20}), {after: 120}) + wP(wR("3. ", {sz: 20}), {after: 120});
+  M.sites.forEach((S, si) => {
+    b += wP(wR(S.name), {style: "Heading1", keep: true, pb: si === 0});
+    b += wTable(["Figure", "Value", "What it means"], keyFigures(S).map(r => [r[0], {t: r[1], b: true}, r[2]]), [34, 14, 52], 9);
+    if (S.tp && !S.tp.noCode && S.tp.items.length){
+      b += wP(wR("The task, item by item"), {style: "Heading2", keep: true});
+      b += wTable([S.kind === "lex" ? "List" : "Activity", "Since the task was set", "Done"],
+                  S.tp.items.map(it => [it.name, it.prog, it.done ? "yes" : ""]), [56, 30, 14], 9);
+    }
+    if (S.kind === "lex" && S.months.rows.length){
+      b += wP(wR("Questions answered by month"), {style: "Heading2", keep: true});
+      b += wTable(["Month", "Answered", "Note"], S.months.rows.map(r => [r.label, r.n == null ? "—" : (r.approx && r.n ? "about " : "") + nf(r.n), r.note]), [26, 14, 60], 1, 1);
+    }
+    if (S.kind === "lex"){
+      if (S.units.length){
+        b += wP(wR("By unit"), {style: "Heading2", keep: true});
+        b += wTable(["Unit", "Questions answered", "Words practised", "Accuracy (% correct)", "Words mastered"],
+                    S.units.map(u => [u.name, nf(u.ans), u.seen + " of " + u.of, u.acc + " %", nf(u.mast)]), [20, 20, 20, 20, 20], 1);
+      }
+      const wl = weakLists(S);
+      if (wl.length){
+        b += wP(wR("Lists to revisit — lowest accuracy"), {style: "Heading2", keep: true});
+        b += wTable(["List", "Questions answered", "Accuracy (% correct)"], wl.map(it => [it.name, nf(it.ans), it.acc + " %"]), [64, 18, 18], 1);
+      }
+
+    } else {
+      if (S.units.length){
+        b += wP(wR("By theme and unit"), {style: "Heading2", keep: true});
+        b += wTable(["Theme / unit", "Activities completed", "Activities started", "Questions answered (% of started)", "Average best score (% correct)"],
+                    S.units.map(u => [u.name, nf(u.comp), nf(u.started), u.share == null ? "—" : u.share + " %", u.avg == null ? "—" : u.avg + " %"]), [40, 15, 15, 15, 15], 1);
+      }
+      if (S.items.length){
+        b += wP(wR("Activities"), {style: "Heading2", keep: true});
+        b += wTable(["Activity", "Completed", "Questions answered", "Best score (% correct)"],
+                    S.items.map(it => [it.name, it.done != null && it.done >= it.of ? "yes" : "", it.done == null ? (it.ticked ? "ticked, no answers" : "opened") : it.done + " of " + it.of,
+                                       it.best == null ? "—" : it.best + " %"]), [52, 14, 18, 16], 1);
+      }
+      const la = lowActivities(S);
+      if (la.length){
+        b += wP(wR("Activities to revisit — best score under 60 %"), {style: "Heading2", keep: true});
+        b += la.map(it => wP(wR("•  " + it.name + " — best score " + it.best + " %", {sz: 20}), {after: 20})).join("");
+      }
+      if (S.hard.length){
+        b += wP(wR("Marked as hard by the student"), {style: "Heading2", keep: true});
+        b += wP(wR(S.hard.join("  ·  "), {sz: 20}));
+      }
+    }
+  });
+  return b;
+}
+function docxFiles(body){
+  const NS = 'xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships"';
+  const H = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>';
+  const style = (id, name, ppr, rpr, based) => '<w:style w:type="paragraph" w:styleId="'+id+'"><w:name w:val="'+name+'"/>'
+    + (based ? '<w:basedOn w:val="Normal"/><w:next w:val="Normal"/><w:qFormat/>' : '<w:qFormat/>') + '<w:pPr>'+ppr+'</w:pPr><w:rPr>'+rpr+'</w:rPr></w:style>';
+  return [
+    {name: "[Content_Types].xml", data: H + '<Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types">'
+      + '<Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/>'
+      + '<Default Extension="xml" ContentType="application/xml"/>'
+      + '<Override PartName="/word/document.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml"/>'
+      + '<Override PartName="/word/styles.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.styles+xml"/>'
+      + '</Types>'},
+    {name: "_rels/.rels", data: H + '<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">'
+      + '<Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="word/document.xml"/></Relationships>'},
+    {name: "word/_rels/document.xml.rels", data: H + '<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">'
+      + '<Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles" Target="styles.xml"/></Relationships>'},
+    {name: "word/styles.xml", data: H + '<w:styles '+NS+'><w:docDefaults><w:rPrDefault><w:rPr>'
+      + '<w:rFonts w:ascii="Calibri" w:hAnsi="Calibri" w:eastAsia="Calibri" w:cs="Calibri"/><w:sz w:val="22"/><w:szCs w:val="22"/><w:lang w:val="en-GB"/>'
+      + '</w:rPr></w:rPrDefault><w:pPrDefault><w:pPr><w:spacing w:after="100" w:line="264" w:lineRule="auto"/></w:pPr></w:pPrDefault></w:docDefaults>'
+      + '<w:style w:type="paragraph" w:default="1" w:styleId="Normal"><w:name w:val="Normal"/><w:qFormat/></w:style>'
+      + style("Title", "Title", '<w:spacing w:after="60"/>', '<w:b/><w:color w:val="1A2440"/><w:sz w:val="40"/><w:szCs w:val="40"/>', true)
+      + style("Heading1", "heading 1", '<w:keepNext/><w:spacing w:before="280" w:after="100"/><w:outlineLvl w:val="0"/>', '<w:b/><w:color w:val="1A2440"/><w:sz w:val="30"/><w:szCs w:val="30"/>', true)
+      + style("Heading2", "heading 2", '<w:keepNext/><w:spacing w:before="180" w:after="80"/><w:outlineLvl w:val="1"/>', '<w:b/><w:color w:val="2B4C9B"/><w:sz w:val="24"/><w:szCs w:val="24"/>', true)
+      + '</w:styles>'},
+    {name: "word/document.xml", data: H + '<w:document '+NS+'><w:body>' + body
+      + '<w:sectPr><w:pgSz w:w="11906" w:h="16838"/><w:pgMar w:top="1134" w:right="1134" w:bottom="1134" w:left="1134" w:header="567" w:footer="567" w:gutter="0"/></w:sectPr>'
+      + '</w:body></w:document>'}
+  ];
+}
+function downloadProfiles(keys){
+  if (!window.BBAXlsx || !BBAXlsx.zip){ alert("bba-xlsx.js is out of date — upload the new copy beside teacher.html."); return; }
+  const models = keys.map(profileModel).filter(Boolean);
+  if (!models.length) return;
+  const body = models.map((M, i) => profileDocBody(M, i === 0)).join("");
+  const bytes = BBAXlsx.zip(docxFiles(body));
+  const blob = new Blob([bytes], {type: "application/vnd.openxmlformats-officedocument.wordprocessingml.document"});
+  const safe = s => String(s).replace(/[^\p{L}\p{N}]+/gu, "_").replace(/^_|_$/g, "");
+  const day = new Date().toISOString().slice(0,10);
+  const name = models.length === 1 ? "Progress_profile_" + safe(models[0].name) + "_" + day + ".docx"
+                                   : "Progress_profiles_" + (clsFilter && clsFilter !== "mine" ? safe(clsFilter) + "_" : "") + models.length + "_students_" + day + ".docx";
+  const url = URL.createObjectURL(blob), a = document.createElement("a");
+  a.href = url; a.download = name; document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  setTimeout(() => URL.revokeObjectURL(url), 2000);
+}
+/* every student on the page, once each, in name order */
+function allProfileKeys(){
+  const seen = {}, out = [];
+  GROUPS.forEach(g => (lastStuds[g.kind+g.lang] || []).forEach(st => {
+    if (g.sec === "KS") return;
+    const k = idKey(st.cur, st.__entry);
+    if (!seen[k]){ seen[k] = 1; out.push({k: k, n: dispName(st.cur, st.__entry)}); }
+  }));
+  return out.sort((a,b)=>a.n.localeCompare(b.n)).map(x => x.k);
 }
 
 function lexTable(studs, id){
@@ -1411,7 +2413,7 @@ function lexTable(studs, id){
            + '<th title="Every answer given, all time — the key figure">Answered</th>'
            + '<th title="Answers typed in the target language (English → target), all time">Writing</th>'
            + '<th title="Lists of the current task with 95 % of their words written correctly">Task</th>'
-           + '<th title="Answers given since the task link\'s start date">Since task</th>'
+           + '<th title="Answers since the start of the task the student\'s browser holds">Since task (browser)</th>'
            + '<th>Mastered</th><th>Accuracy</th>'
            + '<th>Seen</th><th>Sessions</th><th>Leeches</th><th>Exam avg</th><th>Sent</th><th>#</th>'
            + units.map(u=>'<th>'+esc(u)+'</th>').join("")
@@ -1478,7 +2480,7 @@ function dosTable(studs, id){
   let html = '<div class="wrap"><table class="stats"><thead><tr>'
            + '<th>Student</th>'+(withId?'<th>ID</th>':'')+'<th>Class</th>'
            + '<th title="Every question answered, all time — the key figure">Answered</th>'
-           + '<th title="Answers given since the task link\'s start date">Since task</th>'
+           + '<th title="Answers since the start of the task the student\'s browser holds">Since task (browser)</th>'
            + '<th title="Activities with a best score of 80 % or more">Mastered</th>'
            + '<th title="Mean of the best score in each activity attempted">Average</th>'
            + '<th title="Activities with a real recorded score">Attempted</th>'
@@ -1897,6 +2899,16 @@ $("#btnAdd").addEventListener("click", ()=>{
   $("#codes").value = "";
 });
 
+
+/* ── the three tabs; an empty roster opens on the one that fills it ── */
+function showPane(id){
+  document.querySelectorAll("section.pane").forEach(s => { s.hidden = s.id !== id; });
+  document.querySelectorAll("#tabs button").forEach(b => b.classList.toggle("on", b.dataset.pane === id));
+}
+document.querySelectorAll("#tabs button").forEach(b => b.addEventListener("click", () => showPane(b.dataset.pane)));
+if (!roster.entries.length) showPane("paneSetup");
+$("#btnAllDocx").addEventListener("click", () => downloadProfiles(allProfileKeys()));
+$("#btnAdd").addEventListener("click", () => { if (roster.entries.length) showPane("paneOverview"); });
 $("#btnOnce").addEventListener("click", ()=>{
   const good = readBox();
   showOk(good.length ? "Showing "+good.length+" code"+(good.length===1?"":"s")+" — not saved to the roster." : "");
@@ -1913,8 +2925,9 @@ $("#btnWipe").addEventListener("click", ()=>{
     return;
   const keepAliases = typeof roster.aliases === "string" ? roster.aliases : "";
   const keepClass   = typeof roster.classList === "string" ? roster.classList : "";
+  const keepAssign  = typeof roster.classAssign === "string" ? roster.classAssign : "";
   /* the identity table and the register are your work, not student data */
-  roster = {v:1, entries:[], aliases:keepAliases, classList:keepClass};
+  roster = {v:1, entries:[], aliases:keepAliases, classList:keepClass, classAssign:keepAssign, tasks:taskList()};
   try{ localStorage.removeItem(LS); }catch(e){}
   if(keepAliases) save();
   showOk("Roster emptied. The Identities table was kept."); showErr([]);
@@ -2018,6 +3031,11 @@ $("#btnRestore").addEventListener("click", ()=>{
         /* a backup carries the Identities box; adopt it only if this machine has none,
            so restoring onto a laptop that already has a table never wipes it */
         let idMsg = "";
+        if(Array.isArray(o.tasks) && o.tasks.length){ roster.tasks = mergeTasks(roster.tasks, o.tasks); save(); renderTaskRecords(); }
+        if(typeof o.classAssign === "string" && o.classAssign.trim()){
+          roster.classAssign = mergeLines(roster.classAssign, o.classAssign); save();
+          $("#classAssign").value = roster.classAssign; applyClassAssign();
+        }
         if(typeof o.classList === "string" && o.classList.trim()
            && !(typeof roster.classList === "string" && roster.classList.trim())){
           roster.classList = o.classList; save();
@@ -2443,6 +3461,34 @@ document.addEventListener("click", ev=>{
 /* go */
 $("#aliases").value = (typeof roster.aliases === "string" ? roster.aliases : "");
 showAliasErr(applyAliases());
+
+/* ── the Classes box ── */
+$("#classAssign").value = typeof roster.classAssign === "string" ? roster.classAssign : "";
+applyClassAssign();
+$("#btnClassAssign").addEventListener("click", () => {
+  const text = $("#classAssign").value;
+  const P = parseClassAssign(text);
+  roster.classAssign = text; save(); applyClassAssign(); pushShared();
+  /* who is in the roster, by the same key */
+  const inRoster = {};
+  roster.entries.forEach(e => { if (!e || !e.p) return; if (e.who && !e.p.__who) e.p.__who = e.who;
+    const n = dispName(e.p, e); inRoster[nameKey(n)] = n; });
+  const keys = Object.keys(P.map);
+  const found = keys.filter(k => inRoster[k]), missing = keys.filter(k => !inRoster[k]);
+  const unassigned = [...new Set(Object.keys(inRoster).filter(k => !P.map[k]).map(k => inRoster[k]))].sort();
+  let msg = found.length + " of " + keys.length + " students matched and placed in their class.";
+  if (missing.length) msg += "<br><b>Not in the roster yet</b> (no code received, or the name is spelt differently in the register): "
+                           + missing.map(k => esc(P.map[k].label)).join(", ") + ".";
+  if (unassigned.length) msg += "<br><b>In the roster without a class here:</b> " + unassigned.map(esc).join(", ")
+                              + ". If one of them is a name above spelt differently, write it as shown here.";
+  $("#classAssignOk").innerHTML = msg; $("#classAssignOk").classList.remove("hidden");
+  const err = $("#classAssignErr");
+  if (P.bad.length){ err.textContent = "Not understood (write name = class): " + P.bad.join(" · "); err.classList.remove("hidden"); }
+  else err.classList.add("hidden");
+  render(roster.entries);
+});
+
+
 render(roster.entries);
 paintState();
 
@@ -2636,6 +3682,7 @@ function makeTask(){
   $("#tLine").value = s.kind === "seq" ? "// A two-site sequence lives only in the link — post the link." : line;
   $("#tOut").classList.remove("hidden");
   const all = savedTasks(); all[taskSite] = o; try{ localStorage.setItem(TASK_LS, JSON.stringify(all)); }catch(e){}
+  recordTask(taskSite, o);
   const steps = s.kind === "seq"
     ? " — the student is taken through " + keys.length + " task" + (keys.length>1?"s":"") + " in order, vocabulary first, with a Next button"
     : "";
@@ -2711,7 +3758,8 @@ async function writeShared(){
   const h = await shareDir.getFileHandle(SHARE_FILE, {create:true});
   const w = await h.createWritable();
   await w.write(JSON.stringify({v:1, entries:roster.entries,
-                                aliases:roster.aliases||"", classList:roster.classList||""}));
+                                aliases:roster.aliases||"", classList:roster.classList||"",
+                                classAssign:roster.classAssign||"", tasks:taskList()}));
   await w.close();
 }
 
@@ -2731,6 +3779,10 @@ async function syncShared(loud){
         if (a !== (roster.aliases||"")){ roster.aliases = a; changed = true; }
         const c = mergeLines(roster.classList, o.classList);
         if (c !== (roster.classList||"")){ roster.classList = c; changed = true; }
+        const ca = mergeLines(roster.classAssign, o.classAssign);
+        if (ca !== (roster.classAssign||"")){ roster.classAssign = ca; changed = true; }
+        if (Array.isArray(o.tasks)){ const tm = mergeTasks(roster.tasks, o.tasks);
+          if (JSON.stringify(tm) !== JSON.stringify(taskList())){ roster.tasks = tm; changed = true; } }
       });
       if (round === 0) continue;
       await writeShared();
@@ -2739,6 +3791,8 @@ async function syncShared(loud){
       save();
       if ($("#aliases")) $("#aliases").value = roster.aliases || "";
       if ($("#classList")) $("#classList").value = roster.classList || "";
+      if ($("#classAssign")){ $("#classAssign").value = roster.classAssign || ""; applyClassAssign(); }
+      try{ renderTaskRecords(); }catch(e){}
       try{ showAliasErr(applyAliases()); }catch(e){}
     }
     if (added || changed) render(roster.entries);
@@ -2825,6 +3879,27 @@ async function useDir(h, loud){
     try{ await navigator.clipboard.writeText(v); }catch(e){ $("#tLink").select(); document.execCommand("copy"); }
     $("#tCopy").textContent = "Copied ✓"; setTimeout(()=>{ $("#tCopy").textContent = "Copy the link"; }, 1500);
   });
+})();
+
+/* ── tasks: recorded when a link is made; links made before this existed are taken from this browser's memory ── */
+function recordTask(site, o){
+  const s = TASK_SITES[site]; if (!s) return;
+  const rec = {id: o.t || Date.now(), lang: s.lang, label: o.label, since: o.since, due: o.due || "", cls: o.cls || "",
+               lessons: (o.lessons || []).slice(), items: (o.items || []).slice()};
+  roster.tasks = mergeTasks(roster.tasks, [rec]); save(); pushShared(); renderTaskRecords(); render(roster.entries);
+}
+(function(){
+  try{
+    const old = savedTasks(); let n = 0;
+    Object.keys(old).forEach(site => { const o = old[site]; if (!o || !o.label || !TASK_SITES[site]) return;
+      const id = o.t || taskStart({since: o.since});
+      if (!taskList().some(x => x.id === id)){ const s = TASK_SITES[site];
+        roster.tasks = mergeTasks(roster.tasks, [{id: id, lang: s.lang, label: o.label, since: o.since, due: o.due || "", cls: o.cls || "",
+                                                   lessons: (o.lessons || []).slice(), items: (o.items || []).slice()}]); n++; } });
+    if (n) save();
+  }catch(e){}
+  renderTaskRecords();
+  render(roster.entries);
 })();
 })();
 </script>

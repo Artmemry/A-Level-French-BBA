@@ -328,5 +328,6 @@ function download(filename, sheets) {
   setTimeout(function () { URL.revokeObjectURL(url); }, 2000);
 }
 
-window.BBAXlsx = { build: build, download: download, version: 3 };
+/* zip is shared so the teacher dashboard can write a Word file the same way */
+window.BBAXlsx = { build: build, download: download, zip: zip, version: 4 };
 })();
