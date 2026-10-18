@@ -3060,6 +3060,13 @@ $("#btnRestore").addEventListener("click", ()=>{
     rd.onload = ()=>{
       try{
         const o = JSON.parse(rd.result);
+        if(o && !Array.isArray(o.entries) && (o.a || o.srs)){
+          const site = o.srs ? "vocabulary site (Le Lexique or El Léxico)" : "exam-practice site";
+          showErr(["That file is a student's own backup from the " + site + ", not a roster. It belongs on that site: "
+                 + "open the site in the new browser, go to Progress and press Restore. "
+                 + "The dashboard's Restore takes a roster backup, a file named bba-teacher-roster-(date).json made with Back up roster."]);
+          return;
+        }
         if(!o || !Array.isArray(o.entries)) throw 0;
         const added = addEntries(o.entries.filter(e=>e && e.p && e.kind && e.lang));
         /* a backup carries the Identities box; adopt it only if this machine has none,
