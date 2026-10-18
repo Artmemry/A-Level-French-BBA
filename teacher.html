@@ -277,8 +277,8 @@ table.pf td:nth-child(2) b{white-space:nowrap}
       and by activity, with a box for your comment.</details>
   </div>
   <p class="print-only print-head" id="printHead"></p>
-  <p class="print-only print-head" id="printKey">An amber row means no work since the task was set, or much less work than the rest of the group
-    (under half its middle figure); the reason is written under the name. "About" marks an estimate for work sent before 12 October 2026.</p>
+  <p class="print-only print-head" id="printKey">An amber row means a recorded task with nothing on it yet: no code received since it was set, or no answers on it;
+    the reason is written under the name. "About" marks an estimate for work sent before 12 October 2026.</p>
   <div id="results"></div>
 
   <div id="printBreakdown" class="print-only"></div>
@@ -305,8 +305,8 @@ table.pf td:nth-child(2) b{white-space:nowrap}
       (exam practice) is, for each activity attempted, the best score reached as a percentage of questions correct,
       averaged over those activities. <b>Words mastered</b> — words answered correctly often enough to leave the
       review cycle.
-      <br>Click any heading to sort by it. An amber row means <b>no questions answered since the task was set</b>,
-      or few questions compared with the rest of the group (under half its middle figure). Every other figure the
+      <br>Click any heading to sort by it. An amber row means a recorded task with nothing on it yet: <b>no code received since it was set</b>,
+      or <b>no answers on it</b>; the reason is written under the name. Every other figure the
       codes carry is in <b>Every figure, one column each</b> and in the downloads.
     </p>
   </div>
@@ -664,13 +664,9 @@ function ansCell(v, pv){
                    : '<td class="num"><b>'+v+'</b>'+delta(v, pv)+'</td>';
 }
 /* the amber row: few questions answered compared with the rest of the group */
-function fewAnswers(studs){
-  const tot = st => st.w ? st.w.total : ansAll(st.cur);
-  const v = studs.map(tot).filter(x=>x!=null).sort((a,b)=>a-b);
-  if (v.length < 3) return ()=>false;
-  const med = v[Math.floor(v.length/2)];
-  return st => { const a = tot(st); return a != null && a < med/2; };
-}
+/* No row is marked for doing less than the rest of the group: a comparison
+   is not a fact about the student, and the dashboard reports facts only. */
+function fewAnswers(studs){ return () => false; }
 /* the student's current task: lists done (95 % written) out of lists set */
 function taskText(c){ const t = c && c.a; return t && Array.isArray(t.done) ? t.done.filter(Boolean).length + " / " + t.done.length : ""; }
 function taskCell(c){
@@ -1256,14 +1252,11 @@ function downloadXlsx(id){
   studs.forEach(st=>{
     const c = st.cur, o = c.o||{};
     const reasons = [];
-    if (few(st)) reasons.push("few questions answered compared with the group");
     let weak = [];
     if (isDos){
       const att = o.scored != null ? o.scored : attempted(c).length;
       const claimed = o.claimed || 0;
       weak = attempted(c).filter(r=>r.pct<50);
-      if (claimed >= 10 && att <= 2) reasons.push("ticking without doing — " + claimed + " ticked, " + att + " scored");
-      if ((o.opened||0) >= 8 && att === 0) reasons.push("opening activities but finishing none");
       if (att && o.avg != null && o.avg < 50) reasons.push("average below 50 %");
     } else {
       if ((o.lee||0) >= 10) reasons.push(o.lee + " words failed repeatedly");
@@ -2002,9 +1995,9 @@ function dosOverviewTable(studs, id){
     + '</tr></thead><tbody>';
   studs.forEach((st, i) => {
     const c = st.w.mc, o = c.o || {}, m = M[i], P = st.tp, TC = taskSummaryCell(P);
-    const idle = !!P && (P.noCode || (P.of ? P.done === 0 && !P.since : P.since === 0)), few = med && m.started < med / 2;
-    const flag = idle || few;
-    const why = idle ? (P.noCode ? "No code received since the task was set" : "Nothing done on the task yet") : "Few activities started compared with the group";
+    const idle = !!P && (P.noCode || (P.of ? P.done === 0 && !P.since : P.since === 0));
+    const flag = idle;
+    const why = idle ? (P.noCode ? "No code received since the task was set" : "No answers on the task yet") : "";
     const total = catOf(lang).length || o.total || 0;
     h += '<tr'+(flag?' class="flag" title="'+why+'"':'')+'>'
       + td(profBtn(st) + removeBtn(st, "dos", glang) + (flag ? '<small class="why">' + why + '</small>' : ''), dispName(st.cur, st.__entry), "nm")
@@ -2040,7 +2033,7 @@ function overviewTable(studs, id){
     const m = w.months, P = st.tp, TC = taskSummaryCell(P);
     const idle = !!P && (P.noCode || P.since === 0);
     const flag = few(st) || idle;
-    const why = idle ? (P.noCode ? "No code received since the task was set" : "No questions answered since the task was set") : "Few questions answered compared with the group";
+    const why = idle ? (P.noCode ? "No code received since the task was set" : "No questions answered since the task was set") : "";
     const T = totalCell(w);
     h += '<tr'+(flag?' class="flag" title="'+why+'"':'')+'>'
       + td(profBtn(st) + removeBtn(st, kind, glang) + (flag ? '<small class="why">' + why + '</small>' : ''), dispName(st.cur, st.__entry), "nm")
@@ -2510,7 +2503,7 @@ function lexTable(studs, id){
     const a = ansAll(c), aT = ansTask(c), acc = lexAcc(c);
     const flag = few(st);
     const ex = examAvg(c.x);
-    html += '<tr'+(flag?' class="flag" title="Few questions answered compared with the rest of the group"':'')+'>'
+    html += '<tr>'
       + '<td class="name"'+seenTitle(c)+'>'+esc(dispName(c))+removeBtn(st, kind, glang)+'</td>'
       + (withId?'<td class="num">'+idCell(c)+'</td>':'')
       + '<td class="num">'+clsCell(c)+'</td>'
@@ -2582,9 +2575,7 @@ function dosTable(studs, id){
     const avg = o.avg != null ? o.avg : null;
     const claimed = o.claimed != null ? o.claimed : null;
     const a = ansAll(c), aT = ansTask(c), mast = mastOf(c, "dos");
-    const ticking = claimed != null && claimed >= 10 && att <= 2;
-    const flag = few(st) || ticking;
-    html += '<tr'+(flag?' class="flag" title="'+(ticking?'Ticking activities without doing them':'Few questions answered compared with the rest of the group')+'"':'')+'>'
+    html += '<tr>'
       + '<td class="name"'+seenTitle(c)+'>'+esc(dispName(c))+(staleCode(c, lang)?' <span title="This code was made against a different list of activities" style="color:var(--or)">⚠</span>':'')+removeBtn(st, kind, glang)+'</td>'
       + (withId?'<td class="num">'+idCell(c)+'</td>':'')
       + '<td class="num">'+clsCell(c)+'</td>'
