@@ -269,6 +269,7 @@ table.pf td:nth-child(2) b{white-space:nowrap}
     <button class="btn ghost" id="btnAllDocx">Word profiles for everyone shown</button>
     <button class="btn ghost" id="btnPrint">Print the overview</button>
     <label class="hint" style="display:flex;gap:6px;align-items:center;margin:0"><input type="checkbox" id="printDetail"> add each student's activity breakdown at the end</label>
+    <label class="hint" style="display:flex;gap:6px;align-items:center;margin:0" title="Rows whose class is 'teacher' or 'staff' in the Classes box"><input type="checkbox" id="showStaff"> show staff (class "teacher")</label>
     <details class="hint" style="flex-basis:100%;margin:0"><summary style="cursor:pointer">What is in each download?</summary>
       The workbook has one sheet per site: a row per student, a column per exercise or list they have done, by name,
       with the score in the cell. The CSV is the same roster as one long list, one row per student per exercise — for a
@@ -293,7 +294,7 @@ table.pf td:nth-child(2) b{white-space:nowrap}
       has words; an activity once every question has an answer. "No code since" means nothing has been sent since the
       task was set. <b>This month so far</b> — answers during the month.
       <br><b>Exam-practice sites</b> are measured in activities, because each one is a whole task:
-      <b>Activities completed</b> — every question or task in the activity has an answer; <b>Activities started</b>
+      <b>Activities completed</b> — checked by the student with a score recorded (as on the site's own progress ring), or every question answered; <b>Activities started</b>
       — at least one answer; <b>Questions answered</b> — the share of the questions in the activities started that
       have an answer (codes sent before 12 October 2026 only record the questions answered correctly, so for those
       the share may be higher).
@@ -414,7 +415,8 @@ table.pf td:nth-child(2) b{white-space:nowrap}
     <h2>Classes</h2>
     <p class="hint">One student per line: the name as first name and surname initial, then <code>=</code>, then the
       class. The class appears in the Class column, in the class buttons above the tables and on the profiles,
-      whatever the student's code says. Spaces, capitals and accents do not matter: <code>CharbelA</code>,
+      whatever the student's code says. Give yourself and colleagues who test the sites the class
+      <code>teacher</code>: staff are then left out of the overview, the printout and the Word profiles. Spaces, capitals and accents do not matter: <code>CharbelA</code>,
       <code>Charbel A</code> and <code>charbel a.</code> are the same student. A full name works too and is
       shortened to the first name and initial.</p>
     <textarea class="code" id="classAssign" spellcheck="false" style="min-height:120px"
@@ -1015,7 +1017,7 @@ function stampOwners(list){
 }
 function grouped(entries, kind, lang){
   const byWho = {}, keys = {};
-  const all = entries.filter(e=>e.kind===kind && e.lang===lang && clsPass(e.p));
+  const all = entries.filter(e=>e.kind===kind && e.lang===lang && clsPass(e.p) && (showStaff() || !isStaff(clsOf(e.p))));
   const owns = stampOwners(all);
   const list = all.filter(owns);                  /* one copy of each code */
   const canon = e => idKey(e.p, e);
@@ -1060,6 +1062,11 @@ const idCell = c => idText(c) ? esc(idText(c)) : '<span style="color:var(--muted
 /* A class the teacher wrote in the Classes box wins over the one in the code. */
 const nameKey = s => String(s == null ? "" : s).normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().replace(/[^a-z0-9]/g, "");
 let CLASS_OF = {};
+/* Staff testing the sites appear in the roster like students. Give them the
+   class "teacher" (or "staff") in the Classes box and they are left out of the
+   overview, the printout and the Word profiles, unless "show staff" is ticked. */
+const isStaff = c => /^(teachers?|staff)$/i.test(String(c || "").trim());
+const showStaff = () => { const b = document.getElementById("showStaff"); return !!(b && b.checked); };
 function parseClassAssign(text){
   const map = {}, bad = [];
   String(text || "").split(/\r?\n/).forEach(line => {
@@ -1426,7 +1433,7 @@ function downloadAllXlsx(){
 
 function renderClassChips(entries){
   const box = $("#clsChips"); if(!box) return;
-  const seen = new Set(entries.map(e=>clsOf(e.p)).filter(Boolean));
+  const seen = new Set(entries.map(e=>clsOf(e.p)).filter(c => c && (showStaff() || !isStaff(c))));
   /* With nothing in the roster there is nothing to filter and nothing to set
      up, so the row stays out of the way entirely. */
   if(!entries.length){ box.style.display = "none"; box.innerHTML = ""; clsFilter = ""; return; }
@@ -1884,10 +1891,11 @@ function taskProgress(st, kind, lang){
     });
   } else {
     const W = {}; dosWorkList(st.w.mc, cl).forEach(e => { W[e[0]] = e; });
+    const SCt = dosScoredSet(st.w.mc);
     const C = catOf(cl), idx = {};
     C.forEach((it, i) => { let f = it.f; try{ f = decodeURIComponent(f); }catch(e){} idx[f] = i; });
     (tk.items || []).forEach(f => {
-      const i = idx[f], e = i != null ? W[i] : null, done = !!e && e[1] >= e[2];
+      const i = idx[f], e = i != null ? W[i] : null, done = (!!e && e[1] >= e[2]) || (i != null && SCt.has(i));
       P.items.push({name: i != null ? actName(i, cl) : f, prog: e ? e[1] + " of " + e[2] + " questions" : "not started", done: done});
       P.of++; if (done) P.done++;
     });
@@ -1970,9 +1978,15 @@ function dosWorkList(c, lang){
     x[1] = Math.max(x[1], Math.min(n, e[1] || 0)); m[e[0]] = x; });
   return Object.values(m).sort((x, y) => x[0] - y[0]);
 }
+/* An activity is completed when the student checked it and a score was
+   recorded — the same rule the site itself uses for its "done" ring — or when
+   every question has an answer. */
+const itemComp = it => it.best != null || (it.done != null && it.done >= it.of);
+function dosScoredSet(c){ const s = new Set(); rowsOf(c).forEach(r => { if (r.pct != null) s.add(r.index); }); return s; }
 function dosMetrics(c, lang){
-  const W = dosWorkList(c, lang).filter(e => e[1] > 0);
-  const comp = W.filter(e => e[1] >= e[2]).length;
+  const SC = dosScoredSet(c);
+  const W = dosWorkList(c, lang).filter(e => e[1] > 0 || SC.has(e[0]));
+  const comp = W.filter(e => e[1] >= e[2] || SC.has(e[0])).length;
   const d = W.reduce((s, e) => s + e[1], 0), n = W.reduce((s, e) => s + e[2], 0);
   const sc = rowsOf(c).filter(r => r.pct != null);
   return {comp: comp, started: W.length, share: n ? Math.round(100 * d / n) : null, d: d, n: n,
@@ -1986,7 +2000,7 @@ function dosOverviewTable(studs, id){
   let h = '<div class="ov-wrap"><table class="ov" data-ov="'+id+'"><thead><tr>'
     + th("Student", "click for profile", "s")
     + th("Class", "", "s")
-    + th("Activities completed", "every question answered", "n", 1)
+    + th("Activities completed", "checked with a score, or all answered", "n", 1)
     + th("Activities started", "at least one answer", "n", 1)
     + th("Questions answered", "% of the questions in the activities started", "n", 1)
     + th("Average best score", "mean best % correct per activity", "n", 1)
@@ -2148,7 +2162,7 @@ function profileModel(key){
         const k = (it.sec || "Other") + (it.unit && !/^(Film|Text|Both|Grammar|Vocabulary|Speaking|Section [A-C])$/.test(it.unit) ? " · " + it.unit : "");
         const u = U[k] = U[k] || {name: k, ans: 0, ansKnown: false, n: 0, sum: 0, scored: 0, comp: 0, started: 0, d: 0, of: 0};
         if (typeof it.ans === "number"){ u.ans += it.ans; u.ansKnown = true; }
-        if (it.done){ u.started++; u.d += it.done; u.of += it.of; if (it.done >= it.of) u.comp++; }
+        if (it.done || it.best != null){ u.started++; u.d += it.done || 0; u.of += it.of || 0; if (itemComp(it)) u.comp++; }
         u.n++; if (it.best != null){ u.sum += it.best; u.scored++; }
       });
       S.units = Object.values(U).map(u => ({name: u.name, ans: u.ansKnown ? u.ans : null, n: u.n, scored: u.scored,
@@ -2188,7 +2202,7 @@ function taskFigures(S){
   const L = [];
   if (P.of) L.push([nm, P.done + " of " + P.of + " done",
     S.kind === "lex" ? "A list counts as done once it has had at least as many answers since the task was set as it has words."
-                     : "An activity counts as done once every question in it has an answer."]);
+                     : "An activity counts as done once the student has checked it and a score was recorded, or every question in it has an answer."]);
   if (P.since != null) L.push(["Questions answered since the task was set", nf(P.since),
     P.base ? "Worked out from the codes received before and after the start date." : "No code from before the start date, so this includes all the work so far."]);
   return L;
@@ -2197,7 +2211,7 @@ function keyFigures(S){
   const L = [];
   if (S.kind === "dos"){
     const m = S.dm;
-    L.push(["Activities completed", nf(m.comp) + " of " + nf(S.total), "Activities where every question or task has an answer."]);
+    L.push(["Activities completed", nf(m.comp) + " of " + nf(S.total), "Activities the student has checked, with a score recorded, or where every question has an answer — the same activities the site shows as done."]);
     L.push(["Activities started", nf(m.started), "Activities with at least one question answered."]);
     L.push(["Questions answered in the activities started", m.share == null ? "—" : m.share + " % (" + nf(m.d) + " of " + nf(m.n) + ")",
             "How much of the activities the student has started has been answered so far."
@@ -2286,7 +2300,7 @@ function profileHtml(M){
       if (S.hard.length) h += '<h4>Marked as hard by the student</h4><p>' + S.hard.map(esc).join(" · ") + '</p>';
       if (S.items.length) h += '<details class="detail"><summary>Every activity ('+S.items.length+')</summary><div class="inner">'
           + tbl(["Activity","Theme","Questions answered","Best score (% correct)","Attempts"],
-                S.items.map(it => [esc(it.name) + (it.done != null && it.done >= it.of ? ' <span style="color:var(--vert)">✓</span>' : ''), esc(it.sec),
+                S.items.map(it => [esc(it.name) + (itemComp(it) ? ' <span style="color:var(--vert)">✓</span>' : ''), esc(it.sec),
                                    it.done == null ? (it.ticked ? 'ticked, no answers' : 'opened') : it.done + ' of ' + it.of,
                                    it.best == null ? '—' : it.best + ' %', nf(it.tries)]), 2)
           + '</div></details>';
@@ -2401,7 +2415,7 @@ function profileDocBody(M, firstPage){
       if (S.items.length){
         b += wP(wR("Activities"), {style: "Heading2", keep: true});
         b += wTable(["Activity", "Completed", "Questions answered", "Best score (% correct)"],
-                    S.items.map(it => [it.name, it.done != null && it.done >= it.of ? "yes" : "", it.done == null ? (it.ticked ? "ticked, no answers" : "opened") : it.done + " of " + it.of,
+                    S.items.map(it => [it.name, itemComp(it) ? "yes" : "", it.done == null ? (it.ticked ? "ticked, no answers" : "opened") : it.done + " of " + it.of,
                                        it.best == null ? "—" : it.best + " %"]), [52, 14, 18, 16], 1);
       }
       const la = lowActivities(S);
@@ -3021,7 +3035,7 @@ function buildPrintBreakdown(){
         if (!its.length){ h += '<p style="font-size:7.8pt;margin:0;color:#555">No activity with answers recorded yet.</p>'; return; }
         h += '<table><thead><tr><th>Activity</th><th>Theme</th><th class="n">Questions answered</th><th class="n">Best score</th><th class="n">Completed</th></tr></thead><tbody>'
           + its.map(it => '<tr><td>' + esc(it.name) + '</td><td>' + esc(it.sec) + '</td><td class="n">' + (it.done == null ? '—' : it.done + ' of ' + it.of)
-              + '</td><td class="n">' + pc(it.best) + '</td><td class="n">' + (it.done != null && it.done >= it.of ? '✓' : '') + '</td></tr>').join('')
+              + '</td><td class="n">' + pc(it.best) + '</td><td class="n">' + (itemComp(it) ? '✓' : '') + '</td></tr>').join('')
           + '</tbody></table>';
       }
     });
@@ -3031,6 +3045,8 @@ function buildPrintBreakdown(){
 }
 window.addEventListener("beforeprint", buildPrintBreakdown);
 window.addEventListener("afterprint", () => { $("#printBreakdown").innerHTML = ""; });
+
+$("#showStaff").addEventListener("change", () => render(roster.entries));
 $("#btnOnce").addEventListener("click", ()=>{
   const good = readBox();
   showOk(good.length ? "Showing "+good.length+" code"+(good.length===1?"":"s")+" — not saved to the roster." : "");
