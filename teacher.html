@@ -246,7 +246,11 @@ table.pf td:nth-child(2) b{white-space:nowrap}
       — at least one answer; <b>Questions answered</b> — the share of the questions in the activities started that
       have an answer (codes sent before 12 October 2026 only record the questions answered correctly, so for those
       the share may be higher).
-      <br><b>Accuracy</b> (vocab) is the percentage of all answers that were correct. <b>Average best score</b>
+      <br><b>Comprehension</b> and <b>Production</b> (vocab) are kept apart: comprehension is understanding the word in
+      the target language and giving the English; production is writing it in the target language from the English —
+      the exam skill. Each is the percentage of answers in that direction that were correct. Codes sent before 18
+      October 2026 report the two together, shown as "both together". <b>Words mastered</b> — answered correctly at
+      reviews spread over three weeks or more, in production (main figure) and in comprehension (small). <b>Average best score</b>
       (exam practice) is, for each activity attempted, the best score reached as a percentage of questions correct,
       averaged over those activities. <b>Words mastered</b> — words answered correctly often enough to leave the
       review cycle.
@@ -593,6 +597,10 @@ function mastOf(c, kind){
   return o.mast || 0;
 }
 /* overall accuracy of a vocab code: lists weighted by questions answered when known */
+/* comprehension (target → English) and production (English → target), kept apart:
+   codes from 18 October 2026 carry them; older codes only the two together */
+function dirAcc(c){ const o = (c && c.o) || {}; return {c: typeof o.accC === "number" ? o.accC : null, p: typeof o.accP === "number" ? o.accP : null,
+                                                    mc: typeof o.mastC === "number" ? o.mastC : null}; }
 function lexAcc(c){
   const l = Array.isArray(c && c.l) ? c.l : [];
   let w = 0, s = 0, n = 0, m = 0;
@@ -1690,6 +1698,9 @@ function mergeHeads(heads, kind, lang){
       if (r[3] != null){ x[8] += r[3] * w; x[9] += w; }
     }));
     m.l = Object.values(L).map(x => { x[3] = x[9] ? Math.round(x[8] / x[9]) : null; return x.slice(0, 8); });
+    m.l.forEach(x => { let best = null;
+      heads.forEach(h => (Array.isArray(h.l) ? h.l : []).forEach(r => { if (r[0] === x[0] && r.length > 8 && (!best || (r[4] || 0) > (best[4] || 0))) best = r; }));
+      if (best){ x[8] = best[8]; x[9] = best[9]; } });
     const U = {};
     heads.forEach(h => Object.keys(h.u || {}).forEach(k => {
       const d = h.u[k], x = U[k] = U[k] || [0, d[1], 0, 0, null, 0];
@@ -1699,8 +1710,17 @@ function mergeHeads(heads, kind, lang){
       if (typeof d[4] === "number") x[4] = (x[4] || 0) + d[4];
     }));
     m.u = {}; Object.keys(U).forEach(k => { const x = U[k]; m.u[k] = [x[0], x[1], x[2], x[5] ? Math.round(x[3] / x[5]) : 0, x[4]]; });
+    /* directional unit figures: from the store with the most answers in that unit */
+    Object.keys(m.u).forEach(k => { let best = null;
+      heads.forEach(h => { const d = (h.u || {})[k]; if (d && d.length > 5 && (!best || (d[4] || 0) > (best[4] || 0))) best = d; });
+      if (best){ m.u[k][5] = best[5]; m.u[k][6] = best[6]; m.u[k][7] = best[7]; } });
     o.seen = m.l.reduce((s, r) => s + (r[1] || 0), 0) || Math.max.apply(null, heads.map(h => (h.o || {}).seen || 0));
     o.mast = Math.max.apply(null, heads.map(h => (h.o || {}).mast || 0));
+    const wavg = (k, wk) => { let s = 0, w = 0; heads.forEach(h => { const x = h.o || {}; if (typeof x[k] === "number"){ const ww = x[wk] || 1; s += x[k] * ww; w += ww; } }); return w ? Math.round(s / w) : null; };
+    if (heads.some(h => typeof (h.o || {}).accC === "number")){
+      o.accC = wavg("accC", "ansR"); o.accP = wavg("accP", "ansW");
+      o.mastC = Math.max.apply(null, heads.map(h => (h.o || {}).mastC || 0));
+    }
     m.x = [].concat.apply([], heads.map(h => Array.isArray(h.x) ? h.x : []));
     const seenC = {}; m.c = [];
     heads.forEach(h => (Array.isArray(h.c) ? h.c : []).forEach(r => { const k = JSON.stringify(r); if (!seenC[k]){ seenC[k] = 1; m.c.push(r); } }));
@@ -1959,7 +1979,8 @@ function overviewTable(studs, id){
     + th("Questions answered", "total since starting", "n", 1)
     + th("The task", "lists done", "n", 1)
     + th(esc(THIS_MONTH_NAME) + " so far", "questions answered", "n", 1)
-    + (isLex ? th("Accuracy", "% of answers correct", "n", 1) + th("Words mastered", "out of all words", "n", 1)
+    + (isLex ? th("Comprehension", "% correct, target language → English", "n", 1) + th("Production", "% correct, English → target language", "n", 1)
+               + th("Words mastered", "production · comprehension", "n", 1)
              : th("Average best score", "mean best % correct per activity", "n", 1) + th("Activities", "attempted with a score", "n", 1))
     + th("Last code", "received", "n", 1)
     + '</tr></thead><tbody>';
@@ -1977,9 +1998,11 @@ function overviewTable(studs, id){
       + td(TC.html, TC.v, "n")
       + td(m.thisMonth == null ? MUTED("—") : (m.thisApprox && m.thisMonth ? '<span class="est">about </span>' : '') + nf(m.thisMonth), m.thisMonth == null ? -1 : m.thisMonth, "n");
     if (isLex){
-      const acc = lexAcc(c);
-      h += td(acc == null ? MUTED("—") : acc + ' %', acc == null ? -1 : acc, "n")
-         + td(nf(o.mast||0) + (o.total ? '<small>of '+nf(o.total)+'</small>' : ''), o.mast||0, "n");
+      const acc = lexAcc(c), D = dirAcc(c);
+      const both = D.c == null && D.p == null && acc != null ? '<small title="This code was sent before 18 October 2026, when the two directions were first reported separately">both together: ' + acc + ' %</small>' : '';
+      h += td(D.c == null ? MUTED("—") + both : D.c + ' %', D.c == null ? -1 : D.c, "n")
+         + td(D.p == null ? MUTED("—") : D.p + ' %', D.p == null ? -1 : D.p, "n")
+         + td(nf(o.mast||0) + '<small>' + (D.mc == null ? 'production' : 'comprehension ' + nf(D.mc)) + '</small>', o.mast||0, "n");
     } else {
       const att = o.scored != null ? o.scored : attempted(c).length;
       h += td(o.avg == null ? MUTED("—") : o.avg + ' %', o.avg == null ? -1 : o.avg, "n")
@@ -2041,13 +2064,14 @@ function profileModel(key){
                months: w.months, units: [], items: [], hard: [], claims: Array.isArray(c.c) ? c.c.length : 0};
     if (g.kind === "lex"){
       S.score = {label: "Accuracy", what: "% of answers correct", v: lexAcc(c)};
-      S.mast = o.mast || 0; S.total = o.total || 0; S.seen = o.seen || 0;
+      S.mast = o.mast || 0; S.total = o.total || 0; S.seen = o.seen || 0; S.dir = dirAcc(c);
       S.writing = typeof o.ansW === "number" ? o.ansW : null; S.sess = o.sess; S.lee = o.lee;
       S.exam = examAvg(c.x);
       Object.keys(c.u || {}).sort((a,b)=>a.localeCompare(b,undefined,{numeric:true})).forEach(u => {
         const d = c.u[u];
         S.units.push({name: /^U\d/.test(u) ? "Unit " + u.slice(1) : u, ans: typeof d[4] === "number" ? d[4] : null,
-                      seen: d[0]||0, of: d[1]||0, mast: d[2]||0, acc: d[3] != null ? d[3] : pct(d[0]||0, d[1]||0)});
+                      seen: d[0]||0, of: d[1]||0, mast: d[2]||0, acc: d[3] != null ? d[3] : pct(d[0]||0, d[1]||0),
+                      accC: d.length > 5 ? d[5] : null, accP: d.length > 6 ? d[6] : null, mastC: d.length > 7 ? d[7] : null});
       });
       (Array.isArray(c.l) ? c.l : []).slice()
         .sort((a,b)=>String(a[0]).localeCompare(String(b[0]),undefined,{numeric:true}))
@@ -2055,7 +2079,8 @@ function profileModel(key){
           const t = LESSONS[g.lang] && LESSONS[g.lang][r[0]];
           S.items.push({name: String(r[0]) + (t ? " · " + t : ""), ans: typeof r[4] === "number" ? r[4] : null,
                         since: typeof r[6] === "number" ? r[6] : null, acc: r[3] != null ? r[3] : null,
-                        mast: typeof r[5] === "number" ? r[5] : null, seen: r[1]||0, of: r[2]||0});
+                        mast: typeof r[5] === "number" ? r[5] : null, seen: r[1]||0, of: r[2]||0,
+                        accC: r.length > 8 ? r[8] : null, accP: r.length > 9 ? r[9] : null});
         });
     } else {
       S.score = {label: "Average best score", what: "the mean of the best % correct in each activity attempted", v: o.avg != null ? o.avg : null};
@@ -2145,8 +2170,14 @@ function keyFigures(S){
   L.push(["Questions answered — " + THIS_MONTH_NAME + " so far", S.months.thisMonth == null ? "—" : (S.months.thisApprox && S.months.thisMonth ? "about " : "") + nf(S.months.thisMonth),
           S.months.thisMonth == null ? "Not known yet: " + S.months.thisMonthNote + "." : EXPLAIN.month]);
   if (S.kind === "lex"){
-    L.push(["Accuracy — % of answers correct", S.score.v == null ? "—" : S.score.v + " %", EXPLAIN.lexAcc]);
-    L.push(["Words mastered", nf(S.mast) + " of " + nf(S.total), EXPLAIN.mast]);
+    const D = S.dir || {};
+    if (D.c != null || D.p != null){
+      L.push(["Comprehension accuracy — % correct", D.c == null ? "—" : D.c + " %", "Understanding the word in the target language and giving the English."]);
+      L.push(["Production accuracy — % correct", D.p == null ? "—" : D.p + " %", "Writing the word in the target language from the English: the harder skill, and the one the exam rewards."]);
+    } else L.push(["Accuracy — % of answers correct (both directions together)", S.score.v == null ? "—" : S.score.v + " %",
+                   EXPLAIN.lexAcc + " The student's codes so far were sent before 18 October 2026, when comprehension and production were first reported separately."]);
+    L.push(["Words mastered in production", nf(S.mast) + " of " + nf(S.total), "Words the student can write correctly in the target language, at reviews spread over three weeks or more."]);
+    if (D.mc != null) L.push(["Words mastered in comprehension", nf(D.mc) + " of " + nf(S.total), "Words the student understands reliably, by the same three-week rule."]);
     if (S.writing != null) L.push(["Answers written in the target language", nf(S.writing), "The part of all answers typed from English into the target language — harder than recognising a word."]);
     if (S.task) L.push(["Task lists done" + (S.task.lab ? " — " + S.task.lab : ""), S.task.done + " of " + S.task.of, EXPLAIN.task]);
     if (S.exam) L.push(["Vocabulary tests — average % correct", S.exam.avg + " %", "Average over the last " + S.exam.tests + " test" + (S.exam.tests>1?"s":"") + " taken on the site."]);
@@ -2192,14 +2223,15 @@ function profileHtml(M){
     if (S.kind === "lex") h += '<h4>Questions answered by month</h4>'
        + tbl(["Month","Answered","Note"], S.months.rows.map(r => [esc(r.label), r.n == null ? '—' : (r.approx && r.n ? 'about ' : '') + nf(r.n), '<span class="mut">'+esc(r.note)+'</span>']), 1, 1);
     if (S.kind === "lex"){
-      if (S.units.length) h += '<h4>By unit</h4>' + tbl(["Unit","Answered","Words practised","Accuracy (% correct)","Mastered"],
-          S.units.map(u => [esc(u.name), nf(u.ans), u.seen + ' of ' + u.of, u.acc + ' %', nf(u.mast)]), 1);
+      const pc = v => v == null ? '—' : v + ' %';
+      if (S.units.length) h += '<h4>By unit</h4>' + tbl(["Unit","Answered","Words practised","Comprehension (% correct)","Production (% correct)","Mastered (production)"],
+          S.units.map(u => [esc(u.name), nf(u.ans), u.seen + ' of ' + u.of, u.accC == null ? '<span class="mut">' + u.acc + ' % both</span>' : pc(u.accC), pc(u.accP), nf(u.mast)]), 1);
       const wl = weakLists(S);
       if (wl.length) h += '<h4>Lists to revisit — lowest accuracy</h4>' + tbl(["List","Answered","Accuracy (% correct)"],
           wl.map(it => [esc(it.name), nf(it.ans), it.acc + ' %']), 1);
       if (S.items.length) h += '<details class="detail"><summary>Every list practised ('+S.items.length+')</summary><div class="inner">'
-          + tbl(["List","Answered","Since task","Accuracy (% correct)","Mastered","Words practised"],
-                S.items.map(it => [esc(it.name), nf(it.ans), it.since == null ? '—' : nf(it.since), it.acc == null ? '—' : it.acc + ' %', nf(it.mast), it.seen + ' of ' + it.of]), 1)
+          + tbl(["List","Answered","Comprehension (% correct)","Production (% correct)","Mastered (production)","Words practised"],
+                S.items.map(it => [esc(it.name), nf(it.ans), it.accC == null ? (it.acc == null ? '—' : '<span class="mut">' + it.acc + ' % both</span>') : pc(it.accC), pc(it.accP), nf(it.mast), it.seen + ' of ' + it.of]), 1)
           + '</div></details>';
     } else {
       if (S.units.length) h += '<h4>By theme and unit</h4>' + tbl(["Theme / unit","Completed","Started","Questions answered (% of started)","Average best score (% correct)"],
@@ -2277,7 +2309,8 @@ function profileDocBody(M, firstPage){
   const glance = M.sites.map(S => S.kind === "lex"
       ? [S.name, (S.approx && S.ans ? "about " : "") + nf(S.ans) + " questions answered since starting",
          !S.tp ? "no task recorded" : S.tp.noCode ? "no code since it was set" : (S.tp.of ? S.tp.done + " of " + S.tp.of + " done" : nf(S.since) + " questions"),
-         S.score.v == null ? "—" : "Accuracy: " + S.score.v + " % of answers correct"]
+         (S.dir && S.dir.c != null) ? "Comprehension " + S.dir.c + " % · production " + (S.dir.p == null ? "—" : S.dir.p + " %") + " correct"
+                                     : (S.score.v == null ? "—" : "Accuracy: " + S.score.v + " % of answers correct")]
       : [S.name, nf(S.dm.comp) + " activities completed, " + nf(S.dm.started) + " started"
                  + (S.dm.share == null ? "" : " (" + S.dm.share + " % of their questions answered)"),
          !S.tp ? "no task recorded" : S.tp.noCode ? "no code since it was set" : (S.tp.of ? S.tp.done + " of " + S.tp.of + " done" : nf(S.since) + " questions"),
@@ -2305,8 +2338,9 @@ function profileDocBody(M, firstPage){
     if (S.kind === "lex"){
       if (S.units.length){
         b += wP(wR("By unit"), {style: "Heading2", keep: true});
-        b += wTable(["Unit", "Questions answered", "Words practised", "Accuracy (% correct)", "Words mastered"],
-                    S.units.map(u => [u.name, nf(u.ans), u.seen + " of " + u.of, u.acc + " %", nf(u.mast)]), [20, 20, 20, 20, 20], 1);
+        const pw = v => v == null ? "—" : v + " %";
+        b += wTable(["Unit", "Questions answered", "Words practised", "Comprehension (% correct)", "Production (% correct)", "Words mastered (production)"],
+                    S.units.map(u => [u.name, nf(u.ans), u.seen + " of " + u.of, u.accC == null ? u.acc + " % (both)" : pw(u.accC), pw(u.accP), nf(u.mast)]), [16, 16, 16, 18, 17, 17], 1);
       }
       const wl = weakLists(S);
       if (wl.length){
