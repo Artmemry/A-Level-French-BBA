@@ -1,5 +1,5 @@
 /* =====================================================================
-   BBA activity kit — French — v2.1
+   BBA activity kit — French — v2.3
    Drop-in replacement for bba-kit-fr.js. Same <script src> tag, no page
    edits required.
 
@@ -13,6 +13,9 @@
      · no duplicate pads        the kit's pad hides if the page has its own
 
    Self-contained. No dependencies. Safe to paste into any page.
+   v2.3 (19 Oct 2026): dropdowns marked as soon as a choice is made;
+     numbers accepted with % or units around them ("50 %", "8 millions",
+     "2 000"); decimal comma kept; number clues say how many digits.
    ===================================================================== */
 (function () {
 "use strict";
@@ -80,7 +83,8 @@ var T = {
   "cluePlural": "pluriel (les / des)",
   "clueEnding": "Le mot est bon, c'est la terminaison qui ne l'est pas.",
   "clueClose": "Tu y es presque — regarde bien l'orthographe.",
-  "clueStart": "Début :"
+  "clueStart": "Début :",
+  "clueNumber": function(n){ return "Un nombre seul, en chiffres · " + n + " chiffre" + (n>1?"s":""); }
 };
 
 /* ---------------------------------------------------------------- utils */
@@ -154,8 +158,25 @@ function variants(expected){
   if (/,(?!\s)/.test(s) && !/,\s/.test(s)) return s.split(/\s*,\s*/).filter(Boolean);
   return [s];
 }
+/* v2.3 — numbers. A figure is right whatever the student puts round it:
+   "50 %", "50%", "8 millions", "2 000" all match 50, 8, 2000. The decimal
+   comma is kept, so "35" is no longer accepted for 3,5. */
+function isNum(w){ return /^\s*\d[\d\s\u00a0\u202f]*([.,]\d+)?\s*$/.test(String(w)); }
+function numOf(s){
+  var t = String(s||"").replace(/(\d)[\s\u00a0\u202f](?=\d{3}(\D|$))/g, "$1");
+  var m = t.match(/\d+(?:[.,]\d+)?/);
+  return m ? m[0].replace(".", ",") : null;
+}
 function judge(given, expected){
   var wants = variants(expected).filter(Boolean);
+  var nums = /\||\/\//.test(String(expected)) ? wants : [String(expected)];
+  if (nums.every(isNum)){ wants = nums; }
+  if (wants.length && wants.every(isNum)){
+    if (!keep(given)) return {code:"empty", note:T.blank, want:wants[0]};
+    var g = numOf(given);
+    for (var j=0;j<wants.length;j++) if (g !== null && g === numOf(wants[j])) return {code:"ok", note:T.right, want:wants[j]};
+    return {code:"no", note:T.wrong, want:wants[0]};
+  }
   var best = {code:"no", note:T.wrong, want:wants[0]};
   for (var i=0;i<wants.length;i++){
     var w = wants[i];
@@ -182,6 +203,8 @@ function sharedStem(a, b){
 }
 function clueFor(given, want){
   var w = variants(want)[0].trim();
+  var w0 = /\||\/\//.test(String(want)) ? w : String(want).trim();
+  if (isNum(w0)){ var d = numOf(w0).replace(",", "").length; return T.clueNumber(d); }
   var bits = [];
 
   var g = norm(given), nw = norm(w);
@@ -709,6 +732,16 @@ function focusBelowBar(el){
 }
 /* Bubble phase, and we stand down if the page already handled the key.
    A page with its own Enter behaviour keeps it; the kit only fills the gap. */
+/* v2.3 — a dropdown is marked the moment a choice is made, like Enter in a box. */
+function wireSelect(){
+  if(!ON("check")) return;
+  document.addEventListener("change", function(e){
+    var el = e.target;
+    if(!el || el.tagName !== "SELECT" || el.closest("#bba-kit") || !marked(el) || !e.isTrusted) return;
+    var want = answerOf(el, externalKey());
+    if(want != null) checkOne(el, want);
+  }, false);
+}
 function wireEnter(){
   if(OPT.enter === false) return;
   document.addEventListener("keydown", function(e){
@@ -783,9 +816,12 @@ function checkOne(el, want){
     setTip(el, T.answerIs + " " + v.want + (v.note && v.note !== T.wrong ? "  —  " + v.note : ""), "bad");
     say(T.answerIs + " " + v.want);
   };
-  if(TRIES > 0 && n < TRIES && !S.shown[k]){
+  var isSel = el.tagName === "SELECT";
+  var opts = isSel ? Array.prototype.filter.call(el.options, function(o){ return o.text.trim(); }).length : 0;
+  if(TRIES > 0 && n < TRIES && !S.shown[k] && !(isSel && opts <= 2)){
     paint(el, "bba-warn");
-    var msg = (v.note && v.note !== T.wrong ? v.note + "  " : T.tryAgain + "  ") + clueFor(val, v.want);
+    var msg = isSel ? T.tryAgain
+            : (v.note && v.note !== T.wrong ? v.note + "  " : T.tryAgain + "  ") + clueFor(val, v.want);
     setTip(el, msg, "", reveal);
     say(msg);
   } else {
@@ -1081,6 +1117,7 @@ function boot(){
   build();
   wireAutosave();
   wireEnter();
+  wireSelect();
   // Let a page's own restore logic run first; the kit only fills the gaps.
   setTimeout(offerResume, 350);
   setTimeout(meterKit, 450);
@@ -1095,7 +1132,7 @@ window.BBA = {
   save: function(){ captureAll(); saveState(true); },
   reset: clearState,
   scores: function(){ try{ return JSON.parse(localStorage.getItem("bba-scores")||"{}"); }catch(e){ return {}; } },
-  version: 2.2
+  version: 2.3
 };
 window.BBAMeter = {
   /* correct may be null for open tasks with no fixed answers; record:false

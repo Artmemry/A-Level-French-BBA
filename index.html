@@ -975,7 +975,12 @@ $("#btnLoad").addEventListener("click",function(){
         /* ticks and "opened" marks: keep both browsers' */
         var a=S.a||{}; for(var id in keep.a){ a[id]=Object.assign({}, keep.a[id], a[id]||{}); }
         keep.a=a; if(!keep.name && S.name) keep.name=S.name;
-        S=keep; save(); location.reload(); }
+        S=keep; save();
+        /* say what came back, at the top of the page, after the reload */
+        var nWork=0, nOpen=0; for(var f in (s._scores||{})) nWork++; for(var f5 in (s._done||{})) if(!(s._scores||{})[f5]) nWork++;
+        for(var id2 in s.a){ if(s.a[id2] && s.a[id2].opened) nOpen++; }
+        try{ sessionStorage.setItem("bba-restored", JSON.stringify({w:nWork, o:nOpen, old:!s._v})); }catch(e){}
+        location.href = location.pathname; }
       catch(e){ alert(CFG.badFile); } };
     rd.readAsText(f);
   });
@@ -1010,6 +1015,23 @@ function repaintAll(){
   refresh();
 }
 refresh();
+})();
+</script>
+<script>
+(function(){
+  var r=null; try{ r=JSON.parse(sessionStorage.getItem("bba-restored")||"null"); sessionStorage.removeItem("bba-restored"); }catch(e){}
+  if(!r) return;
+  var d=document.createElement("div");
+  d.id="bba-restored-msg"; d.setAttribute("role","status");
+  d.style.cssText="max-width:1180px;margin:14px auto 0;padding:12px 16px;border-radius:10px;font:15px/1.5 -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;"
+    +(r.w?"background:#EAF4EE;border:1px solid #BFD9CB;color:#1D5A3A":"background:#FFF7E6;border:1px solid #EBD5A8;color:#6B4E00");
+  d.innerHTML = r.w
+    ? "<b>Backup restored.</b> Work on "+r.w+" activit"+(r.w===1?"y":"ies")+" is back: the tiles below show it, and your progress code includes it."
+    : (r.old
+      ? "<b>Backup restored, but it held no work.</b> This backup was made before 18 October 2026, when backups only saved which activities you had opened ("+r.o+"). Scores and answers were not in it. Make a new backup in the browser where you did the work, then restore that file here."
+      : "<b>Backup restored, but it held no work.</b> The browser it came from had no activity scores or answers saved — only which activities had been opened ("+r.o+").");
+  var m=document.querySelector("main"); if(m) m.parentNode.insertBefore(d, m); else document.body.insertBefore(d, document.body.firstChild);
+  window.scrollTo(0,0);
 })();
 </script>
 </body>
