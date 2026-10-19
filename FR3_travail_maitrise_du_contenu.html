@@ -1,4 +1,7 @@
 <!DOCTYPE html>
+<!-- Version log
+  2026-10-19  Exercise 4: toolbox of interchangeable formulas (one trap per line) added above the items; every valid formula accepted (37, 39-40, 45, 47, 48); word-count clues removed; 39-40 hint corrected to 10 %; free-writing Défi line with live structure counter. Previous state in _archive.
+-->
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
@@ -48,6 +51,9 @@
   .grille td,.grille th{border:1px solid var(--line);padding:6px 10px;text-align:left;vertical-align:top}
   .grille th{background:#f2f7fa;color:var(--accent)}
   .grille td:first-child{width:52px;text-align:center;font-weight:bold;color:var(--accent)}
+  .outils td:first-child{width:230px;text-align:left;font-weight:bold;color:var(--accent)}
+  .outils td span{white-space:nowrap}
+  .outils td:first-child .note{font-weight:normal;display:block}
   .boite td:first-child{width:210px;background:#f2f7fa;font-weight:bold;text-align:left}
   .boite input[type=text]{width:100%;padding:7px 9px;font-size:1em;font-family:inherit;
        border:1.5px solid var(--line);border-radius:5px;background:#fff;color:inherit}
@@ -62,7 +68,7 @@
     .texte{line-height:2.6}
     .item .texte input[type=text]{width:100%;margin:2px 0}
     .gaps input[type=text],.inline input[type=text]{flex:1 1 100%}
-    .boite td:first-child{width:auto}
+    .boite td:first-child,.outils td:first-child{width:auto}
     .boite,.boite tbody,.boite tr,.boite td{display:block;width:100%}
   }
 </style>
@@ -212,38 +218,48 @@
   </div>
   <details class="aide"><summary>Indice</summary><div>Deux mots de la banque ne servent pas. Le dernier trou suit <i>si</i> : attention, ici <i>si</i> est suivi du présent, pas de l'imparfait.</div></details>
   <h2>Exercice 4 · La langue exigée <span class="pts">(12 points)</span></h2>
-  <div class="consigne">Neuf structures, une par ligne. Ce sont elles qui font monter la note AO3 — le contenu ne suffit pas.</div>
+  <div class="consigne">Neuf structures, une par ligne. Ce sont elles qui font monter la note AO3 — le contenu ne suffit pas. <strong>Commencez par la boîte à outils :</strong> pour chaque structure, elle propose plusieurs formules. Plusieurs sont justes ; une seule, par ligne, est un <strong>piège</strong> qui ne va pas dans la phrase. Toute formule juste est acceptée.</div>
+  <table class="grille outils">
+    <tr><th colspan="2">Boîte à outils — exercice 4 (et le Défi A*)</th></tr>
+    <tr><td>Phrase de rédaction <span class="note">(+ que + indicatif)</span></td><td><span>Force est de constater</span> · <span>Il est indéniable</span> · <span>Il convient de souligner</span> · <span>Il va sans dire</span> · <span>Chacun peut constater</span> · <span>Il faut reconnaître</span> · <span>Il est possible</span></td></tr>
+    <tr><td>Verbes : conditionnel, imparfait, subjonctif</td><td><span>deviendrait</span> · <span>deviendra</span> · <span>devienne</span> · <span>devenait</span> · <span>était</span> · <span>serait</span> · <span>agiraient</span> · <span>agissaient</span></td></tr>
+    <tr><td>Négation complexe</td><td><span>ne… que</span> · <span>ne… plus que</span> · <span>ne… guère que</span> · <span>ne… pas</span></td></tr>
+    <tr><td>Pronoms relatifs</td><td><span>ce qui</span> · <span>ce que</span> · <span>dont</span> · <span>où</span></td></tr>
+    <tr><td>Structure à l'infinitif</td><td><span>Après avoir</span> · <span>Pour avoir</span> · <span>Sans avoir</span> · <span>Avant de</span></td></tr>
+    <tr><td>Superlatif</td><td><span>les plus bas</span> · <span>les plus faibles</span> · <span>les moins élevés</span> · <span>le plus faible</span></td></tr>
+    <tr><td>Participe présent</td><td><span>En imposant</span> · <span>Imposant</span> · <span>En ayant imposé</span> · <span>En imposé</span></td></tr>
+  </table>
   <div class="item"><p class="q">37. <i>phrase de rédaction</i> — « __________________ que le rapport des Français au travail a changé en profondeur. »</p>
     <div class="gaps">
-      <input type="text" autocomplete="off" spellcheck="false" data-answer="Force est de constater|force est de constater|Il est indéniable|il est indéniable" placeholder="" aria-label="phrase de rédaction 37">
+      <input type="text" autocomplete="off" spellcheck="false" data-answer="Force est de constater|Il est indéniable|Il convient de souligner|Il va sans dire|Chacun peut constater|Il faut reconnaître|Il est évident|Il est clair|Il est incontestable|On ne peut nier|Nul ne peut nier|Force est d'admettre|Il faut admettre|Il convient de rappeler|Il est important de noter|On constate|Il apparaît" placeholder="" aria-label="phrase de rédaction 37">
     </div>
-    <details class="aide"><summary>Indice</summary><div>Cinq mots avant <i>que</i>, ou quatre pour l'autre formule acceptée.</div></details>
+    <details class="aide"><summary>Indice</summary><div>N'importe quelle formule juste de la boîte. Le piège : après <i>Il est possible que</i>, il faudrait le subjonctif (<i>ait changé</i>), or la phrase dit <i>a changé</i>.</div></details>
   </div>
   <div class="item"><p class="q">38. <i>un autre temps — le conditionnel</i> — « Sans réforme, le système de retraites __________________ (devenir) déficitaire. »</p>
     <div class="gaps">
       <input type="text" autocomplete="off" spellcheck="false" data-answer="deviendrait" placeholder="" aria-label="un autre temps — le conditionnel 38">
     </div>
-    <details class="aide"><summary>Indice</summary><div>Radical du futur, terminaison de l'imparfait.</div></details>
+    <details class="aide"><summary>Indice</summary><div>Radical du futur, terminaison de l'imparfait. <i>Deviendra</i> serait du futur : juste en français, mais ce n'est pas la structure demandée ici.</div></details>
   </div>
   <div class="item"><p class="q">39-40. <i>négation complexe</i> — « Les syndicats français __________________ représentent __________________ un salarié sur dix. »</p>
     <div class="gaps">
       <input type="text" autocomplete="off" spellcheck="false" data-answer="ne|n'" placeholder="" aria-label="négation complexe 39">
-      <input type="text" autocomplete="off" spellcheck="false" data-answer="que|qu'" placeholder="" aria-label="négation complexe 40">
+      <input type="text" autocomplete="off" spellcheck="false" data-answer="qu'|que|plus qu'|plus que|guère qu'|guère que" placeholder="" aria-label="négation complexe 40">
     </div>
-    <details class="aide"><summary>Indice</summary><div><i>ne… que</i> restreint : « seulement 8 % ».</div></details>
+    <details class="aide"><summary>Indice</summary><div>Trois formules marchent : <i>ne… qu'</i> (seulement 10 %), <i>ne… plus qu'</i> (ils en représentaient davantage autrefois), <i>ne… guère qu'</i> (à peine). Devant <i>un</i>, <i>que</i> s'élide : <i>qu'un</i>. <i>Ne… pas</i> dirait le contraire.</div></details>
   </div>
   <div class="item"><p class="q">41-42. <i>si + imparfait + conditionnel</i> — « Si l'index de l'égalité __________________ (être) réellement sanctionné, les entreprises __________________ (agir) plus vite. »</p>
     <div class="gaps">
       <input type="text" autocomplete="off" spellcheck="false" data-answer="était" placeholder="" aria-label="si + imparfait + conditionnel 41">
       <input type="text" autocomplete="off" spellcheck="false" data-answer="agiraient" placeholder="" aria-label="si + imparfait + conditionnel 42">
     </div>
-    <details class="aide"><summary>Indice</summary><div><i>Agir</i> est du deuxième groupe : le conditionnel se forme sur l'infinitif entier.</div></details>
+    <details class="aide"><summary>Indice</summary><div>Jamais de conditionnel après <i>si</i> : donc <i>était</i>, pas <i>serait</i>. <i>Agir</i> est du deuxième groupe : le conditionnel se forme sur l'infinitif entier.</div></details>
   </div>
   <div class="item"><p class="q">43. <i>pronom relatif</i> — « Le télétravail évite deux heures de transport par jour, __________________ explique son succès. » (deux mots)</p>
     <div class="gaps">
       <input type="text" autocomplete="off" spellcheck="false" data-answer="ce qui" placeholder="" aria-label="pronom relatif 43">
     </div>
-    <details class="aide"><summary>Indice</summary><div>Il reprend toute la proposition précédente.</div></details>
+    <details class="aide"><summary>Indice</summary><div>Il reprend toute la proposition précédente, et il est sujet de <i>explique</i> : <i>ce qui</i>, pas <i>ce que</i>.</div></details>
   </div>
   <div class="item"><p class="q">44. <i>pronom relatif — dont</i> — « La loi Rixain, __________________ on parle beaucoup, vise les cadres dirigeants. »</p>
     <div class="gaps">
@@ -251,11 +267,11 @@
     </div>
     <details class="aide"><summary>Indice</summary><div>Le verbe est <i>parler <b>de</b> quelque chose</i> : le relatif absorbe le <i>de</i>.</div></details>
   </div>
-  <div class="item"><p class="q">45. <i>structure à l'infinitif</i> — « __________________ __________________ __________________ conclu un accord d'entreprise, une PME peut déroger à l'accord de branche. » (trois mots)</p>
+  <div class="item"><p class="q">45. <i>structure à l'infinitif</i> — « __________________ conclu un accord d'entreprise, une PME peut déroger à l'accord de branche. »</p>
     <div class="gaps">
-      <input type="text" autocomplete="off" spellcheck="false" data-answer="Après avoir|après avoir" placeholder="" aria-label="structure à l'infinitif 45">
+      <input type="text" autocomplete="off" spellcheck="false" data-answer="Après avoir|Pour avoir" placeholder="" aria-label="structure à l'infinitif 45">
     </div>
-    <details class="aide"><summary>Indice</summary><div>Préposition + auxiliaire à l'infinitif, avant le participe passé.</div></details>
+    <details class="aide"><summary>Indice</summary><div>Préposition + <i>avoir</i>, avant le participe passé. L'accord doit exister d'abord : <i>Sans avoir</i> dirait le contraire, et <i>Avant de</i> ne va pas avec <i>conclu</i>.</div></details>
   </div>
   <div class="item"><p class="q">46. <i>subjonctif</i> — « Il faudrait que la transparence salariale __________________ (devenir) la règle. »</p>
     <div class="gaps">
@@ -263,17 +279,21 @@
     </div>
     <details class="aide"><summary>Indice</summary><div>Subjonctif présent de <i>devenir</i> : radical en <b>-ienn-</b>.</div></details>
   </div>
-  <div class="item"><p class="q">47. <i>comparatif / superlatif</i> — « La France a l'un des taux de syndicalisation __________________ __________________ __________________ d'Europe. » (trois mots)</p>
+  <div class="item"><p class="q">47. <i>superlatif</i> — « La France a l'un des taux de syndicalisation __________________ d'Europe. »</p>
     <div class="gaps">
-      <input type="text" autocomplete="off" spellcheck="false" data-answer="les plus faibles" placeholder="" aria-label="comparatif / superlatif 47">
+      <input type="text" autocomplete="off" spellcheck="false" data-answer="les plus faibles|les plus bas|les moins élevés" placeholder="" aria-label="superlatif 47">
     </div>
-    <details class="aide"><summary>Indice</summary><div>Superlatif : article + <i>plus</i> + adjectif accordé au pluriel.</div></details>
+    <details class="aide"><summary>Indice</summary><div>Article + <i>plus</i> / <i>moins</i> + adjectif. L'adjectif s'accorde avec <i>taux</i>, qui est ici au pluriel (<i>l'un des taux</i>) : <i>le plus faible</i> ne va pas.</div></details>
   </div>
-  <div class="item"><p class="q">48. <i>participe présent</i> — « __________________ (imposer) un quota de 30 %, le législateur a accéléré la féminisation des directions. » (deux mots)</p>
+  <div class="item"><p class="q">48. <i>participe présent</i> — « __________________ (imposer) un quota de 30 %, le législateur a accéléré la féminisation des directions. »</p>
     <div class="gaps">
-      <input type="text" autocomplete="off" spellcheck="false" data-answer="En imposant|en imposant" placeholder="" aria-label="participe présent 48">
+      <input type="text" autocomplete="off" spellcheck="false" data-answer="En imposant|Imposant|En ayant imposé" placeholder="" aria-label="participe présent 48">
     </div>
-    <details class="aide"><summary>Indice</summary><div><i>En</i> + participe présent : il exprime le moyen.</div></details>
+    <details class="aide"><summary>Indice</summary><div><i>En</i> + participe présent exprime le moyen ; sans <i>en</i>, ou au passé (<i>en ayant imposé</i>), c'est juste aussi. Le piège : <i>imposé</i> est un participe passé.</div></details>
+  </div>
+  <div class="item"><p class="q"><b>Défi.</b> Écrivez <b>votre</b> phrase sur le monde du travail qui combine deux structures de la boîte. Le compteur reconnaît les structures pendant que vous tapez.</p>
+    <textarea id="ex4-libre" placeholder="Ex. : Force est de constater que les femmes ne gagnent que…" aria-label="Défi exercice 4 : votre phrase"></textarea>
+    <div id="bilan4" class="jauge"></div>
   </div>
   <div class="stretch">
     <h2>Défi A* — la boîte à cinq cases <span class="pts">(non noté automatiquement)</span></h2>
@@ -442,8 +462,17 @@
       + tag(tp.length >= 2, "temps employés : " + tp.length + " / 2", tp.join(" · ")) + "<br>"
       + tag(st.length >= 3, "structures : " + st.length + " / 3", st.join(" · "));
   }
-  function refresh(){ readBoxes(); readAnswer(); }
-  ["b1","b2","b3","b4","b5","reponse"].forEach(function(id){
+  function readEx4(){
+    var b = document.getElementById("bilan4"); if(!b) return;
+    var v = g("ex4-libre");
+    if(!words(v)){ b.innerHTML = ""; return; }
+    var st = found(v, STRUCT), ph = hits(v, PHRASES), tp = tenses(v).filter(function(x){ return x === "conditionnel"; });
+    var all = ph.length ? ["phrase de rédaction"] : [];
+    all = all.concat(tp, st.filter(function(x){ return x !== "nominalisation"; }));
+    b.innerHTML = tag(all.length >= 2, all.length >= 2 ? all.length + " structures — objectif atteint" : "structures : " + all.length + " / 2", all.join(" · "));
+  }
+  function refresh(){ readBoxes(); readAnswer(); readEx4(); }
+  ["b1","b2","b3","b4","b5","reponse","ex4-libre"].forEach(function(id){
     var e = document.getElementById(id);
     if(e) e.addEventListener("input", refresh);
   });
