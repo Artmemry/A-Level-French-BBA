@@ -1,4 +1,9 @@
 <!DOCTYPE html>
+<!-- Version log
+     26 Oct 2026 — mise à jour : sondage Ifop-Fiducial 17–19 oct. 2026 (simulateur, portraits) ;
+       Lisnard hors LR ; victoire de Glucksmann à la primaire (11 oct.) ; Dilemme 4 (second tour,
+       étude Cluster17 / Terra Nova) ; exercices A–D et lexique adaptés ; libellé « La réaction politique ».
+-->
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
@@ -42,6 +47,13 @@ h1{font-family:var(--serif);font-size:1.85rem;line-height:1.18;margin:0 0 8px}
 .dilemme p{font-family:var(--serif);font-size:1.05rem;line-height:1.7;margin:0 0 10px}
 .dilemme p:last-of-type{margin-bottom:0}
 .gloss{border-bottom:1px dotted var(--rouge);cursor:help}
+.d-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+.lire{flex:0 0 auto;border:1.5px solid var(--line-strong);background:var(--card);border-radius:20px;padding:5px 13px;font:600 .82rem/1.2 inherit;cursor:pointer;color:var(--bleu)}
+.lire:hover{border-color:var(--bleu)}
+.lire.on{background:var(--bleu);color:#fff;border-color:var(--bleu)}
+.dilemme .s{cursor:pointer;border-radius:4px;transition:background .2s}
+.dilemme .s:hover{background:var(--bleu-pale)}
+.dilemme .s.now{background:#FFE9A8}
 .tension{display:flex;gap:12px;flex-wrap:wrap;margin-top:14px}
 .tension div{flex:1;min-width:200px;background:var(--paper);border:1px solid var(--line);border-radius:9px;padding:10px 13px;font-size:.9rem}
 .tension b{display:block;font-family:var(--mono);font-size:.63rem;text-transform:uppercase;letter-spacing:.07em;color:var(--bleu);margin-bottom:3px}
@@ -60,9 +72,9 @@ h1{font-family:var(--serif);font-size:1.85rem;line-height:1.18;margin:0 0 8px}
 .credits b{color:var(--ink-soft)}
 .sim{background:var(--card);border:1px solid var(--line-strong);border-radius:var(--radius);box-shadow:var(--shadow);padding:20px}
 .sim-row{display:flex;align-items:center;gap:11px;margin-bottom:9px;flex-wrap:wrap}
-.sim-name{min-width:132px;font-size:.9rem;font-weight:600}
+.sim-name{flex:0 0 172px;font-size:.9rem;font-weight:600}
 .sim-track{flex:1;min-width:170px;height:26px;background:var(--paper);border-radius:6px;overflow:hidden}
-.sim-fill{height:100%;border-radius:6px;transition:width .45s cubic-bezier(.4,0,.2,1);display:flex;align-items:center;
+.sim-fill{white-space:nowrap;min-width:3.8em;height:100%;border-radius:6px;transition:width .45s cubic-bezier(.4,0,.2,1);display:flex;align-items:center;
   justify-content:flex-end;padding-right:8px;color:#fff;font-family:var(--mono);font-size:.75rem;font-weight:700}
 .sim-q{font-family:var(--mono);font-size:.7rem;min-width:76px;text-align:right}
 .sim-q.in{color:var(--vert);font-weight:700}
@@ -152,10 +164,10 @@ footer.site{max-width:940px;margin:0 auto;padding:18px 20px 40px;border-top:1px 
 
 <main>
   <h1>Présidentielle 2027 : qui ira au second tour ?</h1>
-  <p class="lede">Le Rassemblement national est donné à plus de 30 % : il est presque certain d'être au second tour. Tous les autres se disputent la deuxième place — et c'est là que tout se joue. Trois camps, trois dilemmes, une seule question d'arithmétique.</p>
+  <p class="lede">Le RN est à 36 % : il ira presque sûrement au second tour. Qui va l'y rejoindre ? Et peut-on encore le battre ?</p>
 
   <div class="uk">
-    <p><b>Pour un élève britannique :</b> au Royaume-Uni, on vote une fois et celui qui arrive en tête gagne (<i>first past the post</i>). En France, il y a deux tours : on vote « avec le cœur » au premier, puis souvent « contre quelqu'un » au second. D'où le piège : si un camp présente quatre candidats, ses voix se divisent et <b>aucun</b> n'atteint le second tour — même si ce camp représente un tiers du pays.</p>
+    <p><b>Pour un élève britannique :</b> au Royaume-Uni, on vote une fois (<i>first past the post</i>). En France, il y a deux tours. Seuls les deux premiers vont au second tour : si un camp a trop de candidats, ses voix se divisent et <b>aucun</b> n'y arrive.</p>
   </div>
 
   <div class="card no-print">
@@ -169,41 +181,38 @@ footer.site{max-width:940px;margin:0 auto;padding:18px 20px 40px;border-top:1px 
 
   <div class="section-label">Dilemme 1 · Le centre et la droite</div>
   <div class="dilemme">
-    <h2>Quatre candidats pour une place</h2>
-    <div class="sous">« Si nous y allons tous, nous perdons tous »</div>
-    <p><b>Édouard Philippe</b>, ancien Premier ministre et maire du Havre, est candidat depuis 2024. <b>Gabriel Attal</b>, lui aussi ancien Premier ministre et patron de Renaissance, s'est déclaré en mai 2026. Les deux hommes viennent du même camp et visent le même électorat. Ils ont donc passé un accord : celui qui sera le moins bien placé dans les sondages en février 2027 <span class="gloss" title="abandonner, renoncer">jettera l'éponge</span>.</p>
-    <p>À droite, <b>Bruno Retailleau</b> a été désigné candidat par les adhérents des Républicains. Mais sa campagne peine à décoller et les <span class="gloss" title="figures importantes d'un parti">ténors</span> du parti n'ont pas renoncé : <b>Xavier Bertrand</b> sillonne la France, <b>Michel Barnier</b> se dit « capable d'être président », <b>David Lisnard</b> est déjà candidat. <b>Laurent Wauquiez</b>, lui, réclame une grande <span class="gloss" title="vote pour désigner le candidat d'un camp">primaire</span>.</p>
-    <p>Même <b>Gérald Darmanin</b>, ministre de la Justice, l'a dit publiquement : « Il faut un seul candidat. » Personne ne le conteste. Personne ne veut être celui qui se retire.</p>
-    <div class="tension">
-      <div><b>L'argument de l'union</b>Divisés, ils finissent troisièmes et laissent la finale à d'autres.</div>
-      <div><b>L'argument de la fierté</b>Chacun se croit le meilleur — et se retirer, c'est disparaître pour cinq ans.</div>
-    </div>
+    <div class="d-head"><div><h2>Trop de candidats pour une place</h2>
+    <div class="sous">Se retirer, ou perdre ensemble ?</div></div>
+    <button class="lire no-print" type="button" title="Écouter et lire">▶ Écouter</button></div>
+    <p><span class="s">Au centre, deux anciens Premiers ministres, <b>Édouard Philippe</b> et <b>Gabriel Attal</b>, veulent les mêmes électeurs.</span> <span class="s">Candidats tous les deux, ils ont 12 % et 5 % ; seul, Philippe aurait 15 %.</span> <span class="s">Ils ont donc promis : en février 2027, le moins bien placé <span class="gloss" title="abandonnera">jettera l'éponge</span>.</span> <span class="s">À droite, même problème : <b>David Lisnard</b> a quitté Les Républicains et se présente contre <b>Bruno Retailleau</b>.</span></p>
   </div>
 
   <div class="section-label">Dilemme 2 · La gauche</div>
   <div class="dilemme">
-    <h2>Deux primaires et un homme seul</h2>
-    <div class="sous">Unité ou identité</div>
-    <p><b>Jean-Luc Mélenchon</b> (La France insoumise) est candidat pour la quatrième fois, autour de 14 %. Sa position est simple : il est le seul à gauche à pouvoir gagner, donc les autres devraient <span class="gloss" title="ne pas se présenter">s'effacer</span>. « Ceux qui n'ont aucune chance d'accéder au second tour devraient se garder de nous empêcher d'essayer de le gagner. »</p>
-    <p>Le reste de la gauche refuse cette logique — sans réussir à s'organiser. Le Parti socialiste a choisi une primaire <span class="gloss" title="limitée à">réservée à</span> ses seuls adhérents, ce qui a fait <span class="gloss" title="abandonner définitivement">enterrer</span> la « primaire de la gauche unitaire » prévue en octobre. <b>Raphaël Glucksmann</b>, crédité de 13 %, ne s'est toujours pas déclaré. <b>François Hollande</b> attend son heure en <span class="gloss" title="solution de dernier recours">recours</span>. <b>Bernard Cazeneuve</b> refuse toute primaire.</p>
-    <p>Et <b>Marine Tondelier</b>, patronne des Écologistes, résume le piège en une phrase : « Je ne serai jamais le bulletin de vote qui fait gagner le Rassemblement national. »</p>
-    <div class="tension">
-      <div><b>Le calcul de Mélenchon</b>14 % plus le vote utile = une place en finale, si la gauche se rallie à lui.</div>
-      <div><b>Le refus des autres</b>Se rallier à LFI, c'est perdre les électeurs modérés — donc perdre aussi.</div>
-    </div>
+    <div class="d-head"><div><h2>Une primaire, mais toujours deux gauches</h2>
+    <div class="sous">Unité ou identité ?</div></div>
+    <button class="lire no-print" type="button" title="Écouter et lire">▶ Écouter</button></div>
+    <p><span class="s"><b>Jean-Luc Mélenchon</b> (LFI, 16,5 %) se croit le seul à gauche à pouvoir gagner : pour lui, les autres doivent <span class="gloss" title="ne pas se présenter">s'effacer</span>.</span> <span class="s">Mais le 11 octobre, <b>Raphaël Glucksmann</b> a gagné la <span class="gloss" title="vote pour choisir le candidat d'un camp">primaire</span> de la gauche modérée avec 66 % des voix.</span> <span class="s">Pour la première fois, le Parti socialiste n'aura pas de candidat.</span> <span class="s">Et <b>François Hollande</b> n'a pas encore dit s'il sera candidat.</span></p>
   </div>
 
   <div class="section-label">Dilemme 3 · Le Rassemblement national</div>
   <div class="dilemme">
-    <h2>Un procès, puis une candidature</h2>
-    <div class="sous">Le tribunal a tranché avant les électeurs</div>
-    <p>Pendant des mois, le RN n'a pas su qui serait son candidat : <b>Marine Le Pen</b> ou son jeune président, <b>Jordan Bardella</b>. Tout s'est joué le 7 juillet 2026. La cour d'appel de Paris a reconnu Marine Le Pen coupable de <span class="gloss" title="usage illégal d'argent public">détournement de fonds publics</span> dans l'affaire des assistants parlementaires européens — mais ne l'a condamnée qu'à 45 mois d'<span class="gloss" title="interdiction de se présenter à une élection">inéligibilité</span>, dont 30 avec <span class="gloss" title="peine qui ne s'applique pas immédiatement">sursis</span>.</p>
-    <p>Autrement dit : elle peut se présenter. Elle a annoncé sa candidature le jour même et s'est <span class="gloss" title="a saisi la plus haute juridiction">pourvue en cassation</span>, ce qui suspend sa peine. La Cour de cassation statuera « au plus tard début avril 2027 » — quelques jours avant le premier tour du 18 avril.</p>
-    <p>Bardella, préparé depuis deux ans, se retrouve sur le banc de touche. Et le RN, lui, reste au-dessus de 30 %.</p>
+    <div class="d-head"><div><h2>Coupable, mais candidate</h2>
+    <div class="sous">Le Pen ou Bardella ?</div></div>
+    <button class="lire no-print" type="button" title="Écouter et lire">▶ Écouter</button></div>
+    <p><span class="s">Le 7 juillet 2026, la justice a déclaré <b>Marine Le Pen</b> coupable de <span class="gloss" title="utilisation illégale d'argent public">détournement de fonds publics</span>.</span> <span class="s">Mais son <span class="gloss" title="interdiction de se présenter à une élection">inéligibilité</span> est en grande partie avec <span class="gloss" title="la peine ne s'applique pas tout de suite">sursis</span> : elle peut donc se présenter.</span> <span class="s">La Cour de cassation décidera début avril, juste avant le premier tour du 18 avril 2027.</span> <span class="s"><b>Jordan Bardella</b> reste sur le banc de touche, et le RN monte à 36 %.</span></p>
+  </div>
+
+  <div class="section-label">Dilemme 4 · Le second tour</div>
+  <div class="dilemme">
+    <div class="d-head"><div><h2>La fin du barrage ?</h2>
+    <div class="sous">Le « front républicain » existe-t-il encore ?</div></div>
+    <button class="lire no-print" type="button" title="Écouter et lire">▶ Écouter</button></div>
+    <p><span class="s">Avant, contre l'extrême droite, la gauche et la droite votaient ensemble au second tour : c'était le <b>front républicain</b>.</span> <span class="s">Selon l'institut Cluster17, c'est fini : chaque camp refuse de voter pour l'autre, et le <span class="gloss" title="au second tour, les voix d'un candidat éliminé passent à un autre">report de voix</span> ne marche plus.</span> <span class="s">Seulement 57 % des électeurs du centre refusent de voter Le Pen.</span> <span class="s">Résultat : selon Ifop, elle gagne tous ses duels, avec 56 % à 68 % des voix.</span></p>
   </div>
 
   <div class="section-label">À toi de jouer · le simulateur du premier tour</div>
-  <p class="hint">Clique pour unir ou diviser chaque camp, puis regarde qui atteint le second tour. Les chiffres sont des ordres de grandeur inspirés des sondages de l'été 2026.</p>
+  <p class="hint">Clique sur chaque camp pour changer de scénario, puis regarde qui va au second tour. Chiffres : sondage Ifop, 17–19 octobre 2026 (marge d'erreur : 1 à 2 points). Les petits candidats ne sont pas affichés. * = estimation : Ifop n'a pas testé ce scénario.</p>
   <div class="sim">
     <div class="toggles" id="toggles"></div>
     <div id="bars"></div>
@@ -211,7 +220,6 @@ footer.site{max-width:940px;margin:0 auto;padding:18px 20px 40px;border-top:1px 
   </div>
 
   <div class="btn-row no-print" style="margin-bottom:8px">
-    <button class="btn small ghost" id="btnLire">🔊 Écouter les dilemmes</button>
     <button class="btn small ghost" id="btnImprimer">Imprimer</button>
   </div>
 
@@ -254,9 +262,10 @@ footer.site{max-width:940px;margin:0 auto;padding:18px 20px 40px;border-top:1px 
 </main>
 
 <footer class="site">
-  Thème 3 · La réaction de la société et de l'État. Textes originaux rédigés pour cette activité à partir de faits
-  publiés par Les Echos (juillet–août 2026). Les pourcentages sont des ordres de grandeur issus des sondages de l'été 2026,
-  destinés à illustrer le mécanisme du scrutin, non des prévisions. Fonctionne sans connexion.
+  Thème 3 · La réaction politique. Textes originaux rédigés pour cette activité à partir de faits publiés par Les Echos
+  (juillet–septembre 2026), de l'étude Cluster17 pour Terra Nova (septembre 2026) et du sondage Ifop-Fiducial du 17–19 octobre 2026.
+  Les intentions de vote ne sont pas une prévision du résultat : elles indiquent un rapport de force au moment du sondage.
+  Mis à jour le 26 octobre 2026. Fonctionne sans connexion.
 </footer>
 
 <script>
@@ -280,12 +289,13 @@ function norm(s){return String(s||"").toLowerCase().normalize("NFD").replace(/[\
 
 /* ───── portraits : fichiers locaux img/, repli élégant si absents ───── */
 var GENS=[
- {n:"Marine Le Pen",r:"Rassemblement national",s:"> 30 %",c:"s-rn",img:"img/le-pen.jpg"},
- {n:"Jean-Luc Mélenchon",r:"La France insoumise",s:"≈ 14 %",c:"s-g",img:"img/melenchon.jpg"},
- {n:"Gabriel Attal",r:"Renaissance · ancien PM",s:"centre",c:"s-c",img:"img/attal.jpg"},
- {n:"Bruno Retailleau",r:"Les Républicains",s:"droite",c:"s-d",img:"img/retailleau.jpg"},
- {n:"Édouard Philippe",r:"Horizons · ancien PM",s:"centre droit",c:"s-c",img:null},
- {n:"Raphaël Glucksmann",r:"Place publique",s:"≈ 13 %",c:"s-g",img:null}
+ {n:"Marine Le Pen",r:"Rassemblement national",s:"36 %",c:"s-rn",img:"img/le-pen.jpg"},
+ {n:"Jean-Luc Mélenchon",r:"La France insoumise",s:"16,5 %",c:"s-g",img:"img/melenchon.jpg"},
+ {n:"Raphaël Glucksmann",r:"Place publique · vainqueur de la primaire",s:"13,5 %",c:"s-g",img:null},
+ {n:"Édouard Philippe",r:"Horizons · ancien PM",s:"12 à 15 %",c:"s-c",img:null},
+ {n:"Gabriel Attal",r:"Renaissance · ancien PM",s:"5 à 13 %",c:"s-c",img:"img/attal.jpg"},
+ {n:"Bruno Retailleau",r:"Les Républicains",s:"5,5 à 7,5 %",c:"s-d",img:"img/retailleau.jpg"},
+ {n:"David Lisnard",r:"Divers droite · ex-LR",s:"5,5 à 7 %",c:"s-d",img:null}
 ];
 var who=$("#who");
 GENS.forEach(function(g){
@@ -313,47 +323,44 @@ $("#credits").innerHTML =
  +"Auteur et licence de chaque fichier : voir sa page sur Wikimedia Commons.";
 
 /* ───── simulateur du premier tour ─────
-   Trois décisions réelles du moment : le centre présente-t-il un ou deux candidats ?
-   la droite se rallie-t-elle ? la gauche social-démocrate fait-elle une primaire unique ? */
-var CHOIX={centreUni:false, droiteRallie:false, gaucheUnie:false};
-var QUESTIONS=[
- {k:"centreUni", nom:"Le centre",
-  oui:"UN SEUL candidat (Philippe ou Attal)", non:"DEUX candidats rivaux"},
- {k:"droiteRallie", nom:"La droite (LR)",
-  oui:"SE RALLIE au candidat du centre", non:"présente Bruno Retailleau"},
- {k:"gaucheUnie", nom:"La gauche social-démocrate",
-  oui:"UN SEUL candidat (primaire)", non:"DISPERSÉE (PS, Glucksmann, Écologistes)"}
+   Chiffres : Ifop-Fiducial pour LCI, Le Figaro et Sud Radio, 17–19 octobre 2026.
+   Chaque camp a plusieurs scénarios ; un clic passe au suivant.
+   Les valeurs marquées est:true sont des estimations (scénario non testé par Ifop). */
+var C_RN="#7A0A18", C_CEN="#2B4C9B", C_DR="#26417F", C_GS="#5B3A87", C_LFI="#8E2B5E";
+var CAMPS=[
+ {nom:"Le centre", etat:0, sc:[
+   {lib:"Philippe ET Attal candidats", l:[{n:"Édouard Philippe",v:12,coul:C_CEN},{n:"Gabriel Attal",v:5,coul:C_CEN}]},
+   {lib:"Philippe seul (Attal se retire)", l:[{n:"Édouard Philippe",v:15,coul:C_CEN}]},
+   {lib:"Attal seul (Philippe se retire)", l:[{n:"Gabriel Attal",v:13,coul:C_CEN}], rn:38}
+ ]},
+ {nom:"La droite", etat:0, sc:[
+   {lib:"Retailleau ET Lisnard candidats", l:[{n:"Bruno Retailleau",v:6.5,coul:C_DR},{n:"David Lisnard",v:5.5,coul:C_DR}]},
+   {lib:"un seul candidat (Lisnard se retire)", l:[{n:"Bruno Retailleau",v:7.5,coul:C_DR}]}
+ ]},
+ {nom:"La gauche modérée", etat:0, sc:[
+   {lib:"Glucksmann, avec les Écologistes à côté", l:[{n:"Raphaël Glucksmann",v:13.5,coul:C_GS}]},
+   {lib:"tous derrière Glucksmann", l:[{n:"Raphaël Glucksmann",v:16,coul:C_GS}]},
+   {lib:"Hollande se présente aussi", l:[{n:"Raphaël Glucksmann",v:10,coul:C_GS,est:true},{n:"François Hollande",v:6,coul:C_GS,est:true}]}
+ ]}
 ];
+/* Second tour (Ifop) : score de Marine Le Pen face à chaque adversaire */
+var DUEL={"Édouard Philippe":56,"Gabriel Attal":58,"Raphaël Glucksmann":57,"François Hollande":59,"Jean-Luc Mélenchon":68};
+function fr(v){return String(v).replace(".",",");}
 var togWrap=$("#toggles");
-QUESTIONS.forEach(function(q){
+CAMPS.forEach(function(c){
   var t=el("button",{class:"tog",type:"button"});
   function paint(){
-    t.className="tog"+(CHOIX[q.k]?" on":"");
-    t.innerHTML="<span>"+q.nom+"</span><small>"+(CHOIX[q.k]?q.oui:q.non)+"</small>";
+    t.className="tog"+(c.etat>0?" on":"");
+    t.innerHTML="<span>"+c.nom+" ▸</span><small>"+c.sc[c.etat].lib+"</small>";
   }
-  t.addEventListener("click",function(){ CHOIX[q.k]=!CHOIX[q.k]; paint(); dessiner(); });
+  t.addEventListener("click",function(){ c.etat=(c.etat+1)%c.sc.length; paint(); dessiner(); });
   paint(); togWrap.appendChild(t);
 });
-var C_RN="#7A0A18", C_CEN="#2B4C9B", C_DR="#26417F", C_GS="#5B3A87", C_LFI="#8E2B5E";
 function calculer(){
-  var l=[];
-  l.push({n:"Marine Le Pen",v:32,coul:C_RN});
-  var bonusDroite = CHOIX.droiteRallie ? 9 : 0;
-  if(CHOIX.centreUni){
-    l.push({n:"Philippe ou Attal"+(bonusDroite?" + LR":""),v:21+bonusDroite,coul:C_CEN});
-  } else {
-    l.push({n:"Édouard Philippe"+(bonusDroite?" + LR":""),v:12+bonusDroite,coul:C_CEN});
-    l.push({n:"Gabriel Attal",v:9,coul:C_CEN});
-  }
-  if(!CHOIX.droiteRallie) l.push({n:"Bruno Retailleau",v:9,coul:C_DR});
-  if(CHOIX.gaucheUnie){
-    l.push({n:"Candidat unique de la gauche",v:15,coul:C_GS});
-  } else {
-    l.push({n:"Raphaël Glucksmann",v:8,coul:C_GS});
-    l.push({n:"Candidat PS",v:4,coul:C_GS});
-    l.push({n:"Écologistes",v:3,coul:C_GS});
-  }
-  l.push({n:"Jean-Luc Mélenchon",v:14,coul:C_LFI});
+  var rn=36, l=[];
+  CAMPS.forEach(function(c){ var s=c.sc[c.etat]; if(s.rn)rn=s.rn; s.l.forEach(function(x){l.push(x);}); });
+  l.push({n:"Marine Le Pen",v:rn,coul:C_RN});
+  l.push({n:"Jean-Luc Mélenchon",v:16.5,coul:C_LFI});
   l.sort(function(a,b){return b.v-a.v;});
   return l;
 }
@@ -364,21 +371,17 @@ function dessiner(){
   liste.forEach(function(c,i){
     var ok=(i<2);
     bars.appendChild(el("div",{class:"sim-row"},
-      el("div",{class:"sim-name"},c.n),
+      el("div",{class:"sim-name"},c.n+(c.est?" *":"")),
       el("div",{class:"sim-track"},
-        el("div",{class:"sim-fill",style:"width:"+(100*c.v/max)+"%;background:"+c.coul+";opacity:"+(ok?1:.4)},c.v+" %")),
+        el("div",{class:"sim-fill",style:"width:"+(100*c.v/max)+"%;background:"+c.coul+";opacity:"+(ok?1:.4)},fr(c.v)+" %")),
       el("div",{class:"sim-q "+(ok?"in":"out")},ok?"2ᵈ tour ✓":"éliminé")));
   });
-  var a=liste[0],b=liste[1];
-  var txt="<b>Second tour :</b> "+a.n+" ("+a.v+" %) contre "+b.n+" ("+b.v+" %).";
-  var ecart=a.v-b.v;
-  if(a.n.indexOf("Le Pen")>=0){
-    if(ecart<=3) txt+="<br>L'écart n'est que de "+ecart+" point"+(ecart>1?"s":"")+" : le RN n'est plus assuré d'arriver en tête.";
-    else txt+="<br>Le RN arrive largement en tête, avec "+ecart+" points d'avance sur son adversaire.";
-  }
-  var unis=0; QUESTIONS.forEach(function(q){ if(CHOIX[q.k]) unis++; });
-  if(unis===3) txt+="<br><b>Tous les camps se sont rassemblés</b> — le scénario le plus difficile pour le RN.";
-  if(unis===0) txt+="<br><b>Personne ne s'est rassemblé</b> — et c'est Mélenchon, avec 14 %, qui profite de la division des autres.";
+  var a=liste[0],b=liste[1],c3=liste[2];
+  var txt="<b>Second tour :</b> "+a.n+" ("+fr(a.v)+" %) contre "+b.n+" ("+fr(b.v)+" %).";
+  var ecart=Math.round((b.v-c3.v)*10)/10;
+  if(ecart<=2.2) txt+="<br>Entre la 2ᵉ et la 3ᵉ place ("+c3.n+"), il y a seulement "+fr(ecart)+" point"+(ecart>=2?"s":"")+" de différence : c'est dans la marge d'erreur. Rien n'est décidé.";
+  else txt+="<br>"+b.n+" devance "+c3.n+" de "+fr(ecart)+" points.";
+  if(a.n.indexOf("Le Pen")>=0 && DUEL[b.n]) txt+="<br><b>Et ensuite ?</b> Face à "+b.n+", Ifop donne Marine Le Pen gagnante avec "+DUEL[b.n]+" % (voir le Dilemme 4).";
   $("#verdict").innerHTML=txt;
 }
 dessiner();
@@ -415,20 +418,24 @@ function attachPad(i){i.addEventListener("focus",function(){showPad(i);});}
 var A=[
  {t:"Philippe et Attal ont prévu que l'un des deux se retire avant le premier tour.",r:"V",
   x:"Le moins bien placé dans les sondages en février 2027 doit jeter l'éponge."},
- {t:"Bruno Retailleau a été désigné candidat par les adhérents des Républicains.",r:"V",
-  x:"Mais cette désignation n'a pas fait taire les ambitions rivales."},
+ {t:"David Lisnard fait campagne au nom des Républicains.",r:"F",
+  x:"Il a quitté Les Républicains et se présente contre Bruno Retailleau."},
  {t:"La cour d'appel de Paris a déclaré Marine Le Pen innocente.",r:"F",
-  x:"Elle a été reconnue coupable ; c'est l'aménagement de la peine qui lui permet de se présenter."},
+  x:"Elle a été déclarée coupable, mais le sursis lui permet de se présenter."},
  {t:"Jean-Luc Mélenchon demande aux autres candidats de gauche de s'effacer.",r:"V",
   x:"Selon lui, ceux qui ne peuvent pas gagner ne devraient pas l'empêcher d'essayer."},
- {t:"Le dossier indique quel candidat le Parti socialiste a finalement choisi.",r:"NM",
-  x:"Il décrit la primaire réservée aux adhérents, mais n'en donne aucun résultat."},
+ {t:"Pour la première fois, le Parti socialiste n'aura pas de candidat issu de ses rangs.",r:"V",
+  x:"C'est Raphaël Glucksmann, qui n'est pas au PS, qui a gagné la primaire."},
  {t:"Jordan Bardella sera le candidat du RN en 2027.",r:"F",
-  x:"Marine Le Pen s'est déclarée le jour de la décision ; Bardella est écarté."},
+  x:"C'est Marine Le Pen qui est candidate ; Bardella reste sur le banc de touche."},
  {t:"La Cour de cassation doit se prononcer peu avant le premier tour.",r:"V",
-  x:"Au plus tard début avril 2027, quelques jours avant le 18 avril."},
+  x:"Début avril 2027, juste avant le premier tour du 18 avril."},
  {t:"Le dossier précise le montant des fonds européens détournés.",r:"NM",
-  x:"L'affaire est nommée, mais aucun montant n'est donné."}
+  x:"L'affaire est nommée, mais aucun montant n'est donné."},
+ {t:"Selon Cluster17, la gauche et la droite votent encore ensemble contre l'extrême droite.",r:"F",
+  x:"C'est fini : chaque camp refuse de voter pour l'autre."},
+ {t:"Le dossier indique combien d'électeurs de Mélenchon voteraient Le Pen au second tour.",r:"NM",
+  x:"Le dossier dit qu'ils ne votent pas pour un candidat modéré contre elle, mais il ne donne pas de chiffre."}
 ];
 var B=[
  {q:"Pourquoi Édouard Philippe et Gabriel Attal ont-ils conclu un accord ?",
@@ -436,28 +443,33 @@ var B=[
   modele:"Ils visent le même électorat et risquent de diviser leurs voix ; ils ont donc convenu qu'en février 2027 le moins bien placé dans les sondages se retirerait."},
  {q:"Pourquoi la décision du 7 juillet 2026 a-t-elle été décisive pour le Rassemblement national ?",
   cles:[["coupable","condamnee","detournement"],["peut se presenter","eligible","sursis","candidature","candidate"]],
-  modele:"Le Pen a été reconnue coupable, mais l'essentiel de la peine d'inéligibilité était avec sursis : elle pouvait donc se présenter, ce qu'elle a annoncé aussitôt."},
- {q:"Résume le désaccord entre Jean-Luc Mélenchon et le reste de la gauche.",
-  cles:[["seul","unique","s effacer","effacer","se rallier","retirer"],["refuse","refusent","moderes","identite","desaccord","pas d accord"]],
-  modele:"Mélenchon estime être le seul à pouvoir gagner et demande aux autres de s'effacer, mais le reste de la gauche refuse de se rallier à lui."},
- {q:"Sers-toi du simulateur : qu'arrive-t-il au centre droit s'il présente deux candidats au lieu d'un ?",
-  cles:[["divise","separe","partage","deux"],["elimine","pas au second","second tour","qualifie","perd"]],
-  modele:"Ses voix se divisent entre Philippe et Attal, si bien qu'aucun des deux n'atteint le second tour, alors qu'un candidat unique y parviendrait."}
+  modele:"Le Pen a été déclarée coupable, mais une grande partie de son inéligibilité est avec sursis : elle peut donc être candidate, et pas Bardella."},
+ {q:"Pourquoi la victoire de Glucksmann à la primaire ne règle-t-elle pas tous les problèmes de la gauche ?",
+  cles:[["melenchon","lfi","insoumis"],["hollande","divis","deux gauches","plusieurs candidats"]],
+  modele:"La gauche reste divisée : Mélenchon ne veut pas s'effacer, et Hollande peut encore être candidat."},
+ {q:"Sers-toi du simulateur : que se passe-t-il pour le centre si Philippe et Attal sont tous les deux candidats ?",
+  cles:[["divise","separe","partage","deux"],["elimine","pas au second","second tour","qualifie","perd","melenchon"]],
+  modele:"Leurs voix se divisent (12 % et 5 %), si bien qu'aucun des deux n'atteint le second tour : c'est Mélenchon qui se qualifie face à Le Pen."},
+ {q:"D'après le Dilemme 4, pourquoi le « front républicain » ne fonctionne-t-il plus ?",
+  cles:[["rejet","refus","ne vote","ne voterait","l autre camp","camp d en face"],["report","passent","proche","voisin","hesit","22","57","accept"]],
+  modele:"Parce que chaque camp refuse de voter pour l'autre : le report de voix ne marche plus, et seulement 57 % des électeurs du centre refusent de voter Le Pen."}
 ];
 var C=[
  {def:"interdiction de se présenter à une élection",r:"l'inéligibilité"},
  {def:"peine qui ne s'applique pas immédiatement",r:"le sursis"},
  {def:"abandonner, renoncer à la compétition",r:"jeter l'éponge"},
- {def:"les personnalités les plus importantes d'un parti",r:"les ténors"},
+ {def:"ne pas se présenter, laisser la place à un autre",r:"s'effacer"},
  {def:"vote interne pour désigner le candidat d'un camp",r:"une primaire"},
- {def:"usage illégal de l'argent public",r:"le détournement de fonds"}
+ {def:"usage illégal de l'argent public",r:"le détournement de fonds"},
+ {def:"au second tour, les voix d'un candidat éliminé passent à un autre",r:"le report de voix"},
+ {def:"quand la gauche et la droite votent ensemble contre l'extrême droite",r:"le front républicain"}
 ];
-var C_OPC=["l'inéligibilité","le sursis","jeter l'éponge","les ténors","une primaire","le détournement de fonds","le scrutin","le bulletin de vote"];
+var C_OPC=["l'inéligibilité","le report de voix","le sursis","jeter l'éponge","les intentions de vote","s'effacer","une primaire","le front républicain","le détournement de fonds","le scrutin","le bulletin de vote"];
 var CHECK=[
  "J'ai écrit entre 90 et 120 mots.",
  "J'ai employé au moins un subjonctif (bien que, pour que, il faut que…).",
  "J'ai utilisé deux connecteurs logiques (cependant, en revanche, par conséquent…).",
- "J'ai cité une donnée chiffrée du dossier (30 %, 14 %, 45 mois…).",
+ "J'ai cité une donnée chiffrée du dossier (36 %, 66 %, 57 %…).",
  "J'ai donné un avis clair, pas seulement un résumé."
 ];
 var etat={A:{},B:{},C:{},pointsA:0,pointsB:0,pointsC:0};
@@ -567,11 +579,8 @@ function peindre(){
 }
 peindre();
 
-$("#btnLire").addEventListener("click",function(){
-  if(!("speechSynthesis" in window)){alert("Ton navigateur ne propose pas de voix.");return;}
-  var texte=Array.prototype.slice.call(document.querySelectorAll(".dilemme p"))
-    .map(function(p){return p.textContent;}).join(" ");
-  var u=new SpeechSynthesisUtterance(texte);
+/* ───── lecture audio + surlignage : un bouton par texte, clic sur une phrase = lecture à partir d'elle ───── */
+function voixFr(){
   var vs=speechSynthesis.getVoices()||[],best=null,bp=-1;
   vs.forEach(function(v){
     if(!v.lang||v.lang.toLowerCase().indexOf("fr")!==0)return;
@@ -583,9 +592,39 @@ $("#btnLire").addEventListener("click",function(){
     if(/espeak|compact/.test(n))p-=60;
     if(p>bp){bp=p;best=v;}
   });
-  if(best)u.voice=best;
-  u.lang="fr-FR";u.rate=0.9;
-  speechSynthesis.cancel();speechSynthesis.speak(u);
+  return best;
+}
+var lecture={jeton:0,btn:null};
+function arreter(){
+  lecture.jeton++;
+  if("speechSynthesis" in window)speechSynthesis.cancel();
+  document.querySelectorAll(".dilemme .s.now").forEach(function(x){x.classList.remove("now");});
+  if(lecture.btn){lecture.btn.classList.remove("on");lecture.btn.textContent="▶ Écouter";lecture.btn=null;}
+}
+function lire(bloc,depuis){
+  if(!("speechSynthesis" in window)){alert("Ton navigateur ne propose pas de voix.");return;}
+  arreter();
+  var jeton=lecture.jeton, phr=bloc.querySelectorAll(".s"), btn=bloc.querySelector(".lire");
+  lecture.btn=btn; btn.classList.add("on"); btn.textContent="■ Arrêter";
+  var v=voixFr();
+  (function suivante(k){
+    if(jeton!==lecture.jeton)return;
+    if(k>0)phr[k-1].classList.remove("now");
+    if(k>=phr.length){arreter();return;}
+    phr[k].classList.add("now");
+    var u=new SpeechSynthesisUtterance(phr[k].textContent);
+    if(v)u.voice=v; u.lang="fr-FR"; u.rate=0.9;
+    u.onend=function(){suivante(k+1);};
+    u.onerror=function(){if(jeton===lecture.jeton)arreter();};
+    speechSynthesis.speak(u);
+  })(depuis||0);
+}
+document.querySelectorAll(".dilemme").forEach(function(bloc){
+  var btn=bloc.querySelector(".lire");
+  btn.addEventListener("click",function(){ if(lecture.btn===btn)arreter(); else lire(bloc,0); });
+  bloc.querySelectorAll(".s").forEach(function(ph,k){
+    ph.addEventListener("click",function(){ lire(bloc,k); });
+  });
 });
 $("#btnImprimer").addEventListener("click",function(){window.print();});
 
