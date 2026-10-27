@@ -1,6 +1,17 @@
 <!DOCTYPE html>
 <!-- Version log
   2026-10-19  Opening instruction paragraph in English; French terms kept in French (italics).
+  2026-10-27  Rebuilt with five single-topic texts and FR3/FR9-style exercises (superseded the same evening).
+  2026-10-27  Rebuilt card by card for Paper 3, Task 1, from the 05 Médias unit material (5.1 Peut-on tout dire ?,
+              5.2 La presse écrite en voie de disparition ?, 5.3 L'influence des médias et des nouvelles technologies)
+              updated to 2026 facts. One tab per media card of the department's Paper 3 set (declaration, bullet points,
+              questions copied verbatim); the two June 2025 declarations from Pearson's examiner report attached to cards 1
+              and 6. Each tab: a short read-along text (trend, causes, consequences, one example beyond France), three
+              fact questions, the examiner's two questions answered in writing with feedback (position, evidence, beyond
+              France, consequence, concession, subjunctive / passive / past conditional / si + pluperfect / dont-lequel)
+              and a model answer with its language marked, and a probing follow-up (A* stretch). Last tab: random card,
+              5-minute preparation timer, notes, « de bonnes expressions », questions revealed one by one. Every fact is
+              sourced at the foot of the page. Previous state in _archive.
 -->
 <html lang="fr">
 <head>
@@ -68,6 +79,60 @@
     .boite td:first-child{width:auto}
     .boite,.boite tbody,.boite tr,.boite td{display:block;width:100%}
   }
+
+  .lu{background:#fbfdfe;border:1px solid var(--line);border-left:5px solid var(--accent2);border-radius:6px;padding:12px 16px;margin:12px 0}
+  .lu-head{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:6px}
+  .lu h3{font-size:1.05em;color:var(--accent2)}
+  .lu p{line-height:1.75}
+  .lire{flex:0 0 auto;border:1.5px solid var(--accent);background:#fff;color:var(--accent);border-radius:18px;padding:4px 12px;font:600 .88em/1.2 inherit;cursor:pointer}
+  .lire.on{background:var(--accent);color:#fff}
+  .lu .s{cursor:pointer;border-radius:3px}
+  .lu .s:hover{background:#e9f3f7}
+  .lu .s.now{background:#ffe9a8}
+  .gloss{border-bottom:1px dotted var(--accent2);cursor:help}
+  .tabs{display:flex;flex-wrap:wrap;gap:6px;margin:18px 0 6px;padding-top:4px}
+  .tab{border:1.5px solid var(--accent);background:#fff;color:var(--accent);border-radius:18px;padding:5px 13px;font:600 .92em/1.3 inherit;cursor:pointer}
+  .tab.on{background:var(--accent);color:#fff}
+  .tab.sim{border-color:var(--accent2);color:var(--accent2)}
+  .tab.sim.on{background:var(--accent2);color:#fff}
+  .panel h2{margin-top:14px}
+  h3.sous{font-size:1.06em;color:var(--accent);margin:22px 0 4px}
+  .carte{border:2px solid var(--ink);border-radius:8px;padding:12px 16px;margin:10px 0;background:#fffdf6}
+  .carte .ct{font-size:.8em;text-transform:uppercase;letter-spacing:.06em;color:#5a6a78;margin-bottom:4px}
+  .carte .decl{font-size:1.12em;font-weight:bold}
+  .carte .sur{margin-top:8px;font-size:.92em;color:#5a6a78}
+  .carte ul{margin:2px 0 0 22px}
+  .juin{background:#fdf7f9;border-left:4px solid var(--accent2);padding:8px 12px;margin:8px 0;border-radius:0 6px 6px 0;font-size:.95em}
+  .who{display:inline-block;font-size:.78em;font-weight:bold;color:#fff;background:var(--accent);border-radius:4px;padding:1px 7px;margin-right:4px;vertical-align:1px}
+  .ans textarea{min-height:120px}
+  .row{display:flex;flex-wrap:wrap;align-items:center;gap:12px;margin-top:8px}
+  .btn-check{border:1.5px solid var(--accent);background:var(--accent);color:#fff;border-radius:5px;padding:6px 14px;font:600 .95em inherit;cursor:pointer}
+  details.voir summary{cursor:pointer;color:var(--accent);font-weight:600}
+  .fb{margin-top:8px;font-size:.95em}
+  .fb .ok,.auto li.ok{color:var(--ok)}
+  .fb .no,.auto li.no{color:var(--warn)}
+  .auto{list-style:none;margin:6px 0 0}
+  .auto li{margin:3px 0;font-weight:600}
+  .mod{background:#f2f7fa;border-left:4px solid var(--accent);padding:8px 12px;margin-top:8px;border-radius:0 6px 6px 0;color:var(--ink)}
+  .mod-top{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:4px}
+  .showlg{border:1px solid var(--accent);background:#fff;color:var(--accent);border-radius:14px;padding:2px 10px;font:600 .82em inherit;cursor:pointer}
+  .showlg-on .lg{background:#fff1c2;border-bottom:2px solid #c99700}
+  .showlg-on .lg:after{content:" [" attr(data-k) "]";font-size:.72em;font-weight:bold;color:#8a6d00}
+  .next{margin-top:10px;border:1.5px solid var(--accent2);background:#fff;color:var(--accent2);border-radius:5px;padding:5px 12px;font:600 .92em inherit;cursor:pointer}
+  .timer{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:12px 0}
+  .timer #chrono{font:bold 1.6em/1 Consolas,monospace;color:var(--accent2);min-width:3.2em}
+  .timer button{border:1.5px solid var(--accent);background:#fff;color:var(--accent);border-radius:5px;padding:4px 10px;font:600 .9em inherit;cursor:pointer}
+  details.banque-exp{margin:10px 0}
+  details.banque-exp summary{cursor:pointer;color:var(--accent);font-weight:600}
+  .bk{margin:8px 0}
+  .bk b{display:inline-block;min-width:6.5em;color:#5a6a78;font-size:.9em}
+  .chip{border:1px solid var(--line);background:#fff;border-radius:14px;padding:3px 9px;margin:3px 4px 3px 0;font:.9em inherit;cursor:pointer;color:var(--ink)}
+  .chip:hover{border-color:var(--accent)}
+  .src{display:inline-block;min-width:1.6em;text-align:center;font-size:.78em;font-weight:bold;color:#fff;background:var(--accent2);border-radius:4px;padding:0 5px;margin-right:4px}
+  .sources{list-style:none;margin:8px 0;font-size:.85em}
+  .sources li{margin:3px 0}
+  .stretch h3.sous{color:var(--accent2);margin-top:4px}
+  @media (max-width:700px){ .tab{font-size:.86em;padding:4px 10px} .timer #chrono{font-size:1.35em} }
 </style>
 <link rel="stylesheet" href="bba-mobile.css">
 </head>
@@ -75,371 +140,371 @@
 <div class="wrap">
   <header>
     <h1>FR5 · Les médias — maîtriser le contenu</h1>
-    <p class="meta">A-Level French (Edexcel) · Thème 2, unité 2.2 — Les médias · Paper 3, Tâche 1 · Durée conseillée : 40 min</p>
+    <p class="meta">A-Level French (Edexcel) · Thème 2, unité 2.2 — Les médias · Paper 3, Tâche 1 · About 10 minutes per card</p>
   </header>
-  <div class="consigne"><strong>What makes the difference in the speaking exam.</strong> This unit has more figures than any other in the course: the annual <i>baromètre</i> gives precise percentages on how far French people trust the news. Quote two and your answer moves up a level. Type your answer and press <strong>Enter</strong>: it is marked straight away, and you get a clue before the answer is shown. Write your name at the bottom of the screen, then press <strong>« Send to your teacher »</strong> to hand in your work.</div>
-  <table class="grille">
-    <tr><th colspan="2">Le contenu : la structure PEEL</th></tr>
-    <tr><td>P</td><td><b>Point</b> — l'idée, en une phrase.</td></tr>
-    <tr><td>E</td><td><b>Evidence</b> — une statistique, une date, une loi, un exemple précis.</td></tr>
-    <tr><td>E</td><td><b>Explication</b> — qu'est-ce que cela montre ? causes ? conséquences ? qui ?</td></tr>
-    <tr><td>L</td><td><b>Lien</b> — vers un autre sous-thème du programme.</td></tr>
-    <tr><th colspan="2">La langue : ce que l'examinateur cherche</th></tr>
-    <tr><td>1</td><td>Le lexique du sujet, et du <b>lexique rare</b> — <i>exercices 1 et 3</i></td></tr>
-    <tr><td>2</td><td>Les phrases de rédaction et les connecteurs — <i>exercice 3</i></td></tr>
-    <tr><td>3</td><td>Plusieurs temps, les négations complexes, les propositions en <i>si</i>, les pronoms relatifs, les structures à l'infinitif, le subjonctif, le comparatif et le participe présent — <i>exercice 4</i></td></tr>
-  </table>
-  <h2>Exercice 1 · Le lexique de l'unité <span class="pts">(12 points)</span></h2>
-  <div class="consigne">Écrivez l'expression française, avec l'article quand il y en a un. Ce sont les mots que l'examinateur attend dès votre première phrase.</div>
-  <div class="item inline"><p class="q">1. the print press</p>
-    <input type="text" autocomplete="off" spellcheck="false" data-answer="la presse écrite|presse écrite" placeholder="" aria-label="the print press">
-  </div>
-  <div class="item inline"><p class="q">2. disinformation</p>
-    <input type="text" autocomplete="off" spellcheck="false" data-answer="la désinformation|désinformation" placeholder="" aria-label="disinformation">
-  </div>
-  <div class="item inline"><p class="q">3. fake news (the official French term)</p>
-    <input type="text" autocomplete="off" spellcheck="false" data-answer="les infox|une infox|infox|l'infox" placeholder="" aria-label="fake news (the official French term)">
-    <details class="aide"><summary>Indice</summary><div>Le terme recommandé par la Commission d'enrichissement de la langue française.</div></details>
-  </div>
-  <div class="item inline"><p class="q">4. freedom of expression</p>
-    <input type="text" autocomplete="off" spellcheck="false" data-answer="la liberté d'expression|liberté d'expression" placeholder="" aria-label="freedom of expression">
-  </div>
-  <div class="item inline"><p class="q">5. hate speech</p>
-    <input type="text" autocomplete="off" spellcheck="false" data-answer="le discours de haine|discours de haine|la haine en ligne" placeholder="" aria-label="hate speech">
-  </div>
-  <div class="item inline"><p class="q">6. a check on power</p>
-    <input type="text" autocomplete="off" spellcheck="false" data-answer="un contre-pouvoir|le contre-pouvoir|contre-pouvoir" placeholder="" aria-label="a check on power">
-  </div>
-  <div class="item inline"><p class="q">7. distrust</p>
-    <input type="text" autocomplete="off" spellcheck="false" data-answer="la défiance|défiance" placeholder="" aria-label="distrust">
-    <details class="aide"><summary>Indice</summary><div>Plus fort que <i>la méfiance</i> : une défiance est installée.</div></details>
-  </div>
-  <div class="item inline"><p class="q">8. advertising revenue</p>
-    <input type="text" autocomplete="off" spellcheck="false" data-answer="les recettes publicitaires|recettes publicitaires" placeholder="" aria-label="advertising revenue">
-  </div>
-  <div class="item inline"><p class="q">9. media literacy</p>
-    <input type="text" autocomplete="off" spellcheck="false" data-answer="l'éducation aux médias|éducation aux médias" placeholder="" aria-label="media literacy">
-  </div>
-  <div class="item inline"><p class="q">10. the newsroom / editorial team</p>
-    <input type="text" autocomplete="off" spellcheck="false" data-answer="la rédaction|rédaction" placeholder="" aria-label="the newsroom / editorial team">
-    <details class="aide"><summary>Indice</summary><div>Celle de Charlie Hebdo a été attaquée en janvier 2015.</div></details>
-  </div>
-  <div class="item inline"><p class="q">11. an echo chamber</p>
-    <input type="text" autocomplete="off" spellcheck="false" data-answer="une chambre d'écho|la chambre d'écho|chambre d'écho" placeholder="" aria-label="an echo chamber">
-  </div>
-  <div class="item inline"><p class="q">12. the digital divide</p>
-    <input type="text" autocomplete="off" spellcheck="false" data-answer="la fracture numérique|fracture numérique" placeholder="" aria-label="the digital divide">
-  </div>
-  <h2>Exercice 2 · Les faits qui comptent <span class="pts">(12 points)</span></h2>
-  <div class="consigne">Une réponse sans preuve reste une opinion. Complétez chaque phrase — un chiffre, une date, un nom de loi ou de personne.</div>
-  <div class="item"><p class="q">13. L'________, autorité de régulation de la communication audiovisuelle et numérique, est née en 2022 de la fusion du CSA et de la Hadopi.</p>
-    <input type="text" autocomplete="off" spellcheck="false" data-answer="Arcom|l'Arcom|ARCOM" placeholder="" aria-label="réponse 13">
-  </div>
-  <div class="item"><p class="q">14. Le règlement européen sur les services numériques, le ________, est pleinement entré en vigueur en février 2024.</p>
-    <input type="text" autocomplete="off" spellcheck="false" data-answer="DSA|le DSA" placeholder="" aria-label="réponse 14">
-    <details class="aide"><summary>Indice</summary><div>Trois lettres.</div></details>
-  </div>
-  <div class="item"><p class="q">15. La loi ________ de 2020 contre la haine en ligne a été très largement censurée par le Conseil constitutionnel.</p>
-    <input type="text" autocomplete="off" spellcheck="false" data-answer="Avia|loi Avia|la loi Avia" placeholder="" aria-label="réponse 15">
-  </div>
-  <div class="item"><p class="q">16. Le Conseil constitutionnel a jugé que le délai de ________ h imposé pour retirer certains contenus risquait de pousser à une censure excessive.</p>
-    <input type="text" autocomplete="off" spellcheck="false" data-answer="24" placeholder="" aria-label="réponse 16">
-  </div>
-  <div class="item"><p class="q">17. La liberté d'expression est garantie par l'article ________ de la Déclaration des droits de l'homme et du citoyen de 1789.</p>
-    <input type="text" autocomplete="off" spellcheck="false" data-answer="11|onze" placeholder="" aria-label="réponse 17">
-  </div>
-  <div class="item"><p class="q">18. Reporters sans frontières publie depuis 2002 un classement annuel portant sur environ ________ pays.</p>
-    <input type="text" autocomplete="off" spellcheck="false" data-answer="180" placeholder="" aria-label="réponse 18">
-  </div>
-  <div class="item"><p class="q">19. Selon le baromètre publié en janvier 2026, ________ % des Français déclarent suivre l'actualité avec intérêt, soit 5 points de moins qu'en 2024.</p>
-    <input type="text" autocomplete="off" spellcheck="false" data-answer="71" placeholder="" aria-label="réponse 19">
-  </div>
-  <div class="item"><p class="q">20. Ceux qui la suivent « avec un très grand intérêt » ne sont plus que ________ %, une chute de 9 points en un an.</p>
-    <input type="text" autocomplete="off" spellcheck="false" data-answer="24" placeholder="" aria-label="réponse 20">
-  </div>
-  <div class="item"><p class="q">21. ________ % des Français estiment qu'il faut se méfier de ce que disent les médias sur les grands sujets d'actualité.</p>
-    <input type="text" autocomplete="off" spellcheck="false" data-answer="61" placeholder="" aria-label="réponse 21">
-  </div>
-  <div class="item"><p class="q">22. Pourtant, ________ % considèrent les médias comme un contre-pouvoir essentiel à la démocratie.</p>
-    <input type="text" autocomplete="off" spellcheck="false" data-answer="65" placeholder="" aria-label="réponse 22">
-  </div>
-  <div class="item"><p class="q">23. ________ % des Français estiment que les fausses informations en ligne sont de plus en plus nombreuses.</p>
-    <input type="text" autocomplete="off" spellcheck="false" data-answer="91" placeholder="" aria-label="réponse 23">
-  </div>
-  <div class="item"><p class="q">24. Le débat sur la liberté d'expression a été relancé par l'attentat du 7 janvier ________ contre la rédaction de Charlie Hebdo.</p>
-    <input type="text" autocomplete="off" spellcheck="false" data-answer="2015" placeholder="" aria-label="réponse 24">
-  </div>
-  <h2>Exercice 3 · Le texte à trous <span class="pts">(11 points)</span></h2>
-  <div class="consigne">Complétez le paragraphe avec les expressions de la banque. <strong>Attention :</strong> la banque contient des intrus qui ne servent pas. Respectez la majuscule en début de phrase.</div>
-  <div class="banque"><strong>Banque :</strong> <span>presse écrite</span> <span>dangers</span> <span>réseaux sociaux</span> <span>Pourtant</span> <span>débats télévisés</span> <span>indéniable</span> <span>interactif</span> <span>En conclusion</span> <span>crédibilité</span> <span>démocratie</span> <span>fiables</span> <span>désinformation</span></div>
-  <div class="item">
-  <div class="texte">
-    Il est
-    <input type="text" autocomplete="off" spellcheck="false" data-answer="indéniable" placeholder="…" aria-label="trou 25">
-    que les médias traditionnels rivalisent avec Internet. Les jeunes préfèrent les
-    <input type="text" autocomplete="off" spellcheck="false" data-answer="réseaux sociaux" placeholder="…" aria-label="trou 26">
-    pour leur côté
-    <input type="text" autocomplete="off" spellcheck="false" data-answer="interactif" placeholder="…" aria-label="trou 27">
-    .
-    <input type="text" autocomplete="off" spellcheck="false" data-answer="Pourtant|pourtant" placeholder="…" aria-label="trou 28">
-    , la télévision garde une
-    <input type="text" autocomplete="off" spellcheck="false" data-answer="crédibilité" placeholder="…" aria-label="trou 29">
-    lors des
-    <input type="text" autocomplete="off" spellcheck="false" data-answer="débats télévisés" placeholder="…" aria-label="trou 30">
-    . La
-    <input type="text" autocomplete="off" spellcheck="false" data-answer="désinformation" placeholder="…" aria-label="trou 31">
-    sur Internet pose des
-    <input type="text" autocomplete="off" spellcheck="false" data-answer="dangers" placeholder="…" aria-label="trou 32">
-    pour la
-    <input type="text" autocomplete="off" spellcheck="false" data-answer="démocratie" placeholder="…" aria-label="trou 33">
-    .
-    <input type="text" autocomplete="off" spellcheck="false" data-answer="En conclusion|en conclusion" placeholder="…" aria-label="trou 34">
-    , les médias doivent rester
-    <input type="text" autocomplete="off" spellcheck="false" data-answer="fiables" placeholder="…" aria-label="trou 35">
-    .
-  </div>
-  </div>
-  <details class="aide"><summary>Indice</summary><div>Un seul mot de la banque ne sert pas. Deux trous demandent un connecteur : l'un marque l'opposition, l'autre la conclusion.</div></details>
-  <h2>Exercice 4 · La langue exigée <span class="pts">(15 points)</span></h2>
-  <div class="consigne">Neuf structures, une par ligne. Ce sont elles qui font monter la note AO3 — le contenu ne suffit pas.</div>
-  <div class="item"><p class="q">36. <i>phrase de rédaction</i> — « __________________ que la confiance des Français dans l'information s'érode d'année en année. »</p>
-    <div class="gaps">
-      <input type="text" autocomplete="off" spellcheck="false" data-answer="On ne peut nier|on ne peut nier|Force est de constater|force est de constater" placeholder="" aria-label="phrase de rédaction 36">
-    </div>
-  </div>
-  <div class="item"><p class="q">37-38. <i>un autre temps — le plus-que-parfait</i> — « Avant l'arrivée d'Internet, la presse écrite __________________ __________________ (concentrer) l'essentiel des recettes publicitaires. »</p>
-    <div class="gaps">
-      <input type="text" autocomplete="off" spellcheck="false" data-answer="avait" placeholder="" aria-label="un autre temps — le plus-que-parfait 37">
-      <input type="text" autocomplete="off" spellcheck="false" data-answer="concentré" placeholder="" aria-label="un autre temps — le plus-que-parfait 38">
-    </div>
-    <details class="aide"><summary>Indice</summary><div>Auxiliaire à l'imparfait, puis le participe passé.</div></details>
-  </div>
-  <div class="item"><p class="q">39-41. <i>négation complexe</i> — « Les plus jeunes __________________ lisent __________________ la presse papier __________________ les hebdomadaires. »</p>
-    <div class="gaps">
-      <input type="text" autocomplete="off" spellcheck="false" data-answer="ne|n'" placeholder="" aria-label="négation complexe 39">
-      <input type="text" autocomplete="off" spellcheck="false" data-answer="ni" placeholder="" aria-label="négation complexe 40">
-      <input type="text" autocomplete="off" spellcheck="false" data-answer="ni" placeholder="" aria-label="négation complexe 41">
-    </div>
-    <details class="aide"><summary>Indice</summary><div>La double négation <i>ne… ni… ni…</i>. Pas de <i>pas</i> avec elle.</div></details>
-  </div>
-  <div class="item"><p class="q">42-43. <i>si + imparfait + conditionnel</i> — « Si l'éducation aux médias __________________ (commencer) plus tôt, les infox __________________ (circuler) moins vite. »</p>
-    <div class="gaps">
-      <input type="text" autocomplete="off" spellcheck="false" data-answer="commençait" placeholder="" aria-label="si + imparfait + conditionnel 42">
-      <input type="text" autocomplete="off" spellcheck="false" data-answer="circuleraient" placeholder="" aria-label="si + imparfait + conditionnel 43">
-    </div>
-    <details class="aide"><summary>Indice</summary><div>Attention à la cédille : <i>commençait</i>.</div></details>
-  </div>
-  <div class="item"><p class="q">44. <i>pronom relatif</i> — « 61 % des Français se méfient des médias, __________________ fragilise le débat démocratique. » (deux mots)</p>
-    <div class="gaps">
-      <input type="text" autocomplete="off" spellcheck="false" data-answer="ce qui" placeholder="" aria-label="pronom relatif 44">
-    </div>
-  </div>
-  <div class="item"><p class="q">45. <i>pronom relatif — où</i> — « 2015, année __________________ Charlie Hebdo a été attaqué, a relancé tout le débat. »</p>
-    <div class="gaps">
-      <input type="text" autocomplete="off" spellcheck="false" data-answer="où" placeholder="" aria-label="pronom relatif — où 45">
-    </div>
-    <details class="aide"><summary>Indice</summary><div>Un relatif de temps, pas <i>quand</i>.</div></details>
-  </div>
-  <div class="item"><p class="q">46. <i>structure à l'infinitif</i> — « __________________ __________________ __________________ vérifié ses sources, un journaliste engage sa responsabilité. » (trois mots)</p>
-    <div class="gaps">
-      <input type="text" autocomplete="off" spellcheck="false" data-answer="Après avoir|après avoir" placeholder="" aria-label="structure à l'infinitif 46">
-    </div>
-  </div>
-  <div class="item"><p class="q">47. <i>subjonctif</i> — « Bien que les plateformes __________________ (devoir) modérer les contenus illicites, elles le font inégalement. »</p>
-    <div class="gaps">
-      <input type="text" autocomplete="off" spellcheck="false" data-answer="doivent|doive" placeholder="" aria-label="subjonctif 47">
-    </div>
-    <details class="aide"><summary>Indice</summary><div>Après <i>bien que</i>, le subjonctif. Le sujet est pluriel.</div></details>
-  </div>
-  <div class="item"><p class="q">48-49. <i>comparatif / superlatif</i> — « Les recettes publicitaires d'Internet sont désormais __________________ __________________ __________________ élevées __________________ celles de la presse. » (trois mots, puis la conjonction)</p>
-    <div class="gaps">
-      <input type="text" autocomplete="off" spellcheck="false" data-answer="bien plus|beaucoup plus" placeholder="" aria-label="comparatif / superlatif 48">
-      <input type="text" autocomplete="off" spellcheck="false" data-answer="que|qu'" placeholder="" aria-label="comparatif / superlatif 49">
-    </div>
-  </div>
-  <div class="item"><p class="q">50. <i>participe présent</i> — « __________________ (circuler) sans vérification préalable, les infox atteignent des millions de personnes. » (deux mots)</p>
-    <div class="gaps">
-      <input type="text" autocomplete="off" spellcheck="false" data-answer="En circulant|en circulant" placeholder="" aria-label="participe présent 50">
-    </div>
-  </div>
-  <div class="stretch">
-    <h2>Défi A* — la boîte à cinq cases <span class="pts">(non noté automatiquement)</span></h2>
-    <div class="consigne"><strong>Question de l'examinateur :</strong> <span style="white-space:normal">« L'existence de la presse écrite est-elle menacée par la montée du numérique ? »</span><br>Construisez votre réponse case par case, puis lisez-la à voix haute d'un trait. Le compteur sous le tableau vous dit, en direct, ce qui manque.</div>
-    <table class="grille boite"><tbody>
-      <tr><td>Phrase de rédaction<br>pour commencer</td><td><input type="text" id="b1" class="boite-in" autocomplete="off" placeholder="Ex. : Chacun peut constater que…" aria-label="Phrase de rédaction pour commencer"></td></tr>
-      <tr><td>Trois mots<br>propres au sujet</td><td><input type="text" id="b2" class="boite-in" autocomplete="off" placeholder="Trois termes de l'exercice 1" aria-label="Trois mots propres au sujet"></td></tr>
-      <tr><td>Une connaissance,<br>un fait ou un chiffre</td><td><input type="text" id="b3" class="boite-in" autocomplete="off" placeholder="Un chiffre, une date ou une loi de l'exercice 2" aria-label="Une connaissance, un fait ou un chiffre"></td></tr>
-      <tr><td>Un verbe dans<br>un autre temps</td><td><input type="text" id="b4" class="boite-in" autocomplete="off" placeholder="Futur, imparfait, conditionnel, passé composé…" aria-label="Un verbe dans un autre temps"></td></tr>
-      <tr><td>Une structure<br>complexe</td><td><input type="text" id="b5" class="boite-in" autocomplete="off" placeholder="Subjonctif, si + imparfait, ce qui/ce que, ne… guère…" aria-label="Une structure complexe"></td></tr>
-    </tbody></table>
-    <div id="bilan" class="jauge"></div>
-    <div class="item"><p class="q">Ma réponse complète, en une seule fois (visez 90 mots) :</p><textarea id="reponse" placeholder="Reprenez vos cinq cases et reliez-les…"></textarea><div id="bilan2" class="jauge"></div></div>
-    <details class="aide"><summary>Voir un modèle de réponse (seulement après avoir écrit la vôtre)</summary><div><p><b>P.</b> On ne peut nier que la presse écrite traverse une crise, mais c'est son modèle économique, et non sa fonction, qui est menacé.</p><p><b>E.</b> Le baromètre publié en janvier 2026 montre que 71 % des Français seulement suivent l'actualité avec intérêt, contre 76 % l'année précédente, et que ceux qui la suivent avec un très grand intérêt ne sont plus que 24 %. Dans le même temps, les recettes publicitaires ont massivement basculé vers les plateformes numériques.</p><p><b>E.</b> Ce basculement explique la fermeture de titres et la réduction des rédactions, ce qui appauvrit le travail d'enquête. Néanmoins, 65 % des Français continuent de voir dans les médias un contre-pouvoir essentiel à la démocratie : la demande existe, c'est le financement qui manque. Si l'éducation aux médias commençait plus tôt, les infox circuleraient moins vite.</p><p><b>L.</b> En attaquant la rédaction de Charlie Hebdo en janvier 2015, on a rappelé que la liberté d'expression, garantie par l'article 11 de la Déclaration de 1789, reste un enjeu politique et non seulement économique.</p></div></details>
-  </div>
-  <h2>Pour aller plus loin · Les énoncés de l'unité au Paper 3</h2>
-  <details class="cartes"><summary>Ouvrir les énoncés que l'examinateur peut vous donner</summary>
-    <ul>
-      <li>Les médias bénéficient de la liberté d'expression dans les pays francophones.</li>
-      <li>Dans les pays francophones, les médias se concentrent plus sur les actualités que sur la vie privée de certaines personnalités connues du grand public.</li>
-      <li>L'existence de la presse écrite est menacée par la montée du numérique.</li>
-      <li>Le cinéma est un aspect essentiel de la culture d'un pays.</li>
-      <li>La fonction de la télévision est simplement de divertir les gens.</li>
-      <li>Internet est bon pour les pays francophones.</li>
-    </ul>
-    <p class="note">Entraînez-vous : pour chacun, une phrase P, une preuve E de l'exercice 2, une explication E, et un lien L vers un autre sous-thème.</p>
-  </details>
-  <p class="note">Dans la même unité sur le site : <a href="Presse_en_voie_de_disparition-media-homework.html">La presse écrite</a> · <a href="freedom_expression_activity.html">La liberté d'expression</a></p>
+  <div class="consigne"><strong>How Task 1 works.</strong> You choose one of two sub-themes and get a card: a provocative declaration and, usually, two bullet points. The bullets frame the examiner's two questions, which you do not see in advance. You have 5 minutes to prepare, with notes; then you answer both questions without interruption, and the examiner probes, challenges you and moves on to another sub-theme of the same theme.<br>
+  <strong>What the examiners reward</strong> (Pearson reports, 2023 and 2025): analysis rather than description, facts tied to the question, examples from French-speaking countries beyond France — few candidates use them — and passives, subjunctives, past conditionals and relative pronouns such as <i>dont</i> or <i>lequel</i>.<br>
+  <strong>How to use this page.</strong> One tab per media card from our Paper 3 set. In each tab: read or listen to the text, check the facts, answer the examiner's two questions as you would say them, then try the follow-up. The last tab draws a card at random and times your preparation. Write your name at the bottom of the screen, then press « Send to your teacher ».</div>
+  <nav class="tabs" role="tablist" aria-label="Cards"><button class="tab" type="button" role="tab" id="b-c1" aria-controls="p-c1" data-t="c1">1 · Liberté d'expression</button><button class="tab" type="button" role="tab" id="b-c2" aria-controls="p-c2" data-t="c2">2 · Vie privée</button><button class="tab" type="button" role="tab" id="b-c3" aria-controls="p-c3" data-t="c3">3 · Presse écrite</button><button class="tab" type="button" role="tab" id="b-c4" aria-controls="p-c4" data-t="c4">4 · Cinéma</button><button class="tab" type="button" role="tab" id="b-c5" aria-controls="p-c5" data-t="c5">5 · Télévision</button><button class="tab" type="button" role="tab" id="b-c6" aria-controls="p-c6" data-t="c6">6 · Internet</button><button class="tab sim" type="button" role="tab" id="b-sim" aria-controls="p-sim" data-t="sim">▶ Simulation</button></nav>
+<section class="panel" id="p-c1" role="tabpanel" aria-labelledby="b-c1">
+<h2>Carte 1 · Liberté d'expression</h2>
+<div class="carte"><p class="ct">Carte · Les médias</p><p class="decl">« Les médias bénéficient de la liberté d'expression dans les pays francophones. »</p><p class="sur">Sur la carte :</p><ul><li>Ce qui indique l'importance de la liberté d'expression dans le monde francophone.</li><li>L'avantage d'une presse libre dans le monde francophone.</li></ul></div><div class="juin"><b>Also on this topic · June 2025:</b> « Les médias garantissent les libertés dans les pays francophones. »<br>Set in June 2025. The examiners' report says most candidates agreed, spoke only about France and quoted Charlie Hebdo; few used former colonies. The Sahel example in the text is what was missing.</div><h3 class="sous">Le texte</h3>
+<p class="note">Listen with ▶, or click any sentence to hear it. Dotted words show a meaning when you point at them.</p>
+<div class="lu" id="t-c1">
+  <div class="lu-head"><h3>Une presse libre : à quoi sert-elle, qui la menace ?</h3><button class="lire" type="button">▶ Écouter</button></div>
+  <p><span class="s">En France, la presse est libre depuis une loi de 1881, et le <span class="gloss" title="le manque de respect envers une religion ou envers Dieu">blasphème</span> n'est pas un délit : on peut critiquer une religion, mais pas insulter des croyants.</span> <span class="s">Une presse libre surveille le pouvoir : en décembre 2012, le site Mediapart révèle que le ministre du Budget, Jérôme Cahuzac, a eu pendant des années un compte caché en Suisse ; l'année suivante, une autorité est créée pour contrôler le <span class="gloss" title="tout ce qu&#x27;une personne possède : argent, maisons…">patrimoine</span> des élus.</span> <span class="s">En France, la menace vient moins de l'État que de la violence : en 2015, douze personnes sont tuées dans l'attentat contre <i>Charlie Hebdo</i> ; en 2020, le professeur Samuel Paty est assassiné pour avoir montré des caricatures en classe.</span> <span class="s">Résultat : en 2022, 56 % des enseignants disent <span class="gloss" title="se taire ou éviter un sujet par peur">s'autocensurer</span>, contre 36 % avant sa mort.</span> <span class="s">Au <span class="gloss" title="la région au sud du Sahara : Mali, Burkina Faso, Niger…">Sahel</span>, ce sont les militaires au pouvoir qui font taire les médias : le Mali et le Burkina Faso ont suspendu RFI et France 24, et en mai 2026, le Niger a suspendu neuf médias français.</span> <span class="s">Selon Reporters sans frontières, ces régimes agissent « au nom de la sécurité nationale » ; en 2026, le Niger a perdu 37 places dans son classement.</span></p>
+</div>
+<h3 class="sous">Les faits</h3>
+<p class="note">Choose the answer that matches the text.</p>
+<div class="item"><p class="q">1. Que dit la loi française sur la critique des religions ?</p><select id="c1f1" data-answer="Elle est permise, mais insulter des croyants ne l&#x27;est pas." aria-label="Que dit la loi française sur la critique des religions ?"><option value="">— choisissez —</option><option>Elle est interdite depuis 1881.</option><option>Elle est permise, mais insulter des croyants ne l'est pas.</option><option>Elle est permise seulement dans la presse satirique.</option></select></div>
+<div class="item"><p class="q">2. Quelle a été la conséquence de l'affaire Cahuzac ?</p><select id="c1f2" data-answer="La création d&#x27;une autorité qui contrôle le patrimoine des élus." aria-label="Quelle a été la conséquence de l&#x27;affaire Cahuzac ?"><option value="">— choisissez —</option><option>La création d'une autorité qui contrôle le patrimoine des élus.</option><option>La fermeture du site Mediapart.</option><option>Une loi qui limite les enquêtes des journalistes.</option></select></div>
+<div class="item"><p class="q">3. Selon le texte, qui fait taire les médias au Sahel ?</p><select id="c1f3" data-answer="Les militaires au pouvoir." aria-label="Selon le texte, qui fait taire les médias au Sahel ?"><option value="">— choisissez —</option><option>Des groupes terroristes.</option><option>Les militaires au pouvoir.</option><option>Les journalistes français eux-mêmes.</option></select></div>
+<h3 class="sous">L'examinateur vous demande</h3>
+<p class="note">In the exam you do not see these questions in advance (the Simulation tab hides them). Write each answer as you would say it, then press « Feedback ».</p>
+<div class="item ans" data-box="c1q1"><p class="q"><span class="who">Question 1</span> Quelle est l'importance de la liberté d'expression dans le monde francophone ?</p><textarea id="c1q1" placeholder="Écrivez votre réponse comme vous la diriez (60 à 130 mots)…"></textarea><div class="row"><button class="btn-check" type="button">Feedback</button><details class="voir"><summary>See a model answer</summary><div class="mod-inline"></div></details></div><div class="fb"></div><template class="modele">À mon avis, la liberté d'expression est essentielle parce qu'elle permet de contrôler ceux qui gouvernent. En 2012, l'affaire Cahuzac <span class="lg" data-k="passive">a été révélée par Mediapart</span>, ce qui a conduit, l'année suivante, à la création d'une autorité chargée de contrôler le patrimoine des élus. <span class="lg" data-k="concession">Certes</span>, en France, cette liberté a un prix : depuis l'attentat contre <i>Charlie Hebdo</i> et l'assassinat de Samuel Paty, 56 % des enseignants disent s'autocensurer. Mais là où elle recule, comme au Niger, qui a suspendu neuf médias français en 2026, les citoyens perdent l'accès à une information indépendante. <span class="lg" data-k="subjunctive">Bien qu'elle soit fragile</span>, elle reste donc la condition de toutes les autres libertés.</template></div>
+<div class="item ans" data-box="c1q2"><p class="q"><span class="who">Question 2</span> Quel est l'avantage d'une presse libre dans le monde francophone ?</p><textarea id="c1q2" placeholder="Écrivez votre réponse comme vous la diriez (60 à 130 mots)…"></textarea><div class="row"><button class="btn-check" type="button">Feedback</button><details class="voir"><summary>See a model answer</summary><div class="mod-inline"></div></details></div><div class="fb"></div><template class="modele">À mon avis, le principal avantage d'une presse libre, c'est qu'elle oblige le pouvoir à rendre des comptes. <span class="lg" data-k="si + pluperfect">Si Mediapart n'avait pas enquêté</span> sur le compte caché de Jérôme Cahuzac, le ministre <span class="lg" data-k="past conditional">aurait peut-être gardé</span> son poste, et l'autorité qui contrôle aujourd'hui le patrimoine des élus <span class="lg" data-k="past conditional">n'aurait sans doute pas été créée</span>. <span class="lg" data-k="concession">Certes</span>, une presse libre dérange, mais c'est justement son rôle. Au Sahel, les militaires au pouvoir restreignent la presse « au nom de la sécurité nationale », selon Reporters sans frontières : c'est pourquoi le Niger a perdu 37 places dans son classement en 2026 ; quelques jours plus tard, il suspendait neuf médias français.</template></div>
+<div class="stretch"><h3 class="sous">Défi A* · L'examinateur insiste</h3>
+<p class="note">After your two answers the examiner probes and challenges. Answer with a position, evidence and, if you can, a past conditional or a subjunctive.</p>
+<div class="item ans" data-box="c1p"><p class="q"><span class="who">Et si…</span> Aurait-il fallu interdire les caricatures pour éviter la violence ?</p><textarea id="c1p" placeholder="Écrivez votre réponse comme vous la diriez (60 à 130 mots)…"></textarea><div class="row"><button class="btn-check" type="button">Feedback</button><details class="voir"><summary>See a model answer</summary><div class="mod-inline"></div></details></div><div class="fb"></div><template class="modele">Je ne pense pas <span class="lg" data-k="subjunctive">qu'il faille</span> interdire les caricatures, <span class="lg" data-k="concession">même si</span> je comprends que certains croyants soient blessés. La loi française trace déjà une limite : on peut critiquer une religion, mais insulter des croyants ou appeler à la haine contre eux est puni. <span class="lg" data-k="si + pluperfect">Si l'on avait interdit</span> les caricatures après 2015, on <span class="lg" data-k="past conditional">aurait donné</span> raison à ceux qui veulent imposer le silence par la violence. D'ailleurs, la peur produit déjà une censure sans loi, puisque 56 % des enseignants disent s'autocensurer. Ce qui distingue la France du Sahel, c'est justement qu'en France, l'État ne décide pas de ce que la presse peut dire.</template></div>
+</div>
+</section>
+<section class="panel" id="p-c2" role="tabpanel" aria-labelledby="b-c2" hidden>
+<h2>Carte 2 · Vie privée</h2>
+<div class="carte"><p class="ct">Carte · Les médias</p><p class="decl">« Dans les pays francophones, les médias se concentrent plus sur les actualités que sur la vie privée de certaines personnalités connues du grand public. »</p><p class="sur">Sur la carte :</p><ul><li>Les raisons pour lesquelles les médias francophones ne critiquent pas les personnalités célèbres.</li><li>Si la vie privée des politiciens intéresse les citoyens des pays francophones.</li></ul></div><h3 class="sous">Le texte</h3>
+<p class="note">Listen with ▶, or click any sentence to hear it. Dotted words show a meaning when you point at them.</p>
+<div class="lu" id="t-c2">
+  <div class="lu-head"><h3>Vie privée des personnalités : la discrétion à la française ?</h3><button class="lire" type="button">▶ Écouter</button></div>
+  <p><span class="s">En France, la vie privée est protégée par la loi : depuis 1970, le Code civil affirme que « chacun a droit au respect de sa vie privée ».</span> <span class="s">Les journalistes se sont longtemps <span class="gloss" title="n&#x27;ont rien dit (verbe se taire)">tus</span> : selon la journaliste Catherine Nay, tous savaient dès les années 1980 que François Mitterrand avait une fille cachée, mais « personne n'en parlait ».</span> <span class="s">Le secret n'a été révélé qu'en 1994, par des photos de <i>Paris Match</i>.</span> <span class="s">En 2014, <i>Closer</i> révèle la <span class="gloss" title="relation amoureuse">liaison</span> du président François Hollande avec l'actrice Julie Gayet : le magazine est condamné à verser 15 000 euros à l'actrice, mais il <span class="gloss" title="imprime à nouveau">réimprime</span> 150 000 exemplaires.</span> <span class="s">Les Français sont partagés : dans un sondage, 62 % jugent que c'est une affaire privée, mais dans un autre, 58 % approuvent <i>Closer</i>.</span> <span class="s">Avec les réseaux sociaux, la frontière devient plus floue : une <span class="gloss" title="une fausse information">infox</span> sur l'identité de Brigitte Macron circule en ligne, et en janvier 2026, dix personnes ont été condamnées pour l'avoir <span class="gloss" title="attaquée à répétition sur Internet">cyberharcelée</span>.</span> <span class="s">En Belgique, c'est la justice qui a <span class="gloss" title="décidé">tranché</span> : en 2020, elle a reconnu Delphine Boël comme fille du roi Albert II, qui avait d'abord nié être son père.</span></p>
+</div>
+<h3 class="sous">Les faits</h3>
+<p class="note">Choose the answer that matches the text.</p>
+<div class="item"><p class="q">1. Selon Catherine Nay, pourquoi les journalistes ne parlaient-ils pas de Mazarine ?</p><select id="c2f1" data-answer="Il y avait un accord tacite pour ne pas parler de la vie privée." aria-label="Selon Catherine Nay, pourquoi les journalistes ne parlaient-ils pas de Mazarine ?"><option value="">— choisissez —</option><option>Ils ne connaissaient pas son existence.</option><option>Il y avait un accord tacite pour ne pas parler de la vie privée.</option><option>Le président leur avait interdit d'en parler.</option></select></div>
+<div class="item"><p class="q">2. Que montrent les chiffres sur l'affaire Hollande-Gayet ?</p><select id="c2f2" data-answer="Ils disaient que c&#x27;était privé, mais beaucoup ont acheté ou approuvé Closer." aria-label="Que montrent les chiffres sur l&#x27;affaire Hollande-Gayet ?"><option value="">— choisissez —</option><option>Les Français s'en désintéressaient complètement.</option><option>Ils voulaient tous connaître les détails.</option><option>Ils disaient que c'était privé, mais beaucoup ont acheté ou approuvé Closer.</option></select></div>
+<div class="item"><p class="q">3. Pourquoi dix personnes ont-elles été condamnées en janvier 2026 ?</p><select id="c2f3" data-answer="Pour cyberharcèlement contre Brigitte Macron." aria-label="Pourquoi dix personnes ont-elles été condamnées en janvier 2026 ?"><option value="">— choisissez —</option><option>Pour cyberharcèlement contre Brigitte Macron.</option><option>Pour diffamation contre Closer.</option><option>Pour avoir publié des photos du président.</option></select></div>
+<h3 class="sous">L'examinateur vous demande</h3>
+<p class="note">In the exam you do not see these questions in advance (the Simulation tab hides them). Write each answer as you would say it, then press « Feedback ».</p>
+<div class="item ans" data-box="c2q1"><p class="q"><span class="who">Question 1</span> Pourquoi, selon vous, les médias francophones ne critiquent-ils pas davantage les personnalités célèbres ?</p><textarea id="c2q1" placeholder="Écrivez votre réponse comme vous la diriez (60 à 130 mots)…"></textarea><div class="row"><button class="btn-check" type="button">Feedback</button><details class="voir"><summary>See a model answer</summary><div class="mod-inline"></div></details></div><div class="fb"></div><template class="modele">Selon moi, il y a deux raisons principales. D'abord la loi : depuis 1970, le Code civil protège la vie privée, et <i>Closer</i> <span class="lg" data-k="passive">a été condamné</span> en 2014 à verser 15 000 euros à Julie Gayet. Ensuite une tradition de discrétion : d'après Catherine Nay, les journalistes savaient dès les années 1980 que François Mitterrand avait une fille cachée, mais il existait un consensus pour ne pas en parler. En Belgique aussi, c'est la justice, et non la presse, qui a établi en 2020 que Delphine Boël était la fille du roi Albert II. <span class="lg" data-k="concession">Cela dit</span>, les médias critiquent les personnalités quand l'intérêt public est en jeu : c'est Mediapart qui a révélé le compte caché de Jérôme Cahuzac, <span class="lg" data-k="relative pronoun">dont</span> la chute a mené à une loi sur la transparence.</template></div>
+<div class="item ans" data-box="c2q2"><p class="q"><span class="who">Question 2</span> La vie privée des politiciens intéresse-t-elle les citoyens des pays francophones ?</p><textarea id="c2q2" placeholder="Écrivez votre réponse comme vous la diriez (60 à 130 mots)…"></textarea><div class="row"><button class="btn-check" type="button">Feedback</button><details class="voir"><summary>See a model answer</summary><div class="mod-inline"></div></details></div><div class="fb"></div><template class="modele">Les citoyens disent que non, mais leurs actes disent souvent le contraire. En 2014, 62 % des Français jugeaient que la liaison de François Hollande était une affaire privée ; <span class="lg" data-k="concession">pourtant</span>, <i>Closer</i> a réimprimé 150 000 exemplaires, et 58 % pensaient que le magazine avait eu raison de la révéler. Cette contradiction montre que la curiosité existe, même si les Français tiennent au principe de la discrétion. Avec les réseaux sociaux, elle peut devenir dangereuse : dix personnes <span class="lg" data-k="passive">ont été condamnées</span> en 2026 pour avoir cyberharcelé Brigitte Macron. En Belgique, il a fallu une décision de justice <span class="lg" data-k="subjunctive">pour que Delphine Boël soit reconnue</span> comme fille du roi Albert II.</template></div>
+<div class="stretch"><h3 class="sous">Défi A* · L'examinateur insiste</h3>
+<p class="note">After your two answers the examiner probes and challenges. Answer with a position, evidence and, if you can, a past conditional or a subjunctive.</p>
+<div class="item ans" data-box="c2p"><p class="q"><span class="who">Et si…</span> Un président a-t-il droit à une vie privée comme tout le monde ?</p><textarea id="c2p" placeholder="Écrivez votre réponse comme vous la diriez (60 à 130 mots)…"></textarea><div class="row"><button class="btn-check" type="button">Feedback</button><details class="voir"><summary>See a model answer</summary><div class="mod-inline"></div></details></div><div class="fb"></div><template class="modele">Oui, <span class="lg" data-k="subjunctive">à condition que sa vie privée n'ait</span> aucune conséquence sur sa fonction. Une liaison, comme <span class="lg" data-k="relative pronoun">celle que <i>Closer</i> a révélée</span> en 2014, ne dit rien de la façon de gouverner, et 62 % des Français la jugeaient d'ailleurs privée. <span class="lg" data-k="concession">En revanche</span>, quand l'intérêt public est en jeu, la presse doit enquêter : Jérôme Cahuzac était le ministre du Budget, chargé de lutter contre la fraude fiscale, et il cachait un compte à l'étranger. En Belgique, la justice a même établi en 2020 que Delphine Boël était la fille du roi Albert II. Le cas de Mitterrand est plus ambigu : <span class="lg" data-k="si + pluperfect">si les journalistes avaient parlé</span> de sa double vie plus tôt, les électeurs <span class="lg" data-k="past conditional">auraient-ils voté</span> autrement ? Personne ne peut le dire.</template></div>
+</div>
+</section>
+<section class="panel" id="p-c3" role="tabpanel" aria-labelledby="b-c3" hidden>
+<h2>Carte 3 · Presse écrite</h2>
+<div class="carte"><p class="ct">Carte · Les médias</p><p class="decl">« L'existence de la presse écrite est menacée par la montée du numérique. »</p><p class="sur">Sur la carte :</p><ul><li>La situation de la presse écrite dans le pays francophone que vous avez étudié.</li><li>La popularité de certains secteurs de la presse écrite.</li></ul></div><h3 class="sous">Le texte</h3>
+<p class="note">Listen with ▶, or click any sentence to hear it. Dotted words show a meaning when you point at them.</p>
+<div class="lu" id="t-c3">
+  <div class="lu-head"><h3>La presse écrite : la fin du papier, pas de l'information ?</h3><button class="lire" type="button">▶ Écouter</button></div>
+  <p><span class="s">Le papier recule vite : entre 2013 et 2023, le <span class="gloss" title="le nombre d&#x27;exemplaires imprimés">tirage</span> moyen des quotidiens nationaux est passé de 1,5 million à 523 000 exemplaires par jour.</span> <span class="s">En 1946, la France comptait 203 quotidiens d'information générale ; en 2023, il en restait 60.</span> <span class="s">La cause est d'abord économique : la publicité, qui faisait vivre les journaux, est partie vers Internet, et selon le Sénat, les grandes plateformes <span class="gloss" title="prennent pour elles">captent</span> une part croissante des recettes publicitaires.</span> <span class="s">En 2025, plus de six euros de publicité sur dix sont allés au numérique.</span> <span class="s">Pourtant, l'information payante résiste : fin 2025, <i>Le Monde</i> comptait 670 000 abonnés, dont 600 000 sur le numérique, et le journal restait <span class="gloss" title="il gagne plus d&#x27;argent qu&#x27;il n&#x27;en dépense">rentable</span>.</span> <span class="s">La même année, la <span class="gloss" title="le nombre d&#x27;exemplaires vendus ou distribués, papier et numérique">diffusion</span> des quotidiens nationaux a même progressé de 3,4 %, et 79 % de leur lecture se fait désormais en ligne.</span> <span class="s">Au Québec, <i>La Presse</i> a choisi une voie radicale : elle a cessé d'imprimer en décembre 2017, puis elle est devenue un organisme <span class="gloss" title="qui ne cherche pas à faire de bénéfices">sans but lucratif</span>, qui peut recevoir des dons.</span></p>
+</div>
+<h3 class="sous">Les faits</h3>
+<p class="note">Choose the answer that matches the text.</p>
+<div class="item"><p class="q">1. Selon le texte, quelle est la cause principale du déclin de la presse papier ?</p><select id="c3f1" data-answer="Le départ de la publicité vers Internet." aria-label="Selon le texte, quelle est la cause principale du déclin de la presse papier ?"><option value="">— choisissez —</option><option>Le prix du papier.</option><option>Le départ de la publicité vers Internet.</option><option>Une loi qui limite la presse.</option></select></div>
+<div class="item"><p class="q">2. Qu'est-ce qui progresse en 2025 ?</p><select id="c3f2" data-answer="La diffusion des quotidiens nationaux, surtout lue en ligne." aria-label="Qu&#x27;est-ce qui progresse en 2025 ?"><option value="">— choisissez —</option><option>La diffusion des quotidiens nationaux, surtout lue en ligne.</option><option>Le tirage papier des quotidiens nationaux.</option><option>Le nombre de quotidiens d'information générale.</option></select></div>
+<div class="item"><p class="q">3. Qu'a fait <i>La Presse</i>, au Québec ?</p><select id="c3f3" data-answer="Elle a arrêté le papier et elle est devenue un organisme sans but lucratif." aria-label="Qu&#x27;a fait La Presse, au Québec ?"><option value="">— choisissez —</option><option>Elle a fermé définitivement.</option><option>Elle a été rachetée par Le Monde.</option><option>Elle a arrêté le papier et elle est devenue un organisme sans but lucratif.</option></select></div>
+<h3 class="sous">L'examinateur vous demande</h3>
+<p class="note">In the exam you do not see these questions in advance (the Simulation tab hides them). Write each answer as you would say it, then press « Feedback ».</p>
+<div class="item ans" data-box="c3q1"><p class="q"><span class="who">Question 1</span> Quelle est la situation actuelle de la presse écrite en France ?</p><textarea id="c3q1" placeholder="Écrivez votre réponse comme vous la diriez (60 à 130 mots)…"></textarea><div class="row"><button class="btn-check" type="button">Feedback</button><details class="voir"><summary>See a model answer</summary><div class="mod-inline"></div></details></div><div class="fb"></div><template class="modele">À mon avis, la presse papier est en net déclin, mais l'information écrite se transforme plus qu'elle ne disparaît. Entre 2013 et 2023, le tirage des quotidiens nationaux est passé de 1,5 million à 523 000 exemplaires, et il ne reste que 60 quotidiens d'information générale, contre 203 en 1946. La cause est surtout économique : la publicité est partie vers le numérique, qui en a reçu plus de six euros sur dix en 2025. <span class="lg" data-k="concession">Pourtant</span>, la même année, la diffusion des quotidiens nationaux a progressé de 3,4 %, et 79 % de leur lecture se fait en ligne. Au Québec, <i>La Presse</i> a même abandonné le papier dès 2017. Je dirais donc que c'est le papier qui <span class="lg" data-k="passive">est menacé par le numérique</span>, pas la presse.</template></div>
+<div class="item ans" data-box="c3q2"><p class="q"><span class="who">Question 2</span> Pourquoi certains secteurs de la presse écrite résistent-ils malgré le déclin général ?</p><textarea id="c3q2" placeholder="Écrivez votre réponse comme vous la diriez (60 à 130 mots)…"></textarea><div class="row"><button class="btn-check" type="button">Feedback</button><details class="voir"><summary>See a model answer</summary><div class="mod-inline"></div></details></div><div class="fb"></div><template class="modele">À mon avis, les titres qui résistent sont ceux <span class="lg" data-k="relative pronoun">dont</span> les lecteurs acceptent de payer. <i>Le Monde</i>, par exemple, comptait fin 2025 670 000 abonnés, dont 600 000 sur le numérique, et il restait rentable : il dépend donc moins d'une publicité qui s'effondre. <span class="lg" data-k="concession">Certes</span>, seuls 12 % des Français paient pour s'informer en ligne, mais cela suffit à faire vivre des journaux comme <i>Le Monde</i>. La presse régionale résiste aussi parce qu'elle inspire confiance : 63 % des Français la jugent crédible, juste derrière les journaux télévisés. Au Québec, <i>La Presse</i> a choisi une autre solution : elle est devenue un organisme sans but lucratif, <span class="lg" data-k="subjunctive">afin que des dons puissent</span> la financer.</template></div>
+<div class="stretch"><h3 class="sous">Défi A* · L'examinateur insiste</h3>
+<p class="note">After your two answers the examiner probes and challenges. Answer with a position, evidence and, if you can, a past conditional or a subjunctive.</p>
+<div class="item ans" data-box="c3p"><p class="q"><span class="who">Et si…</span> Si la presse écrite disparaissait, qu'est-ce que la démocratie perdrait ?</p><textarea id="c3p" placeholder="Écrivez votre réponse comme vous la diriez (60 à 130 mots)…"></textarea><div class="row"><button class="btn-check" type="button">Feedback</button><details class="voir"><summary>See a model answer</summary><div class="mod-inline"></div></details></div><div class="fb"></div><template class="modele">Selon moi, elle perdrait d'abord le journalisme d'enquête : sans les révélations de Mediapart, l'affaire Cahuzac <span class="lg" data-k="past conditional">n'aurait peut-être jamais été connue</span>. Elle perdrait aussi l'information locale, <span class="lg" data-k="relative pronoun">à laquelle</span> les Français tiennent : la presse régionale <span class="lg" data-k="passive">est jugée crédible par 63 % d'entre eux</span>, alors que 51 % disent voir des informations fausses sur les réseaux sociaux plusieurs fois par semaine. Le vrai risque n'est donc pas la fin du papier, mais la fin d'un journalisme payé pour vérifier. <span class="lg" data-k="subjunctive">Il faudrait que les lecteurs acceptent</span> de payer ce travail, comme les 600 000 abonnés numériques du <i>Monde</i>, ou que d'autres modèles apparaissent, comme celui de <i>La Presse</i> au Québec.</template></div>
+</div>
+</section>
+<section class="panel" id="p-c4" role="tabpanel" aria-labelledby="b-c4" hidden>
+<h2>Carte 4 · Cinéma</h2>
+<div class="carte"><p class="ct">Carte · Les médias</p><p class="decl">« Le cinéma est un aspect essentiel de la culture d'un pays. »</p></div><h3 class="sous">Le texte</h3>
+<p class="note">Listen with ▶, or click any sentence to hear it. Dotted words show a meaning when you point at them.</p>
+<div class="lu" id="t-c4">
+  <div class="lu-head"><h3>Le cinéma : un art que tout le monde finance ?</h3><button class="lire" type="button">▶ Écouter</button></div>
+  <p><span class="s">Avec près de 157 millions d'<span class="gloss" title="de billets vendus">entrées</span> en 2025, la France reste de loin le premier marché du cinéma en Europe, devant l'Allemagne (environ 85 millions).</span> <span class="s">Ce succès repose sur un choix politique : les billets de cinéma, les chaînes de télévision et la vidéo en ligne paient une taxe au CNC, le Centre national du cinéma, qui finance la création.</span> <span class="s">Depuis 2021, les plateformes comme Netflix doivent aussi investir dans la production : 866 millions d'euros de 2021 à 2023, dont 163 millions pour le cinéma.</span> <span class="s">Résultat : en 2024, les films français ont attiré 44,7 % des spectateurs, plus que les films américains (35,6 %).</span> <span class="s">Mais le modèle reste fragile : en 2025, la <span class="gloss" title="le nombre de spectateurs dans les salles">fréquentation</span> a chuté de 13,6 %, et un seul film français figurait parmi les dix plus grands succès.</span> <span class="s">En 2021, l'argent public représentait déjà 31 % du financement des films français.</span> <span class="s">Ce cinéma dialogue aussi avec l'Afrique francophone : en 2024, la Franco-Sénégalaise Mati Diop a remporté l'<span class="gloss" title="le grand prix du festival de cinéma de Berlin">Ours d'or</span> avec <i>Dahomey</i>, qui raconte la <span class="gloss" title="le fait de rendre à son propriétaire">restitution</span> au Bénin de 26 œuvres <span class="gloss" title="volées par la force">pillées</span> pendant la colonisation.</span></p>
+</div>
+<h3 class="sous">Les faits</h3>
+<p class="note">Choose the answer that matches the text.</p>
+<div class="item"><p class="q">1. Comment le cinéma français est-il surtout financé ?</p><select id="c4f1" data-answer="Par des taxes sur les billets, les chaînes et la vidéo en ligne, gérées par le CNC." aria-label="Comment le cinéma français est-il surtout financé ?"><option value="">— choisissez —</option><option>Par des taxes sur les billets, les chaînes et la vidéo en ligne, gérées par le CNC.</option><option>Uniquement par les impôts de tous les Français.</option><option>Par les studios américains.</option></select></div>
+<div class="item"><p class="q">2. Quel problème est apparu en 2025 ?</p><select id="c4f2" data-answer="La fréquentation des salles a chuté de plus de 13 %." aria-label="Quel problème est apparu en 2025 ?"><option value="">— choisissez —</option><option>Les plateformes ont arrêté d'investir.</option><option>La fréquentation des salles a chuté de plus de 13 %.</option><option>Les films français ont dominé le box-office.</option></select></div>
+<div class="item"><p class="q">3. De quoi parle le film <i>Dahomey</i> de Mati Diop ?</p><select id="c4f3" data-answer="De la restitution au Bénin d&#x27;œuvres pillées pendant la colonisation." aria-label="De quoi parle le film Dahomey de Mati Diop ?"><option value="">— choisissez —</option><option>D'un festival de cinéma au Sénégal.</option><option>De la vie d'un président africain.</option><option>De la restitution au Bénin d'œuvres pillées pendant la colonisation.</option></select></div>
+<h3 class="sous">L'examinateur vous demande</h3>
+<p class="note">In the exam you do not see these questions in advance (the Simulation tab hides them). Write each answer as you would say it, then press « Feedback ».</p>
+<div class="item ans" data-box="c4q1"><p class="q"><span class="who">Question 1</span> Quel est le rôle du cinéma dans la culture du pays francophone que vous avez étudié ?</p><textarea id="c4q1" placeholder="Écrivez votre réponse comme vous la diriez (60 à 130 mots)…"></textarea><div class="row"><button class="btn-check" type="button">Feedback</button><details class="voir"><summary>See a model answer</summary><div class="mod-inline"></div></details></div><div class="fb"></div><template class="modele">En France, le cinéma n'est pas seulement un loisir : c'est un choix politique. Chaque billet, chaque chaîne de télévision et chaque service de vidéo en ligne paie une taxe au CNC, qui finance ensuite la création. Grâce à ce système, la France reste le premier marché d'Europe, avec près de 157 millions d'entrées en 2025, <span class="lg" data-k="concession">même si</span> la fréquentation a baissé cette année-là, et les films français ont attiré 44,7 % des spectateurs en 2024, plus que les films américains. Le cinéma sert aussi la mémoire : avec <i>Dahomey</i>, la Franco-Sénégalaise Mati Diop, <span class="lg" data-k="passive">qui a été récompensée à Berlin</span> en 2024, raconte la restitution au Bénin d'œuvres pillées pendant la colonisation. C'est pourquoi je suis d'accord : le cinéma montre ce qu'un pays veut transmettre.</template></div>
+<div class="item ans" data-box="c4q2"><p class="q"><span class="who">Question 2</span> Quels sont les défis auxquels fait face l'industrie du cinéma en France ?</p><textarea id="c4q2" placeholder="Écrivez votre réponse comme vous la diriez (60 à 130 mots)…"></textarea><div class="row"><button class="btn-check" type="button">Feedback</button><details class="voir"><summary>See a model answer</summary><div class="mod-inline"></div></details></div><div class="fb"></div><template class="modele">À mon avis, le premier défi est la baisse de la fréquentation : en 2025, les entrées ont chuté de 13,6 %, et un seul film français figurait parmi les dix plus grands succès. Le deuxième vient des plateformes, qui concurrencent les salles, <span class="lg" data-k="concession">même si</span> elles doivent désormais investir dans la production : 163 millions d'euros pour le cinéma de 2021 à 2023. Enfin, le modèle dépend de l'argent public, qui représentait 31 % du financement des films français en 2021 ; c'est pourquoi le Sénat appelle à une « nécessaire réévaluation » de ce financement. Or ces aides comptent aussi pour des films tournés vers l'Afrique, comme <i>Dahomey</i> de Mati Diop, soutenu par la région Île-de-France. <span class="lg" data-k="subjunctive">Il faudrait que le cinéma français reconquière</span> les jeunes spectateurs sans perdre ce qui fait sa diversité.</template></div>
+<div class="stretch"><h3 class="sous">Défi A* · L'examinateur insiste</h3>
+<p class="note">After your two answers the examiner probes and challenges. Answer with a position, evidence and, if you can, a past conditional or a subjunctive.</p>
+<div class="item ans" data-box="c4p"><p class="q"><span class="who">Et si…</span> Sans l'aide de l'État, le cinéma français survivrait-il ?</p><textarea id="c4p" placeholder="Écrivez votre réponse comme vous la diriez (60 à 130 mots)…"></textarea><div class="row"><button class="btn-check" type="button">Feedback</button><details class="voir"><summary>See a model answer</summary><div class="mod-inline"></div></details></div><div class="fb"></div><template class="modele">À mon avis, il survivrait, mais il serait beaucoup plus pauvre. Aujourd'hui, ce sont les spectateurs, les chaînes et les plateformes qui le financent, grâce aux taxes <span class="lg" data-k="relative pronoun">que le CNC redistribue</span>, et l'argent public représentait 31 % du financement des films en 2021. Sans ce système, la France <span class="lg" data-k="past conditional">ne serait peut-être pas restée</span> le premier marché d'Europe : même en 2025, neuf des dix plus grands succès étaient étrangers. <span class="lg" data-k="concession">Certes</span>, on peut se demander si chaque film aidé trouve son public, surtout quand la fréquentation chute de 13,6 % en un an. Mais un pays qui soutient des films comme <i>Dahomey</i> choisit aussi de regarder son histoire en face, y compris son histoire coloniale.</template></div>
+</div>
+</section>
+<section class="panel" id="p-c5" role="tabpanel" aria-labelledby="b-c5" hidden>
+<h2>Carte 5 · Télévision</h2>
+<div class="carte"><p class="ct">Carte · Les médias</p><p class="decl">« La fonction de la télévision est simplement de divertir les gens. »</p></div><h3 class="sous">Le texte</h3>
+<p class="note">Listen with ▶, or click any sentence to hear it. Dotted words show a meaning when you point at them.</p>
+<div class="lu" id="t-c5">
+  <div class="lu-head"><h3>La télévision : divertir, informer… et réguler</h3><button class="lire" type="button">▶ Écouter</button></div>
+  <p><span class="s">La télévision reste le média des grands moments partagés : en comptant le <span class="gloss" title="revoir une émission après sa diffusion">replay</span>, la cérémonie d'ouverture des Jeux olympiques de Paris a réuni 24,4 millions de téléspectateurs en 2024, un record historique.</span> <span class="s">En 2025, la meilleure audience a été la finale de la Ligue des champions entre le PSG et l'Inter Milan, avec 11,8 millions de téléspectateurs.</span> <span class="s">Mais elle ne fait pas que divertir : les journaux télévisés restent le média que les Français jugent le plus crédible (65 %), et la chaîne culturelle Arte a battu son record d'audience en 2025.</span> <span class="s">Les chaînes gratuites de la <span class="gloss" title="la télévision numérique terrestre : les chaînes gratuites">TNT</span> ont aussi des obligations, contrôlées par l'Arcom : en février 2025, C8, la chaîne la plus sanctionnée de France, avec 7,4 millions d'euros d'amendes en huit ans, a perdu sa <span class="gloss" title="le canal qui permet à une chaîne d&#x27;être diffusée">fréquence</span>.</span> <span class="s">Ses défenseurs ont parlé de censure ; le Conseil d'État a pourtant validé la décision.</span> <span class="s">TV5Monde, une chaîne financée par plusieurs pays francophones, est diffusée dans près de 200 pays ; en mai 2026, la <span class="gloss" title="un gouvernement de militaires">junte</span> du Burkina Faso l'a pourtant interdite, en l'accusant de « désinformation ».</span></p>
+</div>
+<h3 class="sous">Les faits</h3>
+<p class="note">Choose the answer that matches the text.</p>
+<div class="item"><p class="q">1. Selon le texte, quel média les Français jugent-ils le plus crédible ?</p><select id="c5f1" data-answer="Les journaux télévisés." aria-label="Selon le texte, quel média les Français jugent-ils le plus crédible ?"><option value="">— choisissez —</option><option>Les réseaux sociaux.</option><option>Les journaux télévisés.</option><option>La presse people.</option></select></div>
+<div class="item"><p class="q">2. Pourquoi C8 a-t-elle perdu sa fréquence ?</p><select id="c5f2" data-answer="Après de nombreuses sanctions, elle n&#x27;a pas été renouvelée par l&#x27;Arcom." aria-label="Pourquoi C8 a-t-elle perdu sa fréquence ?"><option value="">— choisissez —</option><option>Après de nombreuses sanctions, elle n'a pas été renouvelée par l'Arcom.</option><option>Elle n'avait pas assez de téléspectateurs.</option><option>La chaîne avait fait faillite.</option></select></div>
+<div class="item"><p class="q">3. Qu'a fait la junte du Burkina Faso en mai 2026 ?</p><select id="c5f3" data-answer="Elle a interdit TV5Monde." aria-label="Qu&#x27;a fait la junte du Burkina Faso en mai 2026 ?"><option value="">— choisissez —</option><option>Elle a rejoint TV5Monde.</option><option>Elle a créé une chaîne francophone.</option><option>Elle a interdit TV5Monde.</option></select></div>
+<h3 class="sous">L'examinateur vous demande</h3>
+<p class="note">In the exam you do not see these questions in advance (the Simulation tab hides them). Write each answer as you would say it, then press « Feedback ».</p>
+<div class="item ans" data-box="c5q1"><p class="q"><span class="who">Question 1</span> À votre avis, quel est le rôle de la télévision dans le pays francophone que vous avez étudié ?</p><textarea id="c5q1" placeholder="Écrivez votre réponse comme vous la diriez (60 à 130 mots)…"></textarea><div class="row"><button class="btn-check" type="button">Feedback</button><details class="voir"><summary>See a model answer</summary><div class="mod-inline"></div></details></div><div class="fb"></div><template class="modele">Je ne suis pas d'accord : <span class="lg" data-k="concession">certes</span>, la télévision divertit, mais elle informe et elle rassemble aussi. Les journaux télévisés restent le média que les Français jugent le plus crédible (65 %), et Arte, une chaîne culturelle, a battu son record d'audience en 2025. Elle crée aussi des moments partagés : 24,4 millions de téléspectateurs ont regardé la cérémonie d'ouverture des JO de Paris. Enfin, elle a des devoirs : C8, <span class="lg" data-k="passive">qui avait été sanctionnée</span> à de nombreuses reprises, a perdu sa fréquence en 2025. Hors de France, TV5Monde diffuse la culture francophone dans près de 200 pays ; pourtant, la junte du Burkina Faso, qui l'accuse de « désinformation », l'a interdite en 2026.</template></div>
+<div class="item ans" data-box="c5q2"><p class="q"><span class="who">Question 2</span> Quelles sortes d'émissions sont les plus populaires dans le pays francophone que vous avez étudié ?</p><textarea id="c5q2" placeholder="Écrivez votre réponse comme vous la diriez (60 à 130 mots)…"></textarea><div class="row"><button class="btn-check" type="button">Feedback</button><details class="voir"><summary>See a model answer</summary><div class="mod-inline"></div></details></div><div class="fb"></div><template class="modele">Selon moi, les émissions les plus populaires sont les grands événements en direct, surtout le sport : en 2025, la finale de la Ligue des champions entre le PSG et l'Inter Milan <span class="lg" data-k="passive">a été suivie par 11,8 millions de téléspectateurs</span>, et la cérémonie d'ouverture des JO de Paris détient le record historique, avec 24,4 millions. Le divertissement attire aussi, <span class="lg" data-k="concession">même s'il</span> fait débat : la dernière émission de <i>Touche pas à mon poste !</i>, <span class="lg" data-k="relative pronoun">dont</span> la chaîne a perdu sa fréquence, a réuni près de 3,7 millions de téléspectateurs, selon C8. L'information compte aussi : CNews est devenue en 2025 la chaîne d'information la plus regardée, devant BFMTV, ce qui relance le débat sur le pluralisme. Hors de France, TV5Monde diffuse des programmes francophones dans près de 200 pays.</template></div>
+<div class="stretch"><h3 class="sous">Défi A* · L'examinateur insiste</h3>
+<p class="note">After your two answers the examiner probes and challenges. Answer with a position, evidence and, if you can, a past conditional or a subjunctive.</p>
+<div class="item ans" data-box="c5p"><p class="q"><span class="who">Et si…</span> Si C8 avait gardé sa fréquence, la liberté d'expression aurait-elle été mieux protégée ?</p><textarea id="c5p" placeholder="Écrivez votre réponse comme vous la diriez (60 à 130 mots)…"></textarea><div class="row"><button class="btn-check" type="button">Feedback</button><details class="voir"><summary>See a model answer</summary><div class="mod-inline"></div></details></div><div class="fb"></div><template class="modele">Je ne le crois pas. C8 n'a pas perdu sa fréquence pour ses opinions, mais parce qu'elle avait accumulé 7,4 millions d'euros d'amendes, dont 3,5 millions après que son animateur a insulté un député en direct. Une chaîne de la TNT doit respecter des obligations, et l'Arcom a donc préféré deux nouveaux projets au nom du pluralisme. <span class="lg" data-k="si + pluperfect">Si C8 l'avait gardée</span>, ces chaînes <span class="lg" data-k="past conditional">n'auraient pas pu</span> naître. <span class="lg" data-k="concession">Certes</span>, ses défenseurs ont parlé de censure, mais Cyril Hanouna n'a pas été réduit au silence : il <span class="lg" data-k="passive">a vite été recruté par le groupe M6</span>. La vraie censure ressemble plutôt à ce qui se passe au Burkina Faso, où TV5Monde a été interdite pour des raisons « opaques », selon Reporters sans frontières.</template></div>
+</div>
+</section>
+<section class="panel" id="p-c6" role="tabpanel" aria-labelledby="b-c6" hidden>
+<h2>Carte 6 · Internet</h2>
+<div class="carte"><p class="ct">Carte · Les médias</p><p class="decl">« Internet est bon pour les pays francophones. »</p></div><div class="juin"><b>Also on this topic · June 2025:</b> « Les réseaux sociaux sont néfastes pour la société francophone. »<br>Set in June 2025. The examiners' report says opinion was divided: the best answers weighed isolation, bullying, false information and conspiracy theories against citizens who are better informed about politics.</div><h3 class="sous">Le texte</h3>
+<p class="note">Listen with ▶, or click any sentence to hear it. Dotted words show a meaning when you point at them.</p>
+<div class="lu" id="t-c6">
+  <div class="lu-head"><h3>Internet : une chance pour tous, un risque pour qui ?</h3><button class="lire" type="button">▶ Écouter</button></div>
+  <p><span class="s">En France, 95 % des habitants utilisent Internet, et on compte plus de 51 millions de comptes actifs sur les réseaux sociaux.</span> <span class="s">Les réseaux ont changé la façon de s'informer : en 2026, 42 % des Français disent suivre l'actualité grâce à des influenceurs ou des <span class="gloss" title="des personnes qui publient des vidéos ou des posts">créateurs de contenu</span>.</span> <span class="s">Mais c'est aussi là que circule le faux : 51 % y voient des informations fausses ou <span class="gloss" title="modifiées pour tromper">déformées</span> plusieurs fois par semaine, et 76 % s'inquiètent de la désinformation venue de l'étranger.</span> <span class="s">Le danger est réel : en avril 2022, au Mali, l'armée française a filmé des <span class="gloss" title="des soldats payés par un groupe privé">mercenaires</span> russes de Wagner en train d'enterrer des corps près d'une ancienne base française, pour faire accuser la France d'un crime de guerre.</span> <span class="s">Faut-il alors couper les réseaux ? En 2024, le gouvernement a bloqué TikTok en Nouvelle-Calédonie pendant des émeutes, et en 2026, le Parlement a voté l'interdiction des réseaux sociaux aux moins de 15 ans.</span> <span class="s">Mais les juges ont freiné : le Conseil d'État a jugé le blocage de TikTok illégal, et le Conseil constitutionnel a <span class="gloss" title="annulé (une partie d&#x27;une loi)">censuré</span> l'interdiction, qui portait selon lui une atteinte disproportionnée à la liberté d'expression.</span></p>
+</div>
+<h3 class="sous">Les faits</h3>
+<p class="note">Choose the answer that matches the text.</p>
+<div class="item"><p class="q">1. Que disent 42 % des Français en 2026 ?</p><select id="c6f1" data-answer="Ils suivent l&#x27;actualité grâce à des influenceurs ou des créateurs de contenu." aria-label="Que disent 42 % des Français en 2026 ?"><option value="">— choisissez —</option><option>Ils ne s'informent plus du tout.</option><option>Ils suivent l'actualité grâce à des influenceurs ou des créateurs de contenu.</option><option>Ils ont quitté les réseaux sociaux.</option></select></div>
+<div class="item"><p class="q">2. Qu'ont fait les mercenaires de Wagner au Mali, selon l'armée française ?</p><select id="c6f2" data-answer="Ils ont enterré des corps pour faire accuser la France." aria-label="Qu&#x27;ont fait les mercenaires de Wagner au Mali, selon l&#x27;armée française ?"><option value="">— choisissez —</option><option>Ils ont enterré des corps pour faire accuser la France.</option><option>Ils ont protégé une base française.</option><option>Ils ont filmé l'armée malienne.</option></select></div>
+<div class="item"><p class="q">3. Qu'a décidé le Conseil constitutionnel ?</p><select id="c6f3" data-answer="Il a censuré cette interdiction au nom de la liberté d&#x27;expression." aria-label="Qu&#x27;a décidé le Conseil constitutionnel ?"><option value="">— choisissez —</option><option>Il a validé l'interdiction des réseaux sociaux aux moins de 15 ans.</option><option>Il a fermé TikTok en France.</option><option>Il a censuré cette interdiction au nom de la liberté d'expression.</option></select></div>
+<h3 class="sous">L'examinateur vous demande</h3>
+<p class="note">In the exam you do not see these questions in advance (the Simulation tab hides them). Write each answer as you would say it, then press « Feedback ».</p>
+<div class="item ans" data-box="c6q1"><p class="q"><span class="who">Question 1</span> Selon vous, quel impact Internet a-t-il sur les habitants du pays francophone que vous avez étudié ?</p><textarea id="c6q1" placeholder="Écrivez votre réponse comme vous la diriez (60 à 130 mots)…"></textarea><div class="row"><button class="btn-check" type="button">Feedback</button><details class="voir"><summary>See a model answer</summary><div class="mod-inline"></div></details></div><div class="fb"></div><template class="modele">À mon avis, Internet a transformé la vie quotidienne : 95 % des Français l'utilisent, et on compte plus de 51 millions de comptes actifs sur les réseaux sociaux. Son impact le plus visible concerne l'information : en 2026, 42 % des Français suivent l'actualité grâce à des influenceurs ou des créateurs de contenu, ce qui affaiblit le rôle des médias traditionnels. <span class="lg" data-k="concession">Certes</span>, cet accès facile a un revers : 51 % disent voir des informations fausses ou déformées plusieurs fois par semaine. Et l'accès lui-même n'est pas garanti partout : au Sénégal, le gouvernement a coupé l'Internet mobile en 2024, en pleine crise politique. Internet est donc bon pour les pays francophones, <span class="lg" data-k="subjunctive">à condition qu'il reste libre et que les citoyens apprennent</span> à vérifier ce qu'ils lisent.</template></div>
+<div class="item ans" data-box="c6q2"><p class="q"><span class="who">Question 2</span> Quels sont les dangers potentiels d'Internet pour le pays francophone que vous avez étudié ?</p><textarea id="c6q2" placeholder="Écrivez votre réponse comme vous la diriez (60 à 130 mots)…"></textarea><div class="row"><button class="btn-check" type="button">Feedback</button><details class="voir"><summary>See a model answer</summary><div class="mod-inline"></div></details></div><div class="fb"></div><template class="modele">Selon moi, le premier danger est la manipulation : 76 % des Français s'inquiètent de la désinformation venue de l'étranger, et ce n'est pas un fantasme. En 2022, au Mali, l'armée française a filmé des mercenaires de Wagner qui enterraient des corps près d'une ancienne base française, afin de faire accuser la France d'un crime de guerre. Pour détecter ce type d'opérations, l'État avait créé un service, Viginum, dès 2021. <span class="lg" data-k="concession">Certes</span>, il faut se protéger, mais le deuxième danger, c'est la tentation de la censure : le blocage de TikTok en Nouvelle-Calédonie, en 2024, <span class="lg" data-k="passive">a été jugé illégal par le Conseil d'État</span>. Internet peut donc être menacé de deux côtés : par ceux qui le manipulent et par ceux qui voudraient le couper.</template></div>
+<div class="stretch"><h3 class="sous">Défi A* · L'examinateur insiste</h3>
+<p class="note">After your two answers the examiner probes and challenges. Answer with a position, evidence and, if you can, a past conditional or a subjunctive.</p>
+<div class="item ans" data-box="c6p"><p class="q"><span class="who">Et si…</span> Pourquoi certains voudraient-ils censurer les réseaux sociaux en France ?</p><textarea id="c6p" placeholder="Écrivez votre réponse comme vous la diriez (60 à 130 mots)…"></textarea><div class="row"><button class="btn-check" type="button">Feedback</button><details class="voir"><summary>See a model answer</summary><div class="mod-inline"></div></details></div><div class="fb"></div><template class="modele">À mon avis, il y a trois raisons. D'abord maintenir l'ordre : en juillet 2023, pendant les émeutes qui ont suivi la mort de Nahel, Emmanuel Macron a évoqué l'idée de « réguler » ou de « couper » les réseaux sociaux, ce qui <span class="lg" data-k="passive">a été critiqué</span> à gauche comme à droite. Ensuite protéger les mineurs, d'où l'interdiction aux moins de 15 ans votée en 2026. Enfin lutter contre les ingérences étrangères, <span class="lg" data-k="relative pronoun">que surveille Viginum</span> depuis 2021. <span class="lg" data-k="concession">Certes</span>, ces raisons sont sérieuses, mais les juges ont rappelé que toute restriction de la liberté d'expression doit être proportionnée : le blocage de TikTok a été jugé illégal, et l'interdiction a été censurée. Le Sénégal montre pourquoi : en février 2024, en pleine crise politique, le gouvernement y a coupé l'Internet mobile.</template></div>
+</div>
+</section>
+<section class="panel" id="p-sim" role="tabpanel" aria-labelledby="b-sim" hidden>
+<h2>Simulation · Tâche 1</h2>
+<div class="consigne">This works like the exam. Draw a card: you see the declaration (and the bullet points when the card has them). Start the 5-minute timer and make notes. When the time is up, the examiner's first question appears. <b>Say your answer aloud first</b> (about a minute), then type the key sentences and press « Feedback ». Then the second question, then the examiner's follow-up.</div>
+<p><button type="button" class="btn-check" id="tirer">Tirer une carte</button> <span class="note" id="sim-left"></span></p>
+<div id="sim-card"></div>
+<div id="sim-zone" hidden>
+  <div class="timer"><span id="chrono">5:00</span>
+    <button type="button" id="t-go">Start</button><button type="button" id="t-pause">Pause</button><button type="button" id="t-reset">Reset</button>
+    <button type="button" id="t-skip">Skip to the questions</button></div>
+  <div class="item"><p class="q">Mes notes (comme sur la feuille de préparation)</p><textarea id="sim-notes" placeholder="Position · deux preuves · un exemple hors de France · une conséquence · une concession…"></textarea></div>
+  <details class="banque-exp"><summary>« De bonnes expressions » — click one to add it to the box you are writing in</summary><div class="bk"><b>Arguing</b> <button type="button" class="chip">Certains disent que…</button><button type="button" class="chip">D&#x27;autres soutiennent que…</button><button type="button" class="chip">Il y a ceux qui…</button><button type="button" class="chip">On a fait valoir que…</button><button type="button" class="chip">Les partisans de … affirment que…</button><button type="button" class="chip">Bien qu&#x27;on puisse penser que…</button><button type="button" class="chip">La réalité, c&#x27;est que…</button><button type="button" class="chip">Quoi qu&#x27;il en soit,</button><button type="button" class="chip">Il me paraît raisonnable de suggérer que…</button><button type="button" class="chip">Les experts s&#x27;accordent pour dire que…</button></div><div class="bk"><b>Linking</b> <button type="button" class="chip">Dans la mesure où…</button><button type="button" class="chip">Puisque…</button><button type="button" class="chip">Tandis que…</button><button type="button" class="chip">Même si…</button><button type="button" class="chip">Malgré…</button><button type="button" class="chip">Au lieu de + infinitif</button><button type="button" class="chip">Bien que + subjonctif</button><button type="button" class="chip">Pour que + subjonctif</button></div><div class="bk"><b>Proposing</b> <button type="button" class="chip">Il vaudrait mieux + infinitif</button><button type="button" class="chip">Il faudrait + infinitif</button><button type="button" class="chip">Ce serait mieux si + imparfait</button><button type="button" class="chip">Il devrait y avoir…</button><button type="button" class="chip">Il pourrait y avoir…</button></div><div class="bk"><b>Asking back</b> <button type="button" class="chip">Croit-on vraiment que… ?</button><button type="button" class="chip">Est-ce là un argument valable ?</button><button type="button" class="chip">Cela nous autorise-t-il à… ?</button><button type="button" class="chip">Ne serait-il pas mieux de… ?</button><button type="button" class="chip">Pourquoi devrait-on donc… ?</button></div></details>
+  <div id="sim-q1" hidden></div>
+  <div id="sim-q2" hidden></div>
+  <div id="sim-p" hidden></div>
+</div>
+</section>
+
+  <h2 class="fin">Dans la même unité sur le site</h2>
+  <p class="note"><a href="Presse_en_voie_de_disparition-media-homework.html">La presse écrite</a> · <a href="freedom_expression_activity.html">La liberté d'expression</a> · <a href="Interactive_Practice_A-Level_Speaking_exam_French_U5_Les_medias.html">Les médias — speaking practice</a> · <a href="Paper_3_trainer_toutes_les_questions.html">Entraîneur Paper 3 — toutes les questions</a></p>
+  <h2 class="fin">Sources (for teachers)</h2>
+  <p class="note">Each fact in the texts, the questions and the model answers comes from one of these pages. The number shows the card.</p>
+  <ul class="sources"><li><span class="src">1</span> <a href="https://www.publicsenat.fr/actualites/politique/le-blaspheme-existe-t-il-dans-le-droit-185366" target="_blank" rel="noopener">Public Sénat : la loi du 29 juillet 1881 sur la liberté de la presse ; le blasphème n'est pas un délit (2020)</a></li><li><span class="src">1</span> <a href="https://www.assemblee-nationale.fr/14/pdf/rapports/r0925.pdf" target="_blank" rel="noopener">Assemblée nationale, rapport n° 925 (avril 2013) : Mediapart, 4 décembre 2012 ; mise en examen le 2 avril 2013</a></li><li><span class="src">1</span> <a href="https://hatvp.fr/?p=5651" target="_blank" rel="noopener">HATVP : la création de la Haute Autorité après l'affaire Cahuzac (lois du 11 octobre 2013)</a></li><li><span class="src">1</span> <a href="https://www.publicsenat.fr/actualites/politique/la-haute-autorite-pour-la-transparence-de-la-vie-publique-hatvp-comment-ca-marche" target="_blank" rel="noopener">Public Sénat : ce que contrôle la HATVP</a></li><li><span class="src">1</span> <a href="https://www.universalis.fr/evenement/7-21-janvier-2015-attentats-terroristes-a-paris/" target="_blank" rel="noopener">Universalis : les attentats de janvier 2015</a></li><li><span class="src">1</span> <a href="https://www.universalis.fr/evenement/16-octobre-2-novembre-2020-assassinat-du-professeur-d-histoire-samuel-paty/" target="_blank" rel="noopener">Universalis : l'assassinat de Samuel Paty (2020)</a></li><li><span class="src">1</span> <a href="https://media.ac-normandie.fr/-/communication/revue-presse/2022/12/09/Les%20Echos_nat_actu_Atteintes%20%e0%20la%20la%efcit%e9,%20de%20plus%20en%20plus%20d&#x27;enseignants%20s&#x27;autocensurent.pdf" target="_blank" rel="noopener">Les Echos : l'autocensure des enseignants (Ifop, décembre 2022)</a></li><li><span class="src">1</span> <a href="https://rsf.org/fr/actualites/mali-la-suspension-de-rfi-et-france-24-est-une-attaque-contre-la-liberte-et-lindependance-de" target="_blank" rel="noopener">RSF : Mali, suspension de RFI et France 24 (2022)</a></li><li><span class="src">1</span> <a href="https://rsf.org/en/rsf-urges-burkina-faso-lift-ban-french-public-broadcaster" target="_blank" rel="noopener">RSF : Burkina Faso, suspension de RFI (décembre 2022)</a></li><li><span class="src">1</span> <a href="https://rsf.org/fr/burkina-faso-rsf-condamne-fermement-la-suspension-de-france-24" target="_blank" rel="noopener">RSF : Burkina Faso, suspension de France 24 (2023)</a></li><li><span class="src">1</span> <a href="https://fr.euronews.com/2026/05/09/le-niger-suspend-neuf-medias-francais-sous-pretexte-de-mettre-en-peril-lordre-public" target="_blank" rel="noopener">Euronews : le Niger suspend neuf médias français (9 mai 2026)</a></li><li><span class="src">1</span> <a href="https://rsf.org/fr/classement-mondial-2026-par-r%C3%A9gions-une-d%C3%A9gradation-de-la-libert%C3%A9-de-la-presse-dans-100-pays-sur" target="_blank" rel="noopener">RSF : classement 2026 par région (Sahel, « au nom de la sécurité nationale » ; Niger 120e, −37)</a></li><li><span class="src">2</span> <a href="https://www.rapport-congresdesnotaires.fr/2021-rapport-du-117e-congres/lelevation-du-respect-de-la-vie-privee-au-rang-de-droit-fondamental" target="_blank" rel="noopener">Congrès des notaires (2021) : l'article 9 du Code civil, introduit par la loi du 17 juillet 1970</a></li><li><span class="src">2</span> <a href="https://www.europe1.fr/politique/catherine-nay-raconte-les-coulisses-de-laffaire-mazarine-pingeot-4000217" target="_blank" rel="noopener">Europe 1 : Catherine Nay et l'affaire Mazarine (2020)</a></li><li><span class="src">2</span> <a href="https://acteurspublics.fr/articles/la-vie-politique-en-novembre-1994-la-sensation-i-paris-match-i/" target="_blank" rel="noopener">Acteurs publics : la révélation de Paris Match (novembre 1994)</a></li><li><span class="src">2</span> <a href="https://pressgazette.co.uk/?p=65192" target="_blank" rel="noopener">Press Gazette : Closer condamné à verser 15 000 euros (mars 2014)</a></li><li><span class="src">2</span> <a href="https://www.ozap.com/actu/75-des-francais-respectent-la-vie-privee-de-francois-hollande/451184" target="_blank" rel="noopener">Puremédias : sondage BVA (62 % « affaire privée ») et 150 000 exemplaires réimprimés (janvier 2014)</a></li><li><span class="src">2</span> <a href="https://www.ozap.com/actu/pour-58-des-francais-closer-a-eu-raison-de-devoiler-la-liaison-gayet-hollande/451424" target="_blank" rel="noopener">Puremédias : sondage Harris Interactive (58 %, janvier 2014)</a></li><li><span class="src">2</span> <a href="https://www.leclubdesjuristes.com/justice/affaire-brigitte-macron-de-la-relaxe-pour-diffamation-a-la-condamnation-pour-cyberharcelement-13516/" target="_blank" rel="noopener">Le Club des juristes : cyberharcèlement de Brigitte Macron, jugement du 5 janvier 2026</a></li><li><span class="src">2</span> <a href="https://www.lalibre.be/belgique/societe/delphine-boel-devient-officiellement-princesse-de-belgique-5f760b669978e2322f35a5e5" target="_blank" rel="noopener">La Libre Belgique : Delphine Boël, fille du roi Albert II (1er octobre 2020)</a></li><li><span class="src">3</span> <a href="https://www.culture.gouv.fr/fr/Media/medias-creation-rapide/chiffres-cles-2024_deps_presse-ecrite_fiche.pdf" target="_blank" rel="noopener">Ministère de la Culture, Chiffres clés 2024 – Presse écrite (tirage 2013-2023 ; 203 quotidiens en 1946, 60 en 2023)</a></li><li><span class="src">3</span> <a href="https://www.senat.fr/rap/r21-593-1/r21-593-1_mono.html" target="_blank" rel="noopener">Sénat, commission d'enquête sur la concentration des médias (2022)</a></li><li><span class="src">3</span> <a href="https://lareclame.fr/bump-annuel-2025-marche-publicitaire-communication-331233" target="_blank" rel="noopener">La Réclame : BUMP 2025 (19,8 milliards d'euros, dont 12,4 pour le numérique)</a></li><li><span class="src">3</span> <a href="https://www.journaldunet.com/publishers/1547317-le-resultat-du-monde-sera-encore-beneficiaire-en-2025/" target="_blank" rel="noopener">Journal du Net : Le Monde, 670 000 abonnés fin 2025 (janvier 2026)</a></li><li><span class="src">3</span> <a href="https://www.cbnews.fr/node/98715" target="_blank" rel="noopener">CB News : ACPM 2025, quotidiens nationaux +3,4 %, 79 % de lecture numérique (février 2026)</a></li><li><span class="src">3</span> <a href="https://www.ozap.com/actu/76-des-francais-se-disent-inquiets-de-la-desinformation-etrangere-selon-le-barometre-annuel-du-journal-la-croix/653268" target="_blank" rel="noopener">Puremédias : baromètre La Croix-Verian 2026 (presse régionale 63 % ; 51 % voient du faux sur les réseaux)</a></li><li><span class="src">3</span> <a href="https://fr.themedialeader.com/barometre-la-croix-2026-les-francais-demandent-plus-de-transparence-et-dindependance-aux-medias/" target="_blank" rel="noopener">The Media Leader : baromètre La Croix 2026 (JT 65 %, presse régionale 63 %)</a></li><li><span class="src">3</span> <a href="https://reutersinstitute.politics.ox.ac.uk/digital-news-report/2026/france" target="_blank" rel="noopener">Reuters Institute, Digital News Report 2026 : France (12 % paient pour s'informer en ligne)</a></li><li><span class="src">3</span> <a href="https://amp.cbc.ca/news/canada/montreal/montreal-s-la-presse-to-become-non-profit-entity-1.4653138" target="_blank" rel="noopener">CBC : La Presse arrête le papier (décembre 2017) et devient un organisme sans but lucratif (2018)</a></li><li><span class="src">4</span> <a href="https://www.cnc.fr/professionnels/actualites/malgre-une-annee-en-demiteinte-avec-pres-de-157-millions-dentrees-dans-ses-salles-de-cinema-la-france-demeure-largement-le-premier-marche-europeen_2519012" target="_blank" rel="noopener">CNC : bilan 2025 (156,79 millions d'entrées, −13,6 % ; part des films français ; Allemagne)</a></li><li><span class="src">4</span> <a href="https://www.senat.fr/rap/l23-128-319/l23-128-3197.html" target="_blank" rel="noopener">Sénat, rapport sur le PLF 2024 : les quatre taxes du CNC ; 31 % de fonds publics en 2021 ; « une nécessaire réévaluation »</a></li><li><span class="src">4</span> <a href="https://www.cbnews.fr/node/88901" target="_blank" rel="noopener">CB News : bilan Arcom-CNC du décret SMAD, 866 millions d'euros investis par les plateformes (novembre 2024)</a></li><li><span class="src">4</span> <a href="https://www.lalibre.be/culture/cinema/festivals/berlinale/2024/02/25/avec-dahomey-sacre-ours-dor-a-la-berlinale-2024-mati-diop-refuse-lamnesie-concernant-le-patrimoine-pille-dafrique-4ELSEHMPHBBGLA5XW4M6BDZL7M/" target="_blank" rel="noopener">La Libre Belgique : Mati Diop, Ours d'or 2024 pour Dahomey (26 œuvres restituées au Bénin)</a></li><li><span class="src">4</span> <a href="https://www.iledefrance.fr/tous-les-evenements/production-cine-tv-soutenue-dahomey-ours-dor-2024" target="_blank" rel="noopener">Région Île-de-France : aide de 40 000 euros à Dahomey</a></li><li><span class="src">5</span> <a href="https://www.ozap.com/actu/grace-au-replay-la-ceremonie-d-ouverture-des-jo-de-paris-2024-decroche-le-record-d-audience-de-l-histoire-de-la-television-francaise/645163" target="_blank" rel="noopener">Puremédias / Médiamétrie : cérémonie d'ouverture des JO, 24,42 millions avec le replay (août 2024)</a></li><li><span class="src">5</span> <a href="https://www.mediametrie.fr/system/files/2026-01/2026%2001%2021%20CP%20M%C3%A9diam%C3%A9trie%20L%27Ann%C3%A9e%20TV%20Video%202025.pdf" target="_blank" rel="noopener">Médiamétrie : L'Année TV/Vidéo 2025 (finale PSG-Inter, 11,8 millions)</a></li><li><span class="src">5</span> <a href="https://fr.themedialeader.com/barometre-la-croix-2026-les-francais-demandent-plus-de-transparence-et-dindependance-aux-medias/" target="_blank" rel="noopener">The Media Leader : baromètre La Croix 2026 (JT jugés crédibles à 65 %)</a></li><li><span class="src">5</span> <a href="https://www.ozap.com/actu/audiences-annuelles-2025-tf1-toujours-solide-leader-france-2-redescend-de-son-nuage-w9-et-canal-en-forme-record-historique-pour-arte/653093" target="_blank" rel="noopener">Puremédias : audiences 2025 (record d'Arte ; CNews devant BFMTV)</a></li><li><span class="src">5</span> <a href="https://fr.euronews.com/2024/07/25/france-la-chaine-tv-c8-de-vincent-bollore-perd-sa-frequence-sur-la-tnt" target="_blank" rel="noopener">Euronews : C8 perd sa fréquence ; 7,4 millions d'euros d'amendes ; OFTV et Réels TV retenus (juillet 2024)</a></li><li><span class="src">5</span> <a href="https://www.cbnews.fr/node/91049" target="_blank" rel="noopener">CB News : la fin de C8, 3,7 millions pour la dernière de TPMP (mars 2025)</a></li><li><span class="src">5</span> <a href="https://www.cbnews.fr/medias/renouvellement-frequences-tnt-figures-c8-cnews-montent-au-creneau-face-decision-arcom" target="_blank" rel="noopener">CB News : les réactions de C8 et CNews (2024)</a></li><li><span class="src">5</span> <a href="https://conseil-etat.fr/Media/actualites/documents/2025/fevrier-2025/communique-de-presse-frequences-tnt.pdf" target="_blank" rel="noopener">Conseil d'État : fréquences TNT (février 2025)</a></li><li><span class="src">5</span> <a href="https://conseil-etat.fr/actualites/pluralisme-et-independance-de-l-information-l-arcom-devra-se-prononcer-a-nouveau-sur-le-respect-par-cnews-de-ses-obligations" target="_blank" rel="noopener">Conseil d'État : CNews et le pluralisme (février 2024)</a></li><li><span class="src">5</span> <a href="https://merlin.obs.coe.int/article/9697" target="_blank" rel="noopener">Observatoire européen de l'audiovisuel : l'amende de 3,5 millions d'euros</a></li><li><span class="src">5</span> <a href="https://www.cbnews.fr/node/91021" target="_blank" rel="noopener">CB News : Cyril Hanouna rejoint le groupe M6 (février 2025)</a></li><li><span class="src">5</span> <a href="https://www.canada.ca/fr/patrimoine-canadien/services/tv5.html" target="_blank" rel="noopener">Gouvernement du Canada : TV5, six gouvernements partenaires, près de 200 pays</a></li><li><span class="src">5</span> <a href="https://fr.euronews.com/my-europe/2026/05/06/burkina-faso-les-militaires-au-pouvoir-interdisent-la-diffusion-de-tv5-monde" target="_blank" rel="noopener">Euronews : le Burkina Faso interdit TV5 Monde ; RSF, « éléments opaques » (6 mai 2026)</a></li><li><span class="src">6</span> <a href="https://datareportal.com/reports/digital-2026-france" target="_blank" rel="noopener">DataReportal : Digital 2026 France (63,4 millions d'internautes, 95,2 % ; 51,5 millions de comptes sur les réseaux)</a></li><li><span class="src">6</span> <a href="https://www.ozap.com/actu/76-des-francais-se-disent-inquiets-de-la-desinformation-etrangere-selon-le-barometre-annuel-du-journal-la-croix/653268" target="_blank" rel="noopener">Puremédias : baromètre La Croix-Verian 2026 (42 % via des influenceurs ; 51 % ; 76 %)</a></li><li><span class="src">6</span> <a href="https://www.publicsenat.fr/article/politique/charnier-de-gossi-au-mali-cambon-denonce-la-manoeuvre-grossiere-des-milices-wagner" target="_blank" rel="noopener">Public Sénat : le faux charnier de Gossi, au Mali (avril-mai 2022)</a></li><li><span class="src">6</span> <a href="https://www.ih2ef.gouv.fr/presentation-du-service-technique-et-operationnel-de-letat-charge-de-la-vigilance-et-de-la" target="_blank" rel="noopener">IH2EF (ministère de l'Éducation) : Viginum, créé par le décret du 13 juillet 2021</a></li><li><span class="src">6</span> <a href="https://conseil-etat.fr/content/download/227070/document/Communiqu%C3%A9%20de%20presse%20-%20TikTok%20en%20Nouvelle-Cal%C3%A9donie%20-%20web.pdf" target="_blank" rel="noopener">Conseil d'État : le blocage de TikTok en Nouvelle-Calédonie était illégal (1er avril 2025)</a></li><li><span class="src">6</span> <a href="https://lcp.fr/actualites/reseaux-sociaux-pourquoi-le-conseil-constitutionnel-a-censure-l-interdiction-pour-les" target="_blank" rel="noopener">LCP : le Conseil constitutionnel censure l'interdiction des réseaux sociaux aux moins de 15 ans (14 août 2026)</a></li><li><span class="src">6</span> <a href="https://www.lalibre.be/international/europe/2023/07/05/lidee-de-macron-pour-faire-face-aux-emeutes-suscite-lindignation-LGMM4W5IOFCOTC3A2DZSG7LMVY/" target="_blank" rel="noopener">La Libre Belgique : Emmanuel Macron et l'idée de « couper » les réseaux sociaux (juillet 2023)</a></li><li><span class="src">6</span> <a href="https://www.rtbf.be/article/contestation-politique-au-senegal-la-connexion-internet-sur-les-mobiles-suspendue-11328872" target="_blank" rel="noopener">RTBF : le Sénégal suspend l'Internet mobile (13 février 2024)</a></li><li><span class="src">Exam</span> <a href="https://qualifications.pearson.com/content/dam/pdf/A-Level/French/2016/Exam-materials/9fr0-03-pef-20250814.pdf" target="_blank" rel="noopener">Pearson, rapport d'examinateurs, Paper 3, juin 2025 (format de la tâche 1 ; cartes « médias » de 2025)</a></li><li><span class="src">Exam</span> <a href="https://qualifications.pearson.com/content/dam/pdf/A-Level/French/2016/Exam-materials/9fr0-03-pef-20230817.pdf" target="_blank" rel="noopener">Pearson, rapport d'examinateurs, Paper 3, juin 2023</a></li><li><span class="src">Exam</span> <a href="Paper_3_trainer_toutes_les_questions.html">Les six cartes « médias » : jeu de cartes du département (Entraîneur Paper 3, SP5)</a></li></ul>
+  <p class="note">Texts written for this activity from the 05 Médias unit and these sources. Updated 27 October 2026.</p>
 </div>
 
-<script>
-/* The kit marks exercises 1 to 4 and handles the name, the pad, the saving and
-   the download. This adds the one thing it cannot do: a live reading of the
-   five-box A* answer, which is continuous writing and cannot be marked. */
-(function(){
-  "use strict";
-  var TERMES = ["presse écrite", "désinformation", "infox", "liberté d'expression", "discours de haine", "contre-pouvoir", "défiance", "recettes publicitaires", "éducation aux médias", "rédaction", "chambre d'écho", "fracture numérique", "Arcom", "DSA", "Avia", "Conseil constitutionnel", "Charlie Hebdo", "réseaux sociaux", "démocratie", "modération", "Reporters sans frontières", "baromètre", "plateforme"];
-  var PHRASES = ["Chacun peut constater que", "Il est important de noter que", "Ajoutons à cela", "Force est de constater que", "Il est indéniable que", "On ne peut nier que", "Il convient de souligner que", "Il va sans dire que", "Certes", "Néanmoins", "Pour conclure", "En définitive", "Ainsi", "Même si", "En revanche", "D'une part", "D'autre part", "Il n'en demeure pas moins que", "Force est d'admettre", "Il convient de rappeler", "Il est essentiel de rappeler", "Nul ne saurait nier"];
-  /* JavaScript's \b does not fire after an accented letter, so "resté" and
-     "où" were invisible to a trailing \b. Every boundary below is written
-     out as an explicit "not a letter" test instead. */
-  var L = "A-Za-zÀ-ÿ";
-  function re(src, flags){ return new RegExp(src.replace(/L/g, L), flags || "i"); }
-  /* A bare "-i" or "-u" ending matches half the adjectives in French ("c'est
-     vrai"), so the participle is either a real -é form or a named irregular. */
-  var PART = "(?:[L]{2,}(?:ées|ée|és|é)|fait|faits|pris|prise|prises|mis|mise|dit|dits|"
-           + "écrit|écrits|venu|venus|venue|devenu|devenus|vu|vus|su|pu|dû|voulu|connu|"
-           + "reçu|resté|restés|restée|allé|allés|né|nés|mort|morts|parti|partis|sorti|"
-           + "sortis|ouvert|offert|compris|appris|permis|produit|conduit|construit|"
-           + "détruit|inscrit|atteint|éteint|craint|joint|été|eu|lu|tenu|obtenu|maintenu|"
-           + "soutenu|vécu|couru|battu|rendu|entendu|perdu|vendu|répondu|attendu)";
-  var R = {
-    fut:   re("(?:^|[^L])[L]{2,}r(?:a|as|ai|ons|ez|ont)(?![L])"),
-    cond:  re("(?:^|[^L])[L]{2,}rai(?:t|ent|s)(?![L])"),
-    condG: re("[L]{2,}rai(?:t|ent|s)(?![L])", "gi"),
-    impAux:re("(?:^|[^L])(?:était|étaient|avait|avaient|faisait|faisaient)(?![L])"),
-    pc:    re("(?:^|[^L])(?:a|as|ai|ont|avez|avons|est|sont|es|sommes|êtes)\\s+" + PART + "(?![L])"),
-    pqp:   re("(?:^|[^L])(?:avait|avaient|était|étaient)\\s+" + PART + "(?![L])"),
-    ps:    re("(?:^|[^L])(?:fut|furent|eut|eurent|vint|vinrent|fit|firent|prit|prirent|mit|mirent|put|purent|sut|surent|dut|durent|vit|virent|mourut|moururent|naquit|devint|devinrent|parvint|reçut|connut|obtint|serra|vota|créa|lança|proclama|signa|arriva|entra|donna)(?![L])|(?:^|[^L])[L]{3,}(?:èrent|irent|urent)(?![L])")
-  };
-  function tenses(v){
-    var t = String(v || ""), out = [];
-    var stripped = t.replace(R.condG, " ");   /* so "-rait" is not read as a future */
-    if(R.fut.test(stripped))  out.push("futur");
-    if(R.cond.test(t))        out.push("conditionnel");
-    if(R.pqp.test(t))         out.push("plus-que-parfait");
-    else if(R.impAux.test(stripped) || anyBut(stripped, "[L]{2,}(?:ait|aient|ais)(?![L])", IMP_STOP))
-      out.push("imparfait");
-    if(R.pc.test(t))          out.push("passé composé");
-    if(R.ps.test(t))          out.push("passé simple");
-    return out;
-  }
-  function anyBut(text, src, stop){
-    var m = String(text || "").match(re(src, "gi")) || [];
-    for(var i = 0; i < m.length; i++){
-      var w = m[i].toLowerCase().replace(/^[^a-zà-ÿ]+/, "");
-      if(stop.indexOf(w) < 0) return true;
-    }
-    return false;
-  }
-  /* "français" ends in -ais and is not an imperfect. */
-  var IMP_STOP = ["français","francais","anglais","japonais","portugais","irlandais",
-                  "jamais","désormais","desormais","palais","biais","relais","marais",
-                  "essais","délais","delais","balais","niais","frais","lais","gallois",
-                  "quais","aujourd'hui"];
-  /* -ant is the noisiest test on the page: half the adverbs in French end in it. */
-  var PP_STOP = ["pendant","cependant","maintenant","pourtant","autant","avant","devant",
-                 "important","importants","importante","dominant","courant","suivant",
-                 "durant","tant","quant","géant","enfant","enfants","instant","restant",
-                 "montant","gouvernement"];
-  var STRUCT = [
-    ["subjonctif", re("(?:^|[^L])(?:afin|pour|bien|quoi|avant|sans|jusqu'à ce|à condition|à moins)\\s+qu(?:e|')|(?:^|[^L])il\\s+(?:faut|faudrait|fallait|est\\s+(?:essentiel|crucial|important|nécessaire|peu\\s+probable))\\s+qu(?:e|')|(?:^|[^L])pourvu\\s+que(?![L])")],
-    ["si + imparfait + conditionnel", re("(?:^|[^L])s(?:i|')[^.!?]{0,110}[L]{2,}rai(?:t|ent)(?![L])")],
-    ["pronom relatif", re("(?:^|[^L])ce\\s+qu(?:i|e|')|(?:^|[^L])dont(?![L])|\\s+où(?![L])|(?:^|[^L])(?:lequel|laquelle|auquel|desquels|auxquels)(?![L])")],
-    ["négation complexe", re("(?:^|[^L])n(?:e|')\\s?[L']{0,14}\\s*(?:guère|point|nullement|jamais|aucune?|que\\s|qu'|ni\\s|plus\\s|rien)")],
-    ["structure à l'infinitif", re("(?:^|[^L])(?:avant\\s+de|afin\\s+de|pour|sans)\\s+[L]{2,}(?:er|ir|re)(?![L])|(?:^|[^L])après\\s+(?:avoir|être)(?![L])")],
-    ["comparatif / superlatif", re("(?:^|[^L])(?:plus|moins|aussi)\\s+[L]{2,}\\s+qu(?:e|')|(?:^|[^L])l(?:e|a|es)\\s+(?:plus|moins)\\s+[L]{2,}|(?:^|[^L])(?:meilleur|pire|davantage)(?![L])")],
-    ["voix passive", re("(?:^|[^L])(?:est|sont|fut|furent|serait|était|étaient|a\\s+été|ont\\s+été)\\s+[L]{2,}(?:ées|és|ée|é)(?![L])")],
-    ["nominalisation", re("(?:^|[^L])(?:la|le|les|l')\\s?[L]{3,}(?:tion|ment|ance|ence|ité|isme|age)(?![L])")]
-  ];
-  function participePresent(v){
-    var m = String(v || "").match(re("[L]{3,}ant(?![L])", "gi")) || [];
-    for(var i = 0; i < m.length; i++){
-      if(PP_STOP.indexOf(m[i].toLowerCase()) < 0) return true;
-    }
-    return false;
-  }
-  function fold(s){
-    return String(s||"").toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,"")
-             .replace(/[’‘`´]/g,"'").replace(/\s+/g," ");
-  }
-  function words(s){ return (String(s||"").trim().match(/[\wÀ-ſ'’-]+/g)||[]).length; }
-  function hits(text, list){
-    var f = fold(text), out = [];
-    list.forEach(function(x){ if(f.indexOf(fold(x)) >= 0 && out.indexOf(x) < 0) out.push(x); });
-    return out;
-  }
-  function numbers(text){
-    var m = String(text||"").match(/(?:^|[^\w.,])\d{1,4}(?:[ ,.]\d+)?/g) || [];
-    var seen = {}, out = [];
-    m.forEach(function(x){ x = x.replace(/^[^\d]+/,""); if(!seen[x]){ seen[x]=1; out.push(x); } });
-    return out;
-  }
-  function found(text, table){
-    var out = [];
-    table.forEach(function(r){ if(r[1].test(text)) out.push(r[0]); });
-    if(table === STRUCT && participePresent(text)) out.push("participe présent");
-    return out;
-  }
-  function tag(ok, label, detail){
-    return '<span class="' + (ok ? "hit" : "miss") + '">' + (ok ? "✔ " : "· ") + label + "</span>"
-         + (detail ? ' <span class="miss">(' + detail + ")</span>" : "");
-  }
-  function g(id){ var e = document.getElementById(id); return e ? e.value : ""; }
-
-  function readBoxes(){
-    var b = document.getElementById("bilan"); if(!b) return;
-    var all = ["b1","b2","b3","b4","b5"].map(g).join(" \n ");
-    if(!all.replace(/\s/g,"")){ b.innerHTML = ""; return; }
-    var ph = hits(g("b1"), PHRASES);
-    var tm = hits(g("b2") + " " + g("b3") + " " + g("b5"), TERMES);
-    var nb = numbers(g("b3"));
-    var pr = hits(g("b3"), TERMES);
-    var tp = tenses(g("b4"));
-    var st = found(g("b5"), STRUCT);
-    b.innerHTML = [
-      tag(ph.length >= 1, "phrase de rédaction", ph.join(" · ")),
-      tag(tm.length >= 3, "termes du sujet : " + tm.length + " / 3", tm.slice(0,6).join(" · ")),
-      tag(nb.length >= 1 || pr.length >= 1, "preuve chiffrée ou nommée", nb.concat(pr).slice(0,4).join(" · ")),
-      tag(tp.length >= 1, "verbe dans un autre temps", tp.join(" · ")),
-      tag(st.length >= 1, "structure complexe", st.join(" · "))
-    ].join("<br>");
-  }
-  function readAnswer(){
-    var b = document.getElementById("bilan2"); if(!b) return;
-    var v = g("reponse"), w = words(v);
-    if(!w){ b.innerHTML = ""; return; }
-    var st = found(v, STRUCT), tp = tenses(v), tm = hits(v, TERMES), nb = numbers(v);
-    var cible = 90;
-    b.innerHTML = "<b>" + w + " mots</b> "
-      + (w >= cible ? '<span class="hit">✔ longueur atteinte</span>'
-                    : '<span class="miss">· encore ' + (cible - w) + " mots</span>") + "<br>"
-      + tag(tm.length >= 3, "termes du sujet : " + tm.length + " / 3", tm.slice(0,6).join(" · ")) + "<br>"
-      + tag(nb.length >= 1, "preuves chiffrées : " + nb.length, nb.slice(0,6).join(" · ")) + "<br>"
-      + tag(tp.length >= 2, "temps employés : " + tp.length + " / 2", tp.join(" · ")) + "<br>"
-      + tag(st.length >= 3, "structures : " + st.length + " / 3", st.join(" · "));
-  }
-  function refresh(){ readBoxes(); readAnswer(); }
-  ["b1","b2","b3","b4","b5","reponse"].forEach(function(id){
-    var e = document.getElementById(id);
-    if(e) e.addEventListener("input", refresh);
-  });
-  setTimeout(refresh, 900);          /* the kit restores saved work after load */
-  document.addEventListener("click", function(e){
-    if(e.target && e.target.closest && e.target.closest("#bba-resume")) setTimeout(refresh, 300);
-  }, true);
-})();
-</script>
 <script src="bba-kit-fr.js" defer></script>
 <script src="bba-send-strip.js" defer></script>
+<script>
+(function(){
+  "use strict";
+  var SIM = [{"k": "c1", "tab": "Liberté d'expression", "decl": "Les médias bénéficient de la liberté d'expression dans les pays francophones.", "consider": ["Ce qui indique l'importance de la liberté d'expression dans le monde francophone.", "L'avantage d'une presse libre dans le monde francophone."], "q1": "Quelle est l'importance de la liberté d'expression dans le monde francophone ?", "q2": "Quel est l'avantage d'une presse libre dans le monde francophone ?", "probe": "Aurait-il fallu interdire les caricatures pour éviter la violence ?"}, {"k": "c2", "tab": "Vie privée", "decl": "Dans les pays francophones, les médias se concentrent plus sur les actualités que sur la vie privée de certaines personnalités connues du grand public.", "consider": ["Les raisons pour lesquelles les médias francophones ne critiquent pas les personnalités célèbres.", "Si la vie privée des politiciens intéresse les citoyens des pays francophones."], "q1": "Pourquoi, selon vous, les médias francophones ne critiquent-ils pas davantage les personnalités célèbres ?", "q2": "La vie privée des politiciens intéresse-t-elle les citoyens des pays francophones ?", "probe": "Un président a-t-il droit à une vie privée comme tout le monde ?"}, {"k": "c3", "tab": "Presse écrite", "decl": "L'existence de la presse écrite est menacée par la montée du numérique.", "consider": ["La situation de la presse écrite dans le pays francophone que vous avez étudié.", "La popularité de certains secteurs de la presse écrite."], "q1": "Quelle est la situation actuelle de la presse écrite en France ?", "q2": "Pourquoi certains secteurs de la presse écrite résistent-ils malgré le déclin général ?", "probe": "Si la presse écrite disparaissait, qu'est-ce que la démocratie perdrait ?"}, {"k": "c4", "tab": "Cinéma", "decl": "Le cinéma est un aspect essentiel de la culture d'un pays.", "consider": [], "q1": "Quel est le rôle du cinéma dans la culture du pays francophone que vous avez étudié ?", "q2": "Quels sont les défis auxquels fait face l'industrie du cinéma en France ?", "probe": "Sans l'aide de l'État, le cinéma français survivrait-il ?"}, {"k": "c5", "tab": "Télévision", "decl": "La fonction de la télévision est simplement de divertir les gens.", "consider": [], "q1": "À votre avis, quel est le rôle de la télévision dans le pays francophone que vous avez étudié ?", "q2": "Quelles sortes d'émissions sont les plus populaires dans le pays francophone que vous avez étudié ?", "probe": "Si C8 avait gardé sa fréquence, la liberté d'expression aurait-elle été mieux protégée ?"}, {"k": "c6", "tab": "Internet", "decl": "Internet est bon pour les pays francophones.", "consider": [], "q1": "Selon vous, quel impact Internet a-t-il sur les habitants du pays francophone que vous avez étudié ?", "q2": "Quels sont les dangers potentiels d'Internet pour le pays francophone que vous avez étudié ?", "probe": "Pourquoi certains voudraient-ils censurer les réseaux sociaux en France ?"}];
+  function store(k,v){ try{ if(v===undefined) return localStorage.getItem(k); localStorage.setItem(k,v); }catch(e){ return null; } }
+
+  /* ---------------- tabs ---------------- */
+  var tabs = Array.prototype.slice.call(document.querySelectorAll(".tab"));
+  function show(t, focus){
+    tabs.forEach(function(b){
+      var on = b.getAttribute("data-t") === t;
+      b.setAttribute("aria-selected", on ? "true" : "false");
+      b.classList.toggle("on", on);
+      var p = document.getElementById("p-" + b.getAttribute("data-t"));
+      if(p) p.hidden = !on;
+    });
+    stop();
+    store("fr5-tab", t);
+    if(focus){ var bar = document.querySelector(".tabs"); if(bar) bar.scrollIntoView({block:"start"}); }
+  }
+  tabs.forEach(function(b){ b.addEventListener("click", function(){ show(b.getAttribute("data-t"), true); }); });
+
+  /* ---------------- read-along audio ---------------- */
+  function voixFr(){
+    var vs = (window.speechSynthesis && speechSynthesis.getVoices()) || [], best = null, bp = -1;
+    vs.forEach(function(v){
+      if(!v.lang || v.lang.toLowerCase().indexOf("fr") !== 0) return;
+      var p = 0, n = (v.name || "").toLowerCase();
+      if(v.lang.replace("_","-") === "fr-FR") p += 40;
+      if(/natural|neural|premium|enhanced|siri/.test(n)) p += 45;
+      if(/google/.test(n)) p += 30;
+      if(v.localService === false) p += 20;
+      if(/espeak|compact/.test(n)) p -= 60;
+      if(p > bp){ bp = p; best = v; }
+    });
+    return best;
+  }
+  var A = {jeton:0, btn:null};
+  function stop(){
+    A.jeton++; if("speechSynthesis" in window) speechSynthesis.cancel();
+    document.querySelectorAll(".lu .s.now").forEach(function(x){ x.classList.remove("now"); });
+    if(A.btn){ A.btn.classList.remove("on"); A.btn.textContent = "▶ Écouter"; A.btn = null; }
+  }
+  function lire(bloc, k0){
+    if(!("speechSynthesis" in window)){ alert("This browser has no voices for reading aloud."); return; }
+    stop();
+    var j = A.jeton, ph = bloc.querySelectorAll(".s"), btn = bloc.querySelector(".lire"), v = voixFr();
+    A.btn = btn; btn.classList.add("on"); btn.textContent = "■ Arrêter";
+    (function next(k){
+      if(j !== A.jeton) return;
+      if(k > 0) ph[k-1].classList.remove("now");
+      if(k >= ph.length){ stop(); return; }
+      ph[k].classList.add("now");
+      var u = new SpeechSynthesisUtterance(ph[k].textContent);
+      if(v) u.voice = v; u.lang = "fr-FR"; u.rate = 0.9;
+      u.onend = function(){ next(k + 1); };
+      u.onerror = function(){ if(j === A.jeton) stop(); };
+      speechSynthesis.speak(u);
+    })(k0 || 0);
+  }
+  document.querySelectorAll(".lu").forEach(function(bloc){
+    var b = bloc.querySelector(".lire");
+    b.addEventListener("click", function(){ if(A.btn === b) stop(); else lire(bloc, 0); });
+    bloc.querySelectorAll(".s").forEach(function(s, k){ s.addEventListener("click", function(){ lire(bloc, k); }); });
+  });
+
+  /* ---------------- feedback on spoken-style answers ---------------- */
+  function fold(s){ return String(s || "").toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "").replace(/[’‘]/g, "'").replace(/\s+/g, " "); }
+  var NAMES = [["Mediapart","mediapart"],["Cahuzac","cahuzac"],["Charlie Hebdo","charlie"],["Paty","paty"],["RSF","rsf"],["Reporters sans frontières","reporters sans frontieres"],
+    ["RFI","rfi"],["France 24","france 24"],["Closer","closer"],["Mitterrand","mitterrand"],["Mazarine","mazarine"],["Hollande","hollande"],["Gayet","gayet"],
+    ["Brigitte Macron","brigitte macron"],["Boël","boel"],["Albert II","albert ii"],["Code civil","code civil"],["ACPM","acpm"],["Netflix","netflix"],["CNC","cnc"],
+    ["Mati Diop","mati diop"],["Dahomey","dahomey"],["C8","c8"],["Hanouna","hanouna"],["CNews","cnews"],["BFMTV","bfmtv"],["TV5Monde","tv5monde"],["TV5","tv5"],["Arte","arte"],
+    ["Arcom","arcom"],["Wagner","wagner"],["Viginum","viginum"],["TikTok","tiktok"],["Nahel","nahel"],["Conseil d'État","conseil d'etat"],
+    ["Conseil constitutionnel","conseil constitutionnel"],["Sénat","senat"],["Catherine Nay","catherine nay"],["Ligue des champions","ligue des champions"],
+    ["Jeux olympiques","jeux olympiques"],["JO de Paris","jo de paris"],["PSG","psg"],["Paris Match","paris match"],["Touche pas à mon poste","touche pas a mon poste"],
+    ["HATVP","hatvp"],["Nouvelle-Calédonie","nouvelle-caledonie"]].map(function(n){
+      return [n[0], new RegExp("(^|[^a-z0-9])" + n[1].replace(/[.*+?^${}()|[\]\\]/g, "\\$&") + "([^a-z0-9]|$)")]; });
+  var CASED = [["Le Monde", /(^|[^A-Za-z])Le Monde([^A-Za-z]|$)/], ["La Presse", /(^|[^A-Za-z])La Presse([^A-Za-z]|$)/]];
+  var BEYOND = /(^|[^a-z])(quebec(ois|oise|oises)?|canad(a|ien|ienne|iens|iennes)|belg(e|es|ique)|bruxelles|suisse(s)?|senegal(ais|aise|aises)?|mali(en|enne|ens|ennes)?|burkina( faso)?|niger(ien|ienne|iens|iennes)?|cote d'ivoire|ivoirien(ne|s|nes)?|sahel|afrique|africain(e|s|es)?|maroc(ain|aine|ains|aines)?|algeri(e|en|enne|ens|ennes)|tunisi(e|en|enne|ens|ennes)|cameroun|congo(lais|laise)?|haiti(en|enne|ens|ennes)?|liban(ais|aise)?|la reunion|reunionnais(e)?|martinique|guadeloupe|guyane|mayotte|nouvelle-caledonie|caledoni(e|en|enne|ens|ennes)|polynesie|tahiti|ile maurice|mauricien(ne|s|nes)?|madagascar|benin|dahomey|tv5(monde)?|monaco|luxembourg|wallonie|gabon|tchad|guinee|rwanda)([^a-z]|$)/;
+  var STANCE = /(a mon avis|selon moi|je pense|je crois|je trouve|je suis (convaincu|persuade|d'accord|pas d'accord|tout a fait|en partie)|il me semble|je considere|d'apres moi|je dirais|je ne (pense|crois|suis) pas|je ne le (pense|crois) pas|pour ma part|personnellement|j'estime|a mes yeux|je soutiens|oui,|non,)/;
+  var CONSEQ = /(parce qu|puisqu| car |(montre|montrent|prouve|prouvent|explique|signifie) qu|par consequent|c'est pourquoi|c'est pour cela|c'est pour cette raison|donc|ce qui (entraine|provoque|explique|montre|signifie|prouve|a conduit|conduit|mene|a mene|affaiblit|relance|permet)|si bien que|de sorte que|au point que|a cause de|en raison de|grace a|a conduit a|conduit a|mene a|a mene a|resultat|consequence|cela (montre|prouve|explique|signifie)|ainsi|d'ou)/;
+  var CONCES = /(certes|bien qu|quoiqu|meme si|meme s'|pourtant|cependant|neanmoins|toutefois|en revanche|cela dit|malgre|alors que|tandis que|il est vrai que|d'un cote)/;
+  var LANG = [
+    ["subjunctive", /(bien qu|quoiqu|pour qu|afin qu|avant qu|sans qu|a condition qu|a moins qu|il faut qu|il faudrait qu|qu'il faille|il est (normal|important|essentiel|necessaire|possible|dommage|indispensable|temps) qu|je ne (pense|crois) pas qu|je doute qu|je veux qu|je souhaite qu|jusqu'a ce qu|de peur qu)/],
+    ["passive", /((^|[^a-z])(a|ont|avait|avaient|aurait|auraient|aura|auront) ete [a-z]{3,}(e|es|ee|ees|i|is|ie|ies|u|us|ue|ues|t|ts|te|tes)([^a-z]|$))|((^|[^a-z])(est|sont|etait|etaient|sera|seront|serait|seraient|etre|soit|soient) [a-z]{3,}(e|es|ee|ees|i|is|ie|ies|u|us|ue|ues|t|ts|te|tes) par([^a-z]|$))/],
+    ["past conditional", /((^|[^a-z])(aurais|aurait|auraient|aurions|auriez)((\s+(pas|jamais|peut-etre|sans|doute|certainement|probablement|plus|meme|deja|vraiment|bien|donc|alors|ils|elles|il|elle|on|t-il|t-elle))*)\s+(pu|du|eu|ete|su|vu|mis|pris|fait|dit|[a-z]{3,}(e|es|ee|ees|i|is|ie|ies|u|us|ue|ues|t|ts|te|tes))([^a-z]|$))|((^|[^a-z])(serais|serait|seraient|serions|seriez)((\s+(pas|jamais|peut-etre|sans|doute|certainement|probablement|plus|meme|deja))*)\s+(reste|restes|restee|restees|devenu|devenus|devenue|devenues|alle|alles|allee|allees|venu|venus|venue|venues|parti|partis|partie|parties|arrive|arrives|arrivee|arrivees|ne|nee|nes|nees|mort|morte|morts|mortes|tombe|tombes|tombee|tombees|entre|entres|entree|entrees|sorti|sortis|sortie|sorties|rentre|rentree|retourne|retournee|passe|passee)([^a-z]|$))/],
+    ["si + pluperfect", /(^|[^a-z])s(i |')[^.!?;]{0,80}?(avais|avait|avaient|avions|aviez|etais|etait|etaient|etions|etiez) [a-z]{2,}/],
+    ["relative dont / lequel", /(^|[^a-z])(dont|lequel|laquelle|lesquels|lesquelles|auquel|auxquels|auxquelles|duquel|desquels|desquelles)([^a-z]|$)/]
+  ];
+  var ACC = {"quebec":"Québec","senegal":"Sénégal","algerie":"Algérie","cote d'ivoire":"Côte d'Ivoire","benin":"Bénin","la reunion":"La Réunion",
+    "nouvelle-caledonie":"Nouvelle-Calédonie","guinee":"Guinée","haiti":"Haïti","polynesie":"Polynésie","ile maurice":"île Maurice","tv5monde":"TV5Monde","tv5":"TV5Monde"};
+  function placeName(w){ return ACC[w] || (w.charAt(0).toUpperCase() + w.slice(1)); }
+  function words(v){ return (v.trim().match(/[^\s]+/g) || []).length; }
+  function evidence(v){
+    var f = fold(v), out = [];
+    var nums = v.match(/\d[\d\s.,]*\d|\d/g) || [];
+    nums.slice(0, 4).forEach(function(n){ out.push(n.trim()); });
+    NAMES.forEach(function(n){ if(n[1].test(f) && out.length < 8) out.push(n[0]); });
+    CASED.forEach(function(n){ if(n[1].test(v) && out.length < 8) out.push(n[0]); });
+    return out;
+  }
+  function li(ok, txt){ return '<li class="' + (ok ? "ok" : "no") + '">' + (ok ? "✔ " : "· ") + txt + '</li>'; }
+  function analyse(v){
+    var f = " " + fold(v) + " ", w = words(v), ev = evidence(v), bey = f.match(BEYOND), st = f.match(STANCE),
+        cq = f.match(CONSEQ), cc = f.match(CONCES),
+        lg = LANG.filter(function(x){ return x[1].test(f); }).map(function(x){ return x[0]; });
+    var len = w + " words" + (w < 50 ? " — too short for a real answer: aim for 60 to 130 (about a minute when you say it)."
+              : w > 150 ? " — long: in the exam, keep each answer to about a minute and let the examiner ask more." : " — a good length (about a minute when you say it).");
+    return '<ul class="auto">'
+      + li(w >= 50 && w <= 150, len)
+      + li(!!st, st ? "Your position is clear (« " + st[0].replace(/,$/, "") + " »)." : "State your position early: « À mon avis… », « Je ne suis pas d'accord… ».")
+      + li(ev.length >= 2, ev.length ? "Evidence: " + ev.join(" · ") + (ev.length < 2 ? " — add a second figure, date or named case." : "") : "No figure, date or named case yet: examiners reward precise evidence.")
+      + li(!!bey, bey ? "Beyond France: " + placeName(bey[2]) + "." : "No example from outside France yet. Examiners note that few candidates use other French-speaking countries, especially former colonies.")
+      + li(!!cq, cq ? "Cause or consequence explained (« " + cq[0].trim() + " »)." : "Explain a cause or a consequence: « ce qui a conduit à… », « c'est pourquoi… ».")
+      + li(!!cc, cc ? "Nuance (« " + cc[0].trim() + " »)." : "Add a concession: « Certes… mais… », « Bien que + subjunctive… ».")
+      + li(lg.length > 0, lg.length ? "Top-band language: " + lg.join(" · ") + " — check the verb forms." : "None of the structures examiners look for yet: subjunctive, passive, past conditional, si + pluperfect, dont / lequel.")
+      + '</ul><p class="note">The computer cannot judge your argument. Compare with the model: do you answer the question that was asked? Do you explain why, and with what consequences?</p>';
+  }
+  function modelHtml(box){
+    var t = box.querySelector("template.modele");
+    return '<div class="mod"><div class="mod-top"><b>Model answer</b> <button type="button" class="showlg">Show the language</button></div><div class="mod-body">' + t.innerHTML + '</div></div>';
+  }
+  function wireBox(box){
+    var ta = box.querySelector("textarea"), fb = box.querySelector(".fb"), d = box.querySelector("details.voir");
+    if(d){ d.addEventListener("toggle", function(){ if(d.open && !d.querySelector(".mod")) d.querySelector(".mod-inline").innerHTML = modelHtml(box); }); }
+    box.querySelector(".btn-check").addEventListener("click", function(){
+      var v = ta.value.trim();
+      if(!v){ fb.innerHTML = '<p class="no">Write your answer first — or open « See a model answer ».</p>'; return; }
+      fb.innerHTML = analyse(v) + modelHtml(box);
+    });
+  }
+  document.querySelectorAll(".ans").forEach(wireBox);
+  document.addEventListener("click", function(ev){
+    var b = ev.target.closest ? ev.target.closest(".showlg") : null;
+    if(!b) return;
+    var m = b.closest(".mod"); var on = m.classList.toggle("showlg-on");
+    b.textContent = on ? "Hide the language" : "Show the language";
+  });
+
+  /* ---------------- phrase bank: insert into the last box written in ---------------- */
+  var lastBox = null;
+  document.addEventListener("focusin", function(e){ if(e.target && e.target.tagName === "TEXTAREA") lastBox = e.target; });
+  document.querySelectorAll(".chip").forEach(function(c){
+    c.addEventListener("click", function(){
+      var el = lastBox || document.getElementById("sim-notes"); if(!el) return;
+      var txt = c.textContent.replace(/\s*\+\s*(infinitif|subjonctif|imparfait)$/, "").replace(/…$/, " ");
+      var s = el.selectionStart, en = el.selectionEnd;
+      if(typeof s === "number"){ el.value = el.value.slice(0, s) + txt + el.value.slice(en); el.selectionStart = el.selectionEnd = s + txt.length; }
+      else el.value += txt;
+      el.focus(); el.dispatchEvent(new Event("input", {bubbles:true}));
+    });
+  });
+
+  /* ---------------- simulation ---------------- */
+  var order = [], cur = null, T = {left:300, id:null};
+  function shuffle(a){ for(var i = a.length - 1; i > 0; i--){ var j = Math.floor(Math.random() * (i + 1)); var t = a[i]; a[i] = a[j]; a[j] = t; } return a; }
+  function fmt(s){ return Math.floor(s / 60) + ":" + ("0" + (s % 60)).slice(-2); }
+  function tick(){ T.left--; document.getElementById("chrono").textContent = fmt(Math.max(T.left, 0)); if(T.left <= 0){ clearInterval(T.id); T.id = null; timeUp(); } }
+  function timeUp(){ document.getElementById("chrono").textContent = "0:00"; revealQ(1); }
+  function simBox(id, label, q, k, which){
+    var src = document.querySelector('.ans[data-box="' + k + which + '"] template.modele');
+    return '<div class="item ans" data-box="' + id + '"><p class="q"><span class="who">' + label + '</span> ' + q + '</p>'
+      + '<textarea id="' + id + '" placeholder="Dites votre réponse à voix haute, puis écrivez-en l\'essentiel…"></textarea>'
+      + '<div class="row"><button class="btn-check" type="button">Feedback</button>'
+      + '<details class="voir"><summary>See a model answer</summary><div class="mod-inline"></div></details></div>'
+      + '<div class="fb"></div><template class="modele">' + (src ? src.innerHTML : "") + '</template>'
+      + (which === "q1" ? '<button type="button" class="next" data-n="2">The examiner asks question 2 →</button>' : which === "q2" ? '<button type="button" class="next" data-n="3">The examiner insists →</button>' : '')
+      + '</div>';
+  }
+  function revealQ(n){
+    if(!cur) return;
+    var z = n === 1 ? "sim-q1" : n === 2 ? "sim-q2" : "sim-p", host = document.getElementById(z);
+    if(!host.hidden && host.innerHTML) return;
+    var which = n === 1 ? "q1" : n === 2 ? "q2" : "p", q = n === 1 ? cur.q1 : n === 2 ? cur.q2 : cur.probe;
+    var label = n === 1 ? "Question 1" : n === 2 ? "Question 2" : "Et si…";
+    host.innerHTML = (n === 1 ? '<p class="note">Time is up. The examiner reads the declaration, then asks:</p>' : "") + simBox("sim-" + which, label, q, cur.k, which);
+    host.hidden = false;
+    wireBox(host.querySelector(".ans"));
+    var nx = host.querySelector(".next"); if(nx) nx.addEventListener("click", function(){ revealQ(+nx.getAttribute("data-n")); nx.remove(); });
+    host.querySelector("textarea").focus();
+  }
+  document.getElementById("tirer").addEventListener("click", function(){
+    if(!order.length) order = shuffle(SIM.slice());
+    cur = order.pop();
+    clearInterval(T.id); T.id = null; T.left = 300; document.getElementById("chrono").textContent = "5:00";
+    var bul = cur.consider.length ? '<p class="sur">Sur la carte :</p><ul>' + cur.consider.map(function(b){ return "<li>" + b + "</li>"; }).join("") + "</ul>" : "";
+    document.getElementById("sim-card").innerHTML = '<div class="carte"><p class="ct">Carte · Les médias · ' + cur.tab + '</p><p class="decl">« ' + cur.decl + ' »</p>' + bul + '</div>';
+    ["sim-q1","sim-q2","sim-p"].forEach(function(z){ var h = document.getElementById(z); h.innerHTML = ""; h.hidden = true; });
+    document.getElementById("sim-zone").hidden = false;
+    document.getElementById("sim-left").textContent = order.length ? order.length + " other card" + (order.length > 1 ? "s" : "") + " left in the pack." : "Last card of the pack.";
+  });
+  document.getElementById("t-go").addEventListener("click", function(){ if(!T.id && T.left > 0) T.id = setInterval(tick, 1000); });
+  document.getElementById("t-pause").addEventListener("click", function(){ clearInterval(T.id); T.id = null; });
+  document.getElementById("t-reset").addEventListener("click", function(){ clearInterval(T.id); T.id = null; T.left = 300; document.getElementById("chrono").textContent = "5:00"; });
+  document.getElementById("t-skip").addEventListener("click", function(){ clearInterval(T.id); T.id = null; T.left = 0; timeUp(); });
+
+  /* start on the last tab used */
+  var t0 = store("fr5-tab");
+  show(t0 && document.getElementById("p-" + t0) ? t0 : "c1", false);
+})();
+</script>
 </body>
 </html>
