@@ -1,6 +1,13 @@
 <!DOCTYPE html>
 <!-- Version log
   2026-10-19  Opening instruction paragraph in English; French terms kept in French (italics).
+  2026-10-28  Rebuilt on the FR8 model: speaking practice left to the Paper 3 trainer (linked); short intro;
+              four short texts with read-along audio (why Pétain; the Révolution nationale; the « bienfaits »
+              debate; opinion, the last message and the trial); glosses only on non-transparent, reusable
+              terms; vocabulary, comprehension, figures, summary gap fill; Unit 11 grammar from the Y13 MTP
+              (prepositions sous / dès / à partir de / au sein de; faire / laisser + infinitive; il s'agit de,
+              il convient de; lequel / auquel) spotted then reused; one A* written answer with feedback;
+              live Bilan of what the learner has mastered.
 -->
 <html lang="fr">
 <head>
@@ -68,6 +75,42 @@
     .boite td:first-child{width:auto}
     .boite,.boite tbody,.boite tr,.boite td{display:block;width:100%}
   }
+
+  .lu{background:#fbfdfe;border:1px solid var(--line);border-left:5px solid var(--accent2);border-radius:6px;padding:12px 16px;margin:12px 0}
+  .lu-head{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:6px}
+  .lu h3{font-size:1.05em;color:var(--accent2)}
+  .lu p{line-height:1.75}
+  .lire{flex:0 0 auto;border:1.5px solid var(--accent);background:#fff;color:var(--accent);border-radius:18px;padding:4px 12px;font:600 .88em/1.2 inherit;cursor:pointer}
+  .lire.on{background:var(--accent);color:#fff}
+  .lu .s{cursor:pointer;border-radius:3px}
+  .lu .s:hover{background:#e9f3f7}
+  .lu .s.now{background:#ffe9a8}
+  .gloss{border-bottom:1px dotted var(--accent2);cursor:help}
+  .src{display:inline-block;min-width:1.6em;text-align:center;font-size:.78em;font-weight:bold;color:#fff;background:var(--accent2);border-radius:4px;padding:0 5px;margin-right:4px}
+  .btn-check{margin-top:8px;border:1.5px solid var(--accent);background:var(--accent);color:#fff;border-radius:5px;padding:6px 14px;font:600 .95em inherit;cursor:pointer}
+  .fb{margin-top:8px;font-size:.95em}
+  .fb .ok,.auto .ok{color:var(--ok);font-weight:bold}
+  .fb .no,.auto .no{color:var(--warn);font-weight:bold}
+  .fb .mod{background:#f2f7fa;border-left:4px solid var(--accent);padding:8px 12px;margin-top:6px;border-radius:0 6px 6px 0}
+  .peel{display:inline-block;width:1.5em;text-align:center;font-weight:bold;color:#fff;background:var(--accent);border-radius:4px;margin-right:4px}
+  .modele-box p{margin:6px 0}
+  .auto{list-style:none;margin:8px 0 0}
+  .auto li{margin:4px 0}
+  .lien-bilan{float:right;font-size:.9em}
+  #bilan{border:2px solid var(--accent);border-radius:8px;padding:14px 18px;margin:26px 0;background:#fbfdfe}
+  #bilan h2{margin-top:0}
+  .bl-row{display:grid;grid-template-columns:11em 1fr 4.5em;gap:10px;align-items:center;margin:9px 0}
+  .bl-bar{height:14px;background:#e6edf1;border-radius:7px;overflow:hidden}
+  .bl-bar i{display:block;height:100%;width:0;background:var(--accent2);transition:width .4s}
+  .bl-bar i.full{background:var(--ok)}
+  .bl-n{text-align:right;font-variant-numeric:tabular-nums}
+  .bl-msg{grid-column:1/-1;margin:-4px 0 4px;font-size:.9em;color:#4a5a66}
+  .bl-total{font-size:1.1em;font-weight:bold;margin-top:10px}
+  details.plus summary{cursor:pointer;font-weight:600;color:var(--accent)}
+  details.plus ul{margin:8px 0 4px 1.2em}
+  details.plus li{margin:5px 0}
+  .crd{color:#5f6f7a;font-size:.9em}
+  @media (max-width:560px){.bl-row{grid-template-columns:1fr 3.6em}.bl-row .bl-bar{grid-column:1/-1;order:3}}
 </style>
 <link rel="stylesheet" href="bba-mobile.css">
 </head>
@@ -75,362 +118,253 @@
 <div class="wrap">
   <header>
     <h1>FR11 · Le régime de Vichy — maîtriser le contenu</h1>
-    <p class="meta">A-Level French (Edexcel) · Thème 4, unité 4.2 — Le régime de Vichy · Paper 3, Tâche 1 · Durée conseillée : 40 min</p>
+    <p class="meta">A-Level French (Edexcel) · Thème 4, unité 4.2 — Le régime de Vichy · Durée conseillée : 40 min</p>
   </header>
-  <div class="consigne"><strong>What makes the difference in the speaking exam.</strong> The whole question rests on one metaphor: <i>l'épée et le bouclier</i>. Knowing where it comes from, what it claims and which archives contradict it is the heart of this unit. Type your answer and press <strong>Enter</strong>: it is marked straight away, and you get a clue before the answer is shown. Write your name at the bottom of the screen, then press <strong>« Send to your teacher »</strong> to hand in your work.</div>
-  <table class="grille">
-    <tr><th colspan="2">Le contenu : la structure PEEL</th></tr>
-    <tr><td>P</td><td><b>Point</b> — l'idée, en une phrase.</td></tr>
-    <tr><td>E</td><td><b>Evidence</b> — une statistique, une date, une loi, un exemple précis.</td></tr>
-    <tr><td>E</td><td><b>Explication</b> — qu'est-ce que cela montre ? causes ? conséquences ? qui ?</td></tr>
-    <tr><td>L</td><td><b>Lien</b> — vers un autre sous-thème du programme.</td></tr>
-    <tr><th colspan="2">La langue : ce que l'examinateur cherche</th></tr>
-    <tr><td>1</td><td>Le lexique du sujet, et du <b>lexique rare</b> — <i>exercices 1 et 3</i></td></tr>
-    <tr><td>2</td><td>Les phrases de rédaction et les connecteurs — <i>exercice 3</i></td></tr>
-    <tr><td>3</td><td>Plusieurs temps, les négations complexes, les propositions en <i>si</i>, les pronoms relatifs, les structures à l'infinitif, le subjonctif, le comparatif et le participe présent — <i>exercice 4</i></td></tr>
-  </table>
-  <h2>Exercice 1 · Le lexique de l'unité <span class="pts">(12 points)</span></h2>
-  <div class="consigne">Écrivez l'expression française, avec l'article quand il y en a un. Ce sont les mots que l'examinateur attend dès votre première phrase.</div>
-  <div class="item inline"><p class="q">1. the armistice</p>
-    <input type="text" autocomplete="off" spellcheck="false" data-answer="l'armistice|armistice" placeholder="" aria-label="the armistice">
-    <details class="aide"><summary>Indice</summary><div>Masculin : <i>un</i> armistice.</div></details>
-  </div>
-  <div class="item inline"><p class="q">2. the occupied zone</p>
-    <input type="text" autocomplete="off" spellcheck="false" data-answer="la zone occupée|zone occupée" placeholder="" aria-label="the occupied zone">
-  </div>
-  <div class="item inline"><p class="q">3. the so-called free zone</p>
-    <input type="text" autocomplete="off" spellcheck="false" data-answer="la zone libre|zone libre" placeholder="" aria-label="the so-called free zone">
-  </div>
-  <div class="item inline"><p class="q">4. full, absolute powers</p>
-    <input type="text" autocomplete="off" spellcheck="false" data-answer="les pleins pouvoirs|pleins pouvoirs" placeholder="" aria-label="full, absolute powers">
-  </div>
-  <div class="item inline"><p class="q">5. the motto</p>
-    <input type="text" autocomplete="off" spellcheck="false" data-answer="la devise|devise" placeholder="" aria-label="the motto">
-  </div>
-  <div class="item inline"><p class="q">6. the National Revolution</p>
-    <input type="text" autocomplete="off" spellcheck="false" data-answer="la Révolution nationale|Révolution nationale" placeholder="" aria-label="the National Revolution">
-  </div>
-  <div class="item inline"><p class="q">7. the shield</p>
-    <input type="text" autocomplete="off" spellcheck="false" data-answer="le bouclier|bouclier" placeholder="" aria-label="the shield">
-  </div>
-  <div class="item inline"><p class="q">8. the sword</p>
-    <input type="text" autocomplete="off" spellcheck="false" data-answer="l'épée|épée" placeholder="" aria-label="the sword">
-  </div>
-  <div class="item inline"><p class="q">9. treason</p>
-    <input type="text" autocomplete="off" spellcheck="false" data-answer="la trahison|trahison" placeholder="" aria-label="treason">
-  </div>
-  <div class="item inline"><p class="q">10. antisemitic laws</p>
-    <input type="text" autocomplete="off" spellcheck="false" data-answer="les lois antisémites|lois antisémites" placeholder="" aria-label="antisemitic laws">
-  </div>
-  <div class="item inline"><p class="q">11. to enact, to promulgate (a law)</p>
-    <input type="text" autocomplete="off" spellcheck="false" data-answer="promulguer" placeholder="" aria-label="to enact, to promulgate (a law)">
-  </div>
-  <div class="item inline"><p class="q">12. a spa town</p>
-    <input type="text" autocomplete="off" spellcheck="false" data-answer="une ville thermale|la ville thermale|ville thermale" placeholder="" aria-label="a spa town">
-    <details class="aide"><summary>Indice</summary><div>Ce qu'était Vichy avant 1940.</div></details>
-  </div>
-  <h2>Exercice 2 · Les faits qui comptent <span class="pts">(12 points)</span></h2>
-  <div class="consigne">Une réponse sans preuve reste une opinion. Complétez chaque phrase — un chiffre, une date, un nom de loi ou de personne.</div>
-  <div class="item"><p class="q">13. En juin 1940, le maréchal Philippe ________, héros de la Première Guerre mondiale, demande un armistice à Hitler.</p>
-    <input type="text" autocomplete="off" spellcheck="false" data-answer="Pétain|Petain" placeholder="" aria-label="réponse 13">
-  </div>
-  <div class="item"><p class="q">14. L'armistice divise la France en une zone occupée au nord et à l'ouest, et une zone dite « ________ » au sud.</p>
-    <input type="text" autocomplete="off" spellcheck="false" data-answer="libre" placeholder="" aria-label="réponse 14">
-  </div>
-  <div class="item"><p class="q">15. Pétain établit son gouvernement à Vichy, une ville ________ du centre de la France.</p>
-    <input type="text" autocomplete="off" spellcheck="false" data-answer="thermale" placeholder="" aria-label="réponse 15">
-  </div>
-  <div class="item"><p class="q">16. Le ________ juillet 1940, le parlement vote pour lui accorder les pleins pouvoirs.</p>
-    <input type="text" autocomplete="off" spellcheck="false" data-answer="10|dix" placeholder="" aria-label="réponse 16">
-  </div>
-  <div class="item"><p class="q">17. Ce vote marque la fin de la ________ République.</p>
-    <input type="text" autocomplete="off" spellcheck="false" data-answer="Troisième|troisième|IIIe|3e" placeholder="" aria-label="réponse 17">
-  </div>
-  <div class="item"><p class="q">18. La devise républicaine est remplacée par « ________, Famille, Patrie ».</p>
-    <input type="text" autocomplete="off" spellcheck="false" data-answer="Travail" placeholder="" aria-label="réponse 18">
-  </div>
-  <div class="item"><p class="q">19. Le programme idéologique du régime porte le nom de « ________ ________ ».</p>
-    <input type="text" autocomplete="off" spellcheck="false" data-answer="Révolution nationale|révolution nationale" placeholder="" aria-label="réponse 19">
-  </div>
-  <div class="item"><p class="q">20. Vichy promulgue le statut des Juifs dès octobre ________, sans pression allemande.</p>
-    <input type="text" autocomplete="off" spellcheck="false" data-answer="1940" placeholder="" aria-label="réponse 20">
-  </div>
-  <div class="item"><p class="q">21. La rafle du Vél' d'Hiv' de juillet 1942 fut principalement organisée et exécutée par la ________ ________.</p>
-    <input type="text" autocomplete="off" spellcheck="false" data-answer="police française" placeholder="" aria-label="réponse 21">
-  </div>
-  <div class="item"><p class="q">22. Pétain est jugé pour trahison en juillet ________.</p>
-    <input type="text" autocomplete="off" spellcheck="false" data-answer="1945" placeholder="" aria-label="réponse 22">
-  </div>
-  <div class="item"><p class="q">23. Exilé sur l'île d'________, il y meurt en 1951.</p>
-    <input type="text" autocomplete="off" spellcheck="false" data-answer="Yeu" placeholder="" aria-label="réponse 23">
-    <details class="aide"><summary>Indice</summary><div>Trois lettres, en Vendée.</div></details>
-  </div>
-  <div class="item"><p class="q">24. Dans son dernier message, daté du 20 août 1944, il conclut : « si je ne pouvais plus être votre épée, j'ai voulu rester votre ________ ».</p>
-    <input type="text" autocomplete="off" spellcheck="false" data-answer="bouclier" placeholder="" aria-label="réponse 24">
-  </div>
-  <h2>Exercice 3 · Le texte à trous <span class="pts">(10 points)</span></h2>
-  <div class="consigne">Complétez le paragraphe avec les expressions de la banque. <strong>Attention :</strong> la banque contient des intrus qui ne servent pas. Respectez la majuscule en début de phrase.</div>
-  <div class="banque"><strong>Banque :</strong> <span>Il est indéniable</span> <span>armistice</span> <span>pleins pouvoirs</span> <span>Révolution nationale</span> <span>Néanmoins</span> <span>bouclier</span> <span>Même si</span> <span>devise</span> <span>antisémites</span> <span>trahison</span> <span>zone libre</span> <span>épée</span></div>
-  <div class="item">
-  <div class="texte">
-    <input type="text" autocomplete="off" spellcheck="false" data-answer="Il est indéniable|il est indéniable" placeholder="…" aria-label="trou 25">
-    que le régime de Vichy fut autre chose qu'un gouvernement contraint. Après l'
-    <input type="text" autocomplete="off" spellcheck="false" data-answer="armistice" placeholder="…" aria-label="trou 26">
-    de juin 1940, le parlement lui accorde les
-    <input type="text" autocomplete="off" spellcheck="false" data-answer="pleins pouvoirs" placeholder="…" aria-label="trou 27">
-    , ce qui met fin à la Troisième République. La
-    <input type="text" autocomplete="off" spellcheck="false" data-answer="devise" placeholder="…" aria-label="trou 28">
-    républicaine cède la place à « Travail, Famille, Patrie », et la
-    <input type="text" autocomplete="off" spellcheck="false" data-answer="Révolution nationale" placeholder="…" aria-label="trou 29">
-    entend régénérer le pays selon des valeurs traditionalistes.
-    <input type="text" autocomplete="off" spellcheck="false" data-answer="Même si|même si" placeholder="…" aria-label="trou 30">
-    la France est coupée en deux, c'est en
-    <input type="text" autocomplete="off" spellcheck="false" data-answer="zone libre" placeholder="…" aria-label="trou 31">
-    que sont promulguées, dès octobre 1940, les premières lois
-    <input type="text" autocomplete="off" spellcheck="false" data-answer="antisémites" placeholder="…" aria-label="trou 32">
-    , sans aucune pression allemande.
-    <input type="text" autocomplete="off" spellcheck="false" data-answer="Néanmoins|néanmoins" placeholder="…" aria-label="trou 33">
-    , Pétain soutiendra jusqu'au bout avoir été le
-    <input type="text" autocomplete="off" spellcheck="false" data-answer="bouclier" placeholder="…" aria-label="trou 34">
-    de la France — une thèse que les archives contredisent, et qui ne l'a pas sauvé d'un procès en 1945.
-  </div>
-  </div>
-  <details class="aide"><summary>Indice</summary><div>Deux mots de la banque ne servent pas. L'un est l'autre moitié de la métaphore de Pétain ; l'autre est le motif du procès.</div></details>
-  <h2>Exercice 4 · La langue exigée <span class="pts">(12 points)</span></h2>
-  <div class="consigne">Neuf structures, une par ligne. Ce sont elles qui font monter la note AO3 — le contenu ne suffit pas.</div>
-  <div class="item"><p class="q">35. <i>phrase de rédaction</i> — « __________________ que Vichy poursuivait son propre projet politique, et non la seule survie du pays. »</p>
-    <div class="gaps">
-      <input type="text" autocomplete="off" spellcheck="false" data-answer="Il convient de souligner|il convient de souligner|Force est de constater|force est de constater" placeholder="" aria-label="phrase de rédaction 35">
-    </div>
-  </div>
-  <div class="item"><p class="q">36. <i>un autre temps — le passé simple</i> — « Le parlement __________________ (voter) les pleins pouvoirs le 10 juillet 1940. »</p>
-    <div class="gaps">
-      <input type="text" autocomplete="off" spellcheck="false" data-answer="vota" placeholder="" aria-label="un autre temps — le passé simple 36">
-    </div>
-    <details class="aide"><summary>Indice</summary><div>Passé simple : le temps du récit historique écrit.</div></details>
-  </div>
-  <div class="item"><p class="q">37-38. <i>négation complexe</i> — « Le régime __________________ subissait __________________ les exigences allemandes : il les anticipait. »</p>
-    <div class="gaps">
-      <input type="text" autocomplete="off" spellcheck="false" data-answer="ne|n'" placeholder="" aria-label="négation complexe 37">
-      <input type="text" autocomplete="off" spellcheck="false" data-answer="pas seulement|pas uniquement" placeholder="" aria-label="négation complexe 38">
-    </div>
-    <details class="aide"><summary>Indice</summary><div>Deux mots pour la seconde partie : la négation est restrictive, pas totale.</div></details>
-  </div>
-  <div class="item"><p class="q">39-40. <i>si + imparfait + conditionnel</i> — « Si la thèse du bouclier __________________ (être) exacte, les archives ne la __________________ (contredire) pas. »</p>
-    <div class="gaps">
-      <input type="text" autocomplete="off" spellcheck="false" data-answer="était" placeholder="" aria-label="si + imparfait + conditionnel 39">
-      <input type="text" autocomplete="off" spellcheck="false" data-answer="contrediraient" placeholder="" aria-label="si + imparfait + conditionnel 40">
-    </div>
-  </div>
-  <div class="item"><p class="q">41. <i>pronom relatif</i> — « Vichy a promulgué le statut des Juifs sans pression allemande, __________________ ruine la thèse du bouclier. » (deux mots)</p>
-    <div class="gaps">
-      <input type="text" autocomplete="off" spellcheck="false" data-answer="ce qui" placeholder="" aria-label="pronom relatif 41">
-    </div>
-  </div>
-  <div class="item"><p class="q">42. <i>pronom relatif — dont</i> — « La Révolution nationale, __________________ la devise résume le programme, rompt avec l'héritage de 1789. »</p>
-    <div class="gaps">
-      <input type="text" autocomplete="off" spellcheck="false" data-answer="dont" placeholder="" aria-label="pronom relatif — dont 42">
-    </div>
-  </div>
-  <div class="item"><p class="q">43. <i>structure à l'infinitif</i> — « __________________ __________________ __________________ pris le pouvoir, Pétain a dissous les syndicats et supprimé le droit de grève. » (trois mots)</p>
-    <div class="gaps">
-      <input type="text" autocomplete="off" spellcheck="false" data-answer="Après avoir|après avoir" placeholder="" aria-label="structure à l'infinitif 43">
-    </div>
-  </div>
-  <div class="item"><p class="q">44. <i>subjonctif</i> — « Bien que Pétain __________________ (avoir) été un héros de 1914, il fut condamné à mort en 1945. »</p>
-    <div class="gaps">
-      <input type="text" autocomplete="off" spellcheck="false" data-answer="ait" placeholder="" aria-label="subjonctif 44">
-    </div>
-    <details class="aide"><summary>Indice</summary><div>Subjonctif d'<i>avoir</i>, troisième personne du singulier.</div></details>
-  </div>
-  <div class="item"><p class="q">45. <i>comparatif / superlatif</i> — « Vichy est allé __________________ __________________ __________________ que les Allemands ne l'exigeaient. » (trois mots)</p>
-    <div class="gaps">
-      <input type="text" autocomplete="off" spellcheck="false" data-answer="bien plus loin|beaucoup plus loin" placeholder="" aria-label="comparatif / superlatif 45">
-    </div>
-  </div>
-  <div class="item"><p class="q">46. <i>participe présent</i> — « __________________ (anticiper) les demandes de l'occupant, le régime a perdu tout droit à l'excuse. » (deux mots)</p>
-    <div class="gaps">
-      <input type="text" autocomplete="off" spellcheck="false" data-answer="En anticipant|en anticipant" placeholder="" aria-label="participe présent 46">
-    </div>
-  </div>
-  <div class="stretch">
-    <h2>Défi A* — la boîte à cinq cases <span class="pts">(non noté automatiquement)</span></h2>
-    <div class="consigne"><strong>Question de l'examinateur :</strong> <span style="white-space:normal">« Le Maréchal Pétain a-t-il trahi la nation française ? »</span><br>Construisez votre réponse case par case, puis lisez-la à voix haute d'un trait. Le compteur sous le tableau vous dit, en direct, ce qui manque.</div>
-    <table class="grille boite"><tbody>
-      <tr><td>Phrase de rédaction<br>pour commencer</td><td><input type="text" id="b1" class="boite-in" autocomplete="off" placeholder="Ex. : Chacun peut constater que…" aria-label="Phrase de rédaction pour commencer"></td></tr>
-      <tr><td>Trois mots<br>propres au sujet</td><td><input type="text" id="b2" class="boite-in" autocomplete="off" placeholder="Trois termes de l'exercice 1" aria-label="Trois mots propres au sujet"></td></tr>
-      <tr><td>Une connaissance,<br>un fait ou un chiffre</td><td><input type="text" id="b3" class="boite-in" autocomplete="off" placeholder="Un chiffre, une date ou une loi de l'exercice 2" aria-label="Une connaissance, un fait ou un chiffre"></td></tr>
-      <tr><td>Un verbe dans<br>un autre temps</td><td><input type="text" id="b4" class="boite-in" autocomplete="off" placeholder="Futur, imparfait, conditionnel, passé composé…" aria-label="Un verbe dans un autre temps"></td></tr>
-      <tr><td>Une structure<br>complexe</td><td><input type="text" id="b5" class="boite-in" autocomplete="off" placeholder="Subjonctif, si + imparfait, ce qui/ce que, ne… guère…" aria-label="Une structure complexe"></td></tr>
-    </tbody></table>
-    <div id="bilan" class="jauge"></div>
-    <div class="item"><p class="q">Ma réponse complète, en une seule fois (visez 100 mots) :</p><textarea id="reponse" placeholder="Reprenez vos cinq cases et reliez-les…"></textarea><div id="bilan2" class="jauge"></div></div>
-    <details class="aide"><summary>Voir un modèle de réponse (seulement après avoir écrit la vôtre)</summary><div><p><b>P.</b> Il convient de souligner que Vichy ne s'est pas contenté de subir : il poursuivait son propre projet politique.</p><p><b>E.</b> Le 10 juillet 1940, le parlement lui accorde les pleins pouvoirs, ce qui met fin à la Troisième République ; la devise « Liberté, Égalité, Fraternité » cède la place à « Travail, Famille, Patrie » ; dès octobre 1940, le statut des Juifs est promulgué sans pression allemande, et en juillet 1942 la rafle du Vél' d'Hiv' est organisée et exécutée par la police française.</p><p><b>E.</b> Ces décisions montrent une initiative, non une contrainte. Dans son dernier message du 20 août 1944, Pétain affirmait pourtant : « si je ne pouvais plus être votre épée, j'ai voulu rester votre bouclier ». Si cette thèse était exacte, les archives ne la contrediraient pas ; or elles montrent un régime qui anticipait les demandes de l'occupant. Bien que Pétain ait été un héros de 1914, il fut jugé pour trahison en 1945.</p><p><b>L.</b> En anticipant ces demandes, Vichy a rendu possible la collaboration au quotidien, ce qui explique pourquoi l'épuration d'après-guerre fut à la fois brutale et incomplète.</p></div></details>
-  </div>
-  <h2>Pour aller plus loin · Les énoncés de l'unité au Paper 3</h2>
-  <details class="cartes"><summary>Ouvrir les énoncés que l'examinateur peut vous donner</summary>
-    <ul>
-      <li>Le régime de Vichy était plutôt bien intentionné.</li>
-      <li>Les dirigeants du régime de Vichy méritaient leur punition.</li>
-      <li>Le Maréchal Pétain a trahi la nation française.</li>
-      <li>Malgré les problèmes de l'époque, le régime de Vichy a quand même apporté des bienfaits pour les Français.</li>
-      <li>Pétain était seulement motivé par l'amour de son pays.</li>
-      <li>Les Français étaient plus attachés à la personnalité du maréchal Pétain qu'à sa politique.</li>
-    </ul>
-    <p class="note">Entraînez-vous : pour chacun, une phrase P, une preuve E de l'exercice 2, une explication E, et un lien L vers un autre sous-thème.</p>
-  </details>
-  <p class="note">Dans la même unité sur le site : <a href="deep_Vichy_.html">Vichy — étude approfondie</a> · <a href="Petain_s_desperate_attempt_to_justify_his_role.html">L'ultime message de Pétain</a></p>
+  <div class="consigne">Read the four short texts (▶ to listen, or click a sentence). <b>Every answer is in the texts.</b> Type and press Enter: a clue first, then the answer. Your progress appears in the <a href="#bilan"><b>Bilan</b></a> at the end. To practise the speaking exam itself, use the <a href="Paper_3_trainer_toutes_les_questions.html">Paper 3 trainer</a>.</div>
+
+  <h2>Les textes</h2>
+<div class="lu" id="tA">
+  <div class="lu-head"><h3>Texte A · « Le vainqueur de Verdun »</h3><button class="lire" type="button">▶ Écouter</button></div>
+  <p><span class="s">En juin 1940, alors que l'armée française <span class="gloss" title="s&#x27;écroule, perd la bataille">s'effondre</span>, le gouvernement <span class="gloss" title="demande l&#x27;aide du">fait appel au</span> maréchal Pétain, un homme de 84 ans que les Français admirent comme le « <span class="gloss" title="celui qui a gagné">vainqueur</span> de Verdun ».</span> <span class="s">Il demande aussitôt l'armistice ; pour beaucoup de Français, il apparaît alors comme un <span class="gloss" title="ce qui protège des coups">bouclier</span>, un vieillard qui « fait don de sa personne à la France ».</span> <span class="s">Le 10 juillet 1940, les parlementaires lui accordent les pleins pouvoirs par 569 voix contre 80 : la IIIe République disparaît, et Pétain devient chef de l'« État français ».</span> <span class="s">Désormais, les lois paraissent sous son seul nom, et elles commencent toutes par la même formule : « Nous, Philippe Pétain, maréchal de France, chef de l'État, décrétons… ».</span> <span class="s">Il convient donc de distinguer deux choses : le prestige d'un héros de la Grande Guerre, et le pouvoir personnel que ce prestige a permis de faire accepter.</span></p>
+</div>
+<div class="lu" id="tB">
+  <div class="lu-head"><h3>Texte B · « Travail, Famille, Patrie »</h3><button class="lire" type="button">▶ Écouter</button></div>
+  <p><span class="s">Pour Vichy, la défaite était la faute du régime parlementaire ; il fallait donc « <span class="gloss" title="remettre debout, corriger">redresser</span> » la France par une « Révolution nationale ».</span> <span class="s">La devise « Travail, Famille, Patrie » remplace « Liberté, Égalité, Fraternité » ; les élections disparaissent, et la Charte du travail supprime les syndicats et interdit la grève.</span> <span class="s">Au sein de la famille, la femme doit rester au <span class="gloss" title="à la maison">foyer</span> : le régime instaure la fête des mères, limite le travail des femmes et punit sévèrement l'avortement.</span> <span class="s">À l'école et dans les Chantiers de la jeunesse, où les jeunes hommes passent huit mois en groupe, on chante « Maréchal, nous voilà ! » : la propagande présente le vieux maréchal comme le sauveur de la France.</span> <span class="s">Dès 1940, le régime exclut aussi : plus de 15 000 personnes sont <span class="gloss" title="privées, par une décision officielle">déchues</span> de la nationalité française, et le statut des Juifs ouvre une persécution qui <span class="gloss" title="mènera finalement">aboutira</span> à la déportation d'un Juif de France sur quatre.</span></p>
+</div>
+<div class="lu" id="tC">
+  <div class="lu-head"><h3>Texte C · Des « bienfaits » ?</h3><button class="lire" type="button">▶ Écouter</button></div>
+  <p><span class="s">Certaines mesures de Vichy sont encore <span class="gloss" title="toujours appliquées">en vigueur</span> aujourd'hui : la carte d'identité, les régions, la police nationale, la médecine du travail ou la fête des mères.</span> <span class="s">Il s'agit souvent de projets préparés avant la guerre, que la IVe République a gardés et développés après 1945.</span> <span class="s">Pour l'historien américain Robert Paxton, ces réformes ont pourtant été une « fausse <span class="gloss" title="le début du jour ; ici, un faux espoir de renouveau">aube</span> » : après 1941, elles ont été <span class="gloss" title="détournées de leur but, transformées en mal">dénaturées</span> par le pillage économique, la persécution des Juifs et la répression de la Résistance.</span> <span class="s">Ne retenir que ces mesures laisse croire à un régime bienveillant ; or Vichy a <span class="gloss" title="obtenu le droit de continuer à exister">acheté sa survie</span> en aidant la guerre d'Hitler.</span> <span class="s">Des mesures utiles ou un prix terrible : auquel de ces deux bilans faut-il croire ? Pour répondre, il faut se demander à quel prix ces mesures ont été obtenues, et pour qui.</span></p>
+</div>
+<div class="lu" id="tD">
+  <div class="lu-head"><h3>Texte D · Du maréchal au procès</h3><button class="lire" type="button">▶ Écouter</button></div>
+  <p><span class="s">Dès l'été 1941, Pétain reconnaît lui-même qu'« un vent mauvais » se lève : le doute gagne les esprits et l'autorité de son gouvernement est discutée ; il exige alors un <span class="gloss" title="une promesse solennelle">serment</span> de fidélité de ses ministres et de ses hauts fonctionnaires.</span> <span class="s">À partir de 1942, Laval revient au sein du gouvernement et la collaboration s'intensifie ; l'historien Pierre Laborie a montré que l'opinion a évolué et qu'elle était ambivalente, loin de l'image de Français « presque tous pétainistes, au mieux <span class="gloss" title="qui attendent de voir qui va gagner avant de choisir">attentistes</span> ».</span> <span class="s">Le 20 août 1944, les Allemands le font partir de force pour l'Allemagne ; il laisse un « ultime message » : « si je ne pouvais plus être votre <span class="gloss" title="l&#x27;arme qui attaque">épée</span>, j'ai voulu rester votre bouclier ».</span> <span class="s">En 1945, la Haute Cour de justice le déclare coupable d'<span class="gloss" title="entente secrète avec l&#x27;ennemi (faux ami : rien à voir avec l&#x27;intelligence)">intelligence avec l'ennemi</span> et de haute trahison, et le condamne à mort ; à cause de son âge, de Gaulle <span class="gloss" title="remplace par une peine moins lourde">commue</span> la peine en prison à vie, et Pétain meurt sur l'île d'Yeu en 1951, à 95 ans.</span> <span class="s">Ce « bouclier » n'a pas convaincu les historiens : grâce aux archives allemandes, ils ont montré que la collaboration avait d'abord été « un choix politique d'initiative française ».</span></p>
 </div>
 
+  <h2>Exercice 1 · Le vocabulaire <span class="pts">(12 points)</span></h2>
+  <div class="consigne">Useful words for any topic. Find the French in the text shown and copy it.</div>
+<div class="item inline" data-cat="vocab"><p class="q">1. <span class="src">A</span> collapses</p><input type="text" autocomplete="off" spellcheck="false" data-answer="s&#x27;effondre|s effondre|effondre" aria-label="collapses"></div>
+<div class="item inline" data-cat="vocab"><p class="q">2. <span class="src">A</span> calls on, turns to</p><input type="text" autocomplete="off" spellcheck="false" data-answer="fait appel au|fait appel à|faire appel à|fait appel" aria-label="calls on, turns to"></div>
+<div class="item inline" data-cat="vocab"><p class="q">3. <span class="src">A</span> the shield</p><input type="text" autocomplete="off" spellcheck="false" data-answer="le bouclier|bouclier|un bouclier" aria-label="the shield"></div>
+<div class="item inline" data-cat="vocab"><p class="q">4. <span class="src">B</span> to set back on its feet</p><input type="text" autocomplete="off" spellcheck="false" data-answer="redresser" aria-label="to set back on its feet"></div>
+<div class="item inline" data-cat="vocab"><p class="q">5. <span class="src">B</span> the home (as in 'stay at home')</p><input type="text" autocomplete="off" spellcheck="false" data-answer="le foyer|foyer|au foyer" aria-label="the home (as in &#x27;stay at home&#x27;)"></div>
+<div class="item inline" data-cat="vocab"><p class="q">6. <span class="src">B</span> stripped (of)</p><input type="text" autocomplete="off" spellcheck="false" data-answer="déchues|déchues de|déchu|dechues" aria-label="stripped (of)"></div>
+<div class="item inline" data-cat="vocab"><p class="q">7. <span class="src">C</span> still in force</p><input type="text" autocomplete="off" spellcheck="false" data-answer="en vigueur" aria-label="still in force"></div>
+<div class="item inline" data-cat="vocab"><p class="q">8. <span class="src">C</span> distorted, perverted</p><input type="text" autocomplete="off" spellcheck="false" data-answer="dénaturées|dénaturé|denaturees" aria-label="distorted, perverted"></div>
+<div class="item inline" data-cat="vocab"><p class="q">9. <span class="src">C</span> bought its survival</p><input type="text" autocomplete="off" spellcheck="false" data-answer="acheté sa survie|a acheté sa survie" aria-label="bought its survival"></div>
+<div class="item inline" data-cat="vocab"><p class="q">10. <span class="src">D</span> an oath</p><input type="text" autocomplete="off" spellcheck="false" data-answer="un serment|serment|le serment" aria-label="an oath"></div>
+<div class="item inline" data-cat="vocab"><p class="q">11. <span class="src">D</span> dealings with the enemy (legal term)</p><input type="text" autocomplete="off" spellcheck="false" data-answer="intelligence avec l&#x27;ennemi|l&#x27;intelligence avec l&#x27;ennemi" aria-label="dealings with the enemy (legal term)"></div>
+<div class="item inline" data-cat="vocab"><p class="q">12. <span class="src">D</span> commutes (a sentence)</p><input type="text" autocomplete="off" spellcheck="false" data-answer="commue|commuer" aria-label="commutes (a sentence)"></div>
+
+  <h2>Exercice 2 · Comprendre <span class="pts">(10 points)</span></h2>
+  <div class="consigne">Answer from the texts.</div>
+<div class="item inline" data-cat="contenu"><p class="q">13. <span class="src">A</span> En 1940, Pétain devait sa popularité à son rôle pendant la Première Guerre mondiale.</p><select data-answer="Vrai" aria-label="réponse 13"><option value="">— choisissez —</option><option>Vrai</option><option>Faux</option><option>Non mentionné</option></select></div>
+<div class="item inline" data-cat="contenu"><p class="q">14. <span class="src">A</span> Les parlementaires ont refusé les pleins pouvoirs à Pétain.</p><select data-answer="Faux" aria-label="réponse 14"><option value="">— choisissez —</option><option>Vrai</option><option>Faux</option><option>Non mentionné</option></select></div>
+<div class="item inline" data-cat="contenu"><p class="q">15. <span class="src">B</span> Sous Vichy, les ouvriers gardaient le droit de faire grève.</p><select data-answer="Faux" aria-label="réponse 15"><option value="">— choisissez —</option><option>Vrai</option><option>Faux</option><option>Non mentionné</option></select></div>
+<div class="item inline" data-cat="contenu"><p class="q">16. <span class="src">B</span> Le régime voulait que les femmes restent à la maison.</p><select data-answer="Vrai" aria-label="réponse 16"><option value="">— choisissez —</option><option>Vrai</option><option>Faux</option><option>Non mentionné</option></select></div>
+<div class="item inline" data-cat="contenu"><p class="q">17. <span class="src">B</span> Le texte B indique combien de jeunes sont passés par les Chantiers de la jeunesse.</p><select data-answer="Non mentionné" aria-label="réponse 17"><option value="">— choisissez —</option><option>Vrai</option><option>Faux</option><option>Non mentionné</option></select></div>
+<div class="item inline" data-cat="contenu"><p class="q">18. <span class="src">C</span> Toutes les mesures de Vichy ont été supprimées à la Libération.</p><select data-answer="Faux" aria-label="réponse 18"><option value="">— choisissez —</option><option>Vrai</option><option>Faux</option><option>Non mentionné</option></select></div>
+<div class="item inline" data-cat="contenu"><p class="q">19. <span class="src">C</span> Selon Paxton, la guerre et la persécution ont fait perdre leur sens aux réformes de Vichy.</p><select data-answer="Vrai" aria-label="réponse 19"><option value="">— choisissez —</option><option>Vrai</option><option>Faux</option><option>Non mentionné</option></select></div>
+<div class="item inline" data-cat="contenu"><p class="q">20. <span class="src">D</span> En 1941, Pétain lui-même admettait que son gouvernement était contesté.</p><select data-answer="Vrai" aria-label="réponse 20"><option value="">— choisissez —</option><option>Vrai</option><option>Faux</option><option>Non mentionné</option></select></div>
+<div class="item inline" data-cat="contenu"><p class="q">21. <span class="src">D</span> Pétain a été exécuté après son procès.</p><select data-answer="Faux" aria-label="réponse 21"><option value="">— choisissez —</option><option>Vrai</option><option>Faux</option><option>Non mentionné</option></select></div>
+<div class="item inline" data-cat="contenu"><p class="q">22. <span class="src">D</span> Le texte D précise combien de temps a duré le procès de Pétain.</p><select data-answer="Non mentionné" aria-label="réponse 22"><option value="">— choisissez —</option><option>Vrai</option><option>Faux</option><option>Non mentionné</option></select></div>
+
+  <h2>Exercice 3 · Les ordres de grandeur <span class="pts">(8 points)</span></h2>
+  <div class="consigne">How big is each fact? Match it with its proportion. Two answers are not needed.</div>
+<div class="item inline" data-cat="contenu"><p class="q">23. <span class="src">A</span> Âge de Pétain quand il arrive au pouvoir</p><select data-answer="84 ans" aria-label="chiffre 23"><option value="">— choisissez —</option><option>80</option><option>95 ans</option><option>84 ans</option><option>569</option><option>un sur quatre</option><option>plus de 15 000</option><option>huit mois</option><option>dix ans de prison</option><option>la moitié</option><option>la prison à vie</option></select></div>
+<div class="item inline" data-cat="contenu"><p class="q">24. <span class="src">A</span> Parlementaires qui ont voté les pleins pouvoirs</p><select data-answer="569" aria-label="chiffre 24"><option value="">— choisissez —</option><option>80</option><option>95 ans</option><option>84 ans</option><option>569</option><option>un sur quatre</option><option>plus de 15 000</option><option>huit mois</option><option>dix ans de prison</option><option>la moitié</option><option>la prison à vie</option></select></div>
+<div class="item inline" data-cat="contenu"><p class="q">25. <span class="src">A</span> Parlementaires qui ont voté contre</p><select data-answer="80" aria-label="chiffre 25"><option value="">— choisissez —</option><option>80</option><option>95 ans</option><option>84 ans</option><option>569</option><option>un sur quatre</option><option>plus de 15 000</option><option>huit mois</option><option>dix ans de prison</option><option>la moitié</option><option>la prison à vie</option></select></div>
+<div class="item inline" data-cat="contenu"><p class="q">26. <span class="src">B</span> Durée du séjour dans les Chantiers de la jeunesse</p><select data-answer="huit mois" aria-label="chiffre 26"><option value="">— choisissez —</option><option>80</option><option>95 ans</option><option>84 ans</option><option>569</option><option>un sur quatre</option><option>plus de 15 000</option><option>huit mois</option><option>dix ans de prison</option><option>la moitié</option><option>la prison à vie</option></select></div>
+<div class="item inline" data-cat="contenu"><p class="q">27. <span class="src">B</span> Personnes déchues de la nationalité française</p><select data-answer="plus de 15 000" aria-label="chiffre 27"><option value="">— choisissez —</option><option>80</option><option>95 ans</option><option>84 ans</option><option>569</option><option>un sur quatre</option><option>plus de 15 000</option><option>huit mois</option><option>dix ans de prison</option><option>la moitié</option><option>la prison à vie</option></select></div>
+<div class="item inline" data-cat="contenu"><p class="q">28. <span class="src">B</span> Juifs de France déportés</p><select data-answer="un sur quatre" aria-label="chiffre 28"><option value="">— choisissez —</option><option>80</option><option>95 ans</option><option>84 ans</option><option>569</option><option>un sur quatre</option><option>plus de 15 000</option><option>huit mois</option><option>dix ans de prison</option><option>la moitié</option><option>la prison à vie</option></select></div>
+<div class="item inline" data-cat="contenu"><p class="q">29. <span class="src">D</span> Âge de Pétain à sa mort</p><select data-answer="95 ans" aria-label="chiffre 29"><option value="">— choisissez —</option><option>80</option><option>95 ans</option><option>84 ans</option><option>569</option><option>un sur quatre</option><option>plus de 15 000</option><option>huit mois</option><option>dix ans de prison</option><option>la moitié</option><option>la prison à vie</option></select></div>
+<div class="item inline" data-cat="contenu"><p class="q">30. <span class="src">D</span> Peine de Pétain après la décision de de Gaulle</p><select data-answer="la prison à vie" aria-label="chiffre 30"><option value="">— choisissez —</option><option>80</option><option>95 ans</option><option>84 ans</option><option>569</option><option>un sur quatre</option><option>plus de 15 000</option><option>huit mois</option><option>dix ans de prison</option><option>la moitié</option><option>la prison à vie</option></select></div>
+
+  <h2>Exercice 4 · Le résumé à trous <span class="pts">(10 points)</span></h2>
+  <div class="consigne">Complete the summary with words from the bank. Two words are not needed.</div>
+<div class="banque"><b>Banque :</b> <span>serment</span><span>armistice</span><span>grève</span><span>épée</span><span>bouclier</span><span>foyer</span><span>trahison</span><span>pleins</span><span>Verdun</span><span>aube</span><span>Révolution</span><span>vigueur</span></div>
+<div class="item" data-cat="vocab"><div class="texte">En 1940, les Français font confiance au « vainqueur de <input type="text" autocomplete="off" spellcheck="false" data-answer="Verdun" aria-label="trou 31"> », et les parlementaires lui accordent les <input type="text" autocomplete="off" spellcheck="false" data-answer="pleins" aria-label="trou 32"> pouvoirs. Avec la <input type="text" autocomplete="off" spellcheck="false" data-answer="Révolution" aria-label="trou 33"> nationale, Vichy supprime les syndicats et interdit la <input type="text" autocomplete="off" spellcheck="false" data-answer="grève" aria-label="trou 34"> ; la femme doit rester au <input type="text" autocomplete="off" spellcheck="false" data-answer="foyer" aria-label="trou 35">. Certaines mesures du régime sont encore en <input type="text" autocomplete="off" spellcheck="false" data-answer="vigueur" aria-label="trou 36"> aujourd'hui, mais pour Paxton, ces réformes ont été une « fausse <input type="text" autocomplete="off" spellcheck="false" data-answer="aube" aria-label="trou 37"> ». En 1941, Pétain impose un <input type="text" autocomplete="off" spellcheck="false" data-answer="serment" aria-label="trou 38"> de fidélité à ses ministres. En 1944, il affirme avoir été le <input type="text" autocomplete="off" spellcheck="false" data-answer="bouclier" aria-label="trou 39"> des Français, mais en 1945, il est condamné pour haute <input type="text" autocomplete="off" spellcheck="false" data-answer="trahison" aria-label="trou 40">.</div></div>
+
+  <h2>Exercice 5 · La langue des textes <span class="pts">(14 points)</span></h2>
+  <div class="consigne"><b>Spot it.</b> Each structure appears in the text shown. Copy the word or words that show it.</div>
+<div class="item inline" data-cat="gram"><p class="q">41. <span class="src">A</span> une structure impersonnelle + infinitif (<i>il convient de …</i>)</p><input type="text" autocomplete="off" spellcheck="false" data-answer="il convient donc de distinguer|il convient de distinguer|convient de distinguer|il convient donc de|il convient de" aria-label="structure 41"></div>
+<div class="item inline" data-cat="gram"><p class="q">42. <span class="src">A</span> <i>faire</i> + infinitif (to get something accepted)</p><input type="text" autocomplete="off" spellcheck="false" data-answer="faire accepter|de faire accepter" aria-label="structure 42"></div>
+<div class="item inline" data-cat="gram"><p class="q">43. <span class="src">A</span> la préposition qui veut dire « under »</p><input type="text" autocomplete="off" spellcheck="false" data-answer="sous|sous son seul nom|sous son nom" aria-label="structure 43"></div>
+<div class="item inline" data-cat="gram"><p class="q">44. <span class="src">B</span> la préposition qui veut dire « within »</p><input type="text" autocomplete="off" spellcheck="false" data-answer="au sein de|au sein de la famille" aria-label="structure 44"></div>
+<div class="item inline" data-cat="gram"><p class="q">45. <span class="src">B</span> la préposition qui veut dire « from as early as »</p><input type="text" autocomplete="off" spellcheck="false" data-answer="dès|dès 1940" aria-label="structure 45"></div>
+<div class="item inline" data-cat="gram"><p class="q">46. <span class="src">C</span> <i>il s'agit de</i> + nom</p><input type="text" autocomplete="off" spellcheck="false" data-answer="il s&#x27;agit souvent de|il s&#x27;agit de|il s&#x27;agit souvent de projets|s&#x27;agit de" aria-label="structure 46"></div>
+<div class="item inline" data-cat="gram"><p class="q">47. <span class="src">C</span> <i>laisser</i> + infinitif</p><input type="text" autocomplete="off" spellcheck="false" data-answer="laisse croire|laisse croire à" aria-label="structure 47"></div>
+<div class="item inline" data-cat="gram"><p class="q">48. <span class="src">C</span> le pronom interrogatif formé avec <i>à</i> + <i>lequel</i></p><input type="text" autocomplete="off" spellcheck="false" data-answer="auquel|auquel de ces deux bilans" aria-label="structure 48"></div>
+<div class="item inline" data-cat="gram"><p class="q">49. <span class="src">D</span> la préposition qui veut dire « from … onwards »</p><input type="text" autocomplete="off" spellcheck="false" data-answer="à partir de|à partir de 1942|a partir de" aria-label="structure 49"></div>
+<div class="item inline" data-cat="gram"><p class="q">50. <span class="src">D</span> <i>faire</i> + infinitif (to make someone leave)</p><input type="text" autocomplete="off" spellcheck="false" data-answer="le font partir|font partir|font partir de force" aria-label="structure 50"></div>
+
+  <div class="consigne"><b>Use it.</b> Write your own sentence about the topic with the same structure, then press « Feedback ».</div>
+<div class="item reuse" data-cat="gram" data-n="1" data-score="0" data-kind="faire"><p class="q">51. Avec <i>faire</i> ou <i>laisser</i> + infinitif.</p><textarea id="r51" placeholder="Votre phrase…"></textarea><button class="btn-check" type="button">Feedback</button><div class="fb"></div><template class="modele">La propagande a fait passer Pétain pour le sauveur de la France.</template></div>
+<div class="item reuse" data-cat="gram" data-n="1" data-score="0" data-kind="impers"><p class="q">52. Avec <i>il s'agit de</i> ou <i>il convient de</i> + infinitif.</p><textarea id="r52" placeholder="Votre phrase…"></textarea><button class="btn-check" type="button">Feedback</button><div class="fb"></div><template class="modele">Il convient de distinguer le héros de Verdun du chef de Vichy.</template></div>
+<div class="item reuse" data-cat="gram" data-n="1" data-score="0" data-kind="lequel"><p class="q">53. Une question avec <i>lequel</i>, <i>laquelle</i> ou <i>auquel</i>.</p><textarea id="r53" placeholder="Votre phrase…"></textarea><button class="btn-check" type="button">Feedback</button><div class="fb"></div><template class="modele">Lequel de ces deux portraits de Pétain est le plus juste ?</template></div>
+<div class="item reuse" data-cat="gram" data-n="1" data-score="0" data-kind="prep"><p class="q">54. Avec <i>dès</i>, <i>à partir de</i> ou <i>au sein de</i>.</p><textarea id="r54" placeholder="Votre phrase…"></textarea><button class="btn-check" type="button">Feedback</button><div class="fb"></div><template class="modele">Dès 1940, le régime a exclu des milliers de Français.</template></div>
+
+  <div class="stretch" data-cat="ecrit" data-n="4" data-score="0" id="defi">
+    <h2>Défi A* · Écrire</h2>
+    <p>Énoncé : « Malgré les problèmes de l'époque, le régime de Vichy a quand même apporté des bienfaits pour les Français. » Êtes-vous d'accord ?</p>
+    <p class="note">About 100 to 150 words. Use PEEL: <b>P</b>oint · <b>E</b>vidence (two facts or proportions from the texts) · <b>E</b>xplanation (why? with what result?) · <b>L</b>ink to another text. Reuse a structure from exercise 5, then press « Feedback ».</p>
+    <div class="item"><textarea id="reponse" style="min-height:170px" placeholder="Ma réponse…"></textarea>
+      <button class="btn-check" type="button" id="btnA">Feedback</button>
+      <div class="fb" id="fbA"></div>
+      <template id="modA"><div class="modele-box"><p><span class="peel">P</span> Il ne s'agit pas de nier que certaines mesures de Vichy ont duré, mais je ne pense pas qu'on puisse parler de bienfaits pour les Français.</p><p><span class="peel">E</span> Certes, la carte d'identité, les régions ou la médecine du travail sont encore en vigueur, et la IVe République a gardé et développé ces projets. Pourtant, dès 1940, le régime a supprimé les syndicats, interdit la grève et déchu plus de 15 000 personnes de la nationalité française.</p><p><span class="peel">E</span> Pour Robert Paxton, ces réformes ont été une « fausse aube » : ne retenir qu'elles laisse croire à un régime bienveillant, alors que Vichy a acheté sa survie en aidant la guerre d'Hitler, au prix de la déportation d'un Juif de France sur quatre.</p><p><span class="peel">L</span> Auquel de ces deux bilans faut-il croire ? Pour moi, le prix payé l'emporte sur les mesures qui ont duré, et c'est pourquoi les dirigeants de Vichy ont été jugés à la Libération.</p></div></template>
+    </div>
+  </div>
+
+  <section id="bilan" aria-live="polite">
+    <h2>Bilan · What you have mastered</h2>
+    <div id="bl-rows"></div>
+    <p class="bl-total" id="bl-total"></p>
+    <p class="note">An answer counts once you find it yourself (on the first or second try). An answer you had to reveal does not count: go back to it later.</p>
+  </section>
+
+  <details class="plus"><summary>Les énoncés de l'unité au Paper 3</summary>
+    <ul><li>Le régime de Vichy était plutôt bien intentionné.</li><li>Les dirigeants du régime de Vichy méritaient leur punition.</li><li>Le Maréchal Pétain a trahi la nation française.</li><li>Malgré les problèmes de l'époque, le régime de Vichy a quand même apporté des bienfaits pour les Français.</li><li>Pétain était seulement motivé par l'amour de son pays.</li><li>Les Français étaient plus attachés à la personnalité du maréchal Pétain qu'à sa politique.</li></ul>
+    <p class="note">Practise them aloud in the <a href="Paper_3_trainer_toutes_les_questions.html">Paper 3 trainer</a>.</p>
+  </details>
+  <details class="plus"><summary>Want to read more? Four pages in French and English</summary>
+    <ul><li><span class="src">A</span> <a href="https://www.larousse.fr/dictionnaires/college/Philippe_P%C3%A9tain/30379" target="_blank" rel="noopener">Philippe Pétain</a> <span class="crd">— Larousse</span></li><li><span class="src">C</span> <a href="https://www.nybooks.com/articles/2013/04/25/vichy-lives-in-a-way/" target="_blank" rel="noopener">Vichy Lives! — In a Way (Robert O. Paxton)</a> <span class="crd">— The New York Review of Books (in English)</span></li><li><span class="src">D</span> <a href="https://www.parismuseescollections.paris.fr/fr/musee-jean-moulin/oeuvres/ultime-message-de-philippe-petain-marechal-de-france-chef-de-l-etat-aux" target="_blank" rel="noopener">Ultime message de Philippe Pétain aux Français (20 août 1944)</a> <span class="crd">— Paris Musées, musée de la Libération de Paris</span></li><li><span class="src">D</span> <a href="https://www.justice.gouv.fr/node/19071" target="_blank" rel="noopener">Les 80 ans du procès du maréchal Pétain</a> <span class="crd">— Ministère de la Justice</span></li></ul>
+  </details>
+  <p class="note">Dans la même unité sur le site : <a href="deep_Vichy_.html">Le régime de Vichy en profondeur</a> · <a href="Petain_s_desperate_attempt_to_justify_his_role.html">L'ultime message de Pétain</a> · <a href="vichy_regime_activity_top_notch.html">Le régime de Vichy — activité</a></p>
+  <p class="note">Textes rédigés pour cette activité à partir des leçons 11.1 à 11.3 du département, de Larousse, de Chemins de mémoire (ministère des Armées), du ministère de la Justice, de Paris Musées, de l'Encyclopædia Universalis et de la New York Review of Books. Mis à jour le 28 octobre 2026.</p>
+</div>
+
+<script src="bba-kit-fr.js"></script>
+<script src="bba-send-strip.js"></script>
 <script>
-/* The kit marks exercises 1 to 4 and handles the name, the pad, the saving and
-   the download. This adds the one thing it cannot do: a live reading of the
-   five-box A* answer, which is continuous writing and cannot be marked. */
 (function(){
   "use strict";
-  var TERMES = ["armistice", "zone occupée", "zone libre", "pleins pouvoirs", "devise", "Révolution nationale", "bouclier", "épée", "trahison", "lois antisémites", "promulguer", "ville thermale", "Pétain", "Troisième République", "Travail, Famille, Patrie", "statut des Juifs", "Vél' d'Hiv", "police française", "île d'Yeu", "Paxton", "syndicats", "droit de grève", "double jeu", "collaboration"];
-  var PHRASES = ["Chacun peut constater que", "Il est important de noter que", "Ajoutons à cela", "Force est de constater que", "Il est indéniable que", "On ne peut nier que", "Il convient de souligner que", "Il va sans dire que", "Certes", "Néanmoins", "Pour conclure", "En définitive", "Ainsi", "Même si", "En revanche", "D'une part", "D'autre part", "Il n'en demeure pas moins que", "Force est d'admettre", "Il convient de rappeler", "Il est essentiel de rappeler", "Nul ne saurait nier"];
-  /* JavaScript's \b does not fire after an accented letter, so "resté" and
-     "où" were invisible to a trailing \b. Every boundary below is written
-     out as an explicit "not a letter" test instead. */
-  var L = "A-Za-zÀ-ÿ";
-  function re(src, flags){ return new RegExp(src.replace(/L/g, L), flags || "i"); }
-  /* A bare "-i" or "-u" ending matches half the adjectives in French ("c'est
-     vrai"), so the participle is either a real -é form or a named irregular. */
-  var PART = "(?:[L]{2,}(?:ées|ée|és|é)|fait|faits|pris|prise|prises|mis|mise|dit|dits|"
-           + "écrit|écrits|venu|venus|venue|devenu|devenus|vu|vus|su|pu|dû|voulu|connu|"
-           + "reçu|resté|restés|restée|allé|allés|né|nés|mort|morts|parti|partis|sorti|"
-           + "sortis|ouvert|offert|compris|appris|permis|produit|conduit|construit|"
-           + "détruit|inscrit|atteint|éteint|craint|joint|été|eu|lu|tenu|obtenu|maintenu|"
-           + "soutenu|vécu|couru|battu|rendu|entendu|perdu|vendu|répondu|attendu)";
-  var R = {
-    fut:   re("(?:^|[^L])[L]{2,}r(?:a|as|ai|ons|ez|ont)(?![L])"),
-    cond:  re("(?:^|[^L])[L]{2,}rai(?:t|ent|s)(?![L])"),
-    condG: re("[L]{2,}rai(?:t|ent|s)(?![L])", "gi"),
-    impAux:re("(?:^|[^L])(?:était|étaient|avait|avaient|faisait|faisaient)(?![L])"),
-    pc:    re("(?:^|[^L])(?:a|as|ai|ont|avez|avons|est|sont|es|sommes|êtes)\\s+" + PART + "(?![L])"),
-    pqp:   re("(?:^|[^L])(?:avait|avaient|était|étaient)\\s+" + PART + "(?![L])"),
-    ps:    re("(?:^|[^L])(?:fut|furent|eut|eurent|vint|vinrent|fit|firent|prit|prirent|mit|mirent|put|purent|sut|surent|dut|durent|vit|virent|mourut|moururent|naquit|devint|devinrent|parvint|reçut|connut|obtint|serra|vota|créa|lança|proclama|signa|arriva|entra|donna)(?![L])|(?:^|[^L])[L]{3,}(?:èrent|irent|urent)(?![L])")
-  };
-  function tenses(v){
-    var t = String(v || ""), out = [];
-    var stripped = t.replace(R.condG, " ");   /* so "-rait" is not read as a future */
-    if(R.fut.test(stripped))  out.push("futur");
-    if(R.cond.test(t))        out.push("conditionnel");
-    if(R.pqp.test(t))         out.push("plus-que-parfait");
-    else if(R.impAux.test(stripped) || anyBut(stripped, "[L]{2,}(?:ait|aient|ais)(?![L])", IMP_STOP))
-      out.push("imparfait");
-    if(R.pc.test(t))          out.push("passé composé");
-    if(R.ps.test(t))          out.push("passé simple");
-    return out;
+  /* ---- lecture audio + surlignage de la phrase lue ---- */
+  function voixFr(){
+    var vs=speechSynthesis.getVoices()||[],best=null,bp=-1;
+    vs.forEach(function(v){
+      if(!v.lang||v.lang.toLowerCase().indexOf("fr")!==0)return;
+      var p=0,n=(v.name||"").toLowerCase();
+      if(v.lang.replace("_","-")==="fr-FR")p+=40;
+      if(/natural|neural|premium|enhanced|siri/.test(n))p+=45;
+      if(/google/.test(n))p+=30;
+      if(v.localService===false)p+=20;
+      if(/espeak|compact/.test(n))p-=60;
+      if(p>bp){bp=p;best=v;}
+    });
+    return best;
   }
-  function anyBut(text, src, stop){
-    var m = String(text || "").match(re(src, "gi")) || [];
-    for(var i = 0; i < m.length; i++){
-      var w = m[i].toLowerCase().replace(/^[^a-zà-ÿ]+/, "");
-      if(stop.indexOf(w) < 0) return true;
-    }
-    return false;
+  var L={jeton:0,btn:null};
+  function stop(){
+    L.jeton++; if("speechSynthesis" in window)speechSynthesis.cancel();
+    document.querySelectorAll(".lu .s.now").forEach(function(x){x.classList.remove("now");});
+    if(L.btn){L.btn.classList.remove("on");L.btn.textContent="▶ Écouter";L.btn=null;}
   }
-  /* "français" ends in -ais and is not an imperfect. */
-  var IMP_STOP = ["français","francais","anglais","japonais","portugais","irlandais",
-                  "jamais","désormais","desormais","palais","biais","relais","marais",
-                  "essais","délais","delais","balais","niais","frais","lais","gallois",
-                  "quais","aujourd'hui"];
-  /* -ant is the noisiest test on the page: half the adverbs in French end in it. */
-  var PP_STOP = ["pendant","cependant","maintenant","pourtant","autant","avant","devant",
-                 "important","importants","importante","dominant","courant","suivant",
-                 "durant","tant","quant","géant","enfant","enfants","instant","restant",
-                 "montant","gouvernement"];
-  var STRUCT = [
-    ["subjonctif", re("(?:^|[^L])(?:afin|pour|bien|quoi|avant|sans|jusqu'à ce|à condition|à moins)\\s+qu(?:e|')|(?:^|[^L])il\\s+(?:faut|faudrait|fallait|est\\s+(?:essentiel|crucial|important|nécessaire|peu\\s+probable))\\s+qu(?:e|')|(?:^|[^L])pourvu\\s+que(?![L])")],
-    ["si + imparfait + conditionnel", re("(?:^|[^L])s(?:i|')[^.!?]{0,110}[L]{2,}rai(?:t|ent)(?![L])")],
-    ["pronom relatif", re("(?:^|[^L])ce\\s+qu(?:i|e|')|(?:^|[^L])dont(?![L])|\\s+où(?![L])|(?:^|[^L])(?:lequel|laquelle|auquel|desquels|auxquels)(?![L])")],
-    ["négation complexe", re("(?:^|[^L])n(?:e|')\\s?[L']{0,14}\\s*(?:guère|point|nullement|jamais|aucune?|que\\s|qu'|ni\\s|plus\\s|rien)")],
-    ["structure à l'infinitif", re("(?:^|[^L])(?:avant\\s+de|afin\\s+de|pour|sans)\\s+[L]{2,}(?:er|ir|re)(?![L])|(?:^|[^L])après\\s+(?:avoir|être)(?![L])")],
-    ["comparatif / superlatif", re("(?:^|[^L])(?:plus|moins|aussi)\\s+[L]{2,}\\s+qu(?:e|')|(?:^|[^L])l(?:e|a|es)\\s+(?:plus|moins)\\s+[L]{2,}|(?:^|[^L])(?:meilleur|pire|davantage)(?![L])")],
-    ["voix passive", re("(?:^|[^L])(?:est|sont|fut|furent|serait|était|étaient|a\\s+été|ont\\s+été)\\s+[L]{2,}(?:ées|és|ée|é)(?![L])")],
-    ["nominalisation", re("(?:^|[^L])(?:la|le|les|l')\\s?[L]{3,}(?:tion|ment|ance|ence|ité|isme|age)(?![L])")]
-  ];
-  function participePresent(v){
-    var m = String(v || "").match(re("[L]{3,}ant(?![L])", "gi")) || [];
-    for(var i = 0; i < m.length; i++){
-      if(PP_STOP.indexOf(m[i].toLowerCase()) < 0) return true;
-    }
-    return false;
+  function lire(bloc,k0){
+    if(!("speechSynthesis" in window)){alert("This browser has no voices for reading aloud.");return;}
+    stop();
+    var j=L.jeton, ph=bloc.querySelectorAll(".s"), btn=bloc.querySelector(".lire"), v=voixFr();
+    L.btn=btn; btn.classList.add("on"); btn.textContent="■ Arrêter";
+    (function next(k){
+      if(j!==L.jeton)return;
+      if(k>0)ph[k-1].classList.remove("now");
+      if(k>=ph.length){stop();return;}
+      ph[k].classList.add("now");
+      var u=new SpeechSynthesisUtterance(ph[k].textContent);
+      if(v)u.voice=v; u.lang="fr-FR"; u.rate=0.9;
+      u.onend=function(){next(k+1);};
+      u.onerror=function(){if(j===L.jeton)stop();};
+      speechSynthesis.speak(u);
+    })(k0||0);
   }
-  function fold(s){
-    return String(s||"").toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,"")
-             .replace(/[’‘`´]/g,"'").replace(/\s+/g," ");
-  }
-  function words(s){ return (String(s||"").trim().match(/[\wÀ-ſ'’-]+/g)||[]).length; }
-  function hits(text, list){
-    var f = fold(text), out = [];
-    list.forEach(function(x){ if(f.indexOf(fold(x)) >= 0 && out.indexOf(x) < 0) out.push(x); });
-    return out;
-  }
-  function numbers(text){
-    var m = String(text||"").match(/(?:^|[^\w.,])\d{1,4}(?:[ ,.]\d+)?/g) || [];
-    var seen = {}, out = [];
-    m.forEach(function(x){ x = x.replace(/^[^\d]+/,""); if(!seen[x]){ seen[x]=1; out.push(x); } });
-    return out;
-  }
-  function found(text, table){
-    var out = [];
-    table.forEach(function(r){ if(r[1].test(text)) out.push(r[0]); });
-    if(table === STRUCT && participePresent(text)) out.push("participe présent");
-    return out;
-  }
-  function tag(ok, label, detail){
-    return '<span class="' + (ok ? "hit" : "miss") + '">' + (ok ? "✔ " : "· ") + label + "</span>"
-         + (detail ? ' <span class="miss">(' + detail + ")</span>" : "");
-  }
-  function g(id){ var e = document.getElementById(id); return e ? e.value : ""; }
-
-  function readBoxes(){
-    var b = document.getElementById("bilan"); if(!b) return;
-    var all = ["b1","b2","b3","b4","b5"].map(g).join(" \n ");
-    if(!all.replace(/\s/g,"")){ b.innerHTML = ""; return; }
-    var ph = hits(g("b1"), PHRASES);
-    var tm = hits(g("b2") + " " + g("b3") + " " + g("b5"), TERMES);
-    var nb = numbers(g("b3"));
-    var pr = hits(g("b3"), TERMES);
-    var tp = tenses(g("b4"));
-    var st = found(g("b5"), STRUCT);
-    b.innerHTML = [
-      tag(ph.length >= 1, "phrase de rédaction", ph.join(" · ")),
-      tag(tm.length >= 3, "termes du sujet : " + tm.length + " / 3", tm.slice(0,6).join(" · ")),
-      tag(nb.length >= 1 || pr.length >= 1, "preuve chiffrée ou nommée", nb.concat(pr).slice(0,4).join(" · ")),
-      tag(tp.length >= 1, "verbe dans un autre temps", tp.join(" · ")),
-      tag(st.length >= 1, "structure complexe", st.join(" · "))
-    ].join("<br>");
-  }
-  function readAnswer(){
-    var b = document.getElementById("bilan2"); if(!b) return;
-    var v = g("reponse"), w = words(v);
-    if(!w){ b.innerHTML = ""; return; }
-    var st = found(v, STRUCT), tp = tenses(v), tm = hits(v, TERMES), nb = numbers(v);
-    var cible = 100;
-    b.innerHTML = "<b>" + w + " mots</b> "
-      + (w >= cible ? '<span class="hit">✔ longueur atteinte</span>'
-                    : '<span class="miss">· encore ' + (cible - w) + " mots</span>") + "<br>"
-      + tag(tm.length >= 3, "termes du sujet : " + tm.length + " / 3", tm.slice(0,6).join(" · ")) + "<br>"
-      + tag(nb.length >= 1, "preuves chiffrées : " + nb.length, nb.slice(0,6).join(" · ")) + "<br>"
-      + tag(tp.length >= 2, "temps employés : " + tp.length + " / 2", tp.join(" · ")) + "<br>"
-      + tag(st.length >= 3, "structures : " + st.length + " / 3", st.join(" · "));
-  }
-  function refresh(){ readBoxes(); readAnswer(); }
-  ["b1","b2","b3","b4","b5","reponse"].forEach(function(id){
-    var e = document.getElementById(id);
-    if(e) e.addEventListener("input", refresh);
+  document.querySelectorAll(".lu").forEach(function(bloc){
+    var b=bloc.querySelector(".lire");
+    b.addEventListener("click",function(){ if(L.btn===b)stop(); else lire(bloc,0); });
+    bloc.querySelectorAll(".s").forEach(function(s,k){ s.addEventListener("click",function(){lire(bloc,k);}); });
   });
-  setTimeout(refresh, 900);          /* the kit restores saved work after load */
-  document.addEventListener("click", function(e){
-    if(e.target && e.target.closest && e.target.closest("#bba-resume")) setTimeout(refresh, 300);
-  }, true);
+
+  /* ---- feedback on the sentences students write ---- */
+  function fold(s){return String(s||"").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/[’‘]/g,"'");}
+  var TEST={
+    faire:{re:/(^|[^a-z])(fai[st]?|faire|font|faisai[st]|faisaient|fera|feront|ferait|laiss(e|es|ent|er|ait|aient))\s+([a-z']+\s+)?[a-z]{2,}(er|ir|re|oir)([^a-z]|$)/,
+          ok:"<i>faire / laisser</i> + infinitive found.", no:"Use <i>faire</i> or <i>laisser</i> + an infinitive (<i>a fait passer</i>, <i>laisse croire</i>)."},
+    impers:{re:/(^|[^a-z])(il|ce)\s+(s'agit|s'agissait|s'agira|convient|convenait|conviendrait)\s+([a-z]+\s+)?(de|d')/,
+          ok:"Impersonal structure found — check that an infinitive follows (<i>il convient de distinguer</i>).", no:"Use <i>il s'agit de</i> or <i>il convient de</i> + an infinitive."},
+    lequel:{re:/(^|[^a-z])(lequel|laquelle|lesquels|lesquelles|auquel|a laquelle|auxquels|auxquelles|duquel|de laquelle|desquels|desquelles)([^a-z]|$)[^?]*\?/,
+          ok:"Question with <i>lequel</i> found.", no:"Ask a question with <i>lequel / laquelle / auquel</i> … and end it with a question mark."},
+    prep:{re:/(^|[^a-z])(des\s+(\d|le\s|la\s|les\s|l'|son\s|sa\s|ses\s|ce\s|cet\s|cette\s|qu|sa\s|juin|juillet|aout|1)|a partir d|au sein d)/,
+          ok:"Preposition found (<i>dès / à partir de / au sein de</i>).", no:"Use <i>dès</i>, <i>à partir de</i> or <i>au sein de</i> (e.g. <i>Dès 1940, …</i>)."}
+  };
+  document.querySelectorAll(".reuse").forEach(function(box){
+    var t=box.querySelector("textarea"), fb=box.querySelector(".fb"), k=box.getAttribute("data-kind");
+    box.querySelector(".btn-check").addEventListener("click",function(){
+      var v=t.value.trim(); if(!v){fb.innerHTML='<span class="no">Write a sentence first.</span>';return;}
+      var ok=TEST[k].re.test(fold(v));
+      box.setAttribute("data-score", ok?"1":"0"); bilan();
+      fb.innerHTML='<span class="'+(ok?"ok":"no")+'">'+(ok?"✔ ":"· ")+TEST[k][ok?"ok":"no"]+'</span>'
+        +'<div class="mod"><b>A model:</b> '+box.querySelector("template.modele").innerHTML+'</div>';
+    });
+  });
+
+  var CHIFFRES=["1940", "1941", "1942", "1944", "1945", "84", "569", "80", "15 000", "un sur quatre", "95", "Verdun", "Paxton", "Laborie", "Laval", "de Gaulle", "IVe République"];
+  var TERMES=["Révolution nationale", "Travail, Famille, Patrie", "pleins pouvoirs", "autoritaire", "syndicat", "grève", "foyer", "fête des mères", "déchu", "antisémit", "en vigueur", "carte d'identité", "médecine du travail", "fausse aube", "dénatur", "survie", "bouclier", "épée", "serment", "vent mauvais", "attentis", "trahison", "intelligence avec l'ennemi", "collabor", "propagande"];
+  var STRUCT=[["faire / laisser + infinitive",TEST.faire.re],["il s'agit de / il convient de",TEST.impers.re],["question with lequel",TEST.lequel.re],["dès / à partir de / au sein de",TEST.prep.re]];
+  function found(v,list){var f=fold(v);return list.filter(function(x){return f.indexOf(fold(x))>=0;});}
+  document.getElementById("btnA").addEventListener("click",function(){
+    var v=document.getElementById("reponse").value.trim(), fb=document.getElementById("fbA");
+    if(!v){fb.innerHTML='<span class="no">Write your answer first.</span>';return;}
+    var w=(v.match(/[\wÀ-ÿ'’-]+/g)||[]).length, ch=found(v,CHIFFRES), te=found(v,TERMES),
+        st=STRUCT.filter(function(s){return s[1].test(fold(v));}).map(function(s){return s[0];});
+    var ticks=[w>=90, ch.length>=2, te.length>=3, st.length>=1];
+    document.getElementById("defi").setAttribute("data-score", String(ticks.filter(Boolean).length)); bilan();
+    function li(ok,txt){return '<li class="'+(ok?"ok":"no")+'">'+(ok?"✔ ":"· ")+txt+'</li>';}
+    fb.innerHTML='<ul class="auto">'
+      +li(ticks[0], w+" words"+(ticks[0]?"":" — aim for about 100"))
+      +li(ticks[1], "Evidence from the texts: "+(ch.length?ch.join(" · "):"none yet — use at least two facts or proportions"))
+      +li(ticks[2], "Topic words: "+(te.length?te.join(" · "):"none yet"))
+      +li(ticks[3], "Structures from exercise 5: "+(st.length?st.join(" · "):"none yet"))
+      +'</ul><p class="note">The computer cannot judge your argument: compare your answer with the model. Is your point clear? Do you explain <i>why</i>? Is there a link?</p>'
+      +'<div class="mod"><b>Model answer</b> (P · E · E · L)'+document.getElementById("modA").innerHTML+'</div>';
+  });
+
+  /* ---- Bilan : what the learner has mastered ---- */
+  var CATS=[["contenu","Content · facts and figures","exercises 2 and 3"],["vocab","Vocabulary","exercises 1 and 4"],
+            ["gram","Grammar","exercise 5"],["ecrit","Writing","the Défi A*"]];
+  function good(el){
+    if(el.classList.contains("bba-ok"))return true;
+    if(!el.classList.contains("bba-warn"))return false;
+    var n=el.nextSibling; while(n&&!(n.nodeType===1&&n.classList.contains("bba-tip")))n=n.nextSibling;
+    return !!(n&&n.classList.contains("good"));
+  }
+  function bilan(){
+    var R={}; CATS.forEach(function(c){R[c[0]]={n:0,ok:0,miss:{}};});
+    document.querySelectorAll("[data-cat]").forEach(function(box){
+      var r=R[box.getAttribute("data-cat")], f=box.querySelectorAll("input[data-answer],select[data-answer]");
+      if(f.length){
+        var src=box.querySelector(".src");
+        f.forEach(function(el){ r.n++; if(good(el))r.ok++; else if(el.classList.contains("bba-bad")&&src)r.miss[src.textContent]=1; });
+      } else { r.n+=+box.getAttribute("data-n")||1; r.ok+=+box.getAttribute("data-score")||0; }
+    });
+    var tn=0,tok=0,h="";
+    CATS.forEach(function(c){
+      var r=R[c[0]], p=r.n?Math.round(100*r.ok/r.n):0, m=Object.keys(r.miss).sort();
+      tn+=r.n; tok+=r.ok;
+      var msg = r.ok===0 ? "Not started yet — "+c[2]+"."
+              : p>=80 ? "Mastered."
+              : p>=50 ? "Nearly there — finish "+c[2]+"."
+              : "Keep going — "+c[2]+".";
+      if(m.length) msg+=" Answers revealed: re-read text "+m.join(", ")+".";
+      h+='<div class="bl-row"><b>'+c[1]+'</b><div class="bl-bar"><i class="'+(p>=80?"full":"")+'" style="width:'+p+'%"></i></div>'
+        +'<span class="bl-n">'+r.ok+' / '+r.n+'</span><p class="bl-msg">'+msg+'</p></div>';
+    });
+    document.getElementById("bl-rows").innerHTML=h;
+    var tp=tn?Math.round(100*tok/tn):0;
+    document.getElementById("bl-total").textContent="Overall: "+tp+" % of this page mastered"+(tp>=80?" — well done.":".");
+  }
+  var timer=null;
+  var BL=document.getElementById("bilan");
+  new MutationObserver(function(ms){ if(ms.every(function(m){return BL.contains(m.target);}))return; clearTimeout(timer);timer=setTimeout(bilan,120);})
+    .observe(document.querySelector(".wrap"),{subtree:true,attributes:true,attributeFilter:["class"],childList:true});
+  bilan();
 })();
 </script>
-<script src="bba-kit-fr.js" defer></script>
-<script src="bba-send-strip.js" defer></script>
 </body>
 </html>
