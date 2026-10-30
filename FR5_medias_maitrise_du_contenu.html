@@ -350,12 +350,31 @@
     return best;
   }
   var A = {jeton:0, btn:null};
-  function stop(){
+  function stop(){ bbaJ++; if(bbaMp3){try{bbaMp3.pause();}catch(e){}}
     A.jeton++; if("speechSynthesis" in window) speechSynthesis.cancel();
     document.querySelectorAll(".lu .s.now").forEach(function(x){ x.classList.remove("now"); });
     if(A.btn){ A.btn.classList.remove("on"); A.btn.textContent = "▶ Écouter"; A.btn = null; }
   }
-  function lire(bloc, k0){
+  var BBA_MP3=[{"src": "FR5_medias_maitrise_du_contenu_audio_1.mp3", "t": [0, 9.74, 26.14, 39.91, 48.24, 61.62]}, {"src": "FR5_medias_maitrise_du_contenu_audio_2.mp3", "t": [0, 8.82, 19.42, 24.92, 37.63, 47.44, 59.59]}, {"src": "FR5_medias_maitrise_du_contenu_audio_3.mp3", "t": [0, 10.88, 19.98, 31.64, 37.59, 48.19, 57.89]}, {"src": "FR5_medias_maitrise_du_contenu_audio_4.mp3", "t": [0, 10.57, 22.09, 34.78, 45.73, 56.2, 62.98]}, {"src": "FR5_medias_maitrise_du_contenu_audio_5.mp3", "t": [0, 14.8, 25.12, 37.42, 52.93, 57.93]}, {"src": "FR5_medias_maitrise_du_contenu_audio_6.mp3", "t": [0, 8.29, 18.84, 31.11, 43.46, 56.29]}];
+var bbaMp3=null, bbaJ=0;
+function bbaListe(){return Array.prototype.filter.call(document.querySelectorAll(".lu"),function(b){return b.querySelector(".lire");});}
+function lire(bloc,k0){
+  var d=BBA_MP3[bbaListe().indexOf(bloc)];
+  if(!d||!window.Audio){ lireTts(bloc,k0); return; }
+  stop();
+  var j=++bbaJ, ph=bloc.querySelectorAll(".s"), btn=bloc.querySelector(".lire"), cur=-1;
+  A.btn=btn; btn.classList.add("on"); btn.textContent="■ Arrêter";
+  if(!bbaMp3) bbaMp3=new Audio();
+  var a=bbaMp3;
+  function repli(){ if(j===bbaJ){ stop(); lireTts(bloc,k0); } }
+  a.ontimeupdate=function(){ if(j!==bbaJ)return; var t=a.currentTime,k=0; for(var q=0;q<d.t.length;q++){ if(t>=d.t[q]-0.05)k=q; } if(k!==cur){ if(cur>=0&&ph[cur])ph[cur].classList.remove("now"); cur=k; if(ph[k])ph[k].classList.add("now"); } };
+  a.onended=function(){ if(j===bbaJ) stop(); };
+  a.onerror=repli;
+  function go(){ if(j!==bbaJ)return; try{ a.currentTime=d.t[k0||0]||0; }catch(e){} var p=a.play(); if(p&&p.catch)p.catch(function(err){ if(err&&err.name==="NotAllowedError"){ if(j===bbaJ) stop(); } else repli(); }); }
+  if(a.getAttribute("src")!==d.src){ a.src=d.src; a.addEventListener("loadedmetadata",function h(){ a.removeEventListener("loadedmetadata",h); go(); }); a.load(); } else go();
+}
+(function(){ var l=bbaListe(); if(l.length) l[l.length-1].insertAdjacentHTML("afterend",'<p class="note" style="font-size:.8em;opacity:.75">Audio : voix de synthèse Piper « siwis » (base SIWIS French Speech Synthesis Database, licence CC BY 4.0).</p>'); })();
+function lireTts(bloc, k0){
     if(!("speechSynthesis" in window)){ alert("This browser has no voices for reading aloud."); return; }
     stop();
     var j = A.jeton, ph = bloc.querySelectorAll(".s"), btn = bloc.querySelector(".lire"), v = voixFr();

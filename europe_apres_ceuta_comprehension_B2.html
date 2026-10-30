@@ -148,6 +148,7 @@ footer.site{max-width:900px;margin:0 auto;padding:18px 20px 40px;border-top:1px 
       <button class="btn small ghost" id="btnLire">🔊 Écouter le texte</button>
       <button class="btn small ghost" id="btnImprimer">Imprimer</button>
     </div>
+    <div class="bba-player" style="margin:8px 0 12px"><audio id="bbaAudio" controls preload="none" src="europe_apres_ceuta_comprehension_B2_audio.mp3" style="width:100%;max-width:560px;display:block"></audio><div style="font-size:.75em;opacity:.7;margin-top:4px">Audio : voix de synthèse Piper « siwis » (base SIWIS French Speech Synthesis Database, licence CC BY 4.0).</div></div>
   </div>
 
   <div class="section-label">A · Vrai, faux ou non mentionné ?</div>
@@ -451,7 +452,16 @@ function peindre(){
 peindre();
 
 /* ═════════ audio ═════════ */
+(function(){ var au=document.getElementById("bbaAudio"); if(au) au.addEventListener("error",function(){ au.dataset.err="1"; },true); })();
 $("#btnLire").addEventListener("click",function(){
+  var au=document.getElementById("bbaAudio");
+  if(au && !au.dataset.err){
+    if("speechSynthesis" in window) speechSynthesis.cancel();
+    if(!au.paused){ au.pause(); return; }
+    try{ au.currentTime=0; }catch(e){}
+    var p=au.play(); if(p&&p.catch) p.catch(function(e){ if(!e||e.name!=="NotAllowedError"){ au.dataset.err="1"; } });
+    return;
+  }
   if(!("speechSynthesis" in window)){ alert("Ton navigateur ne propose pas de voix."); return; }
   var texte=Array.prototype.slice.call(document.querySelectorAll(".lecture p"))
     .map(function(p){ return p.textContent; }).join(" ");

@@ -393,8 +393,9 @@
         <div class="instructions">
             <h3>📝 Instructions</h3>
             <ul>
-                <li>Cliquez sur "▶ Lire le texte" pour écouter la dictée</li>
-                <li>Vous pouvez mettre en pause et ajuster la vitesse de lecture</li>
+                <li>Écoutez d'abord le texte en entier (lecteur 1), sans écrire</li>
+                <li>Lancez ensuite la dictée lente (lecteur 2) : le texte est lu par groupes de mots, avec une pause pour écrire. Vous pouvez mettre en pause et revenir en arrière</li>
+                <li>La ponctuation n'est pas dictée : écoutez les pauses et l'intonation</li>
                 <li>Écrivez ce que vous entendez dans la zone de texte ci-dessous</li>
                 <li>Utilisez le clavier virtuel pour les caractères spéciaux français</li>
                 <li>Une fois terminé, téléchargez votre travail</li>
@@ -402,7 +403,13 @@
         </div>
 
         <div class="audio-controls">
-            <h3>🔊 Contrôles Audio</h3>
+            <h3>🔊 Audio</h3>
+            <p style="margin:6px 0 4px;font-weight:600">1. Lecture complète</p>
+            <audio controls preload="none" src="vichy_cinema_dictation_lecture.mp3" style="width:100%"></audio>
+            <p style="margin:12px 0 4px;font-weight:600">2. Dictée lente, par groupes de mots</p>
+            <audio controls preload="none" src="vichy_cinema_dictation_dictee.mp3" style="width:100%"></audio>
+            <p style="font-size:.75em;opacity:.7;margin-top:6px">Audio : voix de synthèse Piper « siwis » (base SIWIS French Speech Synthesis Database, licence CC BY 4.0).</p>
+            <details style="margin-top:10px"><summary style="cursor:pointer">Si l'audio ne fonctionne pas : voix du navigateur</summary>
             <div class="audio-buttons">
                 <button class="audio-btn" id="playBtn">
                     <span>▶</span>
@@ -422,6 +429,7 @@
                 <input type="range" id="speedSlider" min="0.5" max="1.5" step="0.1" value="0.9">
                 <span id="speedValue">0.9x</span>
             </div>
+            </details>
         </div>
 
         <div class="stats">

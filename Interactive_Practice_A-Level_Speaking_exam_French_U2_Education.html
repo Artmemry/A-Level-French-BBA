@@ -167,6 +167,7 @@ input[type=text].gapin { display:inline-block; width:auto; min-width:190px; marg
       <button class="btn-ghost" onclick="stopSpeak()">⏹ Arrêter</button>
       <button class="btn-ghost" onclick="toggleGlossary()" id="glossBtn">📖 Afficher le lexique</button>
     </div>
+    <div class="bba-player" style="margin:8px 0 12px"><audio id="bbaAudio" controls preload="none" src="Interactive_Practice_A-Level_Speaking_exam_French_U2_Education_audio.mp3" style="width:100%;max-width:560px;display:block"></audio><div style="font-size:.75em;opacity:.7;margin-top:4px">Audio : voix de synthèse Piper « siwis » (base SIWIS French Speech Synthesis Database, licence CC BY 4.0).</div></div>
 
     <div class="reading" id="reading">
       <p class="lede">L'école française sous pression : harcèlement, décrochage et égalité des chances</p>
@@ -890,6 +891,17 @@ function resetTimer(){ pauseTimer(); remaining=60*60; renderTimer(); }
 
 /* ================= lecture audio ================= */
 function speak(){
+  const au=document.getElementById('bbaAudio');
+  if(au && !au.dataset.err){
+    if('speechSynthesis' in window) speechSynthesis.cancel();
+    try{ au.currentTime=0; }catch(e){}
+    const p=au.play(); if(p&&p.catch) p.catch(e=>{ if(!e||e.name!=='NotAllowedError'){ au.dataset.err='1'; speakTts(); } });
+    return;
+  }
+  speakTts();
+}
+document.addEventListener('DOMContentLoaded',()=>{ const au=document.getElementById('bbaAudio'); if(au) au.addEventListener('error',()=>{ au.dataset.err='1'; },true); });
+function speakTts(){
   if(!('speechSynthesis' in window)){ ttsNotice("Ce navigateur ne propose pas de lecture audio."); return; }
   const txt=[...$('reading').querySelectorAll('p')].map(p=>p.textContent).join(' ');
   const u=new SpeechSynthesisUtterance(txt);
@@ -901,7 +913,7 @@ function speak(){
   u.onerror=()=>{ if(!$('tts-notice')) ttsNotice("La lecture audio a été interrompue par le navigateur."); };
   speechSynthesis.cancel(); speechSynthesis.speak(u);
 }
-function stopSpeak(){ if('speechSynthesis' in window) speechSynthesis.cancel(); }
+function stopSpeak(){ const au=document.getElementById('bbaAudio'); if(au){ try{au.pause();}catch(e){} } if('speechSynthesis' in window) speechSynthesis.cancel(); }
 function ttsNotice(msg){
   let b=$('tts-notice');
   if(!b){ b=document.createElement('div'); b.id='tts-notice'; b.onclick=()=>b.remove(); document.body.appendChild(b); }
