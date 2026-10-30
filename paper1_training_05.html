@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Paper 1 training 5 – 9FR0/01 practice</title>
+<style>
+:root{--ink:#111;--rule:#9a9a9a;--muted:#555;--paper:#fff;--bg:#e9e9e9}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Arial,Helvetica,sans-serif;font-size:17px;line-height:1.45}
+.sheet{background:var(--paper);max-width:820px;margin:24px auto;padding:40px 56px 32px;box-shadow:0 1px 4px rgba(0,0,0,.25);position:relative}
+@media (max-width:700px){.sheet{margin:0 0 8px;padding:24px 16px}}
+.pageno{text-align:center;color:var(--muted);font-size:13px;margin-top:28px}
+.cover h1{font-size:28px;margin:4px 0 0}
+.cover .board{font-size:15px;color:var(--muted)}
+.cover .ref{float:right;text-align:right;font-size:14px;border:1px solid var(--ink);padding:6px 10px}
+.cover hr{border:0;border-top:2px solid var(--ink);margin:18px 0}
+.cover h2{font-size:17px;margin:18px 0 4px}
+.cover ul{margin:4px 0;padding-left:20px}
+.sec{text-align:center;font-weight:bold;font-size:19px;letter-spacing:.5px;margin:0}
+.sec+.sec{margin-bottom:10px}
+.rec{text-align:center;font-weight:bold;margin:4px 0 16px}
+.instr p{margin:6px 0}
+.durs{margin:10px 0 10px 40%}
+@media (max-width:700px){.durs{margin-left:8%}}
+.durs div{margin:2px 0}
+.ptitle{font-weight:bold;font-size:18px;margin:0 0 10px}
+.qhead{display:flex;gap:14px;font-weight:bold;margin:0 0 12px}
+.qhead .qn{min-width:22px}
+.item{margin:0 0 0 36px;position:relative}
+.item.mc{margin-bottom:14px}
+@media (max-width:700px){.item{margin-left:6px}}
+.q{margin:0 0 6px}
+.num{display:inline-block;min-width:38px}
+.bul{padding-left:24px}
+.mark{text-align:right;font-weight:bold;margin:0 0 12px}
+.total{text-align:right;font-weight:bold;margin:18px 0 0}
+.grand{text-align:right;font-weight:bold;font-size:18px;margin:16px 0 0}
+textarea.ans{width:100%;border:0;border-bottom:1px dotted var(--rule);resize:vertical;font:inherit;line-height:32px;padding:0 4px;
+  background:repeating-linear-gradient(transparent 0 31px,var(--rule) 31px 32px);outline-offset:2px;min-height:64px}
+textarea.ans:focus{outline:2px solid #2b5797;background-color:#f7f9fd}
+.sr{position:absolute!important;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0;padding:0}
+.opt{display:flex;align-items:center;gap:12px;width:calc(100% - 38px);margin:6px 0 6px 38px;padding:4px 0;background:none;border:0;font:inherit;color:inherit;text-align:left;cursor:pointer}
+.opt b{min-width:16px}
+.opt .ot{flex:1}
+.box{width:30px;height:24px;border:1.5px solid var(--ink);flex:none;position:relative}
+.opt[aria-checked="true"] .box::after{content:"\2715";position:absolute;inset:0;display:grid;place-items:center;font-size:20px;font-weight:bold}
+.opt:focus-visible{outline:2px solid #2b5797;outline-offset:2px}
+.player{display:flex;align-items:center;gap:12px;flex-wrap:wrap;border:1px solid var(--rule);padding:8px 12px;margin:0 0 16px}
+.plab{font-weight:bold;font-size:15px}
+.player audio{flex:1;min-width:220px}
+.lead{font-weight:bold;margin:0 0 12px}
+.who{margin:14px 0 6px 36px;font-weight:bold}
+.src{margin:0 0 14px;font-size:15px;word-break:break-all}
+.src b{word-break:normal}
+.cand{display:block;margin:14px 0;font-weight:bold}
+.cand input{font:inherit;font-weight:normal;border:1px solid var(--ink);padding:6px 8px;width:min(340px,100%);margin-left:8px}
+.lpbar{display:flex;gap:10px;flex-wrap:wrap;justify-content:flex-end;margin:22px 0 0}
+.lpbar button{font:inherit;font-weight:bold;padding:9px 16px;border:1px solid #2b5797;background:#fff;color:#2b5797;cursor:pointer;border-radius:4px}
+.lpbar button.go{background:#2b5797;color:#fff}
+.lpres{border:2px solid #2b5797;padding:12px 16px;margin:14px 0 0;background:#f4f7fc}
+.lpres p{margin:4px 0}
+.fb{margin:-6px 0 14px 36px;padding:8px 12px;font-size:15px;border-left:4px solid #b0b0b0;background:#f6f6f6}
+.fb.full{border-color:#2e7d52;background:#eef7f1}
+.fb.part{border-color:#c98a00;background:#fdf6e6}
+.fb.zero{border-color:#b3261e;background:#fbeeed}
+.fb b{margin-right:6px}
+.locked textarea.ans,.locked .opt{pointer-events:none}
+.opt.right .box{background:#dff0e5}
+@media print{.lpbar,.fb,.lpres{display:none!important}}
+.rtext{border:1px solid var(--rule);padding:12px 16px;margin:0 0 16px;background:#fcfcfc}
+.rtext p{margin:0 0 10px;text-align:justify}
+.rtitle{font-weight:bold;text-align:center!important}
+.lead2{font-weight:bold;margin:12px 0 8px}
+.trans-fb table{border-collapse:collapse;width:100%;margin-top:8px;font-size:14px}
+.trans-fb td{border-top:1px solid #ddd;padding:4px 6px;vertical-align:top}
+.trans-fb td.ok{color:#2e7d52;font-weight:bold} .trans-fb td.no{color:#b3261e;font-weight:bold}
+.credit{font-size:13px;color:var(--muted);border-top:1px solid var(--rule);padding-top:10px;margin-top:22px}
+.defi ol{padding-left:22px}
+.defi li{margin-bottom:14px}
+@media print{body{background:#fff}.sheet{box-shadow:none;margin:0;page-break-after:always}.player,#bba-kit{display:none!important}}
+</style>
+</head>
+<body>
+
+<section class="sheet cover">
+  <div class="ref">Paper reference<br><b>9FR0/01</b><br>Paper 1 training 5</div>
+  <div class="board">BBA practice paper modelled on Pearson Edexcel Level 3 GCE</div>
+  <h1>French</h1>
+  <div><b>Advanced</b><br>PAPER 1: Listening, Reading and Translation<br>Paper 1 training 5 · All four themes · exam-ready</div>
+  <hr>
+  <label class="cand">Candidate name <input type="text" id="cand" autocomplete="name" placeholder="First name and initial"></label>
+  <p><b>You must have:</b> headphones or earphones. The recordings are on this page.</p>
+  <h2>Instructions</h2>
+  <ul>
+    <li>Type your name in the box above if you want it on your results file (optional).</li>
+    <li>Answer <b>all</b> questions in Sections A, B and C.</li>
+    <li>Candidates are recommended to start with Section A: Listening, and work through each section as presented.</li>
+    <li>Answer the questions in the spaces provided – there may be more space than you need.</li>
+    <li>We recommend you spend 50 minutes on Section A: Listening, 50 minutes on Section B: Reading and 20 minutes on Section C: Translation into English (2 hours in total).</li>
+    <li>You must not use a dictionary.</li>
+    <li>You can do one section at a time: each section ends with its own <b>Mark Section … only</b> button. To mark everything at once, press <b>Mark the whole paper</b> at the end of Section C.</li>
+    <li>Then press <b>Download results</b> at the end of Section C and send the file to your teacher: it contains every section you have marked.</li>
+  </ul>
+  <h2>Information</h2>
+  <ul>
+    <li>The total mark for this paper is 80.</li>
+    <li>The marks for each question are shown in brackets – use this as a guide as to how much time to spend on each question.</li>
+  </ul>
+  <h2>Advice</h2>
+  <ul>
+    <li>Read each question carefully before you start to answer it.</li>
+    <li>Try to answer every question.</li>
+    <li>Check your answers if you have time at the end.</li>
+  </ul>
+  <p class="pageno">1</p>
+</section>
+
+<section class="sheet">
+  <p style="margin-top:0">Answer ALL questions. Write your answers in the spaces provided.<br>
+  Some questions must be answered with a cross in a box ☒. If you change your mind about an answer, click another box.</p>
+  <p class="sec">SECTION A</p><p class="sec">LISTENING</p>
+  <p class="rec">We recommend you spend no more than 50 minutes on this section.</p>
+  <div class="instr">
+    <p>Questions 2, 3 and 4(a) do not require full sentences and you may respond using single words or phrases.</p>
+    <p>Summary Question 4(b) does not require full sentences and you may respond using short phrases.</p>
+    <p>You may use words from the listening passages but you must not transcribe whole sections.</p>
+    <p>You are going to listen to five passages. The duration of each passage is approximately:</p>
+    <div class="durs">
+      <div>Passage 1 = 1 minute 13 seconds</div><div>Passage 2 = 1 minute 20 seconds</div><div>Passage 3 = 2 minutes 18 seconds</div>
+      <div>Passage 4(a) = 1 minute 11 seconds</div><div>Passage 4(b) = 1 minute 08 seconds</div>
+    </div>
+    <p>You will be in charge of the recording and you may listen to each passage as often as you wish, and write your answers whenever you wish to do so.</p>
+  </div>
+  <p class="pageno">2</p>
+</section>
+
+<section class="sheet">
+  <p class="ptitle">Passage 1 – La rafle du Vél d&#x27;Hiv</p>
+  <div class="player"><span class="plab">Passage 1</span><audio controls preload="none" src="listening_paper_05_passage_1.mp3"></audio></div>
+  <div class="qhead"><span class="qn">1</span><span>Écoutez le reportage. Cochez la bonne fin pour les phrases.</span></div>
+  <div class="item mc" data-t="mc" data-k="q1.0" data-max="1" data-lab="1(i)"><p class="q"><span class="sr">1</span><span class="num">(i)</span> La rafle du Vél d&#x27;Hiv a été menée par…</p><div role="radiogroup" aria-label="1(i)"><button type="button" class="opt" role="radio" aria-checked="false" data-v="A"><b>A</b> <span class="ot">l&#x27;armée allemande seule.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="B"><b>B</b> <span class="ot">des groupes de résistants.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="C"><b>C</b> <span class="ot">la police française.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="D"><b>D</b> <span class="ot">la police britannique.</span><span class="box" aria-hidden="true"></span></button></div><input type="text" class="sr mcval" name="q1_i" tabindex="-1" aria-hidden="true" readonly></div><div class="item mc" data-t="mc" data-k="q1.1" data-max="1" data-lab="1(ii)"><p class="q"><span class="sr">1</span><span class="num">(ii)</span> Au Vélodrome d&#x27;Hiver, on a enfermé…</p><div role="radiogroup" aria-label="1(ii)"><button type="button" class="opt" role="radio" aria-checked="false" data-v="A"><b>A</b> <span class="ot">les familles avec enfants.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="B"><b>B</b> <span class="ot">les couples sans enfants.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="C"><b>C</b> <span class="ot">uniquement des hommes.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="D"><b>D</b> <span class="ot">des prisonniers de guerre.</span><span class="box" aria-hidden="true"></span></button></div><input type="text" class="sr mcval" name="q1_ii" tabindex="-1" aria-hidden="true" readonly></div><div class="item mc" data-t="mc" data-k="q1.2" data-max="1" data-lab="1(iii)"><p class="q"><span class="sr">1</span><span class="num">(iii)</span> Les jeunes enfants…</p><div role="radiogroup" aria-label="1(iii)"><button type="button" class="opt" role="radio" aria-checked="false" data-v="A"><b>A</b> <span class="ot">ont été libérés.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="B"><b>B</b> <span class="ot">ont été cachés par la police.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="C"><b>C</b> <span class="ot">sont restés à Paris.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="D"><b>D</b> <span class="ot">ont été séparés de leurs parents.</span><span class="box" aria-hidden="true"></span></button></div><input type="text" class="sr mcval" name="q1_iii" tabindex="-1" aria-hidden="true" readonly></div><div class="item mc" data-t="mc" data-k="q1.3" data-max="1" data-lab="1(iv)"><p class="q"><span class="sr">1</span><span class="num">(iv)</span> Aujourd&#x27;hui, une journée nationale…</p><div role="radiogroup" aria-label="1(iv)"><button type="button" class="opt" role="radio" aria-checked="false" data-v="A"><b>A</b> <span class="ot">célèbre la Libération de Paris.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="B"><b>B</b> <span class="ot">rend hommage aux victimes et aux Justes.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="C"><b>C</b> <span class="ot">honore la police de l&#x27;époque.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="D"><b>D</b> <span class="ot">a été supprimée.</span><span class="box" aria-hidden="true"></span></button></div><input type="text" class="sr mcval" name="q1_iv" tabindex="-1" aria-hidden="true" readonly></div>
+  <p class="total">(Total for Question 1 = 4 marks)</p>
+  <p class="pageno">3</p>
+</section>
+
+<section class="sheet">
+  <p class="ptitle">Passage 2 – Notre-Dame de Paris renaît</p>
+  <div class="player"><span class="plab">Passage 2</span><audio controls preload="none" src="listening_paper_05_passage_2.mp3"></audio></div>
+  <div class="qhead"><span class="qn">2</span><span>Écoutez l&#x27;interview sur la restauration de Notre-Dame de Paris. Répondez aux questions en français.</span></div>
+  <div class="item" data-t="open" data-k="q2.0" data-max="1" data-lab="2(a)"><p class="q"><span class="sr">2</span><span class="num">(a)</span> Comment la restauration a-t-elle été financée ?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="q2.1" data-max="1" data-lab="2(b)"><p class="q"><span class="sr">2</span><span class="num">(b)</span> Qu&#x27;est-ce qui montre que les dons venaient du monde entier ?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="q2.2" data-max="1" data-lab="2(c)"><p class="q"><span class="sr">2</span><span class="num">(c)</span> Comment sait-on que la réouverture est un succès ?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="q2.3" data-max="2" data-lab="2(d)"><p class="q"><span class="sr">2</span><span class="num">(d)</span> Qu&#x27;est-ce qui montre que le chantier n&#x27;est pas terminé ? Donnez deux détails.</p><textarea class="ans" rows="3" aria-label="Answer"></textarea></div><p class="mark">(2)</p>
+  <p class="total">(Total for Question 2 = 5 marks)</p>
+  <p class="pageno">4</p>
+</section>
+
+<section class="sheet">
+  <p class="ptitle">Passage 3 – Traverser la Manche</p>
+  <div class="player"><span class="plab">Passage 3</span><audio controls preload="none" src="listening_paper_05_passage_3.mp3"></audio></div>
+  <div class="qhead"><span class="qn">3</span><span>Écoutez l&#x27;interview sur les traversées de la Manche. Répondez aux questions en français.</span></div>
+  <div class="item" data-t="open" data-k="q3.0" data-max="1" data-lab="3(a)"><p class="q"><span class="sr">3</span><span class="num">(a)</span> Quel cap symbolique a été franchi en mai 2026 ?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="q3.1" data-max="1" data-lab="3(b)"><p class="q"><span class="sr">3</span><span class="num">(b)</span> Que montrent les chiffres de 2025 ?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="q3.2" data-max="2" data-lab="3(c)"><p class="q"><span class="sr">3</span><span class="num">(c)</span> De quels pays venaient la plupart des migrants entre 2018 et 2025 ? Donnez deux détails.</p><textarea class="ans" rows="3" aria-label="Answer"></textarea></div><p class="mark">(2)</p>
+<div class="item" data-t="open" data-k="q3.3" data-max="1" data-lab="3(d)"><p class="q"><span class="sr">3</span><span class="num">(d)</span> Quel changement récent concerne l&#x27;origine des migrants ?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="q3.4" data-max="1" data-lab="3(e)"><p class="q"><span class="sr">3</span><span class="num">(e)</span> Pourquoi la traversée est-elle dangereuse ?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="q3.5" data-max="2" data-lab="3(f)"><p class="q"><span class="sr">3</span><span class="num">(f)</span> Comment fonctionne l&#x27;accord franco-britannique ? Donnez deux détails.</p><textarea class="ans" rows="3" aria-label="Answer"></textarea></div><p class="mark">(2)</p>
+<div class="item" data-t="open" data-k="q3.6" data-max="1" data-lab="3(g)"><p class="q"><span class="sr">3</span><span class="num">(g)</span> Pourquoi l&#x27;accord est-il critiqué ?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+  <p class="total">(Total for Question 3 = 9 marks)</p>
+  <p class="pageno">5</p>
+</section>
+
+<section class="sheet">
+  <p class="ptitle">Passage 4(a) – Les élèves français et l&#x27;enquête PISA</p>
+  <div class="player"><span class="plab">Passage 4(a)</span><audio controls preload="none" src="listening_paper_05_passage_4a.mp3"></audio></div>
+  <div class="qhead"><span class="qn">4</span><span>(a) Écoutez le reportage sur l&#x27;enquête PISA. Répondez aux questions en français.</span></div>
+  <div class="item" data-t="open" data-k="q4a.0" data-max="1" data-lab="4(a)(i)"><p class="q"><span class="sr">4(a)</span><span class="num">(i)</span> Quels élèves l&#x27;enquête PISA évalue-t-elle ?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="q4a.1" data-max="1" data-lab="4(a)(ii)"><p class="q"><span class="sr">4(a)</span><span class="num">(ii)</span> Comment le score de la France en mathématiques a-t-il évolué ?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="q4a.2" data-max="1" data-lab="4(a)(iii)"><p class="q"><span class="sr">4(a)</span><span class="num">(iii)</span> Quel domaine résiste le mieux ?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="q4a.3" data-max="1" data-lab="4(a)(iv)"><p class="q"><span class="sr">4(a)</span><span class="num">(iv)</span> Où se situe la France par rapport aux autres pays de l&#x27;OCDE ?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="q4a.4" data-max="2" data-lab="4(a)(v)"><p class="q"><span class="sr">4(a)</span><span class="num">(v)</span> Quels changements concernent les élèves en mathématiques ? Donnez deux détails.</p><textarea class="ans" rows="3" aria-label="Answer"></textarea></div><p class="mark">(2)</p>
+  <p class="pageno">6</p>
+</section>
+
+<section class="sheet">
+  <p class="lead">Résumez le reportage suivant. Des phrases courtes suffisent. Donnez trois détails pour la question 4(b)(i) et trois détails pour la question 4(b)(ii).</p>
+  <p class="ptitle">Passage 4(b) – Les élèves français et l&#x27;enquête PISA</p>
+  <div class="player"><span class="plab">Passage 4(b)</span><audio controls preload="none" src="listening_paper_05_passage_4b.mp3"></audio></div>
+  <div class="qhead"><span class="qn"></span><span>(b) Écoutez la deuxième partie du reportage. Répondez en français.</span></div>
+  <p class="who">(i) Résumez ce que l&#x27;homme nous dit sur :</p>
+  <div class="item" data-t="open" data-k="q4b.key1.0" data-max="1" data-lab="4(b)(i) • l&#x27;écart entre élèves favorisés et défavorisés"><p class="q bul"><span class="sr">4(b)(i) </span>• l&#x27;écart entre élèves favorisés et défavorisés</p><textarea class="ans" rows="2" aria-label="4(b)(i)"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="q4b.key1.1" data-max="1" data-lab="4(b)(i) • la comparaison avec les autres pays"><p class="q bul"><span class="sr">4(b)(i) </span>• la comparaison avec les autres pays</p><textarea class="ans" rows="2" aria-label="4(b)(i)"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="q4b.key1.2" data-max="1" data-lab="4(b)(i) • le signe positif."><p class="q bul"><span class="sr">4(b)(i) </span>• le signe positif.</p><textarea class="ans" rows="2" aria-label="4(b)(i)"></textarea></div><p class="mark">(1)</p>
+  <p class="who">(ii) Résumez ce que la femme nous dit sur :</p>
+  <div class="item" data-t="open" data-k="q4b.key2.0" data-max="1" data-lab="4(b)(ii) • la compréhension de l&#x27;écrit"><p class="q bul"><span class="sr">4(b)(ii) </span>• la compréhension de l&#x27;écrit</p><textarea class="ans" rows="2" aria-label="4(b)(ii)"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="q4b.key2.1" data-max="1" data-lab="4(b)(ii) • la réaction du ministre"><p class="q bul"><span class="sr">4(b)(ii) </span>• la réaction du ministre</p><textarea class="ans" rows="2" aria-label="4(b)(ii)"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="q4b.key2.2" data-max="1" data-lab="4(b)(ii) • le redoublement."><p class="q bul"><span class="sr">4(b)(ii) </span>• le redoublement.</p><textarea class="ans" rows="2" aria-label="4(b)(ii)"></textarea></div><p class="mark">(1)</p>
+  <p class="total">(Total for Question 4 = 12 marks)</p>
+  <p class="grand">TOTAL FOR SECTION A = 30 MARKS</p>
+  <div class="lpbar"><button type="button" class="go" data-mark="A">Mark Section A only</button></div>
+  <div id="lp-res-A" class="lpres" aria-live="polite" hidden></div>
+  <p class="pageno">7</p>
+</section>
+
+<section class="sheet" id="secB">
+  <p class="sec">SECTION B</p><p class="sec">READING</p>
+  <p class="rec">We recommend you spend around 50 minutes on this section.</p>
+  <div class="instr"><p>Open-response questions do not have to be written in full sentences and you may respond using single words or phrases.</p>
+  <p>You may use words from the texts but you must not copy out whole sections.</p></div>
+  <div class="qhead"><span class="qn">5</span><span>Lisez l&#x27;article sur le congé de paternité.</span></div><div class="rtext"><p class="rtitle">Les pères et le congé de paternité</p><p>En juillet 2021, la réforme du congé de paternité a allongé sa durée de 11 à 25 jours et permis de le fractionner. Selon la Drees, le service statistique du ministère de la Santé, 65 % des pères qui en bénéficient ont pris la totalité des 25 jours, et 80 % l&#x27;ont pris en une seule fois.</p><p>Déjà avant la réforme, 71 % des pères concernés prenaient leur congé, contre 68 % en 2013, et 72 % le commençaient dans la semaine qui suivait la naissance.</p><p>Mais les écarts restent importants. 91 % des fonctionnaires et des salariés en CDI du public prennent leur congé, et 82 % des salariés en CDI du privé, mais seulement 51 % des pères en contrat court et 46 % des indépendants. Chez les pères au chômage indemnisés, ils ne sont que 13 %, peut-être parce qu&#x27;ils ignorent qu&#x27;ils y ont droit.</p></div><p class="lead2">Choisissez la bonne fin pour les phrases. Cochez la bonne fin pour les phrases.</p><div class="item mc" data-t="mc" data-k="B.q5.0" data-max="1" data-lab="5(i)"><p class="q"><span class="sr">5</span><span class="num">(i)</span> La réforme de 2021…</p><div role="radiogroup" aria-label="5(i)"><button type="button" class="opt" role="radio" aria-checked="false" data-v="A"><b>A</b> <span class="ot">a supprimé le congé de paternité.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="B"><b>B</b> <span class="ot">a allongé le congé de paternité.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="C"><b>C</b> <span class="ot">a rendu le congé payant.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="D"><b>D</b> <span class="ot">a réservé le congé aux mères.</span><span class="box" aria-hidden="true"></span></button></div><input type="text" class="sr mcval" name="B.q5_i" tabindex="-1" aria-hidden="true" readonly></div><div class="item mc" data-t="mc" data-k="B.q5.1" data-max="1" data-lab="5(ii)"><p class="q"><span class="sr">5</span><span class="num">(ii)</span> La plupart des pères…</p><div role="radiogroup" aria-label="5(ii)"><button type="button" class="opt" role="radio" aria-checked="false" data-v="A"><b>A</b> <span class="ot">divisent leur congé en plusieurs périodes.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="B"><b>B</b> <span class="ot">ne prennent jamais leur congé.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="C"><b>C</b> <span class="ot">prennent leur congé un an après la naissance.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="D"><b>D</b> <span class="ot">prennent leur congé en une seule fois.</span><span class="box" aria-hidden="true"></span></button></div><input type="text" class="sr mcval" name="B.q5_ii" tabindex="-1" aria-hidden="true" readonly></div><div class="item mc" data-t="mc" data-k="B.q5.2" data-max="1" data-lab="5(iii)"><p class="q"><span class="sr">5</span><span class="num">(iii)</span> Ceux qui prennent le moins leur congé sont…</p><div role="radiogroup" aria-label="5(iii)"><button type="button" class="opt" role="radio" aria-checked="false" data-v="A"><b>A</b> <span class="ot">les pères au chômage.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="B"><b>B</b> <span class="ot">les fonctionnaires.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="C"><b>C</b> <span class="ot">les salariés en CDI.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="D"><b>D</b> <span class="ot">les pères de jumeaux.</span><span class="box" aria-hidden="true"></span></button></div><input type="text" class="sr mcval" name="B.q5_iii" tabindex="-1" aria-hidden="true" readonly></div><div class="item mc" data-t="mc" data-k="B.q5.3" data-max="1" data-lab="5(iv)"><p class="q"><span class="sr">5</span><span class="num">(iv)</span> Selon la Drees, certains pères au chômage…</p><div role="radiogroup" aria-label="5(iv)"><button type="button" class="opt" role="radio" aria-checked="false" data-v="A"><b>A</b> <span class="ot">préfèrent travailler.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="B"><b>B</b> <span class="ot">ont trop d&#x27;argent.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="C"><b>C</b> <span class="ot">ne savent peut-être pas qu&#x27;ils y ont droit.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="D"><b>D</b> <span class="ot">refusent de s&#x27;occuper des enfants.</span><span class="box" aria-hidden="true"></span></button></div><input type="text" class="sr mcval" name="B.q5_iv" tabindex="-1" aria-hidden="true" readonly></div>
+  <p class="total">(Total for Question 5 = 4 marks)</p>
+</section>
+<section class="sheet">
+  <div class="qhead"><span class="qn">6</span><span>Lisez cet article sur la discrimination à l&#x27;embauche.</span></div><div class="rtext"><p class="rtitle">Un nom qui ferme des portes</p><p>Entre décembre 2019 et mai 2021, la Dares, le service statistique du ministère du Travail, a envoyé de fausses candidatures en réponse à 2 400 offres d&#x27;emploi, dans plus de 2 200 entreprises de France métropolitaine. Pour chaque offre, quatre candidatures étaient envoyées : elles ne se distinguaient que par le prénom et le nom, à consonance française ou maghrébine. Les métiers allaient de commis de cuisine à directeur de magasin.</p><p>Résultat : les candidats au nom d&#x27;origine maghrébine ont reçu 22,8 % de réponses positives, contre 33,3 % pour les autres, soit environ 32 % de chances en moins.</p><p>Ces discriminations se retrouvent dans les chiffres du chômage : les fils d&#x27;immigrés maghrébins connaissent un taux de chômage de 16,4 %, plus de dix points au-dessus des hommes sans ascendance migratoire. Et 32 % d&#x27;entre eux disent avoir déjà été injustement refusés pour un emploi.</p></div><p class="lead2">Quelles phrases sont correctes ? Cochez les quatre bonnes phrases :</p><div class="item mc" data-t="tick" data-k="B.q6" data-max="4" data-lab="6"><button type="button" class="opt tk" role="checkbox" aria-checked="false" data-v="A"><b>A</b> <span class="ot">L&#x27;étude s&#x27;est déroulée sur plusieurs mois.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt tk" role="checkbox" aria-checked="false" data-v="B"><b>B</b> <span class="ot">Les candidatures étaient envoyées par de vrais chômeurs.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt tk" role="checkbox" aria-checked="false" data-v="C"><b>C</b> <span class="ot">Les candidatures ne différaient que par le nom.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt tk" role="checkbox" aria-checked="false" data-v="D"><b>D</b> <span class="ot">L&#x27;étude ne concernait que des emplois peu qualifiés.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt tk" role="checkbox" aria-checked="false" data-v="E"><b>E</b> <span class="ot">Les candidats au nom maghrébin ont reçu moins de réponses positives.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt tk" role="checkbox" aria-checked="false" data-v="F"><b>F</b> <span class="ot">L&#x27;écart de réponses positives est inférieur à 5 %.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt tk" role="checkbox" aria-checked="false" data-v="G"><b>G</b> <span class="ot">Le chômage touche davantage les fils d&#x27;immigrés maghrébins.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt tk" role="checkbox" aria-checked="false" data-v="H"><b>H</b> <span class="ot">Aucun descendant d&#x27;immigré ne dit avoir subi de discrimination.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt tk" role="checkbox" aria-checked="false" data-v="I"><b>I</b> <span class="ot">L&#x27;étude a été menée dans un seul département.</span><span class="box" aria-hidden="true"></span></button><input type="text" class="sr mcval" name="B_q6" tabindex="-1" aria-hidden="true" readonly></div>
+  <p class="total">(Total for Question 6 = 4 marks)</p>
+</section>
+<section class="sheet">
+  <div class="qhead"><span class="qn">7</span><span>Lisez ce récit d&#x27;une lycéenne qui découvre une lettre de famille. Répondez aux questions en français.</span></div><div class="rtext"><p class="rtitle">La lettre dans la boîte à biscuits</p><p>Quand nous avons vidé la maison de mon arrière-grand-mère, au printemps dernier, j&#x27;ai trouvé une vieille boîte à biscuits au fond d&#x27;une armoire. Dedans, il y avait des photos jaunies, un ticket de rationnement et une lettre pliée en quatre, datée de 1943.</p><p>Elle était signée Lucien, mon arrière-grand-père. Il avait vingt et un ans. Il écrivait d&#x27;une usine en Allemagne, où il avait été envoyé au titre du Service du travail obligatoire. Il ne se plaignait presque pas. Il parlait du froid, de la soupe toujours trop claire, et demandait surtout des nouvelles de sa mère et du jardin. À la fin, il avait ajouté une phrase que je relis encore : « Ne t&#x27;inquiète pas, je rentrerai pour les cerises. »</p><p>Il est rentré en 1945, mais il n&#x27;en a jamais parlé à personne. Ma grand-mère ne savait même pas que cette lettre existait. Le soir même, je l&#x27;ai lue à voix haute à toute la famille. Personne n&#x27;a rien dit pendant un long moment.</p></div><div class="item" data-t="open" data-k="B.q7.0" data-max="2" data-lab="7(a)"><p class="q"><span class="sr">7</span><span class="num">(a)</span> Qu&#x27;a trouvé la narratrice dans la boîte ? Donnez deux détails.</p><textarea class="ans" rows="3" aria-label="Answer"></textarea></div><p class="mark">(2)</p>
+<div class="item" data-t="open" data-k="B.q7.1" data-max="1" data-lab="7(b)"><p class="q"><span class="sr">7</span><span class="num">(b)</span> Pourquoi Lucien se trouvait-il en Allemagne ?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="B.q7.2" data-max="2" data-lab="7(c)"><p class="q"><span class="sr">7</span><span class="num">(c)</span> De quoi Lucien parlait-il dans sa lettre ? Donnez deux détails.</p><textarea class="ans" rows="3" aria-label="Answer"></textarea></div><p class="mark">(2)</p>
+<div class="item" data-t="open" data-k="B.q7.3" data-max="1" data-lab="7(d)"><p class="q"><span class="sr">7</span><span class="num">(d)</span> Qu&#x27;est-ce qui montre que Lucien a gardé le silence après la guerre ?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+  <p class="total">(Total for Question 7 = 6 marks)</p>
+</section>
+<section class="sheet">
+  <div class="qhead"><span class="qn">8</span><span>Lisez cet article sur un grand festival de cinéma africain. Répondez aux questions en français.</span></div><div class="rtext"><p class="rtitle">Le Fespaco couronne un Burkinabè</p><p>Le 1er mars 2025, au palais de la culture de Ouagadougou, le cinéaste burkinabè Dani Kouyaté a remporté l&#x27;Étalon d&#x27;or de Yennenga, la plus haute récompense du Fespaco, le Festival panafricain du cinéma et de la télévision de Ouagadougou, pour son long métrage « Katanga, la danse des scorpions ». Le prix est accompagné d&#x27;une somme de 20 millions de francs CFA, d&#x27;une attestation et d&#x27;un trophée. Il lui a été remis par le président du Burkina Faso, le capitaine Ibrahim Traoré.</p><p>Cette victoire a une forte portée symbolique : cela faisait vingt-huit ans qu&#x27;un réalisateur burkinabè n&#x27;avait pas remporté le grand prix. Avant lui, seuls Idrissa Ouédraogo, en 1991, et Gaston Kaboré, en 1997, avaient obtenu cette distinction. Lors de l&#x27;édition précédente, l&#x27;Étalon d&#x27;or était revenu au Tunisien Youssef Chebbi.</p><p>Issu d&#x27;une famille de griots, Dani Kouyaté est à la fois cinéaste, conteur, musicien et metteur en scène ; il enseigne aujourd&#x27;hui à Uppsala, en Suède. La cérémonie a aussi rendu hommage au réalisateur malien Souleymane Cissé, président du jury, mort quelques jours plus tôt.</p></div><div class="item" data-t="open" data-k="B.q8.0" data-max="1" data-lab="8(a)"><p class="q"><span class="sr">8</span><span class="num">(a)</span> Quel prix Dani Kouyaté a-t-il remporté ?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="B.q8.1" data-max="2" data-lab="8(b)"><p class="q"><span class="sr">8</span><span class="num">(b)</span> Qu&#x27;a-t-il reçu en plus du trophée ? Donnez deux détails.</p><textarea class="ans" rows="3" aria-label="Answer"></textarea></div><p class="mark">(2)</p>
+<div class="item" data-t="open" data-k="B.q8.2" data-max="1" data-lab="8(c)"><p class="q"><span class="sr">8</span><span class="num">(c)</span> Qui lui a remis le prix ?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="B.q8.3" data-max="1" data-lab="8(d)"><p class="q"><span class="sr">8</span><span class="num">(d)</span> Pourquoi cette victoire est-elle symbolique ?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="B.q8.4" data-max="1" data-lab="8(e)"><p class="q"><span class="sr">8</span><span class="num">(e)</span> Que sait-on de la famille de Dani Kouyaté ?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="B.q8.5" data-max="2" data-lab="8(f)"><p class="q"><span class="sr">8</span><span class="num">(f)</span> Quelles activités exerce-t-il ? Donnez deux détails.</p><textarea class="ans" rows="3" aria-label="Answer"></textarea></div><p class="mark">(2)</p>
+  <p class="total">(Total for Question 8 = 8 marks)</p>
+</section>
+<section class="sheet">
+  <div class="qhead"><span class="qn">9</span><span>Lisez cet article sur une artiste entrée au Panthéon. Répondez aux questions en français.</span></div><div class="rtext"><p class="rtitle">Joséphine Baker au Panthéon</p><p>Le 30 novembre 2021, Joséphine Baker est entrée au Panthéon. Son corps reste à Monaco, au cimetière marin : c&#x27;est un cénotaphe qui lui rend hommage à Paris.</p><p>Née le 3 juin 1906 à Saint-Louis, dans le Missouri, elle triomphe à Paris dès 1925 dans la Revue nègre, au théâtre des Champs-Élysées. Mais l&#x27;artiste est aussi une femme engagée. Dès septembre 1939, elle rejoint le contre-espionnage français puis, en novembre 1940, les services secrets de la France libre, qu&#x27;elle sert jusqu&#x27;à la Libération.</p><p>Après la guerre, elle poursuit ses combats. Dans son château des Milandes, en Dordogne, qu&#x27;elle loue à partir de 1937 puis achète en 1947, elle adopte douze enfants de différentes origines, qu&#x27;elle appelle sa « tribu arc-en-ciel ». En 1963, elle participe à la marche de Martin Luther King à Washington, vêtue de son uniforme de l&#x27;armée française.</p></div><div class="item" data-t="open" data-k="B.q9.0" data-max="1" data-lab="9(a)"><p class="q"><span class="sr">9</span><span class="num">(a)</span> Pourquoi parle-t-on d&#x27;un cénotaphe ?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="B.q9.1" data-max="1" data-lab="9(b)"><p class="q"><span class="sr">9</span><span class="num">(b)</span> Quand Joséphine Baker a-t-elle connu le succès à Paris ?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="B.q9.2" data-max="2" data-lab="9(c)"><p class="q"><span class="sr">9</span><span class="num">(c)</span> Quel rôle a-t-elle joué pendant la guerre ? Donnez deux détails.</p><textarea class="ans" rows="3" aria-label="Answer"></textarea></div><p class="mark">(2)</p>
+<div class="item" data-t="open" data-k="B.q9.3" data-max="1" data-lab="9(d)"><p class="q"><span class="sr">9</span><span class="num">(d)</span> Jusqu&#x27;à quand a-t-elle servi la France libre ?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="B.q9.4" data-max="1" data-lab="9(e)"><p class="q"><span class="sr">9</span><span class="num">(e)</span> Qu&#x27;a-t-elle fait au château des Milandes ?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="B.q9.5" data-max="1" data-lab="9(f)"><p class="q"><span class="sr">9</span><span class="num">(f)</span> Pourquoi parlait-elle de « tribu arc-en-ciel » ?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="B.q9.6" data-max="1" data-lab="9(g)"><p class="q"><span class="sr">9</span><span class="num">(g)</span> Comment a-t-elle montré son engagement en 1963 ?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+  <p class="total">(Total for Question 9 = 8 marks)</p>
+  <p class="grand">TOTAL FOR SECTION B = 30 MARKS</p>
+  <div class="lpbar"><button type="button" class="go" data-mark="B">Mark Section B only</button></div>
+  <div id="lp-res-B" class="lpres" aria-live="polite" hidden></div>
+</section>
+
+<section class="sheet" id="secC">
+  <p class="sec">SECTION C</p><p class="sec">TRANSLATION INTO ENGLISH</p>
+  <p class="rec">We recommend you spend around 20 minutes on this section.</p>
+  <div class="qhead"><span class="qn">10</span><span>Translate the following article about the French language in the world into English.</span></div><p class="mark">(20)</p><div class="rtext"><p>Selon l&#x27;Organisation internationale de la Francophonie, le français compte 321 millions de locuteurs dans le monde. C&#x27;est la cinquième langue la plus parlée de la planète. Plus de cinquante millions de personnes l&#x27;apprennent comme langue étrangère, ce qui en fait la deuxième langue la plus apprise après l&#x27;anglais. L&#x27;avenir du français se joue surtout en Afrique : 80 % des élèves scolarisés en français vivent sur ce continent. Le français est une langue d&#x27;enseignement dans trente-six États et gouvernements, dont vingt-quatre en Afrique, dans l&#x27;océan Indien et au Proche-Orient. Depuis 2018, sa progression dans le monde ne s&#x27;est pas interrompue. Ces chiffres ont été publiés à l&#x27;occasion de la Journée internationale de la Francophonie, le 20 mars.</p></div><div class="item" data-t="trans" data-k="C" data-max="20" data-lab="10"><textarea class="ans" rows="12" aria-label="10 – translation"></textarea></div>
+  <p class="total">(Total for Question 10 = 20 marks)</p>
+  <p class="grand">TOTAL FOR SECTION C = 20 MARKS</p>
+  <div class="lpbar"><button type="button" class="go" data-mark="C">Mark Section C only</button></div>
+  <div id="lp-res-C" class="lpres" aria-live="polite" hidden></div>
+  <p class="grand">TOTAL FOR PAPER = 80 MARKS</p>
+  <div id="lp-bar" class="lpbar">
+    <button type="button" class="go" data-mark="all">Mark the whole paper</button>
+    <button type="button" id="lp-dl">Download results</button>
+    <button type="button" id="lp-reset">Start again</button>
+  </div>
+  <div id="lp-res" class="lpres" aria-live="polite" hidden></div>
+</section>
+
+<section class="sheet defi">
+  <p class="ptitle">Défi – after the paper (not marked, not part of the 80 marks)</p>
+  <p>For students aiming at the top grades.</p>
+  <ol>
+<li>Passage 3 : l&#x27;accord franco-britannique est-il une bonne solution ? Donnez votre avis en 80 mots, avec deux chiffres tirés de l&#x27;interview.<textarea class="ans" rows="3" aria-label="Défi 1"></textarea></li>
+<li>Passages 4(a) et 4(b) : proposez deux mesures pour réduire les inégalités scolaires en France. Justifiez-les en 80 mots.<textarea class="ans" rows="3" aria-label="Défi 2"></textarea></li>
+<li>Section B, question 7 : imaginez la réponse de la mère de Lucien. Écrivez une lettre de 80 mots.<textarea class="ans" rows="3" aria-label="Défi 3"></textarea></li>
+  </ol>
+</section>
+
+<section class="sheet">
+  <p class="ptitle">Source information:</p>
+  <p style="font-size:15px">The recordings and the reading and translation texts were written by the BBA French department from the facts in the sources below; the recordings are read by synthetic voices. The narrative text (« récit ») is original.</p>
+<p class="src"><b>La rafle du Vél d&#x27;Hiv</b><br><a href="https://www.defense.gouv.fr/chemins-memoire/histoire-memoires/ressources-historiques/seconde-guerre-mondiale/sort-juifs-tsiganes-1" target="_blank" rel="noopener">https://www.defense.gouv.fr/chemins-memoire/histoire-memoires/ressources-historiques/seconde-guerre-mondiale/sort-juifs-tsiganes-1</a></p>
+<p class="src"><b>Notre-Dame de Paris</b><br><a href="https://english.adnkronos.com/2024/11/29/france-notre-dame-towards-reopening-the-restoration-in-figures/" target="_blank" rel="noopener">https://english.adnkronos.com/2024/11/29/france-notre-dame-towards-reopening-the-restoration-in-figures/</a><br><a href="https://www.lagazettefrance.fr/article/a-notre-dame-de-paris-11-millions-de-visiteurs-un-an-apres-la-reouverture" target="_blank" rel="noopener">https://www.lagazettefrance.fr/article/a-notre-dame-de-paris-11-millions-de-visiteurs-un-an-apres-la-reouverture</a></p>
+<p class="src"><b>Traverser la Manche</b><br><a href="https://www.lecourrierdelatlas.com/?p=208609" target="_blank" rel="noopener">https://www.lecourrierdelatlas.com/?p=208609</a><br><a href="https://fr.hespress.com/472822-royaume-uni-plus-de-200-000-migrants-clandestins-ont-traverse-la-manche-depuis-2018.html" target="_blank" rel="noopener">https://fr.hespress.com/472822-royaume-uni-plus-de-200-000-migrants-clandestins-ont-traverse-la-manche-depuis-2018.html</a></p>
+<p class="src"><b>PISA</b><br><a href="https://www.letudiant.fr/lycee/pisa-2022-les-resultats-des-eleves-francais-en-baisse-mais-dans-la-moyenne-de-locde.html" target="_blank" rel="noopener">https://www.letudiant.fr/lycee/pisa-2022-les-resultats-des-eleves-francais-en-baisse-mais-dans-la-moyenne-de-locde.html</a></p>
+<p class="src"><b>Le congé de paternité</b><br><a href="https://drees.solidarites-sante.gouv.fr/publications-communique-de-presse/etudes-et-resultats/premiers-jours-de-lenfant-un-temps-de-plus-en" target="_blank" rel="noopener">https://drees.solidarites-sante.gouv.fr/publications-communique-de-presse/etudes-et-resultats/premiers-jours-de-lenfant-un-temps-de-plus-en</a></p>
+<p class="src"><b>La discrimination à l&#x27;embauche</b><br><a href="https://www.insee.fr/fr/statistiques/6793310" target="_blank" rel="noopener">https://www.insee.fr/fr/statistiques/6793310</a></p>
+<p class="src"><b>La lettre dans la boîte à biscuits</b><br>Récit original écrit par le département de français de BBA.</p>
+<p class="src"><b>Le Fespaco</b><br><a href="https://afrique.le360.ma/culture/fespaco-2025-le-burkinabe-dani-kouyate-sacre-etalon-dor-succedant-au-tunisien-youssef-chebbi_FBJO5XME55DYXE2BWJIBOM67JY/" target="_blank" rel="noopener">https://afrique.le360.ma/culture/fespaco-2025-le-burkinabe-dani-kouyate-sacre-etalon-dor-succedant-au-tunisien-youssef-chebbi_FBJO5XME55DYXE2BWJIBOM67JY/</a></p>
+<p class="src"><b>Joséphine Baker</b><br><a href="https://www.culture.gouv.fr/Actualites/Josephine-Baker-un-destin-francais" target="_blank" rel="noopener">https://www.culture.gouv.fr/Actualites/Josephine-Baker-un-destin-francais</a></p>
+<p class="src"><b>La Francophonie (traduction)</b><br><a href="https://www.centre-inffo.fr/?p=418510" target="_blank" rel="noopener">https://www.centre-inffo.fr/?p=418510</a></p>
+  <p class="credit">Voices: Piper TTS. <i>en_GB-cori-high</i> (announcer) – LibriVox recordings, public domain. <i>fr_FR-siwis-medium</i> – SIWIS French Speech Synthesis Database, licence CC BY 4.0. <i>fr_FR-upmc-medium</i> (voice “Jessica”) – UPMC Pierre data, MaryTTS project, licence CC BY-SA 4.0 (<a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener">creativecommons.org/licenses/by-sa/4.0</a>). <i>fr_FR-tom-medium</i> – French-tts-model-piper dataset, licence AGPLv3. The audio files of this paper are shared under the same licences.</p>
+</section>
+
+<script>
+(function(){
+  function paint(item){
+    var v=item.querySelector('.mcval').value, multi=item.dataset.t==='tick';
+    item.querySelectorAll('.opt').forEach(function(b){b.setAttribute('aria-checked', (multi ? v.indexOf(b.dataset.v)>=0 : b.dataset.v===v)?'true':'false');});
+  }
+  document.addEventListener('click',function(e){
+    var b=e.target.closest('.opt'); if(!b) return;
+    var item=b.closest('.item'), f=item.querySelector('.mcval');
+    if(item.dataset.t==='tick'){ var set=f.value.split('').filter(Boolean), k=set.indexOf(b.dataset.v); if(k>=0) set.splice(k,1); else set.push(b.dataset.v); f.value=set.sort().join(''); }
+    else f.value = (f.value===b.dataset.v) ? '' : b.dataset.v;
+    f.dispatchEvent(new Event('input',{bubbles:true})); f.dispatchEvent(new Event('change',{bubbles:true}));
+    paint(item);
+  });
+  /* keep the crosses in step with answers the kit restores after a reload */
+  setInterval(function(){document.querySelectorAll('.item.mc').forEach(paint);},800);
+})();
+</script>
+<script type="application/json" id="lp-key">{"q1": ["C", "A", "D", "B"], "q2": [{"ans": "Grâce aux dons du public (846 millions d'euros).", "pts": [[[["don", "846", "genero", "public"]]]]}, {"ans": "Les donateurs venaient de 150 pays.", "pts": [[[["150"]], [["pays"], ["monde", "etranger", "beaucoup"]]]]}, {"ans": "Environ onze millions de visiteurs la première année.", "pts": [[[["11", "onze"]], [["visiteur"]]]]}, {"ans": "Les travaux extérieurs continueront au-delà de 2030 AND il manque encore de l'argent.", "pts": [[[["2030", "exterieur", "travaux"]]], [[["argent", "manque", "financ"]]]]}], "q3": [{"ans": "Plus de 200 000 personnes sont arrivées par la Manche depuis 2018.", "pts": [[[["200"]]]]}, {"ans": "41 472 traversées : le deuxième chiffre le plus élevé (après 2022).", "pts": [[[["41", "deuxieme", "2e", "second"]]]]}, {"ans": "Any 2 from 5: Iran – Afghanistan – Irak – Érythrée – Albanie.", "pts": [[[["iran"]]], [[["afghan"]]], [[["irak"]]], [[["erythr"]]], [[["alban"]]]]}, {"ans": "Davantage de migrants viennent de pays africains.", "pts": [[[["afri"]]]]}, {"ans": "Les bateaux sont surchargés / au moins 29 morts en 2025.", "pts": [[[["surcharg", "70", "soixante-dix", "29", "mort", "noy"]]]]}, {"ans": "Les migrants arrivés par bateau peuvent être renvoyés en France AND le Royaume-Uni accueille légalement des migrants qui sont en France.", "pts": [[[["renvo", "retour", "expuls"]]], [[["accueil", "admi", "legal", "echange"]]]]}, {"ans": "Les associations de défense des droits humains le contestent / il n'a pas dissuadé les traversées / les chiffres sont modestes.", "pts": [[[["associat", "droits", "dissua", "modeste", "pas efficace", "continuent", "conteste", "peu"]]]]}], "q4a": [{"ans": "Les élèves de quinze ans.", "pts": [[[["15", "quinze"]]]]}, {"ans": "Il a fortement baissé (de 495 en 2012 à 474).", "pts": [[[["baiss", "diminu", "chute", "recul", "474", "495"]]]]}, {"ans": "Les sciences.", "pts": [[[["science"]]]]}, {"ans": "Dans la moyenne (au niveau de l'Espagne, de l'Allemagne, de la Hongrie).", "pts": [[[["moyenne", "espagne", "allemagne", "hongrie"]]]]}, {"ans": "Plus d'élèves en difficulté (22 % → 29 %) AND moins de très bons élèves (13 % → 7 %).", "pts": [[[["difficulte", "29", "22", "faible"]]], [[["bons", "7 %", "7%", "13", "excellent", "meilleur"]]]]}], "q4b": {"key1": [{"ans": "Il dépasse 112 points en mathématiques.", "pts": [[[["112", "important", "grand", "fort"]]]]}, {"ans": "C'est plus que la moyenne de l'OCDE (93 points) / l'origine sociale pèse plus lourd en France.", "pts": [[[["93", "ocde", "plus que", "plus lourd", "voisins", "autres pays"]]]]}, {"ans": "L'écart est un peu moins marqué qu'en 2012.", "pts": [[[["2012", "moins marque", "moins fort", "moins important", "reduit", "diminu"]]]]}], "key2": [{"ans": "La part des élèves en difficulté est passée de 21 % à près de 27 %.", "pts": [[[["27", "21", "plus d'eleves", "difficulte", "degrad"]]]]}, {"ans": "Gabriel Attal a annoncé de nouvelles mesures (pour élever le niveau).", "pts": [[[["mesure", "annonc"]]]]}, {"ans": "Il voulait lever le tabou du redoublement.", "pts": [[[["tabou", "lever", "autoris", "possible", "revenir", "permettre"]]]]}]}, "B": {"q5": ["B", "D", "A", "C"], "q6": ["A", "C", "E", "G"], "q7": [{"ans": "Any 2 from 3: des photos (jaunies) – un ticket de rationnement – une lettre (de 1943).", "pts": [[[["photo"]]], [[["ticket", "rationnement"]]], [[["lettre"]]]]}, {"ans": "Il avait été envoyé travailler dans une usine (Service du travail obligatoire / STO).", "pts": [[[["sto", "travail obligatoire", "travailler", "usine", "force"]]]]}, {"ans": "Any 2: le froid – la soupe trop claire – il demandait des nouvelles de sa mère – du jardin.", "pts": [[[["froid"]]], [[["soupe", "nourriture", "manger"]]], [[["mere", "nouvelles", "famille"]]], [[["jardin", "cerise"]]]]}, {"ans": "Il n'en a jamais parlé / sa fille ne savait pas que la lettre existait.", "pts": [[[["jamais", "pas parle", "silence", "personne", "savait pas"]]]]}], "q8": [{"ans": "L'Étalon d'or de Yennenga (la plus haute récompense du Fespaco).", "pts": [[[["etalon", "grand prix", "plus haute"]]]]}, {"ans": "20 millions de francs CFA AND une attestation.", "pts": [[[["20", "argent", "francs", "cfa", "somme"]]], [[["attestation"]]]]}, {"ans": "Le président du Burkina Faso, Ibrahim Traoré.", "pts": [[[["president", "traore"]]]]}, {"ans": "Aucun Burkinabè n'avait gagné depuis 28 ans.", "pts": [[[["28", "vingt-huit", "depuis"]]]]}, {"ans": "C'est une famille de griots.", "pts": [[[["griot"]]]]}, {"ans": "Any 2: cinéaste – conteur – musicien – metteur en scène – il enseigne (en Suède).", "pts": [[[["conteur", "conte"]]], [[["music"]]], [[["metteur", "scene"]]], [[["enseign", "professeur", "suede", "uppsala"]]]]}], "q9": [{"ans": "Son corps reste à Monaco.", "pts": [[[["monaco", "corps"]]]]}, {"ans": "En 1925 (dans la Revue nègre).", "pts": [[[["1925", "revue"]]]]}, {"ans": "Elle a rejoint le contre-espionnage (1939) AND les services secrets de la France libre (1940).", "pts": [[[["contre-espionnage", "contre espionnage", "1939", "espion"]]], [[["france libre", "services secrets", "1940"]]]]}, {"ans": "Jusqu'à la Libération.", "pts": [[[["liberation"]]]]}, {"ans": "Elle a adopté douze enfants.", "pts": [[[["adopt", "enfants", "12", "douze"]]]]}, {"ans": "Ses enfants étaient de différentes origines.", "pts": [[[["origine", "couleur", "pays", "differen"]]]]}, {"ans": "Elle a participé à la marche de Martin Luther King à Washington (en uniforme).", "pts": [[[["marche", "king", "washington"]]]]}]}, "C": [{"fr": "Selon l'Organisation internationale de la Francophonie,", "ans": "According to the International Organisation of La Francophonie,", "pts": [[[["according"], ["organi"]]]]}, {"fr": "le français compte 321 millions de locuteurs dans le monde.", "ans": "French has 321 million speakers in the world.", "pts": [[[["321"], ["speaker"]]]]}, {"fr": "C'est la cinquième langue", "ans": "It is the fifth language", "pts": [[[["fifth", "5th"]]]]}, {"fr": "la plus parlée de la planète.", "ans": "most spoken on the planet.", "pts": [[[["most"], ["spoken"], ["planet", "world", "earth", "globe"]]]]}, {"fr": "Plus de cinquante millions de personnes", "ans": "More than fifty million people", "pts": [[[["more than", "over"], ["fifty million", "50 million", "50,000,000"]]]]}, {"fr": "l'apprennent comme langue étrangère,", "ans": "learn it as a foreign language,", "pts": [[[["learn", "study", "studying", "learning"], ["foreign"]]]]}, {"fr": "ce qui en fait la deuxième langue la plus apprise", "ans": "which makes it the second most learnt language", "pts": [[[["second", "2nd"], ["most"], ["learn", "studied", "taught"]]]]}, {"fr": "après l'anglais.", "ans": "after English.", "pts": [[[["english"]]]]}, {"fr": "L'avenir du français", "ans": "The future of French", "pts": [[[["future"]]]]}, {"fr": "se joue surtout en Afrique :", "ans": "is being decided above all in Africa:", "pts": [[[["above all", "mainly", "especially", "mostly", "primarily", "chiefly", "in particular", "particularly", "largely"], ["africa"]]]]}, {"fr": "80 % des élèves", "ans": "80% of pupils", "pts": [[[["80"], ["pupil", "student", "learner", "schoolchildren", "children"]]]]}, {"fr": "scolarisés en français", "ans": "taught in French", "pts": [[[["taught in", "schooled in", "educated in", "study in", "in french-language", "learning in"]]]]}, {"fr": "vivent sur ce continent.", "ans": "live on that continent.", "pts": [[[["live", "living", "are on", "are based", "are found"], ["continent"]]]]}, {"fr": "Le français est une langue d'enseignement", "ans": "French is a language of instruction", "pts": [[[["language"], ["instruction", "teaching", "education", "schooling", "tuition"]]]]}, {"fr": "dans trente-six États et gouvernements,", "ans": "in thirty-six states and governments,", "pts": [[[["thirty-six", "36", "thirty six"], ["state", "countr"], ["government"]]]]}, {"fr": "dont vingt-quatre en Afrique, dans l'océan Indien et au Proche-Orient.", "ans": "including twenty-four in Africa, the Indian Ocean and the Near East.", "pts": [[[["twenty-four", "24", "twenty four"], ["indian ocean"], ["near east", "middle east"]]]]}, {"fr": "Depuis 2018,", "ans": "Since 2018,", "pts": [[[["since", "as of", "from"], ["2018"]]]]}, {"fr": "sa progression dans le monde", "ans": "its growth in the world", "pts": [[[["growth", "progress", "spread", "expansion", "rise", "advance"]]]]}, {"fr": "ne s'est pas interrompue.", "ans": "has not stopped.", "pts": [[[["not stop", "not been interrupted", "not halted", "not ceased", "continued", "uninterrupted", "not paused", "not slowed", "hasn't stopped", "never stopped", "unbroken", "continuous"]]]]}, {"fr": "Ces chiffres ont été publiés à l'occasion de la Journée internationale de la Francophonie, le 20 mars.", "ans": "These figures were published on the occasion of International Francophonie Day, on 20 March.", "pts": [[[["figure", "statistic", "number", "data"], ["publish", "released", "issued", "made public"], ["20"], ["march"]]]]}]}</script>
+<script src="paper-marker.js" defer></script>
+<script>window.BBA_KIT = Object.assign(window.BBA_KIT || {}, {check:false, download:false, name:false, meter:false, tries:0});</script>
+<script src="bba-kit-fr.js" defer></script>
+</body>
+</html>

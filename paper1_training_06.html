@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Paper 1 training 6 – 9FR0/01 practice</title>
+<style>
+:root{--ink:#111;--rule:#9a9a9a;--muted:#555;--paper:#fff;--bg:#e9e9e9}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Arial,Helvetica,sans-serif;font-size:17px;line-height:1.45}
+.sheet{background:var(--paper);max-width:820px;margin:24px auto;padding:40px 56px 32px;box-shadow:0 1px 4px rgba(0,0,0,.25);position:relative}
+@media (max-width:700px){.sheet{margin:0 0 8px;padding:24px 16px}}
+.pageno{text-align:center;color:var(--muted);font-size:13px;margin-top:28px}
+.cover h1{font-size:28px;margin:4px 0 0}
+.cover .board{font-size:15px;color:var(--muted)}
+.cover .ref{float:right;text-align:right;font-size:14px;border:1px solid var(--ink);padding:6px 10px}
+.cover hr{border:0;border-top:2px solid var(--ink);margin:18px 0}
+.cover h2{font-size:17px;margin:18px 0 4px}
+.cover ul{margin:4px 0;padding-left:20px}
+.sec{text-align:center;font-weight:bold;font-size:19px;letter-spacing:.5px;margin:0}
+.sec+.sec{margin-bottom:10px}
+.rec{text-align:center;font-weight:bold;margin:4px 0 16px}
+.instr p{margin:6px 0}
+.durs{margin:10px 0 10px 40%}
+@media (max-width:700px){.durs{margin-left:8%}}
+.durs div{margin:2px 0}
+.ptitle{font-weight:bold;font-size:18px;margin:0 0 10px}
+.qhead{display:flex;gap:14px;font-weight:bold;margin:0 0 12px}
+.qhead .qn{min-width:22px}
+.item{margin:0 0 0 36px;position:relative}
+.item.mc{margin-bottom:14px}
+@media (max-width:700px){.item{margin-left:6px}}
+.q{margin:0 0 6px}
+.num{display:inline-block;min-width:38px}
+.bul{padding-left:24px}
+.mark{text-align:right;font-weight:bold;margin:0 0 12px}
+.total{text-align:right;font-weight:bold;margin:18px 0 0}
+.grand{text-align:right;font-weight:bold;font-size:18px;margin:16px 0 0}
+textarea.ans{width:100%;border:0;border-bottom:1px dotted var(--rule);resize:vertical;font:inherit;line-height:32px;padding:0 4px;
+  background:repeating-linear-gradient(transparent 0 31px,var(--rule) 31px 32px);outline-offset:2px;min-height:64px}
+textarea.ans:focus{outline:2px solid #2b5797;background-color:#f7f9fd}
+.sr{position:absolute!important;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0;padding:0}
+.opt{display:flex;align-items:center;gap:12px;width:calc(100% - 38px);margin:6px 0 6px 38px;padding:4px 0;background:none;border:0;font:inherit;color:inherit;text-align:left;cursor:pointer}
+.opt b{min-width:16px}
+.opt .ot{flex:1}
+.box{width:30px;height:24px;border:1.5px solid var(--ink);flex:none;position:relative}
+.opt[aria-checked="true"] .box::after{content:"\2715";position:absolute;inset:0;display:grid;place-items:center;font-size:20px;font-weight:bold}
+.opt:focus-visible{outline:2px solid #2b5797;outline-offset:2px}
+.player{display:flex;align-items:center;gap:12px;flex-wrap:wrap;border:1px solid var(--rule);padding:8px 12px;margin:0 0 16px}
+.plab{font-weight:bold;font-size:15px}
+.player audio{flex:1;min-width:220px}
+.lead{font-weight:bold;margin:0 0 12px}
+.who{margin:14px 0 6px 36px;font-weight:bold}
+.src{margin:0 0 14px;font-size:15px;word-break:break-all}
+.src b{word-break:normal}
+.cand{display:block;margin:14px 0;font-weight:bold}
+.cand input{font:inherit;font-weight:normal;border:1px solid var(--ink);padding:6px 8px;width:min(340px,100%);margin-left:8px}
+.lpbar{display:flex;gap:10px;flex-wrap:wrap;justify-content:flex-end;margin:22px 0 0}
+.lpbar button{font:inherit;font-weight:bold;padding:9px 16px;border:1px solid #2b5797;background:#fff;color:#2b5797;cursor:pointer;border-radius:4px}
+.lpbar button.go{background:#2b5797;color:#fff}
+.lpres{border:2px solid #2b5797;padding:12px 16px;margin:14px 0 0;background:#f4f7fc}
+.lpres p{margin:4px 0}
+.fb{margin:-6px 0 14px 36px;padding:8px 12px;font-size:15px;border-left:4px solid #b0b0b0;background:#f6f6f6}
+.fb.full{border-color:#2e7d52;background:#eef7f1}
+.fb.part{border-color:#c98a00;background:#fdf6e6}
+.fb.zero{border-color:#b3261e;background:#fbeeed}
+.fb b{margin-right:6px}
+.locked textarea.ans,.locked .opt{pointer-events:none}
+.opt.right .box{background:#dff0e5}
+@media print{.lpbar,.fb,.lpres{display:none!important}}
+.rtext{border:1px solid var(--rule);padding:12px 16px;margin:0 0 16px;background:#fcfcfc}
+.rtext p{margin:0 0 10px;text-align:justify}
+.rtitle{font-weight:bold;text-align:center!important}
+.lead2{font-weight:bold;margin:12px 0 8px}
+.trans-fb table{border-collapse:collapse;width:100%;margin-top:8px;font-size:14px}
+.trans-fb td{border-top:1px solid #ddd;padding:4px 6px;vertical-align:top}
+.trans-fb td.ok{color:#2e7d52;font-weight:bold} .trans-fb td.no{color:#b3261e;font-weight:bold}
+.credit{font-size:13px;color:var(--muted);border-top:1px solid var(--rule);padding-top:10px;margin-top:22px}
+.defi ol{padding-left:22px}
+.defi li{margin-bottom:14px}
+@media print{body{background:#fff}.sheet{box-shadow:none;margin:0;page-break-after:always}.player,#bba-kit{display:none!important}}
+</style>
+</head>
+<body>
+
+<section class="sheet cover">
+  <div class="ref">Paper reference<br><b>9FR0/01</b><br>Paper 1 training 6</div>
+  <div class="board">BBA practice paper modelled on Pearson Edexcel Level 3 GCE</div>
+  <h1>French</h1>
+  <div><b>Advanced</b><br>PAPER 1: Listening, Reading and Translation<br>Paper 1 training 6 · All four themes · exam-ready</div>
+  <hr>
+  <label class="cand">Candidate name <input type="text" id="cand" autocomplete="name" placeholder="First name and initial"></label>
+  <p><b>You must have:</b> headphones or earphones. The recordings are on this page.</p>
+  <h2>Instructions</h2>
+  <ul>
+    <li>Type your name in the box above if you want it on your results file (optional).</li>
+    <li>Answer <b>all</b> questions in Sections A, B and C.</li>
+    <li>Candidates are recommended to start with Section A: Listening, and work through each section as presented.</li>
+    <li>Answer the questions in the spaces provided – there may be more space than you need.</li>
+    <li>We recommend you spend 50 minutes on Section A: Listening, 50 minutes on Section B: Reading and 20 minutes on Section C: Translation into English (2 hours in total).</li>
+    <li>You must not use a dictionary.</li>
+    <li>You can do one section at a time: each section ends with its own <b>Mark Section … only</b> button. To mark everything at once, press <b>Mark the whole paper</b> at the end of Section C.</li>
+    <li>Then press <b>Download results</b> at the end of Section C and send the file to your teacher: it contains every section you have marked.</li>
+  </ul>
+  <h2>Information</h2>
+  <ul>
+    <li>The total mark for this paper is 80.</li>
+    <li>The marks for each question are shown in brackets – use this as a guide as to how much time to spend on each question.</li>
+  </ul>
+  <h2>Advice</h2>
+  <ul>
+    <li>Read each question carefully before you start to answer it.</li>
+    <li>Try to answer every question.</li>
+    <li>Check your answers if you have time at the end.</li>
+  </ul>
+  <p class="pageno">1</p>
+</section>
+
+<section class="sheet">
+  <p style="margin-top:0">Answer ALL questions. Write your answers in the spaces provided.<br>
+  Some questions must be answered with a cross in a box ☒. If you change your mind about an answer, click another box.</p>
+  <p class="sec">SECTION A</p><p class="sec">LISTENING</p>
+  <p class="rec">We recommend you spend no more than 50 minutes on this section.</p>
+  <div class="instr">
+    <p>Questions 2, 3 and 4(a) do not require full sentences and you may respond using single words or phrases.</p>
+    <p>Summary Question 4(b) does not require full sentences and you may respond using short phrases.</p>
+    <p>You may use words from the listening passages but you must not transcribe whole sections.</p>
+    <p>You are going to listen to five passages. The duration of each passage is approximately:</p>
+    <div class="durs">
+      <div>Passage 1 = 1 minute 07 seconds</div><div>Passage 2 = 1 minute 18 seconds</div><div>Passage 3 = 2 minutes 09 seconds</div>
+      <div>Passage 4(a) = 1 minute 04 seconds</div><div>Passage 4(b) = 1 minute 18 seconds</div>
+    </div>
+    <p>You will be in charge of the recording and you may listen to each passage as often as you wish, and write your answers whenever you wish to do so.</p>
+  </div>
+  <p class="pageno">2</p>
+</section>
+
+<section class="sheet">
+  <p class="ptitle">Passage 1 – Les jeunes face à la hausse du chômage</p>
+  <div class="player"><span class="plab">Passage 1</span><audio controls preload="none" src="listening_paper_06_passage_1.mp3"></audio></div>
+  <div class="qhead"><span class="qn">1</span><span>Écoutez le reportage. Cochez la bonne fin pour les phrases.</span></div>
+  <div class="item mc" data-t="mc" data-k="q1.0" data-max="1" data-lab="1(i)"><p class="q"><span class="sr">1</span><span class="num">(i)</span> Fin 2025, le taux de chômage en France…</p><div role="radiogroup" aria-label="1(i)"><button type="button" class="opt" role="radio" aria-checked="false" data-v="A"><b>A</b> <span class="ot">a fortement baissé.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="B"><b>B</b> <span class="ot">a atteint 7,9 %.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="C"><b>C</b> <span class="ot">est passé sous la barre des 5 %.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="D"><b>D</b> <span class="ot">concerne surtout les retraités.</span><span class="box" aria-hidden="true"></span></button></div><input type="text" class="sr mcval" name="q1_i" tabindex="-1" aria-hidden="true" readonly></div><div class="item mc" data-t="mc" data-k="q1.1" data-max="1" data-lab="1(ii)"><p class="q"><span class="sr">1</span><span class="num">(ii)</span> Le chômage des jeunes de 15 à 24 ans…</p><div role="radiogroup" aria-label="1(ii)"><button type="button" class="opt" role="radio" aria-checked="false" data-v="A"><b>A</b> <span class="ot">est resté stable.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="B"><b>B</b> <span class="ot">a baissé d&#x27;un point.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="C"><b>C</b> <span class="ot">est inférieur à 10 %.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="D"><b>D</b> <span class="ot">a augmenté en trois mois.</span><span class="box" aria-hidden="true"></span></button></div><input type="text" class="sr mcval" name="q1_ii" tabindex="-1" aria-hidden="true" readonly></div><div class="item mc" data-t="mc" data-k="q1.2" data-max="1" data-lab="1(iii)"><p class="q"><span class="sr">1</span><span class="num">(iii)</span> La part des jeunes ni en emploi, ni en études, ni en formation…</p><div role="radiogroup" aria-label="1(iii)"><button type="button" class="opt" role="radio" aria-checked="false" data-v="A"><b>A</b> <span class="ot">a légèrement augmenté.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="B"><b>B</b> <span class="ot">a fortement baissé.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="C"><b>C</b> <span class="ot">a doublé en un an.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="D"><b>D</b> <span class="ot">n&#x27;est pas mesurée.</span><span class="box" aria-hidden="true"></span></button></div><input type="text" class="sr mcval" name="q1_iii" tabindex="-1" aria-hidden="true" readonly></div><div class="item mc" data-t="mc" data-k="q1.3" data-max="1" data-lab="1(iv)"><p class="q"><span class="sr">1</span><span class="num">(iv)</span> La hausse des inscriptions à France Travail…</p><div role="radiogroup" aria-label="1(iv)"><button type="button" class="opt" role="radio" aria-checked="false" data-v="A"><b>A</b> <span class="ot">ne concerne que les jeunes.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="B"><b>B</b> <span class="ot">est due à la météo.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="C"><b>C</b> <span class="ot">s&#x27;explique en partie par des réformes.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="D"><b>D</b> <span class="ot">a été annulée.</span><span class="box" aria-hidden="true"></span></button></div><input type="text" class="sr mcval" name="q1_iv" tabindex="-1" aria-hidden="true" readonly></div>
+  <p class="total">(Total for Question 1 = 4 marks)</p>
+  <p class="pageno">3</p>
+</section>
+
+<section class="sheet">
+  <p class="ptitle">Passage 2 – La libération de Paris</p>
+  <div class="player"><span class="plab">Passage 2</span><audio controls preload="none" src="listening_paper_06_passage_2.mp3"></audio></div>
+  <div class="qhead"><span class="qn">2</span><span>Écoutez l&#x27;interview sur la libération de Paris en août 1944. Répondez aux questions en français.</span></div>
+  <div class="item" data-t="open" data-k="q2.0" data-max="1" data-lab="2(a)"><p class="q"><span class="sr">2</span><span class="num">(a)</span> Qui a rejoint la grève générale le 15 août ?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="q2.1" data-max="1" data-lab="2(b)"><p class="q"><span class="sr">2</span><span class="num">(b)</span> Quel rôle le colonel Rol-Tanguy a-t-il joué ?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="q2.2" data-max="1" data-lab="2(c)"><p class="q"><span class="sr">2</span><span class="num">(c)</span> Qu&#x27;est-il arrivé à la trêve conclue le 20 août ?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="q2.3" data-max="2" data-lab="2(d)"><p class="q"><span class="sr">2</span><span class="num">(d)</span> Que s&#x27;est-il passé le 25 août ? Donnez deux détails.</p><textarea class="ans" rows="3" aria-label="Answer"></textarea></div><p class="mark">(2)</p>
+  <p class="total">(Total for Question 2 = 5 marks)</p>
+  <p class="pageno">4</p>
+</section>
+
+<section class="sheet">
+  <p class="ptitle">Passage 3 – Législatives 2024 : le front républicain</p>
+  <div class="player"><span class="plab">Passage 3</span><audio controls preload="none" src="listening_paper_06_passage_3.mp3"></audio></div>
+  <div class="qhead"><span class="qn">3</span><span>Écoutez l&#x27;interview sur les élections législatives de 2024. Répondez aux questions en français.</span></div>
+  <div class="item" data-t="open" data-k="q3.0" data-max="1" data-lab="3(a)"><p class="q"><span class="sr">3</span><span class="num">(a)</span> Pourquoi le résultat a-t-il surpris ?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="q3.1" data-max="1" data-lab="3(b)"><p class="q"><span class="sr">3</span><span class="num">(b)</span> Combien de sièges le Nouveau Front populaire a-t-il obtenus ?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="q3.2" data-max="1" data-lab="3(c)"><p class="q"><span class="sr">3</span><span class="num">(c)</span> Combien de sièges le camp présidentiel a-t-il obtenus ?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="q3.3" data-max="2" data-lab="3(d)"><p class="q"><span class="sr">3</span><span class="num">(d)</span> En quoi consiste le « front républicain » ? Donnez deux détails.</p><textarea class="ans" rows="3" aria-label="Answer"></textarea></div><p class="mark">(2)</p>
+<div class="item" data-t="open" data-k="q3.4" data-max="2" data-lab="3(e)"><p class="q"><span class="sr">3</span><span class="num">(e)</span> Pourquoi parle-t-on d&#x27;un résultat « en trompe-l&#x27;œil » ? Donnez deux détails.</p><textarea class="ans" rows="3" aria-label="Answer"></textarea></div><p class="mark">(2)</p>
+<div class="item" data-t="open" data-k="q3.5" data-max="1" data-lab="3(f)"><p class="q"><span class="sr">3</span><span class="num">(f)</span> Comment sait-on que les électeurs se sont mobilisés ?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="q3.6" data-max="1" data-lab="3(g)"><p class="q"><span class="sr">3</span><span class="num">(g)</span> Quelle est la conséquence pour l&#x27;Assemblée nationale ?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+  <p class="total">(Total for Question 3 = 9 marks)</p>
+  <p class="pageno">5</p>
+</section>
+
+<section class="sheet">
+  <p class="ptitle">Passage 4(a) – Le pass Culture divisé par deux</p>
+  <div class="player"><span class="plab">Passage 4(a)</span><audio controls preload="none" src="listening_paper_06_passage_4a.mp3"></audio></div>
+  <div class="qhead"><span class="qn">4</span><span>(a) Écoutez le reportage sur la réforme du pass Culture. Répondez aux questions en français.</span></div>
+  <div class="item" data-t="open" data-k="q4a.0" data-max="1" data-lab="4(a)(i)"><p class="q"><span class="sr">4(a)</span><span class="num">(i)</span> Quand le pass Culture a-t-il été étendu à tous les jeunes ?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="q4a.1" data-max="1" data-lab="4(a)(ii)"><p class="q"><span class="sr">4(a)</span><span class="num">(ii)</span> Qu&#x27;est-ce qui a changé pour les jeunes de dix-huit ans ?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="q4a.2" data-max="1" data-lab="4(a)(iii)"><p class="q"><span class="sr">4(a)</span><span class="num">(iii)</span> Qui reçoit une somme supplémentaire ?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="q4a.3" data-max="2" data-lab="4(a)(iv)"><p class="q"><span class="sr">4(a)</span><span class="num">(iv)</span> Qu&#x27;est-ce qui a changé pour les jeunes de dix-sept ans et pour les plus jeunes ? Donnez deux détails.</p><textarea class="ans" rows="3" aria-label="Answer"></textarea></div><p class="mark">(2)</p>
+<div class="item" data-t="open" data-k="q4a.4" data-max="1" data-lab="4(a)(v)"><p class="q"><span class="sr">4(a)</span><span class="num">(v)</span> À quoi servait la part collective ?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+  <p class="pageno">6</p>
+</section>
+
+<section class="sheet">
+  <p class="lead">Résumez le reportage suivant. Des phrases courtes suffisent. Donnez trois détails pour la question 4(b)(i) et trois détails pour la question 4(b)(ii).</p>
+  <p class="ptitle">Passage 4(b) – Le pass Culture divisé par deux</p>
+  <div class="player"><span class="plab">Passage 4(b)</span><audio controls preload="none" src="listening_paper_06_passage_4b.mp3"></audio></div>
+  <div class="qhead"><span class="qn"></span><span>(b) Écoutez la deuxième partie du reportage. Répondez en français.</span></div>
+  <p class="who">(i) Résumez ce que l&#x27;homme nous dit sur :</p>
+  <div class="item" data-t="open" data-k="q4b.key1.0" data-max="1" data-lab="4(b)(i) • le budget du pass Culture"><p class="q bul"><span class="sr">4(b)(i) </span>• le budget du pass Culture</p><textarea class="ans" rows="2" aria-label="4(b)(i)"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="q4b.key1.1" data-max="1" data-lab="4(b)(i) • la part collective"><p class="q bul"><span class="sr">4(b)(i) </span>• la part collective</p><textarea class="ans" rows="2" aria-label="4(b)(i)"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="q4b.key1.2" data-max="1" data-lab="4(b)(i) • la justification du gouvernement."><p class="q bul"><span class="sr">4(b)(i) </span>• la justification du gouvernement.</p><textarea class="ans" rows="2" aria-label="4(b)(i)"></textarea></div><p class="mark">(1)</p>
+  <p class="who">(ii) Résumez ce que la femme nous dit sur :</p>
+  <div class="item" data-t="open" data-k="q4b.key2.0" data-max="1" data-lab="4(b)(ii) • les lectures des jeunes"><p class="q bul"><span class="sr">4(b)(ii) </span>• les lectures des jeunes</p><textarea class="ans" rows="2" aria-label="4(b)(ii)"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="q4b.key2.1" data-max="1" data-lab="4(b)(ii) • la découverte de lieux culturels"><p class="q bul"><span class="sr">4(b)(ii) </span>• la découverte de lieux culturels</p><textarea class="ans" rows="2" aria-label="4(b)(ii)"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="q4b.key2.2" data-max="1" data-lab="4(b)(ii) • la position des libraires."><p class="q bul"><span class="sr">4(b)(ii) </span>• la position des libraires.</p><textarea class="ans" rows="2" aria-label="4(b)(ii)"></textarea></div><p class="mark">(1)</p>
+  <p class="total">(Total for Question 4 = 12 marks)</p>
+  <p class="grand">TOTAL FOR SECTION A = 30 MARKS</p>
+  <div class="lpbar"><button type="button" class="go" data-mark="A">Mark Section A only</button></div>
+  <div id="lp-res-A" class="lpres" aria-live="polite" hidden></div>
+  <p class="pageno">7</p>
+</section>
+
+<section class="sheet" id="secB">
+  <p class="sec">SECTION B</p><p class="sec">READING</p>
+  <p class="rec">We recommend you spend around 50 minutes on this section.</p>
+  <div class="instr"><p>Open-response questions do not have to be written in full sentences and you may respond using single words or phrases.</p>
+  <p>You may use words from the texts but you must not copy out whole sections.</p></div>
+  <div class="qhead"><span class="qn">5</span><span>Lisez l&#x27;article sur un village martyr.</span></div><div class="rtext"><p class="rtitle">Oradour-sur-Glane, village martyr</p><p>Le 10 juin 1944, quatre jours après le débarquement en Normandie, la division SS « Das Reich » massacre en un seul après-midi la population d&#x27;Oradour-sur-Glane, en Haute-Vienne : 642 personnes, dont 205 hommes, 244 femmes et 193 enfants. Le village est ensuite pillé et incendié.</p><p>Dès le 4 mars 1945, le général de Gaulle décide de faire du village un symbole des souffrances de la France. En 1946, une loi prévoit de conserver les ruines telles qu&#x27;elles étaient, et un nouveau village est construit à côté. Le procès de Bordeaux, en 1953, ne satisfait personne.</p><p>Depuis 1999, un Centre de la mémoire accueille les visiteurs. Aujourd&#x27;hui, près de 300 000 personnes viennent chaque année parcourir les rues du village détruit.</p></div><p class="lead2">Choisissez la bonne fin pour les phrases. Cochez la bonne fin pour les phrases.</p><div class="item mc" data-t="mc" data-k="B.q5.0" data-max="1" data-lab="5(i)"><p class="q"><span class="sr">5</span><span class="num">(i)</span> Les victimes du massacre…</p><div role="radiogroup" aria-label="5(i)"><button type="button" class="opt" role="radio" aria-checked="false" data-v="A"><b>A</b> <span class="ot">étaient uniquement des soldats.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="B"><b>B</b> <span class="ot">étaient des résistants armés.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="C"><b>C</b> <span class="ot">ont toutes survécu.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="D"><b>D</b> <span class="ot">étaient des hommes, des femmes et des enfants.</span><span class="box" aria-hidden="true"></span></button></div><input type="text" class="sr mcval" name="B.q5_i" tabindex="-1" aria-hidden="true" readonly></div><div class="item mc" data-t="mc" data-k="B.q5.1" data-max="1" data-lab="5(ii)"><p class="q"><span class="sr">5</span><span class="num">(ii)</span> Après la guerre, on a décidé…</p><div role="radiogroup" aria-label="5(ii)"><button type="button" class="opt" role="radio" aria-checked="false" data-v="A"><b>A</b> <span class="ot">de reconstruire le village au même endroit.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="B"><b>B</b> <span class="ot">de détruire les ruines.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="C"><b>C</b> <span class="ot">de conserver les ruines.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="D"><b>D</b> <span class="ot">d&#x27;oublier le massacre.</span><span class="box" aria-hidden="true"></span></button></div><input type="text" class="sr mcval" name="B.q5_ii" tabindex="-1" aria-hidden="true" readonly></div><div class="item mc" data-t="mc" data-k="B.q5.2" data-max="1" data-lab="5(iii)"><p class="q"><span class="sr">5</span><span class="num">(iii)</span> Le procès de Bordeaux…</p><div role="radiogroup" aria-label="5(iii)"><button type="button" class="opt" role="radio" aria-checked="false" data-v="A"><b>A</b> <span class="ot">a satisfait les familles.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="B"><b>B</b> <span class="ot">n&#x27;a satisfait personne.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="C"><b>C</b> <span class="ot">n&#x27;a jamais eu lieu.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="D"><b>D</b> <span class="ot">s&#x27;est tenu en 1944.</span><span class="box" aria-hidden="true"></span></button></div><input type="text" class="sr mcval" name="B.q5_iii" tabindex="-1" aria-hidden="true" readonly></div><div class="item mc" data-t="mc" data-k="B.q5.3" data-max="1" data-lab="5(iv)"><p class="q"><span class="sr">5</span><span class="num">(iv)</span> Aujourd&#x27;hui, Oradour…</p><div role="radiogroup" aria-label="5(iv)"><button type="button" class="opt" role="radio" aria-checked="false" data-v="A"><b>A</b> <span class="ot">reçoit des centaines de milliers de visiteurs par an.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="B"><b>B</b> <span class="ot">est fermé au public.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="C"><b>C</b> <span class="ot">est habité dans les ruines.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="D"><b>D</b> <span class="ot">n&#x27;a aucun lieu d&#x27;accueil.</span><span class="box" aria-hidden="true"></span></button></div><input type="text" class="sr mcval" name="B.q5_iv" tabindex="-1" aria-hidden="true" readonly></div>
+  <p class="total">(Total for Question 5 = 4 marks)</p>
+</section>
+<section class="sheet">
+  <div class="qhead"><span class="qn">6</span><span>Lisez cet article sur l&#x27;accueil des réfugiés ukrainiens en France.</span></div><div class="rtext"><p class="rtitle">Accueillir les réfugiés d&#x27;Ukraine</p><p>Selon un rapport de la Cour des comptes publié en mars 2023, la France a accueilli environ 115 000 personnes venues d&#x27;Ukraine depuis le début de la guerre, principalement des femmes et des enfants. C&#x27;est un peu plus que les 100 000 prévues au départ par le gouvernement.</p><p>Pour les loger, quelque 87 000 places d&#x27;hébergement ont été créées : centres d&#x27;accueil, hôtels, et même un ferry réquisitionné à Marseille. L&#x27;hébergement citoyen, chez des particuliers, représentait 43 % des solutions à la fin de l&#x27;été 2022. Les réfugiés ont tendance à vouloir rester dans les grandes villes.</p><p>Plus de 19 000 enfants ukrainiens ont été scolarisés, sans qu&#x27;il soit nécessaire d&#x27;ouvrir de nouvelles classes, car le nombre d&#x27;élèves français diminuait. Le dispositif de protection temporaire a coûté environ 634 millions d&#x27;euros à l&#x27;État et à la Sécurité sociale en 2022.</p></div><p class="lead2">Quelles phrases sont correctes ? Cochez les quatre bonnes phrases :</p><div class="item mc" data-t="tick" data-k="B.q6" data-max="4" data-lab="6"><button type="button" class="opt tk" role="checkbox" aria-checked="false" data-v="A"><b>A</b> <span class="ot">La plupart des réfugiés ukrainiens sont des femmes et des enfants.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt tk" role="checkbox" aria-checked="false" data-v="B"><b>B</b> <span class="ot">La France a accueilli moins de réfugiés que prévu.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt tk" role="checkbox" aria-checked="false" data-v="C"><b>C</b> <span class="ot">Des particuliers ont hébergé une partie des réfugiés.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt tk" role="checkbox" aria-checked="false" data-v="D"><b>D</b> <span class="ot">Les réfugiés préfèrent s&#x27;installer à la campagne.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt tk" role="checkbox" aria-checked="false" data-v="E"><b>E</b> <span class="ot">Il a fallu ouvrir beaucoup de nouvelles classes.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt tk" role="checkbox" aria-checked="false" data-v="F"><b>F</b> <span class="ot">Le nombre d&#x27;élèves français était en baisse.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt tk" role="checkbox" aria-checked="false" data-v="G"><b>G</b> <span class="ot">L&#x27;accueil a eu un coût important pour l&#x27;État.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt tk" role="checkbox" aria-checked="false" data-v="H"><b>H</b> <span class="ot">Tous les réfugiés ont été logés dans des hôtels.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt tk" role="checkbox" aria-checked="false" data-v="I"><b>I</b> <span class="ot">La Cour des comptes a publié son rapport en 2020.</span><span class="box" aria-hidden="true"></span></button><input type="text" class="sr mcval" name="B_q6" tabindex="-1" aria-hidden="true" readonly></div>
+  <p class="total">(Total for Question 6 = 4 marks)</p>
+</section>
+<section class="sheet">
+  <div class="qhead"><span class="qn">7</span><span>Lisez ce récit d&#x27;un lycéen qui raconte son stage. Répondez aux questions en français.</span></div><div class="rtext"><p class="rtitle">Deux semaines chez le menuisier</p><p>En juin dernier, comme tous les élèves de seconde, j&#x27;ai dû faire un stage de deux semaines en milieu professionnel. Mes amis avaient trouvé des places dans des bureaux, des banques ou des cabinets d&#x27;avocats, souvent grâce à leurs parents. Moi, je n&#x27;avais aucun contact. Après une dizaine de refus, c&#x27;est un menuisier de mon quartier, Monsieur Ferrand, qui a accepté de me prendre.</p><p>Le premier matin, il m&#x27;a tendu un balai. « Dans un atelier, on commence par ranger », m&#x27;a-t-il dit. J&#x27;étais vexé. Mais le troisième jour, il m&#x27;a appris à poncer une planche, puis à prendre des mesures sans me tromper. Il répétait sans cesse : « Mesurer deux fois, couper une fois. »</p><p>À la fin du stage, nous avions fabriqué ensemble une petite bibliothèque pour une école maternelle. Quand les enfants ont rangé leurs albums dedans, j&#x27;ai ressenti une fierté que je n&#x27;avais jamais connue au lycée. Je ne sais pas encore si je deviendrai menuisier. Mais je sais désormais que travailler de ses mains, c&#x27;est aussi réfléchir.</p></div><div class="item" data-t="open" data-k="B.q7.0" data-max="2" data-lab="7(a)"><p class="q"><span class="sr">7</span><span class="num">(a)</span> Pourquoi le narrateur a-t-il eu du mal à trouver un stage ? Donnez deux détails.</p><textarea class="ans" rows="3" aria-label="Answer"></textarea></div><p class="mark">(2)</p>
+<div class="item" data-t="open" data-k="B.q7.1" data-max="1" data-lab="7(b)"><p class="q"><span class="sr">7</span><span class="num">(b)</span> Pourquoi était-il vexé le premier jour ?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="B.q7.2" data-max="2" data-lab="7(c)"><p class="q"><span class="sr">7</span><span class="num">(c)</span> Qu&#x27;a-t-il appris ensuite ? Donnez deux détails.</p><textarea class="ans" rows="3" aria-label="Answer"></textarea></div><p class="mark">(2)</p>
+<div class="item" data-t="open" data-k="B.q7.3" data-max="1" data-lab="7(d)"><p class="q"><span class="sr">7</span><span class="num">(d)</span> Qu&#x27;est-ce que ce stage lui a fait comprendre ?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+  <p class="total">(Total for Question 7 = 6 marks)</p>
+</section>
+<section class="sheet">
+  <div class="qhead"><span class="qn">8</span><span>Lisez cet article sur le financement de la télévision publique. Répondez aux questions en français.</span></div><div class="rtext"><p class="rtitle">La fin de la redevance télé</p><p>Pendant des décennies, les foyers équipés d&#x27;un téléviseur payaient la contribution à l&#x27;audiovisuel public, plus connue sous le nom de redevance. En 2022, elle s&#x27;élevait à 138 euros par an en métropole et à 88 euros en outre-mer, et elle était payée par 23 millions de foyers. Elle rapportait 3,1 milliards d&#x27;euros, auxquels l&#x27;État ajoutait 653,5 millions pour compenser les foyers exonérés.</p><p>Le 23 juillet 2022, l&#x27;Assemblée nationale a voté sa suppression en première lecture, par 170 voix contre 57. Pour financer France Télévisions, Radio France, Arte, France Médias Monde et l&#x27;INA, le Parlement a choisi de leur attribuer une fraction de la TVA, soit environ 3,7 milliards d&#x27;euros.</p><p>La mesure a suscité des débats. La France insoumise proposait plutôt une contribution progressive selon les revenus. Le Rassemblement national soutenait la suppression, mais voulait privatiser France Télévisions et Radio France. Même dans la majorité, une députée reconnaissait que le nouveau système ne serait « pas plus facile à expliquer aux Français ».</p></div><div class="item" data-t="open" data-k="B.q8.0" data-max="1" data-lab="8(a)"><p class="q"><span class="sr">8</span><span class="num">(a)</span> Qui payait la redevance ?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="B.q8.1" data-max="2" data-lab="8(b)"><p class="q"><span class="sr">8</span><span class="num">(b)</span> Combien coûtait la redevance ? Donnez deux détails.</p><textarea class="ans" rows="3" aria-label="Answer"></textarea></div><p class="mark">(2)</p>
+<div class="item" data-t="open" data-k="B.q8.2" data-max="1" data-lab="8(c)"><p class="q"><span class="sr">8</span><span class="num">(c)</span> Quel rôle l&#x27;État jouait-il en plus ?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="B.q8.3" data-max="1" data-lab="8(d)"><p class="q"><span class="sr">8</span><span class="num">(d)</span> Comment l&#x27;audiovisuel public est-il financé depuis la suppression ?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="B.q8.4" data-max="1" data-lab="8(e)"><p class="q"><span class="sr">8</span><span class="num">(e)</span> Que proposait La France insoumise ?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="B.q8.5" data-max="2" data-lab="8(f)"><p class="q"><span class="sr">8</span><span class="num">(f)</span> Quelle était la position du Rassemblement national ? Donnez deux détails.</p><textarea class="ans" rows="3" aria-label="Answer"></textarea></div><p class="mark">(2)</p>
+  <p class="total">(Total for Question 8 = 8 marks)</p>
+</section>
+<section class="sheet">
+  <div class="qhead"><span class="qn">9</span><span>Lisez cet article sur la réforme des retraites de 2023. Répondez aux questions en français.</span></div><div class="rtext"><p class="rtitle">Retraites : la réforme de 2023</p><p>Le 14 avril 2023, le Conseil constitutionnel a validé l&#x27;essentiel de la réforme des retraites, publiée au Journal officiel dès le lendemain. Elle prévoit de relever l&#x27;âge légal de départ de trois mois par génération, pour atteindre 64 ans en 2030. Les premiers concernés sont les personnes nées à partir du 1er septembre 1961. La durée de cotisation nécessaire pour une retraite à taux plein atteint, elle, 43 ans dès 2027.</p><p>Le dispositif de départ anticipé pour carrière longue est maintenu : ceux qui ont commencé à travailler avant seize ans pourront partir à 58 ans, et ceux qui ont commencé entre seize et dix-huit ans, à 60 ans.</p><p>Le Conseil constitutionnel a cependant censuré plusieurs mesures, comme l&#x27;« index senior » et le « CDI senior ». Il a aussi rejeté une demande de référendum d&#x27;initiative partagée sur la réforme.</p></div><div class="item" data-t="open" data-k="B.q9.0" data-max="1" data-lab="9(a)"><p class="q"><span class="sr">9</span><span class="num">(a)</span> Qu&#x27;a décidé le Conseil constitutionnel le 14 avril 2023 ?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="B.q9.1" data-max="2" data-lab="9(b)"><p class="q"><span class="sr">9</span><span class="num">(b)</span> Comment l&#x27;âge légal de départ évolue-t-il ? Donnez deux détails.</p><textarea class="ans" rows="3" aria-label="Answer"></textarea></div><p class="mark">(2)</p>
+<div class="item" data-t="open" data-k="B.q9.2" data-max="1" data-lab="9(c)"><p class="q"><span class="sr">9</span><span class="num">(c)</span> Qui sont les premiers concernés ?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="B.q9.3" data-max="1" data-lab="9(d)"><p class="q"><span class="sr">9</span><span class="num">(d)</span> Qu&#x27;est-ce qui change pour la durée de cotisation ?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="B.q9.4" data-max="1" data-lab="9(e)"><p class="q"><span class="sr">9</span><span class="num">(e)</span> Quelle exception est maintenue ?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="B.q9.5" data-max="2" data-lab="9(f)"><p class="q"><span class="sr">9</span><span class="num">(f)</span> Qu&#x27;est-ce que le Conseil constitutionnel a refusé ? Donnez deux détails.</p><textarea class="ans" rows="3" aria-label="Answer"></textarea></div><p class="mark">(2)</p>
+  <p class="total">(Total for Question 9 = 8 marks)</p>
+  <p class="grand">TOTAL FOR SECTION B = 30 MARKS</p>
+  <div class="lpbar"><button type="button" class="go" data-mark="B">Mark Section B only</button></div>
+  <div id="lp-res-B" class="lpres" aria-live="polite" hidden></div>
+</section>
+
+<section class="sheet" id="secC">
+  <p class="sec">SECTION C</p><p class="sec">TRANSLATION INTO ENGLISH</p>
+  <p class="rec">We recommend you spend around 20 minutes on this section.</p>
+  <div class="qhead"><span class="qn">10</span><span>Translate the following article about the children of Izieu into English.</span></div><p class="mark">(20)</p><div class="rtext"><p>Entre 1943 et 1944, Sabine et Miron Zlatin ont accueilli plus d&#x27;une centaine d&#x27;enfants juifs dans une maison d&#x27;Izieu, dans l&#x27;Ain. Le matin du 6 avril 1944, le chef de la Gestapo de Lyon, Klaus Barbie, a fait arrêter quarante-quatre enfants et sept éducateurs. Deux adolescents et Miron Zlatin ont été tués en Estonie. Tous les autres ont été déportés à Auschwitz, où ils ont été assassinés dès leur arrivée. Une seule adulte, Léa Feldblum, a survécu. Lors du procès de Klaus Barbie, à Lyon, en 1987, un télex qu&#x27;il avait envoyé a servi de preuve. Depuis 1994, un mémorial rend hommage aux enfants d&#x27;Izieu.</p></div><div class="item" data-t="trans" data-k="C" data-max="20" data-lab="10"><textarea class="ans" rows="12" aria-label="10 – translation"></textarea></div>
+  <p class="total">(Total for Question 10 = 20 marks)</p>
+  <p class="grand">TOTAL FOR SECTION C = 20 MARKS</p>
+  <div class="lpbar"><button type="button" class="go" data-mark="C">Mark Section C only</button></div>
+  <div id="lp-res-C" class="lpres" aria-live="polite" hidden></div>
+  <p class="grand">TOTAL FOR PAPER = 80 MARKS</p>
+  <div id="lp-bar" class="lpbar">
+    <button type="button" class="go" data-mark="all">Mark the whole paper</button>
+    <button type="button" id="lp-dl">Download results</button>
+    <button type="button" id="lp-reset">Start again</button>
+  </div>
+  <div id="lp-res" class="lpres" aria-live="polite" hidden></div>
+</section>
+
+<section class="sheet defi">
+  <p class="ptitle">Défi – after the paper (not marked, not part of the 80 marks)</p>
+  <p>For students aiming at the top grades.</p>
+  <ol>
+<li>Passage 3 : le « front républicain » est-il une bonne stratégie ? Présentez un argument pour et un argument contre en 80 mots.<textarea class="ans" rows="3" aria-label="Défi 1"></textarea></li>
+<li>Passages 4(a) et 4(b) : faut-il maintenir le pass Culture pour tous les jeunes ? Donnez votre avis en 80 mots, en utilisant deux chiffres du reportage.<textarea class="ans" rows="3" aria-label="Défi 2"></textarea></li>
+<li>Section B, question 5 : pourquoi est-il important de conserver des lieux comme Oradour-sur-Glane ? Écrivez 60 mots.<textarea class="ans" rows="3" aria-label="Défi 3"></textarea></li>
+  </ol>
+</section>
+
+<section class="sheet">
+  <p class="ptitle">Source information:</p>
+  <p style="font-size:15px">The recordings and the reading and translation texts were written by the BBA French department from the facts in the sources below; the recordings are read by synthetic voices. The narrative text (« récit ») is original.</p>
+<p class="src"><b>Les jeunes et le chômage</b><br><a href="https://www.24matins.fr/nouvelle-hausse-du-chomage-une-tendance-qui-frappe-particulierement-les-jeunes-1402830" target="_blank" rel="noopener">https://www.24matins.fr/nouvelle-hausse-du-chomage-une-tendance-qui-frappe-particulierement-les-jeunes-1402830</a></p>
+<p class="src"><b>La libération de Paris</b><br><a href="https://www.defense.gouv.fr/chemins-memoire/histoire-memoires/ressources-historiques/seconde-guerre-mondiale/operations-militaires/1944-23" target="_blank" rel="noopener">https://www.defense.gouv.fr/chemins-memoire/histoire-memoires/ressources-historiques/seconde-guerre-mondiale/operations-militaires/1944-23</a></p>
+<p class="src"><b>Législatives 2024</b><br><a href="https://www.maire-info.com/elections/second-tour-des-legislatives-un-resultat-en-trompe-loeil-art26-28795" target="_blank" rel="noopener">https://www.maire-info.com/elections/second-tour-des-legislatives-un-resultat-en-trompe-loeil-art26-28795</a></p>
+<p class="src"><b>Le pass Culture</b><br><a href="https://www.letudiant.fr/college/le-pass-culture-reduit-de-moitie-pour-les-18-ans-et-supprime-pour-les-moins-de-17-ans-des-samedi-1e-mars.html" target="_blank" rel="noopener">https://www.letudiant.fr/college/le-pass-culture-reduit-de-moitie-pour-les-18-ans-et-supprime-pour-les-moins-de-17-ans-des-samedi-1e-mars.html</a><br><a href="https://actualitte.com/article/124988/politique-publique/pass-culture-dernier-grand-bilan-avant-la-reduction-des-credits" target="_blank" rel="noopener">https://actualitte.com/article/124988/politique-publique/pass-culture-dernier-grand-bilan-avant-la-reduction-des-credits</a></p>
+<p class="src"><b>Oradour-sur-Glane</b><br><a href="https://www.cheminsdememoire.gouv.fr/en/remembering-martyr-villages-oradour-sur-glane" target="_blank" rel="noopener">https://www.cheminsdememoire.gouv.fr/en/remembering-martyr-villages-oradour-sur-glane</a></p>
+<p class="src"><b>Les réfugiés ukrainiens</b><br><a href="https://maire-info.com/accueil-des-refugies-ukrainiens-la-cour-des-comptes-fait-le-bilan-et-demande-�-letat-de-mieux-anticiper-article2-27258" target="_blank" rel="noopener">https://maire-info.com/accueil-des-refugies-ukrainiens-la-cour-des-comptes-fait-le-bilan-et-demande-�-letat-de-mieux-anticiper-article2-27258</a></p>
+<p class="src"><b>Deux semaines chez le menuisier</b><br>Récit original écrit par le département de français de BBA.</p>
+<p class="src"><b>La fin de la redevance</b><br><a href="https://www.ozap.com/actu/audiovisuel-public-les-deputes-votent-la-suppression-de-la-redevance/619354" target="_blank" rel="noopener">https://www.ozap.com/actu/audiovisuel-public-les-deputes-votent-la-suppression-de-la-redevance/619354</a></p>
+<p class="src"><b>La réforme des retraites</b><br><a href="https://www.lafinancepourtous.com/2023/04/18/reforme-des-retraites-promulgation-de-la-loi-le-14-avril-2023/" target="_blank" rel="noopener">https://www.lafinancepourtous.com/2023/04/18/reforme-des-retraites-promulgation-de-la-loi-le-14-avril-2023/</a></p>
+<p class="src"><b>Les enfants d&#x27;Izieu (traduction)</b><br><a href="https://www.memorialdelashoah.org/en/la-maison-dizieu.html" target="_blank" rel="noopener">https://www.memorialdelashoah.org/en/la-maison-dizieu.html</a></p>
+  <p class="credit">Voices: Piper TTS. <i>en_GB-cori-high</i> (announcer) – LibriVox recordings, public domain. <i>fr_FR-siwis-medium</i> – SIWIS French Speech Synthesis Database, licence CC BY 4.0. <i>fr_FR-upmc-medium</i> (voice “Jessica”) – UPMC Pierre data, MaryTTS project, licence CC BY-SA 4.0 (<a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener">creativecommons.org/licenses/by-sa/4.0</a>). <i>fr_FR-tom-medium</i> – French-tts-model-piper dataset, licence AGPLv3. The audio files of this paper are shared under the same licences.</p>
+</section>
+
+<script>
+(function(){
+  function paint(item){
+    var v=item.querySelector('.mcval').value, multi=item.dataset.t==='tick';
+    item.querySelectorAll('.opt').forEach(function(b){b.setAttribute('aria-checked', (multi ? v.indexOf(b.dataset.v)>=0 : b.dataset.v===v)?'true':'false');});
+  }
+  document.addEventListener('click',function(e){
+    var b=e.target.closest('.opt'); if(!b) return;
+    var item=b.closest('.item'), f=item.querySelector('.mcval');
+    if(item.dataset.t==='tick'){ var set=f.value.split('').filter(Boolean), k=set.indexOf(b.dataset.v); if(k>=0) set.splice(k,1); else set.push(b.dataset.v); f.value=set.sort().join(''); }
+    else f.value = (f.value===b.dataset.v) ? '' : b.dataset.v;
+    f.dispatchEvent(new Event('input',{bubbles:true})); f.dispatchEvent(new Event('change',{bubbles:true}));
+    paint(item);
+  });
+  /* keep the crosses in step with answers the kit restores after a reload */
+  setInterval(function(){document.querySelectorAll('.item.mc').forEach(paint);},800);
+})();
+</script>
+<script type="application/json" id="lp-key">{"q1": ["B", "D", "A", "C"], "q2": [{"ans": "Les policiers.", "pts": [[[["polic"]]]]}, {"ans": "Il a donné l'ordre de l'insurrection.", "pts": [[[["ordre", "insurrection", "lance", "declench"]]]]}, {"ans": "Les résistants l'ont rompue (dès le lendemain).", "pts": [[[["rompu", "romp", "fini", "termin", "annul", "pas respect", "cass"]]]]}, {"ans": "Any 2 from 3: la 2e division blindée entre dans Paris – von Choltitz signe la capitulation – de Gaulle prononce un discours à l'Hôtel de Ville.", "pts": [[[["division", "blindee", "entre", "arrive"]]], [[["choltitz", "capitul", "rend"]]], [[["gaulle", "discours"]]]]}], "q3": [{"ans": "Le RN, en tête au premier tour, n'est arrivé que troisième.", "pts": [[[["troisi", "3e"]], [["premier tour", "en tete"], ["rn", "rassemblement"]]]]}, {"ans": "182 sièges.", "pts": [[[["182"]]]]}, {"ans": "Environ 168 sièges.", "pts": [[[["168"]]]]}, {"ans": "Any 2: environ 200 candidats arrivés troisièmes se sont retirés – pour faire barrage au RN – un seul adversaire face au RN / voter pour le mieux placé.", "pts": [[[["retir", "desist"]]], [[["barrage", "battre", "bloquer", "empecher"]]], [[["seul adversaire", "un seul", "mieux place", "face a"]]]]}, {"ans": "Le RN a obtenu plus de voix (8,7 millions) que le NFP (7 millions) avec moins de sièges AND avec ses alliés il passe de 3,6 à près de 10 millions de voix.", "pts": [[[["8,7", "7 millions", "plus de voix", "plus de votes"]]], [[["10 millions", "3,6", "progress", "dix millions"]]]]}, {"ans": "La participation a été très élevée (environ 66,7 %).", "pts": [[[["participation", "66", "vote"]]]]}, {"ans": "Aucun bloc n'a la majorité absolue / l'Assemblée est divisée en trois blocs.", "pts": [[[["majorite", "trois blocs", "divise", "3 blocs"]]]]}], "q4a": [{"ans": "En 2021.", "pts": [[[["2021"]]]]}, {"ans": "Le montant est passé de 300 à 150 euros.", "pts": [[[["150", "moitie", "divise"]]]]}, {"ans": "Les jeunes en situation de handicap.", "pts": [[[["handicap"]]]]}, {"ans": "Les 17 ans reçoivent 50 euros au lieu de 30 AND les moins de 17 ans n'ont plus de part individuelle.", "pts": [[[["50"]], [["17 ans"], ["augment", "plus"]]], [[["moins de 17", "plus rien", "plus de part", "supprim", "ne touchent plus"]]]]}, {"ans": "À financer des sorties scolaires au collège.", "pts": [[[["sortie", "scolaire", "college"]]]]}], "q4b": {"key1": [{"ans": "Il est passé de 210,5 millions d'euros (2024) à 170,5 millions (2025).", "pts": [[[["210", "170", "baiss", "diminu", "moins"]]]]}, {"ans": "Elle est passée de 97 à 72 millions d'euros.", "pts": [[[["97", "72", "baiss", "reduit", "diminu"]]]]}, {"ans": "Un recentrage sur les jeunes les plus éloignés de la culture.", "pts": [[[["eloign", "recentr", "cibl", "ceux qui"]]]]}], "key2": [{"ans": "Moins de mangas (46 % → 34 %), plus de romans (20 % → 35 %).", "pts": [[[["manga", "roman"]]]]}, {"ans": "83 % des jeunes ont découvert un lieu culturel (souvent un cinéma).", "pts": [[[["83", "cinema", "lieu", "decouv"]]]]}, {"ans": "Ils regrettent une vision qui ne voit dans le dispositif qu'une dépense.", "pts": [[[["depense", "regrett", "critiqu"]]]]}]}, "B": {"q5": ["D", "C", "B", "A"], "q6": ["A", "C", "F", "G"], "q7": [{"ans": "Any 2: il n'avait aucun contact – il a reçu une dizaine de refus – ses amis avaient été aidés par leurs parents.", "pts": [[[["contact", "relation", "connaissait personne"]]], [[["refus", "dizaine"]]], [[["parent", "amis"]]]]}, {"ans": "Le menuisier lui a donné un balai / il devait ranger.", "pts": [[[["balai", "ranger", "nettoy"]]]]}, {"ans": "Any 2: poncer une planche – prendre des mesures sans se tromper – mesurer deux fois, couper une fois.", "pts": [[[["ponc"]]], [[["mesur"]]], [[["couper", "bibliotheque", "fabriqu"]]]]}, {"ans": "Travailler de ses mains, c'est aussi réfléchir / il a ressenti de la fierté.", "pts": [[[["reflechir", "fier", "fierte", "mains"]]]]}], "q8": [{"ans": "Les foyers qui avaient un téléviseur (23 millions de foyers).", "pts": [[[["foyer", "famille", "menage", "23", "televiseur", "tele"]]]]}, {"ans": "138 euros par an en métropole AND 88 euros en outre-mer.", "pts": [[[["138"]]], [[["88"]]]]}, {"ans": "Il ajoutait 653,5 millions d'euros pour compenser les foyers exonérés.", "pts": [[[["653", "exoner", "compens", "ajout"]]]]}, {"ans": "Par une fraction de la TVA (environ 3,7 milliards d'euros).", "pts": [[[["tva"]]]]}, {"ans": "Une contribution progressive selon les revenus.", "pts": [[[["progressi", "revenu", "selon"]]]]}, {"ans": "Il soutenait la suppression AND voulait privatiser France Télévisions et Radio France.", "pts": [[[["souten", "soutien", "pour la suppression", "favorable", "d'accord", "approuv"]]], [[["privatis"]]]]}], "q9": [{"ans": "Il a validé l'essentiel de la réforme.", "pts": [[[["valid", "accept", "approuv"]]]]}, {"ans": "Il augmente de trois mois par génération AND il atteindra 64 ans en 2030.", "pts": [[[["trois mois", "3 mois", "generation"]]], [[["64"]]]]}, {"ans": "Les personnes nées à partir du 1er septembre 1961.", "pts": [[[["1961"]]]]}, {"ans": "Elle atteint 43 ans dès 2027.", "pts": [[[["43"]]]]}, {"ans": "Le départ anticipé pour carrière longue (avant 16 ans : 58 ans ; 16–18 ans : 60 ans).", "pts": [[[["carriere longue", "58", "tot", "jeunes"]]]]}, {"ans": "Any 2 from 3: l'index senior – le CDI senior – une demande de référendum (d'initiative partagée).", "pts": [[[["index"]]], [[["cdi"]]], [[["referendum", "rip"]]]]}]}, "C": [{"fr": "Entre 1943 et 1944,", "ans": "Between 1943 and 1944,", "pts": [[[["1943"], ["1944"]]]]}, {"fr": "Sabine et Miron Zlatin ont accueilli", "ans": "Sabine and Miron Zlatin took in", "pts": [[[["took in", "welcomed", "housed", "sheltered", "received", "looked after", "hosted", "cared for", "accommodated", "took care"]]]]}, {"fr": "plus d'une centaine d'enfants juifs", "ans": "more than a hundred Jewish children", "pts": [[[["more than", "over"], ["hundred", "100"], ["jewish"]]]]}, {"fr": "dans une maison d'Izieu, dans l'Ain.", "ans": "in a house in Izieu, in the Ain.", "pts": [[[["house", "home"]]]]}, {"fr": "Le matin du 6 avril 1944,", "ans": "On the morning of 6 April 1944,", "pts": [[[["morning"], ["april"]]]]}, {"fr": "le chef de la Gestapo de Lyon, Klaus Barbie,", "ans": "the head of the Lyon Gestapo, Klaus Barbie,", "pts": [[[["head", "chief", "leader", "boss"], ["gestapo"]]]]}, {"fr": "a fait arrêter", "ans": "had … arrested", "pts": [[[["arrest"]]]]}, {"fr": "quarante-quatre enfants et sept éducateurs.", "ans": "forty-four children and seven educators.", "pts": [[[["forty-four", "44", "forty four"], ["seven", "7"], ["educator", "teacher", "staff", "carer", "supervisor", "adult", "worker"]]]]}, {"fr": "Deux adolescents et Miron Zlatin", "ans": "Two teenagers and Miron Zlatin", "pts": [[[["two", "2"], ["teen", "adolescent"]]]]}, {"fr": "ont été tués en Estonie.", "ans": "were killed in Estonia.", "pts": [[[["killed", "murdered", "executed", "shot"], ["estonia"]]]]}, {"fr": "Tous les autres ont été déportés à Auschwitz,", "ans": "All the others were deported to Auschwitz,", "pts": [[[["all the others", "all others", "everyone else", "the rest", "all of the others"], ["deport"]]]]}, {"fr": "où ils ont été assassinés dès leur arrivée.", "ans": "where they were murdered as soon as they arrived.", "pts": [[[["murder", "killed", "assassinat"], ["arriv"]]]]}, {"fr": "Une seule adulte, Léa Feldblum,", "ans": "Only one adult, Léa Feldblum,", "pts": [[[["only one", "a single", "just one", "sole", "only"], ["adult"]]]]}, {"fr": "a survécu.", "ans": "survived.", "pts": [[[["surviv"]]]]}, {"fr": "Lors du procès de Klaus Barbie,", "ans": "During Klaus Barbie's trial,", "pts": [[[["trial"]]]]}, {"fr": "à Lyon, en 1987,", "ans": "in Lyon in 1987,", "pts": [[[["1987"]]]]}, {"fr": "un télex qu'il avait envoyé", "ans": "a telex he had sent", "pts": [[[["telex", "telegram", "message", "cable"], ["sent", "sent by"]]]]}, {"fr": "a servi de preuve.", "ans": "was used as evidence.", "pts": [[[["evidence", "proof"]]]]}, {"fr": "Depuis 1994,", "ans": "Since 1994,", "pts": [[[["since", "as of", "from"], ["1994"]]]]}, {"fr": "un mémorial rend hommage aux enfants d'Izieu.", "ans": "a memorial pays tribute to the children of Izieu.", "pts": [[[["memorial"], ["tribute", "homage", "honour", "honor", "commemorat", "remember"]]]]}]}</script>
+<script src="paper-marker.js" defer></script>
+<script>window.BBA_KIT = Object.assign(window.BBA_KIT || {}, {check:false, download:false, name:false, meter:false, tries:0});</script>
+<script src="bba-kit-fr.js" defer></script>
+</body>
+</html>

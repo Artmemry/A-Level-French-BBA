@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Paper 1 training 3 – 9FR0/01 practice</title>
+<style>
+:root{--ink:#111;--rule:#9a9a9a;--muted:#555;--paper:#fff;--bg:#e9e9e9}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Arial,Helvetica,sans-serif;font-size:17px;line-height:1.45}
+.sheet{background:var(--paper);max-width:820px;margin:24px auto;padding:40px 56px 32px;box-shadow:0 1px 4px rgba(0,0,0,.25);position:relative}
+@media (max-width:700px){.sheet{margin:0 0 8px;padding:24px 16px}}
+.pageno{text-align:center;color:var(--muted);font-size:13px;margin-top:28px}
+.cover h1{font-size:28px;margin:4px 0 0}
+.cover .board{font-size:15px;color:var(--muted)}
+.cover .ref{float:right;text-align:right;font-size:14px;border:1px solid var(--ink);padding:6px 10px}
+.cover hr{border:0;border-top:2px solid var(--ink);margin:18px 0}
+.cover h2{font-size:17px;margin:18px 0 4px}
+.cover ul{margin:4px 0;padding-left:20px}
+.sec{text-align:center;font-weight:bold;font-size:19px;letter-spacing:.5px;margin:0}
+.sec+.sec{margin-bottom:10px}
+.rec{text-align:center;font-weight:bold;margin:4px 0 16px}
+.instr p{margin:6px 0}
+.durs{margin:10px 0 10px 40%}
+@media (max-width:700px){.durs{margin-left:8%}}
+.durs div{margin:2px 0}
+.ptitle{font-weight:bold;font-size:18px;margin:0 0 10px}
+.qhead{display:flex;gap:14px;font-weight:bold;margin:0 0 12px}
+.qhead .qn{min-width:22px}
+.item{margin:0 0 0 36px;position:relative}
+.item.mc{margin-bottom:14px}
+@media (max-width:700px){.item{margin-left:6px}}
+.q{margin:0 0 6px}
+.num{display:inline-block;min-width:38px}
+.bul{padding-left:24px}
+.mark{text-align:right;font-weight:bold;margin:0 0 12px}
+.total{text-align:right;font-weight:bold;margin:18px 0 0}
+.grand{text-align:right;font-weight:bold;font-size:18px;margin:16px 0 0}
+textarea.ans{width:100%;border:0;border-bottom:1px dotted var(--rule);resize:vertical;font:inherit;line-height:32px;padding:0 4px;
+  background:repeating-linear-gradient(transparent 0 31px,var(--rule) 31px 32px);outline-offset:2px;min-height:64px}
+textarea.ans:focus{outline:2px solid #2b5797;background-color:#f7f9fd}
+.sr{position:absolute!important;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0;padding:0}
+.opt{display:flex;align-items:center;gap:12px;width:calc(100% - 38px);margin:6px 0 6px 38px;padding:4px 0;background:none;border:0;font:inherit;color:inherit;text-align:left;cursor:pointer}
+.opt b{min-width:16px}
+.opt .ot{flex:1}
+.box{width:30px;height:24px;border:1.5px solid var(--ink);flex:none;position:relative}
+.opt[aria-checked="true"] .box::after{content:"\2715";position:absolute;inset:0;display:grid;place-items:center;font-size:20px;font-weight:bold}
+.opt:focus-visible{outline:2px solid #2b5797;outline-offset:2px}
+.player{display:flex;align-items:center;gap:12px;flex-wrap:wrap;border:1px solid var(--rule);padding:8px 12px;margin:0 0 16px}
+.plab{font-weight:bold;font-size:15px}
+.player audio{flex:1;min-width:220px}
+.lead{font-weight:bold;margin:0 0 12px}
+.who{margin:14px 0 6px 36px;font-weight:bold}
+.src{margin:0 0 14px;font-size:15px;word-break:break-all}
+.src b{word-break:normal}
+.cand{display:block;margin:14px 0;font-weight:bold}
+.cand input{font:inherit;font-weight:normal;border:1px solid var(--ink);padding:6px 8px;width:min(340px,100%);margin-left:8px}
+.lpbar{display:flex;gap:10px;flex-wrap:wrap;justify-content:flex-end;margin:22px 0 0}
+.lpbar button{font:inherit;font-weight:bold;padding:9px 16px;border:1px solid #2b5797;background:#fff;color:#2b5797;cursor:pointer;border-radius:4px}
+.lpbar button.go{background:#2b5797;color:#fff}
+.lpres{border:2px solid #2b5797;padding:12px 16px;margin:14px 0 0;background:#f4f7fc}
+.lpres p{margin:4px 0}
+.fb{margin:-6px 0 14px 36px;padding:8px 12px;font-size:15px;border-left:4px solid #b0b0b0;background:#f6f6f6}
+.fb.full{border-color:#2e7d52;background:#eef7f1}
+.fb.part{border-color:#c98a00;background:#fdf6e6}
+.fb.zero{border-color:#b3261e;background:#fbeeed}
+.fb b{margin-right:6px}
+.locked textarea.ans,.locked .opt{pointer-events:none}
+.opt.right .box{background:#dff0e5}
+@media print{.lpbar,.fb,.lpres{display:none!important}}
+.rtext{border:1px solid var(--rule);padding:12px 16px;margin:0 0 16px;background:#fcfcfc}
+.rtext p{margin:0 0 10px;text-align:justify}
+.rtitle{font-weight:bold;text-align:center!important}
+.lead2{font-weight:bold;margin:12px 0 8px}
+.trans-fb table{border-collapse:collapse;width:100%;margin-top:8px;font-size:14px}
+.trans-fb td{border-top:1px solid #ddd;padding:4px 6px;vertical-align:top}
+.trans-fb td.ok{color:#2e7d52;font-weight:bold} .trans-fb td.no{color:#b3261e;font-weight:bold}
+.credit{font-size:13px;color:var(--muted);border-top:1px solid var(--rule);padding-top:10px;margin-top:22px}
+.defi ol{padding-left:22px}
+.defi li{margin-bottom:14px}
+@media print{body{background:#fff}.sheet{box-shadow:none;margin:0;page-break-after:always}.player,#bba-kit{display:none!important}}
+</style>
+</head>
+<body>
+
+<section class="sheet cover">
+  <div class="ref">Paper reference<br><b>9FR0/01</b><br>Paper 1 training 3</div>
+  <div class="board">BBA practice paper modelled on Pearson Edexcel Level 3 GCE</div>
+  <h1>French</h1>
+  <div><b>Advanced</b><br>PAPER 1: Listening, Reading and Translation<br>Paper 1 training 3 · Themes 1 and 2 · end of Year 12</div>
+  <hr>
+  <label class="cand">Candidate name <input type="text" id="cand" autocomplete="name" placeholder="First name and initial"></label>
+  <p><b>You must have:</b> headphones or earphones. The recordings are on this page.</p>
+  <h2>Instructions</h2>
+  <ul>
+    <li>Type your name in the box above if you want it on your results file (optional).</li>
+    <li>Answer <b>all</b> questions in Sections A, B and C.</li>
+    <li>Candidates are recommended to start with Section A: Listening, and work through each section as presented.</li>
+    <li>Answer the questions in the spaces provided – there may be more space than you need.</li>
+    <li>We recommend you spend 50 minutes on Section A: Listening, 50 minutes on Section B: Reading and 20 minutes on Section C: Translation into English (2 hours in total).</li>
+    <li>You must not use a dictionary.</li>
+    <li>You can do one section at a time: each section ends with its own <b>Mark Section … only</b> button. To mark everything at once, press <b>Mark the whole paper</b> at the end of Section C.</li>
+    <li>Then press <b>Download results</b> at the end of Section C and send the file to your teacher: it contains every section you have marked.</li>
+  </ul>
+  <h2>Information</h2>
+  <ul>
+    <li>The total mark for this paper is 80.</li>
+    <li>The marks for each question are shown in brackets – use this as a guide as to how much time to spend on each question.</li>
+  </ul>
+  <h2>Advice</h2>
+  <ul>
+    <li>Read each question carefully before you start to answer it.</li>
+    <li>Try to answer every question.</li>
+    <li>Check your answers if you have time at the end.</li>
+  </ul>
+  <p class="pageno">1</p>
+</section>
+
+<section class="sheet">
+  <p style="margin-top:0">Answer ALL questions. Write your answers in the spaces provided.<br>
+  Some questions must be answered with a cross in a box ☒. If you change your mind about an answer, click another box.</p>
+  <p class="sec">SECTION A</p><p class="sec">LISTENING</p>
+  <p class="rec">We recommend you spend no more than 50 minutes on this section.</p>
+  <div class="instr">
+    <p>Questions 2, 3 and 4(a) do not require full sentences and you may respond using single words or phrases.</p>
+    <p>Summary Question 4(b) does not require full sentences and you may respond using short phrases.</p>
+    <p>You may use words from the listening passages but you must not transcribe whole sections.</p>
+    <p>You are going to listen to five passages. The duration of each passage is approximately:</p>
+    <div class="durs">
+      <div>Passage 1 = 1 minute 04 seconds</div><div>Passage 2 = 1 minute 18 seconds</div><div>Passage 3 = 2 minutes 16 seconds</div>
+      <div>Passage 4(a) = 1 minute 13 seconds</div><div>Passage 4(b) = 1 minute 12 seconds</div>
+    </div>
+    <p>You will be in charge of the recording and you may listen to each passage as often as you wish, and write your answers whenever you wish to do so.</p>
+  </div>
+  <p class="pageno">2</p>
+</section>
+
+<section class="sheet">
+  <p class="ptitle">Passage 1 – La musique enregistrée dépasse le milliard</p>
+  <div class="player"><span class="plab">Passage 1</span><audio controls preload="none" src="listening_paper_03_passage_1.mp3"></audio></div>
+  <div class="qhead"><span class="qn">1</span><span>Écoutez le reportage. Cochez la bonne fin pour les phrases.</span></div>
+  <div class="item mc" data-t="mc" data-k="q1.0" data-max="1" data-lab="1(i)"><p class="q"><span class="sr">1</span><span class="num">(i)</span> En 2024, le chiffre d&#x27;affaires de la musique enregistrée…</p><div role="radiogroup" aria-label="1(i)"><button type="button" class="opt" role="radio" aria-checked="false" data-v="A"><b>A</b> <span class="ot">a baissé pour la première fois.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="B"><b>B</b> <span class="ot">a doublé par rapport à 2002.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="C"><b>C</b> <span class="ot">est resté inférieur à 500 millions d&#x27;euros.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="D"><b>D</b> <span class="ot">a atteint un niveau inédit depuis 2007.</span><span class="box" aria-hidden="true"></span></button></div><input type="text" class="sr mcval" name="q1_i" tabindex="-1" aria-hidden="true" readonly></div><div class="item mc" data-t="mc" data-k="q1.1" data-max="1" data-lab="1(ii)"><p class="q"><span class="sr">1</span><span class="num">(ii)</span> La principale source de revenus est…</p><div role="radiogroup" aria-label="1(ii)"><button type="button" class="opt" role="radio" aria-checked="false" data-v="A"><b>A</b> <span class="ot">la vente de CD.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="B"><b>B</b> <span class="ot">la radio.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="C"><b>C</b> <span class="ot">l&#x27;abonnement au streaming.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="D"><b>D</b> <span class="ot">les concerts.</span><span class="box" aria-hidden="true"></span></button></div><input type="text" class="sr mcval" name="q1_ii" tabindex="-1" aria-hidden="true" readonly></div><div class="item mc" data-t="mc" data-k="q1.2" data-max="1" data-lab="1(iii)"><p class="q"><span class="sr">1</span><span class="num">(iii)</span> Le vinyle…</p><div role="radiogroup" aria-label="1(iii)"><button type="button" class="opt" role="radio" aria-checked="false" data-v="A"><b>A</b> <span class="ot">rapporte plus d&#x27;argent que le CD.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="B"><b>B</b> <span class="ot">a disparu des magasins.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="C"><b>C</b> <span class="ot">se vend en plus grand nombre que le CD.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="D"><b>D</b> <span class="ot">intéresse surtout les étrangers.</span><span class="box" aria-hidden="true"></span></button></div><input type="text" class="sr mcval" name="q1_iii" tabindex="-1" aria-hidden="true" readonly></div><div class="item mc" data-t="mc" data-k="q1.3" data-max="1" data-lab="1(iv)"><p class="q"><span class="sr">1</span><span class="num">(iv)</span> Le marché d&#x27;aujourd&#x27;hui…</p><div role="radiogroup" aria-label="1(iv)"><button type="button" class="opt" role="radio" aria-checked="false" data-v="A"><b>A</b> <span class="ot">a retrouvé son record de 2002.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="B"><b>B</b> <span class="ot">reste loin de son niveau de 2002.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="C"><b>C</b> <span class="ot">dépend surtout des artistes américains.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="D"><b>D</b> <span class="ot">ne progresse plus.</span><span class="box" aria-hidden="true"></span></button></div><input type="text" class="sr mcval" name="q1_iv" tabindex="-1" aria-hidden="true" readonly></div>
+  <p class="total">(Total for Question 1 = 4 marks)</p>
+  <p class="pageno">3</p>
+</section>
+
+<section class="sheet">
+  <p class="ptitle">Passage 2 – Parcoursup 2025</p>
+  <div class="player"><span class="plab">Passage 2</span><audio controls preload="none" src="listening_paper_03_passage_2.mp3"></audio></div>
+  <div class="qhead"><span class="qn">2</span><span>Écoutez l&#x27;interview sur Parcoursup. Répondez aux questions en français.</span></div>
+  <div class="item" data-t="open" data-k="q2.0" data-max="2" data-lab="2(a)"><p class="q"><span class="sr">2</span><span class="num">(a)</span> Comment sait-on que la procédure a été rapide ? Donnez deux détails.</p><textarea class="ans" rows="3" aria-label="Answer"></textarea></div><p class="mark">(2)</p>
+<div class="item" data-t="open" data-k="q2.1" data-max="1" data-lab="2(b)"><p class="q"><span class="sr">2</span><span class="num">(b)</span> Qu&#x27;est-ce qui a changé dans l&#x27;offre de formations ?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="q2.2" data-max="1" data-lab="2(c)"><p class="q"><span class="sr">2</span><span class="num">(c)</span> Pourquoi la procédure a-t-elle été « moins généreuse » ?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="q2.3" data-max="1" data-lab="2(d)"><p class="q"><span class="sr">2</span><span class="num">(d)</span> Quelle inégalité existe entre les élèves ?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+  <p class="total">(Total for Question 2 = 5 marks)</p>
+  <p class="pageno">4</p>
+</section>
+
+<section class="sheet">
+  <p class="ptitle">Passage 3 – Le Festival d&#x27;Avignon</p>
+  <div class="player"><span class="plab">Passage 3</span><audio controls preload="none" src="listening_paper_03_passage_3.mp3"></audio></div>
+  <div class="qhead"><span class="qn">3</span><span>Écoutez l&#x27;interview sur l&#x27;histoire du Festival d&#x27;Avignon. Répondez aux questions en français.</span></div>
+  <div class="item" data-t="open" data-k="q3.0" data-max="2" data-lab="3(a)"><p class="q"><span class="sr">3</span><span class="num">(a)</span> Comment le festival a-t-il commencé ? Donnez deux détails.</p><textarea class="ans" rows="3" aria-label="Answer"></textarea></div><p class="mark">(2)</p>
+<div class="item" data-t="open" data-k="q3.1" data-max="1" data-lab="3(b)"><p class="q"><span class="sr">3</span><span class="num">(b)</span> Quel public Jean Vilar voulait-il attirer ?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="q3.2" data-max="1" data-lab="3(c)"><p class="q"><span class="sr">3</span><span class="num">(c)</span> Quel rôle Jean Vilar a-t-il joué à partir de 1951 ?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="q3.3" data-max="2" data-lab="3(d)"><p class="q"><span class="sr">3</span><span class="num">(d)</span> Comment sait-on que le festival est devenu très important ? Donnez deux détails.</p><textarea class="ans" rows="3" aria-label="Answer"></textarea></div><p class="mark">(2)</p>
+<div class="item" data-t="open" data-k="q3.4" data-max="1" data-lab="3(e)"><p class="q"><span class="sr">3</span><span class="num">(e)</span> Quelle était la particularité de l&#x27;édition 2025 ?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="q3.5" data-max="1" data-lab="3(f)"><p class="q"><span class="sr">3</span><span class="num">(f)</span> Comment le festival aide-t-il les jeunes à venir ?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="q3.6" data-max="1" data-lab="3(g)"><p class="q"><span class="sr">3</span><span class="num">(g)</span> Pourquoi le festival propose-t-il des spectacles itinérants ?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+  <p class="total">(Total for Question 3 = 9 marks)</p>
+  <p class="pageno">5</p>
+</section>
+
+<section class="sheet">
+  <p class="ptitle">Passage 4(a) – Les Français, les médias et la désinformation</p>
+  <div class="player"><span class="plab">Passage 4(a)</span><audio controls preload="none" src="listening_paper_03_passage_4a.mp3"></audio></div>
+  <div class="qhead"><span class="qn">4</span><span>(a) Écoutez le reportage sur les Français et les médias. Répondez aux questions en français.</span></div>
+  <div class="item" data-t="open" data-k="q4a.0" data-max="1" data-lab="4(a)(i)"><p class="q"><span class="sr">4(a)</span><span class="num">(i)</span> Qu&#x27;est-ce qui inquiète la majorité des Français ?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="q4a.1" data-max="1" data-lab="4(a)(ii)"><p class="q"><span class="sr">4(a)</span><span class="num">(ii)</span> Où les Français voient-ils le plus souvent de fausses informations ?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="q4a.2" data-max="2" data-lab="4(a)(iii)"><p class="q"><span class="sr">4(a)</span><span class="num">(iii)</span> Qu&#x27;en est-il de la télévision et de la radio ? Donnez deux détails.</p><textarea class="ans" rows="3" aria-label="Answer"></textarea></div><p class="mark">(2)</p>
+<div class="item" data-t="open" data-k="q4a.3" data-max="1" data-lab="4(a)(iv)"><p class="q"><span class="sr">4(a)</span><span class="num">(iv)</span> Quelle solution la majorité des personnes interrogées soutient-elle ?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="q4a.4" data-max="1" data-lab="4(a)(v)"><p class="q"><span class="sr">4(a)</span><span class="num">(v)</span> Comment l&#x27;intérêt pour l&#x27;actualité a-t-il évolué ?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+  <p class="pageno">6</p>
+</section>
+
+<section class="sheet">
+  <p class="lead">Résumez le reportage suivant. Des phrases courtes suffisent. Donnez trois détails pour la question 4(b)(i) et trois détails pour la question 4(b)(ii).</p>
+  <p class="ptitle">Passage 4(b) – Les Français, les médias et la désinformation</p>
+  <div class="player"><span class="plab">Passage 4(b)</span><audio controls preload="none" src="listening_paper_03_passage_4b.mp3"></audio></div>
+  <div class="qhead"><span class="qn"></span><span>(b) Écoutez la deuxième partie du reportage. Répondez en français.</span></div>
+  <p class="who">(i) Résumez ce que l&#x27;homme nous dit sur :</p>
+  <div class="item" data-t="open" data-k="q4b.key1.0" data-max="1" data-lab="4(b)(i) • la fatigue face à l&#x27;actualité"><p class="q bul"><span class="sr">4(b)(i) </span>• la fatigue face à l&#x27;actualité</p><textarea class="ans" rows="2" aria-label="4(b)(i)"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="q4b.key1.1" data-max="1" data-lab="4(b)(i) • l&#x27;évolution de cette fatigue"><p class="q bul"><span class="sr">4(b)(i) </span>• l&#x27;évolution de cette fatigue</p><textarea class="ans" rows="2" aria-label="4(b)(i)"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="q4b.key1.2" data-max="1" data-lab="4(b)(i) • les personnes peu intéressées par l&#x27;actualité."><p class="q bul"><span class="sr">4(b)(i) </span>• les personnes peu intéressées par l&#x27;actualité.</p><textarea class="ans" rows="2" aria-label="4(b)(i)"></textarea></div><p class="mark">(1)</p>
+  <p class="who">(ii) Résumez ce que la femme nous dit sur :</p>
+  <div class="item" data-t="open" data-k="q4b.key2.0" data-max="1" data-lab="4(b)(ii) • le journal télévisé"><p class="q bul"><span class="sr">4(b)(ii) </span>• le journal télévisé</p><textarea class="ans" rows="2" aria-label="4(b)(ii)"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="q4b.key2.1" data-max="1" data-lab="4(b)(ii) • les autres médias traditionnels"><p class="q bul"><span class="sr">4(b)(ii) </span>• les autres médias traditionnels</p><textarea class="ans" rows="2" aria-label="4(b)(ii)"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="q4b.key2.2" data-max="1" data-lab="4(b)(ii) • les influenceurs."><p class="q bul"><span class="sr">4(b)(ii) </span>• les influenceurs.</p><textarea class="ans" rows="2" aria-label="4(b)(ii)"></textarea></div><p class="mark">(1)</p>
+  <p class="total">(Total for Question 4 = 12 marks)</p>
+  <p class="grand">TOTAL FOR SECTION A = 30 MARKS</p>
+  <div class="lpbar"><button type="button" class="go" data-mark="A">Mark Section A only</button></div>
+  <div id="lp-res-A" class="lpres" aria-live="polite" hidden></div>
+  <p class="pageno">7</p>
+</section>
+
+<section class="sheet" id="secB">
+  <p class="sec">SECTION B</p><p class="sec">READING</p>
+  <p class="rec">We recommend you spend around 50 minutes on this section.</p>
+  <div class="instr"><p>Open-response questions do not have to be written in full sentences and you may respond using single words or phrases.</p>
+  <p>You may use words from the texts but you must not copy out whole sections.</p></div>
+  <div class="qhead"><span class="qn">5</span><span>Lisez l&#x27;article sur une chanteuse à la cérémonie d&#x27;ouverture des Jeux olympiques.</span></div><div class="rtext"><p class="rtitle">Aya Nakamura, la star de la cérémonie</p><p>Lors de la cérémonie d&#x27;ouverture des Jeux olympiques de Paris, en juillet 2024, la chanteuse Aya Nakamura a offert l&#x27;un des moments les plus commentés de la soirée. Devant l&#x27;Institut de France, siège de l&#x27;Académie française, elle a interprété un medley de ses tubes ainsi qu&#x27;une reprise de « For Me Formidable » de Charles Aznavour, accompagnée par la Garde républicaine.</p><p>Avant la cérémonie, la chanteuse avait pourtant été la cible d&#x27;attaques racistes et sexistes venues de l&#x27;extrême droite, et sa famille avait elle aussi été visée.</p><p>Après sa performance, Aya Nakamura a répondu à ses détracteurs. « Je suis la première de mon milieu à faire ce que je fais », a-t-elle déclaré, rappelant qu&#x27;elle a grandi à Aulnay-sous-Bois, en Seine-Saint-Denis. Selon elle, il se passait « un truc qui est hors normes ».</p></div><p class="lead2">Choisissez la bonne fin pour les phrases. Cochez la bonne fin pour les phrases.</p><div class="item mc" data-t="mc" data-k="B.q5.0" data-max="1" data-lab="5(i)"><p class="q"><span class="sr">5</span><span class="num">(i)</span> Pendant la cérémonie, Aya Nakamura…</p><div role="radiogroup" aria-label="5(i)"><button type="button" class="opt" role="radio" aria-checked="false" data-v="A"><b>A</b> <span class="ot">a chanté seule sur la Seine.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="B"><b>B</b> <span class="ot">s&#x27;est produite avec la Garde républicaine.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="C"><b>C</b> <span class="ot">a lu un poème de l&#x27;Académie française.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="D"><b>D</b> <span class="ot">a remplacé Charles Aznavour.</span><span class="box" aria-hidden="true"></span></button></div><input type="text" class="sr mcval" name="B.q5_i" tabindex="-1" aria-hidden="true" readonly></div><div class="item mc" data-t="mc" data-k="B.q5.1" data-max="1" data-lab="5(ii)"><p class="q"><span class="sr">5</span><span class="num">(ii)</span> Elle a chanté…</p><div role="radiogroup" aria-label="5(ii)"><button type="button" class="opt" role="radio" aria-checked="false" data-v="A"><b>A</b> <span class="ot">seulement des chansons inédites.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="B"><b>B</b> <span class="ot">l&#x27;hymne national.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="C"><b>C</b> <span class="ot">uniquement en anglais.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="D"><b>D</b> <span class="ot">une chanson de Charles Aznavour.</span><span class="box" aria-hidden="true"></span></button></div><input type="text" class="sr mcval" name="B.q5_ii" tabindex="-1" aria-hidden="true" readonly></div><div class="item mc" data-t="mc" data-k="B.q5.2" data-max="1" data-lab="5(iii)"><p class="q"><span class="sr">5</span><span class="num">(iii)</span> Avant la cérémonie, la chanteuse…</p><div role="radiogroup" aria-label="5(iii)"><button type="button" class="opt" role="radio" aria-checked="false" data-v="A"><b>A</b> <span class="ot">avait reçu un prix.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="B"><b>B</b> <span class="ot">avait annulé sa venue.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="C"><b>C</b> <span class="ot">avait subi des attaques.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="D"><b>D</b> <span class="ot">avait rencontré les académiciens.</span><span class="box" aria-hidden="true"></span></button></div><input type="text" class="sr mcval" name="B.q5_iii" tabindex="-1" aria-hidden="true" readonly></div><div class="item mc" data-t="mc" data-k="B.q5.3" data-max="1" data-lab="5(iv)"><p class="q"><span class="sr">5</span><span class="num">(iv)</span> Selon Aya Nakamura, sa présence à la cérémonie…</p><div role="radiogroup" aria-label="5(iv)"><button type="button" class="opt" role="radio" aria-checked="false" data-v="A"><b>A</b> <span class="ot">était exceptionnelle.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="B"><b>B</b> <span class="ot">était tout à fait normale.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="C"><b>C</b> <span class="ot">n&#x27;intéressait personne.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="D"><b>D</b> <span class="ot">était une erreur.</span><span class="box" aria-hidden="true"></span></button></div><input type="text" class="sr mcval" name="B.q5_iv" tabindex="-1" aria-hidden="true" readonly></div>
+  <p class="total">(Total for Question 5 = 4 marks)</p>
+</section>
+<section class="sheet">
+  <div class="qhead"><span class="qn">6</span><span>Lisez cet article sur les conditions de vie des étudiants.</span></div><div class="rtext"><p class="rtitle">Étudiants : les fins de mois difficiles</p><p>Selon la dernière enquête de l&#x27;Observatoire national de la vie étudiante, menée en 2022-2023, trois étudiants sur dix estiment ne pas avoir assez d&#x27;argent pour couvrir leurs besoins mensuels. Près d&#x27;un tiers a déjà été à découvert au moins une fois depuis la rentrée, et 12 % ont eu des retards de paiement, pour le loyer ou les factures d&#x27;énergie par exemple.</p><p>Pour s&#x27;en sortir, 44 % des étudiants ont un emploi pendant l&#x27;année universitaire. Pour 59 % d&#x27;entre eux, ce travail est indispensable pour vivre, surtout chez les étudiants d&#x27;origine populaire.</p><p>Tous ne sont pas égaux face à la précarité. Quatre étudiants étrangers sur dix déclarent des difficultés financières graves, contre 16 % des étudiants français. La santé en souffre aussi : 44 % des étudiantes déclarent une détresse psychologique au cours du dernier mois, et 38 % ont renoncé à un examen ou à un soin médical pour des raisons financières.</p></div><p class="lead2">Quelles phrases sont correctes ? Cochez les quatre bonnes phrases :</p><div class="item mc" data-t="tick" data-k="B.q6" data-max="4" data-lab="6"><button type="button" class="opt tk" role="checkbox" aria-checked="false" data-v="A"><b>A</b> <span class="ot">Trois étudiants sur dix manquent d&#x27;argent pour leurs besoins du mois.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt tk" role="checkbox" aria-checked="false" data-v="B"><b>B</b> <span class="ot">Aucun étudiant n&#x27;a eu de retard de paiement.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt tk" role="checkbox" aria-checked="false" data-v="C"><b>C</b> <span class="ot">Plus de quatre étudiants sur dix travaillent pendant l&#x27;année.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt tk" role="checkbox" aria-checked="false" data-v="D"><b>D</b> <span class="ot">La plupart des étudiants qui travaillent pourraient s&#x27;en passer.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt tk" role="checkbox" aria-checked="false" data-v="E"><b>E</b> <span class="ot">Les étudiants étrangers sont plus touchés que les étudiants français.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt tk" role="checkbox" aria-checked="false" data-v="F"><b>F</b> <span class="ot">Les étudiants d&#x27;origine populaire ont moins besoin de travailler.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt tk" role="checkbox" aria-checked="false" data-v="G"><b>G</b> <span class="ot">Beaucoup d&#x27;étudiantes déclarent une souffrance psychologique.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt tk" role="checkbox" aria-checked="false" data-v="H"><b>H</b> <span class="ot">La précarité n&#x27;a aucun effet sur la santé des étudiants.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt tk" role="checkbox" aria-checked="false" data-v="I"><b>I</b> <span class="ot">L&#x27;enquête date de 2010.</span><span class="box" aria-hidden="true"></span></button><input type="text" class="sr mcval" name="B_q6" tabindex="-1" aria-hidden="true" readonly></div>
+  <p class="total">(Total for Question 6 = 4 marks)</p>
+</section>
+<section class="sheet">
+  <div class="qhead"><span class="qn">7</span><span>Lisez ce récit d&#x27;une lycéenne bénévole dans un festival de musique. Répondez aux questions en français.</span></div><div class="rtext"><p class="rtitle">Bénévole</p><p>L&#x27;été de mes dix-sept ans, je me suis inscrite comme bénévole dans un festival de musique en Bretagne. Mes parents trouvaient l&#x27;idée étrange : travailler gratuitement pendant mes vacances ? Mais une place pour les quatre jours coûtait plus que ce que j&#x27;avais gagné en gardant les enfants des voisins toute l&#x27;année.</p><p>Le premier jour, j&#x27;ai déchanté. On m&#x27;a confié le tri des déchets derrière la grande scène. Pendant que des dizaines de milliers de spectateurs dansaient, je séparais les gobelets en plastique des restes de frites, sous une pluie fine qui ne voulait pas s&#x27;arrêter.</p><p>Pourtant, le soir, tout changeait. Les bénévoles se retrouvaient sous une grande tente : des retraités qui venaient depuis vingt ans, des étudiants de Rennes, un cuisinier qui nous préparait des crêpes à minuit. Personne ne me demandait mes notes ni mon orientation.</p><p>Le dernier soir, j&#x27;ai pu voir, depuis le côté de la scène, le concert de mon groupe préféré. Je suis rentrée chez moi épuisée, les bottes couvertes de boue, avec une seule idée en tête : revenir l&#x27;année suivante.</p></div><div class="item" data-t="open" data-k="B.q7.0" data-max="1" data-lab="7(a)"><p class="q"><span class="sr">7</span><span class="num">(a)</span> Pourquoi la narratrice est-elle devenue bénévole ?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="B.q7.1" data-max="2" data-lab="7(b)"><p class="q"><span class="sr">7</span><span class="num">(b)</span> Pourquoi la première journée l&#x27;a-t-elle déçue ? Donnez deux détails.</p><textarea class="ans" rows="3" aria-label="Answer"></textarea></div><p class="mark">(2)</p>
+<div class="item" data-t="open" data-k="B.q7.2" data-max="2" data-lab="7(c)"><p class="q"><span class="sr">7</span><span class="num">(c)</span> Qu&#x27;est-ce qu&#x27;elle a apprécié le soir ? Donnez deux détails.</p><textarea class="ans" rows="3" aria-label="Answer"></textarea></div><p class="mark">(2)</p>
+<div class="item" data-t="open" data-k="B.q7.3" data-max="1" data-lab="7(d)"><p class="q"><span class="sr">7</span><span class="num">(d)</span> Quelle est sa conclusion à la fin du festival ?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+  <p class="total">(Total for Question 7 = 6 marks)</p>
+</section>
+<section class="sheet">
+  <div class="qhead"><span class="qn">8</span><span>Lisez cet article sur un nouveau congé pour les parents. Répondez aux questions en français.</span></div><div class="rtext"><p class="rtitle">Un nouveau congé pour les parents</p><p>Depuis le 1er juillet 2026, les parents qui travaillent peuvent prendre un nouveau congé après l&#x27;arrivée d&#x27;un enfant : le congé de naissance. Annoncé en janvier 2024 par Emmanuel Macron dans le cadre de ce qu&#x27;il appelait un « réarmement démographique », face à la baisse de la natalité, il est prévu par le budget de la Sécurité sociale pour 2026.</p><p>Chaque parent peut prendre un ou deux mois de congé, en même temps que l&#x27;autre parent ou à tour de rôle. Ce congé s&#x27;ajoute aux congés de maternité, de paternité et d&#x27;adoption, et il doit être pris dans les neuf mois qui suivent la naissance.</p><p>Il est mieux payé que l&#x27;actuel congé parental, indemnisé environ 400 euros par mois : les salariés reçoivent 70 % de leur salaire le premier mois et 60 % le deuxième, dans la limite d&#x27;un plafond.</p><p>Le dispositif a pourtant une limite : il est réservé aux parents qui exercent une activité professionnelle. Les parents au foyer, par exemple, en sont exclus.</p></div><div class="item" data-t="open" data-k="B.q8.0" data-max="1" data-lab="8(a)"><p class="q"><span class="sr">8</span><span class="num">(a)</span> Pourquoi le président a-t-il voulu ce nouveau congé ?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="B.q8.1" data-max="2" data-lab="8(b)"><p class="q"><span class="sr">8</span><span class="num">(b)</span> Comment les parents peuvent-ils organiser ce congé ? Donnez deux détails.</p><textarea class="ans" rows="3" aria-label="Answer"></textarea></div><p class="mark">(2)</p>
+<div class="item" data-t="open" data-k="B.q8.2" data-max="1" data-lab="8(c)"><p class="q"><span class="sr">8</span><span class="num">(c)</span> Quel est le lien avec les congés qui existaient déjà ?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="B.q8.3" data-max="1" data-lab="8(d)"><p class="q"><span class="sr">8</span><span class="num">(d)</span> Pourquoi ce congé est-il plus intéressant que le congé parental ?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="B.q8.4" data-max="2" data-lab="8(e)"><p class="q"><span class="sr">8</span><span class="num">(e)</span> Combien les salariés reçoivent-ils ? Donnez deux détails.</p><textarea class="ans" rows="3" aria-label="Answer"></textarea></div><p class="mark">(2)</p>
+<div class="item" data-t="open" data-k="B.q8.5" data-max="1" data-lab="8(f)"><p class="q"><span class="sr">8</span><span class="num">(f)</span> Qui ne peut pas en bénéficier ?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+  <p class="total">(Total for Question 8 = 8 marks)</p>
+</section>
+<section class="sheet">
+  <div class="qhead"><span class="qn">9</span><span>Lisez cet article sur la baguette. Répondez aux questions en français.</span></div><div class="rtext"><p class="rtitle">La baguette, patrimoine de l&#x27;humanité</p><p>Le 30 novembre 2022, l&#x27;Unesco a inscrit « les savoir-faire artisanaux et la culture de la baguette de pain » sur la liste du patrimoine culturel immatériel de l&#x27;humanité. Une reconnaissance pour un produit simple – de la farine, de l&#x27;eau, du sel et de la levure – mais omniprésent : plus de six milliards de baguettes sortent chaque année des fournils français.</p><p>Pour la ministre de la Culture de l&#x27;époque, Rima Abdul Malak, cette décision reconnaît « qu&#x27;aller chercher son pain est aussi un acte culturel ». Le président de la République, Emmanuel Macron, a quant à lui salué « 250 grammes de magie et de perfection dans nos quotidiens ».</p><p>Mais derrière la fête, l&#x27;inquiétude demeure. En 1970, la France comptait environ 55 000 boulangeries artisanales ; il en reste aujourd&#x27;hui environ 35 000, soit la disparition de quelque 400 boulangeries par an en moyenne. Le phénomène touche surtout les communes rurales. Le savoir-faire artisanal est par ailleurs menacé par l&#x27;industrialisation.</p></div><div class="item" data-t="open" data-k="B.q9.0" data-max="1" data-lab="9(a)"><p class="q"><span class="sr">9</span><span class="num">(a)</span> Qu&#x27;est-ce que l&#x27;Unesco a reconnu en 2022 ?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="B.q9.1" data-max="1" data-lab="9(b)"><p class="q"><span class="sr">9</span><span class="num">(b)</span> Pourquoi peut-on dire que la baguette est omniprésente ?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="B.q9.2" data-max="1" data-lab="9(c)"><p class="q"><span class="sr">9</span><span class="num">(c)</span> Selon la ministre de la Culture, que représente le fait d&#x27;aller acheter son pain ?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="B.q9.3" data-max="1" data-lab="9(d)"><p class="q"><span class="sr">9</span><span class="num">(d)</span> Comment le président de la République a-t-il réagi ?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="B.q9.4" data-max="2" data-lab="9(e)"><p class="q"><span class="sr">9</span><span class="num">(e)</span> Quelle évolution inquiète les boulangers ? Donnez deux détails.</p><textarea class="ans" rows="3" aria-label="Answer"></textarea></div><p class="mark">(2)</p>
+<div class="item" data-t="open" data-k="B.q9.5" data-max="1" data-lab="9(f)"><p class="q"><span class="sr">9</span><span class="num">(f)</span> Où ce phénomène est-il le plus marqué ?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="B.q9.6" data-max="1" data-lab="9(g)"><p class="q"><span class="sr">9</span><span class="num">(g)</span> Quelle autre menace pèse sur la baguette artisanale ?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+  <p class="total">(Total for Question 9 = 8 marks)</p>
+  <p class="grand">TOTAL FOR SECTION B = 30 MARKS</p>
+  <div class="lpbar"><button type="button" class="go" data-mark="B">Mark Section B only</button></div>
+  <div id="lp-res-B" class="lpres" aria-live="polite" hidden></div>
+</section>
+
+<section class="sheet" id="secC">
+  <p class="sec">SECTION C</p><p class="sec">TRANSLATION INTO ENGLISH</p>
+  <p class="rec">We recommend you spend around 20 minutes on this section.</p>
+  <div class="qhead"><span class="qn">10</span><span>Translate the following article about influencers into English.</span></div><p class="mark">(20)</p><div class="rtext"><p>Depuis le 9 juin 2023, les influenceurs doivent respecter une loi qui encadre leur activité commerciale. La France en compterait environ 150 000. Lorsqu&#x27;ils font la promotion d&#x27;un produit, ils doivent désormais afficher clairement la mention « publicité ». Si une photo transforme un corps ou un visage, elle doit être signalée comme retouchée. Certaines promotions sont même interdites, comme celle de la chirurgie esthétique. Pour les jeux d&#x27;argent, les publications doivent préciser qu&#x27;ils sont interdits aux moins de dix-huit ans. Les influenceurs qui ne respectent pas ces règles risquent désormais jusqu&#x27;à deux ans de prison. Pour le ministre de l&#x27;Économie de l&#x27;époque, Bruno Le Maire, il fallait s&#x27;assurer que le net n&#x27;était pas le Far West.</p></div><div class="item" data-t="trans" data-k="C" data-max="20" data-lab="10"><textarea class="ans" rows="12" aria-label="10 – translation"></textarea></div>
+  <p class="total">(Total for Question 10 = 20 marks)</p>
+  <p class="grand">TOTAL FOR SECTION C = 20 MARKS</p>
+  <div class="lpbar"><button type="button" class="go" data-mark="C">Mark Section C only</button></div>
+  <div id="lp-res-C" class="lpres" aria-live="polite" hidden></div>
+  <p class="grand">TOTAL FOR PAPER = 80 MARKS</p>
+  <div id="lp-bar" class="lpbar">
+    <button type="button" class="go" data-mark="all">Mark the whole paper</button>
+    <button type="button" id="lp-dl">Download results</button>
+    <button type="button" id="lp-reset">Start again</button>
+  </div>
+  <div id="lp-res" class="lpres" aria-live="polite" hidden></div>
+</section>
+
+<section class="sheet defi">
+  <p class="ptitle">Défi – after the paper (not marked, not part of the 80 marks)</p>
+  <p>For students aiming at the top grades.</p>
+  <ol>
+<li>Passage 3 : à votre avis, un festival comme Avignon doit-il recevoir de l&#x27;argent public ? Donnez votre avis en 80 mots, avec un argument tiré de l&#x27;interview.<textarea class="ans" rows="3" aria-label="Défi 1"></textarea></li>
+<li>Passages 4(a) et 4(b) : comment vous informez-vous ? Comparez vos habitudes avec les résultats du baromètre en 80 mots.<textarea class="ans" rows="3" aria-label="Défi 2"></textarea></li>
+<li>Section B, question 9 : la baguette mérite-t-elle d&#x27;être protégée ? Écrivez 60 mots en réutilisant trois expressions de l&#x27;article.<textarea class="ans" rows="3" aria-label="Défi 3"></textarea></li>
+  </ol>
+</section>
+
+<section class="sheet">
+  <p class="ptitle">Source information:</p>
+  <p style="font-size:15px">The recordings and the reading and translation texts were written by the BBA French department from the facts in the sources below; the recordings are read by synthetic voices. The narrative text (« récit ») is original.</p>
+<p class="src"><b>La musique enregistrée</b><br><a href="https://fr.billboard.com/?p=1343" target="_blank" rel="noopener">https://fr.billboard.com/?p=1343</a></p>
+<p class="src"><b>Parcoursup 2025</b><br><a href="https://www.letudiant.fr/lycee/bilan-parcoursup-en-2025-la-procedure-sest-encore-acceleree-1.html" target="_blank" rel="noopener">https://www.letudiant.fr/lycee/bilan-parcoursup-en-2025-la-procedure-sest-encore-acceleree-1.html</a></p>
+<p class="src"><b>Le Festival d&#x27;Avignon</b><br><a href="https://fresques.ina.fr/sudorama/fiche-media/00000000037/la-naissance-du-festival-d-avignon.html" target="_blank" rel="noopener">https://fresques.ina.fr/sudorama/fiche-media/00000000037/la-naissance-du-festival-d-avignon.html</a><br><a href="https://www.echodumardi.com/culture-loisirs/ensemble-du-5-au-26-juillet-pour-la-79e-edition-du-festival-davignon/?print=pdf" target="_blank" rel="noopener">https://www.echodumardi.com/culture-loisirs/ensemble-du-5-au-26-juillet-pour-la-79e-edition-du-festival-davignon/?print=pdf</a></p>
+<p class="src"><b>Les Français, les médias et la désinformation</b><br><a href="https://www.lagazettefrance.fr/article/les-trois-quarts-des-francais-inquiets-de-la-desinformation-etrangere-selon-le-barometre-la-croix" target="_blank" rel="noopener">https://www.lagazettefrance.fr/article/les-trois-quarts-des-francais-inquiets-de-la-desinformation-etrangere-selon-le-barometre-la-croix</a></p>
+<p class="src"><b>Aya Nakamura</b><br><a href="https://www.ozap.com/actu/je-suis-la-premiere-de-mon-milieu-a-faire-ce-que-je-fais-aya-nakamura-repond-aux-critiques-autour-de-sa-prestation-a-la-ceremonie-douverture-des-jo-de-paris/647796" target="_blank" rel="noopener">https://www.ozap.com/actu/je-suis-la-premiere-de-mon-milieu-a-faire-ce-que-je-fais-aya-nakamura-repond-aux-critiques-autour-de-sa-prestation-a-la-ceremonie-douverture-des-jo-de-paris/647796</a></p>
+<p class="src"><b>Les conditions de vie des étudiants</b><br><a href="https://www.letudiant.fr/lifestyle/Sante-mutuelle-et-assurance/selon-love-la-precarite-touche-davantage-les-femmes-les-etudiants-etrangers-et-les-boursiers.html" target="_blank" rel="noopener">https://www.letudiant.fr/lifestyle/Sante-mutuelle-et-assurance/selon-love-la-precarite-touche-davantage-les-femmes-les-etudiants-etrangers-et-les-boursiers.html</a></p>
+<p class="src"><b>Bénévole</b><br>Récit original écrit par le département de français de BBA.</p>
+<p class="src"><b>Le congé de naissance</b><br><a href="https://www.toutsurmesfinances.com/actualites/?p=1100" target="_blank" rel="noopener">https://www.toutsurmesfinances.com/actualites/?p=1100</a><br><a href="https://www.linfodurable.fr/budget-de-la-secu-creation-dun-nouveau-conge-de-naissance-53210" target="_blank" rel="noopener">https://www.linfodurable.fr/budget-de-la-secu-creation-dun-nouveau-conge-de-naissance-53210</a></p>
+<p class="src"><b>La baguette</b><br><a href="https://www.culture.gouv.fr/actualites/La-baguette-de-pain-inscrite-au-patrimoine-immateriel-de-l-Unesco" target="_blank" rel="noopener">https://www.culture.gouv.fr/actualites/La-baguette-de-pain-inscrite-au-patrimoine-immateriel-de-l-Unesco</a><br><a href="https://lepetitjournal.com/fil-afp/populaire-mais-en-peril-la-baguette-inscrite-au-patrimoine-immateriel-de-lhumanite-351449" target="_blank" rel="noopener">https://lepetitjournal.com/fil-afp/populaire-mais-en-peril-la-baguette-inscrite-au-patrimoine-immateriel-de-lhumanite-351449</a></p>
+<p class="src"><b>Les influenceurs (traduction)</b><br><a href="https://siecledigital.fr/2023/07/26/le-far-west-de-linfluence-touche-a-sa-fin/" target="_blank" rel="noopener">https://siecledigital.fr/2023/07/26/le-far-west-de-linfluence-touche-a-sa-fin/</a></p>
+  <p class="credit">Voices: Piper TTS. <i>en_GB-cori-high</i> (announcer) – LibriVox recordings, public domain. <i>fr_FR-siwis-medium</i> – SIWIS French Speech Synthesis Database, licence CC BY 4.0. <i>fr_FR-upmc-medium</i> (voice “Jessica”) – UPMC Pierre data, MaryTTS project, licence CC BY-SA 4.0 (<a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener">creativecommons.org/licenses/by-sa/4.0</a>). <i>fr_FR-tom-medium</i> – French-tts-model-piper dataset, licence AGPLv3. The audio files of this paper are shared under the same licences.</p>
+</section>
+
+<script>
+(function(){
+  function paint(item){
+    var v=item.querySelector('.mcval').value, multi=item.dataset.t==='tick';
+    item.querySelectorAll('.opt').forEach(function(b){b.setAttribute('aria-checked', (multi ? v.indexOf(b.dataset.v)>=0 : b.dataset.v===v)?'true':'false');});
+  }
+  document.addEventListener('click',function(e){
+    var b=e.target.closest('.opt'); if(!b) return;
+    var item=b.closest('.item'), f=item.querySelector('.mcval');
+    if(item.dataset.t==='tick'){ var set=f.value.split('').filter(Boolean), k=set.indexOf(b.dataset.v); if(k>=0) set.splice(k,1); else set.push(b.dataset.v); f.value=set.sort().join(''); }
+    else f.value = (f.value===b.dataset.v) ? '' : b.dataset.v;
+    f.dispatchEvent(new Event('input',{bubbles:true})); f.dispatchEvent(new Event('change',{bubbles:true}));
+    paint(item);
+  });
+  /* keep the crosses in step with answers the kit restores after a reload */
+  setInterval(function(){document.querySelectorAll('.item.mc').forEach(paint);},800);
+})();
+</script>
+<script type="application/json" id="lp-key">{"q1": ["D", "C", "A", "B"], "q2": [{"ans": "Any 2: la phase principale n'a duré que 39 jours (la plus courte depuis 2018) – près de 68 % des candidats ont reçu une proposition dès le premier jour.", "pts": [[[["39", "trente-neuf", "plus courte", "43"]]], [[["68", "premier jour"]]]]}, {"ans": "Il y avait plus de formations (plus de 26 000, environ 800 de plus).", "pts": [[[["plus de formations", "26", "800", "augment", "elargi", "plus de choix"]]]]}, {"ans": "Un peu moins de nouveaux bacheliers ont reçu une proposition (93,5 %, un point de moins).", "pts": [[[["93", "un point", "moins de propositions", "moins de bacheliers", "moins d'eleves", "1 point"]]]]}, {"ans": "Les élèves de la voie professionnelle attendent plus longtemps (plus de cinq jours contre deux).", "pts": [[[["profession", "technolog", "general"]], [["attend", "plus longtemps", "jours"]]]]}], "q3": [{"ans": "Any 2: une « Semaine d'art » en septembre 1947 – Jean Vilar invité au palais des Papes (pendant une exposition) – il a monté trois créations dans trois lieux.", "pts": [[[["1947", "semaine d'art"]]], [[["vilar", "palais", "exposition", "invit"]]], [[["trois", "3"], ["piece", "creation", "lieu", "spectacle"]], [["shakespeare", "richard"]]]]}, {"ans": "Un public nouveau / jeune / attentif.", "pts": [[[["jeune", "nouveau", "attentif"]]]]}, {"ans": "Il a dirigé le Théâtre national populaire (TNP).", "pts": [[[["populaire", "tnp", "dirig", "tete"]]]]}, {"ans": "Any 2: 42 spectacles (dont 32 créations) – environ 300 représentations – 40 lieux – plus de 121 000 places.", "pts": [[[["42", "quarante-deux", "32", "creation"]]], [[["300", "representation"]]], [[["40 lieux", "quarante lieux", "lieux"]]], [[["121", "places"]]]]}, {"ans": "L'arabe était la langue invitée.", "pts": [[[["arabe"]]]]}, {"ans": "Une carte à un euro (pour les moins de 25 ans / étudiants) donne des tarifs réduits.", "pts": [[[["carte", "1 euro", "un euro", "tarif", "reduc", "moins cher"]]]]}, {"ans": "Pour aller à la rencontre d'un public qui ne vient pas en ville.", "pts": [[[["public", "gens", "personnes"], ["ville", "vient pas", "viennent pas", "loin", "rencontre", "campagne", "communes"]]]]}], "q4a": [{"ans": "La désinformation venue de l'étranger.", "pts": [[[["desinformation", "fausses", "fake", "etranger"]]]]}, {"ans": "Sur les réseaux sociaux.", "pts": [[[["reseaux"]]]]}, {"ans": "40 % voient des fausses informations à la télévision AND 30 % à la radio (moins qu'en ligne).", "pts": [[[["40", "tele"]]], [[["30", "radio"]]]]}, {"ans": "Un label indépendant pour les médias en ligne.", "pts": [[[["label"]]]]}, {"ans": "Il a reculé de cinq points (71 %).", "pts": [[[["recul", "baiss", "diminu", "moins", "cinq points", "5 points", "71"]]]]}], "q4b": {"key1": [{"ans": "Près d'un Français sur deux (47 %) ressent souvent de la fatigue / du rejet.", "pts": [[[["47", "un sur deux", "moitie", "presque la moitie"]]]]}, {"ans": "Elle a légèrement reculé (quatre points de moins).", "pts": [[[["recul", "baiss", "diminu", "moins", "quatre points", "4 points"]]]]}, {"ans": "28 % des personnes interrogées s'intéressent peu à l'actualité.", "pts": [[[["28"]], [["peu"], ["interess"]]]]}], "key2": [{"ans": "Il reste en tête (85 %) mais recule de cinq points.", "pts": [[[["85", "tete", "premier", "recul", "baiss", "moins"]]]]}, {"ans": "Chaînes d'information continue 76 % / presse régionale 72 %.", "pts": [[[["76", "72", "continue", "regional"]]]]}, {"ans": "Ils progressent : 42 % des Français les suivent pour s'informer (+5 points).", "pts": [[[["42", "progress", "augment", "plus", "hausse"]]]]}]}, "B": {"q5": ["B", "D", "C", "A"], "q6": ["A", "C", "E", "G"], "q7": [{"ans": "Une place pour le festival coûtait trop cher (plus que ce qu'elle avait gagné).", "pts": [[[["cher", "prix", "cout", "argent", "payer", "gratuit"]]]]}, {"ans": "Any 2: elle triait les déchets – derrière la scène, sans voir les concerts – sous la pluie.", "pts": [[[["dechet", "poubelle", "gobelet", "tri"]]], [[["pluie", "pleuv"]]], [[["derriere", "pas voir", "voyait pas", "concert", "danser"]]]]}, {"ans": "Any 2: les rencontres avec des bénévoles variés (retraités, étudiants) – les crêpes à minuit – personne ne parlait de ses notes / de son orientation.", "pts": [[[["retraite", "etudiant", "benevole", "gens", "rencontr", "ambiance"]]], [[["crepe", "cuisinier", "manger"]]], [[["note", "orientation"]]]]}, {"ans": "Elle veut revenir l'année suivante.", "pts": [[[["reven", "retourner", "encore", "prochaine", "suivante"]]]]}], "q8": [{"ans": "À cause de la baisse de la natalité / pour un « réarmement démographique ».", "pts": [[[["natalite", "naissance", "demograph", "bebe", "enfants"]]]]}, {"ans": "Any 2: un ou deux mois par parent – en même temps ou à tour de rôle – dans les neuf mois après la naissance.", "pts": [[[["un ou deux mois", "1 ou 2", "deux mois", "2 mois"]]], [[["meme temps", "tour de role", "altern", "ensemble"]]], [[["neuf mois", "9 mois"]]]]}, {"ans": "Il s'ajoute aux congés de maternité, de paternité et d'adoption.", "pts": [[[["ajout", "en plus", "s'additionne", "apres"]]]]}, {"ans": "Il est mieux payé (le congé parental rapporte environ 400 € par mois).", "pts": [[[["mieux pay", "plus d'argent", "400", "mieux remuner", "plus pay"]]]]}, {"ans": "70 % du salaire le premier mois AND 60 % le deuxième (dans la limite d'un plafond).", "pts": [[[["70"]]], [[["60"]]]]}, {"ans": "Les parents qui ne travaillent pas / les parents au foyer.", "pts": [[[["foyer", "ne travaill", "sans emploi", "sans activite", "chomeur", "pas d'activite"]]]]}], "q9": [{"ans": "Les savoir-faire artisanaux et la culture de la baguette (patrimoine immatériel).", "pts": [[[["savoir-faire", "savoir faire", "culture", "patrimoine"]]]]}, {"ans": "Plus de six milliards de baguettes sont produites chaque année.", "pts": [[[["six milliards", "6 milliards", "milliard"]]]]}, {"ans": "Un acte culturel.", "pts": [[[["culturel", "culture"]]]]}, {"ans": "Il a parlé de « 250 grammes de magie et de perfection ».", "pts": [[[["magie", "perfection", "250"]]]]}, {"ans": "Le nombre de boulangeries a baissé de 55 000 (1970) à 35 000 AND environ 400 disparaissent chaque année.", "pts": [[[["55", "35", "baisse", "diminu", "ferme", "dispar", "moins de boulangeries"]]], [[["400", "chaque annee", "par an"]]]]}, {"ans": "Dans les communes rurales / à la campagne.", "pts": [[[["rural", "campagne", "village"]]]]}, {"ans": "L'industrialisation.", "pts": [[[["industri", "usine"]]]]}]}, "C": [{"fr": "Depuis le 9 juin 2023,", "ans": "Since 9 June 2023,", "pts": [[[["since", "as of", "from"], ["june"], ["2023"]]]]}, {"fr": "les influenceurs doivent respecter une loi", "ans": "influencers have to comply with a law", "pts": [[[["influencer"], ["must", "have to", "has to", "need to", "required", "obliged"], ["law"]]]]}, {"fr": "qui encadre leur activité commerciale.", "ans": "which regulates their commercial activity.", "pts": [[[["regulat", "govern", "frame", "control", "oversee", "supervis", "limit"], ["commercial", "business"]]]]}, {"fr": "La France en compterait environ 150 000.", "ans": "France is thought to have around 150,000 of them.", "pts": [[[["150,000", "150 000", "150000", "hundred and fifty thousand", "150k"]]]]}, {"fr": "Lorsqu'ils font la promotion d'un produit,", "ans": "When they promote a product,", "pts": [[[["promot", "advertis"], ["product"]]]]}, {"fr": "ils doivent désormais afficher clairement la mention « publicité ».", "ans": "they must now clearly display the word 'advertisement'.", "pts": [[[["clear"], ["advert", "publicit"], ["display", "show", "state", "indicate", "label", "write", "put", "mention", "include"]]]]}, {"fr": "Si une photo transforme un corps ou un visage,", "ans": "If a photo alters a body or a face,", "pts": [[[["photo", "picture", "image"], ["body"], ["face"]]]]}, {"fr": "elle doit être signalée comme retouchée.", "ans": "it must be flagged as retouched.", "pts": [[[["retouch", "edited", "altered", "modified", "photoshopped", "touched up", "enhanced", "manipulated", "doctored"], ["indicat", "flag", "label", "signal", "mark", "stat", "report", "declar", "show", "identif"]]]]}, {"fr": "Certaines promotions sont même interdites,", "ans": "Some promotions are even banned,", "pts": [[[["banned", "forbidden", "prohibited", "not allowed", "outlawed", "illegal"], ["even"]]]]}, {"fr": "comme celle de la chirurgie esthétique.", "ans": "such as that of cosmetic surgery.", "pts": [[[["cosmetic surgery", "plastic surgery", "aesthetic surgery", "cosmetic operation"]]]]}, {"fr": "Pour les jeux d'argent,", "ans": "For gambling,", "pts": [[[["gambling", "betting", "games of chance", "money games", "gaming"]]]]}, {"fr": "les publications doivent préciser", "ans": "posts must state", "pts": [[[["post", "publication"], ["specify", "state", "indicate", "mention", "make clear", "say", "point out", "make it clear"]]]]}, {"fr": "qu'ils sont interdits aux moins de dix-huit ans.", "ans": "that it is forbidden to under-eighteens.", "pts": [[[["under", "below", "younger than", "minors"], ["18", "eighteen"]]]]}, {"fr": "Les influenceurs qui ne respectent pas ces règles", "ans": "Influencers who do not respect these rules", "pts": [[[["do not", "don't", "fail to", "who break", "who ignore", "who violate", "who breach", "disobey"], ["rule"]]]]}, {"fr": "risquent désormais", "ans": "now risk", "pts": [[[["risk", "face", "could get", "can get", "liable", "could receive", "can receive"]]]]}, {"fr": "jusqu'à deux ans de prison.", "ans": "up to two years in prison.", "pts": [[[["up to"], ["two years", "2 years", "two-year"], ["prison", "jail", "imprisonment"]]]]}, {"fr": "Pour le ministre de l'Économie de l'époque, Bruno Le Maire,", "ans": "For the then Economy Minister, Bruno Le Maire,", "pts": [[[["minister"], ["econom", "finance"], ["at the time", "then", "former", "of the time"]]]]}, {"fr": "il fallait s'assurer", "ans": "it was necessary to make sure", "pts": [[[["had to", "needed to", "necessary", "must", "important", "essential", "was needed", "need to"], ["ensure", "make sure", "be sure", "guarantee", "check"]]]]}, {"fr": "que le net n'était pas", "ans": "that the net was not", "pts": [[[["internet", "net", "web", "online"], ["not", "wasn't", "was no", "isn't"]]]]}, {"fr": "le Far West.", "ans": "the Wild West.", "pts": [[[["wild west", "far west"]]]]}]}</script>
+<script src="paper-marker.js" defer></script>
+<script>window.BBA_KIT = Object.assign(window.BBA_KIT || {}, {check:false, download:false, name:false, meter:false, tries:0});</script>
+<script src="bba-kit-fr.js" defer></script>
+</body>
+</html>

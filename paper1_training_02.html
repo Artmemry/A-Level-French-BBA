@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Paper 1 training 2 – 9FR0/01 practice</title>
+<style>
+:root{--ink:#111;--rule:#9a9a9a;--muted:#555;--paper:#fff;--bg:#e9e9e9}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Arial,Helvetica,sans-serif;font-size:17px;line-height:1.45}
+.sheet{background:var(--paper);max-width:820px;margin:24px auto;padding:40px 56px 32px;box-shadow:0 1px 4px rgba(0,0,0,.25);position:relative}
+@media (max-width:700px){.sheet{margin:0 0 8px;padding:24px 16px}}
+.pageno{text-align:center;color:var(--muted);font-size:13px;margin-top:28px}
+.cover h1{font-size:28px;margin:4px 0 0}
+.cover .board{font-size:15px;color:var(--muted)}
+.cover .ref{float:right;text-align:right;font-size:14px;border:1px solid var(--ink);padding:6px 10px}
+.cover hr{border:0;border-top:2px solid var(--ink);margin:18px 0}
+.cover h2{font-size:17px;margin:18px 0 4px}
+.cover ul{margin:4px 0;padding-left:20px}
+.sec{text-align:center;font-weight:bold;font-size:19px;letter-spacing:.5px;margin:0}
+.sec+.sec{margin-bottom:10px}
+.rec{text-align:center;font-weight:bold;margin:4px 0 16px}
+.instr p{margin:6px 0}
+.durs{margin:10px 0 10px 40%}
+@media (max-width:700px){.durs{margin-left:8%}}
+.durs div{margin:2px 0}
+.ptitle{font-weight:bold;font-size:18px;margin:0 0 10px}
+.qhead{display:flex;gap:14px;font-weight:bold;margin:0 0 12px}
+.qhead .qn{min-width:22px}
+.item{margin:0 0 0 36px;position:relative}
+.item.mc{margin-bottom:14px}
+@media (max-width:700px){.item{margin-left:6px}}
+.q{margin:0 0 6px}
+.num{display:inline-block;min-width:38px}
+.bul{padding-left:24px}
+.mark{text-align:right;font-weight:bold;margin:0 0 12px}
+.total{text-align:right;font-weight:bold;margin:18px 0 0}
+.grand{text-align:right;font-weight:bold;font-size:18px;margin:16px 0 0}
+textarea.ans{width:100%;border:0;border-bottom:1px dotted var(--rule);resize:vertical;font:inherit;line-height:32px;padding:0 4px;
+  background:repeating-linear-gradient(transparent 0 31px,var(--rule) 31px 32px);outline-offset:2px;min-height:64px}
+textarea.ans:focus{outline:2px solid #2b5797;background-color:#f7f9fd}
+.sr{position:absolute!important;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0;padding:0}
+.opt{display:flex;align-items:center;gap:12px;width:calc(100% - 38px);margin:6px 0 6px 38px;padding:4px 0;background:none;border:0;font:inherit;color:inherit;text-align:left;cursor:pointer}
+.opt b{min-width:16px}
+.opt .ot{flex:1}
+.box{width:30px;height:24px;border:1.5px solid var(--ink);flex:none;position:relative}
+.opt[aria-checked="true"] .box::after{content:"\2715";position:absolute;inset:0;display:grid;place-items:center;font-size:20px;font-weight:bold}
+.opt:focus-visible{outline:2px solid #2b5797;outline-offset:2px}
+.player{display:flex;align-items:center;gap:12px;flex-wrap:wrap;border:1px solid var(--rule);padding:8px 12px;margin:0 0 16px}
+.plab{font-weight:bold;font-size:15px}
+.player audio{flex:1;min-width:220px}
+.lead{font-weight:bold;margin:0 0 12px}
+.who{margin:14px 0 6px 36px;font-weight:bold}
+.src{margin:0 0 14px;font-size:15px;word-break:break-all}
+.src b{word-break:normal}
+.cand{display:block;margin:14px 0;font-weight:bold}
+.cand input{font:inherit;font-weight:normal;border:1px solid var(--ink);padding:6px 8px;width:min(340px,100%);margin-left:8px}
+.lpbar{display:flex;gap:10px;flex-wrap:wrap;justify-content:flex-end;margin:22px 0 0}
+.lpbar button{font:inherit;font-weight:bold;padding:9px 16px;border:1px solid #2b5797;background:#fff;color:#2b5797;cursor:pointer;border-radius:4px}
+.lpbar button.go{background:#2b5797;color:#fff}
+.lpres{border:2px solid #2b5797;padding:12px 16px;margin:14px 0 0;background:#f4f7fc}
+.lpres p{margin:4px 0}
+.fb{margin:-6px 0 14px 36px;padding:8px 12px;font-size:15px;border-left:4px solid #b0b0b0;background:#f6f6f6}
+.fb.full{border-color:#2e7d52;background:#eef7f1}
+.fb.part{border-color:#c98a00;background:#fdf6e6}
+.fb.zero{border-color:#b3261e;background:#fbeeed}
+.fb b{margin-right:6px}
+.locked textarea.ans,.locked .opt{pointer-events:none}
+.opt.right .box{background:#dff0e5}
+@media print{.lpbar,.fb,.lpres{display:none!important}}
+.rtext{border:1px solid var(--rule);padding:12px 16px;margin:0 0 16px;background:#fcfcfc}
+.rtext p{margin:0 0 10px;text-align:justify}
+.rtitle{font-weight:bold;text-align:center!important}
+.lead2{font-weight:bold;margin:12px 0 8px}
+.trans-fb table{border-collapse:collapse;width:100%;margin-top:8px;font-size:14px}
+.trans-fb td{border-top:1px solid #ddd;padding:4px 6px;vertical-align:top}
+.trans-fb td.ok{color:#2e7d52;font-weight:bold} .trans-fb td.no{color:#b3261e;font-weight:bold}
+.credit{font-size:13px;color:var(--muted);border-top:1px solid var(--rule);padding-top:10px;margin-top:22px}
+.defi ol{padding-left:22px}
+.defi li{margin-bottom:14px}
+@media print{body{background:#fff}.sheet{box-shadow:none;margin:0;page-break-after:always}.player,#bba-kit{display:none!important}}
+</style>
+</head>
+<body>
+
+<section class="sheet cover">
+  <div class="ref">Paper reference<br><b>9FR0/01</b><br>Paper 1 training 2</div>
+  <div class="board">BBA practice paper modelled on Pearson Edexcel Level 3 GCE</div>
+  <h1>French</h1>
+  <div><b>Advanced</b><br>PAPER 1: Listening, Reading and Translation<br>Paper 1 training 2 · Theme 1 only · early Year 12</div>
+  <hr>
+  <label class="cand">Candidate name <input type="text" id="cand" autocomplete="name" placeholder="First name and initial"></label>
+  <p><b>You must have:</b> headphones or earphones. The recordings are on this page.</p>
+  <h2>Instructions</h2>
+  <ul>
+    <li>Type your name in the box above if you want it on your results file (optional).</li>
+    <li>Answer <b>all</b> questions in Sections A, B and C.</li>
+    <li>Candidates are recommended to start with Section A: Listening, and work through each section as presented.</li>
+    <li>Answer the questions in the spaces provided – there may be more space than you need.</li>
+    <li>We recommend you spend 50 minutes on Section A: Listening, 50 minutes on Section B: Reading and 20 minutes on Section C: Translation into English (2 hours in total).</li>
+    <li>You must not use a dictionary.</li>
+    <li>You can do one section at a time: each section ends with its own <b>Mark Section … only</b> button. To mark everything at once, press <b>Mark the whole paper</b> at the end of Section C.</li>
+    <li>Then press <b>Download results</b> at the end of Section C and send the file to your teacher: it contains every section you have marked.</li>
+  </ul>
+  <h2>Information</h2>
+  <ul>
+    <li>The total mark for this paper is 80.</li>
+    <li>The marks for each question are shown in brackets – use this as a guide as to how much time to spend on each question.</li>
+  </ul>
+  <h2>Advice</h2>
+  <ul>
+    <li>Read each question carefully before you start to answer it.</li>
+    <li>Try to answer every question.</li>
+    <li>Check your answers if you have time at the end.</li>
+  </ul>
+  <p class="pageno">1</p>
+</section>
+
+<section class="sheet">
+  <p style="margin-top:0">Answer ALL questions. Write your answers in the spaces provided.<br>
+  Some questions must be answered with a cross in a box ☒. If you change your mind about an answer, click another box.</p>
+  <p class="sec">SECTION A</p><p class="sec">LISTENING</p>
+  <p class="rec">We recommend you spend no more than 50 minutes on this section.</p>
+  <div class="instr">
+    <p>Questions 2, 3 and 4(a) do not require full sentences and you may respond using single words or phrases.</p>
+    <p>Summary Question 4(b) does not require full sentences and you may respond using short phrases.</p>
+    <p>You may use words from the listening passages but you must not transcribe whole sections.</p>
+    <p>You are going to listen to five passages. The duration of each passage is approximately:</p>
+    <div class="durs">
+      <div>Passage 1 = 1 minute 09 seconds</div><div>Passage 2 = 1 minute 18 seconds</div><div>Passage 3 = 2 minutes 14 seconds</div>
+      <div>Passage 4(a) = 1 minute 14 seconds</div><div>Passage 4(b) = 1 minute 29 seconds</div>
+    </div>
+    <p>You will be in charge of the recording and you may listen to each passage as often as you wish, and write your answers whenever you wish to do so.</p>
+  </div>
+  <p class="pageno">2</p>
+</section>
+
+<section class="sheet">
+  <p class="ptitle">Passage 1 – Mariage et Pacs : les couples s&#x27;engagent autrement</p>
+  <div class="player"><span class="plab">Passage 1</span><audio controls preload="none" src="listening_paper_02_passage_1.mp3"></audio></div>
+  <div class="qhead"><span class="qn">1</span><span>Écoutez le reportage. Cochez la bonne fin pour les phrases.</span></div>
+  <div class="item mc" data-t="mc" data-k="q1.0" data-max="1" data-lab="1(i)"><p class="q"><span class="sr">1</span><span class="num">(i)</span> En 2024, le nombre de mariages…</p><div role="radiogroup" aria-label="1(i)"><button type="button" class="opt" role="radio" aria-checked="false" data-v="A"><b>A</b> <span class="ot">a un peu augmenté.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="B"><b>B</b> <span class="ot">a fortement baissé.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="C"><b>C</b> <span class="ot">a doublé.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="D"><b>D</b> <span class="ot">est resté identique.</span><span class="box" aria-hidden="true"></span></button></div><input type="text" class="sr mcval" name="q1_i" tabindex="-1" aria-hidden="true" readonly></div><div class="item mc" data-t="mc" data-k="q1.1" data-max="1" data-lab="1(ii)"><p class="q"><span class="sr">1</span><span class="num">(ii)</span> En 2020, il y a eu peu de mariages à cause…</p><div role="radiogroup" aria-label="1(ii)"><button type="button" class="opt" role="radio" aria-checked="false" data-v="A"><b>A</b> <span class="ot">d&#x27;une nouvelle loi.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="B"><b>B</b> <span class="ot">du succès du Pacs.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="C"><b>C</b> <span class="ot">de la hausse des prix.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="D"><b>D</b> <span class="ot">de la crise sanitaire.</span><span class="box" aria-hidden="true"></span></button></div><input type="text" class="sr mcval" name="q1_ii" tabindex="-1" aria-hidden="true" readonly></div><div class="item mc" data-t="mc" data-k="q1.2" data-max="1" data-lab="1(iii)"><p class="q"><span class="sr">1</span><span class="num">(iii)</span> Au début des années 2000, le Pacs…</p><div role="radiogroup" aria-label="1(iii)"><button type="button" class="opt" role="radio" aria-checked="false" data-v="A"><b>A</b> <span class="ot">était plus fréquent que le mariage.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="B"><b>B</b> <span class="ot">était encore rare.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="C"><b>C</b> <span class="ot">était réservé aux couples de même sexe.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="D"><b>D</b> <span class="ot">n&#x27;existait pas encore.</span><span class="box" aria-hidden="true"></span></button></div><input type="text" class="sr mcval" name="q1_iii" tabindex="-1" aria-hidden="true" readonly></div><div class="item mc" data-t="mc" data-k="q1.3" data-max="1" data-lab="1(iv)"><p class="q"><span class="sr">1</span><span class="num">(iv)</span> Aujourd&#x27;hui, le nombre de Pacs…</p><div role="radiogroup" aria-label="1(iv)"><button type="button" class="opt" role="radio" aria-checked="false" data-v="A"><b>A</b> <span class="ot">dépasse largement celui des mariages.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="B"><b>B</b> <span class="ot">diminue depuis vingt ans.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="C"><b>C</b> <span class="ot">est proche de celui des mariages.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="D"><b>D</b> <span class="ot">n&#x27;est pas connu.</span><span class="box" aria-hidden="true"></span></button></div><input type="text" class="sr mcval" name="q1_iv" tabindex="-1" aria-hidden="true" readonly></div>
+  <p class="total">(Total for Question 1 = 4 marks)</p>
+  <p class="pageno">3</p>
+</section>
+
+<section class="sheet">
+  <p class="ptitle">Passage 2 – Les groupes de besoins au collège</p>
+  <div class="player"><span class="plab">Passage 2</span><audio controls preload="none" src="listening_paper_02_passage_2.mp3"></audio></div>
+  <div class="qhead"><span class="qn">2</span><span>Écoutez l&#x27;interview sur une réforme du collège. Répondez aux questions en français.</span></div>
+  <div class="item" data-t="open" data-k="q2.0" data-max="1" data-lab="2(a)"><p class="q"><span class="sr">2</span><span class="num">(a)</span> Quels élèves sont concernés par cette mesure ?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="q2.1" data-max="2" data-lab="2(b)"><p class="q"><span class="sr">2</span><span class="num">(b)</span> Quels problèmes pratiques le rapport a-t-il relevés ? Donnez deux détails.</p><textarea class="ans" rows="3" aria-label="Answer"></textarea></div><p class="mark">(2)</p>
+<div class="item" data-t="open" data-k="q2.2" data-max="1" data-lab="2(c)"><p class="q"><span class="sr">2</span><span class="num">(c)</span> Quel effet positif les petits groupes ont-ils eu ?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="q2.3" data-max="1" data-lab="2(d)"><p class="q"><span class="sr">2</span><span class="num">(d)</span> Pourquoi certains élèves se démotivent-ils ?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+  <p class="total">(Total for Question 2 = 5 marks)</p>
+  <p class="pageno">4</p>
+</section>
+
+<section class="sheet">
+  <p class="ptitle">Passage 3 – La semaine de quatre jours, rêve ou réalité ?</p>
+  <div class="player"><span class="plab">Passage 3</span><audio controls preload="none" src="listening_paper_02_passage_3.mp3"></audio></div>
+  <div class="qhead"><span class="qn">3</span><span>Écoutez l&#x27;interview sur la semaine de quatre jours. Répondez aux questions en français.</span></div>
+  <div class="item" data-t="open" data-k="q3.0" data-max="2" data-lab="3(a)"><p class="q"><span class="sr">3</span><span class="num">(a)</span> Quelles sont les deux formules de la semaine de quatre jours ?</p><textarea class="ans" rows="3" aria-label="Answer"></textarea></div><p class="mark">(2)</p>
+<div class="item" data-t="open" data-k="q3.1" data-max="1" data-lab="3(b)"><p class="q"><span class="sr">3</span><span class="num">(b)</span> Comment le test de l&#x27;Urssaf de Picardie était-il organisé ?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="q3.2" data-max="1" data-lab="3(c)"><p class="q"><span class="sr">3</span><span class="num">(c)</span> Pourquoi le résultat du test a-t-il surpris ?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="q3.3" data-max="2" data-lab="3(d)"><p class="q"><span class="sr">3</span><span class="num">(d)</span> Pourquoi la formule a-t-elle attiré peu de salariés ? Donnez deux détails.</p><textarea class="ans" rows="3" aria-label="Answer"></textarea></div><p class="mark">(2)</p>
+<div class="item" data-t="open" data-k="q3.4" data-max="1" data-lab="3(e)"><p class="q"><span class="sr">3</span><span class="num">(e)</span> Qu&#x27;est-ce que les volontaires ont apprécié ?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="q3.5" data-max="1" data-lab="3(f)"><p class="q"><span class="sr">3</span><span class="num">(f)</span> Quel problème apparaît chez Elmy ?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="q3.6" data-max="1" data-lab="3(g)"><p class="q"><span class="sr">3</span><span class="num">(g)</span> Quel avertissement l&#x27;entreprise IT Partner donne-t-elle ?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+  <p class="total">(Total for Question 3 = 9 marks)</p>
+  <p class="pageno">5</p>
+</section>
+
+<section class="sheet">
+  <p class="ptitle">Passage 4(a) – Les familles monoparentales</p>
+  <div class="player"><span class="plab">Passage 4(a)</span><audio controls preload="none" src="listening_paper_02_passage_4a.mp3"></audio></div>
+  <div class="qhead"><span class="qn">4</span><span>(a) Écoutez le reportage sur les familles monoparentales. Répondez aux questions en français.</span></div>
+  <div class="item" data-t="open" data-k="q4a.0" data-max="1" data-lab="4(a)(i)"><p class="q"><span class="sr">4(a)</span><span class="num">(i)</span> Quelle proportion des enfants vit dans une famille monoparentale ?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="q4a.1" data-max="1" data-lab="4(a)(ii)"><p class="q"><span class="sr">4(a)</span><span class="num">(ii)</span> Comment cette proportion a-t-elle évolué depuis 2018 ?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="q4a.2" data-max="2" data-lab="4(a)(iii)"><p class="q"><span class="sr">4(a)</span><span class="num">(iii)</span> Que dit le reportage sur les pères seuls ? Donnez deux détails.</p><textarea class="ans" rows="3" aria-label="Answer"></textarea></div><p class="mark">(2)</p>
+<div class="item" data-t="open" data-k="q4a.3" data-max="1" data-lab="4(a)(iv)"><p class="q"><span class="sr">4(a)</span><span class="num">(iv)</span> Où le phénomène est-il le plus fréquent ?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="q4a.4" data-max="1" data-lab="4(a)(v)"><p class="q"><span class="sr">4(a)</span><span class="num">(v)</span> Pourquoi peut-on dire que ces familles sont fragiles ?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+  <p class="pageno">6</p>
+</section>
+
+<section class="sheet">
+  <p class="lead">Résumez le reportage suivant. Des phrases courtes suffisent. Donnez trois détails pour la question 4(b)(i) et trois détails pour la question 4(b)(ii).</p>
+  <p class="ptitle">Passage 4(b) – Les familles monoparentales</p>
+  <div class="player"><span class="plab">Passage 4(b)</span><audio controls preload="none" src="listening_paper_02_passage_4b.mp3"></audio></div>
+  <div class="qhead"><span class="qn"></span><span>(b) Écoutez la deuxième partie du reportage. Répondez en français.</span></div>
+  <p class="who">(i) Résumez ce que l&#x27;homme nous dit sur :</p>
+  <div class="item" data-t="open" data-k="q4b.key1.0" data-max="1" data-lab="4(b)(i) • qui dirige le plus souvent les familles monoparentales"><p class="q bul"><span class="sr">4(b)(i) </span>• qui dirige le plus souvent les familles monoparentales</p><textarea class="ans" rows="2" aria-label="4(b)(i)"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="q4b.key1.1" data-max="1" data-lab="4(b)(i) • la différence de niveau de vie entre mères et pères seuls"><p class="q bul"><span class="sr">4(b)(i) </span>• la différence de niveau de vie entre mères et pères seuls</p><textarea class="ans" rows="2" aria-label="4(b)(i)"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="q4b.key1.2" data-max="1" data-lab="4(b)(i) • le risque de pauvreté."><p class="q bul"><span class="sr">4(b)(i) </span>• le risque de pauvreté.</p><textarea class="ans" rows="2" aria-label="4(b)(i)"></textarea></div><p class="mark">(1)</p>
+  <p class="who">(ii) Résumez ce que la femme nous dit sur :</p>
+  <div class="item" data-t="open" data-k="q4b.key2.0" data-max="1" data-lab="4(b)(ii) • le temps partiel"><p class="q bul"><span class="sr">4(b)(ii) </span>• le temps partiel</p><textarea class="ans" rows="2" aria-label="4(b)(ii)"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="q4b.key2.1" data-max="1" data-lab="4(b)(ii) • le logement"><p class="q bul"><span class="sr">4(b)(ii) </span>• le logement</p><textarea class="ans" rows="2" aria-label="4(b)(ii)"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="q4b.key2.2" data-max="1" data-lab="4(b)(ii) • les aides sociales."><p class="q bul"><span class="sr">4(b)(ii) </span>• les aides sociales.</p><textarea class="ans" rows="2" aria-label="4(b)(ii)"></textarea></div><p class="mark">(1)</p>
+  <p class="total">(Total for Question 4 = 12 marks)</p>
+  <p class="grand">TOTAL FOR SECTION A = 30 MARKS</p>
+  <div class="lpbar"><button type="button" class="go" data-mark="A">Mark Section A only</button></div>
+  <div id="lp-res-A" class="lpres" aria-live="polite" hidden></div>
+  <p class="pageno">7</p>
+</section>
+
+<section class="sheet" id="secB">
+  <p class="sec">SECTION B</p><p class="sec">READING</p>
+  <p class="rec">We recommend you spend around 50 minutes on this section.</p>
+  <div class="instr"><p>Open-response questions do not have to be written in full sentences and you may respond using single words or phrases.</p>
+  <p>You may use words from the texts but you must not copy out whole sections.</p></div>
+  <div class="qhead"><span class="qn">5</span><span>Lisez l&#x27;article sur la lutte contre le harcèlement scolaire.</span></div><div class="rtext"><p class="rtitle">pHARe : apprendre à ne plus se taire</p><p>Selon un rapport du Sénat publié en 2021, entre 800 000 et un million d&#x27;enfants seraient victimes de harcèlement scolaire chaque année en France. Pour lutter contre ce fléau, l&#x27;Éducation nationale a créé le programme pHARe.</p><p>Étendu à toutes les écoles et à tous les collèges en 2022, il repose sur plusieurs piliers : dix heures de sensibilisation pour les élèves chaque année, cinq personnels « ressources » formés dans chaque établissement pour traiter les situations de harcèlement, et des élèves ambassadeurs chargés de sensibiliser leurs camarades.</p><p>En avril 2023, 86 % des collèges et 60 % des écoles s&#x27;étaient inscrits. Le ministre de l&#x27;époque, Pap Ndiaye, a alors annoncé l&#x27;extension du programme aux lycées dès septembre 2023. Les victimes et les témoins peuvent aussi appeler deux numéros gratuits et anonymes : le 3020 pour le harcèlement et le 3018 pour le cyberharcèlement.</p></div><p class="lead2">Choisissez la bonne fin pour les phrases. Cochez la bonne fin pour les phrases.</p><div class="item mc" data-t="mc" data-k="B.q5.0" data-max="1" data-lab="5(i)"><p class="q"><span class="sr">5</span><span class="num">(i)</span> Selon le Sénat, le harcèlement scolaire…</p><div role="radiogroup" aria-label="5(i)"><button type="button" class="opt" role="radio" aria-checked="false" data-v="A"><b>A</b> <span class="ot">touche moins de cent mille enfants.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="B"><b>B</b> <span class="ot">a disparu depuis 2021.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="C"><b>C</b> <span class="ot">concerne jusqu&#x27;à un million d&#x27;enfants par an.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="D"><b>D</b> <span class="ot">ne touche que les lycéens.</span><span class="box" aria-hidden="true"></span></button></div><input type="text" class="sr mcval" name="B.q5_i" tabindex="-1" aria-hidden="true" readonly></div><div class="item mc" data-t="mc" data-k="B.q5.1" data-max="1" data-lab="5(ii)"><p class="q"><span class="sr">5</span><span class="num">(ii)</span> Dans chaque établissement, le programme prévoit…</p><div role="radiogroup" aria-label="5(ii)"><button type="button" class="opt" role="radio" aria-checked="false" data-v="A"><b>A</b> <span class="ot">une équipe d&#x27;adultes formés.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="B"><b>B</b> <span class="ot">la présence d&#x27;un policier.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="C"><b>C</b> <span class="ot">un psychologue à temps plein.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="D"><b>D</b> <span class="ot">l&#x27;installation de caméras.</span><span class="box" aria-hidden="true"></span></button></div><input type="text" class="sr mcval" name="B.q5_ii" tabindex="-1" aria-hidden="true" readonly></div><div class="item mc" data-t="mc" data-k="B.q5.2" data-max="1" data-lab="5(iii)"><p class="q"><span class="sr">5</span><span class="num">(iii)</span> En 2023, le programme…</p><div role="radiogroup" aria-label="5(iii)"><button type="button" class="opt" role="radio" aria-checked="false" data-v="A"><b>A</b> <span class="ot">était déjà appliqué dans tous les lycées.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="B"><b>B</b> <span class="ot">a été abandonné.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="C"><b>C</b> <span class="ot">concernait seulement les écoles.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="D"><b>D</b> <span class="ot">allait être étendu aux lycées.</span><span class="box" aria-hidden="true"></span></button></div><input type="text" class="sr mcval" name="B.q5_iii" tabindex="-1" aria-hidden="true" readonly></div><div class="item mc" data-t="mc" data-k="B.q5.3" data-max="1" data-lab="5(iv)"><p class="q"><span class="sr">5</span><span class="num">(iv)</span> Le 3018 est un numéro…</p><div role="radiogroup" aria-label="5(iv)"><button type="button" class="opt" role="radio" aria-checked="false" data-v="A"><b>A</b> <span class="ot">payant.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="B"><b>B</b> <span class="ot">consacré au cyberharcèlement.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="C"><b>C</b> <span class="ot">réservé aux professeurs.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="D"><b>D</b> <span class="ot">pour signaler les absences.</span><span class="box" aria-hidden="true"></span></button></div><input type="text" class="sr mcval" name="B.q5_iv" tabindex="-1" aria-hidden="true" readonly></div>
+  <p class="total">(Total for Question 5 = 4 marks)</p>
+</section>
+<section class="sheet">
+  <div class="qhead"><span class="qn">6</span><span>Lisez cet article sur les salaires des femmes et des hommes.</span></div><div class="rtext"><p class="rtitle">Salaires : les femmes toujours en retard</p><p>En 2023, dans le secteur privé, le revenu salarial moyen des femmes était inférieur de 22,2 % à celui des hommes, selon l&#x27;Insee : 21 340 euros par an contre 27 430 euros.</p><p>Une grande partie de cet écart s&#x27;explique par le temps de travail : les femmes sont moins souvent en emploi et plus souvent à temps partiel. Mais même à temps de travail identique, elles gagnent en moyenne 14,2 % de moins. Elles occupent en effet moins souvent les postes les mieux payés : elles représentent 42 % des postes du privé, mais seulement 24 % du 1 % des postes les mieux rémunérés. À poste comparable, l&#x27;écart tombe à 3,8 %.</p><p>Les choses progressent toutefois : depuis 1995, les inégalités de revenu salarial se sont réduites d&#x27;un tiers, et ce recul s&#x27;est accéléré depuis 2019.</p></div><p class="lead2">Quelles phrases sont correctes ? Cochez les quatre bonnes phrases :</p><div class="item mc" data-t="tick" data-k="B.q6" data-max="4" data-lab="6"><button type="button" class="opt tk" role="checkbox" aria-checked="false" data-v="A"><b>A</b> <span class="ot">Dans le privé, les femmes gagnent en moyenne plus de 20 % de moins que les hommes.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt tk" role="checkbox" aria-checked="false" data-v="B"><b>B</b> <span class="ot">Les femmes travaillent plus souvent à temps partiel.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt tk" role="checkbox" aria-checked="false" data-v="C"><b>C</b> <span class="ot">À temps de travail égal, il n&#x27;y a plus d&#x27;écart.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt tk" role="checkbox" aria-checked="false" data-v="D"><b>D</b> <span class="ot">Les femmes occupent la majorité des postes les mieux payés.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt tk" role="checkbox" aria-checked="false" data-v="E"><b>E</b> <span class="ot">À poste comparable, l&#x27;écart est inférieur à 5 %.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt tk" role="checkbox" aria-checked="false" data-v="F"><b>F</b> <span class="ot">L&#x27;écart ne cesse d&#x27;augmenter depuis 1995.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt tk" role="checkbox" aria-checked="false" data-v="G"><b>G</b> <span class="ot">Les inégalités diminuent plus vite depuis 2019.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt tk" role="checkbox" aria-checked="false" data-v="H"><b>H</b> <span class="ot">Les femmes occupent plus de la moitié des postes du privé.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt tk" role="checkbox" aria-checked="false" data-v="I"><b>I</b> <span class="ot">L&#x27;Insee n&#x27;explique pas les causes de l&#x27;écart.</span><span class="box" aria-hidden="true"></span></button><input type="text" class="sr mcval" name="B_q6" tabindex="-1" aria-hidden="true" readonly></div>
+  <p class="total">(Total for Question 6 = 4 marks)</p>
+</section>
+<section class="sheet">
+  <div class="qhead"><span class="qn">7</span><span>Lisez ce récit d&#x27;une étudiante qui partage l&#x27;appartement d&#x27;une dame âgée. Répondez aux questions en français.</span></div><div class="rtext"><p class="rtitle">Madame Lucienne</p><p>Quand je suis arrivée à Lyon pour mes études, je n&#x27;avais ni argent ni logement. Une association m&#x27;a proposé une solution à laquelle je n&#x27;avais jamais pensé : partager l&#x27;appartement d&#x27;une dame de quatre-vingt-quatre ans. En échange d&#x27;un loyer presque symbolique, je m&#x27;engageais à être présente le soir et à faire quelques courses.</p><p>Les premières semaines ont été difficiles. Madame Lucienne écoutait la radio très fort, dînait à dix-huit heures et me demandait chaque matin si j&#x27;avais bien fermé la porte à clé. Moi, je rentrais tard de la bibliothèque et je vivais mon téléphone à la main.</p><p>Puis, un soir de novembre, elle m&#x27;a montré ses albums photos. Elle avait été institutrice dans un village de l&#x27;Ardèche, avait traversé la guerre enfant et parlait de sa jeunesse avec un humour que je ne lui soupçonnais pas. Depuis, nous avons nos rituels : je lui explique comment appeler ses petits-enfants en vidéo, elle corrige mes dissertations à l&#x27;encre rouge.</p><p>Ma mère avait peur que je m&#x27;ennuie. En réalité, c&#x27;est la première fois depuis longtemps que je ne me sens pas seule.</p></div><div class="item" data-t="open" data-k="B.q7.0" data-max="2" data-lab="7(a)"><p class="q"><span class="sr">7</span><span class="num">(a)</span> Pourquoi la narratrice a-t-elle accepté cette colocation ? Donnez deux détails.</p><textarea class="ans" rows="3" aria-label="Answer"></textarea></div><p class="mark">(2)</p>
+<div class="item" data-t="open" data-k="B.q7.1" data-max="2" data-lab="7(b)"><p class="q"><span class="sr">7</span><span class="num">(b)</span> Qu&#x27;est-ce qui rendait la vie commune difficile au début ? Donnez deux détails.</p><textarea class="ans" rows="3" aria-label="Answer"></textarea></div><p class="mark">(2)</p>
+<div class="item" data-t="open" data-k="B.q7.2" data-max="1" data-lab="7(c)"><p class="q"><span class="sr">7</span><span class="num">(c)</span> Qu&#x27;est-ce qui a changé leur relation ?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="B.q7.3" data-max="1" data-lab="7(d)"><p class="q"><span class="sr">7</span><span class="num">(d)</span> Que ressent la narratrice aujourd&#x27;hui ?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+  <p class="total">(Total for Question 7 = 6 marks)</p>
+</section>
+<section class="sheet">
+  <div class="qhead"><span class="qn">8</span><span>Lisez cet article sur le télétravail en France. Répondez aux questions en français.</span></div><div class="rtext"><p class="rtitle">Le télétravail, une révolution limitée</p><p>La crise sanitaire a bouleversé nos habitudes de travail. Selon l&#x27;Insee, la part des salariés qui télétravaillent, au moins quelques demi-journées par mois, est passée de 9 % en 2019 à 31 % en 2021. Depuis, elle a légèrement reflué : en 2023, elle s&#x27;établissait à 26 %, soit environ un salarié sur quatre.</p><p>Le télétravail reste cependant très inégal selon les métiers. Il concerne 65 % des cadres, mais seulement 28 % des professions intermédiaires et 11 % des employés. Pour un ouvrier du bâtiment, une caissière ou une aide-soignante, travailler depuis chez soi est tout simplement impossible.</p><p>Le rythme a aussi changé. En 2021, 18 % des salariés télétravaillaient trois jours ou plus par semaine ; en 2023, ils n&#x27;étaient plus que 5 %. La formule la plus courante est désormais hybride : un ou deux jours à la maison, le reste au bureau. Enfin, un renversement s&#x27;est produit : les femmes, moins concernées que les hommes avant la pandémie, télétravaillent aujourd&#x27;hui un peu plus souvent qu&#x27;eux, 27 % contre 25 %.</p></div><div class="item" data-t="open" data-k="B.q8.0" data-max="2" data-lab="8(a)"><p class="q"><span class="sr">8</span><span class="num">(a)</span> Comment la part des télétravailleurs a-t-elle évolué entre 2019 et 2023 ? Donnez deux détails.</p><textarea class="ans" rows="3" aria-label="Answer"></textarea></div><p class="mark">(2)</p>
+<div class="item" data-t="open" data-k="B.q8.1" data-max="2" data-lab="8(b)"><p class="q"><span class="sr">8</span><span class="num">(b)</span> Pourquoi peut-on dire que le télétravail est inégal ? Donnez deux détails.</p><textarea class="ans" rows="3" aria-label="Answer"></textarea></div><p class="mark">(2)</p>
+<div class="item" data-t="open" data-k="B.q8.2" data-max="1" data-lab="8(c)"><p class="q"><span class="sr">8</span><span class="num">(c)</span> Comment le télétravail intensif (trois jours ou plus) a-t-il évolué ?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="B.q8.3" data-max="1" data-lab="8(d)"><p class="q"><span class="sr">8</span><span class="num">(d)</span> Quelle est la formule la plus courante aujourd&#x27;hui ?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="B.q8.4" data-max="1" data-lab="8(e)"><p class="q"><span class="sr">8</span><span class="num">(e)</span> Quelle était la situation des femmes avant la pandémie ?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="B.q8.5" data-max="1" data-lab="8(f)"><p class="q"><span class="sr">8</span><span class="num">(f)</span> Et quelle est leur situation aujourd&#x27;hui ?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+  <p class="total">(Total for Question 8 = 8 marks)</p>
+</section>
+<section class="sheet">
+  <div class="qhead"><span class="qn">9</span><span>Lisez cet article sur l&#x27;uniforme à l&#x27;école. Répondez aux questions en français.</span></div><div class="rtext"><p class="rtitle">L&#x27;uniforme à l&#x27;école : la fin d&#x27;une expérience</p><p>Fin 2023, Gabriel Attal, alors ministre de l&#x27;Éducation nationale, annonçait une expérimentation de la « tenue commune » à l&#x27;école. L&#x27;objectif : améliorer le climat scolaire. À la rentrée 2024, 97 écoles primaires, 14 collèges et 4 lycées volontaires ont tenté l&#x27;aventure, pour la plupart dans des réseaux d&#x27;éducation prioritaire. L&#x27;État prenait en charge la moitié du coût, dans la limite de 100 euros par tenue ; les collectivités locales payaient le reste.</p><p>Mais les résultats n&#x27;ont pas convaincu. L&#x27;évaluation du ministère sur la première année a conclu à des effets limités sur le comportement des élèves et sur leurs apprentissages. Gérer les vêtements s&#x27;est révélé un vrai défi pour les écoles et les communes. Dans le secondaire, le manque d&#x27;adhésion des élèves risquait même de dégrader le climat scolaire.</p><p>En septembre 2026, le ministère a confirmé que l&#x27;expérimentation était arrivée à son terme et que l&#x27;État cesserait de la financer. « Si ça ne marche pas, on ne va pas s&#x27;entêter », avait déclaré le ministre Édouard Geffray. Quelques villes, comme Béziers ou Le Touquet, continuent pourtant à leurs frais.</p></div><div class="item" data-t="open" data-k="B.q9.0" data-max="1" data-lab="9(a)"><p class="q"><span class="sr">9</span><span class="num">(a)</span> Pourquoi le ministre a-t-il lancé cette expérimentation ?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="B.q9.1" data-max="2" data-lab="9(b)"><p class="q"><span class="sr">9</span><span class="num">(b)</span> Quels établissements y ont participé ? Donnez deux détails.</p><textarea class="ans" rows="3" aria-label="Answer"></textarea></div><p class="mark">(2)</p>
+<div class="item" data-t="open" data-k="B.q9.2" data-max="1" data-lab="9(c)"><p class="q"><span class="sr">9</span><span class="num">(c)</span> Comment l&#x27;expérimentation était-elle financée ?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="B.q9.3" data-max="1" data-lab="9(d)"><p class="q"><span class="sr">9</span><span class="num">(d)</span> Quel effet l&#x27;uniforme a-t-il eu sur les élèves ?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="B.q9.4" data-max="2" data-lab="9(e)"><p class="q"><span class="sr">9</span><span class="num">(e)</span> Quelles difficultés l&#x27;évaluation a-t-elle relevées ? Donnez deux détails.</p><textarea class="ans" rows="3" aria-label="Answer"></textarea></div><p class="mark">(2)</p>
+<div class="item" data-t="open" data-k="B.q9.5" data-max="1" data-lab="9(f)"><p class="q"><span class="sr">9</span><span class="num">(f)</span> Quelle est l&#x27;attitude du ministre Édouard Geffray ?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+  <p class="total">(Total for Question 9 = 8 marks)</p>
+  <p class="grand">TOTAL FOR SECTION B = 30 MARKS</p>
+  <div class="lpbar"><button type="button" class="go" data-mark="B">Mark Section B only</button></div>
+  <div id="lp-res-B" class="lpres" aria-live="polite" hidden></div>
+</section>
+
+<section class="sheet" id="secC">
+  <p class="sec">SECTION C</p><p class="sec">TRANSLATION INTO ENGLISH</p>
+  <p class="rec">We recommend you spend around 20 minutes on this section.</p>
+  <div class="qhead"><span class="qn">10</span><span>Translate the following article about children and screens into English.</span></div><p class="mark">(20)</p><div class="rtext"><p>Le 30 avril 2024, une commission d&#x27;experts a remis au président de la République un rapport sur l&#x27;exposition des enfants aux écrans. Ses recommandations sont claires : pas d&#x27;écran avant trois ans, et un accès fortement limité entre trois et six ans. Les enfants ne devraient pas avoir de smartphone avant onze ans. Entre onze et treize ans, les experts conseillent un téléphone sans accès à internet. Quant aux réseaux sociaux, ils devraient être interdits avant quinze ans. Selon la commission, les écrans ont des effets négatifs sur le sommeil, favorisent la sédentarité et augmentent le risque de myopie. Elle dénonce aussi les techniques utilisées par les plateformes pour capter l&#x27;attention des jeunes.</p></div><div class="item" data-t="trans" data-k="C" data-max="20" data-lab="10"><textarea class="ans" rows="12" aria-label="10 – translation"></textarea></div>
+  <p class="total">(Total for Question 10 = 20 marks)</p>
+  <p class="grand">TOTAL FOR SECTION C = 20 MARKS</p>
+  <div class="lpbar"><button type="button" class="go" data-mark="C">Mark Section C only</button></div>
+  <div id="lp-res-C" class="lpres" aria-live="polite" hidden></div>
+  <p class="grand">TOTAL FOR PAPER = 80 MARKS</p>
+  <div id="lp-bar" class="lpbar">
+    <button type="button" class="go" data-mark="all">Mark the whole paper</button>
+    <button type="button" id="lp-dl">Download results</button>
+    <button type="button" id="lp-reset">Start again</button>
+  </div>
+  <div id="lp-res" class="lpres" aria-live="polite" hidden></div>
+</section>
+
+<section class="sheet defi">
+  <p class="ptitle">Défi – after the paper (not marked, not part of the 80 marks)</p>
+  <p>For students aiming at the top grades.</p>
+  <ol>
+<li>Passage 3 : faut-il passer à la semaine de quatre jours ? Donnez votre avis en 80 mots, avec deux arguments tirés de l&#x27;interview.<textarea class="ans" rows="3" aria-label="Défi 1"></textarea></li>
+<li>Section B, question 8 : le télétravail crée-t-il de nouvelles inégalités ? Écrivez un paragraphe de 60 mots en utilisant au moins deux chiffres de l&#x27;article.<textarea class="ans" rows="3" aria-label="Défi 2"></textarea></li>
+<li>Section B, question 7 : imaginez la réponse de Madame Lucienne. Écrivez 80 mots à la première personne.<textarea class="ans" rows="3" aria-label="Défi 3"></textarea></li>
+  </ol>
+</section>
+
+<section class="sheet">
+  <p class="ptitle">Source information:</p>
+  <p style="font-size:15px">The recordings and the reading and translation texts were written by the BBA French department from the facts in the sources below; the recordings are read by synthetic voices. The narrative text (« récit ») is original.</p>
+<p class="src"><b>Mariage et Pacs</b><br><a href="https://www.insee.fr/fr/statistiques/8612508" target="_blank" rel="noopener">https://www.insee.fr/fr/statistiques/8612508</a></p>
+<p class="src"><b>Les groupes de besoins au collège</b><br><a href="https://www.letudiant.fr/college/college-au-lieu-de-les-reduire-les-groupes-de-besoin-creusent-les-ecarts-entre-eleves.html" target="_blank" rel="noopener">https://www.letudiant.fr/college/college-au-lieu-de-les-reduire-les-groupes-de-besoin-creusent-les-ecarts-entre-eleves.html</a><br><a href="https://www.linfodurable.fr/education-le-ministere-preconise-plus-de-souplesse-pour-les-groupes-de-besoins-51461" target="_blank" rel="noopener">https://www.linfodurable.fr/education-le-ministere-preconise-plus-de-souplesse-pour-les-groupes-de-besoins-51461</a></p>
+<p class="src"><b>La semaine de quatre jours</b><br><a href="https://www.editions-tissot.fr/actualite/droit-du-travail/la-semaine-de-travail-de-4-jours-lheure-du-premier-bilan" target="_blank" rel="noopener">https://www.editions-tissot.fr/actualite/droit-du-travail/la-semaine-de-travail-de-4-jours-lheure-du-premier-bilan</a><br><a href="https://www.linfodurable.fr/le-gouvernement-teste-les-36-heures-sur-4-jours-pour-des-fonctionnaires-de-picardie-36661" target="_blank" rel="noopener">https://www.linfodurable.fr/le-gouvernement-teste-les-36-heures-sur-4-jours-pour-des-fonctionnaires-de-picardie-36661</a></p>
+<p class="src"><b>Les familles monoparentales</b><br><a href="https://www.banquedesterritoires.fr/la-part-des-familles-monoparentales-continue-daugmenter" target="_blank" rel="noopener">https://www.banquedesterritoires.fr/la-part-des-familles-monoparentales-continue-daugmenter</a><br><a href="https://www.insee.fr/fr/statistiques/8659054" target="_blank" rel="noopener">https://www.insee.fr/fr/statistiques/8659054</a></p>
+<p class="src"><b>pHARe</b><br><a href="https://www.letudiant.fr/lycee/harcelement-scolaire-vers-un-elargissement-du-programme-phare-au-lycee.html" target="_blank" rel="noopener">https://www.letudiant.fr/lycee/harcelement-scolaire-vers-un-elargissement-du-programme-phare-au-lycee.html</a></p>
+<p class="src"><b>Salaires des femmes et des hommes</b><br><a href="https://www.insee.fr/fr/statistiques/8381248" target="_blank" rel="noopener">https://www.insee.fr/fr/statistiques/8381248</a></p>
+<p class="src"><b>Madame Lucienne</b><br>Récit original écrit par le département de français de BBA.</p>
+<p class="src"><b>Le télétravail</b><br><a href="https://www.insee.fr/fr/statistiques/8616841" target="_blank" rel="noopener">https://www.insee.fr/fr/statistiques/8616841</a></p>
+<p class="src"><b>L&#x27;uniforme à l&#x27;école</b><br><a href="https://www.banquedesterritoires.fr/leducation-nationale-range-luniforme-au-placard" target="_blank" rel="noopener">https://www.banquedesterritoires.fr/leducation-nationale-range-luniforme-au-placard</a></p>
+<p class="src"><b>Les enfants et les écrans (traduction)</b><br><a href="https://siecledigital.fr/2024/04/30/pas-decran-avant-3-ans-ni-de-smartphone-avant-11-ans-les-experts-appellent-a-proteger-les-enfants/" target="_blank" rel="noopener">https://siecledigital.fr/2024/04/30/pas-decran-avant-3-ans-ni-de-smartphone-avant-11-ans-les-experts-appellent-a-proteger-les-enfants/</a></p>
+  <p class="credit">Voices: Piper TTS. <i>en_GB-cori-high</i> (announcer) – LibriVox recordings, public domain. <i>fr_FR-siwis-medium</i> – SIWIS French Speech Synthesis Database, licence CC BY 4.0. <i>fr_FR-upmc-medium</i> (voice “Jessica”) – UPMC Pierre data, MaryTTS project, licence CC BY-SA 4.0 (<a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener">creativecommons.org/licenses/by-sa/4.0</a>). <i>fr_FR-tom-medium</i> – French-tts-model-piper dataset, licence AGPLv3. The audio files of this paper are shared under the same licences.</p>
+</section>
+
+<script>
+(function(){
+  function paint(item){
+    var v=item.querySelector('.mcval').value, multi=item.dataset.t==='tick';
+    item.querySelectorAll('.opt').forEach(function(b){b.setAttribute('aria-checked', (multi ? v.indexOf(b.dataset.v)>=0 : b.dataset.v===v)?'true':'false');});
+  }
+  document.addEventListener('click',function(e){
+    var b=e.target.closest('.opt'); if(!b) return;
+    var item=b.closest('.item'), f=item.querySelector('.mcval');
+    if(item.dataset.t==='tick'){ var set=f.value.split('').filter(Boolean), k=set.indexOf(b.dataset.v); if(k>=0) set.splice(k,1); else set.push(b.dataset.v); f.value=set.sort().join(''); }
+    else f.value = (f.value===b.dataset.v) ? '' : b.dataset.v;
+    f.dispatchEvent(new Event('input',{bubbles:true})); f.dispatchEvent(new Event('change',{bubbles:true}));
+    paint(item);
+  });
+  /* keep the crosses in step with answers the kit restores after a reload */
+  setInterval(function(){document.querySelectorAll('.item.mc').forEach(paint);},800);
+})();
+</script>
+<script type="application/json" id="lp-key">{"q1": ["A", "D", "B", "C"], "q2": [{"ans": "Les élèves de sixième et de cinquième (en français et en mathématiques).", "pts": [[[["6e", "sixieme", "5e", "cinquieme"]]]]}, {"ans": "Any 2 from 3: manque de salles – manque de professeurs – les élèves changeaient rarement de groupe.", "pts": [[[["salle"]]], [[["prof", "enseignant"]]], [[["chang", "bouge"], ["rarement", "peu", "pas", "jamais"]]]]}, {"ans": "Les élèves en difficulté participent davantage / reprennent confiance.", "pts": [[[["particip"]], [["confiance"]]]]}, {"ans": "Ils ont l'impression d'être classés parmi les faibles.", "pts": [[[["faible", "nul", "mauvais", "class", "etiquet"]]]]}], "q3": [{"ans": "Les mêmes heures en quatre jours (on compresse la semaine) AND une vraie réduction du temps de travail (32 heures).", "pts": [[[["meme", "compress", "memes heures", "meme nombre"]]], [[["redui", "reduction", "moins d'heures", "32", "trente-deux", "moins travailler"]]]]}, {"ans": "36 heures en quatre jours / neuf heures par jour.", "pts": [[[["36", "trente-six"]], [["9 h", "9h", "neuf heures", "9 heures"]]]]}, {"ans": "Seulement trois volontaires sur près de deux cents salariés.", "pts": [[[["trois", "3"], ["volontaire", "personnes", "salari", "seul"]]]]}, {"ans": "Any 2 from 3: journées très longues – problème avec les enfants – le jour de repos n'est pas celui qu'on aurait choisi.", "pts": [[[["long"]]], [[["enfant", "famille", "parent"]]], [[["jour"], ["choisi", "choix", "impos"]]]]}, {"ans": "Le jour libre / une vraie coupure dans la semaine.", "pts": [[[["coupure", "pause", "jour libre", "jour de repos", "repos", "jour de conge"]]]]}, {"ans": "Plus de 40 % des salariés ont travaillé pendant leur jour de repos.", "pts": [[[["travaill"], ["repos", "jour libre", "conge", "off"]]]]}, {"ans": "Une fois la réforme en place, revenir en arrière est presque impossible.", "pts": [[[["arriere", "revenir", "retour", "impossible"]]]]}], "q4a": [{"ans": "Près d'un sur quatre / 23 %.", "pts": [[[["23", "quart", "un sur quatre", "1 sur 4"]]]]}, {"ans": "Elle a augmenté (de 21 % à 23 %).", "pts": [[[["hausse", "augment", "progress", "plus", "21"]]]]}, {"ans": "Ils restent minoritaires AND leur part a progressé d'un point (évolution notable).", "pts": [[[["minorit", "peu nombreu", "rare", "moins nombreux"]]], [[["progress", "augment", "hausse", "un point", "1 point", "plus nombreux", "notable"]]]]}, {"ans": "Dans les départements d'outre-mer.", "pts": [[[["outre-mer", "outre mer", "dom"]]]]}, {"ans": "16 % des enfants vivant seuls avec leur mère ont une mère au chômage (deux fois plus que dans les familles traditionnelles).", "pts": [[[["chomage", "emploi", "travail"]]]]}], "q4b": {"key1": [{"ans": "Huit familles sur dix ont une femme à leur tête / ce sont surtout des mères.", "pts": [[[["femme", "mere"]]]]}, {"ans": "Les mères seules ont un niveau de vie plus bas (1 330 € contre 1 610 €).", "pts": [[[["1 330", "1330", "moins", "plus bas", "inferieur", "plus faible"]]]]}, {"ans": "Près de 37 % des familles de mères seules sont pauvres, contre 24 % avec un père seul.", "pts": [[[["37", "24", "plus pauvre", "plus souvent pauvre", "pauvrete"]]]]}], "key2": [{"ans": "29 % des mères seules sont à temps partiel, contre 7 % des pères.", "pts": [[[["29", "plus souvent", "mere", "femme"]]]]}, {"ans": "Un tiers vivent en logement social / elles vivent deux fois plus souvent dans un logement trop petit.", "pts": [[[["social", "hlm", "petit", "tiers"]]]]}, {"ans": "Un quart des familles ne reçoit aucune prestation sociale ni allocation chômage.", "pts": [[[["quart", "aucune", "rien", "pas d'aide", "pas de prestation"]]]]}]}, "B": {"q5": ["C", "A", "D", "B"], "q6": ["A", "B", "E", "G"], "q7": [{"ans": "Any 2 from 3: elle n'avait pas d'argent – elle n'avait pas de logement – le loyer était presque symbolique.", "pts": [[[["argent", "pauvre", "moyens"]]], [[["logement", "appartement", "ou habiter", "toit", "loger"]]], [[["loyer"], ["symbolique", "bas", "pas cher", "petit", "faible", "presque rien"]]]]}, {"ans": "Any 2: la dame écoutait la radio très fort – elle dînait à 18 h – elle demandait chaque matin si la porte était fermée – la narratrice rentrait tard / vivait sur son téléphone.", "pts": [[[["radio"]]], [[["18", "dix-huit", "diner", "tot"]]], [[["porte", "cle"]]], [[["tard", "telephone", "portable"]]]]}, {"ans": "Un soir, la dame lui a montré ses albums photos / lui a raconté sa vie.", "pts": [[[["album", "photo"]], [["racont", "parle", "histoire", "jeunesse", "vie"]]]]}, {"ans": "Elle ne se sent plus seule (pour la première fois depuis longtemps).", "pts": [[[["seule", "solitude", "isolee"]]]]}], "q8": [{"ans": "Forte hausse de 9 % (2019) à 31 % (2021) AND légère baisse ensuite / 26 % en 2023.", "pts": [[[["31", "hausse", "augment", "explos"]], [["9 %", "9%"]]], [[["26", "reflu", "baisse", "diminu", "un quart"]]]]}, {"ans": "Any 2: 65 % des cadres – seulement 11 % des employés (28 % des professions intermédiaires) – impossible pour certains métiers (ouvriers, caissières, aides-soignantes).", "pts": [[[["cadre", "65"]]], [[["employe", "11", "intermediaire", "28"]]], [[["impossible", "ouvrier", "caissiere", "aide-soignante", "certains metiers", "pas possible"]]]]}, {"ans": "Il a fortement baissé : de 18 % (2021) à 5 % (2023).", "pts": [[[["baiss", "diminu", "recul", "5 %", "5%", "moins"]]]]}, {"ans": "La formule hybride : un ou deux jours à la maison, le reste au bureau.", "pts": [[[["hybride", "un ou deux jours", "1 ou 2", "deux jours", "un jour"]]]]}, {"ans": "Elles télétravaillaient moins que les hommes.", "pts": [[[["moins"]]]]}, {"ans": "Elles télétravaillent un peu plus souvent que les hommes (27 % contre 25 %).", "pts": [[[["plus", "27"]]]]}], "q9": [{"ans": "Pour améliorer le climat scolaire.", "pts": [[[["climat", "ambiance", "atmosphere", "comportement", "discipline"]]]]}, {"ans": "Any 2: 97 écoles, 14 collèges et 4 lycées – des établissements volontaires – surtout en éducation prioritaire.", "pts": [[[["97", "ecole"]]], [[["14", "college", "4 lycee", "lycee"]]], [[["volontaire"]]], [[["prioritaire", "rep"]]]]}, {"ans": "L'État payait la moitié (jusqu'à 100 € par tenue), les collectivités le reste.", "pts": [[[["moitie", "50", "100"]], [["collectivit", "commune", "ville"]]]]}, {"ans": "Des effets limités (sur le comportement et les apprentissages).", "pts": [[[["limit", "peu", "faible", "pas d'effet", "aucun effet", "pas beaucoup"]]]]}, {"ans": "La gestion des vêtements était difficile AND dans le secondaire, le manque d'adhésion des élèves risquait de dégrader le climat.", "pts": [[[["vetement", "gestion", "gerer", "tenue"]]], [[["adhesion", "eleves n'aim", "refus", "degrad", "pas d'accord", "pas convaincu"]]]]}, {"ans": "Si ça ne marche pas, il ne faut pas s'entêter / il accepte d'arrêter.", "pts": [[[["entet", "arret", "pas insister", "abandon", "fin"]]]]}]}, "C": [{"fr": "Le 30 avril 2024,", "ans": "On 30 April 2024,", "pts": [[[["30"], ["april"], ["2024"]]]]}, {"fr": "une commission d'experts", "ans": "a committee of experts", "pts": [[[["committee", "commission", "panel", "board", "group"], ["expert"]]]]}, {"fr": "a remis au président de la République", "ans": "submitted to the President of the Republic", "pts": [[[["submit", "hand", "present", "deliver", "gave", "given", "sent", "sub"], ["president"]]]]}, {"fr": "un rapport sur l'exposition des enfants aux écrans.", "ans": "a report on children's exposure to screens.", "pts": [[[["report"], ["exposure", "exposed"], ["screen"]]]]}, {"fr": "Ses recommandations sont claires :", "ans": "Its recommendations are clear:", "pts": [[[["recommend"], ["clear"]]]]}, {"fr": "pas d'écran avant trois ans,", "ans": "no screens before the age of three,", "pts": [[[["no screen"], ["three", "3"]]]]}, {"fr": "et un accès fortement limité entre trois et six ans.", "ans": "and very limited access between three and six.", "pts": [[[["strongly", "heavily", "severely", "very", "highly", "greatly", "tightly", "strictly"], ["limit", "restrict"], ["six", "6"]]]]}, {"fr": "Les enfants ne devraient pas avoir de smartphone avant onze ans.", "ans": "Children should not have a smartphone before the age of eleven.", "pts": [[[["should not", "shouldn't", "should have no", "ought not", "should never"], ["smartphone"], ["eleven", "11"]]]]}, {"fr": "Entre onze et treize ans,", "ans": "Between eleven and thirteen,", "pts": [[[["thirteen", "13"]]]]}, {"fr": "les experts conseillent un téléphone sans accès à internet.", "ans": "the experts advise a phone without internet access.", "pts": [[[["advise", "recommend", "suggest", "counsel"], ["phone"], ["without", "no internet", "no access"]]]]}, {"fr": "Quant aux réseaux sociaux,", "ans": "As for social networks,", "pts": [[[["social network", "social media"]]]]}, {"fr": "ils devraient être interdits avant quinze ans.", "ans": "they should be banned before the age of fifteen.", "pts": [[[["banned", "forbidden", "prohibited", "not allowed", "outlawed"], ["fifteen", "15"]]]]}, {"fr": "Selon la commission,", "ans": "According to the committee,", "pts": [[[["according to", "in the view of", "in the opinion of"]]]]}, {"fr": "les écrans ont des effets négatifs sur le sommeil,", "ans": "screens have negative effects on sleep,", "pts": [[[["negative", "harmful", "bad", "adverse", "detrimental"], ["sleep"]]]]}, {"fr": "favorisent la sédentarité", "ans": "encourage a sedentary lifestyle", "pts": [[[["sedentar", "inactiv", "lack of exercise", "lack of physical", "sitting"]]]]}, {"fr": "et augmentent le risque de myopie.", "ans": "and increase the risk of short-sightedness.", "pts": [[[["increase", "raise", "heighten", "higher"], ["risk"], ["myopi", "short-sight", "shortsight", "near-sight", "short sight"]]]]}, {"fr": "Elle dénonce aussi", "ans": "It also condemns", "pts": [[[["denounce", "condemn", "criticis", "criticiz", "attack", "speaks out", "decr", "expose"]]]]}, {"fr": "les techniques utilisées par les plateformes", "ans": "the techniques used by platforms", "pts": [[[["technique", "method", "tactic", "strateg", "trick"], ["platform"]]]]}, {"fr": "pour capter l'attention", "ans": "to capture the attention", "pts": [[[["capture", "grab", "catch", "attract", "hold", "keep", "hook", "seize"], ["attention"]]]]}, {"fr": "des jeunes.", "ans": "of young people.", "pts": [[[["young people", "youngsters", "youth", "the young", "teenager", "young users", "young person"]]]]}]}</script>
+<script src="paper-marker.js" defer></script>
+<script>window.BBA_KIT = Object.assign(window.BBA_KIT || {}, {check:false, download:false, name:false, meter:false, tries:0});</script>
+<script src="bba-kit-fr.js" defer></script>
+</body>
+</html>

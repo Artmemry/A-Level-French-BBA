@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Paper 1 training 4 – 9FR0/01 practice</title>
+<style>
+:root{--ink:#111;--rule:#9a9a9a;--muted:#555;--paper:#fff;--bg:#e9e9e9}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Arial,Helvetica,sans-serif;font-size:17px;line-height:1.45}
+.sheet{background:var(--paper);max-width:820px;margin:24px auto;padding:40px 56px 32px;box-shadow:0 1px 4px rgba(0,0,0,.25);position:relative}
+@media (max-width:700px){.sheet{margin:0 0 8px;padding:24px 16px}}
+.pageno{text-align:center;color:var(--muted);font-size:13px;margin-top:28px}
+.cover h1{font-size:28px;margin:4px 0 0}
+.cover .board{font-size:15px;color:var(--muted)}
+.cover .ref{float:right;text-align:right;font-size:14px;border:1px solid var(--ink);padding:6px 10px}
+.cover hr{border:0;border-top:2px solid var(--ink);margin:18px 0}
+.cover h2{font-size:17px;margin:18px 0 4px}
+.cover ul{margin:4px 0;padding-left:20px}
+.sec{text-align:center;font-weight:bold;font-size:19px;letter-spacing:.5px;margin:0}
+.sec+.sec{margin-bottom:10px}
+.rec{text-align:center;font-weight:bold;margin:4px 0 16px}
+.instr p{margin:6px 0}
+.durs{margin:10px 0 10px 40%}
+@media (max-width:700px){.durs{margin-left:8%}}
+.durs div{margin:2px 0}
+.ptitle{font-weight:bold;font-size:18px;margin:0 0 10px}
+.qhead{display:flex;gap:14px;font-weight:bold;margin:0 0 12px}
+.qhead .qn{min-width:22px}
+.item{margin:0 0 0 36px;position:relative}
+.item.mc{margin-bottom:14px}
+@media (max-width:700px){.item{margin-left:6px}}
+.q{margin:0 0 6px}
+.num{display:inline-block;min-width:38px}
+.bul{padding-left:24px}
+.mark{text-align:right;font-weight:bold;margin:0 0 12px}
+.total{text-align:right;font-weight:bold;margin:18px 0 0}
+.grand{text-align:right;font-weight:bold;font-size:18px;margin:16px 0 0}
+textarea.ans{width:100%;border:0;border-bottom:1px dotted var(--rule);resize:vertical;font:inherit;line-height:32px;padding:0 4px;
+  background:repeating-linear-gradient(transparent 0 31px,var(--rule) 31px 32px);outline-offset:2px;min-height:64px}
+textarea.ans:focus{outline:2px solid #2b5797;background-color:#f7f9fd}
+.sr{position:absolute!important;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0;padding:0}
+.opt{display:flex;align-items:center;gap:12px;width:calc(100% - 38px);margin:6px 0 6px 38px;padding:4px 0;background:none;border:0;font:inherit;color:inherit;text-align:left;cursor:pointer}
+.opt b{min-width:16px}
+.opt .ot{flex:1}
+.box{width:30px;height:24px;border:1.5px solid var(--ink);flex:none;position:relative}
+.opt[aria-checked="true"] .box::after{content:"\2715";position:absolute;inset:0;display:grid;place-items:center;font-size:20px;font-weight:bold}
+.opt:focus-visible{outline:2px solid #2b5797;outline-offset:2px}
+.player{display:flex;align-items:center;gap:12px;flex-wrap:wrap;border:1px solid var(--rule);padding:8px 12px;margin:0 0 16px}
+.plab{font-weight:bold;font-size:15px}
+.player audio{flex:1;min-width:220px}
+.lead{font-weight:bold;margin:0 0 12px}
+.who{margin:14px 0 6px 36px;font-weight:bold}
+.src{margin:0 0 14px;font-size:15px;word-break:break-all}
+.src b{word-break:normal}
+.cand{display:block;margin:14px 0;font-weight:bold}
+.cand input{font:inherit;font-weight:normal;border:1px solid var(--ink);padding:6px 8px;width:min(340px,100%);margin-left:8px}
+.lpbar{display:flex;gap:10px;flex-wrap:wrap;justify-content:flex-end;margin:22px 0 0}
+.lpbar button{font:inherit;font-weight:bold;padding:9px 16px;border:1px solid #2b5797;background:#fff;color:#2b5797;cursor:pointer;border-radius:4px}
+.lpbar button.go{background:#2b5797;color:#fff}
+.lpres{border:2px solid #2b5797;padding:12px 16px;margin:14px 0 0;background:#f4f7fc}
+.lpres p{margin:4px 0}
+.fb{margin:-6px 0 14px 36px;padding:8px 12px;font-size:15px;border-left:4px solid #b0b0b0;background:#f6f6f6}
+.fb.full{border-color:#2e7d52;background:#eef7f1}
+.fb.part{border-color:#c98a00;background:#fdf6e6}
+.fb.zero{border-color:#b3261e;background:#fbeeed}
+.fb b{margin-right:6px}
+.locked textarea.ans,.locked .opt{pointer-events:none}
+.opt.right .box{background:#dff0e5}
+@media print{.lpbar,.fb,.lpres{display:none!important}}
+.rtext{border:1px solid var(--rule);padding:12px 16px;margin:0 0 16px;background:#fcfcfc}
+.rtext p{margin:0 0 10px;text-align:justify}
+.rtitle{font-weight:bold;text-align:center!important}
+.lead2{font-weight:bold;margin:12px 0 8px}
+.trans-fb table{border-collapse:collapse;width:100%;margin-top:8px;font-size:14px}
+.trans-fb td{border-top:1px solid #ddd;padding:4px 6px;vertical-align:top}
+.trans-fb td.ok{color:#2e7d52;font-weight:bold} .trans-fb td.no{color:#b3261e;font-weight:bold}
+.credit{font-size:13px;color:var(--muted);border-top:1px solid var(--rule);padding-top:10px;margin-top:22px}
+.defi ol{padding-left:22px}
+.defi li{margin-bottom:14px}
+@media print{body{background:#fff}.sheet{box-shadow:none;margin:0;page-break-after:always}.player,#bba-kit{display:none!important}}
+</style>
+</head>
+<body>
+
+<section class="sheet cover">
+  <div class="ref">Paper reference<br><b>9FR0/01</b><br>Paper 1 training 4</div>
+  <div class="board">BBA practice paper modelled on Pearson Edexcel Level 3 GCE</div>
+  <h1>French</h1>
+  <div><b>Advanced</b><br>PAPER 1: Listening, Reading and Translation<br>Paper 1 training 4 · Themes 1 to 3 · start of Year 13</div>
+  <hr>
+  <label class="cand">Candidate name <input type="text" id="cand" autocomplete="name" placeholder="First name and initial"></label>
+  <p><b>You must have:</b> headphones or earphones. The recordings are on this page.</p>
+  <h2>Instructions</h2>
+  <ul>
+    <li>Type your name in the box above if you want it on your results file (optional).</li>
+    <li>Answer <b>all</b> questions in Sections A, B and C.</li>
+    <li>Candidates are recommended to start with Section A: Listening, and work through each section as presented.</li>
+    <li>Answer the questions in the spaces provided – there may be more space than you need.</li>
+    <li>We recommend you spend 50 minutes on Section A: Listening, 50 minutes on Section B: Reading and 20 minutes on Section C: Translation into English (2 hours in total).</li>
+    <li>You must not use a dictionary.</li>
+    <li>You can do one section at a time: each section ends with its own <b>Mark Section … only</b> button. To mark everything at once, press <b>Mark the whole paper</b> at the end of Section C.</li>
+    <li>Then press <b>Download results</b> at the end of Section C and send the file to your teacher: it contains every section you have marked.</li>
+  </ul>
+  <h2>Information</h2>
+  <ul>
+    <li>The total mark for this paper is 80.</li>
+    <li>The marks for each question are shown in brackets – use this as a guide as to how much time to spend on each question.</li>
+  </ul>
+  <h2>Advice</h2>
+  <ul>
+    <li>Read each question carefully before you start to answer it.</li>
+    <li>Try to answer every question.</li>
+    <li>Check your answers if you have time at the end.</li>
+  </ul>
+  <p class="pageno">1</p>
+</section>
+
+<section class="sheet">
+  <p style="margin-top:0">Answer ALL questions. Write your answers in the spaces provided.<br>
+  Some questions must be answered with a cross in a box ☒. If you change your mind about an answer, click another box.</p>
+  <p class="sec">SECTION A</p><p class="sec">LISTENING</p>
+  <p class="rec">We recommend you spend no more than 50 minutes on this section.</p>
+  <div class="instr">
+    <p>Questions 2, 3 and 4(a) do not require full sentences and you may respond using single words or phrases.</p>
+    <p>Summary Question 4(b) does not require full sentences and you may respond using short phrases.</p>
+    <p>You may use words from the listening passages but you must not transcribe whole sections.</p>
+    <p>You are going to listen to five passages. The duration of each passage is approximately:</p>
+    <div class="durs">
+      <div>Passage 1 = 1 minute 03 seconds</div><div>Passage 2 = 1 minute 14 seconds</div><div>Passage 3 = 2 minutes 05 seconds</div>
+      <div>Passage 4(a) = 1 minute 10 seconds</div><div>Passage 4(b) = 1 minute 08 seconds</div>
+    </div>
+    <p>You will be in charge of the recording and you may listen to each passage as often as you wish, and write your answers whenever you wish to do so.</p>
+  </div>
+  <p class="pageno">2</p>
+</section>
+
+<section class="sheet">
+  <p class="ptitle">Passage 1 – Le Musée national de l&#x27;histoire de l&#x27;immigration</p>
+  <div class="player"><span class="plab">Passage 1</span><audio controls preload="none" src="listening_paper_04_passage_1.mp3"></audio></div>
+  <div class="qhead"><span class="qn">1</span><span>Écoutez le reportage. Cochez la bonne fin pour les phrases.</span></div>
+  <div class="item mc" data-t="mc" data-k="q1.0" data-max="1" data-lab="1(i)"><p class="q"><span class="sr">1</span><span class="num">(i)</span> Le musée a rouvert…</p><div role="radiogroup" aria-label="1(i)"><button type="button" class="opt" role="radio" aria-checked="false" data-v="A"><b>A</b> <span class="ot">dans un nouveau bâtiment à Marseille.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="B"><b>B</b> <span class="ot">après plusieurs mois de travaux.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="C"><b>C</b> <span class="ot">pour une seule journée.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="D"><b>D</b> <span class="ot">après avoir changé de nom.</span><span class="box" aria-hidden="true"></span></button></div><input type="text" class="sr mcval" name="q1_i" tabindex="-1" aria-hidden="true" readonly></div><div class="item mc" data-t="mc" data-k="q1.1" data-max="1" data-lab="1(ii)"><p class="q"><span class="sr">1</span><span class="num">(ii)</span> Le nouveau parcours permanent…</p><div role="radiogroup" aria-label="1(ii)"><button type="button" class="opt" role="radio" aria-checked="false" data-v="A"><b>A</b> <span class="ot">commence en 1945.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="B"><b>B</b> <span class="ot">ne présente que des objets récents.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="C"><b>C</b> <span class="ot">est réservé aux chercheurs.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="D"><b>D</b> <span class="ot">est organisé autour de onze dates clés.</span><span class="box" aria-hidden="true"></span></button></div><input type="text" class="sr mcval" name="q1_ii" tabindex="-1" aria-hidden="true" readonly></div><div class="item mc" data-t="mc" data-k="q1.2" data-max="1" data-lab="1(iii)"><p class="q"><span class="sr">1</span><span class="num">(iii)</span> Pour rendre la visite plus accessible, le musée…</p><div role="radiogroup" aria-label="1(iii)"><button type="button" class="opt" role="radio" aria-checked="false" data-v="A"><b>A</b> <span class="ot">est devenu gratuit.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="B"><b>B</b> <span class="ot">a réduit le nombre d&#x27;objets exposés.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="C"><b>C</b> <span class="ot">propose des espaces immersifs et interactifs.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="D"><b>D</b> <span class="ot">organise des visites en ligne uniquement.</span><span class="box" aria-hidden="true"></span></button></div><input type="text" class="sr mcval" name="q1_iii" tabindex="-1" aria-hidden="true" readonly></div><div class="item mc" data-t="mc" data-k="q1.3" data-max="1" data-lab="1(iv)"><p class="q"><span class="sr">1</span><span class="num">(iv)</span> La salle consacrée à la musique présente…</p><div role="radiogroup" aria-label="1(iv)"><button type="button" class="opt" role="radio" aria-checked="false" data-v="A"><b>A</b> <span class="ot">des disques et des pochettes du XXe siècle.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="B"><b>B</b> <span class="ot">des concerts tous les soirs.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="C"><b>C</b> <span class="ot">des instruments du monde entier.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="D"><b>D</b> <span class="ot">uniquement de la musique classique.</span><span class="box" aria-hidden="true"></span></button></div><input type="text" class="sr mcval" name="q1_iv" tabindex="-1" aria-hidden="true" readonly></div>
+  <p class="total">(Total for Question 1 = 4 marks)</p>
+  <p class="pageno">3</p>
+</section>
+
+<section class="sheet">
+  <p class="ptitle">Passage 2 – Les résultats du bac 2025</p>
+  <div class="player"><span class="plab">Passage 2</span><audio controls preload="none" src="listening_paper_04_passage_2.mp3"></audio></div>
+  <div class="qhead"><span class="qn">2</span><span>Écoutez l&#x27;interview sur les résultats du baccalauréat. Répondez aux questions en français.</span></div>
+  <div class="item" data-t="open" data-k="q2.0" data-max="1" data-lab="2(a)"><p class="q"><span class="sr">2</span><span class="num">(a)</span> Qu&#x27;est-ce qui a changé pour le nombre de candidats ?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="q2.1" data-max="1" data-lab="2(b)"><p class="q"><span class="sr">2</span><span class="num">(b)</span> Comment le taux de réussite a-t-il évolué ?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="q2.2" data-max="2" data-lab="2(c)"><p class="q"><span class="sr">2</span><span class="num">(c)</span> Quelles différences y a-t-il entre les voies ? Donnez deux détails.</p><textarea class="ans" rows="3" aria-label="Answer"></textarea></div><p class="mark">(2)</p>
+<div class="item" data-t="open" data-k="q2.3" data-max="1" data-lab="2(d)"><p class="q"><span class="sr">2</span><span class="num">(d)</span> Quelle évolution concerne la voie professionnelle ?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+  <p class="total">(Total for Question 2 = 5 marks)</p>
+  <p class="pageno">4</p>
+</section>
+
+<section class="sheet">
+  <p class="ptitle">Passage 3 – Devenir français : des règles plus strictes</p>
+  <div class="player"><span class="plab">Passage 3</span><audio controls preload="none" src="listening_paper_04_passage_3.mp3"></audio></div>
+  <div class="qhead"><span class="qn">3</span><span>Écoutez l&#x27;interview sur l&#x27;accès à la nationalité française. Répondez aux questions en français.</span></div>
+  <div class="item" data-t="open" data-k="q3.0" data-max="1" data-lab="3(a)"><p class="q"><span class="sr">3</span><span class="num">(a)</span> Comment le nombre de demandes a-t-il évolué ?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="q3.1" data-max="1" data-lab="3(b)"><p class="q"><span class="sr">3</span><span class="num">(b)</span> Qu&#x27;est-il arrivé au nombre d&#x27;acquisitions de la nationalité ?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="q3.2" data-max="2" data-lab="3(c)"><p class="q"><span class="sr">3</span><span class="num">(c)</span> Sur quels critères les préfets doivent-ils être plus exigeants ? Donnez deux détails.</p><textarea class="ans" rows="3" aria-label="Answer"></textarea></div><p class="mark">(2)</p>
+<div class="item" data-t="open" data-k="q3.3" data-max="1" data-lab="3(d)"><p class="q"><span class="sr">3</span><span class="num">(d)</span> Quelle a été la conséquence pour les propositions de naturalisation ?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="q3.4" data-max="2" data-lab="3(e)"><p class="q"><span class="sr">3</span><span class="num">(e)</span> Qu&#x27;est-ce qui a changé pour le niveau de français ? Donnez deux détails.</p><textarea class="ans" rows="3" aria-label="Answer"></textarea></div><p class="mark">(2)</p>
+<div class="item" data-t="open" data-k="q3.5" data-max="1" data-lab="3(f)"><p class="q"><span class="sr">3</span><span class="num">(f)</span> Quelle condition s&#x27;ajoute depuis 2026 ?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="q3.6" data-max="1" data-lab="3(g)"><p class="q"><span class="sr">3</span><span class="num">(g)</span> Que reproche l&#x27;association Le français pour toutes et tous à l&#x27;examen ?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+  <p class="total">(Total for Question 3 = 9 marks)</p>
+  <p class="pageno">5</p>
+</section>
+
+<section class="sheet">
+  <p class="ptitle">Passage 4(a) – C8 et NRJ 12 quittent la TNT</p>
+  <div class="player"><span class="plab">Passage 4(a)</span><audio controls preload="none" src="listening_paper_04_passage_4a.mp3"></audio></div>
+  <div class="qhead"><span class="qn">4</span><span>(a) Écoutez le reportage sur deux chaînes de télévision. Répondez aux questions en français.</span></div>
+  <div class="item" data-t="open" data-k="q4a.0" data-max="1" data-lab="4(a)(i)"><p class="q"><span class="sr">4(a)</span><span class="num">(i)</span> Qu&#x27;est-il arrivé à C8 et NRJ 12 le 28 février 2025 ?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="q4a.1" data-max="1" data-lab="4(a)(ii)"><p class="q"><span class="sr">4(a)</span><span class="num">(ii)</span> Quel rôle l&#x27;Arcom a-t-elle joué ?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="q4a.2" data-max="1" data-lab="4(a)(iii)"><p class="q"><span class="sr">4(a)</span><span class="num">(iii)</span> Comment les chaînes ont-elles réagi, et avec quel résultat ?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="q4a.3" data-max="2" data-lab="4(a)(iv)"><p class="q"><span class="sr">4(a)</span><span class="num">(iv)</span> Qu&#x27;est-ce que le Conseil d&#x27;État reproche aux programmes de NRJ 12 ? Donnez deux détails.</p><textarea class="ans" rows="3" aria-label="Answer"></textarea></div><p class="mark">(2)</p>
+<div class="item" data-t="open" data-k="q4a.4" data-max="1" data-lab="4(a)(v)"><p class="q"><span class="sr">4(a)</span><span class="num">(v)</span> Qu&#x27;a demandé le Conseil d&#x27;État à l&#x27;Arcom ?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+  <p class="pageno">6</p>
+</section>
+
+<section class="sheet">
+  <p class="lead">Résumez le reportage suivant. Des phrases courtes suffisent. Donnez trois détails pour la question 4(b)(i) et trois détails pour la question 4(b)(ii).</p>
+  <p class="ptitle">Passage 4(b) – C8 et NRJ 12 quittent la TNT</p>
+  <div class="player"><span class="plab">Passage 4(b)</span><audio controls preload="none" src="listening_paper_04_passage_4b.mp3"></audio></div>
+  <div class="qhead"><span class="qn"></span><span>(b) Écoutez la deuxième partie du reportage. Répondez en français.</span></div>
+  <p class="who">(i) Résumez ce que l&#x27;homme nous dit sur :</p>
+  <div class="item" data-t="open" data-k="q4b.key1.0" data-max="1" data-lab="4(b)(i) • l&#x27;audience de C8"><p class="q bul"><span class="sr">4(b)(i) </span>• l&#x27;audience de C8</p><textarea class="ans" rows="2" aria-label="4(b)(i)"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="q4b.key1.1" data-max="1" data-lab="4(b)(i) • les programmes de C8"><p class="q bul"><span class="sr">4(b)(i) </span>• les programmes de C8</p><textarea class="ans" rows="2" aria-label="4(b)(i)"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="q4b.key1.2" data-max="1" data-lab="4(b)(i) • la situation financière de la chaîne."><p class="q bul"><span class="sr">4(b)(i) </span>• la situation financière de la chaîne.</p><textarea class="ans" rows="2" aria-label="4(b)(i)"></textarea></div><p class="mark">(1)</p>
+  <p class="who">(ii) Résumez ce que la femme nous dit sur :</p>
+  <div class="item" data-t="open" data-k="q4b.key2.0" data-max="1" data-lab="4(b)(ii) • les chaînes qui remplacent C8 et NRJ 12"><p class="q bul"><span class="sr">4(b)(ii) </span>• les chaînes qui remplacent C8 et NRJ 12</p><textarea class="ans" rows="2" aria-label="4(b)(ii)"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="q4b.key2.1" data-max="1" data-lab="4(b)(ii) • les conséquences pour les salariés"><p class="q bul"><span class="sr">4(b)(ii) </span>• les conséquences pour les salariés</p><textarea class="ans" rows="2" aria-label="4(b)(ii)"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="q4b.key2.2" data-max="1" data-lab="4(b)(ii) • la réaction de Cyril Hanouna."><p class="q bul"><span class="sr">4(b)(ii) </span>• la réaction de Cyril Hanouna.</p><textarea class="ans" rows="2" aria-label="4(b)(ii)"></textarea></div><p class="mark">(1)</p>
+  <p class="total">(Total for Question 4 = 12 marks)</p>
+  <p class="grand">TOTAL FOR SECTION A = 30 MARKS</p>
+  <div class="lpbar"><button type="button" class="go" data-mark="A">Mark Section A only</button></div>
+  <div id="lp-res-A" class="lpres" aria-live="polite" hidden></div>
+  <p class="pageno">7</p>
+</section>
+
+<section class="sheet" id="secB">
+  <p class="sec">SECTION B</p><p class="sec">READING</p>
+  <p class="rec">We recommend you spend around 50 minutes on this section.</p>
+  <div class="instr"><p>Open-response questions do not have to be written in full sentences and you may respond using single words or phrases.</p>
+  <p>You may use words from the texts but you must not copy out whole sections.</p></div>
+  <div class="qhead"><span class="qn">5</span><span>Lisez l&#x27;article sur l&#x27;emploi des seniors.</span></div><div class="rtext"><p class="rtitle">Travailler plus longtemps : le défi des seniors</p><p>La réforme des retraites, entrée en vigueur le 1er septembre 2023, recule progressivement l&#x27;âge légal de départ. Ses effets se font déjà sentir : selon la Dares, le service statistique du ministère du Travail, 38,9 % des personnes âgées de 60 à 64 ans avaient un emploi en 2023, soit une hausse de 2,7 points en un an. En 2001, quand on pouvait partir à 60 ans, seuls 10,8 % d&#x27;entre elles travaillaient.</p><p>Le chômage des 55-64 ans reste plus faible que celui de l&#x27;ensemble des actifs : 5,4 % contre 7,3 %. Mais pour ceux qui perdent leur emploi, retrouver du travail relève souvent du « parcours du combattant ». « Ça fait trois ans que je galère », témoigne François Moret, ancien chef de groupe dans un laboratoire. Selon Valérie Gruau, fondatrice d&#x27;une plateforme qui met en relation entreprises et seniors, beaucoup d&#x27;employeurs hésitent encore à embaucher des candidats plus âgés.</p></div><p class="lead2">Choisissez la bonne fin pour les phrases. Cochez la bonne fin pour les phrases.</p><div class="item mc" data-t="mc" data-k="B.q5.0" data-max="1" data-lab="5(i)"><p class="q"><span class="sr">5</span><span class="num">(i)</span> Depuis la réforme de 2023, l&#x27;emploi des 60-64 ans…</p><div role="radiogroup" aria-label="5(i)"><button type="button" class="opt" role="radio" aria-checked="false" data-v="A"><b>A</b> <span class="ot">a progressé.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="B"><b>B</b> <span class="ot">a reculé.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="C"><b>C</b> <span class="ot">est resté stable.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="D"><b>D</b> <span class="ot">a doublé en un an.</span><span class="box" aria-hidden="true"></span></button></div><input type="text" class="sr mcval" name="B.q5_i" tabindex="-1" aria-hidden="true" readonly></div><div class="item mc" data-t="mc" data-k="B.q5.1" data-max="1" data-lab="5(ii)"><p class="q"><span class="sr">5</span><span class="num">(ii)</span> En 2001, les 60-64 ans…</p><div role="radiogroup" aria-label="5(ii)"><button type="button" class="opt" role="radio" aria-checked="false" data-v="A"><b>A</b> <span class="ot">travaillaient beaucoup plus qu&#x27;aujourd&#x27;hui.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="B"><b>B</b> <span class="ot">n&#x27;avaient pas droit à la retraite.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="C"><b>C</b> <span class="ot">pouvaient partir à la retraite à 60 ans.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="D"><b>D</b> <span class="ot">étaient tous au chômage.</span><span class="box" aria-hidden="true"></span></button></div><input type="text" class="sr mcval" name="B.q5_ii" tabindex="-1" aria-hidden="true" readonly></div><div class="item mc" data-t="mc" data-k="B.q5.2" data-max="1" data-lab="5(iii)"><p class="q"><span class="sr">5</span><span class="num">(iii)</span> Le chômage des 55-64 ans est…</p><div role="radiogroup" aria-label="5(iii)"><button type="button" class="opt" role="radio" aria-checked="false" data-v="A"><b>A</b> <span class="ot">plus élevé que la moyenne.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="B"><b>B</b> <span class="ot">inférieur à celui de l&#x27;ensemble des actifs.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="C"><b>C</b> <span class="ot">en forte hausse.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="D"><b>D</b> <span class="ot">inexistant.</span><span class="box" aria-hidden="true"></span></button></div><input type="text" class="sr mcval" name="B.q5_iii" tabindex="-1" aria-hidden="true" readonly></div><div class="item mc" data-t="mc" data-k="B.q5.3" data-max="1" data-lab="5(iv)"><p class="q"><span class="sr">5</span><span class="num">(iv)</span> Selon Valérie Gruau, les entreprises…</p><div role="radiogroup" aria-label="5(iv)"><button type="button" class="opt" role="radio" aria-checked="false" data-v="A"><b>A</b> <span class="ot">recherchent surtout des seniors.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="B"><b>B</b> <span class="ot">sont obligées d&#x27;embaucher des seniors.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="C"><b>C</b> <span class="ot">préfèrent les retraités.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt" role="radio" aria-checked="false" data-v="D"><b>D</b> <span class="ot">hésitent à recruter des personnes âgées.</span><span class="box" aria-hidden="true"></span></button></div><input type="text" class="sr mcval" name="B.q5_iv" tabindex="-1" aria-hidden="true" readonly></div>
+  <p class="total">(Total for Question 5 = 4 marks)</p>
+</section>
+<section class="sheet">
+  <div class="qhead"><span class="qn">6</span><span>Lisez cet article sur la fréquentation des cinémas.</span></div><div class="rtext"><p class="rtitle">Cinéma : une année difficile</p><p>Selon le Centre national du cinéma (CNC), 156,8 millions de places de cinéma ont été vendues en France en 2025, soit une baisse de 13,6 % par rapport à 2024, qui avait attiré 181,5 millions de spectateurs.</p><p>Les films français ont particulièrement souffert : leur part de marché est tombée à 37,7 %, contre 44,7 % un an plus tôt, tandis que celle des films américains restait stable, autour de 36 %. Le plus grand succès de l&#x27;année est un film d&#x27;animation de Disney, « Zootopie 2 », avec plus de 6 millions d&#x27;entrées.</p><p>Pour le président du CNC, Gaëtan Bruel, l&#x27;année a manqué de films « fédérateurs » et de surprises comme en 2024, où deux films français avaient dépassé les dix millions d&#x27;entrées. Plusieurs salles sont en difficulté : en septembre, le CNC a accordé des avances de trésorerie à 70 cinémas sur environ 2 200.</p></div><p class="lead2">Quelles phrases sont correctes ? Cochez les quatre bonnes phrases :</p><div class="item mc" data-t="tick" data-k="B.q6" data-max="4" data-lab="6"><button type="button" class="opt tk" role="checkbox" aria-checked="false" data-v="A"><b>A</b> <span class="ot">La fréquentation des cinémas a baissé en 2025.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt tk" role="checkbox" aria-checked="false" data-v="B"><b>B</b> <span class="ot">Le nombre de spectateurs a augmenté par rapport à 2024.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt tk" role="checkbox" aria-checked="false" data-v="C"><b>C</b> <span class="ot">Les films français ont perdu des parts de marché.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt tk" role="checkbox" aria-checked="false" data-v="D"><b>D</b> <span class="ot">Les films américains ont fortement reculé.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt tk" role="checkbox" aria-checked="false" data-v="E"><b>E</b> <span class="ot">Le film le plus vu en 2025 est un film d&#x27;animation.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt tk" role="checkbox" aria-checked="false" data-v="F"><b>F</b> <span class="ot">Aucun film français n&#x27;a dépassé dix millions d&#x27;entrées en 2024.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt tk" role="checkbox" aria-checked="false" data-v="G"><b>G</b> <span class="ot">Selon le CNC, il a manqué des films qui rassemblent le public.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt tk" role="checkbox" aria-checked="false" data-v="H"><b>H</b> <span class="ot">Tous les cinémas ont reçu une aide du CNC.</span><span class="box" aria-hidden="true"></span></button><button type="button" class="opt tk" role="checkbox" aria-checked="false" data-v="I"><b>I</b> <span class="ot">Certaines salles ont reçu une aide financière.</span><span class="box" aria-hidden="true"></span></button><input type="text" class="sr mcval" name="B_q6" tabindex="-1" aria-hidden="true" readonly></div>
+  <p class="total">(Total for Question 6 = 4 marks)</p>
+</section>
+<section class="sheet">
+  <div class="qhead"><span class="qn">7</span><span>Lisez ce récit d&#x27;une jeune femme arrivée en France. Répondez aux questions en français.</span></div><div class="rtext"><p class="rtitle">Les mots de la boulangerie</p><p>Quand je suis arrivée à Toulouse, il y a deux ans, je connaissais trois mots de français : bonjour, merci et pardon. Le premier mois, je n&#x27;osais même pas entrer dans la boulangerie en bas de chez moi. J&#x27;avais peur de ne pas comprendre la question de la vendeuse et de voir la queue s&#x27;impatienter derrière moi.</p><p>Alors, chaque soir, je m&#x27;entraînais devant le miroir : « Une baguette, s&#x27;il vous plaît. » Le jour où j&#x27;ai enfin osé, la vendeuse m&#x27;a demandé : « Bien cuite ou pas trop ? » J&#x27;ai rougi, j&#x27;ai répondu « oui », et je suis repartie avec une baguette presque brûlée. Elle a souri. Le lendemain, elle m&#x27;a expliqué la différence, lentement, avec ses mains.</p><p>Depuis, j&#x27;ai suivi les cours de français de l&#x27;association du quartier trois soirs par semaine, après mon travail à la cantine d&#x27;une école. J&#x27;y ai rencontré une Ukrainienne, un Afghan et une Colombienne : notre seule langue commune, c&#x27;est le français, et nous faisons tous les mêmes fautes.</p><p>Aujourd&#x27;hui, c&#x27;est moi qui aide les nouveaux arrivants à remplir leurs papiers. Et la vendeuse m&#x27;appelle par mon prénom.</p></div><div class="item" data-t="open" data-k="B.q7.0" data-max="2" data-lab="7(a)"><p class="q"><span class="sr">7</span><span class="num">(a)</span> Pourquoi la narratrice n&#x27;osait-elle pas entrer dans la boulangerie ? Donnez deux détails.</p><textarea class="ans" rows="3" aria-label="Answer"></textarea></div><p class="mark">(2)</p>
+<div class="item" data-t="open" data-k="B.q7.1" data-max="1" data-lab="7(b)"><p class="q"><span class="sr">7</span><span class="num">(b)</span> Que s&#x27;est-il passé la première fois qu&#x27;elle a acheté une baguette ?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="B.q7.2" data-max="2" data-lab="7(c)"><p class="q"><span class="sr">7</span><span class="num">(c)</span> Comment a-t-elle appris le français ? Donnez deux détails.</p><textarea class="ans" rows="3" aria-label="Answer"></textarea></div><p class="mark">(2)</p>
+<div class="item" data-t="open" data-k="B.q7.3" data-max="1" data-lab="7(d)"><p class="q"><span class="sr">7</span><span class="num">(d)</span> Qu&#x27;est-ce qui montre qu&#x27;elle est bien intégrée aujourd&#x27;hui ?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+  <p class="total">(Total for Question 7 = 6 marks)</p>
+</section>
+<section class="sheet">
+  <div class="qhead"><span class="qn">8</span><span>Lisez cet article sur le droit du sol à Mayotte. Répondez aux questions en français.</span></div><div class="rtext"><p class="rtitle">Mayotte : le droit du sol encore restreint</p><p>Depuis le 6 mai 2026, il est plus difficile pour un enfant né à Mayotte de parents étrangers de devenir français. Selon la loi du 12 mai 2025, il ne peut acquérir la nationalité par sa naissance et sa résidence que si ses deux parents résidaient régulièrement en France depuis plus d&#x27;un an au moment de sa naissance. Auparavant, depuis 2018, il suffisait qu&#x27;un seul parent soit en situation régulière depuis trois mois.</p><p>Le Conseil constitutionnel a validé cette règle en mai 2025. Il a invoqué les « caractéristiques et contraintes particulières » de Mayotte, où vit « une forte proportion de personnes de nationalité étrangère, dont beaucoup en situation irrégulière ». En 2024, environ trois bébés sur quatre nés dans le département avaient une mère étrangère.</p><p>Pour le gouvernement, il s&#x27;agit de réduire l&#x27;attractivité supposée du droit du sol dans l&#x27;archipel, une demande récurrente de certains élus locaux. Les opposants dénoncent au contraire « une nouvelle rupture d&#x27;égalité » entre les enfants nés à Mayotte et ceux nés dans le reste de la République.</p></div><div class="item" data-t="open" data-k="B.q8.0" data-max="2" data-lab="8(a)"><p class="q"><span class="sr">8</span><span class="num">(a)</span> Quelle condition s&#x27;applique désormais aux parents ? Donnez deux détails.</p><textarea class="ans" rows="3" aria-label="Answer"></textarea></div><p class="mark">(2)</p>
+<div class="item" data-t="open" data-k="B.q8.1" data-max="1" data-lab="8(b)"><p class="q"><span class="sr">8</span><span class="num">(b)</span> Quelle était la règle avant la réforme ?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="B.q8.2" data-max="1" data-lab="8(c)"><p class="q"><span class="sr">8</span><span class="num">(c)</span> Quelle institution a validé la réforme ?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="B.q8.3" data-max="1" data-lab="8(d)"><p class="q"><span class="sr">8</span><span class="num">(d)</span> Pourquoi a-t-elle accepté une règle spéciale pour Mayotte ?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="B.q8.4" data-max="1" data-lab="8(e)"><p class="q"><span class="sr">8</span><span class="num">(e)</span> Quel chiffre montre l&#x27;importance de l&#x27;immigration à Mayotte ?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="B.q8.5" data-max="1" data-lab="8(f)"><p class="q"><span class="sr">8</span><span class="num">(f)</span> Quel est l&#x27;objectif du gouvernement ?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="B.q8.6" data-max="1" data-lab="8(g)"><p class="q"><span class="sr">8</span><span class="num">(g)</span> Que reprochent les opposants à cette réforme ?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+  <p class="total">(Total for Question 8 = 8 marks)</p>
+</section>
+<section class="sheet">
+  <div class="qhead"><span class="qn">9</span><span>Lisez cet article sur le permis de conduire à 17 ans. Répondez aux questions en français.</span></div><div class="rtext"><p class="rtitle">Le permis à 17 ans : un premier bilan</p><p>Depuis le 1er janvier 2024, les jeunes de 17 ans peuvent conduire seuls dès qu&#x27;ils ont obtenu leur code et leur permis B. Auparavant, à cet âge, ils ne pouvaient conduire que dans le cadre de la conduite accompagnée.</p><p>Le succès est réel. Selon le ministère de l&#x27;Intérieur, 290 050 jeunes de 17 ans ont passé l&#x27;examen pratique en 2024, soit environ un tiers de leur classe d&#x27;âge, et 211 471 l&#x27;ont réussi. Leur taux de réussite atteint près de 73 %, alors qu&#x27;il n&#x27;est que de 58,35 % pour l&#x27;ensemble des candidats, tous âges confondus.</p><p>La réforme suscitait pourtant des craintes pour la sécurité routière. Or, d&#x27;après les chiffres provisoires de 2024, les conducteurs de 17 ans n&#x27;ont pas un taux d&#x27;accident plus élevé que les autres groupes d&#x27;âge. Pour le ministre de l&#x27;Intérieur, François-Noël Buffet, ces résultats montrent qu&#x27;il est possible de concilier « sécurité routière, accessibilité et autonomie pour les jeunes générations ».</p></div><div class="item" data-t="open" data-k="B.q9.0" data-max="1" data-lab="9(a)"><p class="q"><span class="sr">9</span><span class="num">(a)</span> Qu&#x27;est-ce qui a changé le 1er janvier 2024 ?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="B.q9.1" data-max="1" data-lab="9(b)"><p class="q"><span class="sr">9</span><span class="num">(b)</span> Comment les jeunes de 17 ans pouvaient-ils conduire avant ?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="B.q9.2" data-max="2" data-lab="9(c)"><p class="q"><span class="sr">9</span><span class="num">(c)</span> Comment sait-on que la réforme a attiré beaucoup de jeunes ? Donnez deux détails.</p><textarea class="ans" rows="3" aria-label="Answer"></textarea></div><p class="mark">(2)</p>
+<div class="item" data-t="open" data-k="B.q9.3" data-max="1" data-lab="9(d)"><p class="q"><span class="sr">9</span><span class="num">(d)</span> Que montre la comparaison des taux de réussite ?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="B.q9.4" data-max="1" data-lab="9(e)"><p class="q"><span class="sr">9</span><span class="num">(e)</span> Pourquoi certains étaient-ils inquiets ?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="B.q9.5" data-max="1" data-lab="9(f)"><p class="q"><span class="sr">9</span><span class="num">(f)</span> Que montrent les premiers chiffres sur les accidents ?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+<div class="item" data-t="open" data-k="B.q9.6" data-max="1" data-lab="9(g)"><p class="q"><span class="sr">9</span><span class="num">(g)</span> Selon le ministre, que permet de concilier la réforme ?</p><textarea class="ans" rows="2" aria-label="Answer"></textarea></div><p class="mark">(1)</p>
+  <p class="total">(Total for Question 9 = 8 marks)</p>
+  <p class="grand">TOTAL FOR SECTION B = 30 MARKS</p>
+  <div class="lpbar"><button type="button" class="go" data-mark="B">Mark Section B only</button></div>
+  <div id="lp-res-B" class="lpres" aria-live="polite" hidden></div>
+</section>
+
+<section class="sheet" id="secC">
+  <p class="sec">SECTION C</p><p class="sec">TRANSLATION INTO ENGLISH</p>
+  <p class="rec">We recommend you spend around 20 minutes on this section.</p>
+  <div class="qhead"><span class="qn">10</span><span>Translate the following article about a new test for foreign residents into English.</span></div><p class="mark">(20)</p><div class="rtext"><p>Depuis le 1er janvier 2026, les étrangers qui demandent une carte de séjour ou la nationalité française doivent passer un examen civique. Il s&#x27;agit d&#x27;un questionnaire à choix multiples de quarante questions, passé sur ordinateur ou sur tablette dans un centre d&#x27;examen. Les candidats disposent de quarante-cinq minutes et doivent obtenir au moins 80 % de bonnes réponses. Les questions portent sur les principes et les valeurs de la République, ainsi que sur les droits et les devoirs des personnes qui vivent en France. Une association critique cet examen. Selon elle, il représente un stress supplémentaire pour beaucoup de candidats, et certaines questions seraient difficiles même pour des Français.</p></div><div class="item" data-t="trans" data-k="C" data-max="20" data-lab="10"><textarea class="ans" rows="12" aria-label="10 – translation"></textarea></div>
+  <p class="total">(Total for Question 10 = 20 marks)</p>
+  <p class="grand">TOTAL FOR SECTION C = 20 MARKS</p>
+  <div class="lpbar"><button type="button" class="go" data-mark="C">Mark Section C only</button></div>
+  <div id="lp-res-C" class="lpres" aria-live="polite" hidden></div>
+  <p class="grand">TOTAL FOR PAPER = 80 MARKS</p>
+  <div id="lp-bar" class="lpbar">
+    <button type="button" class="go" data-mark="all">Mark the whole paper</button>
+    <button type="button" id="lp-dl">Download results</button>
+    <button type="button" id="lp-reset">Start again</button>
+  </div>
+  <div id="lp-res" class="lpres" aria-live="polite" hidden></div>
+</section>
+
+<section class="sheet defi">
+  <p class="ptitle">Défi – after the paper (not marked, not part of the 80 marks)</p>
+  <p>For students aiming at the top grades.</p>
+  <ol>
+<li>Passage 3 : faut-il exiger un niveau élevé de français pour devenir français ? Donnez votre avis en 80 mots, avec un argument pour et un argument contre.<textarea class="ans" rows="3" aria-label="Défi 1"></textarea></li>
+<li>Passages 4(a) et 4(b) : l&#x27;Arcom a-t-elle eu raison de retirer sa fréquence à C8 ? Écrivez 60 mots en citant deux raisons données par le Conseil d&#x27;État.<textarea class="ans" rows="3" aria-label="Défi 2"></textarea></li>
+<li>Section B, question 7 : racontez en 80 mots une situation où vous avez eu peur de ne pas comprendre une langue étrangère.<textarea class="ans" rows="3" aria-label="Défi 3"></textarea></li>
+  </ol>
+</section>
+
+<section class="sheet">
+  <p class="ptitle">Source information:</p>
+  <p style="font-size:15px">The recordings and the reading and translation texts were written by the BBA French department from the facts in the sources below; the recordings are read by synthetic voices. The narrative text (« récit ») is original.</p>
+<p class="src"><b>Le Musée national de l&#x27;histoire de l&#x27;immigration</b><br><a href="https://artnewspaper.fr/2023/06/15/le-musee-national-de-lhistoire-de-limmigration-rouvre-le-17-juin" target="_blank" rel="noopener">https://artnewspaper.fr/2023/06/15/le-musee-national-de-lhistoire-de-limmigration-rouvre-le-17-juin</a></p>
+<p class="src"><b>Les résultats du bac 2025</b><br><a href="https://www.letudiant.fr/bac/bac-2025-moins-de-candidats-mais-un-taux-de-reussite-en-hausse.html" target="_blank" rel="noopener">https://www.letudiant.fr/bac/bac-2025-moins-de-candidats-mais-un-taux-de-reussite-en-hausse.html</a></p>
+<p class="src"><b>Devenir français</b><br><a href="https://www.bladi.net/obtenir-nationalite-francaise-devient-difficile,124399.html" target="_blank" rel="noopener">https://www.bladi.net/obtenir-nationalite-francaise-devient-difficile,124399.html</a><br><a href="https://www.thelocal.fr/20260102/an-added-stress-critics-blast-frances-new-civics-test-for-foreigners" target="_blank" rel="noopener">https://www.thelocal.fr/20260102/an-added-stress-critics-blast-frances-new-civics-test-for-foreigners</a></p>
+<p class="src"><b>C8 et NRJ 12</b><br><a href="https://www.cbnews.fr/node/90821" target="_blank" rel="noopener">https://www.cbnews.fr/node/90821</a></p>
+<p class="src"><b>L&#x27;emploi des seniors</b><br><a href="https://www.linfodurable.fr/reforme-des-retraites-plus-de-seniors-au-travail-mais-retrouver-un-emploi-reste-une-galere-46858" target="_blank" rel="noopener">https://www.linfodurable.fr/reforme-des-retraites-plus-de-seniors-au-travail-mais-retrouver-un-emploi-reste-une-galere-46858</a></p>
+<p class="src"><b>La fréquentation des cinémas</b><br><a href="https://www.cbnews.fr/node/97727" target="_blank" rel="noopener">https://www.cbnews.fr/node/97727</a></p>
+<p class="src"><b>Les mots de la boulangerie</b><br>Récit original écrit par le département de français de BBA.</p>
+<p class="src"><b>Le droit du sol à Mayotte</b><br><a href="https://www.mayottehebdo.com/actualite/politique/droit-du-sol-a-mayotte-la-reforme-de-2025-devient-effective/" target="_blank" rel="noopener">https://www.mayottehebdo.com/actualite/politique/droit-du-sol-a-mayotte-la-reforme-de-2025-devient-effective/</a></p>
+<p class="src"><b>Le permis à 17 ans</b><br><a href="https://www.brut.media/fr/articles/permis-de-conduire-les-jeunes-de-17-ans-affichent-un-meilleur-taux-de-reussite" target="_blank" rel="noopener">https://www.brut.media/fr/articles/permis-de-conduire-les-jeunes-de-17-ans-affichent-un-meilleur-taux-de-reussite</a></p>
+<p class="src"><b>L&#x27;examen civique (traduction)</b><br><a href="https://www.thelocal.fr/20260102/an-added-stress-critics-blast-frances-new-civics-test-for-foreigners" target="_blank" rel="noopener">https://www.thelocal.fr/20260102/an-added-stress-critics-blast-frances-new-civics-test-for-foreigners</a></p>
+  <p class="credit">Voices: Piper TTS. <i>en_GB-cori-high</i> (announcer) – LibriVox recordings, public domain. <i>fr_FR-siwis-medium</i> – SIWIS French Speech Synthesis Database, licence CC BY 4.0. <i>fr_FR-upmc-medium</i> (voice “Jessica”) – UPMC Pierre data, MaryTTS project, licence CC BY-SA 4.0 (<a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener">creativecommons.org/licenses/by-sa/4.0</a>). <i>fr_FR-tom-medium</i> – French-tts-model-piper dataset, licence AGPLv3. The audio files of this paper are shared under the same licences.</p>
+</section>
+
+<script>
+(function(){
+  function paint(item){
+    var v=item.querySelector('.mcval').value, multi=item.dataset.t==='tick';
+    item.querySelectorAll('.opt').forEach(function(b){b.setAttribute('aria-checked', (multi ? v.indexOf(b.dataset.v)>=0 : b.dataset.v===v)?'true':'false');});
+  }
+  document.addEventListener('click',function(e){
+    var b=e.target.closest('.opt'); if(!b) return;
+    var item=b.closest('.item'), f=item.querySelector('.mcval');
+    if(item.dataset.t==='tick'){ var set=f.value.split('').filter(Boolean), k=set.indexOf(b.dataset.v); if(k>=0) set.splice(k,1); else set.push(b.dataset.v); f.value=set.sort().join(''); }
+    else f.value = (f.value===b.dataset.v) ? '' : b.dataset.v;
+    f.dispatchEvent(new Event('input',{bubbles:true})); f.dispatchEvent(new Event('change',{bubbles:true}));
+    paint(item);
+  });
+  /* keep the crosses in step with answers the kit restores after a reload */
+  setInterval(function(){document.querySelectorAll('.item.mc').forEach(paint);},800);
+})();
+</script>
+<script type="application/json" id="lp-key">{"q1": ["B", "D", "C", "A"], "q2": [{"ans": "Il y a eu moins de candidats (744 000, 8 700 de moins).", "pts": [[[["moins", "baiss", "diminu", "8 700", "8700"]]]]}, {"ans": "Il a légèrement augmenté (91,6 % contre 91,2 %).", "pts": [[[["augment", "hausse", "progress", "91,6", "plus"]]]]}, {"ans": "Any 2: plus de 96 % de réussite dans la voie générale – presque 91 % en voie technologique – moins de 84 % en voie professionnelle – plus de mentions en voie générale.", "pts": [[[["96", "general"]]], [[["91", "technolog"]]], [[["84", "profession"]]], [[["mention"]]]]}, {"ans": "La part des mentions bien et très bien a progressé (de plus d'un point).", "pts": [[[["mention"]]]]}], "q3": [{"ans": "Il a fortement augmenté (179 000 en 2025 contre 151 000).", "pts": [[[["augment", "hausse", "plus", "179"]]]]}, {"ans": "Il a baissé (de près de 7 %, à un peu plus de 62 000).", "pts": [[[["baiss", "diminu", "moins", "7", "62"]]]]}, {"ans": "Any 2 from 3: le respect des lois – la maîtrise du français – l'autonomie financière.", "pts": [[[["loi"]]], [[["francais", "langue"]]], [[["financ", "argent", "autonom", "revenu"]]]]}, {"ans": "Moins de propositions favorables : plus de sept sur dix au début de 2025, une sur deux à la fin.", "pts": [[[["moins", "une sur deux", "50", "moitie", "baiss"]]]]}, {"ans": "Le niveau est passé de B1 à B2 (à l'oral et à l'écrit) AND cela concerne aussi les personnes mariées à un(e) Français(e).", "pts": [[[["b2", "b1", "plus eleve", "plus haut"]]], [[["mari", "conjoint", "epoux"]]], [[["oral"], ["ecrit"]]]]}, {"ans": "Réussir un examen civique (sur les principes et valeurs de la République).", "pts": [[[["examen", "civique", "test", "valeurs"]]]]}, {"ans": "C'est un stress supplémentaire / certaines questions seraient difficiles même pour des Français.", "pts": [[[["stress", "difficile", "francais eux-memes", "meme les francais", "angoiss"]]]]}], "q4a": [{"ans": "Elles ont cessé d'émettre sur la TNT.", "pts": [[[["cess", "arret", "plus", "disparu", "quitt", "fin"]]]]}, {"ans": "Elle a publié la liste des chaînes autorisées sans C8 ni NRJ 12 / elle ne les a pas retenues.", "pts": [[[["liste", "choisi", "retenu", "autoris", "exclu", "renouvel", "frequence"]]]]}, {"ans": "Elles ont fait appel, mais le Conseil d'État a rejeté leurs recours.", "pts": [[[["rejet", "perdu", "refus", "echou"]]]]}, {"ans": "Any 2: des fictions souvent rediffusées – des divertissements et du télé-achat – des engagements de création inférieurs à ceux des autres – un seul résultat positif.", "pts": [[[["fiction", "rediffus"]]], [[["tele-achat", "teleachat", "divertissement"]]], [[["creation", "engagement", "inferieur"]]], [[["resultat", "argent", "benefice", "une seule annee"]]]]}, {"ans": "De relancer une consultation publique sur les fréquences libérées.", "pts": [[[["consultation", "frequence"]]]]}], "q4b": {"key1": [{"ans": "C8 avait une forte audience / attirait un large public.", "pts": [[[["forte", "large", "beaucoup", "importante", "nombreu", "elevee"]]]]}, {"ans": "Ils étaient peu diversifiés (par rapport aux concurrents) / la chaîne n'a pas respecté ses obligations.", "pts": [[[["diversif", "manquement", "obligation", "pas varie", "peu varie"]]]]}, {"ans": "Elle n'a jamais atteint l'équilibre financier en vingt ans.", "pts": [[[["equilibre", "perte", "jamais", "deficit", "pas rentable"]]]]}], "key2": [{"ans": "T18 (groupe Kretinsky) et OFTV (Ouest-France).", "pts": [[[["t18", "oftv", "ouest-france", "ouest france", "kretinsky"]]]]}, {"ans": "Près de 400 salariés de Canal+ risquent de perdre leur emploi.", "pts": [[[["400", "emploi", "licenci", "travail"]]]]}, {"ans": "Il a dénoncé une décision « politique ».", "pts": [[[["politique"]]]]}]}, "B": {"q5": ["A", "C", "B", "D"], "q6": ["A", "C", "E", "G"], "q7": [{"ans": "Any 2: elle ne connaissait que trois mots – elle avait peur de ne pas comprendre la question – elle avait peur que la queue s'impatiente.", "pts": [[[["trois mots", "3 mots", "parlait pas", "connaissait pas", "pas le francais"]]], [[["comprend"]]], [[["queue", "gens", "clients", "impatien", "derriere"]]]]}, {"ans": "Elle n'a pas compris la question / elle a répondu « oui » et elle a eu une baguette presque brûlée.", "pts": [[[["brul", "cuite", "oui", "pas compris", "rougi"]]]]}, {"ans": "Any 2: elle s'entraînait devant le miroir – la vendeuse lui a expliqué – cours de l'association trois soirs par semaine – avec d'autres étrangers.", "pts": [[[["miroir", "entrain"]]], [[["cours", "association"]]], [[["vendeuse"], ["expliqu", "aid"]]], [[["ukrain", "afghan", "colombi", "autres etrangers", "autres immigr"]]]]}, {"ans": "Elle aide les nouveaux arrivants (à remplir leurs papiers) / la vendeuse l'appelle par son prénom.", "pts": [[[["aide", "papiers", "nouveaux"]], [["prenom"]]]]}], "q8": [{"ans": "Les deux parents doivent être en situation régulière AND depuis plus d'un an.", "pts": [[[["deux parents", "les deux", "pere et mere", "2 parents"]]], [[["un an", "1 an", "une annee"]]]]}, {"ans": "Il suffisait qu'un seul parent soit en situation régulière depuis trois mois.", "pts": [[[["un seul", "trois mois", "3 mois", "un parent"]]]]}, {"ans": "Le Conseil constitutionnel.", "pts": [[[["constitutionnel"]]]]}, {"ans": "À cause des caractéristiques particulières de Mayotte / beaucoup d'étrangers, souvent en situation irrégulière.", "pts": [[[["particuli", "etranger", "irreguli", "contrainte", "caracteristique"]]]]}, {"ans": "En 2024, environ trois bébés sur quatre avaient une mère étrangère.", "pts": [[[["trois", "3", "75"], ["quatre", "4", "bebe", "%"]]]]}, {"ans": "Réduire l'attractivité (supposée) du droit du sol.", "pts": [[[["attract", "attir", "reduire", "moins de"]]]]}, {"ans": "Une rupture d'égalité entre les enfants nés à Mayotte et ceux nés ailleurs.", "pts": [[[["egalit", "inegal", "injust", "differen", "discrimin"]]]]}], "q9": [{"ans": "Les jeunes de 17 ans peuvent conduire seuls dès qu'ils ont leur permis.", "pts": [[[["17"], ["conduire", "permis"]]]]}, {"ans": "Seulement en conduite accompagnée.", "pts": [[[["accompagn", "adulte", "avec quelqu'un"]]]]}, {"ans": "Any 2: 290 050 jeunes ont passé l'examen – environ un tiers de la classe d'âge – 211 471 l'ont réussi.", "pts": [[[["290"]]], [[["tiers"]]], [[["211"]]]]}, {"ans": "Les jeunes de 17 ans réussissent mieux (73 % contre 58 % pour l'ensemble).", "pts": [[[["mieux", "73", "plus eleve", "superieur"]]]]}, {"ans": "Pour la sécurité routière / peur de plus d'accidents.", "pts": [[[["securite", "accident", "danger"]]]]}, {"ans": "Les conducteurs de 17 ans n'ont pas plus d'accidents que les autres.", "pts": [[[["pas plus", "pas un taux", "pas davantage", "meme", "moins"]]]]}, {"ans": "La sécurité routière, l'accessibilité et l'autonomie des jeunes.", "pts": [[[["securite", "autonom", "accessib"]]]]}]}, "C": [{"fr": "Depuis le 1er janvier 2026,", "ans": "Since 1 January 2026,", "pts": [[[["since", "as of", "from"], ["january"], ["2026"]]]]}, {"fr": "les étrangers qui demandent une carte de séjour", "ans": "foreigners who apply for a residence permit", "pts": [[[["foreign"], ["apply", "ask", "request"], ["residen", "permit", "card", "visa"]]]]}, {"fr": "ou la nationalité française", "ans": "or French nationality", "pts": [[[["nationality", "citizenship"]]]]}, {"fr": "doivent passer un examen civique.", "ans": "must take a civic test.", "pts": [[[["must", "have to", "need to", "required"], ["civic", "citizenship"], ["test", "exam"]]]]}, {"fr": "Il s'agit d'un questionnaire à choix multiples", "ans": "It is a multiple-choice questionnaire", "pts": [[[["multiple"], ["choice"]]]]}, {"fr": "de quarante questions,", "ans": "of forty questions,", "pts": [[[["forty", "40"], ["question"]]]]}, {"fr": "passé sur ordinateur ou sur tablette", "ans": "taken on a computer or a tablet", "pts": [[[["computer"], ["tablet"]]]]}, {"fr": "dans un centre d'examen.", "ans": "in an exam centre.", "pts": [[[["centre", "center"]]]]}, {"fr": "Les candidats disposent de quarante-cinq minutes", "ans": "Candidates have forty-five minutes", "pts": [[[["candidate", "applicant"], ["forty-five", "45", "forty five"], ["minute"]]]]}, {"fr": "et doivent obtenir au moins 80 % de bonnes réponses.", "ans": "and must get at least 80% correct answers.", "pts": [[[["at least", "minimum", "no less"], ["80"], ["correct", "right", "good"]]]]}, {"fr": "Les questions portent sur les principes et les valeurs de la République,", "ans": "The questions are about the principles and values of the Republic,", "pts": [[[["principle"], ["value"], ["republic"]]]]}, {"fr": "ainsi que sur les droits et les devoirs", "ans": "as well as on the rights and duties", "pts": [[[["right"], ["dut", "obligation", "responsibilit"]]]]}, {"fr": "des personnes qui vivent en France.", "ans": "of people who live in France.", "pts": [[[["live", "living", "resid"]]]]}, {"fr": "Une association critique cet examen.", "ans": "One association criticises this test.", "pts": [[[["association", "organisation", "organization", "group", "charit"], ["critic"]]]]}, {"fr": "Selon elle,", "ans": "According to it,", "pts": [[[["according", "in their view", "in their opinion", "they say", "they believe", "they think"]]]]}, {"fr": "il représente un stress supplémentaire", "ans": "it represents extra stress", "pts": [[[["stress", "pressure", "anxiety", "strain"], ["extra", "additional", "added", "further", "more"]]]]}, {"fr": "pour beaucoup de candidats,", "ans": "for many candidates,", "pts": [[[["many", "a lot of", "lots of", "numerous", "plenty of"], ["candidate", "applicant"]]]]}, {"fr": "et certaines questions", "ans": "and some questions", "pts": [[[["some", "certain"], ["question"]]]]}, {"fr": "seraient difficiles", "ans": "would be difficult", "pts": [[[["difficult", "hard", "tricky", "challenging"]]]]}, {"fr": "même pour des Français.", "ans": "even for French people.", "pts": [[[["even"], ["french people", "french citizens", "the french", "french person", "french nationals"]]]]}]}</script>
+<script src="paper-marker.js" defer></script>
+<script>window.BBA_KIT = Object.assign(window.BBA_KIT || {}, {check:false, download:false, name:false, meter:false, tries:0});</script>
+<script src="bba-kit-fr.js" defer></script>
+</body>
+</html>
