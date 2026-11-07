@@ -235,6 +235,7 @@ table.pf td:nth-child(2) b{white-space:nowrap}
 <script src="bba-xlsx.js"></script>
 <link rel="stylesheet" href="bba-mobile.css">
 <script src="bba-mobile.js" defer></script>
+<script src="bba-theme.js"></script>
 </head>
 <body>
 <header class="site">
@@ -290,8 +291,10 @@ table.pf td:nth-child(2) b{white-space:nowrap}
             Recent work is shown on its own. <b>The task</b> — the newest task recorded under <b>Set a task</b> for the
       student's language and class: lists or activities done out of those set, and questions answered since its start
       date, worked out from the codes received before and after that date (it does not matter whether the student
-      clicked the link). A vocabulary list counts as done once it has had at least as many answers since the start as it
-      has words; an activity once every question has an answer. "No code since" means nothing has been sent since the
+      clicked the link). A vocabulary list counts as done once every word has been written at least once since the start
+      and 80 % of them written correctly (the vocabulary site's own rule; for codes from before 6 November 2026, once
+      the list has had as many answers as it has words); an activity once it has been checked with a score, or every
+      question has an answer. "No code since" means nothing has been sent since the
       task was set. <b>This month so far</b> — answers during the month.
       <br><b>Exam-practice sites</b> are measured in activities, because each one is a whole task:
       <b>Activities completed</b> — checked by the student with a score recorded (as on the site's own progress ring), or every question answered; <b>Activities started</b>
@@ -337,7 +340,7 @@ table.pf td:nth-child(2) b{white-space:nowrap}
       <div class="wide" id="tModeWrap"><label>How the vocabulary lists are practised</label>
         <div style="display:flex;gap:8px 20px;flex-wrap:wrap;margin-top:6px;font-size:.9rem">
           <label style="font-weight:400;display:flex;gap:6px;align-items:center"><input type="checkbox" id="tRead" checked> Reading first (into English), word by word until recognised</label>
-          <label style="font-weight:400;display:flex;gap:6px;align-items:center;color:var(--ink-soft)"><input type="checkbox" checked disabled> Writing (into the target language) — always; a list is done at 95 % written correctly</label>
+          <label style="font-weight:400;display:flex;gap:6px;align-items:center;color:var(--ink-soft)"><input type="checkbox" checked disabled> Writing (into the target language) — always; a list is done once every word has been written and 80 % written correctly</label>
           <label style="font-weight:400;display:flex;gap:6px;align-items:center"><input type="checkbox" id="tDict"> Listening (dictation)</label>
         </div></div>
       <div class="wide" id="tNoteWrap"><label for="tNote">One line for the student (optional)</label>
@@ -687,7 +690,7 @@ function ansCell(v, pv){
 /* No row is marked for doing less than the rest of the group: a comparison
    is not a fact about the student, and the dashboard reports facts only. */
 function fewAnswers(studs){ return () => false; }
-/* the student's current task: lists done (95 % written) out of lists set */
+/* the student's current task: lists done (every word written, 80 % correctly) out of lists set */
 function taskText(c){ const t = c && c.a; return t && Array.isArray(t.done) ? t.done.filter(Boolean).length + " / " + t.done.length : ""; }
 function taskCell(c){
   const t = c && c.a;
@@ -1900,17 +1903,28 @@ function taskProgress(st, kind, lang){
   }
   if (kind === "lex"){
     (tk.lessons || []).forEach(lid => {
-      let n = 0, words = 0;
+      let n = 0, words = 0, tried = null, right = null;
+      const day = Math.floor(Date.parse(tk.since) / DAYMS);
       pairs.forEach(x => {
         const r = (Array.isArray(x.head.l) ? x.head.l : []).find(q => q[0] === lid);
         if (!r) return;
+        /* the site's own count, when the student's browser holds this same task:
+           words tried in writing and words written correctly since its start */
+        if (((x.head.o || {}).ts) === day && r.length > 10 && typeof r[10] === "number"){
+          tried = Math.max(tried || 0, r[10]); right = Math.max(right || 0, r[7] || 0);
+        }
         const rb = x.base && Array.isArray(x.base.l) ? x.base.l.find(q => q[0] === lid) : null;
         words = Math.max(words, r[2] || 0);
         n += Math.max(0, listVal(r) - listVal(rb));
       });
       const tl = LESSONS[lang] && LESSONS[lang][lid];
-      const done = words > 0 && n >= words;
-      P.items.push({name: lid + (tl ? " · " + tl : ""), prog: n + " answer" + (n === 1 ? "" : "s") + (words ? " · " + words + " words" : ""), done: done});
+      /* the site's rule when its count is in the code: every word written at least once,
+         and 80 % written correctly; otherwise, from the answers: as many answers as words */
+      const exact = tried != null;
+      const done = exact ? (words > 0 && tried >= words && right >= Math.ceil(0.8 * words)) : (words > 0 && n >= words);
+      P.items.push({name: lid + (tl ? " · " + tl : ""),
+                    prog: exact ? tried + " of " + words + " words written · " + right + " right"
+                                : n + " answer" + (n === 1 ? "" : "s") + (words ? " · " + words + " words" : ""), done: done});
       P.of++; if (done) P.done++;
     });
   } else {
@@ -2216,7 +2230,7 @@ const EXPLAIN = {
   dosAvg: "For each activity, the best score the student has reached (% of questions correct); this is the average of those best scores.",
   mast: "Words answered correctly often enough to leave the review cycle.",
   dosMast: "Activities with a best score of 80 % or more.",
-  task: "Lists in the current task with 95 % of their words written correctly since the task was set."
+  task: "Lists in the current task where every word has been written at least once since the task was set, and 80 % written correctly."
 };
 function taskFigures(S){
   const P = S.tp;
@@ -2225,7 +2239,7 @@ function taskFigures(S){
   if (P.noCode) return [[nm, "no code since", "The student has not sent a progress code since the task was set, so their work on it cannot be seen yet."]];
   const L = [];
   if (P.of) L.push([nm, P.done + " of " + P.of + " done",
-    S.kind === "lex" ? "A list counts as done once it has had at least as many answers since the task was set as it has words."
+    S.kind === "lex" ? "A list counts as done once every word has been written at least once since the task was set, and 80 % written correctly — the same rule the vocabulary site uses."
                      : "An activity counts as done once the student has checked it and a score was recorded, or every question in it has an answer."]);
   if (P.since != null) L.push(["Questions answered since the task was set", nf(P.since),
     P.base ? "Worked out from the codes received before and after the start date." : "No code from before the start date, so this includes all the work so far."]);
@@ -2528,7 +2542,7 @@ function lexTable(studs, id){
            + '<th>Student</th>'+(withId?'<th>ID</th>':'')+'<th>Class</th>'
            + '<th title="Every answer given, all time — the key figure">Answered</th>'
            + '<th title="Answers typed in the target language (English → target), all time">Writing</th>'
-           + '<th title="Lists of the current task with 95 % of their words written correctly">Task</th>'
+           + '<th title="Lists of the current task with every word written and 80 % written correctly">Task</th>'
            + '<th title="Answers since the start of the task the student\'s browser holds">Since task (browser)</th>'
            + '<th>Mastered</th><th>Accuracy</th>'
            + '<th>Seen</th><th>Sessions</th><th>Leeches</th><th>Exam avg</th><th>Sent</th><th>#</th>'
