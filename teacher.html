@@ -270,7 +270,7 @@ table.pf td:nth-child(2) b{white-space:nowrap}
     <button class="btn ghost" id="btnAllCsv">Download the whole roster (.csv)</button>
     <button class="btn ghost" id="btnAllDocx">Word profiles for everyone shown</button>
     <button class="btn ghost" id="btnPrint">Print the overview</button>
-    <label class="hint" style="display:flex;gap:6px;align-items:center;margin:0"><input type="checkbox" id="printDetail"> add each student's activity breakdown at the end</label>
+    <label class="hint" style="display:flex;gap:6px;align-items:center;margin:0"><input type="checkbox" id="printDetail"> add a page per student: all work completed, and the tasks set for their class</label>
     <label class="hint" style="display:flex;gap:6px;align-items:center;margin:0" title="Rows whose class is 'teacher' or 'staff' in the Classes box"><input type="checkbox" id="showStaff"> show staff (class "teacher")</label>
     <details class="hint" style="flex-basis:100%;margin:0"><summary style="cursor:pointer">What is in each download?</summary>
       The workbook has one sheet per site: a row per student, a column per exercise or list they have done, by name,
@@ -1876,16 +1876,26 @@ function mergeTasks(mine, theirs){
   return Object.values(m).sort((a, b) => taskStart(a) - taskStart(b) || a.id - b.id);
 }
 let KNOWN_CLS = null;
-function taskFor(c, lang){
+/* Was this task set for this student's class? A task for all classes, for
+   their class, or for their year group (a task made for "Y12" reaches Y12FR) */
+function taskForCls(tk, cls){
   if (!KNOWN_CLS) KNOWN_CLS = new Set(roster.entries.map(e => e && e.p ? clsOf(e.p) : "").filter(Boolean));
+  return !tk.cls || tk.cls === cls || (!KNOWN_CLS.has(tk.cls) && !!cls && !!yearNum(tk.cls) && yearNum(tk.cls) === yearNum(cls));
+}
+/* every task set so far for this student's class, oldest first */
+function tasksSetFor(c, lang){
   const cls = clsOf(c), now = Date.now();
-  const ok = taskList().filter(tk => !tk.gone && tk.lang === lang && taskStart(tk) <= now && now <= taskEnd(tk) &&
-    (!tk.cls || tk.cls === cls || (!KNOWN_CLS.has(tk.cls) && cls && yearNum(tk.cls) && yearNum(tk.cls) === yearNum(cls))));
+  return taskList().filter(tk => !tk.gone && tk.lang === lang && taskStart(tk) <= now && taskForCls(tk, cls))
+                   .sort((a, b) => taskStart(a) - taskStart(b) || a.id - b.id);
+}
+function taskFor(c, lang){
+  const now = Date.now();
+  const ok = tasksSetFor(c, lang).filter(tk => now <= taskEnd(tk));
   return ok.sort((a, b) => taskStart(b) - taskStart(a) || b.id - a.id)[0] || null;
 }
 function listVal(r){ return !r ? 0 : (typeof r[4] === "number" ? r[4] : (r[1] || 0)); }
-function taskProgress(st, kind, lang){
-  const tk = taskFor(st.w.mc, groupLangOf(kind + lang));
+function taskProgress(st, kind, lang, given){
+  const tk = given || taskFor(st.w.mc, groupLangOf(kind + lang));
   if (!tk) return null;
   const t0 = taskStart(tk), cl = langOfId(kind + lang);
   const before = st.codes.filter(c => c.t < t0), after = st.codes.filter(c => c.t >= t0);
@@ -3050,34 +3060,107 @@ window.addEventListener("beforeprint", () => {
     $("#printHead").textContent = "Class overview · " + f + " · printed " + new Date().toLocaleDateString("en-GB", {day:"numeric", month:"long", year:"numeric"}); }
 });
 
-/* ── the optional breakdown printed after the overview ── */
+/* ── the optional page printed after the overview: for each student, the tasks
+   set for their class or year group, and which of them they completed.
+   Only tasks recorded with "Make the link" count; work the student did of their
+   own accord is not listed here (it is in the overview and the Word profile). ── */
+function itemTitle(kind, L, n){
+  if (kind === "lex"){ const t = LESSONS[L] && LESSONS[L][n]; return n + (t ? " · " + t : ""); }
+  const C = catOf(L); let i = -1;
+  C.forEach((it, j) => { let f = it.f; try{ f = decodeURIComponent(f); }catch(e){} if (f === n) i = j; });
+  return i >= 0 ? actName(i, L) : n.replace(/\.html?$/i, "").replace(/_/g, " ");
+}
+function studentTasks(key){
+  const per = {};                                     /* language → {lex: st, dos: st} */
+  GROUPS.forEach(g => {
+    if (g.sec === "KS") return;
+    (lastStuds[g.kind+g.lang] || []).forEach(st => {
+      if (idKey(st.cur, st.__entry) !== key) return;
+      const L = groupLangOf(g.kind+g.lang); (per[L] = per[L] || {})[g.kind] = {st: st, g: g};
+    });
+  });
+  let cls = "";
+  Object.values(per).forEach(x => Object.values(x).forEach(o => { if (!cls && clsOf(o.st.w.mc)) cls = clsOf(o.st.w.mc); }));
+  const out = [];
+  Object.keys(per).sort().forEach(L => {
+    const x = per[L], any = (x.lex || x.dos).st;
+    const T = tasksSetFor(any.w.mc, L);
+    T.forEach(tk => {
+      const rows = [];
+      [["lex", tk.lessons], ["dos", tk.items]].forEach(([kind, list]) => {
+        if (!list || !list.length) return;
+        const o = x[kind];
+        if (!o){ list.forEach(n => rows.push({kind: kind, name: itemTitle(kind, L, n), prog: "no code received from this site", done: false})); return; }
+        const P = taskProgress(o.st, kind, o.g.lang, tk);
+        /* an activity finished before the task was set still counts; a list needs work since the start */
+        P.items.forEach(it => {
+          const done = kind === "dos" ? it.done : (!P.noCode && it.done);
+          rows.push({kind: kind, name: it.name, prog: P.noCode && !done ? "no code received since " + dShort(P.start) : it.prog, done: done});
+        });
+      });
+      out.push({lang: L, task: tk, rows: rows, done: rows.filter(r => r.done).length});
+    });
+  });
+  return {cls: cls, langs: Object.keys(per), tasks: out};
+}
+/* a list or activity the student completed without it being set:
+   an activity checked with a score, or with every question answered;
+   a list where every word has been practised and 80 % or more answered correctly */
+function ownCompleted(S){
+  if (S.kind === "dos") return S.items.filter(itemComp).map(it => ({name: it.name,
+    prog: (it.done != null ? it.done + " of " + it.of + " questions" : "") + (it.best != null ? (it.done != null ? " · " : "") + "best " + it.best + " %" : "")}));
+  return S.items.filter(it => it.of > 0 && it.seen >= it.of && (it.accP != null ? it.accP : it.acc) >= 80).map(it => ({name: it.name,
+    prog: it.seen + " of " + it.of + " words · " + (it.accP != null ? it.accP + " % right in production" : it.acc + " % right")}));
+}
 function buildPrintBreakdown(){
   const box = $("#printBreakdown"); box.innerHTML = "";
   if (!$("#printDetail").checked) return;
-  const pc = v => v == null ? "—" : v + " %";
-  let h = '<h2>Activity breakdown by student</h2>';
+  const LNAME = {FR: "French", ES: "Spanish"};
+  let h = '<h2>Work completed, and tasks set, by student</h2>'
+        + '<p style="font-size:7.8pt;margin:0 0 6pt;color:#333">For each student: the tasks set for their class or year group (or for all classes), item by item, '
+        + 'then everything else they completed on the sites. Unfinished work is listed only when it was set. '
+        + 'Completed means: a set list — every word written at least once since the task was set and 80 % written correctly; '
+        + 'any other list — every word practised and 80 % or more correct; an activity — checked with a score recorded, or every question answered.</p>';
+  const COLS = '<table style="table-layout:fixed"><colgroup><col style="width:27%"><col style="width:39%"><col style="width:24%"><col style="width:10%"></colgroup>';
   allProfileKeys().forEach(k => {
     const M = profileModel(k); if (!M) return;
-    h += '<div class="pb-st"><h3>' + esc(M.name) + (M.cls ? ' · ' + esc(M.cls) : '') + '</h3>';
-    M.sites.forEach(S => {
-      if (S.kind === "lex"){
-        if (!S.units.length) return;
-        h += '<h4>' + esc(S.name) + ' — questions answered ' + (S.approx && S.ans ? 'about ' : '') + nf(S.ans) + '</h4>'
-          + '<table><thead><tr><th>Unit</th><th class="n">Answered</th><th class="n">Words practised</th><th class="n">Comprehension</th><th class="n">Production</th><th class="n">Mastered (production)</th></tr></thead><tbody>'
-          + S.units.map(u => '<tr><td>' + esc(u.name) + '</td><td class="n">' + nf(u.ans) + '</td><td class="n">' + u.seen + ' of ' + u.of + '</td><td class="n">'
-              + (u.accC == null ? u.acc + ' % both' : pc(u.accC)) + '</td><td class="n">' + pc(u.accP) + '</td><td class="n">' + nf(u.mast) + '</td></tr>').join('')
-          + '</tbody></table>';
-      } else {
-        const its = S.items.filter(it => it.done || it.best != null);
-        h += '<h4>' + esc(S.name) + ' — ' + nf(S.dm.comp) + ' activities completed, ' + nf(S.dm.started) + ' started</h4>';
-        if (!its.length){ h += '<p style="font-size:7.8pt;margin:0;color:#555">No activity with answers recorded yet.</p>'; return; }
-        h += '<table><thead><tr><th>Activity</th><th>Theme</th><th class="n">Questions answered</th><th class="n">Best score</th><th class="n">Completed</th></tr></thead><tbody>'
-          + its.map(it => '<tr><td>' + esc(it.name) + '</td><td>' + esc(it.sec) + '</td><td class="n">' + (it.done == null ? '—' : it.done + ' of ' + it.of)
-              + '</td><td class="n">' + pc(it.best) + '</td><td class="n">' + (itemComp(it) ? '✓' : '') + '</td></tr>').join('')
-          + '</tbody></table>';
-      }
+    const R = studentTasks(k);
+    const cls = R.cls || M.cls;
+    h += '<div class="pb-st"><h3>' + esc(M.name) + (cls ? ' · ' + esc(cls) : '') + '</h3>';
+    /* what was set, by name, so it is not listed twice */
+    const setNames = new Set(); R.tasks.forEach(t => t.rows.forEach(r => setNames.add(r.name)));
+    const own = [];
+    M.sites.forEach(S => ownCompleted(S).forEach(x => { if (!setNames.has(x.name)) own.push({site: S.name, name: x.name, prog: x.prog}); }));
+    const total = R.tasks.reduce((a, t) => a + t.rows.length, 0), done = R.tasks.reduce((a, t) => a + t.done, 0);
+    const sums = M.sites.map(S => S.kind === "lex" ? esc(S.name) + ': ' + (S.approx && S.ans ? 'about ' : '') + nf(S.ans) + ' questions answered'
+                                                   : esc(S.name) + ': ' + nf(S.dm.comp) + ' activities completed').join(' · ');
+    h += '<p style="font-size:8pt;margin:0 0 3pt">'
+       + (total ? '<b>' + done + ' of ' + total + '</b> set item' + (total === 1 ? '' : 's') + ' completed'
+                : (cls ? 'No task recorded for ' + esc(cls) + ' yet' : 'No class set, and no task for all classes recorded yet'))
+       + (own.length ? ' · <b>' + own.length + '</b> other item' + (own.length === 1 ? '' : 's') + ' completed' : '')
+       + (total && !cls ? ' <span style="color:#555">(no class set: tasks for all classes only)</span>' : '')
+       + '<br><span style="color:#555">' + sums + '</span></p>';
+    if (!total && !own.length){ h += '</div>'; return; }
+    h += COLS + '<thead><tr><th>Task</th><th>List or activity</th><th>Work recorded</th><th class="n">Completed</th></tr></thead><tbody>';
+    R.tasks.forEach(t => {
+      const tk = t.task, head = esc(tk.label) + '<br><span style="color:#555">' + (R.langs.length > 1 ? (LNAME[t.lang] || t.lang) + ' · ' : '')
+        + 'set ' + dShort(taskStart(tk)) + (tk.due ? ' · due ' + dShort(new Date(tk.due + "T00:00:00").getTime()) : '') + '</span>';
+      if (!t.rows.length){ h += '<tr><td>' + head + '</td><td colspan="3" style="color:#555">nothing listed in this task</td></tr>'; return; }
+      t.rows.forEach((r, i) => {
+        h += '<tr>' + (i === 0 ? '<td rowspan="' + t.rows.length + '" style="vertical-align:top">' + head + '</td>' : '')
+           + '<td>' + esc(r.name) + '</td><td>' + esc(r.prog) + '</td><td class="n">' + (r.done ? '✓' : '') + '</td></tr>';
+      });
     });
-    h += '</div>';
+    /* everything else completed, site by site */
+    const bySite = {}; own.forEach(x => (bySite[x.site] = bySite[x.site] || []).push(x));
+    Object.keys(bySite).forEach(site => {
+      const L = bySite[site];
+      L.forEach((x, i) => {
+        h += '<tr>' + (i === 0 ? '<td rowspan="' + L.length + '" style="vertical-align:top">Also completed<br><span style="color:#555">' + esc(site) + '</span></td>' : '')
+           + '<td>' + esc(x.name) + '</td><td>' + esc(x.prog) + '</td><td class="n">✓</td></tr>';
+      });
+    });
+    h += '</tbody></table></div>';
   });
   box.innerHTML = h;
 }
