@@ -214,7 +214,8 @@ table.pf td:nth-child(2) b{white-space:nowrap}
   #printBreakdown:empty{display:none}
   #printBreakdown{break-before:page;page-break-before:always}
   #printBreakdown h2{font-family:var(--serif);font-size:13pt;margin:0 0 6pt;border-bottom:1.5pt solid #000}
-  .pb-st{break-inside:avoid;page-break-inside:avoid;margin:0 0 10pt}
+  .pb-st{margin:0 0 10pt}
+  .pb-st tr{break-inside:avoid;page-break-inside:avoid}
   .pb-st h3{font-size:10.5pt;margin:6pt 0 2pt}
   .pb-st h4{font-size:8.5pt;margin:4pt 0 2pt;color:#2B4C9B}
   .pb-st table{width:100%;border-collapse:collapse;font-size:7.8pt}
@@ -270,7 +271,7 @@ table.pf td:nth-child(2) b{white-space:nowrap}
     <button class="btn ghost" id="btnAllCsv">Download the whole roster (.csv)</button>
     <button class="btn ghost" id="btnAllDocx">Word profiles for everyone shown</button>
     <button class="btn ghost" id="btnPrint">Print the overview</button>
-    <label class="hint" style="display:flex;gap:6px;align-items:center;margin:0"><input type="checkbox" id="printDetail"> add a page per student: all work completed, and the tasks set for their class</label>
+    <label class="hint" style="display:flex;gap:6px;align-items:center;margin:0"><input type="checkbox" id="printDetail"> add a table, one line per student: set work done and not done, other work completed</label>
     <label class="hint" style="display:flex;gap:6px;align-items:center;margin:0" title="Rows whose class is 'teacher' or 'staff' in the Classes box"><input type="checkbox" id="showStaff"> show staff (class "teacher")</label>
     <details class="hint" style="flex-basis:100%;margin:0"><summary style="cursor:pointer">What is in each download?</summary>
       The workbook has one sheet per site: a row per student, a column per exercise or list they have done, by name,
@@ -3112,57 +3113,41 @@ function ownCompleted(S){
   return S.items.filter(it => it.of > 0 && it.seen >= it.of && (it.accP != null ? it.accP : it.acc) >= 80).map(it => ({name: it.name,
     prog: it.seen + " of " + it.of + " words · " + (it.accP != null ? it.accP + " % right in production" : it.acc + " % right")}));
 }
+/* one line per student: what was set and done, what was set and not done,
+   what else was completed. Lists and activities by their short code (U8.4, FR7). */
+const pbShort = n => String(n).split(" · ")[0].split(" — ")[0];
 function buildPrintBreakdown(){
   const box = $("#printBreakdown"); box.innerHTML = "";
   if (!$("#printDetail").checked) return;
-  const LNAME = {FR: "French", ES: "Spanish"};
-  let h = '<h2>Work completed, and tasks set, by student</h2>'
-        + '<p style="font-size:7.8pt;margin:0 0 6pt;color:#333">For each student: the tasks set for their class or year group (or for all classes), item by item, '
-        + 'then everything else they completed on the sites. Unfinished work is listed only when it was set. '
-        + 'Completed means: a set list — every word written at least once since the task was set and 80 % written correctly; '
-        + 'any other list — every word practised and 80 % or more correct; an activity — checked with a score recorded, or every question answered.</p>';
-  const COLS = '<table style="table-layout:fixed"><colgroup><col style="width:27%"><col style="width:39%"><col style="width:24%"><col style="width:10%"></colgroup>';
+  const rows = [];
   allProfileKeys().forEach(k => {
     const M = profileModel(k); if (!M) return;
-    const R = studentTasks(k);
-    const cls = R.cls || M.cls;
-    h += '<div class="pb-st"><h3>' + esc(M.name) + (cls ? ' · ' + esc(cls) : '') + '</h3>';
-    /* what was set, by name, so it is not listed twice */
-    const setNames = new Set(); R.tasks.forEach(t => t.rows.forEach(r => setNames.add(r.name)));
+    const R = studentTasks(k), cls = R.cls || M.cls || "";
+    const setNames = new Set(), notDone = [], doneSet = [];
+    R.tasks.forEach(t => t.rows.forEach(r => { setNames.add(r.name); (r.done ? doneSet : notDone).push(pbShort(r.name)); }));
     const own = [];
-    M.sites.forEach(S => ownCompleted(S).forEach(x => { if (!setNames.has(x.name)) own.push({site: S.name, name: x.name, prog: x.prog}); }));
-    const total = R.tasks.reduce((a, t) => a + t.rows.length, 0), done = R.tasks.reduce((a, t) => a + t.done, 0);
-    const sums = M.sites.map(S => S.kind === "lex" ? esc(S.name) + ': ' + (S.approx && S.ans ? 'about ' : '') + nf(S.ans) + ' questions answered'
-                                                   : esc(S.name) + ': ' + nf(S.dm.comp) + ' activities completed').join(' · ');
-    h += '<p style="font-size:8pt;margin:0 0 3pt">'
-       + (total ? '<b>' + done + ' of ' + total + '</b> set item' + (total === 1 ? '' : 's') + ' completed'
-                : (cls ? 'No task recorded for ' + esc(cls) + ' yet' : 'No class set, and no task for all classes recorded yet'))
-       + (own.length ? ' · <b>' + own.length + '</b> other item' + (own.length === 1 ? '' : 's') + ' completed' : '')
-       + (total && !cls ? ' <span style="color:#555">(no class set: tasks for all classes only)</span>' : '')
-       + '<br><span style="color:#555">' + sums + '</span></p>';
-    if (!total && !own.length){ h += '</div>'; return; }
-    h += COLS + '<thead><tr><th>Task</th><th>List or activity</th><th>Work recorded</th><th class="n">Completed</th></tr></thead><tbody>';
-    R.tasks.forEach(t => {
-      const tk = t.task, head = esc(tk.label) + '<br><span style="color:#555">' + (R.langs.length > 1 ? (LNAME[t.lang] || t.lang) + ' · ' : '')
-        + 'set ' + dShort(taskStart(tk)) + (tk.due ? ' · due ' + dShort(new Date(tk.due + "T00:00:00").getTime()) : '') + '</span>';
-      if (!t.rows.length){ h += '<tr><td>' + head + '</td><td colspan="3" style="color:#555">nothing listed in this task</td></tr>'; return; }
-      t.rows.forEach((r, i) => {
-        h += '<tr>' + (i === 0 ? '<td rowspan="' + t.rows.length + '" style="vertical-align:top">' + head + '</td>' : '')
-           + '<td>' + esc(r.name) + '</td><td>' + esc(r.prog) + '</td><td class="n">' + (r.done ? '✓' : '') + '</td></tr>';
-      });
-    });
-    /* everything else completed, site by site */
-    const bySite = {}; own.forEach(x => (bySite[x.site] = bySite[x.site] || []).push(x));
-    Object.keys(bySite).forEach(site => {
-      const L = bySite[site];
-      L.forEach((x, i) => {
-        h += '<tr>' + (i === 0 ? '<td rowspan="' + L.length + '" style="vertical-align:top">Also completed<br><span style="color:#555">' + esc(site) + '</span></td>' : '')
-           + '<td>' + esc(x.name) + '</td><td>' + esc(x.prog) + '</td><td class="n">✓</td></tr>';
-      });
-    });
-    h += '</tbody></table></div>';
+    M.sites.forEach(S => ownCompleted(S).forEach(x => { if (!setNames.has(x.name)) own.push(pbShort(x.name)); }));
+    let q = 0, approx = false, acts = 0;
+    M.sites.forEach(S => { if (S.kind === "lex"){ q += S.ans || 0; if (S.approx) approx = true; } else acts += S.dm.comp || 0; });
+    rows.push({name: M.name, cls: cls, set: doneSet.length + notDone.length, done: doneSet.length,
+               notDone: [...new Set(notDone)], own: [...new Set(own)], q: q, approx: approx, acts: acts});
   });
-  box.innerHTML = h;
+  rows.sort((a, b) => (a.cls || "~").localeCompare(b.cls || "~") || a.name.localeCompare(b.name));
+  let h = '<h2>Student by student</h2>'
+        + '<p style="font-size:7.5pt;margin:0 0 4pt;color:#333">Set = tasks for the student\'s class, year group or all classes. '
+        + 'Completed: a list — every word written (80 % right); an activity — checked with a score, or every question answered.</p>'
+        + '<div class="pb-st"><table style="table-layout:fixed"><colgroup><col style="width:13%"><col style="width:7%"><col style="width:8%">'
+        + '<col style="width:24%"><col style="width:32%"><col style="width:8%"><col style="width:8%"></colgroup>'
+        + '<thead><tr><th>Student</th><th>Class</th><th class="n">Set: done</th><th>Set, not completed</th><th>Also completed</th>'
+        + '<th class="n">Questions</th><th class="n">Activities</th></tr></thead><tbody>';
+  rows.forEach(r => {
+    h += '<tr><td>' + esc(r.name) + '</td><td>' + esc(r.cls || "—") + '</td>'
+       + '<td class="n">' + (r.set ? r.done + '/' + r.set : '—') + '</td>'
+       + '<td>' + esc(r.notDone.join(", ")) + '</td>'
+       + '<td>' + esc(r.own.join(", ")) + '</td>'
+       + '<td class="n">' + (r.approx && r.q ? '≈' : '') + nf(r.q) + '</td><td class="n">' + nf(r.acts) + '</td></tr>';
+  });
+  box.innerHTML = h + '</tbody></table></div>';
 }
 window.addEventListener("beforeprint", buildPrintBreakdown);
 window.addEventListener("afterprint", () => { $("#printBreakdown").innerHTML = ""; });
