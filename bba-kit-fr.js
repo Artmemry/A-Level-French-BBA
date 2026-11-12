@@ -4,7 +4,7 @@
   s.src = (cs && cs.src) ? cs.src.replace(/[^\/?#]*([?#].*)?$/, "bba-theme.js") : "bba-theme.js";
   (document.head || document.documentElement).appendChild(s); }catch(e){} })();
 /* =====================================================================
-   BBA activity kit — French — v2.4
+   BBA activity kit — French — v2.5
    Drop-in replacement for bba-kit-fr.js. Same <script src> tag, no page
    edits required.
 
@@ -18,6 +18,8 @@
      · no duplicate pads        the kit's pad hides if the page has its own
 
    Self-contained. No dependencies. Safe to paste into any page.
+   v2.5 (12 Nov 2026): the bar speaks English and says what each button
+     does; the download is a readable PDF report (bba-pdf.js), not a CSV.
    v2.4 (12 Nov 2026): answer keys may carry an explanation; open answers
      get key-idea feedback and a model answer; radios and tick boxes marked.
    v2.3 (19 Oct 2026): dropdowns marked as soon as a choice is made;
@@ -52,51 +54,58 @@ var PAD   = ["é", "è", "ê", "ë", "à", "â", "î", "ï", "ô", "û", "ù", "
 var PADUP = ["É", "È", "Ê", "Ë", "À", "Â", "Î", "Ï", "Ô", "Û", "Ù", "Ç", "Œ"];
 
 var T = {
-  "name": "Ton nom", "caps": "Majuscules", "check": "Vérifier", "download": "Télécharger",
-  "hide": "Réduire",
-  "ready": "Écris ton nom. Tape ta réponse puis « Entrée » pour la vérifier tout de suite ; « Télécharger » pour envoyer ton travail.",
+  "name": "Your name", "nameTitle": "Your name goes on the PDF you download", "caps": "Capitals",
+  "check": "Check my answers", "download": "Download my work (PDF)",
+  "hide": "Make this bar smaller",
+  "ready": "<b>1</b> Type your answers. <b>2</b> Press <b>Check my answers</b> to see what is right. <b>3</b> <b>Download my work</b> saves a PDF with your name on it to hand in. Your work is saved on this device as you go.",
   "right": "Correct.",
-  "accOk": "Accent manquant ou en trop — pas de pénalité ici, mais corrige-le.",
-  "accGram": "L'accent change le mot ou le temps : il faut l'écrire exactement.",
-  "typo": "Faute de frappe tolérée — la terminaison est bonne.",
-  "wrong": "Pas encore.", "blank": "Rien d'écrit.",
-  "exact": "exact", "accSlip": "accents", "typoSlip": "frappe", "wrongN": "faux", "blankN": "vides",
-  "nameFirst": "Fichier téléchargé — pense à écrire ton nom avant de l'envoyer.",
-  "noName": "(sans nom)",
-  "noKeyTitle": "Pas de corrigé sur cette page.",
-  "noKey": "Le pavé d'accents et le téléchargement fonctionnent quand même : tes réponses seront enregistrées telles quelles pour ton professeur.",
-  "noKeyCsv": "Cette page ne contient pas de corrigé exploitable — à corriger par le professeur.",
-  "hStudent": "Élève", "hActivity": "Activité", "hLink": "Lien", "hDate": "Date",
-  "hScore": "Score", "hBreak": "Détail", "hReview": "À revoir",
-  "cItem": "Question", "cAnswer": "Ta réponse", "cExpected": "Attendu",
-  "cVerdict": "Résultat", "cNote": "Commentaire", "cTries": "Essais",
-  "codes": {"ok":"Correct","accent":"Accepté (accent)","typo":"Accepté (frappe)","no":"Faux","empty":"Vide"},
-  /* v2 */
-  "again": "Presque — réessaie.",
-  "tryAgain": "Pas encore — réessaie.",
-  "seeAnswer": "Voir la réponse",
-  "answerIs": "Réponse :",
-  "resumeQ": "Tu as déjà commencé cette activité.",
-  "resumeYes": "Reprendre", "resumeNo": "Recommencer",
-  "restored": "Tes réponses ont été rétablies.",
-  "cleared": "Activité remise à zéro.",
-  "saved": "enregistré",
-  "reset": "Recommencer",
-  "resetQ": "Effacer tes réponses sur cette activité ?",
-  "clueWords": function(n){ return n === 1 ? "1 mot" : n + " mots"; },
-  "clueLetters": function(n){ return n + " lettres"; },
-  "clueGenderM": "masculin (le / un)",
-  "clueGenderF": "féminin (la / une)",
-  "cluePlural": "pluriel (les / des)",
-  "clueEnding": "Le mot est bon, c'est la terminaison qui ne l'est pas.",
-  "clueClose": "Tu y es presque — regarde bien l'orthographe.",
+  "accOk": "An accent is missing or extra. No penalty here, but correct it.",
+  "accGram": "This accent changes the word or the tense: it has to be written exactly.",
+  "typo": "Small typing slip accepted: the ending is right.",
+  "wrong": "Not yet.", "blank": "No answer yet.",
+  "exact": "exact", "accSlip": "accent slips", "typoSlip": "typing slips", "wrongN": "wrong", "blankN": "blank",
+  "nameFirst": "Downloaded without a name. Type your name in the name box and download again before you hand it in.",
+  "downloaded": "Downloaded: a PDF of your answers and marks. Hand that file in.",
+  "noName": "(no name)",
+  "noKeyTitle": "This page has no answer key.",
+  "noKey": "Your answers are saved as you wrote them. Download my work gives you a PDF of them for your teacher to mark.",
+  "noKeyCsv": "This page has no answer key: to be marked by the teacher.",
+  "hStudent": "Student", "hActivity": "Activity", "hLink": "Link", "hDate": "Date",
+  "hScore": "Score", "hBreak": "Breakdown", "hReview": "To review",
+  "cItem": "Question", "cAnswer": "Your answer", "cExpected": "Expected",
+  "cVerdict": "Result", "cNote": "Comment", "cTries": "Tries",
+  "codes": {"ok":"Correct","accent":"Accepted (accent slip)","typo":"Accepted (typing slip)","no":"Wrong","empty":"Blank"},
+  "again": "Nearly. Try again.",
+  "tryAgain": "Not yet. Try again.",
+  "seeAnswer": "Show the answer",
+  "answerIs": "Answer:",
+  "resumeQ": "You have already started this activity.",
+  "resumeYes": "Carry on", "resumeNo": "Start again",
+  "restored": "Your answers are back.",
+  "cleared": "Activity cleared.",
+  "saved": "saved",
+  "reset": "Start again",
+  "resetQ": "Delete your answers on this activity?",
+  "clueWords": function(n){ return n === 1 ? "1 word" : n + " words"; },
+  "clueLetters": function(n){ return n + " letters"; },
+  "clueGenderM": "masculine (le / un)",
+  "clueGenderF": "feminine (la / une)",
+  "cluePlural": "plural (les / des)",
+  "clueEnding": "The word is right; the ending is not.",
+  "clueClose": "Nearly there. Look closely at the spelling.",
   "fbIdeas": function(a,b){ return "Key ideas found in your answer: " + a + " of " + b + "."; },
   "fbModel": "Show a model answer", "fbModelIs": "Model answer:", "fbCompare": "Now compare your answer with a model.",
-  "fbOpenDone": "Open answers are not marked: read the note under each one and compare with the model.",
+  "fbOpenDone": "Written answers are not marked right or wrong: read the note under each one and compare with the model.",
   "fbTick": "This one should be ticked.", "fbNoTick": "This one should not be ticked.", "fbWhy": "Why:",
-  "fbOpenCsv": "Open answers (self-checked against a model)",
-  "clueStart": "Début :",
-  "clueNumber": function(n){ return "Un nombre seul, en chiffres · " + n + " chiffre" + (n>1?"s":""); }
+  "fbOpenCsv": "Written answers (self-checked against a model)",
+  "clueStart": "Starts with:",
+  "clueNumber": function(n){ return "A number on its own, in figures · " + n + " digit" + (n>1?"s":""); },
+  "rTitle": "Work handed in", "rMarked": "Marked answers", "rWritten": "Written answers", "rOf": "out of",
+  "rCorrect": "correct", "rDone": "completed", "rBlank": "Not answered", "rNoAns": "(no answer)",
+  "rAnswer": "Answer:", "rExpected": "Expected:", "rIdeas": "Key ideas found:", "rMissing": "not found:",
+  "rTicked": "ticked", "rNotTicked": "not ticked", "rTries": function(n){ return " (on try " + n + ")"; },
+  "rUnmarked": "Not marked by the page: for the teacher to read.",
+  "rV": {"ok":"Correct","accent":"Correct, with an accent slip","typo":"Accepted, with a typing slip","no":"Not correct","empty":"Not answered"}
 };
 
 /* ---------------------------------------------------------------- utils */
@@ -543,6 +552,7 @@ var CSS = ""
 + ".bba-tip{display:block;font:12.5px/1.4 -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;"
 + "margin-top:4px;color:#7a5c00}"
 + ".bba-tip.bad{color:#a5281b}.bba-tip.good{color:#1d5a3a}"
++ ".bba-tip{flex-basis:100%}"
 + ".bba-tip.open{color:#2b3a55;background:#eef2f8;border-left:3px solid #5a6f8f;padding:6px 10px;margin-top:6px;border-radius:4px}"
 + ".bba-tip .bba-ideas{display:block;margin:3px 0}.bba-tip .bba-ideas span{display:inline-block;margin-right:12px}"
 + ".bba-tip .bba-ideas .hit{color:#1d5a3a}.bba-tip .bba-ideas .miss{color:#6b5b3e}"
@@ -587,7 +597,7 @@ function build(){
   var bar=document.createElement("div"); bar.className="bar";
 
   var nm=document.createElement("input");
-  nm.className="nm"; nm.type="text"; nm.placeholder=T.name; nm.setAttribute("aria-label",T.name);
+  nm.className="nm"; nm.type="text"; nm.placeholder=T.name; nm.setAttribute("aria-label",T.name); nm.title=T.nameTitle;
   try{ nm.value = S.name || localStorage.getItem("bba-name") || ""; }catch(e){}
   nm.addEventListener("input",function(){
     S.name = nm.value.trim();
@@ -644,7 +654,7 @@ function build(){
   var msg=document.createElement("div"); msg.className="msg";
   msg.setAttribute("aria-live","polite");
   msg.setAttribute("role","status");
-  msg.textContent = (ON("check")||ON("download")) ? T.ready : "";
+  msg.innerHTML = (ON("check")||ON("download")) ? T.ready : "";
 
   var live=document.createElement("div");
   live.className="bba-sr"; live.setAttribute("aria-live","polite"); live.setAttribute("role","status");
@@ -916,18 +926,16 @@ function checkOne(el, want, blank){
 function checkOpen(el, o){
   var val = String(el.value||"").trim();
   if(!val){ setTip(el, T.blank, ""); return false; }
-  var g = norm(val), found = 0, ideas = (o.ideas||[]);
+  var scan = ideaScan(o, val), found = 0, ideas = scan;
   var tip = setTip(el, "", "open");
   tip.textContent = "";
   if(ideas.length){
     var head = document.createElement("b"), ul = document.createElement("span");
     ul.className = "bba-ideas";
-    ideas.forEach(function(it){
-      var p = String(it).split("::"), label = p.length>1 ? p[0] : "", stems = (p.length>1 ? p[1] : p[0]).split("|");
-      var hit = stems.some(function(st){ st = norm(st); return st && g.indexOf(st) >= 0; });
-      if(hit) found++;
-      var li = document.createElement("span"); li.className = hit ? "hit" : "miss";
-      li.textContent = (hit ? "✓ " : "○ ") + (label || stems[0]);
+    scan.forEach(function(it){
+      if(it.hit) found++;
+      var li = document.createElement("span"); li.className = it.hit ? "hit" : "miss";
+      li.textContent = (it.hit ? "✓ " : "○ ") + it.label;
       ul.appendChild(li);
     });
     head.textContent = T.fbIdeas(found, ideas.length);
@@ -984,7 +992,7 @@ function check(msg){
     if(f.want==null) return;
     var before = S.tries[f.key] || 0;
     var v = checkOne(f.el, f.want, f.blank);
-    rows.push({label:f.label, given:f.value, want:v.want, code:v.code, note:v.note,
+    rows.push({key:f.key, label:f.label, given:f.value, want:v.want, code:v.code, note:v.note,
                tries:(v.code==="ok"||v.code==="accent"||v.code==="typo") ? before+1 : (S.tries[f.key]||before)||""});
     /* a question counts as answered once per answer given: checking the same
        answer again does not count twice, changing it does */
@@ -1019,9 +1027,158 @@ function check(msg){
   saveState(true);
   return LAST_RESULT;
 }
+
+/* =========================================================  v2.5: REPORT */
+/* The download is a PDF a teacher can read: who, what, the marks in one
+   line, then every question with the student's answer and what became of
+   it. The old CSV is kept only as the fallback when bba-pdf.js is missing. */
+var KITSRC = (function(){ try{ var ss=document.getElementsByTagName("script"); for(var i=ss.length-1;i>=0;i--){ if(/bba-kit-[a-z]+\.js/.test(ss[i].src||"")) return ss[i].src; } }catch(e){} return ""; })();
+function loadPdf(cb){
+  if(window.jspdf && window.jspdf.jsPDF) return cb(true);
+  var s=document.createElement("script");
+  s.src = KITSRC ? KITSRC.replace(/[^\/?#]*([?#].*)?$/, "bba-pdf.js") : "bba-pdf.js";
+  s.onload=function(){ cb(!!(window.jspdf && window.jspdf.jsPDF)); };
+  s.onerror=function(){ cb(false); };
+  (document.head||document.documentElement).appendChild(s);
+}
+/* the question a field belongs to: the text around it, without the options,
+   boxes, hints and tips */
+function questionOf(el){
+  var node = el, ty=(el.type||"").toLowerCase(), choice = (ty==="radio"||ty==="checkbox"), need = 1;
+  if((ty==="radio") && el.name){ try{ need = document.querySelectorAll('input[type="radio"][name="'+el.name.replace(/"/g,'\\"')+'"]').length; }catch(e){} }
+  if(ty==="checkbox") need = 2;
+  if(!choice){   /* a label or a line of text placed just before the box is the question */
+    var lab0 = el.id ? document.querySelector('label[for="'+el.id.replace(/"/g,'\\"')+'"]') : null, pv = el.previousElementSibling, hops = 0;
+    while(!lab0 && pv && hops < 3){
+      if(!/^(SELECT|INPUT|TEXTAREA|BUTTON|BR|SCRIPT|STYLE|DETAILS)$/.test(pv.tagName) && !pv.querySelector("input,select,textarea") && !pv.classList.contains("bba-tip")){
+        var pt = (pv.textContent||"").replace(/\s+/g," ").trim();
+        if(pt.length >= 6 && pt.length <= 220){ lab0 = pv; break; }
+      }
+      pv = pv.previousElementSibling; hops++;
+    }
+    if(lab0){ var lt = (lab0.textContent||"").replace(/\s+/g," ").trim(); if(lt.length >= 6) return lt.length > 300 ? lt.slice(0,300)+"…" : lt; }
+  }
+  for(var up=0; up<6 && node.parentNode && node.parentNode!==document.body; up++){
+    node = node.parentNode;
+    if(choice && node.querySelectorAll('input[type="'+ty+'"]').length < need) continue;
+    var c = node.cloneNode(true);
+    /* each option goes, with whatever wraps it */
+    Array.prototype.slice.call(c.querySelectorAll('input[type="radio"],input[type="checkbox"]')).forEach(function(i){
+      var w = i.parentNode; if(w && w !== c && w.querySelectorAll("input").length === 1) w.remove(); else i.remove(); });
+    Array.prototype.slice.call(c.querySelectorAll("label,details,script,style,button,select,textarea,input,.bba-tip,.hint,.pista,.indice")).forEach(function(n){
+      if(n.tagName==="LABEL" && !n.querySelector("input,select,textarea")) return;   /* a label that is the question stays */
+      n.remove(); });
+    var t = (c.textContent||"").replace(/\s+/g," ").trim();
+    if(t.length >= 8) return t.length > 300 ? t.slice(0,300)+"…" : t;
+  }
+  return labelFor(el);
+}
+function headingOf(el, hs){
+  for (var i = hs.length - 1; i >= 0; i--){ if (hs[i].compareDocumentPosition(el) & 4){ var c=hs[i].cloneNode(true);
+      Array.prototype.slice.call(c.querySelectorAll("button,.bba-meter,.bba-badge,small")).forEach(function(n){ n.remove(); });
+      return (c.textContent||"").replace(/\s+/g," ").trim().slice(0,110); } }
+  return "";
+}
+function ideaScan(o, val){
+  var g = norm(val), raw = String(val).toLowerCase(), out = [];
+  (o.ideas||[]).forEach(function(it){
+    var p = String(it).split("::"), label = p.length>1 ? p[0] : "", stems = (p.length>1 ? p[1] : p[0]).split("|");
+    /* a stem that is only punctuation (« " ? .) is looked for in the text as typed */
+    var hit = stems.some(function(st){ var n = norm(st); return n ? g.indexOf(n) >= 0 : (st && raw.indexOf(st) >= 0); });
+    out.push({label: label || stems[0], hit: hit});
+  });
+  return out;
+}
+function shownValue(el, v){
+  var ty=(el.type||"").toLowerCase();
+  if(ty==="radio") return optionText(el, v);
+  if(ty==="checkbox") return (String(v)==="1"||v==="on"||v===true) ? T.rTicked : T.rNotTicked;
+  return v;
+}
+function pdfReport(name, msg, F, R){
+  var J = window.jspdf.jsPDF, doc = new J(), W = 180, X = 15, y = 18;
+  var safe = function(s){ return String(s==null?"":s).replace(/[✓✔]/g,"+").replace(/[○◯]/g,"-").replace(/[→➔]/g,"->").replace(/[^\x09\x0A\x20-\x7E -ÿŒœ–—‘’“”…€]/g,""); };
+  var line = function(txt, size, style, col, indent){
+    doc.setFont("helvetica", style||"normal"); doc.setFontSize(size);
+    if(col) doc.setTextColor(col[0],col[1],col[2]); else doc.setTextColor(30,30,30);
+    var rows = doc.splitTextToSize(safe(txt), W-(indent||0)), lh = size*0.45;
+    for(var i=0;i<rows.length;i++){ if(y > 282){ doc.addPage(); y = 18; } doc.text(rows[i], X+(indent||0), y); y += lh; }
+  };
+  var title = (document.title||"Activity").trim();
+  var d = new Date(), p2=function(n){return (n<10?"0":"")+n;};
+  var stamp = d.getFullYear()+"-"+p2(d.getMonth()+1)+"-"+p2(d.getDate());
+  var byKey = {}; if(R) R.rows.forEach(function(r){ if(r.key) byKey[r.key] = r; });
+  var nMarked=0,nRight=0,nOpen=0,nOpenDone=0,nBlank=0,items=[];
+  var hs = Array.prototype.filter.call(document.querySelectorAll("h2,h3"), function(h){ return !h.closest("#bba-kit"); });
+  var seenRadio = {};
+  F = F.slice().sort(function(a,b){ if(a.el===b.el) return 0; return (a.el.compareDocumentPosition(b.el) & 4) ? -1 : 1; });
+  var sameText = function(a,b){ a=norm(a).slice(0,40); b=norm(b).slice(0,40); return a && b && (a.indexOf(b)===0 || b.indexOf(a)===0); };
+  F.forEach(function(f){
+    var el=f.el, ty=(el.type||"").toLowerCase();
+    if(/name|nom\b|nombre|student|eleve/i.test((el.id||"")+" "+(el.name||"")) && ty!=="radio" && ty!=="checkbox" && f.want==null && !f.open) return;
+    if(ty==="radio"){ if(seenRadio[el.name]) return; seenRadio[el.name]=1; }
+    if(ty==="checkbox" && f.want==null && !el.checked) return;
+    var it = {h:headingOf(el,hs), q:questionOf(el), a:String(f.value||"").trim(), kind:"plain"};
+    if(ty==="checkbox"){ var lab=(el.closest("label")||el.parentNode); it.q += " [" + (lab.textContent||"").replace(/\s+/g," ").trim().slice(0,80) + "]"; }
+    if(f.want!=null){
+      var r = byKey[f.key] || {code: it.a ? "no" : "empty", want: variants(f.want)[0]};
+      it.kind="marked"; it.code=r.code; it.tries=r.tries; it.want=shownValue(el, r.want||variants(f.want)[0]);
+      it.a = f.blank ? "" : String(shownValue(el, f.value)||"").trim();
+      nMarked++; if(r.code==="ok"||r.code==="accent"||r.code==="typo") nRight++; if(r.code==="empty") nBlank++;
+    } else if(f.open){
+      it.kind="open"; nOpen++; if(it.a){ nOpenDone++; it.ideas=ideaScan(f.open, it.a); } else nBlank++;
+    } else {
+      it.a = String(shownValue(el, f.value)||"").trim(); if(!it.a) nBlank++;
+    }
+    items.push(it);
+  });
+  line(title, 15, "bold"); y += 1;
+  line((name||T.noName) + "   ·   " + stamp + " " + p2(d.getHours()) + ":" + p2(d.getMinutes()), 11, "normal"); 
+  line(location.href.split("?")[0], 8, "normal", [110,110,110]); y += 2;
+  var sum = [];
+  if(nMarked) sum.push(T.rMarked + ": " + nRight + " " + T.rCorrect + " " + T.rOf + " " + nMarked);
+  if(nOpen)   sum.push(T.rWritten + ": " + nOpenDone + " " + T.rDone + " " + T.rOf + " " + nOpen);
+  if(!nMarked && !nOpen) sum.push(T.rUnmarked);
+  if(nBlank)  sum.push(T.rBlank + ": " + nBlank);
+  line(sum.join("     "), 11, "bold", [20,40,63]); y += 3;
+  var lastH = null, n = 0, GREEN=[29,90,58], RED=[165,40,27], GREY=[110,110,110];
+  items.forEach(function(it){
+    if(it.h && it.h !== lastH && !sameText(it.h, it.q)){ y += 2; line(it.h, 11, "bold", [20,40,63]); y += 1; }
+    lastH = it.h;
+    n++;
+    if(y > 268){ doc.addPage(); y = 18; }
+    line((/^\s*\d+\s*[.)·:\-]/.test(it.q) ? "" : n + ".  ") + it.q, 9.5, "bold");
+    line(T.rAnswer + " " + (it.a || T.rNoAns), 10, "normal", it.a ? null : GREY, 6);
+    if(it.kind==="marked"){
+      var good = (it.code==="ok"||it.code==="accent"||it.code==="typo");
+      var v = T.rV[it.code] + ((good && it.tries>1) ? T.rTries(it.tries) : "") + (good ? "" : ".  " + T.rExpected + " " + it.want);
+      line(v, 9, "bold", good ? GREEN : (it.code==="empty" ? GREY : RED), 6);
+    } else if(it.kind==="open" && it.ideas && it.ideas.length){
+      var hit = it.ideas.filter(function(i){return i.hit;}), miss = it.ideas.filter(function(i){return !i.hit;});
+      line(T.rIdeas + " " + hit.length + " " + T.rOf + " " + it.ideas.length + (miss.length ? "  (" + T.rMissing + " " + miss.map(function(i){return i.label;}).join("; ") + ")" : ""), 9, "normal", hit.length===it.ideas.length ? GREEN : GREY, 6);
+    }
+    y += 2;
+  });
+  doc.save((name?name+" - ":"")+title.replace(/[\\\/:*?"<>|]/g,"-")+" - "+stamp+".pdf");
+  msg.innerHTML = name ? T.downloaded : "<b>"+T.nameFirst+"</b>"; say(name ? T.downloaded : T.nameFirst);
+}
+function download(name, msg){
+  if(!name){   /* the page's own name box counts too */
+    try{ var own = Array.prototype.filter.call(document.querySelectorAll("input[type=text],input:not([type])"), function(e){
+      return !e.closest("#bba-kit") && /name|nom\b|nombre|student|eleve/i.test((e.id||"")+" "+(e.name||"")) && e.value.trim() && e.value !== e.defaultValue; })[0];
+      if(own) name = own.value.trim(); }catch(e){}
+  }
+  var F = fields();
+  var R = LAST_RESULT;
+  if(!R && F.__withAnswers) R = check(msg);
+  loadPdf(function(ok){
+    if(!ok){ downloadCsv(name, msg); return; }
+    try{ pdfReport(name, msg, F, R); }catch(e){ downloadCsv(name, msg); }
+  });
+}
 /* ------------------------------------------------------------ download */
 function csvCell(v){ return '"'+String(v==null?"":v).replace(/"/g,'""').replace(/\r?\n/g," ")+'"'; }
-function download(name, msg){
+function downloadCsv(name, msg){
   var F = fields();
   var R = LAST_RESULT;
   if(!R && F.__withAnswers) R = check(msg);
@@ -1239,8 +1396,8 @@ function livePublish(nNew){
   }catch(e){}
 }
 var checkOne0 = checkOne;
-checkOne = function(el, want){
-  var v = checkOne0(el, want);
+checkOne = function(el, want, blank){
+  var v = checkOne0(el, want, blank);
   if (!LIVE.inCheck && v && v.code !== "empty"){
     var k = fieldKey(el), val = (el.tagName === "SELECT")
       ? (el.options[el.selectedIndex] ? el.options[el.selectedIndex].text : "") : el.value, n = 0;
