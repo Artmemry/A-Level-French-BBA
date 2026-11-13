@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>L'Étranger · II, 1 — L'instruction</title>
+<meta name="description" content="A-Level French: L'Étranger Part II chapter IV as a satire of justice — the absent accused, the twin speeches, the rewritten facts, the judged soul, eloquence against truth, the machinery of the court, with writing feedback.">
+<style>
+:root{
+  --paper:#f6f1e7; --card:#fffdf8; --ink:#2a2320; --soft:#6a5a4c; --line:#dcd0bb;
+  --ox:#6e1f2a; --ox2:#8f3340; --oxs:#f4e4e4; --green:#1f4d3a; --gs:#e3efe8;
+  --gold:#a8843a; --golds:#f7efd9; --bad:#a23b2a; --bads:#fbe9e5; --ok:#226a43;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--paper);color:var(--ink);font:17px/1.55 Georgia,"Times New Roman",serif}
+.ui{font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+.wrap{max-width:920px;margin:0 auto;padding:22px 16px 160px}
+header{border-bottom:3px double var(--ox);padding-bottom:14px;margin-bottom:8px}
+.kicker{font:600 12px/1.2 system-ui,sans-serif;letter-spacing:.16em;text-transform:uppercase;color:var(--ox)}
+h1{font-size:31px;line-height:1.15;margin:6px 0 6px;color:var(--ox)}
+.lead{color:var(--soft);margin:0 0 4px;font:15px/1.55 system-ui,sans-serif}
+.score{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;margin-top:10px;font:14px system-ui,sans-serif;color:var(--soft)}
+.score b{color:var(--ink);font-size:16px}
+.meter{flex:1 1 180px;height:8px;background:#e8dfcf;border-radius:99px;overflow:hidden;min-width:140px}
+.meter i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--green),#2f7a58);transition:width .4s}
+nav.tabs{display:flex;flex-wrap:wrap;gap:6px;margin:16px 0 12px;position:sticky;top:0;background:var(--paper);padding:8px 0;z-index:5;border-bottom:1px solid var(--line)}
+nav.tabs button{font:600 13.5px system-ui,sans-serif;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:999px;padding:7px 12px;cursor:pointer;display:flex;gap:6px;align-items:center}
+nav.tabs button .n{font-weight:500;color:var(--soft);font-size:12px}
+nav.tabs button[aria-selected="true"]{background:var(--ox);border-color:var(--ox);color:#fff}
+nav.tabs button[aria-selected="true"] .n{color:#f1d7d9}
+nav.tabs button.done:not([aria-selected="true"]){border-color:var(--green);color:var(--green)}
+section.ex{display:none}
+section.ex.active{display:block}
+h2{font-size:24px;margin:4px 0 6px;color:var(--green)}
+h3{font:700 13px system-ui,sans-serif;letter-spacing:.12em;text-transform:uppercase;color:var(--ox);margin:22px 0 8px}
+.how{font:15px/1.55 system-ui,sans-serif;color:var(--soft);margin:0 0 14px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px 16px;margin:10px 0;position:relative}
+.card.ok{border-color:#9cc7ae;background:#fbfefc}
+.card.rev{border-color:#e3b6ad}
+.card .qn{font:700 13px system-ui,sans-serif;color:var(--ox);margin-right:6px}
+.quote{font-style:italic}
+blockquote{margin:2px 0 10px;padding:6px 0 6px 14px;border-left:3px solid var(--gold);font-style:italic;font-size:18px}
+.ctl{display:flex;flex-wrap:wrap;gap:8px 10px;align-items:center;margin-top:10px}
+input[type=text],select,textarea{font:16px Georgia,serif;color:var(--ink);background:#fff;border:1px solid #bdae95;border-radius:7px;padding:7px 10px;max-width:100%}
+input[type=text]{width:15em}
+input.w8{width:8.5em} input.w6{width:7em}
+input.okf{border-color:var(--ok);background:#f2faf5} input.badf{border-color:var(--bad);background:var(--bads)}
+textarea{width:100%;min-height:200px;resize:vertical;line-height:1.6}
+button.b{font:600 14px system-ui,sans-serif;border-radius:7px;padding:7px 13px;cursor:pointer;border:1px solid var(--ox);background:var(--ox);color:#fff}
+button.b:disabled{opacity:.45;cursor:default}
+button.g{font:600 14px system-ui,sans-serif;border-radius:7px;padding:7px 12px;cursor:pointer;border:1px solid var(--line);background:#fff;color:var(--green)}
+button.g:disabled{opacity:.45;cursor:default}
+.opts{display:grid;gap:7px;margin-top:8px}
+.opt{display:flex;gap:10px;align-items:flex-start;text-align:left;font:15.5px/1.45 system-ui,sans-serif;border:1px solid var(--line);background:#fff;border-radius:8px;padding:9px 12px;cursor:pointer;color:var(--ink)}
+.opt:before{content:"";flex:0 0 16px;height:16px;border:2px solid #b8a98f;border-radius:50%;margin-top:2px}
+.opt.sel{border-color:var(--ox);background:var(--oxs)}
+.opt.sel:before{border-color:var(--ox);background:radial-gradient(var(--ox) 45%,transparent 50%)}
+.opt.right{border-color:var(--ok);background:#eef8f2}
+.opt.wrong{border-color:var(--bad);background:var(--bads)}
+.opt:disabled{cursor:default}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.chip{font:600 13px system-ui,sans-serif;border:1px solid #c9bba3;background:#fff;color:var(--soft);border-radius:999px;padding:6px 11px;cursor:pointer}
+.chip[aria-pressed="true"]{background:var(--green);border-color:var(--green);color:#fff}
+.chip.core{outline:2px solid var(--ok);outline-offset:1px}
+.chip.acc{outline:2px dashed var(--gold);outline-offset:1px}
+.chip.wrongc{background:var(--bad);border-color:var(--bad);color:#fff}
+.chip:disabled{cursor:default}
+.fb{margin-top:10px;font:14.5px/1.55 system-ui,sans-serif;border-radius:8px;padding:9px 12px;display:none}
+.fb.show{display:block}
+.fb.okb{background:var(--gs);color:#163a2b}
+.fb.hint{background:var(--golds);color:#4d3c14}
+.fb.revb{background:var(--bads);color:#5a1d12}
+.fb .why{margin-top:6px;color:#2b2a26}
+.tag{display:inline-block;font:700 11px system-ui,sans-serif;letter-spacing:.1em;text-transform:uppercase;padding:2px 7px;border-radius:4px;margin-right:6px}
+.tag.okt{background:var(--ok);color:#fff}.tag.ht{background:var(--gold);color:#fff}.tag.rt{background:var(--bad);color:#fff}
+.legend{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:12px 14px;font:14.5px/1.55 system-ui,sans-serif;margin-bottom:10px}
+.legend b{color:var(--ox)}
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:8px 18px}
+.who{font:13px system-ui,sans-serif;color:var(--soft)}
+.tr{line-height:2.25;font-size:17px;background:#faf6ee;border-left:3px solid var(--gold);padding:6px 12px;border-radius:4px;margin-top:6px}
+.secfoot{display:flex;justify-content:space-between;align-items:center;gap:10px;margin:18px 0 6px;flex-wrap:wrap}
+.reto{border:2px solid var(--ox);background:#fff}
+.reto .rt2{font:700 12px system-ui,sans-serif;letter-spacing:.16em;color:var(--ox)}
+.check li{margin:4px 0;list-style:none;padding-left:0}
+.check{padding:0;margin:10px 0 0;font:14.5px/1.5 system-ui,sans-serif}
+.check li:before{content:"○ ";color:#b8a98f;font-weight:700}
+.check li.on:before{content:"● ";color:var(--ok)}
+.check li.warn:before{content:"● ";color:var(--bad)}
+.qcheck{font:14px/1.5 system-ui,sans-serif;margin-top:8px}
+.qcheck div{padding:3px 0}
+.qcheck .y{color:var(--ok)} .qcheck .n{color:var(--bad)}
+.titles label{display:flex;gap:8px;align-items:flex-start;font:15.5px/1.45 Georgia,serif;margin:6px 0;cursor:pointer}
+.tips{font:14.5px/1.55 system-ui,sans-serif;background:var(--oxs);border-radius:8px;padding:10px 12px;margin:10px 0}
+.res{font:15px/1.6 system-ui,sans-serif}
+.res table{border-collapse:collapse;width:100%;margin:8px 0}
+.res td,.res th{border-bottom:1px solid var(--line);padding:6px 4px;text-align:left}
+.src{font:13px/1.5 system-ui,sans-serif;color:var(--soft);margin-top:22px}
+@media (max-width:640px){h1{font-size:25px}.cols{grid-template-columns:1fr}input[type=text]{width:100%}input.w8,input.w6{width:8em}nav.tabs{flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}nav.tabs::-webkit-scrollbar{display:none}nav.tabs button{padding:6px 10px;font-size:12.5px;flex:0 0 auto;white-space:nowrap}}
+@media print{nav.tabs,.secfoot,button{display:none!important}section.ex{display:block!important}}
+</style>
+<style>
+.sent{font-size:18px;line-height:2.1}
+.sent input{width:9em;font-size:16px;padding:4px 8px;margin:0 2px}
+.en{font:14px/1.45 system-ui,sans-serif;color:var(--soft);margin:0 0 4px}
+.cue{font:13px system-ui,sans-serif;color:var(--soft)}
+.rule{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--green);border-radius:8px;padding:10px 14px;font:14.5px/1.55 system-ui,sans-serif;margin:6px 0 12px}
+</style>
+
+</head>
+<body>
+<div class="wrap">
+<header>
+  <div class="kicker">L'Étranger · Deuxième partie, chapitre I</div>
+  <h1>L'Étranger — II, 1 : l'instruction</h1>
+  <p class="lead">Part II, chapter I covers eleven months of questioning. Two men, the lawyer and the examining magistrate, each need Meursault to explain himself in their terms, and he does not. Each section takes one encounter. Have your copy of the novel open at this chapter. Press « Vérifier ». If you are wrong the first time you get an <i>indice</i>; the second time you see the answer and why. In the writing section the example answer only opens once you have written your own. Your work saves itself on this device.</p>
+  <div class="score" aria-live="polite"><span>Points <b id="sc">0</b> / <b id="tot">0</b></span><span>du premier coup <b id="first">0</b></span><div class="meter"><i id="bar"></i></div></div>
+</header>
+<nav class="tabs" role="tablist" aria-label="Exercices" id="tabs"></nav>
+<main id="main"></main>
+<p class="src">Quotations: Albert Camus, <i>L'Étranger</i> (Gallimard, 1942), II, 1, short extracts quoted for study.</p>
+</div>
+<script>window.BBA_KIT = {check:false, download:false, save:false, enter:false};</script>
+<script>var D = {"key": "letranger-II1-v1", "dlhead": "L'ÉTRANGER — II, 1 : L'INSTRUCTION", "dlfile": "LEtranger_II1_", "sections": [{"tab": "1 · Une affaire simple", "h2": "1 · « Mon affaire très simple »", "intro": "How Meursault sees his own case when the questioning starts.", "rule": "« Pourquoi ? » a-t-il dit. J'ai répondu que je trouvais mon affaire très simple.", "items": [{"t": "mc", "q": "Pourquoi Meursault ne voit-il pas la nécessité de prendre un avocat ?", "opts": ["Il trouve son affaire « très simple » : il a tué un homme, il n'y a pour lui rien à construire", "Il n'a pas assez d'argent pour en payer un", "Il veut plaider lui-même devant le jury"], "a": 0, "pista": "Find the adjective he uses for his case, then the judge's reply: « C'est un avis. Pourtant, la loi est là. »", "why": "For Meursault the facts are enough. The judge's reply shows that the law follows its own procedure, whatever the accused thinks of his case."}, {"t": "mc", "q": "Au premier interrogatoire, une seule lampe éclaire Meursault tandis que le juge reste dans l'ombre : « tout cela m'a paru un jeu ». Que révèle cette réaction ?", "opts": ["Il regarde la justice comme une mise en scène déjà lue « dans des livres » : il ne se sent pas encore concerné", "Il cherche à provoquer le juge en se moquant de lui", "Il a peur et cache sa peur en plaisantant"], "a": 0, "pista": "« J'avais déjà lu une description semblable dans des livres ».", "why": "He is a spectator of his own case. The vocabulary of play and theatre comes back at the end of the chapter and again at the trial."}, {"t": "mc", "q": "« En sortant, j'allais même lui tendre la main, mais je me suis souvenu à temps que j'avais tué un homme. » Que montre cette phrase ?", "opts": ["Meursault ne se pense pas spontanément comme un criminel : il doit faire un effort pour s'en souvenir", "Il regrette profondément son crime et n'ose plus toucher personne", "Il méprise le juge et refuse de le saluer"], "a": 0, "pista": "Look at the verb: « je me suis souvenu ».", "why": "The murder has not changed the way he sees himself. Later in the chapter he says of being a criminal like the others: « C'était une idée à quoi je ne pouvais pas me faire. »"}]}, {"tab": "2 · L'avocat", "h2": "2 · L'avocat : fabriquer une défense", "intro": "The lawyer needs an answer about the funeral. Meursault gives him the truth instead.", "rule": "Il m'a demandé s'il pouvait dire que ce jour-là j'avais dominé mes sentiments naturels. Je lui ai dit : « Non, parce que c'est faux. »", "items": [{"t": "mc", "q": "Sur quoi porte la première question importante de l'avocat ?", "opts": ["Sur l'enterrement de sa mère : on a appris qu'il avait « fait preuve d'insensibilité », et ce sera « un gros argument pour l'accusation »", "Sur le revolver que Raymond lui a confié", "Sur ses relations avec la victime avant le crime"], "a": 0, "pista": "Where did the investigators go to make their enquiry?", "why": "They went to Marengo, to the home. Before the trial opens, the case is already about the funeral as much as about the beach."}, {"t": "mc", "q": "Comment Meursault explique-t-il son attitude le jour de l'enterrement ?", "opts": ["Il était très fatigué et avait sommeil : ses « besoins physiques dérangeaient souvent [ses] sentiments »", "Il n'avait jamais aimé sa mère", "Il était en colère contre le directeur de l'asile"], "a": 0, "pista": "« Le jour où j'avais enterré maman, j'étais très fatigué et j'avais sommeil. »", "why": "With Meursault the body comes before feeling. In this same chapter, asked why he paused between the shots, all he finds is « la brûlure du soleil » on his forehead."}, {"t": "mc", "q": "L'avocat propose de dire que Meursault avait « dominé [ses] sentiments naturels ». Pourquoi Meursault refuse-t-il ?", "opts": ["« Non, parce que c'est faux » : il refuse de dire plus que ce qu'il a ressenti, même pour être mieux défendu", "Il veut être condamné et le dit à son avocat", "Il n'a pas compris ce que l'avocat lui proposait"], "a": 0, "pista": "His whole answer is five words long.", "why": "The useful lie is refused. The lawyer looks at him « comme si je lui inspirais un peu de dégoût » and leaves « avec un air fâché »."}, {"t": "mc", "q": "« J'avais le désir de lui affirmer que j'étais comme tout le monde, absolument comme tout le monde. » Pourquoi ne le dit-il pas ?", "opts": ["Parce que « tout cela, au fond, n'avait pas grande utilité » : il y renonce « par paresse »", "Parce que l'avocat lui interdit de parler", "Parce qu'il se croit supérieur aux autres"], "a": 0, "pista": "Read the last sentence of that paragraph.", "why": "He wants the lawyer's sympathy « naturellement », not to be better defended, and then lets it go. Not explaining himself is what will be held against him."}]}, {"tab": "3 · Le crucifix", "h2": "3 · Le juge et le crucifix", "intro": "The second interrogation: the magistrate looks for one explanation, then for repentance.", "rule": "« Voulez-vous, s'est-il exclamé, que ma vie n'ait pas de sens ? » À mon avis, cela ne me regardait pas et je le lui ai dit.", "items": [{"t": "mc", "q": "Quel est, pour le juge, le seul « point d'obscur » dans la confession de Meursault ?", "opts": ["Le fait d'avoir attendu avant de tirer les quatre autres coups", "La raison de la querelle avec les Arabes", "La présence de Raymond sur la plage"], "a": 0, "pista": "« Pourquoi avez-vous attendu entre le premier et le second coup ? »", "why": "The pause is what could show intention. Meursault has no answer: he sees « la plage rouge » again and says nothing."}, {"t": "mc", "q": "Pourquoi le juge sort-il un crucifix de son tiroir ?", "opts": ["Pour obtenir le repentir de Meursault : selon lui, aucun homme n'est trop coupable pour être pardonné s'il se repent", "Pour lui faire prêter serment avant de signer", "Pour le menacer de l'enfer s'il n'avoue pas"], "a": 0, "pista": "What must a man become, according to the judge, « par son repentir »?", "why": "He wants a confession of the soul: the man must become « comme un enfant dont l'âme est vide et prête à tout accueillir »."}, {"t": "mc", "q": "« Voulez-vous […] que ma vie n'ait pas de sens ? » Que révèle ce cri du juge ?", "opts": ["L'incroyance tranquille de Meursault menace ses propres certitudes : c'est le juge qui a besoin que l'accusé croie", "Le juge doute de Dieu depuis longtemps et cherche un allié", "Le juge veut aider Meursault à obtenir l'acquittement"], "a": 0, "pista": "Who is asking whom for something in this sentence?", "why": "The roles turn round. The magistrate behaves « d'une façon déraisonnable » and starts saying « tu », while the accused stays calm: « cela ne me regardait pas »."}, {"t": "mc", "q": "Pourquoi Meursault a-t-il un instant « l'air d'approuver » ?", "opts": ["Par lassitude : il a chaud et veut se débarrasser de quelqu'un qu'il écoute à peine, puis il dit non « une fois de plus »", "Parce que le juge l'a convaincu pendant un instant", "Par peur d'être puni plus sévèrement"], "a": 0, "pista": "« Comme toujours, quand j'ai envie de me débarrasser de quelqu'un que j'écoute à peine ».", "why": "The heat and the flies weigh more than the argument. Asked directly, though, he still does not lie: « Évidemment, j'ai dit non une fois de plus. »"}]}, {"tab": "4 · Un certain ennui", "h2": "4 · « Un certain ennui »", "intro": "What the judge concludes, and what Meursault notices about himself.", "items": [{"t": "mc", "q": "Le juge lui demande s'il regrette son acte. Que répond Meursault ?", "opts": ["Que, « plutôt que du regret véritable », il éprouve « un certain ennui »", "Qu'il regrette sincèrement et demande pardon", "Qu'il ne regrette rien et qu'il recommencerait"], "a": 0, "pista": "He thinks before answering: « J'ai réfléchi ».", "why": "It is an exact answer, and a fatal one: the court will need remorse. « J'ai eu l'impression qu'il ne me comprenait pas. »"}, {"t": "mc", "q": "« Je n'ai jamais vu d'âme aussi endurcie que la vôtre. » Sur quoi le juge fonde-t-il ce jugement ?", "opts": ["Meursault ne pleure pas devant le crucifix, alors que les criminels ont « toujours pleuré devant cette image de la douleur »", "Meursault l'a insulté pendant l'interrogatoire", "Meursault a refusé de répondre à toutes ses questions"], "a": 0, "pista": "What have the other criminals always done in front of the crucifix?", "why": "He is judged on an emotion he does not show, as he was at the funeral and as he will be at the trial."}, {"t": "mc", "q": "Meursault pense que les autres pleuraient « justement parce qu'il s'agissait de criminels », puis : « moi aussi j'étais comme eux ». Que comprend-on ?", "opts": ["Il n'arrive pas à se reconnaître dans la catégorie où la justice le range : « C'était une idée à quoi je ne pouvais pas me faire »", "Il a honte et décide de changer de vie", "Il pense que les autres criminels sont innocents"], "a": 0, "pista": "Read the sentence that follows « moi aussi j'étais comme eux ».", "why": "He knows what he did, yet cannot think of himself as a criminal. The gap between the act and the label runs through the whole of Part II."}]}, {"tab": "5 · Onze mois", "h2": "5 · Onze mois : « faire partie de la famille »", "intro": "How the questioning settles into a routine.", "rule": "« C'est fini pour aujourd'hui, monsieur l'Antéchrist. »", "items": [{"t": "mc", "q": "Comment les interrogatoires changent-ils par la suite ?", "opts": ["Le juge ne s'intéresse plus à lui, comme s'il avait « classé [son] cas » : les entretiens deviennent « plus cordiaux »", "Le juge devient de plus en plus violent", "Meursault refuse désormais de répondre"], "a": 0, "pista": "« Il ne m'a plus parlé de Dieu ».", "why": "Once Meursault is filed away, nobody tries to understand him any more: « ils ne s'occupaient jamais de moi » in those moments."}, {"t": "mc", "q": "Meursault a « l'impression ridicule de « faire partie de la famille » ». Qu'y a-t-il d'ironique ?", "opts": ["Il se sent bien accueilli par ceux-là mêmes qui préparent son procès : la routine cordiale fait oublier l'enjeu", "Le juge est réellement devenu son ami et promet de le défendre", "Sa vraie famille vient le voir dans le cabinet du juge"], "a": 0, "pista": "« Tout était si naturel, si bien réglé et si sobrement joué ». Look at the last word.", "why": "« Joué » picks up « un jeu » from the first interrogation. The machine of justice is polite, and he is comfortable inside it."}, {"t": "mc", "q": "Que montre le surnom « monsieur l'Antéchrist », dit « d'un air cordial » ?", "opts": ["Le juge a rangé Meursault dans une catégorie, celui qui refuse Dieu, et n'essaie plus de le comprendre", "Le juge le menace de la peine de mort", "Le juge plaisante parce qu'il ne croit pas lui-même en Dieu"], "a": 0, "pista": "Compare the judge's tone here with the crucifix scene.", "why": "The passion of the first day has become a label and a joke. For Meursault these are the moments he came to enjoy most in eleven months."}]}, {"tab": "6 · Les mots", "h2": "6 · Les mots du chapitre", "intro": "Complete each sentence from the chapter with one word from the bank. Two words are not needed.", "rule": "**Word bank:** regret · simple · endurcie · sympathie · attendu · ennui · insensibilité · repentir", "items": [{"t": "gap", "es": "J'ai répondu que je trouvais mon affaire très {0}.", "gaps": [{"acc": ["simple"]}], "pista": "His answer when the judge asks why he does not want a lawyer.", "why": "The word sets up the whole chapter: for him nothing needs explaining."}, {"t": "gap", "es": "Les instructeurs avaient appris que « j'avais fait preuve d'{0} » le jour de l'enterrement de maman.", "gaps": [{"acc": ["insensibilité"]}], "pista": "What the enquiry at Marengo reported about him.", "why": "This is the charge the prosecution will build on at the trial."}, {"t": "gap", "es": "« Pourquoi avez-vous {0} entre le premier et le second coup ? »", "gaps": [{"acc": ["attendu"]}], "pista": "The one question Meursault cannot answer.", "why": "The pause between the shots is the judge's single « point d'obscur »."}, {"t": "gap", "es": "« Je n'ai jamais vu d'âme aussi {0} que la vôtre. »", "gaps": [{"acc": ["endurcie"]}], "pista": "Said after Meursault does not weep in front of the crucifix.", "why": "The judge speaks of a soul, where Meursault speaks of heat and tiredness."}, {"t": "gap", "es": "J'ai dit que, plutôt que du {0} véritable, j'éprouvais un certain {1}.", "gaps": [{"acc": ["regret"]}, {"acc": ["ennui"]}], "pista": "His answer when asked whether he is sorry for what he did.", "why": "The two nouns carry the chapter: the feeling the court expects, and the one he actually has."}]}, {"tab": "7 · Écrire", "h2": "7 · Écrire", "intro": "Write in French, then click « Commentaires ». The example answer opens once you have written enough.", "items": [{"t": "w", "label": "PARAGRAPHE", "min": 120, "q": "Montrez que, dans ce chapitre, l'avocat et le juge d'instruction cherchent tous les deux à faire entrer Meursault dans leur logique, et qu'il s'y refuse. Write 120–200 words, with at least three short quotations.", "points": [["Quotes the chapter at least three times", ["«"]], ["The lawyer and the funeral", ["avocat", "insensibilité", "enterrement", "sentiments naturels"]], ["Meursault refuses the useful lie", ["c'est faux", "faux", "mentir", "mensonge", "refuse"]], ["The judge, the crucifix and repentance", ["crucifix", "repentir", "dieu", "sens", "âme"]], ["Boredom in place of remorse", ["ennui", "regret", "remords"]], ["What this prepares for the trial", ["procès", "ainsi", "annonce", "prépare", "antéchrist", "catégorie", "condamn"]]], "model": "Dans ce chapitre, deux hommes essaient d'obtenir de Meursault l'explication dont ils ont besoin. L'avocat veut d'abord répondre à l'accusation d'« insensibilité » : il lui propose de dire qu'il avait « dominé [ses] sentiments naturels » le jour de l'enterrement. Meursault refuse : « Non, parce que c'est faux. » Le juge d'instruction, lui, cherche un repentir. Il brandit un crucifix et s'écrie : « Voulez-vous […] que ma vie n'ait pas de sens ? » Mais Meursault ne croit pas en Dieu et le dit, et quand on lui demande s'il regrette son acte, il répond qu'il éprouve, « plutôt que du regret véritable », « un certain ennui ». Dans les deux cas, il refuse de dire plus que ce qu'il ressent. Le juge conclut qu'il n'a « jamais vu d'âme aussi endurcie » et finit par l'appeler « monsieur l'Antéchrist ». Ainsi, avant même le procès, Meursault est déjà rangé dans une catégorie : on ne le condamnera pas seulement pour son crime, mais pour ce qu'il ne veut pas feindre."}]}]};</script>
+<script>
+(function(){
+"use strict";
+var KEY = D.key;
+var S = {v:1, it:{}, tab:null, pub:false};
+try{ var raw=localStorage.getItem(KEY); if(raw){ var o=JSON.parse(raw); if(o&&o.v===1) S=o; } }catch(e){}
+function save(){ try{ localStorage.setItem(KEY, JSON.stringify(S)); }catch(e){} }
+function nfc(s){ return (s||"").normalize ? s.normalize("NFC") : (s||""); }
+function deacc(s){ return nfc(s).toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,""); }
+function clean(s){ return nfc(s).replace(/[’‘ʼ]/g,"'").toLowerCase().replace(/[!?.,;:«»"“”()\[\]…]/g," ").replace(/\s+/g," ").trim(); }
+function esc(s){ return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
+function fmt(s){ return esc(s).replace(/&lt;br&gt;/g,"<br>").replace(/\*\*(.+?)\*\*/g,"<b>$1</b>"); }
+function h(tag, attrs, html){ var e=document.createElement(tag); if(attrs) for(var k in attrs){ if(k==="class") e.className=attrs[k]; else e.setAttribute(k,attrs[k]); } if(html!=null) e.innerHTML=html; return e; }
+/* strict judge: exact (case, spacing, punctuation ignored) or accent-only slip */
+function judge(given, acc){
+  var g=clean(given); if(!g) return "blank";
+  for(var i=0;i<acc.length;i++){ if(g===clean(acc[i])) return "ok"; }
+  for(i=0;i<acc.length;i++){ if(deacc(g)===deacc(clean(acc[i]))) return "accent"; }
+  return "no";
+}
+var ITEMS=[], SECS=[];
+function fbBox(card){ var f=card.querySelector(".fb"); if(!f){ f=h("div",{"class":"fb ui","aria-live":"polite"}); card.appendChild(f); } return f; }
+function wire(it){
+  var st = S.it[it.id] || (S.it[it.id]={st:null, tries:0, first:false, given:null});
+  it.state = st;
+  it.run = function(){
+    if(st.st) return;
+    var r = it.check(); if(r==="blank") return;
+    st.tries++; st.given = it.given();
+    var fb = fbBox(it.card);
+    if(r==="ok"){ st.st="ok"; st.first=(st.tries===1); it.lock(true);
+      fb.className="fb ui show okb"; fb.innerHTML='<span class="tag okt">Correct</span>'+(st.first?"First time.":"Second try.")+(it.why?'<div class="why">'+fmt(it.why)+'</div>':"");
+      it.card.classList.add("ok"); save(); refresh(); return; }
+    if(st.tries<2){
+      fb.className="fb ui show hint";
+      fb.innerHTML='<span class="tag ht">Indice</span>'+(r==="accent"?"Almost: the right form, but check the accent. ":"Not yet. ")+fmt(it.pista||"");
+      it.mark(); save(); return; }
+    st.st="rev"; it.lock(false); it.reveal();
+    fb.className="fb ui show revb"; fb.innerHTML='<span class="tag rt">Réponse</span>'+fmt(it.answerText())+(it.why?'<div class="why">'+fmt(it.why)+'</div>':"");
+    it.card.classList.add("rev"); save(); refresh();
+  };
+  it.restore = function(){
+    if(!st.st) return; it.setGiven(st.given);
+    var fb=fbBox(it.card);
+    if(st.st==="ok"){ it.lock(true); it.card.classList.add("ok"); fb.className="fb ui show okb"; fb.innerHTML='<span class="tag okt">Correct</span>'+(st.first?"First time.":"Second try.")+(it.why?'<div class="why">'+fmt(it.why)+'</div>':""); }
+    else { it.lock(false); it.reveal(); it.card.classList.add("rev"); fb.className="fb ui show revb"; fb.innerHTML='<span class="tag rt">Réponse</span>'+fmt(it.answerText())+(it.why?'<div class="why">'+fmt(it.why)+'</div>':""); }
+  };
+  ITEMS.push(it);
+}
+function controls(card, it){
+  var row=h("div",{"class":"ctl ui"}); var b=h("button",{"class":"b",type:"button"},"Vérifier");
+  var p=h("button",{"class":"g",type:"button"},"Indice");
+  b.addEventListener("click", function(){ it.run(); });
+  p.addEventListener("click", function(){ var fb=fbBox(card); if(it.state.st) return; fb.className="fb ui show hint"; fb.innerHTML='<span class="tag ht">Indice</span>'+fmt(it.pista||""); });
+  row.appendChild(b); row.appendChild(p); card.appendChild(row);
+  it.btns=[b,p];
+}
+function gapItem(sec, id, n, Q){
+  var card=h("div",{"class":"card"});
+  if(Q.en) card.appendChild(h("p",{"class":"en"},esc(Q.en)));
+  var parts=Q.es.split(/\{(\d+)\}/), html='<span class="qn">'+n+' ·</span>';
+  for(var i=0;i<parts.length;i++){
+    if(i%2===0) html+=fmt(parts[i]);
+    else { var g=Q.gaps[+parts[i]]; html+='<input type="text" data-g="'+parts[i]+'" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="trou '+(+parts[i]+1)+'">'+(g.cue?' <span class="cue">('+esc(g.cue)+')</span>':""); }
+  }
+  var s=h("div",{"class":"sent"},html); card.appendChild(s);
+  var inputs=[].slice.call(s.querySelectorAll("input"));
+  var it={id:id, sec:sec, card:card, q:Q.es.replace(/\{\d+\}/g,"___"), pista:Q.pista, why:Q.why};
+  it.given=function(){ return inputs.map(function(x){return x.value.trim();}).join(" | "); };
+  it.setGiven=function(v){ (v||"").split(" | ").forEach(function(x,i){ if(inputs[i]) inputs[i].value=x; }); };
+  it.res=function(){ return inputs.map(function(x){ return judge(x.value, Q.gaps[+x.getAttribute("data-g")].acc); }); };
+  it.check=function(){ var r=it.res(); if(r.some(function(x){return x==="blank";})) { var fb=fbBox(card); fb.className="fb ui show hint"; fb.innerHTML="Fill in every gap first."; return "blank"; }
+    if(r.every(function(x){return x==="ok";})) return "ok"; if(r.every(function(x){return x==="ok"||x==="accent";})) return "accent"; return "no"; };
+  it.mark=function(){ var r=it.res(); inputs.forEach(function(x,i){ x.classList.toggle("okf",r[i]==="ok"); x.classList.toggle("badf",r[i]!=="ok"); }); };
+  it.lock=function(good){ inputs.forEach(function(x){ x.disabled=true; x.classList.toggle("okf",good); }); it.btns.forEach(function(b){ b.disabled=true; }); };
+  it.reveal=function(){ it.mark(); };
+  it.answerText=function(){ return "**"+Q.gaps.map(function(g){return g.acc[0];}).join(" … ")+"**"+(Q.gaps.some(function(g){return g.acc.length>1;})?" (also accepted: "+Q.gaps.map(function(g){return g.acc.slice(1).join(", ");}).filter(Boolean).join("; ")+")":"")+"."; };
+  it.ans=Q.gaps.map(function(g){return g.acc[0];}).join(" | ");
+  inputs.forEach(function(x){ x.addEventListener("keydown",function(e){ if(e.key==="Enter"){ e.preventDefault(); it.run(); } }); });
+  controls(card,it); wire(it); return card;
+}
+function seeded(n,seed){ var a=[]; for(var i=0;i<n;i++) a.push(i); var x=seed; for(i=n-1;i>0;i--){ x=(x*9301+49297)%233280; var j=Math.floor(x/233280*(i+1)); var t=a[i]; a[i]=a[j]; a[j]=t; } return a; }
+function mcItem(sec, id, n, Q){
+  var card=h("div",{"class":"card"});
+  if(Q.en) card.appendChild(h("p",{"class":"en"},esc(Q.en)));
+  card.appendChild(h("div",null,'<span class="qn">'+n+' ·</span>'+fmt(Q.q)));
+  var box=h("div",{"class":"opts"}); var order=seeded(Q.opts.length, id.length*31+n*7), btns=[], sel=null;
+  order.forEach(function(k){ var b=h("button",{"class":"opt",type:"button"},fmt(Q.opts[k])); b._i=k; b.addEventListener("click",function(){ if(it.state.st) return; sel=k; btns.forEach(function(x){x.classList.toggle("sel",x._i===k);}); it.run(); }); btns.push(b); box.appendChild(b); });
+  card.appendChild(box);
+  var it={id:id, sec:sec, card:card, q:Q.q, pista:Q.pista, why:Q.why};
+  it.given=function(){ return sel==null?"":Q.opts[sel]; };
+  it.setGiven=function(v){ var k=Q.opts.indexOf(v); if(k>=0){ sel=k; btns.forEach(function(x){x.classList.toggle("sel",x._i===k);}); } };
+  it.check=function(){ return sel==null?"blank":(sel===Q.a?"ok":"no"); };
+  it.mark=function(){ btns.forEach(function(x){ if(x._i===sel) x.classList.add("wrong"); }); };
+  it.lock=function(){ btns.forEach(function(x){ x.disabled=true; if(x._i===Q.a) x.classList.add("right"); }); if(it.pb) it.pb.disabled=true; };
+  it.reveal=function(){};
+  it.answerText=function(){ return "**"+Q.opts[Q.a]+"**."; };
+  it.ans=Q.opts[Q.a];
+  var row=h("div",{"class":"ctl ui"}); var p=h("button",{"class":"g",type:"button"},"Indice"); it.pb=p;
+  p.addEventListener("click",function(){ if(it.state.st) return; var fb=fbBox(card); fb.className="fb ui show hint"; fb.innerHTML='<span class="tag ht">Indice</span>'+fmt(Q.pista||""); });
+  row.appendChild(p); card.appendChild(row);
+  wire(it); return card;
+}
+var WRITES=[];
+function covered(points, txt){ var d=" "+deacc(txt)+" "; return points.map(function(pt){ return {label:pt[0], ok: pt[1].some(function(k){ return d.indexOf(deacc(k))>=0; })}; }); }
+function wItem(sec, id, n, Q){
+  var card=h("div",{"class":"card reto"});
+  card.innerHTML='<div class="rt2 ui">'+(Q.label||"ÉCRIRE")+'</div><p class="ui" style="margin:6px 0 4px;font-size:15px">'+fmt(Q.q)+'</p>';
+  S.w=S.w||{}; var t=h("textarea",{"aria-label":Q.label||"Écrire",style:"min-height:120px"}); t.value=S.w[id]||"";
+  t.addEventListener("input",function(){ S.w[id]=t.value; save(); });
+  card.appendChild(t);
+  var row=h("div",{"class":"ctl ui"}); var b=h("button",{"class":"b",type:"button"},"Commentaires"); row.appendChild(b); card.appendChild(row);
+  var fb=h("div",{"class":"fb ui","aria-live":"polite"}); card.appendChild(fb);
+  b.addEventListener("click",function(){
+    var txt=t.value.trim(), words=(txt.match(/[A-Za-zÀ-ÿŒœ'’-]+/g)||[]).length;
+    if(words<25){ fb.className="fb ui show hint"; fb.innerHTML='<span class="tag ht">Indice</span>Write at least '+(Q.min||40)+' words first, then ask for comments. A strong answer covers:<ul class="check">'+Q.points.map(function(p){return "<li>"+esc(p[0])+"</li>";}).join("")+'</ul>'; return; }
+    var cv=covered(Q.points,txt), k=cv.filter(function(x){return x.ok;}).length;
+    fb.className="fb ui show "+(k>=Q.points.length-1?"okb":"hint");
+    fb.innerHTML='<span class="tag '+(k>=Q.points.length-1?"okt":"ht")+'">Commentaires</span>'+k+' of '+cv.length+' key points ('+words+' words).<ul class="check">'+cv.map(function(x){return '<li class="'+(x.ok?"on":"")+'">'+esc(x.label)+'</li>';}).join("")+'</ul><div class="why">The check looks for the key words of each point: a guide, not a mark.</div>'+(Q.model?(words>=(Q.min||40)?'<details style="margin-top:8px"><summary>Une réponse possible</summary><p style="margin:6px 0 0">'+fmt(Q.model)+'</p></details>':'<div class="why">The example answer opens once you have written at least '+(Q.min||40)+' words.</div>'):"");
+  });
+  WRITES.push({sec:sec,q:Q.q,get:function(){return t.value.trim();}});
+  return card;
+}
+var main=document.getElementById("main"), tabs=document.getElementById("tabs");
+D.sections.forEach(function(sx, si){
+  var id="s"+(si+1);
+  var s=h("section",{"class":"ex",id:id}); s.appendChild(h("h2",null,esc(sx.h2)));
+  if(sx.intro) s.appendChild(h("p",{"class":"how ui"},fmt(sx.intro)));
+  if(sx.rule) s.appendChild(h("div",{"class":"rule"},fmt(sx.rule)));
+  var n=0;
+  sx.items.forEach(function(Q,qi){ n++; if(Q.h3) s.appendChild(h("h3",null,esc(Q.h3)));
+    s.appendChild(Q.t==="mc" ? mcItem(id,id+"_"+qi,n,Q) : Q.t==="w" ? wItem(id,id+"_"+qi,n,Q) : gapItem(id,id+"_"+qi,n,Q)); });
+  var f=h("div",{"class":"secfoot ui"}), l=h("div"), r=h("div");
+  if(si>0) l.appendChild(h("button",{"class":"g",type:"button","data-go":"s"+si},"← Retour"));
+  var rs=h("button",{"class":"g",type:"button"},"Recommencer la section");
+  rs.addEventListener("click",function(){ if(!rs._a){ rs._a=true; rs.textContent="Cliquez encore pour effacer"; setTimeout(function(){ rs._a=false; rs.textContent="Recommencer la section"; },3000); return; }
+    ITEMS.filter(function(it){return it.sec===id;}).forEach(function(it){ delete S.it[it.id]; }); save(); location.reload(); });
+  l.appendChild(document.createTextNode(" ")); l.appendChild(rs);
+  if(si<D.sections.length-1) r.appendChild(h("button",{"class":"b",type:"button","data-go":"s"+(si+2)},"Suivant →"));
+  else { var dl=h("button",{"class":"b",type:"button"},"Télécharger mes réponses"); dl.addEventListener("click",download); r.appendChild(dl); }
+  f.appendChild(l); f.appendChild(r); s.appendChild(f);
+  main.appendChild(s);
+  var tb=h("button",{type:"button",role:"tab","data-go":id},esc(sx.tab)+' <span class="n"></span>'); tabs.appendChild(tb);
+  SECS.push({id:id, el:s, tab:tb});
+});
+function totals(){ var tot=ITEMS.length, sc=0, first=0, done=0; ITEMS.forEach(function(it){ var st=it.state; if(st.st==="ok"){ sc++; done++; if(st.first) first++; } else if(st.st==="rev") done++; }); return {tot:tot,sc:sc,first:first,done:done}; }
+function refresh(){
+  var T=totals(); document.getElementById("sc").textContent=T.sc; document.getElementById("tot").textContent=T.tot; document.getElementById("first").textContent=T.first;
+  document.getElementById("bar").style.width=(T.tot?Math.round(100*T.sc/T.tot):0)+"%";
+  SECS.forEach(function(s){ var its=ITEMS.filter(function(it){return it.sec===s.id;}); var d=its.filter(function(it){return it.state.st;}).length, ok=its.filter(function(it){return it.state.st==="ok";}).length; s.tab.querySelector(".n").textContent=ok+"/"+its.length; s.tab.classList.toggle("done",d===its.length); });
+  publish();
+}
+function publish(){
+  try{ var T=totals(); var all=JSON.parse(localStorage.getItem("bba-scores")||"{}"); var f=decodeURIComponent(location.pathname.split("/").pop()||"index"); var prev=all[f]||{};
+    var rec={title:(document.title||"").slice(0,120), score:T.sc, total:T.tot, best:Math.max(T.sc,prev.best||0), attempts:(prev.attempts||0)+(S.pub?0:1), t:Date.now()};
+    var n=Math.max(0,T.done-(S.pubDone||0)); rec.ans=(prev.ans||0)+n; rec.lg={}; for(var k in (prev.lg||{})) rec.lg[k]=prev.lg[k];
+    var day=String(Math.floor(Date.now()/86400000)); if(n) rec.lg[day]=(rec.lg[day]||0)+n;
+    all[f]=rec; localStorage.setItem("bba-scores",JSON.stringify(all)); S.pub=true; S.pubDone=T.done; save(); }catch(e){}
+}
+function studentName(){ var nm=document.querySelector("#bba-kit .nm"); var v=nm&&nm.value.trim(); if(!v){ try{ v=localStorage.getItem("bba-name")||""; }catch(e){} } return v||""; }
+function download(){
+  var T=totals(), name=studentName(), L=[];
+  L.push(D.dlhead); L.push("Nom : "+(name||"(sans nom)")); L.push("Date : "+new Date().toLocaleString("fr-FR")); L.push("Points : "+T.sc+" / "+T.tot+"  ·  du premier coup : "+T.first); L.push("");
+  SECS.forEach(function(s){ L.push("== "+s.el.querySelector("h2").textContent+" ==");
+    ITEMS.filter(function(it){return it.sec===s.id;}).forEach(function(it,i){ var st=it.state;
+      var mark=st.st==="ok"?(st.first?"✓":"✓ (2e essai)"):st.st==="rev"?"✗ → "+it.ans:"— sans réponse";
+      L.push((i+1)+". "+it.q.replace(/\*\*/g,"").replace(/\s+/g," ").slice(0,160)); L.push("   Réponse : "+(it.given()||"—")+"   ["+mark+"]"); });
+    WRITES.filter(function(w){return w.sec===s.id;}).forEach(function(w){ L.push("TEXTE : "+w.q.replace(/\*\*/g,"")); L.push(w.get()||"—"); });
+    L.push(""); });
+  var blob=new Blob([L.join("\r\n")],{type:"text/plain;charset=utf-8"}); var a=document.createElement("a"); a.href=URL.createObjectURL(blob);
+  a.download=D.dlfile+(name||"sans_nom").replace(/[^\wÀ-ÿ-]+/g,"_")+".txt"; document.body.appendChild(a); a.click(); setTimeout(function(){ URL.revokeObjectURL(a.href); a.remove(); },500);
+}
+function go(id){ SECS.forEach(function(s){ var on=s.id===id; s.el.classList.toggle("active",on); s.tab.setAttribute("aria-selected",on?"true":"false"); }); S.tab=id; save();
+  var nav=document.getElementById("tabs"); if(window.scrollY>nav.offsetTop) window.scrollTo({top:nav.offsetTop,behavior:"smooth"}); }
+document.addEventListener("click",function(e){ var b=e.target.closest("[data-go]"); if(b){ e.preventDefault(); go(b.getAttribute("data-go")); } });
+ITEMS.forEach(function(it){ it.restore(); });
+go(S.tab && document.getElementById(S.tab) ? S.tab : "s1"); refresh();
+window.BBAG={items:ITEMS, totals:totals, judge:judge};
+})();
+</script>
+<script src="bba-kit-fr.js" defer></script>
+<script src="bba-send-strip.js" defer></script>
+
+</body>
+</html>

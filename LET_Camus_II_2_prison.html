@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>L'Étranger · II, 2 — La prison</title>
+<meta name="description" content="A-Level French: L'Étranger Part II chapter IV as a satire of justice — the absent accused, the twin speeches, the rewritten facts, the judged soul, eloquence against truth, the machinery of the court, with writing feedback.">
+<style>
+:root{
+  --paper:#f6f1e7; --card:#fffdf8; --ink:#2a2320; --soft:#6a5a4c; --line:#dcd0bb;
+  --ox:#6e1f2a; --ox2:#8f3340; --oxs:#f4e4e4; --green:#1f4d3a; --gs:#e3efe8;
+  --gold:#a8843a; --golds:#f7efd9; --bad:#a23b2a; --bads:#fbe9e5; --ok:#226a43;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--paper);color:var(--ink);font:17px/1.55 Georgia,"Times New Roman",serif}
+.ui{font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+.wrap{max-width:920px;margin:0 auto;padding:22px 16px 160px}
+header{border-bottom:3px double var(--ox);padding-bottom:14px;margin-bottom:8px}
+.kicker{font:600 12px/1.2 system-ui,sans-serif;letter-spacing:.16em;text-transform:uppercase;color:var(--ox)}
+h1{font-size:31px;line-height:1.15;margin:6px 0 6px;color:var(--ox)}
+.lead{color:var(--soft);margin:0 0 4px;font:15px/1.55 system-ui,sans-serif}
+.score{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;margin-top:10px;font:14px system-ui,sans-serif;color:var(--soft)}
+.score b{color:var(--ink);font-size:16px}
+.meter{flex:1 1 180px;height:8px;background:#e8dfcf;border-radius:99px;overflow:hidden;min-width:140px}
+.meter i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--green),#2f7a58);transition:width .4s}
+nav.tabs{display:flex;flex-wrap:wrap;gap:6px;margin:16px 0 12px;position:sticky;top:0;background:var(--paper);padding:8px 0;z-index:5;border-bottom:1px solid var(--line)}
+nav.tabs button{font:600 13.5px system-ui,sans-serif;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:999px;padding:7px 12px;cursor:pointer;display:flex;gap:6px;align-items:center}
+nav.tabs button .n{font-weight:500;color:var(--soft);font-size:12px}
+nav.tabs button[aria-selected="true"]{background:var(--ox);border-color:var(--ox);color:#fff}
+nav.tabs button[aria-selected="true"] .n{color:#f1d7d9}
+nav.tabs button.done:not([aria-selected="true"]){border-color:var(--green);color:var(--green)}
+section.ex{display:none}
+section.ex.active{display:block}
+h2{font-size:24px;margin:4px 0 6px;color:var(--green)}
+h3{font:700 13px system-ui,sans-serif;letter-spacing:.12em;text-transform:uppercase;color:var(--ox);margin:22px 0 8px}
+.how{font:15px/1.55 system-ui,sans-serif;color:var(--soft);margin:0 0 14px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px 16px;margin:10px 0;position:relative}
+.card.ok{border-color:#9cc7ae;background:#fbfefc}
+.card.rev{border-color:#e3b6ad}
+.card .qn{font:700 13px system-ui,sans-serif;color:var(--ox);margin-right:6px}
+.quote{font-style:italic}
+blockquote{margin:2px 0 10px;padding:6px 0 6px 14px;border-left:3px solid var(--gold);font-style:italic;font-size:18px}
+.ctl{display:flex;flex-wrap:wrap;gap:8px 10px;align-items:center;margin-top:10px}
+input[type=text],select,textarea{font:16px Georgia,serif;color:var(--ink);background:#fff;border:1px solid #bdae95;border-radius:7px;padding:7px 10px;max-width:100%}
+input[type=text]{width:15em}
+input.w8{width:8.5em} input.w6{width:7em}
+input.okf{border-color:var(--ok);background:#f2faf5} input.badf{border-color:var(--bad);background:var(--bads)}
+textarea{width:100%;min-height:200px;resize:vertical;line-height:1.6}
+button.b{font:600 14px system-ui,sans-serif;border-radius:7px;padding:7px 13px;cursor:pointer;border:1px solid var(--ox);background:var(--ox);color:#fff}
+button.b:disabled{opacity:.45;cursor:default}
+button.g{font:600 14px system-ui,sans-serif;border-radius:7px;padding:7px 12px;cursor:pointer;border:1px solid var(--line);background:#fff;color:var(--green)}
+button.g:disabled{opacity:.45;cursor:default}
+.opts{display:grid;gap:7px;margin-top:8px}
+.opt{display:flex;gap:10px;align-items:flex-start;text-align:left;font:15.5px/1.45 system-ui,sans-serif;border:1px solid var(--line);background:#fff;border-radius:8px;padding:9px 12px;cursor:pointer;color:var(--ink)}
+.opt:before{content:"";flex:0 0 16px;height:16px;border:2px solid #b8a98f;border-radius:50%;margin-top:2px}
+.opt.sel{border-color:var(--ox);background:var(--oxs)}
+.opt.sel:before{border-color:var(--ox);background:radial-gradient(var(--ox) 45%,transparent 50%)}
+.opt.right{border-color:var(--ok);background:#eef8f2}
+.opt.wrong{border-color:var(--bad);background:var(--bads)}
+.opt:disabled{cursor:default}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.chip{font:600 13px system-ui,sans-serif;border:1px solid #c9bba3;background:#fff;color:var(--soft);border-radius:999px;padding:6px 11px;cursor:pointer}
+.chip[aria-pressed="true"]{background:var(--green);border-color:var(--green);color:#fff}
+.chip.core{outline:2px solid var(--ok);outline-offset:1px}
+.chip.acc{outline:2px dashed var(--gold);outline-offset:1px}
+.chip.wrongc{background:var(--bad);border-color:var(--bad);color:#fff}
+.chip:disabled{cursor:default}
+.fb{margin-top:10px;font:14.5px/1.55 system-ui,sans-serif;border-radius:8px;padding:9px 12px;display:none}
+.fb.show{display:block}
+.fb.okb{background:var(--gs);color:#163a2b}
+.fb.hint{background:var(--golds);color:#4d3c14}
+.fb.revb{background:var(--bads);color:#5a1d12}
+.fb .why{margin-top:6px;color:#2b2a26}
+.tag{display:inline-block;font:700 11px system-ui,sans-serif;letter-spacing:.1em;text-transform:uppercase;padding:2px 7px;border-radius:4px;margin-right:6px}
+.tag.okt{background:var(--ok);color:#fff}.tag.ht{background:var(--gold);color:#fff}.tag.rt{background:var(--bad);color:#fff}
+.legend{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:12px 14px;font:14.5px/1.55 system-ui,sans-serif;margin-bottom:10px}
+.legend b{color:var(--ox)}
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:8px 18px}
+.who{font:13px system-ui,sans-serif;color:var(--soft)}
+.tr{line-height:2.25;font-size:17px;background:#faf6ee;border-left:3px solid var(--gold);padding:6px 12px;border-radius:4px;margin-top:6px}
+.secfoot{display:flex;justify-content:space-between;align-items:center;gap:10px;margin:18px 0 6px;flex-wrap:wrap}
+.reto{border:2px solid var(--ox);background:#fff}
+.reto .rt2{font:700 12px system-ui,sans-serif;letter-spacing:.16em;color:var(--ox)}
+.check li{margin:4px 0;list-style:none;padding-left:0}
+.check{padding:0;margin:10px 0 0;font:14.5px/1.5 system-ui,sans-serif}
+.check li:before{content:"○ ";color:#b8a98f;font-weight:700}
+.check li.on:before{content:"● ";color:var(--ok)}
+.check li.warn:before{content:"● ";color:var(--bad)}
+.qcheck{font:14px/1.5 system-ui,sans-serif;margin-top:8px}
+.qcheck div{padding:3px 0}
+.qcheck .y{color:var(--ok)} .qcheck .n{color:var(--bad)}
+.titles label{display:flex;gap:8px;align-items:flex-start;font:15.5px/1.45 Georgia,serif;margin:6px 0;cursor:pointer}
+.tips{font:14.5px/1.55 system-ui,sans-serif;background:var(--oxs);border-radius:8px;padding:10px 12px;margin:10px 0}
+.res{font:15px/1.6 system-ui,sans-serif}
+.res table{border-collapse:collapse;width:100%;margin:8px 0}
+.res td,.res th{border-bottom:1px solid var(--line);padding:6px 4px;text-align:left}
+.src{font:13px/1.5 system-ui,sans-serif;color:var(--soft);margin-top:22px}
+@media (max-width:640px){h1{font-size:25px}.cols{grid-template-columns:1fr}input[type=text]{width:100%}input.w8,input.w6{width:8em}nav.tabs{flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}nav.tabs::-webkit-scrollbar{display:none}nav.tabs button{padding:6px 10px;font-size:12.5px;flex:0 0 auto;white-space:nowrap}}
+@media print{nav.tabs,.secfoot,button{display:none!important}section.ex{display:block!important}}
+</style>
+<style>
+.sent{font-size:18px;line-height:2.1}
+.sent input{width:9em;font-size:16px;padding:4px 8px;margin:0 2px}
+.en{font:14px/1.45 system-ui,sans-serif;color:var(--soft);margin:0 0 4px}
+.cue{font:13px system-ui,sans-serif;color:var(--soft)}
+.rule{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--green);border-radius:8px;padding:10px 14px;font:14.5px/1.55 system-ui,sans-serif;margin:6px 0 12px}
+</style>
+
+</head>
+<body>
+<div class="wrap">
+<header>
+  <div class="kicker">L'Étranger · Deuxième partie, chapitre II</div>
+  <h1>L'Étranger — II, 2 : la prison</h1>
+  <p class="lead">Part II, chapter II is about living in a cell: what Meursault loses, how he gets used to it, and the evening when he sees that getting used to it is not a way out. Each section takes one stage. Have your copy of the novel open at this chapter. Press « Vérifier ». If you are wrong the first time you get an <i>indice</i>; the second time you see the answer and why. In the writing section the example answer only opens once you have written your own. Your work saves itself on this device.</p>
+  <div class="score" aria-live="polite"><span>Points <b id="sc">0</b> / <b id="tot">0</b></span><span>du premier coup <b id="first">0</b></span><div class="meter"><i id="bar"></i></div></div>
+</header>
+<nav class="tabs" role="tablist" aria-label="Exercices" id="tabs"></nav>
+<main id="main"></main>
+<p class="src">Quotations: Albert Camus, <i>L'Étranger</i> (Gallimard, 1942), II, 2, short extracts quoted for study.</p>
+</div>
+<script>window.BBA_KIT = {check:false, download:false, save:false, enter:false};</script>
+<script>var D = {"key": "letranger-II2-v1", "dlhead": "L'ÉTRANGER — II, 2 : LA PRISON", "dlfile": "LEtranger_II2_", "sections": [{"tab": "1 · Le parloir", "h2": "1 · Le parloir : la visite de Marie", "intro": "The only visit he receives, and what it shows about how he speaks to people.", "rule": "Elle a crié de nouveau : « Tu sortiras et on se mariera ! » J'ai répondu : « Tu crois ? » mais c'était surtout pour dire quelque chose.", "items": [{"t": "mc", "q": "Pourquoi est-il si difficile de se parler au parloir ?", "opts": ["Deux grilles séparent visiteurs et prisonniers de « huit à dix mètres » : il faut crier, et le bruit et la lumière l'étourdissent", "Les gardiens interdisent aux prisonniers de parler", "Marie est trop émue pour lui adresser la parole"], "a": 0, "pista": "What lies between the two « grandes grilles »?", "why": "The room turns every private word into a shout. « Le bruit me faisait mal », he says, and yet he wants to stay."}, {"t": "mc", "q": "Marie lui crie « qu'il fallait espérer ». À quoi pense Meursault à ce moment-là ?", "opts": ["À son corps : « J'avais envie de ce tissu fin et je ne savais pas très bien ce qu'il fallait espérer en dehors de lui »", "À son procès et à ses chances d'être acquitté", "À sa mère et à l'asile de Marengo"], "a": 0, "pista": "He is looking at her shoulder and her dress.", "why": "Marie speaks of the future, of marriage and acquittal. He stays in the present and in sensation, as he did in Part I."}, {"t": "mc", "q": "À côté de lui, un jeune homme et sa mère se regardent sans parler : « le seul îlot de silence ». Quel est l'effet de ce contraste ?", "opts": ["Au milieu des cris, ces deux-là se comprennent sans mots, alors que Meursault a trouvé Marie très belle mais n'a « pas su le lui dire »", "On comprend qu'ils sont fâchés l'un contre l'autre", "On comprend qu'ils ne parlent pas la même langue"], "a": 0, "pista": "How does their visit end? Look at what the son says and at the mother's hand.", "why": "Their goodbye is « Au revoir, maman » and a slow wave through the bars. Speech in this room is noise; what matters passes in silence."}, {"t": "mc", "q": "Pourquoi cette visite est-elle « la première et la seule » ?", "opts": ["On ne permet plus à Marie de venir « parce qu'elle n'était pas [sa] femme »", "Marie ne veut plus le voir après le crime", "Meursault demande qu'on refuse ses visites"], "a": 0, "pista": "What does her letter say?", "why": "From that letter on, he writes, « j'ai senti que j'étais chez moi dans ma cellule et que ma vie s'y arrêtait ». The prison chapter really starts here."}]}, {"tab": "2 · Homme libre, prisonnier", "h2": "2 · Des pensées d'homme libre aux pensées de prisonnier", "intro": "What the punishment actually is, as Meursault discovers it.", "rule": "Au début de ma détention, pourtant, ce qui a été le plus dur, c'est que j'avais des pensées d'homme libre.", "items": [{"t": "mc", "q": "Qu'appelle-t-il des « pensées d'homme libre » ?", "opts": ["Une envie physique, comme celle « d'être sur une plage et de descendre vers la mer », qui lui fait sentir combien les murs sont rapprochés", "Le projet de s'évader de la prison", "Une réflexion sur l'injustice de sa situation"], "a": 0, "pista": "What example does he give straight after the phrase?", "why": "Freedom for him is the body in the water. « Ensuite, je n'avais que des pensées de prisonnier »: he waits for the daily walk or his lawyer's visit."}, {"t": "mc", "q": "À quoi sert l'image du « tronc d'arbre sec » ?", "opts": ["À montrer qu'il se serait « peu à peu habitué » à n'importe quelle vie, en attendant des oiseaux ou des nuages", "À montrer qu'il rêve de vivre dans la nature", "À montrer qu'il se sent déjà mort"], "a": 0, "pista": "Whose idea was it « qu'on finissait par s'habituer à tout »?", "why": "It was his mother's idea, repeated often. Habit is his way of living, in the cell as before it."}, {"t": "mc", "q": "Le gardien-chef lui dit : « On vous prive de la liberté. » Comment Meursault réagit-il ?", "opts": ["« Je n'avais jamais pensé à cela » : il approuve, car sinon « où serait la punition ? »", "Il se révolte et demande à voir le directeur", "Il répond qu'il se sent plus libre en prison que dehors"], "a": 0, "pista": "The guard's verdict on him: « vous comprenez les choses, vous. Les autres non. »", "why": "He had thought the treatment « injuste ». He understands what prison is through what his body lacks, and then accepts the logic."}, {"t": "mc", "q": "Les cigarettes : pourquoi dit-il que « cette punition n'en était plus une pour [lui] » ?", "opts": ["Quand il comprend que la privation fait partie de la punition, il s'est déjà habitué à ne plus fumer", "Parce qu'on finit par lui rendre ses cigarettes", "Parce qu'il n'a jamais vraiment aimé fumer"], "a": 0, "pista": "At first: « C'est peut-être cela qui m'a le plus abattu. »", "why": "Habit wears the punishment away. The first days he sucked on pieces of wood torn from his bed; later he no longer misses it."}]}, {"tab": "3 · Tuer le temps", "h2": "3 · Tuer le temps : la mémoire", "intro": "The method he invents, and what happens to time.", "rule": "J'ai compris alors qu'un homme qui n'aurait vécu qu'un seul jour pourrait sans peine vivre cent ans dans une prison.", "items": [{"t": "mc", "q": "Quelle technique lui permet de « ne plus [s]'ennuyer du tout » ?", "opts": ["Se souvenir : il parcourt sa chambre en imagination et dénombre chaque meuble, chaque objet, chaque détail", "Lire les livres que lui prête le gardien", "Écrire chaque jour une lettre à Marie"], "a": 0, "pista": "« à partir de l'instant où j'ai appris à me souvenir ».", "why": "Each time the inventory takes longer: from the furniture to the objects, then to « une incrustation, une fêlure ou un bord ébréché »."}, {"t": "mc", "q": "Que veut dire la phrase sur l'homme « qui n'aurait vécu qu'un seul jour » ?", "opts": ["Un seul jour contient assez de souvenirs pour occuper des années d'enfermement : il suffit d'y avoir fait attention", "La vie en prison passe aussi vite qu'une seule journée", "Un prisonnier devrait être libéré après un jour"], "a": 0, "pista": "Next sentence: « Il aurait assez de souvenirs pour ne pas s'ennuyer. »", "why": "The ordinary world, looked at closely, is inexhaustible. He adds, with his usual restraint: « Dans un sens, c'était un avantage. »"}, {"t": "mc", "q": "Comment le temps change-t-il pour lui en prison ?", "opts": ["Les jours finissent « par déborder les uns sur les autres » et perdent leur nom : seuls « hier » et « demain » gardent un sens", "Il compte soigneusement chaque jour qui passe", "Le temps passe plus vite que lorsqu'il était libre"], "a": 0, "pista": "What does he say when the guard tells him he has been there five months?", "why": "« Je l'ai cru, mais je ne l'ai pas compris. » For him it is « sans cesse le même jour » rolling into the cell."}]}, {"tab": "4 · Le Tchécoslovaque", "h2": "4 · L'histoire du Tchécoslovaque", "intro": "The scrap of newspaper he reads thousands of times.", "items": [{"t": "mc", "q": "Que raconte le vieux morceau de journal ?", "opts": ["Un homme revenu riche dans son village prend une chambre chez sa mère et sa sœur sans se faire reconnaître ; elles le tuent pour le voler", "Un prisonnier tchèque s'évade et retrouve sa famille", "Une mère dénonce son fils à la police pour toucher une récompense"], "a": 0, "pista": "Why does he take a room instead of saying who he is?", "why": "« Par plaisanterie », to surprise them. When his wife reveals who he was, the mother hangs herself and the sister throws herself into a well."}, {"t": "mc", "q": "Qu'est-ce qui cause le drame dans cette histoire ?", "opts": ["Un jeu : l'homme cache son identité, et ce malentendu devient mortel", "La pauvreté seule, qui pousse au crime", "Une vieille vengeance entre la mère et le fils"], "a": 0, "pista": "Think of the one thing the traveller chose not to say.", "why": "Nobody intended this outcome. A concealment made for fun is enough to produce it."}, {"t": "mc", "q": "Quel jugement Meursault porte-t-il sur cette histoire ?", "opts": ["Le voyageur « l'avait un peu mérité » : « il ne faut jamais jouer »", "Tout est la faute de la mère, qui aurait dû reconnaître son fils", "C'est une histoire sans intérêt, qu'il oublie aussitôt"], "a": 0, "pista": "Read the last sentence of the paragraph.", "why": "It is one of the few rules Meursault ever states. He applied it with his lawyer in the previous chapter: « Non, parce que c'est faux. »"}]}, {"tab": "5 · Le reflet, la voix", "h2": "5 · Le reflet et la voix", "intro": "The last page of the chapter: one evening after five months.", "rule": "Il m'a semblé que mon image restait sérieuse alors même que j'essayais de lui sourire.", "items": [{"t": "mc", "q": "Que voit Meursault quand il se regarde dans sa gamelle de fer ?", "opts": ["Un visage qui garde « le même air sévère et triste » alors qu'il lui sourit", "Un visage vieilli qu'il ne reconnaît plus du tout", "Le visage de sa mère à la place du sien"], "a": 0, "pista": "He tries twice: « J'ai souri et elle a gardé… »", "why": "His face shows something he has not said. Then he grants it: the image is serious « puisque, à ce moment, je l'étais aussi »."}, {"t": "mc", "q": "Que découvre-t-il en entendant « distinctement le son de [sa] voix » ?", "opts": ["Que pendant tout ce temps il avait « parlé seul »", "Qu'il a presque perdu l'usage de la parole", "Qu'un prisonnier lui répond depuis la cellule voisine"], "a": 0, "pista": "« Je l'ai reconnue pour celle qui résonnait déjà depuis de longs jours à mes oreilles ».", "why": "The man who had got used to everything has been talking to himself for months without noticing."}, {"t": "mc", "q": "Il se souvient alors de l'infirmière à l'enterrement : « Non, il n'y avait pas d'issue ». Que marque cette fin de chapitre ?", "opts": ["La limite de l'habitude : il reconnaît pour la première fois qu'il n'y a pas d'échappatoire", "L'espoir d'être bientôt libéré", "Sa décision de préparer une évasion"], "a": 0, "pista": "What does he say nobody can imagine?", "why": "« Personne ne peut imaginer ce que sont les soirs dans les prisons. » The chapter that began with adaptation ends on the hour « dont je ne veux pas parler »."}]}, {"tab": "6 · Les mots", "h2": "6 · Les mots du chapitre", "intro": "Complete each sentence from the chapter with one word from the bank. Two words are not needed.", "rule": "**Word bank:** tuer · jouer · espérer · cellule · prive · mentir · habituer", "items": [{"t": "gap", "es": "J'ai senti que j'étais chez moi dans ma {0} et que ma vie s'y arrêtait.", "gaps": [{"acc": ["cellule"]}], "pista": "What he feels from the day he receives Marie's letter.", "why": "Being « chez moi » there is the start of the real imprisonment."}, {"t": "gap", "es": "C'était d'ailleurs une idée de maman, et elle le répétait souvent, qu'on finissait par s'{0} à tout.", "gaps": [{"acc": ["habituer"]}], "pista": "The idea that follows the image of the dry tree trunk.", "why": "The verb is the key to the chapter, and it comes from his mother."}, {"t": "gap", "es": "« Mais oui, la liberté, c'est ça. On vous {0} de la liberté. »", "gaps": [{"acc": ["prive"]}], "pista": "The head guard explaining why prison is a punishment.", "why": "Meursault had never thought of it: « où serait la punition ? »"}, {"t": "gap", "es": "Toute la question, encore une fois, était de {0} le temps.", "gaps": [{"acc": ["tuer"]}], "pista": "What every occupation in the cell is for.", "why": "Desire, memory, sleep and the newspaper story all serve this one purpose."}, {"t": "gap", "es": "Je trouvais que le voyageur l'avait un peu mérité et qu'il ne faut jamais {0}.", "gaps": [{"acc": ["jouer"]}], "pista": "His verdict on the Czech traveller.", "why": "A rule he lives by: no pretending."}]}, {"tab": "7 · Écrire", "h2": "7 · Écrire", "intro": "Write in French, then click « Commentaires ». The example answer opens once you have written enough.", "items": [{"t": "w", "label": "PARAGRAPHE", "min": 120, "q": "Montrez comment Meursault s'adapte à la prison dans ce chapitre, puis ce qui révèle les limites de cette adaptation. Write 120–200 words, with at least three short quotations.", "points": [["Quotes the chapter at least three times", ["«"]], ["From a free man's thoughts to a prisoner's", ["homme libre", "pensées de prisonnier", "plage", "mer"]], ["Habit, and his mother's idea", ["habitu", "maman", "arbre"]], ["Killing time: memory, sleep, the newspaper story", ["tuer le temps", "souvenir", "mémoire", "sommeil", "tchécoslovaque", "inventaire", "chambre"]], ["The limits: the reflection, the voice, no way out", ["gamelle", "image", "voix", "parlé seul", "issue", "soirs"]], ["A concluding sentence", ["ainsi", "en définitive", "en conclusion", "finalement", "cependant", "pourtant"]]], "model": "Dans ce chapitre, Meursault apprend à vivre en prison. Au début, le plus dur est d'avoir « des pensées d'homme libre », comme l'envie de descendre vers la mer ; ensuite, il n'a plus que « des pensées de prisonnier ». Il reprend l'idée de sa mère, selon laquelle on finit « par s'habituer à tout », et quand le gardien lui explique qu'on le « prive de la liberté », il approuve. Pour « tuer le temps », il apprend à se souvenir : il fait l'inventaire de sa chambre et conclut qu'un homme qui n'aurait vécu qu'un seul jour pourrait « sans peine vivre cent ans dans une prison ». Pourtant, cette adaptation a des limites. Un soir, son image dans la gamelle reste sérieuse alors qu'il essaie de lui sourire, et il comprend qu'il avait « parlé seul » depuis des mois. Le chapitre se termine sur un constat : « il n'y avait pas d'issue ». Ainsi, l'habitude lui permet de supporter la prison, mais elle ne le protège pas des soirs."}]}]};</script>
+<script>
+(function(){
+"use strict";
+var KEY = D.key;
+var S = {v:1, it:{}, tab:null, pub:false};
+try{ var raw=localStorage.getItem(KEY); if(raw){ var o=JSON.parse(raw); if(o&&o.v===1) S=o; } }catch(e){}
+function save(){ try{ localStorage.setItem(KEY, JSON.stringify(S)); }catch(e){} }
+function nfc(s){ return (s||"").normalize ? s.normalize("NFC") : (s||""); }
+function deacc(s){ return nfc(s).toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,""); }
+function clean(s){ return nfc(s).replace(/[’‘ʼ]/g,"'").toLowerCase().replace(/[!?.,;:«»"“”()\[\]…]/g," ").replace(/\s+/g," ").trim(); }
+function esc(s){ return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
+function fmt(s){ return esc(s).replace(/&lt;br&gt;/g,"<br>").replace(/\*\*(.+?)\*\*/g,"<b>$1</b>"); }
+function h(tag, attrs, html){ var e=document.createElement(tag); if(attrs) for(var k in attrs){ if(k==="class") e.className=attrs[k]; else e.setAttribute(k,attrs[k]); } if(html!=null) e.innerHTML=html; return e; }
+/* strict judge: exact (case, spacing, punctuation ignored) or accent-only slip */
+function judge(given, acc){
+  var g=clean(given); if(!g) return "blank";
+  for(var i=0;i<acc.length;i++){ if(g===clean(acc[i])) return "ok"; }
+  for(i=0;i<acc.length;i++){ if(deacc(g)===deacc(clean(acc[i]))) return "accent"; }
+  return "no";
+}
+var ITEMS=[], SECS=[];
+function fbBox(card){ var f=card.querySelector(".fb"); if(!f){ f=h("div",{"class":"fb ui","aria-live":"polite"}); card.appendChild(f); } return f; }
+function wire(it){
+  var st = S.it[it.id] || (S.it[it.id]={st:null, tries:0, first:false, given:null});
+  it.state = st;
+  it.run = function(){
+    if(st.st) return;
+    var r = it.check(); if(r==="blank") return;
+    st.tries++; st.given = it.given();
+    var fb = fbBox(it.card);
+    if(r==="ok"){ st.st="ok"; st.first=(st.tries===1); it.lock(true);
+      fb.className="fb ui show okb"; fb.innerHTML='<span class="tag okt">Correct</span>'+(st.first?"First time.":"Second try.")+(it.why?'<div class="why">'+fmt(it.why)+'</div>':"");
+      it.card.classList.add("ok"); save(); refresh(); return; }
+    if(st.tries<2){
+      fb.className="fb ui show hint";
+      fb.innerHTML='<span class="tag ht">Indice</span>'+(r==="accent"?"Almost: the right form, but check the accent. ":"Not yet. ")+fmt(it.pista||"");
+      it.mark(); save(); return; }
+    st.st="rev"; it.lock(false); it.reveal();
+    fb.className="fb ui show revb"; fb.innerHTML='<span class="tag rt">Réponse</span>'+fmt(it.answerText())+(it.why?'<div class="why">'+fmt(it.why)+'</div>':"");
+    it.card.classList.add("rev"); save(); refresh();
+  };
+  it.restore = function(){
+    if(!st.st) return; it.setGiven(st.given);
+    var fb=fbBox(it.card);
+    if(st.st==="ok"){ it.lock(true); it.card.classList.add("ok"); fb.className="fb ui show okb"; fb.innerHTML='<span class="tag okt">Correct</span>'+(st.first?"First time.":"Second try.")+(it.why?'<div class="why">'+fmt(it.why)+'</div>':""); }
+    else { it.lock(false); it.reveal(); it.card.classList.add("rev"); fb.className="fb ui show revb"; fb.innerHTML='<span class="tag rt">Réponse</span>'+fmt(it.answerText())+(it.why?'<div class="why">'+fmt(it.why)+'</div>':""); }
+  };
+  ITEMS.push(it);
+}
+function controls(card, it){
+  var row=h("div",{"class":"ctl ui"}); var b=h("button",{"class":"b",type:"button"},"Vérifier");
+  var p=h("button",{"class":"g",type:"button"},"Indice");
+  b.addEventListener("click", function(){ it.run(); });
+  p.addEventListener("click", function(){ var fb=fbBox(card); if(it.state.st) return; fb.className="fb ui show hint"; fb.innerHTML='<span class="tag ht">Indice</span>'+fmt(it.pista||""); });
+  row.appendChild(b); row.appendChild(p); card.appendChild(row);
+  it.btns=[b,p];
+}
+function gapItem(sec, id, n, Q){
+  var card=h("div",{"class":"card"});
+  if(Q.en) card.appendChild(h("p",{"class":"en"},esc(Q.en)));
+  var parts=Q.es.split(/\{(\d+)\}/), html='<span class="qn">'+n+' ·</span>';
+  for(var i=0;i<parts.length;i++){
+    if(i%2===0) html+=fmt(parts[i]);
+    else { var g=Q.gaps[+parts[i]]; html+='<input type="text" data-g="'+parts[i]+'" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="trou '+(+parts[i]+1)+'">'+(g.cue?' <span class="cue">('+esc(g.cue)+')</span>':""); }
+  }
+  var s=h("div",{"class":"sent"},html); card.appendChild(s);
+  var inputs=[].slice.call(s.querySelectorAll("input"));
+  var it={id:id, sec:sec, card:card, q:Q.es.replace(/\{\d+\}/g,"___"), pista:Q.pista, why:Q.why};
+  it.given=function(){ return inputs.map(function(x){return x.value.trim();}).join(" | "); };
+  it.setGiven=function(v){ (v||"").split(" | ").forEach(function(x,i){ if(inputs[i]) inputs[i].value=x; }); };
+  it.res=function(){ return inputs.map(function(x){ return judge(x.value, Q.gaps[+x.getAttribute("data-g")].acc); }); };
+  it.check=function(){ var r=it.res(); if(r.some(function(x){return x==="blank";})) { var fb=fbBox(card); fb.className="fb ui show hint"; fb.innerHTML="Fill in every gap first."; return "blank"; }
+    if(r.every(function(x){return x==="ok";})) return "ok"; if(r.every(function(x){return x==="ok"||x==="accent";})) return "accent"; return "no"; };
+  it.mark=function(){ var r=it.res(); inputs.forEach(function(x,i){ x.classList.toggle("okf",r[i]==="ok"); x.classList.toggle("badf",r[i]!=="ok"); }); };
+  it.lock=function(good){ inputs.forEach(function(x){ x.disabled=true; x.classList.toggle("okf",good); }); it.btns.forEach(function(b){ b.disabled=true; }); };
+  it.reveal=function(){ it.mark(); };
+  it.answerText=function(){ return "**"+Q.gaps.map(function(g){return g.acc[0];}).join(" … ")+"**"+(Q.gaps.some(function(g){return g.acc.length>1;})?" (also accepted: "+Q.gaps.map(function(g){return g.acc.slice(1).join(", ");}).filter(Boolean).join("; ")+")":"")+"."; };
+  it.ans=Q.gaps.map(function(g){return g.acc[0];}).join(" | ");
+  inputs.forEach(function(x){ x.addEventListener("keydown",function(e){ if(e.key==="Enter"){ e.preventDefault(); it.run(); } }); });
+  controls(card,it); wire(it); return card;
+}
+function seeded(n,seed){ var a=[]; for(var i=0;i<n;i++) a.push(i); var x=seed; for(i=n-1;i>0;i--){ x=(x*9301+49297)%233280; var j=Math.floor(x/233280*(i+1)); var t=a[i]; a[i]=a[j]; a[j]=t; } return a; }
+function mcItem(sec, id, n, Q){
+  var card=h("div",{"class":"card"});
+  if(Q.en) card.appendChild(h("p",{"class":"en"},esc(Q.en)));
+  card.appendChild(h("div",null,'<span class="qn">'+n+' ·</span>'+fmt(Q.q)));
+  var box=h("div",{"class":"opts"}); var order=seeded(Q.opts.length, id.length*31+n*7), btns=[], sel=null;
+  order.forEach(function(k){ var b=h("button",{"class":"opt",type:"button"},fmt(Q.opts[k])); b._i=k; b.addEventListener("click",function(){ if(it.state.st) return; sel=k; btns.forEach(function(x){x.classList.toggle("sel",x._i===k);}); it.run(); }); btns.push(b); box.appendChild(b); });
+  card.appendChild(box);
+  var it={id:id, sec:sec, card:card, q:Q.q, pista:Q.pista, why:Q.why};
+  it.given=function(){ return sel==null?"":Q.opts[sel]; };
+  it.setGiven=function(v){ var k=Q.opts.indexOf(v); if(k>=0){ sel=k; btns.forEach(function(x){x.classList.toggle("sel",x._i===k);}); } };
+  it.check=function(){ return sel==null?"blank":(sel===Q.a?"ok":"no"); };
+  it.mark=function(){ btns.forEach(function(x){ if(x._i===sel) x.classList.add("wrong"); }); };
+  it.lock=function(){ btns.forEach(function(x){ x.disabled=true; if(x._i===Q.a) x.classList.add("right"); }); if(it.pb) it.pb.disabled=true; };
+  it.reveal=function(){};
+  it.answerText=function(){ return "**"+Q.opts[Q.a]+"**."; };
+  it.ans=Q.opts[Q.a];
+  var row=h("div",{"class":"ctl ui"}); var p=h("button",{"class":"g",type:"button"},"Indice"); it.pb=p;
+  p.addEventListener("click",function(){ if(it.state.st) return; var fb=fbBox(card); fb.className="fb ui show hint"; fb.innerHTML='<span class="tag ht">Indice</span>'+fmt(Q.pista||""); });
+  row.appendChild(p); card.appendChild(row);
+  wire(it); return card;
+}
+var WRITES=[];
+function covered(points, txt){ var d=" "+deacc(txt)+" "; return points.map(function(pt){ return {label:pt[0], ok: pt[1].some(function(k){ return d.indexOf(deacc(k))>=0; })}; }); }
+function wItem(sec, id, n, Q){
+  var card=h("div",{"class":"card reto"});
+  card.innerHTML='<div class="rt2 ui">'+(Q.label||"ÉCRIRE")+'</div><p class="ui" style="margin:6px 0 4px;font-size:15px">'+fmt(Q.q)+'</p>';
+  S.w=S.w||{}; var t=h("textarea",{"aria-label":Q.label||"Écrire",style:"min-height:120px"}); t.value=S.w[id]||"";
+  t.addEventListener("input",function(){ S.w[id]=t.value; save(); });
+  card.appendChild(t);
+  var row=h("div",{"class":"ctl ui"}); var b=h("button",{"class":"b",type:"button"},"Commentaires"); row.appendChild(b); card.appendChild(row);
+  var fb=h("div",{"class":"fb ui","aria-live":"polite"}); card.appendChild(fb);
+  b.addEventListener("click",function(){
+    var txt=t.value.trim(), words=(txt.match(/[A-Za-zÀ-ÿŒœ'’-]+/g)||[]).length;
+    if(words<25){ fb.className="fb ui show hint"; fb.innerHTML='<span class="tag ht">Indice</span>Write at least '+(Q.min||40)+' words first, then ask for comments. A strong answer covers:<ul class="check">'+Q.points.map(function(p){return "<li>"+esc(p[0])+"</li>";}).join("")+'</ul>'; return; }
+    var cv=covered(Q.points,txt), k=cv.filter(function(x){return x.ok;}).length;
+    fb.className="fb ui show "+(k>=Q.points.length-1?"okb":"hint");
+    fb.innerHTML='<span class="tag '+(k>=Q.points.length-1?"okt":"ht")+'">Commentaires</span>'+k+' of '+cv.length+' key points ('+words+' words).<ul class="check">'+cv.map(function(x){return '<li class="'+(x.ok?"on":"")+'">'+esc(x.label)+'</li>';}).join("")+'</ul><div class="why">The check looks for the key words of each point: a guide, not a mark.</div>'+(Q.model?(words>=(Q.min||40)?'<details style="margin-top:8px"><summary>Une réponse possible</summary><p style="margin:6px 0 0">'+fmt(Q.model)+'</p></details>':'<div class="why">The example answer opens once you have written at least '+(Q.min||40)+' words.</div>'):"");
+  });
+  WRITES.push({sec:sec,q:Q.q,get:function(){return t.value.trim();}});
+  return card;
+}
+var main=document.getElementById("main"), tabs=document.getElementById("tabs");
+D.sections.forEach(function(sx, si){
+  var id="s"+(si+1);
+  var s=h("section",{"class":"ex",id:id}); s.appendChild(h("h2",null,esc(sx.h2)));
+  if(sx.intro) s.appendChild(h("p",{"class":"how ui"},fmt(sx.intro)));
+  if(sx.rule) s.appendChild(h("div",{"class":"rule"},fmt(sx.rule)));
+  var n=0;
+  sx.items.forEach(function(Q,qi){ n++; if(Q.h3) s.appendChild(h("h3",null,esc(Q.h3)));
+    s.appendChild(Q.t==="mc" ? mcItem(id,id+"_"+qi,n,Q) : Q.t==="w" ? wItem(id,id+"_"+qi,n,Q) : gapItem(id,id+"_"+qi,n,Q)); });
+  var f=h("div",{"class":"secfoot ui"}), l=h("div"), r=h("div");
+  if(si>0) l.appendChild(h("button",{"class":"g",type:"button","data-go":"s"+si},"← Retour"));
+  var rs=h("button",{"class":"g",type:"button"},"Recommencer la section");
+  rs.addEventListener("click",function(){ if(!rs._a){ rs._a=true; rs.textContent="Cliquez encore pour effacer"; setTimeout(function(){ rs._a=false; rs.textContent="Recommencer la section"; },3000); return; }
+    ITEMS.filter(function(it){return it.sec===id;}).forEach(function(it){ delete S.it[it.id]; }); save(); location.reload(); });
+  l.appendChild(document.createTextNode(" ")); l.appendChild(rs);
+  if(si<D.sections.length-1) r.appendChild(h("button",{"class":"b",type:"button","data-go":"s"+(si+2)},"Suivant →"));
+  else { var dl=h("button",{"class":"b",type:"button"},"Télécharger mes réponses"); dl.addEventListener("click",download); r.appendChild(dl); }
+  f.appendChild(l); f.appendChild(r); s.appendChild(f);
+  main.appendChild(s);
+  var tb=h("button",{type:"button",role:"tab","data-go":id},esc(sx.tab)+' <span class="n"></span>'); tabs.appendChild(tb);
+  SECS.push({id:id, el:s, tab:tb});
+});
+function totals(){ var tot=ITEMS.length, sc=0, first=0, done=0; ITEMS.forEach(function(it){ var st=it.state; if(st.st==="ok"){ sc++; done++; if(st.first) first++; } else if(st.st==="rev") done++; }); return {tot:tot,sc:sc,first:first,done:done}; }
+function refresh(){
+  var T=totals(); document.getElementById("sc").textContent=T.sc; document.getElementById("tot").textContent=T.tot; document.getElementById("first").textContent=T.first;
+  document.getElementById("bar").style.width=(T.tot?Math.round(100*T.sc/T.tot):0)+"%";
+  SECS.forEach(function(s){ var its=ITEMS.filter(function(it){return it.sec===s.id;}); var d=its.filter(function(it){return it.state.st;}).length, ok=its.filter(function(it){return it.state.st==="ok";}).length; s.tab.querySelector(".n").textContent=ok+"/"+its.length; s.tab.classList.toggle("done",d===its.length); });
+  publish();
+}
+function publish(){
+  try{ var T=totals(); var all=JSON.parse(localStorage.getItem("bba-scores")||"{}"); var f=decodeURIComponent(location.pathname.split("/").pop()||"index"); var prev=all[f]||{};
+    var rec={title:(document.title||"").slice(0,120), score:T.sc, total:T.tot, best:Math.max(T.sc,prev.best||0), attempts:(prev.attempts||0)+(S.pub?0:1), t:Date.now()};
+    var n=Math.max(0,T.done-(S.pubDone||0)); rec.ans=(prev.ans||0)+n; rec.lg={}; for(var k in (prev.lg||{})) rec.lg[k]=prev.lg[k];
+    var day=String(Math.floor(Date.now()/86400000)); if(n) rec.lg[day]=(rec.lg[day]||0)+n;
+    all[f]=rec; localStorage.setItem("bba-scores",JSON.stringify(all)); S.pub=true; S.pubDone=T.done; save(); }catch(e){}
+}
+function studentName(){ var nm=document.querySelector("#bba-kit .nm"); var v=nm&&nm.value.trim(); if(!v){ try{ v=localStorage.getItem("bba-name")||""; }catch(e){} } return v||""; }
+function download(){
+  var T=totals(), name=studentName(), L=[];
+  L.push(D.dlhead); L.push("Nom : "+(name||"(sans nom)")); L.push("Date : "+new Date().toLocaleString("fr-FR")); L.push("Points : "+T.sc+" / "+T.tot+"  ·  du premier coup : "+T.first); L.push("");
+  SECS.forEach(function(s){ L.push("== "+s.el.querySelector("h2").textContent+" ==");
+    ITEMS.filter(function(it){return it.sec===s.id;}).forEach(function(it,i){ var st=it.state;
+      var mark=st.st==="ok"?(st.first?"✓":"✓ (2e essai)"):st.st==="rev"?"✗ → "+it.ans:"— sans réponse";
+      L.push((i+1)+". "+it.q.replace(/\*\*/g,"").replace(/\s+/g," ").slice(0,160)); L.push("   Réponse : "+(it.given()||"—")+"   ["+mark+"]"); });
+    WRITES.filter(function(w){return w.sec===s.id;}).forEach(function(w){ L.push("TEXTE : "+w.q.replace(/\*\*/g,"")); L.push(w.get()||"—"); });
+    L.push(""); });
+  var blob=new Blob([L.join("\r\n")],{type:"text/plain;charset=utf-8"}); var a=document.createElement("a"); a.href=URL.createObjectURL(blob);
+  a.download=D.dlfile+(name||"sans_nom").replace(/[^\wÀ-ÿ-]+/g,"_")+".txt"; document.body.appendChild(a); a.click(); setTimeout(function(){ URL.revokeObjectURL(a.href); a.remove(); },500);
+}
+function go(id){ SECS.forEach(function(s){ var on=s.id===id; s.el.classList.toggle("active",on); s.tab.setAttribute("aria-selected",on?"true":"false"); }); S.tab=id; save();
+  var nav=document.getElementById("tabs"); if(window.scrollY>nav.offsetTop) window.scrollTo({top:nav.offsetTop,behavior:"smooth"}); }
+document.addEventListener("click",function(e){ var b=e.target.closest("[data-go]"); if(b){ e.preventDefault(); go(b.getAttribute("data-go")); } });
+ITEMS.forEach(function(it){ it.restore(); });
+go(S.tab && document.getElementById(S.tab) ? S.tab : "s1"); refresh();
+window.BBAG={items:ITEMS, totals:totals, judge:judge};
+})();
+</script>
+<script src="bba-kit-fr.js" defer></script>
+<script src="bba-send-strip.js" defer></script>
+
+</body>
+</html>
