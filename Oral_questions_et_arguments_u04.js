@@ -56,7 +56,7 @@ registerUnit({
      "src": "lafon"
     },
     {
-     "a": "Les radios s'inquiétaient : entre 2003 et 2014, la part des albums francophones vendus avait chuté de 66 %.",
+     "a": "Les radios s'inquiétaient : entre 2003 et 2014, la proportion d'albums francophones dans les bacs des disquaires avait baissé de 66 %.",
      "src": "quota16"
     },
     {
@@ -107,13 +107,13 @@ registerUnit({
     {
      "a": "La musique est au cœur de leur vie : 64 % des 18-24 ans comptaient aller à un festival l'été 2025, contre 30 % de l'ensemble des Français.",
      "src": "ipsos"
+    },
+    {
+     "a": "Les jeunes votent peu : environ 40 % seulement des 18-24 ans ont voté aux européennes de 2024.",
+     "src": "fjj"
     }
    ],
    "contre": [
-    {
-     "a": "Les jeunes votent plus qu'on ne le croit : environ 40 % des 18-24 ans ont voté aux européennes de 2024, contre 31 % aux législatives de 2022.",
-     "src": "fjj"
-    },
     {
      "a": "Leur vote est très politisé : La France insoumise est arrivée en tête chez les jeunes (33 %), devant le RN (25 %).",
      "src": "fjj"

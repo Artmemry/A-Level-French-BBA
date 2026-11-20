@@ -32,10 +32,6 @@ registerUnit({
    "L'Étudiant, Élisabeth Borne veut durcir la notation du bac dès 2026 (août 2025)",
    "https://www.letudiant.fr/lycee/rentree-scolaire-elisabeth-borne-veut-durcir-la-notation-du-bac-des-2026.html"
   ],
-  "cidj": [
-   "CIDJ, Bac 2026 : la nouvelle épreuve de maths en première",
-   "https://www.cidj.com/s-orienter/apres-la-3eme/bac-2026-la-nouvelle-epreuve-de-maths-en-premiere"
-  ],
   "blanq": [
    "Public Sénat, Réforme du bac : Jean-Michel Blanquer défend sa réforme devant le Sénat",
    "https://www.publicsenat.fr/actualites/education/reforme-du-bac-plus-de-500-000-eleves-ont-echappe-a-lechec-de-la-premiere-annee-denseignement-superieur-defend-jean-michel-blanquer"
@@ -63,6 +59,18 @@ registerUnit({
   "caf": [
    "Caf.fr, Le harcèlement scolaire est désormais un délit",
    "https://caf.fr/allocataires/vies-de-famille/articles/le-harcelement-scolaire-est-desormais-un-delit"
+  ],
+  "bac18": [
+   "L'Étudiant, Réforme du bac : instauration du contrôle continu et fin des séries générales (février 2018)",
+   "https://www.letudiant.fr/educpros/actualite/reforme-du-bac-instauration-controle-continue-fin-series-generales.html"
+  ],
+  "mars23": [
+   "Digischool / AFP, En terminale, la note finale du bac connue à 80 % fait craindre un fort absentéisme (avril 2023)",
+   "https://www.digischool.fr/articles/lycee/bac/terminale-note-finale-bac-connue-fait-craindre-fort-absenteisme/"
+  ],
+  "juin24": [
+   "Diplomeo, Bac 2024 : les épreuves de spécialité se dérouleront au mois de juin (août 2023)",
+   "https://diplomeo.com/actualite-bac_2024_epreuves_spe_juin"
   ]
  },
  "rows": [
@@ -98,11 +106,7 @@ registerUnit({
      "src": "redou"
     },
     {
-     "a": "Quand le redoublement a fortement baissé, les résultats n'ont pas chuté : le taux de réussite au bac a continué d'augmenter.",
-     "src": "redou"
-    },
-    {
-     "a": "Le sujet divise : en 2024, le gouvernement a redonné le dernier mot aux enseignants ; les syndicats ont dénoncé un risque de « tri » des élèves.",
+     "a": "Le sujet divise : en 2024, le gouvernement a redonné le dernier mot à l'école plutôt qu'aux parents ; les syndicats ont dénoncé un risque de « tri » des élèves.",
      "src": "ps24"
     }
    ],
@@ -130,7 +134,7 @@ registerUnit({
    "questions": [
     {
      "q": "Pourquoi le gouvernement français a-t-il décidé de modifier les rythmes scolaires ?",
-     "note": "'Rythmes scolaires' = how the school week and day are organised. Give the reason: children's learning and tiredness (chronobiology)."
+     "note": "First say WHICH change you mean: 2013 (4½ days, for children's learning and tiredness) or 2017 (most towns went back to 4 days). 'Rythmes scolaires' = how the school week and day are organised."
     },
     {
      "q": "Comment ces changements ont-ils été reçus par les Français ?",
@@ -143,25 +147,25 @@ registerUnit({
      "src": "bdt"
     },
     {
-     "a": "Le retour à quatre jours a été massif : environ 90 % des communes ont choisi la semaine de quatre jours.",
+     "a": "Le retour à quatre jours va contre l'intérêt des enfants : selon la Cour des comptes (2025), la semaine de quatre jours est « en décalage avec les besoins de l'élève » ; les journées sont trop longues.",
      "src": "bdt"
     },
     {
-     "a": "Selon la Cour des comptes (2025), la semaine de quatre jours est « en décalage avec les besoins de l'élève » : les journées sont trop longues.",
+     "a": "Pour les spécialistes du rythme de l'enfant, quatre jours et demi conviennent mieux aux apprentissages : c'était le but de la réforme de 2013.",
      "src": "bdt"
+    },
+    {
+     "a": "Le débat revient : en novembre 2025, une convention citoyenne a proposé de revenir à cinq jours en primaire et de commencer les cours à 9 heures au collège et au lycée.",
+     "src": "conv"
     }
    ],
    "contre": [
     {
-     "a": "La réforme de 2013 voulait respecter le rythme biologique des enfants : pour les spécialistes, quatre jours et demi conviennent mieux aux apprentissages.",
+     "a": "Le retour à quatre jours répondait à une demande locale : environ 90 % des communes l'ont choisi dès que la loi l'a permis.",
      "src": "bdt"
     },
     {
-     "a": "Le débat avance : en novembre 2025, une convention citoyenne a proposé le retour à cinq jours en primaire et des cours à partir de 9 heures au collège et au lycée.",
-     "src": "conv"
-    },
-    {
-     "a": "Le gouvernement a choisi la prudence : en janvier 2026, le ministre Édouard Geffray a renvoyé la réforme au débat de la présidentielle de 2027.",
+     "a": "Changer encore serait difficile : en janvier 2026, le ministre Édouard Geffray a renvoyé la décision au débat de la présidentielle de 2027.",
      "src": "conv"
     }
    ]
@@ -213,14 +217,14 @@ registerUnit({
   },
   {
    "id": "2D",
-   "sujet": "Le nouveau bac : réussite ou source de stress ?",
+   "sujet": "Le nouveau bac : moins de stress, ou de nouveaux problèmes ?",
    "declarations": [
     "Le nouveau Bac n'est pas populaire auprès de tous les Français."
    ],
    "questions": [
     {
      "q": "Quelle opinion les Français ont-ils du nouveau Bac, dans l'ensemble ?",
-     "note": "'Dans l'ensemble' = overall: give the general verdict, then the main criticisms."
+     "note": "'Dans l'ensemble' = overall: say what the reform aimed at, then where opinion turned against it."
     },
     {
      "q": "Quels sont les aspects du Bac les plus appréciés par les étudiants ?",
@@ -228,35 +232,43 @@ registerUnit({
     },
     {
      "q": "Parlez-moi de la nouvelle réforme du BAC ?",
-     "note": "Describe what changed (2021 reform; 2026 changes), then evaluate briefly."
+     "note": "Describe the reform (first bac in 2021: 40 % contrôle continu, spécialités instead of the S/ES/L series), what went wrong (spécialité exams in March, moved back to June in 2024) and the 2026 changes – then evaluate."
     }
    ],
    "pour": [
     {
-     "a": "Le contrôle continu (40 % de la note) met les élèves sous pression : en 2025, la ministre Élisabeth Borne a voulu le revoir pour réduire « la pression et l'anxiété ».",
+     "a": "Le calendrier a été un échec : en 2023, les épreuves de spécialité avaient lieu en mars ; les élèves connaissaient alors environ 80 % de leur note, et beaucoup ont cessé de venir en cours. Un syndicat de chefs d'établissement estime à 1,2 million les heures de cours perdues.",
+     "src": "mars23"
+    },
+    {
+     "a": "Le gouvernement a dû reculer : dès 2024, les épreuves de spécialité sont revenues en juin pour lutter contre l'absentéisme du troisième trimestre.",
+     "src": "juin24"
+    },
+    {
+     "a": "Le contrôle continu devait réduire le stress, mais chaque note compte désormais, pour le bac comme pour Parcoursup : en 2025, la ministre Élisabeth Borne a voulu le revoir pour « diminuer la pression sur les élèves et l'anxiété ».",
      "src": "borne"
     },
     {
-     "a": "Les notes ont perdu de leur crédibilité : dès 2026, les jurys ne peuvent plus ajouter plus de 50 points à un candidat sans la moyenne.",
+     "a": "La valeur du diplôme est mise en doute : dès 2026, les jurys ne peuvent plus ajouter plus de 50 points à un candidat qui n'a pas la moyenne.",
      "src": "borne"
-    },
-    {
-     "a": "Les critiques sont nombreuses : emplois du temps trop chargés, notes inégales selon les lycées, manque de professeurs.",
-     "src": "blanq"
     }
    ],
    "contre": [
     {
-     "a": "Les élèves choisissent enfin leurs matières : la réforme a remplacé les séries S, ES et L, que Jean-Michel Blanquer appelait des « couloirs prédéterminés ».",
-     "src": "blanq"
+     "a": "Le principe est juste : avec 40 % de contrôle continu, on ne joue plus tout sur un seul examen ; Jean-Michel Blanquer voulait « ne pas tout jouer sur une seule session d'examen » et récompenser le travail régulier plutôt que le bachotage.",
+     "src": "bac18"
+    },
+    {
+     "a": "Les élèves choisissent leurs matières : trois spécialités en première, deux en terminale, au lieu des séries générales.",
+     "src": "bac18"
     },
     {
      "a": "Selon l'ancien ministre, plus de 500 000 élèves auraient évité l'échec en première année d'études supérieures grâce aux réformes du lycée, du bac et de l'orientation.",
      "src": "blanq"
     },
     {
-     "a": "La réforme s'adapte : depuis juin 2026, une épreuve anticipée de mathématiques en première doit « relever le niveau des élèves en mathématiques ».",
-     "src": "cidj"
+     "a": "La réforme a été corrigée plutôt qu'abandonnée : retour des épreuves en juin (2024), règles de notation plus strictes (2026).",
+     "src": "juin24"
     }
    ]
   },

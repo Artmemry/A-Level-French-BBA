@@ -146,12 +146,8 @@ registerUnit({
    ],
    "contre": [
     {
-     "a": "L'effet sur les finances publiques est faible : selon le CEPII, légèrement positif à long terme, mais marginal.",
+     "a": "L'effet sur les finances publiques est faible : selon une étude du CEPII (2012), légèrement positif à long terme, mais marginal.",
      "src": "cepii"
-    },
-    {
-     "a": "Le potentiel est mal utilisé : dans les quartiers prioritaires, où 28 % des habitants sont immigrés, moins de la moitié des habitants ont un emploi.",
-     "src": "qpv"
     },
     {
      "a": "Beaucoup d'immigrés sont bloqués dans des emplois peu qualifiés : environ la moitié sont ouvriers ou employés non qualifiés.",

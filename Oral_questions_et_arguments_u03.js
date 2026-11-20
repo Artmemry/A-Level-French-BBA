@@ -120,7 +120,7 @@ registerUnit({
    ],
    "pour": [
     {
-     "a": "La rue fait reculer les gouvernements : en 2023, jusqu'à 1,3 million de manifestants contre la réforme des retraites (ministère de l'Intérieur) ; la réforme a été suspendue en 2025.",
+     "a": "La mobilisation est massive : en 2023, jusqu'à 1,3 million de manifestants contre la réforme des retraites, selon le ministère de l'Intérieur.",
      "src": "ps23"
     },
     {
@@ -142,8 +142,8 @@ registerUnit({
      "src": "tissot"
     },
     {
-     "a": "« Ingouvernables » ? Le problème vient aussi du Parlement : en 2025, la suspension de la réforme des retraites a été votée par l'Assemblée, pas imposée par la rue.",
-     "src": "ps25"
+     "a": "La rue ne gagne pas toujours : malgré la mobilisation de 2023, la réforme des retraites a été adoptée (article 49.3).",
+     "src": "ps23"
     }
    ]
   },
@@ -165,7 +165,7 @@ registerUnit({
    ],
    "pour": [
     {
-     "a": "Les salariés à temps complet travaillent en réalité 38,9 heures par semaine en moyenne : les 35 heures sont surtout théoriques.",
+     "a": "La durée réelle reste loin de 35 heures : 38,9 heures par semaine en moyenne pour les salariés à temps complet. Attention : 35 heures n'est pas un maximum, c'est le seuil à partir duquel on paie des heures supplémentaires.",
      "src": "inseeH"
     },
     {
@@ -274,7 +274,7 @@ registerUnit({
      "src": "susp"
     },
     {
-     "a": "Elle a été suspendue : depuis la loi de financement de la sécurité sociale pour 2026, l'âge est gelé à 62 ans et 9 mois jusqu'en 2028.",
+     "a": "Même le Parlement a reculé : la loi de financement de la sécurité sociale pour 2026 gèle l'âge à 62 ans et 9 mois jusqu'en 2028.",
      "src": "susp"
     }
    ]
@@ -313,10 +313,6 @@ registerUnit({
     {
      "a": "Il est très inégal : 65 % des cadres télétravaillent, mais seulement 11 % des employés et 1 % des ouvriers.",
      "src": "tele"
-    },
-    {
-     "a": "Il peut ajouter du stress : un salarié sur deux est en détresse psychologique en 2026, et beaucoup citent la surcharge d'informations.",
-     "src": "emp"
     }
    ]
   },

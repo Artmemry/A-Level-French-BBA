@@ -117,7 +117,7 @@ registerUnit({
      "src": "ifop24"
     },
     {
-     "a": "L'interdiction n'empêche rien : des couples vont à l'étranger, et la Cour de cassation finit par reconnaître la filiation des enfants (2019, puis 2024).",
+     "a": "L'interdiction n'empêche pas la pratique : des couples vont à l'étranger, et la Cour de cassation finit par reconnaître la filiation des enfants (2019, puis 2024).",
      "src": "gpa"
     },
     {
@@ -265,7 +265,7 @@ registerUnit({
      "src": "inseehm"
     },
     {
-     "a": "On s'engage plus tard : les femmes ont leur premier enfant à 31 ans en moyenne, souvent après des années de vie commune.",
+     "a": "On s'engage plus tard : les femmes ont leur premier enfant à 31 ans en moyenne.",
      "src": "insee26"
     }
    ],

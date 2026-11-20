@@ -20,10 +20,6 @@ registerUnit({
    "Fondation Jean-Jaurès, Les jeunes « emmerdent »-ils le Rassemblement national ? (juin 2024)",
    "https://www.jean-jaures.org/publication/les-jeunes-emmerdent-ils-le-rassemblement-national/"
   ],
-  "ifop24": [
-   "Ifop pour l'ADFH, La GPA et les questions LGBT (avril 2024)",
-   "https://www.ifop.com/wp-content/uploads/2024/05/Analyse_ifop.pdf"
-  ],
   "kebab": [
    "Fondation Jean-Jaurès, Des dimensions politique, socioculturelle et territoriale du kebab en France (2019)",
    "https://www.jean-jaures.org/publication/des-dimensions-politique-socioculturelle-et-territoriale-du-kebab-en-france/"
@@ -156,10 +152,6 @@ registerUnit({
     {
      "a": "Les Français sont majoritairement tolérants : indice de tolérance à 64/100 en 2025, le 4e meilleur score depuis 1990.",
      "src": "cncdh"
-    },
-    {
-     "a": "Le RN s'est « dédiabolisé » : 64 % de ses sympathisants jugent positive la loi sur le mariage pour tous.",
-     "src": "ifop24"
     }
    ]
   },
@@ -185,7 +177,7 @@ registerUnit({
    ],
    "pour": [
     {
-     "a": "La loi immigration de 2023 a repris des idées du RN : quotas, durcissement du regroupement familial, fin du droit du sol automatique.",
+     "a": "La loi immigration votée en décembre 2023 contenait des mesures proches des idées du RN : quotas, durcissement du regroupement familial, fin du droit du sol automatique.",
      "src": "loi"
     },
     {
@@ -269,7 +261,7 @@ registerUnit({
      "src": "lepen"
     },
     {
-     "a": "Le RN n'a pas encore franchi la barre des 50 % : au premier tour, ses adversaires réunis restent majoritaires ; Édouard Philippe atteint jusqu'à 19 % si Gabriel Attal ne se présente pas.",
+     "a": "D'autres candidats restent dans la course : Édouard Philippe atteint jusqu'à 19 % des intentions de vote si Gabriel Attal ne se présente pas.",
      "src": "ipsos26"
     }
    ]

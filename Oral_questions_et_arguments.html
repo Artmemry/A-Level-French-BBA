@@ -278,8 +278,7 @@ function finish(){
   var h='<h2>Bravo !</h2><p><span class="big">'+n+'</span> questions travaillées in this session · '+totalDone()+' in total.</p>';
   h+='<p>Download your answers with their feedback to revise from them, or carry on.</p>';
   h+='<div class="row"><button class="btn" id="againBtn">Encore 3 questions</button><button class="btn alt" id="toProg">Progress & download</button></div>';
-  var srcs=s.u.sources;
-  h+='<details style="margin-top:14px"><summary>Sources for this unit</summary>'+Object.keys(srcs).map(function(k){return '<p class="src">'+esc(srcs[k][0])+' – <a href="'+esc(srcs[k][1])+'" target="_blank" rel="noopener">link</a></p>';}).join('')+'</details>';
+
   $('qCard').innerHTML=h;
   $('againBtn').onclick=function(){ chosenUnit=s.u.unit; chosenSize=3; start(); };
   $('toProg').onclick=function(){ show('progress'); };

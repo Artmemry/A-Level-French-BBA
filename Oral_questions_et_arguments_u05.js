@@ -183,10 +183,9 @@ registerUnit({
   },
   {
    "id": "5D",
-   "sujet": "La télévision et Internet : divertir, informer, ou mettre en danger ?",
+   "sujet": "La télévision : simplement divertir ?",
    "declarations": [
-    "La fonction de la télévision est simplement de divertir les gens.",
-    "Internet est bon pour les pays francophones."
+    "La fonction de la télévision est simplement de divertir les gens."
    ],
    "questions": [
     {
@@ -196,7 +195,28 @@ registerUnit({
     {
      "q": "Quelles sortes d'émissions sont les plus populaires dans le pays francophone que vous avez étudié ?",
      "note": "Types of programmes, with an example and a figure."
-    },
+    }
+   ],
+   "pour": [
+    {
+     "a": "Le divertissement domine : le programme le plus regardé de 2025 est un match de rugby France–Écosse (9,8 millions de téléspectateurs).",
+     "src": "tv"
+    }
+   ],
+   "contre": [
+    {
+     "a": "La télévision informe aussi : en 2025, le « 20 heures » de TF1 a fait ses meilleures audiences depuis 15 ans.",
+     "src": "tv"
+    }
+   ]
+  },
+  {
+   "id": "5E",
+   "sujet": "Internet : bon pour le pays, ou dangereux ?",
+   "declarations": [
+    "Internet est bon pour les pays francophones."
+   ],
+   "questions": [
     {
      "q": "Selon vous, quel impact Internet a-t-il sur les habitants du pays francophone que vous avez étudié ?",
      "note": "Impact on daily life, information, young people."
@@ -208,10 +228,6 @@ registerUnit({
    ],
    "pour": [
     {
-     "a": "Le sport rassemble devant la télévision : le programme le plus regardé de 2025 est un match de rugby France–Écosse (9,8 millions de téléspectateurs).",
-     "src": "tv"
-    },
-    {
      "a": "Internet fait partie de la vie quotidienne : 48,6 millions de Français l'utilisent chaque jour, plus de 3 heures par jour.",
      "src": "mmi"
     },
@@ -221,10 +237,6 @@ registerUnit({
     }
    ],
    "contre": [
-    {
-     "a": "La télévision informe aussi : en 2025, le « 20 heures » de TF1 a fait ses meilleures audiences depuis 15 ans.",
-     "src": "tv"
-    },
     {
      "a": "Les réseaux sociaux inquiètent : en 2026, la France a interdit les réseaux sociaux aux moins de 15 ans à cause de l'anxiété, de la dépression et du harcèlement en ligne.",
      "src": "rs15"

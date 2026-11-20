@@ -164,7 +164,7 @@ registerUnit({
    ],
    "pour": [
     {
-     "a": "Par obéissance : le Parlement avait confié les pleins pouvoirs à Pétain en 1940 (seuls 80 députés s'y étaient opposés).",
+     "a": "Par légalisme : le régime semblait légal, car le Parlement avait voté les pleins pouvoirs à Pétain en juillet 1940 (seuls 80 parlementaires s'y étaient opposés).",
      "src": "lar"
     },
     {
@@ -213,7 +213,7 @@ registerUnit({
    ],
    "pour": [
     {
-     "a": "Vichy a pris l'initiative : les statuts des Juifs (3 octobre 1940 et 2 juin 1941) les excluent de la fonction publique, de l'armée, de la presse, avant même les exigences allemandes.",
+     "a": "Vichy agit de sa propre initiative : le statut des Juifs du 3 octobre 1940, puis celui du 2 juin 1941, les excluent de la fonction publique, de l'armée et de la presse.",
      "src": "mc18"
     },
     {
@@ -227,7 +227,7 @@ registerUnit({
    ],
    "contre": [
     {
-     "a": "Une grande partie de la population a aidé : les trois quarts des Juifs de France ont survécu.",
+     "a": "Les trois quarts des Juifs de France ont survécu, notamment grâce à l'aide de nombreux Français.",
      "src": "holl"
     },
     {

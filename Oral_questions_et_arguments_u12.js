@@ -182,7 +182,7 @@ registerUnit({
    ],
    "pour": [
     {
-     "a": "Au début, la direction du parti refuse de résister : Charles Tillon appelle à la résistance dès juillet 1940, contre l'avis des dirigeants.",
+     "a": "Au début, la direction du parti, paralysée par le pacte germano-soviétique, ne résiste pas : Charles Tillon appelle à la résistance dès l'été 1940, contre la passivité des dirigeants.",
      "src": "res"
     },
     {
@@ -196,7 +196,7 @@ registerUnit({
    ],
    "contre": [
     {
-     "a": "À partir de 1941, les communistes créent le Front national et sa branche armée, les Francs-tireurs et partisans (FTP), favorables à la guérilla immédiate.",
+     "a": "Pendant l'hiver 1941-1942, les communistes créent le Front national et sa branche armée, les Francs-tireurs et partisans (FTP), favorables à la guérilla immédiate.",
      "src": "res"
     },
     {

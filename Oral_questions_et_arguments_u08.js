@@ -95,7 +95,7 @@ registerUnit({
      "src": "qpv"
     },
     {
-     "a": "En 2023, la mort de Nahel, 17 ans, tué par un policier, a déclenché des émeutes dans au moins 672 communes.",
+     "a": "En 2023, la mort de Nahel, 17 ans, tué par le tir d'un policier lors d'un contrôle routier, a déclenché des émeutes dans au moins 672 communes.",
      "src": "emeutes"
     }
    ],
@@ -200,11 +200,7 @@ registerUnit({
      "src": "abaya"
     },
     {
-     "a": "L'interdiction de l'abaya (2023), validée par le Conseil d'État en 2024, est vécue par certains musulmans comme une mesure qui les vise.",
-     "src": "abaya"
-    },
-    {
-     "a": "Les tenues de type abaya représentaient 1 984 signalements en 2022-2023, contre 148 en 2020-2021 : un vrai point de friction.",
+     "a": "Les signes et tenues interdits par la loi de 2004 (surtout des abayas) représentaient 1 984 signalements en 2022-2023, contre 148 en 2020-2021 ; l'abaya a été interdite en 2023, une décision validée par le Conseil d'État en 2024.",
      "src": "abaya"
     }
    ],
@@ -218,7 +214,7 @@ registerUnit({
      "src": "abaya"
     },
     {
-     "a": "Les principaux obstacles à l'intégration sont économiques : discrimination à l'embauche (31,5 % de chances en moins) et chômage dans les quartiers.",
+     "a": "D'autres obstacles pèsent sans doute plus lourd : la discrimination à l'embauche (31,5 % de chances en moins) et le chômage dans les quartiers.",
      "src": "testing"
     }
    ]

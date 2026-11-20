@@ -72,7 +72,7 @@ registerUnit({
    ],
    "pour": [
     {
-     "a": "Pétain avait la confiance du pays en 1940 : le Parlement lui a donné les pleins pouvoirs, seuls 80 députés s'y opposant.",
+     "a": "Pétain avait la confiance des parlementaires en 1940 : le Parlement lui a voté les pleins pouvoirs, seuls 80 parlementaires s'y opposant.",
      "src": "lar"
     },
     {
