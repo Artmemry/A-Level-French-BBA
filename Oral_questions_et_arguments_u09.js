@@ -86,7 +86,7 @@ registerUnit({
      "src": "ipsos24"
     },
     {
-     "a": "Pour 2027, Jordan Bardella est donné en tête du premier tour, entre 31 % et 36 % des intentions de vote (Ipsos, mai 2026).",
+     "a": "Pour 2027, Marine Le Pen est donné en tête du premier tour, autour de 35 % des intentions de vote (Ipsos).",
      "src": "ipsos26"
     }
    ],
