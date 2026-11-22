@@ -47,6 +47,11 @@ li.used::marker{content:"✓ ";color:var(--ok)}
 .defi{border:1px dashed var(--blue2);border-radius:8px;padding:8px 12px;margin-top:10px}
 .big{font-size:28px;font-weight:700;color:var(--blue)}
 details summary{cursor:pointer;color:var(--muted)}
+.model{background:var(--note);border-left:4px solid var(--ok);border-radius:6px;padding:8px 12px;margin-top:12px}
+.model p{margin:4px 0 0}
+.astar{border:1px solid var(--warn);border-radius:8px;padding:8px 12px;margin-top:10px}
+.astar summary{color:var(--warn);font-weight:600}
+.astar ul{margin:6px 0 0 18px;padding:0}.astar li{margin:0 0 4px}
 .src{font-size:13px;color:var(--muted);word-break:break-word}
 #padToggle{position:fixed;right:12px;bottom:12px;width:44px;height:44px;border-radius:50%;border:0;background:var(--blue);color:#fff;font:inherit;font-size:20px;cursor:pointer;z-index:6;box-shadow:0 2px 8px rgba(0,0,0,.25)}
 :root[data-theme="dark"] #padToggle{color:#141820}
@@ -73,7 +78,7 @@ input[type=text]{font:inherit;padding:6px 10px;border:1px solid var(--line);bord
 <section id="home">
   <div class="card">
     <h2>Prépare ton oral · Prepare your speaking exam</h2>
-    <p>Pick a unit and how many questions. For each one you decode the question, write a short spoken-style answer, then check it against the key arguments and facts.</p>
+    <p>Pick a unit and how many questions. For each one you decode the question, write a short spoken-style answer, then check it against the key arguments for and against.</p>
     <div id="continueBox"></div>
   </div>
   <div class="card">
@@ -200,7 +205,7 @@ function start(){
   state.last=u.unit; save();
   show('practise'); renderQ();
 }
-var STARTERS=["À mon avis,","D'une part… d'autre part…","Il est indéniable que","Selon l'Insee,","Cela montre que","C'est pourquoi","Cependant,","En revanche,","Par conséquent,","Pour conclure,"];
+var STARTERS=["À mon avis,","D'un côté… de l'autre…","Certains pensent que","Je ne suis pas d'accord, car","Par exemple,","Cela montre que","C'est pourquoi","Cependant,","En revanche,","Pour conclure,"];
 function renderQ(){
   var s=session, it=s.items[s.i], r=s.u.rows[it.ri], q=r.questions[it.qi];
   var h='<p class="muted">Unité '+s.u.unit+' · '+esc(s.u.title)+' · question '+(s.i+1)+' / '+s.items.length+'</p>';
@@ -209,7 +214,7 @@ function renderQ(){
   h+='<p class="q">'+esc(q.q)+'</p>';
   if(q.also) h+='<p class="muted">Also asked as: « '+esc(q.also)+' »</p>';
   h+='<button class="btn alt" id="decodeBtn">What is really asked?</button><div class="note hidden" id="decode">'+esc(q.note||'')+'</div>';
-  h+='<h3>Ta réponse</h3><p class="muted">Write what you would say (about 1 minute: 80–150 words). Point, evidence, explanation – then the other side.</p>';
+  h+='<h3>Ta réponse</h3><p class="muted">Write what you would say (about 1 minute: 80–150 words). Your point, why, an example – then the other side.</p>';
   h+='<div class="starters">'+STARTERS.map(function(x){return '<span>'+esc(x)+'</span>';}).join('')+'</div>';
   h+='<textarea id="ans" spellcheck="false" lang="fr" placeholder="À mon avis, …"></textarea>';
   h+='<div class="row"><button class="btn" id="checkBtn">Vérifier</button><span class="muted" id="wc">0 mots</span></div>';
@@ -240,8 +245,8 @@ function check(){
   if(n<40) fb.push(['tip','Short so far ('+n+' words). Aim for 80–150 words: about a minute of speaking.']);
   else if(n>190) fb.push(['tip','Long ('+n+' words). In the exam the examiner will move you on – keep to your best points.']);
   else fb.push(['good','Good length ('+n+' words).']);
-  if(/\d/.test(txt)) fb.push(['good','You used a figure or date – that is your Evidence.']); else fb.push(['tip','Add one fact or figure (a percentage, a date, a number). Without it, your point is only an opinion.']);
-  if(/(^|[^\wÀ-ÿ])(car|parce qu|donc|c'est pourquoi|cela montre|ce qui montre|cela signifie|par cons[ée]quent|ainsi|en effet)/i.test(txt)) fb.push(['good','You explained your evidence (car / donc / cela montre…).']); else fb.push(['tip','Explain what your fact shows: try « cela montre que… » or « c\'est pourquoi… ».']);
+  if(/(par exemple|prenons l'exemple|comme le montre|c'est le cas|\d)/i.test(txt)) fb.push(['good','You backed up your point with an example.']); else fb.push(['tip','Back up your point with one example: « Par exemple, … ».']);
+  if(/(^|[^\wÀ-ÿ])(car|parce qu|donc|c'est pourquoi|cela montre|ce qui montre|cela signifie|par cons[ée]quent|ainsi|en effet)/i.test(txt)) fb.push(['good','You said why (car / donc / cela montre…).']); else fb.push(['tip','Say why: try « car… », « c\'est pourquoi… » or « cela montre que… ».']);
   if(/(^|[^\wÀ-ÿ])(cependant|pourtant|en revanche|n[ée]anmoins|toutefois|d'un autre c[ôo]t[ée]|mais)(?![\wÀ-ÿ])/i.test(txt)) fb.push(['good','You showed the other side (cependant / en revanche…).']); else fb.push(['tip','Show the other side in one sentence: « Cependant, … ».']);
   if(/(^|[^\wÀ-ÿ])(à mon avis|a mon avis|je pense|selon moi|il me semble|je suis d'accord|je ne suis pas d'accord|personnellement)/i.test(txt)) fb.push(['good','You gave your own view.']); else fb.push(['tip','Give your own view clearly: « À mon avis, … ».']);
   // match arguments
@@ -256,11 +261,13 @@ function check(){
       return '<li'+(u?' class="used"':'')+'>'+esc(a.a)+'</li>';
     }).join(''); }
   var pourH=mark(r.pour), contreH=mark(r.contre);
-  if(used) fb.push(['good','You used '+used+' of the key arguments (ticked below).']); else fb.push(['tip','None of the key arguments below appears in your answer yet – pick one and add its fact.']);
+  if(used) fb.push(['good','You used '+used+' of the key arguments (ticked below).']); else fb.push(['tip','None of the key arguments below appears in your answer yet – pick one and say it in your own words.']);
   if(near.length){ var uniq=near.filter(function(x,i){return near.indexOf(x)===i;}).slice(0,4); fb.push(['tip','Presque – check the accents: '+uniq.join(', ')+'.']); }
   var lab=r.labels||['Pour – d\'accord avec la déclaration','Contre – pas d\'accord'];
   var h='<div class="fb card" style="margin-top:12px">'+fb.map(function(f){return '<p class="'+f[0]+'">'+(f[0]==='good'?'✓ ':'→ ')+esc(f[1])+'</p>';}).join('')+'</div>';
   h+='<div class="cols"><div class="col pour"><strong>'+esc(lab[0])+'</strong><ul>'+pourH+'</ul></div><div class="col contre"><strong>'+esc(lab[1])+'</strong><ul>'+contreH+'</ul></div></div>';
+  if(r.modele) h+='<div class="model"><strong>Comment le dire · How to put it</strong><p>'+esc(r.modele).replace(/\[\[(.+?)\]\]/g,'<strong>$1</strong>')+'</p></div>';
+  if(r.plus&&r.plus.length) h+='<details class="astar"><summary>A/A* · Faits et chiffres en plus · Extra facts and figures (optional)</summary><p class="muted" style="margin:6px 0 0">One precise fact, well placed, makes your point stand out. Pick one – don\'t list them all.</p><ul>'+r.plus.map(function(p){return '<li>'+esc(p)+'</li>';}).join('')+'</ul></details>';
   h+='<div class="defi"><strong>Défi :</strong> '+(r.labels?'add one more solution of your own and say who should carry it out.':'answer again from the OTHER side, using two arguments you did not use.')+'</div>';
   var last=s.i===s.items.length-1;
   h+='<div class="row"><button class="btn" id="nextBtn">'+(last?'Terminer':'Suivante')+'</button><button class="btn alt" id="retryBtn">Améliorer ma réponse</button></div>';

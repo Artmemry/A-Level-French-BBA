@@ -61,7 +61,7 @@ registerUnit({
    "questions": [
     {
      "q": "Jusqu'à quel point doit-on prendre au sérieux la montée de l'extrême droite en France aujourd'hui ?",
-     "note": "Measure the rise with election results over time, then judge how serious it is."
+     "note": "Measure the rise: compare the RN's results over the last ten years, then judge how serious it is."
     },
     {
      "q": "Pourquoi les électeurs votent-ils pour l'extrême droite ? Est-ce juste un vote de protestation ?",
@@ -78,31 +78,31 @@ registerUnit({
    ],
    "pour": [
     {
-     "a": "Une progression continue : 13,2 % aux législatives de 2017, 18,7 % en 2022, 34 % au premier tour en 2024.",
-     "src": "rn24"
+     "a": "Le RN progresse à chaque élection : il est arrivé en tête au premier tour des législatives de 2024, avec environ un tiers des voix."
     },
     {
-     "a": "Un électorat qui s'élargit : 57 % des ouvriers, 32 % des moins de 35 ans et 31 % des retraités ont voté RN en 2024 ; chez les cadres, le score a doublé (de 11 % à 22 %).",
-     "src": "ipsos24"
+     "a": "Son électorat s'élargit : ouvriers, jeunes, retraités, et de plus en plus de cadres. Ce n'est plus un vote marginal."
     },
     {
-     "a": "Pour 2027, Marine Le Pen est donné en tête du premier tour, autour de 35 % des intentions de vote (Ipsos).",
-     "src": "ipsos26"
+     "a": "Beaucoup votent RN par conviction, pas seulement par colère : l'immigration, la sécurité et le pouvoir d'achat sont des préoccupations profondes."
     }
    ],
    "contre": [
     {
-     "a": "34 % au premier tour, c'est encore loin de la moitié des voix.",
-     "src": "rn24"
+     "a": "Le RN reste loin de la majorité : un tiers des voix au premier tour, ce n'est pas la moitié."
     },
     {
-     "a": "Les jeunes votent d'abord à gauche : La France insoumise a fait 33 % chez les jeunes aux européennes de 2024, devant le RN (25 %).",
-     "src": "fjj"
+     "a": "Les jeunes votent d'abord à gauche : chez eux, La France insoumise arrive devant le RN."
     },
     {
-     "a": "Le RN progresse surtout là où les difficultés sociales sont fortes : 49 % chez les non-bacheliers, +19 points chez les employés.",
-     "src": "ipsos24"
+     "a": "C'est en partie un vote de protestation : le RN progresse surtout là où les difficultés sociales sont fortes, chez ceux qui se sentent abandonnés."
     }
+   ],
+   "modele": "[[On doit]] prendre la montée du RN au sérieux, [[car]] il progresse à chaque élection et son électorat s'élargit. [[Certes]], il y a une part de protestation, [[mais]] de plus en plus d'électeurs votent RN par conviction.",
+   "plus": [
+    "Législatives : 13,2 % en 2017, 18,7 % en 2022, 34 % au premier tour en 2024.",
+    "2024 : 57 % des ouvriers, 32 % des moins de 35 ans et 31 % des retraités ont voté RN ; chez les cadres, le score a doublé (de 11 % à 22 %).",
+    "49 % chez les électeurs sans le bac."
    ]
   },
   {
@@ -115,11 +115,11 @@ registerUnit({
    "questions": [
     {
      "q": "Pourquoi, selon vous, dit-on que l'extrême droite en France est raciste ?",
-     "note": "Explain the reputation: its history (Front national) and some of its positions."
+     "note": "Explain the reputation: its history (the Front national, founded by Jean-Marie Le Pen) and some of its positions."
     },
     {
      "q": "Jusqu'à quel point l'opinion de l'extrême droite sur le racisme représente-t-elle l'opinion des Français en général ?",
-     "note": "Compare the far right's views with surveys of the whole population."
+     "note": "Compare the far right's views with the opinion of the French in general."
     },
     {
      "q": "Jusqu'à quel point est-ce qu'on peut dire que la France est actuellement une société multiculturelle ?",
@@ -132,27 +132,31 @@ registerUnit({
    ],
    "pour": [
     {
-     "a": "Des élus d'extrême droite ont dénoncé la « kébabisation » ; à Béziers, Robert Ménard, soutenu par le FN, a interdit les nouveaux kebabs dans le centre historique.",
-     "src": "kebab"
+     "a": "Son histoire pèse : le Front national a été fondé par Jean-Marie Le Pen, condamné plusieurs fois pour des propos racistes et antisémites."
     },
     {
-     "a": "Les actes racistes augmentent : 9 737 crimes et délits racistes en 2025 (+5 %).",
-     "src": "cncdh"
+     "a": "Certaines de ses idées visent les étrangers : la « priorité nationale » veut réserver des aides ou des emplois aux Français."
     },
     {
-     "a": "Des mesures défendues par le RN sont entrées dans le débat : la loi immigration de décembre 2023 voulait limiter le droit du sol et l'accès des étrangers aux aides sociales.",
-     "src": "loi"
+     "a": "La France ne veut pas être « multiculturelle » : le modèle républicain demande à chacun de s'intégrer à une culture commune, plutôt que de vivre en communautés séparées."
     }
    ],
    "contre": [
     {
-     "a": "La France est de fait multiculturelle : 11,3 % de la population est immigrée.",
-     "src": "insee"
+     "a": "Le RN a voulu changer d'image : Marine Le Pen a exclu son père du parti et dit refuser le racisme."
     },
     {
-     "a": "Les Français sont majoritairement tolérants : indice de tolérance à 64/100 en 2025, le 4e meilleur score depuis 1990.",
-     "src": "cncdh"
+     "a": "La France est déjà multiculturelle : environ un habitant sur dix est immigré, et la vie quotidienne en est le reflet."
+    },
+    {
+     "a": "Les Français sont majoritairement tolérants : les idées de l'extrême droite ne représentent pas l'opinion de tous les Français."
     }
+   ],
+   "modele": "[[Si]] on dit que l'extrême droite est raciste, [[c'est à cause de]] son histoire et de son idée de « priorité nationale ». [[Toutefois]], elle a voulu changer d'image, [[et]] ses idées ne représentent pas celles de tous les Français, qui restent plutôt tolérants.",
+   "plus": [
+    "Indice de tolérance de la CNCDH : 64/100 en 2025, le 4e meilleur score depuis 1990.",
+    "11,3 % de la population est immigrée.",
+    "9 737 crimes et délits racistes en 2025 (+5 %)."
    ]
   },
   {
@@ -177,27 +181,30 @@ registerUnit({
    ],
    "pour": [
     {
-     "a": "La loi immigration votée en décembre 2023 contenait des mesures proches des idées du RN : quotas, durcissement du regroupement familial, fin du droit du sol automatique.",
-     "src": "loi"
+     "a": "La loi immigration votée fin 2023 contenait des mesures proches des idées du RN : limiter le droit du sol, réserver certaines aides aux étrangers installés depuis longtemps."
     },
     {
-     "a": "En 2025, la circulaire Retailleau a rendu la régularisation plus difficile (7 ans de présence au lieu de 5).",
-     "src": "retailleau"
+     "a": "Les régularisations sont devenues plus difficiles en 2025 : le gouvernement durcit sa politique pour ne pas laisser ce sujet au RN."
     },
     {
-     "a": "Le RN pèse : sans majorité à l'Assemblée depuis 2024, les gouvernements doivent tenir compte de ses députés.",
-     "src": "bayrou"
+     "a": "Le RN pèse sur les débats : sans majorité à l'Assemblée, les gouvernements doivent tenir compte de ses députés."
     }
    ],
    "contre": [
     {
-     "a": "Le Conseil constitutionnel a censuré ces mesures en janvier 2024 : les institutions bloquent les idées les plus radicales.",
-     "src": "loi"
+     "a": "Les institutions bloquent les idées les plus radicales : le Conseil constitutionnel a censuré une grande partie de la loi."
     },
     {
-     "a": "La loi a aussi permis de régulariser des travailleurs sans papiers, ce que le RN refuse.",
-     "src": "loi"
+     "a": "Le gouvernement a aussi régularisé des travailleurs sans papiers, ce que le RN refuse : les politiques restent différentes."
+    },
+    {
+     "a": "Parler plus fermement de l'immigration n'est pas la même chose que vouloir la « priorité nationale » : une frontière demeure entre les deux."
     }
+   ],
+   "modele": "[[Il est vrai que]] les partis traditionnels se rapprochent du RN sur l'immigration, [[comme]] avec la loi de 2023. [[Cependant]], leur discours n'est pas identique : ils régularisent des travailleurs, [[et]] les institutions bloquent les mesures les plus radicales.",
+   "plus": [
+    "La loi de décembre 2023 prévoyait des quotas, un regroupement familial plus difficile et la fin du droit du sol automatique ; ces mesures ont été censurées en janvier 2024.",
+    "Circulaire Retailleau (2025) : 7 ans de présence au lieu de 5 pour être régularisé."
    ]
   },
   {
@@ -214,7 +221,7 @@ registerUnit({
    "questions": [
     {
      "q": "Pourquoi de nombreux analystes considèrent-ils une victoire du RN en 2027 comme très probable ?",
-     "note": "Give the evidence analysts use: polls, past results, the state of the other parties."
+     "note": "Give the reasons analysts use: polls, past results, the weakness of the other parties."
     },
     {
      "q": "Quels obstacles pourraient encore empêcher l'extrême droite d'accéder au pouvoir ?",
@@ -230,40 +237,41 @@ registerUnit({
     },
     {
      "q": "Comment une condamnation pour détournement de fonds pourrait-elle nuire à l'image de Marine Le Pen ?",
-     "note": "The facts first (she has been convicted, twice), then the damage to her image."
+     "note": "The facts first (she has been convicted of misusing public money), then the damage to her image."
     },
     {
      "q": "Pensez-vous que sa base électorale l'abandonnerait en cas de condamnation ?",
-     "note": "Use polls: has the RN's support fallen since her conviction?"
+     "note": "Has the RN's support fallen since her conviction? Use that to answer."
     }
    ],
    "pour": [
     {
-     "a": "Les sondages placent le RN en tête : Jordan Bardella obtient entre 31 % et 36 % au premier tour, loin devant ses rivaux (Ipsos, mai 2026).",
-     "src": "ipsos26"
+     "a": "Le RN est en tête des sondages pour 2027, loin devant les autres candidats."
     },
     {
-     "a": "L'instabilité nourrit le RN : François Bayrou a été renversé en septembre 2025 (364 voix contre 194), après le gouvernement Barnier en décembre 2024.",
-     "src": "bayrou"
+     "a": "L'instabilité nourrit le RN : plusieurs gouvernements sont tombés depuis 2024, et le RN se présente comme le seul parti capable de remettre de l'ordre."
     },
     {
-     "a": "Les ennuis judiciaires n'ont pas fait chuter le RN : malgré la condamnation de Marine Le Pen en première instance (2025), Jordan Bardella reste en tête des sondages en 2026 (31 à 36 %).",
-     "src": "ipsos26"
+     "a": "Les ennuis judiciaires de Marine Le Pen n'ont pas fait chuter le parti : Jordan Bardella est prêt à prendre sa place."
     }
    ],
    "contre": [
     {
-     "a": "Marine Le Pen a été condamnée en appel en 2026 pour détournement de fonds publics et a formé un pourvoi en cassation : la décision est attendue avant le premier tour du 18 avril 2027.",
-     "src": "lepen"
+     "a": "Le « plafond de verre » : au second tour, les électeurs des autres partis s'unissent souvent contre l'extrême droite, comme en 2002, 2017, 2022 et aux législatives de 2024."
     },
     {
-     "a": "Son inéligibilité (15 mois fermes) est déjà purgée, mais le bracelet électronique compliquerait une campagne : chaque déplacement devrait être autorisé par un juge.",
-     "src": "lepen"
+     "a": "Une condamnation pour détournement de fonds publics abîme l'image d'un parti qui dit lutter contre la corruption des élites."
     },
     {
-     "a": "D'autres candidats restent dans la course : Édouard Philippe atteint jusqu'à 19 % des intentions de vote si Gabriel Attal ne se présente pas.",
-     "src": "ipsos26"
+     "a": "D'autres candidats restent dans la course, et l'élection n'a lieu qu'au printemps 2027 : beaucoup de choses peuvent encore changer."
     }
+   ],
+   "modele": "[[D'un côté]], une victoire du RN semble probable : il est en tête des sondages, [[et]] l'instabilité politique le renforce. [[De l'autre]], rien n'est inévitable, [[car]] le « plafond de verre » a déjà bloqué l'extrême droite plusieurs fois au second tour.",
+   "plus": [
+    "Ipsos (mai 2026) : Jordan Bardella entre 31 % et 36 % des intentions de vote au premier tour.",
+    "Septembre 2025 : le gouvernement Bayrou est renversé (364 voix contre 194), après le gouvernement Barnier en décembre 2024.",
+    "Marine Le Pen, condamnée en appel en 2026, a formé un pourvoi en cassation ; la décision est attendue avant le premier tour (18 avril 2027).",
+    "Édouard Philippe atteint jusqu'à 19 % des intentions de vote."
    ]
   }
  ]

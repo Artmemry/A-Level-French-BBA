@@ -48,7 +48,7 @@ registerUnit({
    "questions": [
     {
      "q": "Qu'est-ce qui indique l'importance de la liberté d'expression dans le monde francophone ?",
-     "note": "'Qu'est-ce qui indique' = what EVIDENCE shows it matters: rankings, laws, regulators, public reactions.",
+     "note": "'Qu'est-ce qui indique' = what EVIDENCE shows it matters: laws, an independent regulator, public reactions.",
      "also": "Quels indicateurs montrent l'importance de la liberté d'expression dans le monde francophone ?"
     },
     {
@@ -66,31 +66,34 @@ registerUnit({
    ],
    "pour": [
     {
-     "a": "La France est 25e sur 180 pays au classement mondial de la liberté de la presse de Reporters sans frontières (2026).",
-     "src": "rsf"
+     "a": "La loi protège la liberté de la presse : les journalistes peuvent critiquer le gouvernement sans risquer la prison."
     },
     {
-     "a": "Un régulateur indépendant veille au pluralisme : en 2025, l'Arcom n'a pas renouvelé la fréquence de C8, une décision confirmée par le Conseil d'État.",
-     "src": "c8"
+     "a": "Une presse libre est le « chien de garde » de la démocratie : elle révèle les scandales et informe les électeurs."
     },
     {
-     "a": "Les jeunes font confiance aux journalistes : 70 % des 15-25 ans font confiance aux informations des journalistes.",
-     "src": "arcom"
+     "a": "Un régulateur indépendant, l'Arcom, veille au pluralisme : il peut même retirer sa fréquence à une chaîne qui ne respecte pas les règles."
+    },
+    {
+     "a": "La vie privée est très protégée par la loi en France : les médias ne peuvent pas publier n'importe quoi sur la vie privée des personnalités."
     }
    ],
    "contre": [
     {
-     "a": "La concentration inquiète : quelques hommes d'affaires possèdent une grande partie de la presse privée, comme le groupe Bolloré, critiqué pour ses méthodes « interventionnistes ».",
-     "src": "rsf"
+     "a": "La concentration inquiète : quelques milliardaires possèdent une grande partie des médias privés, et certains interviennent dans les contenus."
     },
     {
-     "a": "Le service public est fragilisé : il n'a plus de financement stable depuis la suppression de la redevance en 2022.",
-     "src": "rsf"
+     "a": "Le service public est fragilisé : il n'a plus de financement stable depuis la suppression de la redevance en 2022."
     },
     {
-     "a": "Les journalistes sont menacés : violences lors des manifestations, et plusieurs journalistes vivent sous protection policière à cause de menaces islamistes.",
-     "src": "rsf"
+     "a": "Les journalistes sont parfois menacés : violences pendant des manifestations, et certains vivent même sous protection policière."
     }
+   ],
+   "modele": "[[En France]], la liberté de la presse est réelle : la loi la protège, et un régulateur veille au pluralisme. [[Cependant]], elle est fragilisée, [[notamment]] par la concentration des médias entre les mains de quelques milliardaires. [[Il faut donc]] rester vigilant.",
+   "plus": [
+    "La France est 25e sur 180 pays au classement de Reporters sans frontières (2026).",
+    "2025 : l'Arcom n'a pas renouvelé la fréquence de C8, une décision confirmée par le Conseil d'État.",
+    "70 % des 15-25 ans font confiance aux informations des journalistes."
    ]
   },
   {
@@ -102,7 +105,7 @@ registerUnit({
    "questions": [
     {
      "q": "Quelle est la situation actuelle de la presse écrite en France ?",
-     "note": "'Situation actuelle' = figures: sales, trends, who is doing better or worse.",
+     "note": "'Situation actuelle' = the trend: who is doing better, who is doing worse. Describe, then explain why.",
      "also": "La situation de la presse écrite dans le pays francophone étudié"
     },
     {
@@ -112,31 +115,31 @@ registerUnit({
    ],
    "pour": [
     {
-     "a": "La diffusion de la presse continue de baisser : -2,2 % en 2025.",
-     "src": "acpm"
+     "a": "La presse papier recule chaque année : on achète de moins en moins de journaux."
     },
     {
-     "a": "La presse régionale souffre le plus : -4,5 % de diffusion en 2025.",
-     "src": "acpm"
+     "a": "La presse régionale souffre le plus : elle perd des lecteurs plus vite que les autres."
     },
     {
-     "a": "Le temps passe en ligne : les 15-24 ans sont près de 5 heures par jour sur Internet, dont 61 % sur les réseaux sociaux.",
-     "src": "mmi"
+     "a": "Les jeunes passent des heures par jour en ligne, surtout sur les réseaux sociaux, où l'information est gratuite."
     }
    ],
    "contre": [
     {
-     "a": "Les grands quotidiens nationaux progressent : +3,4 % de diffusion en 2025.",
-     "src": "acpm"
+     "a": "Les grands quotidiens nationaux, comme Le Monde, progressent grâce au numérique : le numérique transforme la presse plus qu'il ne la tue."
     },
     {
-     "a": "Le numérique sauve la presse au lieu de la tuer : 79 % de la lecture des quotidiens nationaux se fait désormais en numérique.",
-     "src": "acpm"
+     "a": "Les lecteurs acceptent de payer pour une information de qualité : les abonnements en ligne se développent."
     },
     {
-     "a": "Les lecteurs paient pour une information de qualité : les abonnements représentent 41 % de la diffusion payée.",
-     "src": "acpm"
+     "a": "Face aux fausses informations sur les réseaux sociaux, un journal sérieux redevient une valeur sûre : la confiance est son meilleur atout."
     }
+   ],
+   "modele": "[[Il est vrai que]] la presse papier recule, [[surtout]] la presse régionale. [[Pourtant]], le numérique ne la tue pas : il la transforme, [[puisque]] les grands quotidiens progressent grâce aux abonnements en ligne. [[Ce qui est menacé]], c'est le papier, pas le journalisme.",
+   "plus": [
+    "Diffusion de la presse : -2,2 % en 2025 ; presse régionale : -4,5 %.",
+    "Quotidiens nationaux : +3,4 % en 2025 ; 79 % de leur lecture se fait en numérique.",
+    "Les abonnements représentent 41 % de la diffusion payée."
    ]
   },
   {
@@ -153,32 +156,36 @@ registerUnit({
     },
     {
      "q": "Quels défis le cinéma francophone doit-il relever aujourd'hui ?",
-     "note": "Challenges: falling attendance, streaming platforms, American films."
+     "note": "Challenges: fewer people going to the cinema, streaming platforms, American films."
     }
    ],
    "pour": [
     {
-     "a": "La France reste le premier marché de cinéma en Europe : environ 157 millions d'entrées en 2025, contre 85 millions en Allemagne.",
-     "src": "cnc"
+     "a": "Le cinéma montre au monde une image du pays, de sa langue et de son mode de vie : c'est une partie de son identité."
     },
     {
-     "a": "Les films français résistent à Hollywood : 37,7 % des entrées en 2025, plus que les films américains (35,8 %).",
-     "src": "cnc"
+     "a": "La France défend l'« exception culturelle » : l'État finance le cinéma, car il considère que la culture n'est pas un produit comme les autres."
+    },
+    {
+     "a": "Les Français restent attachés au cinéma : la France est le premier marché de cinéma en Europe, et les films français y font souvent mieux que les films américains."
     }
    ],
    "contre": [
     {
-     "a": "La fréquentation baisse : -13,6 % en 2025 par rapport à 2024.",
-     "src": "cnc"
+     "a": "Le public va moins au cinéma : beaucoup préfèrent regarder des séries chez eux, sur les plateformes."
     },
     {
-     "a": "La part des films français a reculé : 37,7 % en 2025 contre 44,7 % en 2024.",
-     "src": "cnc"
+     "a": "Les jeunes regardent surtout des vidéos courtes sur leur téléphone : pour eux, les réseaux sociaux comptent plus que le cinéma."
     },
     {
-     "a": "Les écrans changent : les jeunes passent près de 5 heures par jour en ligne, surtout sur mobile.",
-     "src": "mmi"
+     "a": "La culture d'un pays, c'est aussi sa langue, sa littérature, sa musique et sa cuisine : le cinéma n'en est qu'une partie."
     }
+   ],
+   "modele": "[[Le cinéma]] est essentiel à la culture française, [[car]] il montre au monde sa langue et son mode de vie ; [[c'est pourquoi]] l'État le finance. [[Cependant]], il doit relever un défi : le public, surtout jeune, préfère de plus en plus les écrans à la maison.",
+   "plus": [
+    "Environ 157 millions d'entrées en France en 2025, contre 85 millions en Allemagne.",
+    "Films français : 37,7 % des entrées en 2025, devant les films américains (35,8 %) ; mais 44,7 % en 2024.",
+    "Fréquentation : -13,6 % en 2025 par rapport à 2024."
    ]
   },
   {
@@ -194,20 +201,32 @@ registerUnit({
     },
     {
      "q": "Quelles sortes d'émissions sont les plus populaires dans le pays francophone que vous avez étudié ?",
-     "note": "Types of programmes, with an example and a figure."
+     "note": "Types of programmes (sport, news, series, reality TV), each with an example."
     }
    ],
    "pour": [
     {
-     "a": "Le divertissement domine : le programme le plus regardé de 2025 est un match de rugby France–Écosse (9,8 millions de téléspectateurs).",
-     "src": "tv"
+     "a": "Le divertissement domine : les programmes les plus regardés sont souvent des matchs de sport, comme le rugby ou le football."
+    },
+    {
+     "a": "Les jeux, les séries et la téléréalité occupent une grande partie des soirées."
     }
    ],
    "contre": [
     {
-     "a": "La télévision informe aussi : en 2025, le « 20 heures » de TF1 a fait ses meilleures audiences depuis 15 ans.",
-     "src": "tv"
+     "a": "La télévision informe aussi : le journal de 20 heures reste un rendez-vous pour des millions de Français."
+    },
+    {
+     "a": "Elle rassemble le pays : lors d'un grand match ou d'un événement national, tout le monde regarde la même chose au même moment."
+    },
+    {
+     "a": "Le service public a une mission : informer, éduquer et cultiver, pas seulement divertir."
     }
+   ],
+   "modele": "[[Bien sûr]], la télévision sert d'abord à divertir : le sport, les jeux et les séries dominent. [[Mais]] elle ne fait pas que ça : elle informe, [[comme]] le journal de 20 heures, et elle rassemble le pays lors des grands événements.",
+   "plus": [
+    "Programme le plus regardé de 2025 : le match de rugby France–Écosse, 9,8 millions de téléspectateurs.",
+    "En 2025, le « 20 heures » de TF1 a fait ses meilleures audiences depuis 15 ans."
    ]
   },
   {
@@ -228,23 +247,31 @@ registerUnit({
    ],
    "pour": [
     {
-     "a": "Internet fait partie de la vie quotidienne : 48,6 millions de Français l'utilisent chaque jour, plus de 3 heures par jour.",
-     "src": "mmi"
+     "a": "Internet fait partie de la vie quotidienne : la plupart des Français l'utilisent chaque jour pour travailler, apprendre, acheter ou garder le contact avec leurs proches."
     },
     {
-     "a": "De nouveaux usages : 78 % des 15-24 ans utilisent une IA conversationnelle chaque mois.",
-     "src": "mmi"
+     "a": "Il donne accès au savoir et à de nouveaux outils, comme l'intelligence artificielle, que les jeunes utilisent beaucoup."
+    },
+    {
+     "a": "Il donne la parole à tous : chacun peut s'exprimer, créer et partager."
     }
    ],
    "contre": [
     {
-     "a": "Les réseaux sociaux inquiètent : en 2026, la France a interdit les réseaux sociaux aux moins de 15 ans à cause de l'anxiété, de la dépression et du harcèlement en ligne.",
-     "src": "rs15"
+     "a": "Les réseaux sociaux inquiètent : anxiété, harcèlement en ligne… En 2026, la France les a interdits aux moins de 15 ans."
     },
     {
-     "a": "Les jeunes s'informent surtout sur les réseaux sociaux (44 % des 15-19 ans) et font davantage confiance aux créateurs de contenu que la moyenne (41 % contre 24 %).",
-     "src": "arcom"
+     "a": "Les fausses informations circulent vite : beaucoup de jeunes s'informent surtout sur les réseaux sociaux et font plus confiance aux influenceurs qu'aux journalistes. C'est un danger pour la démocratie."
+    },
+    {
+     "a": "Les écrans prennent du temps au sommeil, au sport et à la lecture."
     }
+   ],
+   "modele": "[[Internet]] a beaucoup d'avantages : il fait partie de la vie quotidienne et donne accès au savoir. [[En revanche]], il présente des dangers, [[en particulier]] les fausses informations et le harcèlement en ligne. [[C'est pourquoi]] la France a décidé de protéger les plus jeunes.",
+   "plus": [
+    "48,6 millions de Français utilisent Internet chaque jour, plus de 3 heures par jour.",
+    "78 % des 15-24 ans utilisent une IA conversationnelle chaque mois.",
+    "Les 15-19 ans font davantage confiance aux créateurs de contenu que la moyenne (41 % contre 24 %)."
    ]
   }
  ]

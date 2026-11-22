@@ -43,7 +43,7 @@ registerUnit({
    "questions": [
     {
      "q": "Est-il vrai, à votre avis, de dire que la société du pays francophone que vous avez étudié est menacée par la musique anglo-saxonne ?",
-     "note": "'Menacée' = in danger. Use chart figures to test the claim, then decide."
+     "note": "'Menacée' = in danger. Test the claim: what do people there actually listen to? Then decide."
     },
     {
      "q": "Quelle est l'attitude des autorités du pays francophone que vous avez étudié envers la musique anglo-saxonne ?",
@@ -52,31 +52,31 @@ registerUnit({
    ],
    "pour": [
     {
-     "a": "Les plateformes mondiales (Spotify, Deezer) proposent une écoute illimitée et personnalisée qui échappe aux règles imposées aux radios.",
-     "src": "lafon"
+     "a": "Les plateformes de streaming proposent de la musique du monde entier, et elles ne sont pas soumises aux quotas imposés aux radios."
     },
     {
-     "a": "Les radios s'inquiétaient : entre 2003 et 2014, la proportion d'albums francophones dans les bacs des disquaires avait baissé de 66 %.",
-     "src": "quota16"
+     "a": "L'anglais domine la musique mondiale : beaucoup d'artistes francophones chantent en anglais pour réussir à l'étranger."
     },
     {
-     "a": "Si l'État impose des quotas depuis 1996, c'est bien qu'il considère la musique anglo-saxonne comme une menace.",
-     "src": "quota16"
+     "a": "Si l'État impose des quotas de chansons francophones à la radio depuis 1996, c'est bien qu'il considère la musique anglo-saxonne comme une menace."
     }
    ],
    "contre": [
     {
-     "a": "La musique française domine son marché : en 2025, 16 des 20 albums les plus vendus en France sont des productions françaises.",
-     "src": "snep"
+     "a": "La musique française domine son propre marché : la grande majorité des albums les plus vendus en France sont français."
     },
     {
-     "a": "Le rap français est roi : 9 des 10 albums certifiés diamant en 2025 sont des albums de rap français.",
-     "src": "snep"
+     "a": "Le rap français est roi : les jeunes écoutent surtout des artistes français, qui chantent en français."
     },
     {
-     "a": "L'État protège la chanson : les radios musicales doivent diffuser au moins 40 % de chansons francophones aux heures de grande écoute, dont la moitié de nouveaux talents.",
-     "src": "lafon"
+     "a": "L'État protège la chanson : les radios doivent diffuser une part importante de chansons francophones, dont des nouveaux talents."
     }
+   ],
+   "modele": "[[Il est vrai que]] les plateformes de streaming font une grande place à la musique anglo-saxonne. [[Néanmoins]], la culture francophone n'est pas menacée : la musique française domine son propre marché, [[notamment]] grâce au rap. [[De plus]], l'État la protège avec des quotas.",
+   "plus": [
+    "En 2025, 16 des 20 albums les plus vendus en France sont des productions françaises.",
+    "9 des 10 albums certifiés diamant en 2025 sont des albums de rap français.",
+    "Depuis 1996, les radios musicales doivent diffuser au moins 40 % de chansons francophones aux heures de grande écoute, dont la moitié de nouveaux talents."
    ]
   },
   {
@@ -92,36 +92,36 @@ registerUnit({
     },
     {
      "q": "Quel type de musique influence le plus les jeunes du pays francophone que vous avez étudié ?",
-     "note": "'Influence' – not just 'which music they like', but which music shapes their language, style and views (rap)."
+     "note": "'Influence' – not just which music they like, but which music shapes their language, style and views (rap)."
     }
    ],
    "pour": [
     {
-     "a": "Les jeunes s'informent surtout par les réseaux sociaux : c'est la première source d'information pour 44 % des 15-19 ans, contre 18 % de l'ensemble des Français.",
-     "src": "arcom"
+     "a": "La musique est au cœur de la vie des jeunes : ils en écoutent tous les jours, et les festivals attirent surtout les 18-24 ans."
     },
     {
-     "a": "11 % des 15-19 ans ne s'intéressent à aucun sujet d'actualité, plus que les autres tranches d'âge.",
-     "src": "arcom"
+     "a": "Les jeunes s'informent surtout sur les réseaux sociaux, où l'actualité se mélange au divertissement : ils s'informent donc moins en profondeur."
     },
     {
-     "a": "La musique est au cœur de leur vie : 64 % des 18-24 ans comptaient aller à un festival l'été 2025, contre 30 % de l'ensemble des Français.",
-     "src": "ipsos"
-    },
-    {
-     "a": "Les jeunes votent peu : environ 40 % seulement des 18-24 ans ont voté aux européennes de 2024.",
-     "src": "fjj"
+     "a": "Beaucoup de jeunes ne votent pas : c'est le signe d'un désintérêt pour la politique."
     }
    ],
    "contre": [
     {
-     "a": "Leur vote est très politisé : La France insoumise est arrivée en tête chez les jeunes (33 %), devant le RN (25 %).",
-     "src": "fjj"
+     "a": "Les jeunes s'intéressent à la politique autrement : manifestations, pétitions, engagement pour le climat. Ils ne se reconnaissent simplement pas dans les partis."
     },
     {
-     "a": "La musique qui les influence le plus, le rap, parle souvent de politique et de société : 9 des 10 albums diamant de 2025 sont du rap français.",
-     "src": "snep"
+     "a": "Quand ils votent, les jeunes font des choix politiques très marqués : ils ne sont donc pas indifférents."
+    },
+    {
+     "a": "La musique qu'ils préfèrent, le rap, parle souvent de politique et de société : écouter de la musique, ce n'est pas forcément ignorer la politique."
     }
+   ],
+   "modele": "[[Je suis en partie d'accord]] : la musique est au cœur de la vie des jeunes, et beaucoup ne votent pas. [[Toutefois]], cela ne veut pas dire qu'ils ignorent la politique : ils s'engagent autrement, [[et]] le rap qu'ils écoutent parle souvent de société.",
+   "plus": [
+    "Les réseaux sociaux sont la première source d'information pour 44 % des 15-19 ans, contre 18 % de l'ensemble des Français.",
+    "64 % des 18-24 ans comptaient aller à un festival l'été 2025, contre 30 % de l'ensemble des Français.",
+    "Européennes 2024 : environ 40 % des 18-24 ans ont voté ; chez les jeunes, LFI 33 %, RN 25 %."
    ]
   },
   {
@@ -137,36 +137,37 @@ registerUnit({
     },
     {
      "q": "La musique traditionnelle attire-t-elle encore les jeunes aujourd'hui ?",
-     "note": "'Encore' = still: compare with the past, give a figure, mention regional music (Brittany)."
+     "note": "'Encore' = still: compare with the past, and mention regional music (Brittany)."
     }
    ],
    "pour": [
     {
-     "a": "Les quotas protègent la diversité : depuis 2016, un même titre ne peut compter qu'un nombre limité de fois, pour éviter que les radios passent toujours les mêmes tubes.",
-     "src": "lafon"
+     "a": "Les quotas protègent la diversité : sans eux, les radios passeraient surtout des tubes anglo-saxons."
     },
     {
-     "a": "Les festivals ont besoin d'aide : en 2025, 79 % des festivals ont connu des difficultés et 34 % ont fini en déficit.",
-     "src": "cnm"
+     "a": "Les festivals ont besoin d'aide : beaucoup sont en difficulté financière, et sans l'État, les plus petits disparaîtraient."
     },
     {
-     "a": "C'est une question de « souveraineté » face aux grandes plateformes internationales, selon le sénateur Laurent Lafon (2026).",
-     "src": "lafon"
+     "a": "C'est une question d'identité : la musique en français fait vivre la langue face aux grandes plateformes internationales."
     }
    ],
    "contre": [
     {
-     "a": "La musique francophone n'a pas besoin d'être protégée : les productions françaises représentent les trois quarts du top 200 des albums.",
-     "src": "snep"
+     "a": "La musique francophone n'a pas besoin d'être protégée : les artistes français sont déjà les plus écoutés en France."
     },
     {
-     "a": "Les quotas ne s'appliquent pas au streaming, devenu la première façon d'écouter de la musique : 165 milliards d'écoutes en 2025.",
-     "src": "snep"
+     "a": "Les quotas sont dépassés : ils ne s'appliquent pas au streaming, qui est devenu la première façon d'écouter de la musique."
     },
     {
-     "a": "La musique traditionnelle reste minoritaire : seulement 24 % du public de la Fête de la musique cite les musiques traditionnelles et régionales parmi ses préférées.",
-     "src": "ipsos"
+     "a": "Ce n'est pas le rôle de l'État de choisir ce que les gens écoutent : le public doit rester libre. D'ailleurs, la musique traditionnelle reste minoritaire, même avec des aides."
     }
+   ],
+   "modele": "[[Certes]], la musique francophone se porte bien sans aide. [[Mais]] les festivals et les nouveaux talents ont besoin de l'État, [[car]] le streaming échappe aux quotas. [[À mon avis]], l'État doit donc continuer à la soutenir, sans imposer ses goûts.",
+   "plus": [
+    "Les productions françaises représentent les trois quarts du top 200 des albums.",
+    "165 milliards d'écoutes en streaming en 2025.",
+    "En 2025, 79 % des festivals ont connu des difficultés et 34 % ont fini en déficit.",
+    "Seulement 24 % du public de la Fête de la musique cite les musiques traditionnelles et régionales parmi ses préférées."
    ]
   }
  ]

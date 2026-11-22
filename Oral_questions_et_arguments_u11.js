@@ -67,44 +67,42 @@ registerUnit({
     },
     {
      "q": "Jusqu'à quel point le régime de Vichy a-t-il réussi à améliorer la vie quotidienne, à votre avis ?",
-     "note": "Measure with daily life facts (rationing, black market)."
+     "note": "Measure it with daily life: rationing, shortages, the black market."
     }
    ],
    "pour": [
     {
-     "a": "Pétain avait la confiance des parlementaires en 1940 : le Parlement lui a voté les pleins pouvoirs, seuls 80 parlementaires s'y opposant.",
-     "src": "lar"
+     "a": "En 1940, Pétain pensait protéger les Français : en signant l'armistice, il voulait arrêter les combats et éviter de plus grandes souffrances."
     },
     {
-     "a": "Le régime se présentait comme un redressement moral : la « Révolution nationale », avec la devise « Travail, Famille, Patrie ».",
-     "src": "lar"
+     "a": "Il avait le prestige du « héros de Verdun » : beaucoup de Français lui faisaient confiance, et le Parlement lui a donné les pleins pouvoirs."
     },
     {
-     "a": "En 1945, la Haute Cour elle-même a souhaité que la peine de mort ne soit pas exécutée, en raison de son âge.",
-     "src": "just"
+     "a": "Le régime se présentait comme un redressement moral : la « Révolution nationale », avec la devise « Travail, Famille, Patrie »."
     }
    ],
    "contre": [
     {
-     "a": "Vichy a mis fin à la République et suspendu le Parlement ; les fonctionnaires devaient prêter serment à Pétain.",
-     "src": "lar"
+     "a": "Vichy a mis fin à la République : plus de Parlement, plus d'élections, et les fonctionnaires devaient jurer fidélité à Pétain."
     },
     {
-     "a": "Il a persécuté les Juifs de sa propre initiative : statut des Juifs dès le 3 octobre 1940, puis rafles avec la police française.",
-     "src": "mc18"
+     "a": "Il a persécuté les Juifs de sa propre initiative, dès octobre 1940, puis la police française a participé aux rafles."
     },
     {
-     "a": "Il a choisi la collaboration : rencontre de Montoire avec Hitler (octobre 1940), Milice et STO en 1943.",
-     "src": "lar"
+     "a": "Il a choisi la collaboration : il serre la main d'Hitler à Montoire en 1940, puis son régime crée la Milice et organise le STO."
     },
     {
-     "a": "En 1945, Pétain a été reconnu coupable d'intelligence avec l'ennemi et de haute trahison.",
-     "src": "just"
+     "a": "En 1945, Pétain a été condamné pour haute trahison : la justice a jugé qu'il avait trahi la nation."
     },
     {
-     "a": "La vie quotidienne ne s'est pas améliorée : rationnement, pénuries et marché noir pendant toute la guerre.",
-     "src": "veillon"
+     "a": "La vie quotidienne ne s'est pas améliorée : rationnement, pénuries et marché noir pendant toute la guerre."
     }
+   ],
+   "modele": "[[Pétain]] pensait peut-être protéger les Français en 1940, [[et]] beaucoup lui faisaient confiance. [[Cependant]], ses actes l'ont condamné : il a mis fin à la République, persécuté les Juifs [[et]] choisi la collaboration. [[C'est pourquoi]] je pense qu'il a trahi la nation.",
+   "plus": [
+    "10 juillet 1940 : seuls 80 parlementaires refusent les pleins pouvoirs à Pétain.",
+    "Statut des Juifs : 3 octobre 1940 ; rencontre avec Hitler à Montoire : octobre 1940.",
+    "1945 : Pétain est condamné pour intelligence avec l'ennemi et haute trahison ; la Haute Cour souhaite que la peine de mort ne soit pas exécutée, en raison de son âge."
    ]
   },
   {
@@ -125,31 +123,33 @@ registerUnit({
    ],
    "pour": [
     {
-     "a": "Leurs crimes étaient graves : la déportation d'environ 75 000 Juifs de France, avec l'aide de la police française.",
-     "src": "mc18"
+     "a": "Leurs crimes étaient très graves : ils ont aidé à déporter des dizaines de milliers de Juifs, avec l'aide de la police française."
     },
     {
-     "a": "Pétain a été condamné à mort, mais de Gaulle a commué sa peine en détention à perpétuité ; il est mort en prison en 1951.",
-     "src": "just"
+     "a": "La justice a été mesurée : Pétain a été condamné à mort, mais de Gaulle a transformé sa peine en prison à vie, à cause de son âge."
     },
     {
-     "a": "La Haute Cour a prononcé 18 condamnations à mort, dont 3 seulement ont été exécutées : la justice n'a pas été aveugle.",
-     "src": "guichet"
+     "a": "Il fallait juger les responsables pour rendre justice aux victimes et reconstruire le pays."
     }
    ],
    "contre": [
     {
-     "a": "L'épuration « sauvage » a fait 9 000 à 10 000 morts sans véritable procès.",
-     "src": "guichet"
+     "a": "L'épuration « sauvage » a été violente : des milliers de personnes ont été exécutées sans véritable procès."
     },
     {
-     "a": "Environ 20 000 femmes accusées de collaboration « horizontale » ont été tondues en public.",
-     "src": "guichet"
+     "a": "Des milliers de femmes accusées d'avoir eu des relations avec des Allemands ont été tondues en public : c'était une humiliation, pas la justice."
     },
     {
-     "a": "Beaucoup ont échappé à la justice : sur 311 200 dossiers, 183 500 ont été classés.",
-     "src": "guichet"
+     "a": "Beaucoup de responsables ont échappé à la justice : la majorité des dossiers ont été classés, et certains ont même fait carrière après la guerre."
     }
+   ],
+   "modele": "[[Les dirigeants]] de Vichy méritaient leur punition, [[car]] leurs crimes étaient très graves. [[Toutefois]], l'épuration a aussi connu des excès, [[comme]] les exécutions sans procès et les femmes tondues. [[En somme]], la justice était nécessaire, mais elle n'a pas toujours été juste.",
+   "plus": [
+    "La Haute Cour a prononcé 18 condamnations à mort, dont 3 seulement ont été exécutées.",
+    "L'épuration « sauvage » a fait 9 000 à 10 000 morts sans véritable procès.",
+    "Environ 20 000 femmes ont été tondues en public.",
+    "Sur 311 200 dossiers, 183 500 ont été classés.",
+    "Pétain meurt en prison en 1951."
    ]
   }
  ]

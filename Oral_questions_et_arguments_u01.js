@@ -55,44 +55,45 @@ registerUnit({
    "questions": [
     {
      "q": "Selon vous, quelle sera la forme de famille la plus répandue à l'avenir en France et pourquoi ?",
-     "note": "Two jobs: a prediction AND reasons. Base the prediction on a trend (figures then and now), not on a guess."
+     "note": "Two jobs: a prediction AND reasons. Base the prediction on a trend: which family types are growing, which are shrinking."
     },
     {
      "q": "Quels types de famille trouve-t-on en France de nos jours ?",
-     "note": "Name the types AND give their weight (percentages): 'quels types' also means 'how common is each'."
+     "note": "Not a pro/con question: name 3–4 types (nucléaire, monoparentale, recomposée, homoparentale), say which is still the most common, then give one opinion."
     },
     {
      "q": "Comment la famille traditionnelle a-t-elle changé au cours des 60 dernières années ?",
-     "note": "'Traditionnelle' = married couple + children. Compare then and now: marriage, births, women's work."
+     "note": "'Traditionnelle' = married couple + children. Compare then and now: fewer marriages, fewer children, more working mothers – then say why."
     }
    ],
    "pour": [
     {
-     "a": "Les familles monoparentales progressent : elles représentent un quart des familles avec enfants mineurs, trois points de plus qu'en 2011.",
-     "src": "insee21"
+     "a": "Les modèles se multiplient : familles monoparentales, recomposées, homoparentales. La famille nucléaire n'est plus la seule norme, et la société accepte de plus en plus les autres."
     },
     {
-     "a": "Les Français ont de moins en moins d'enfants : 1,56 enfant par femme en 2025. Pour la première fois depuis 1945, il y a eu plus de décès que de naissances.",
-     "src": "insee26"
+     "a": "Le mariage n'est plus le point de départ de la famille : aujourd'hui, la majorité des bébés naissent hors mariage. Le modèle « mariage puis enfants » recule donc."
     },
     {
-     "a": "Le modèle « mariage puis enfants » recule : six bébés sur dix naissent hors mariage (59,7 % en 2024).",
-     "src": "inseehm"
+     "a": "Les couples sont plus fragiles qu'avant : le divorce est devenu banal, donc beaucoup d'enfants vivront une partie de leur enfance dans un autre type de famille."
     }
    ],
    "contre": [
     {
-     "a": "La famille « traditionnelle » (un couple et ses enfants) reste majoritaire : 66 % des familles avec enfants mineurs.",
-     "src": "insee21"
+     "a": "La famille nucléaire reste la plus répandue : environ deux familles sur trois sont un couple avec ses enfants. Elle recule, mais elle est loin de disparaître."
     },
     {
-     "a": "Les familles recomposées (9 %) reforment un couple avec enfants : le modèle nucléaire se transforme plus qu'il ne disparaît.",
-     "src": "insee21"
+     "a": "Elle se transforme plus qu'elle ne disparaît : une famille recomposée, c'est à nouveau un couple avec des enfants. Le modèle change de forme, pas de nature."
     },
     {
-     "a": "Le mariage résiste : environ 251 000 mariages en 2025, contre 197 000 PACS en 2024.",
-     "src": "insee26"
+     "a": "Le mariage résiste : chaque année, des centaines de milliers de couples se marient encore, et le mariage est désormais ouvert aux couples de même sexe."
     }
+   ],
+   "modele": "[[Certes]], la famille nucléaire recule, car le mariage n'est plus le point de départ de la famille. [[Cependant]], elle ne va pas disparaître : elle reste la plus répandue et se transforme, [[par exemple]] dans les familles recomposées. [[À mon avis]], elle restera le modèle principal, mais plus le seul.",
+   "plus": [
+    "Les familles monoparentales représentent un quart des familles avec enfants mineurs, trois points de plus qu'en 2011 (Insee).",
+    "Familles avec enfants mineurs : 66 % « traditionnelles », 25 % monoparentales, 9 % recomposées (2020).",
+    "En 2025 : 1,56 enfant par femme ; pour la première fois depuis 1945, plus de décès que de naissances.",
+    "59,7 % des bébés naissent hors mariage (2024)."
    ]
   },
   {
@@ -104,40 +105,41 @@ registerUnit({
    "questions": [
     {
      "q": "Que pensez-vous des arguments contre les mères-porteuses en France ?",
-     "note": "First name the arguments against (the body as a commodity, the child's interest), THEN judge them. Giving only your own view misses half the question."
+     "note": "First name the arguments against (a woman's body becomes a product; the child's interest), THEN judge them. Giving only your own view misses half the question."
     },
     {
      "q": "Quelle est la situation concernant les mères-porteuses à l'heure actuelle ?",
-     "note": "'Situation' = the law AND what happens in practice (couples go abroad; courts recognise the children)."
+     "note": "Describe first: the law (forbidden in France) AND what happens in practice (couples go abroad; French courts recognise the children). Then give your view."
     }
    ],
    "pour": [
     {
-     "a": "L'opinion a beaucoup évolué : 71 % des Français sont favorables à la GPA pour les couples hétérosexuels et 56 % pour les couples d'hommes (contre 60 % et 41 % en 2014).",
-     "src": "ifop24"
+     "a": "C'est une question d'égalité : depuis 2021, les couples de femmes peuvent avoir un enfant par PMA, mais les couples d'hommes n'ont aucune solution en France."
     },
     {
-     "a": "L'interdiction n'empêche pas la pratique : des couples vont à l'étranger, et la Cour de cassation finit par reconnaître la filiation des enfants (2019, puis 2024).",
-     "src": "gpa"
+     "a": "L'interdiction ne fonctionne pas : des couples vont à l'étranger, et la justice française finit par reconnaître ces enfants. Il vaudrait mieux encadrer la pratique que faire semblant qu'elle n'existe pas."
     },
     {
-     "a": "Une question d'égalité : depuis 2021, les couples de femmes ont accès à la PMA, mais les couples d'hommes n'ont aucune solution en France.",
-     "src": "lcp"
+     "a": "L'opinion a changé : aujourd'hui, une majorité de Français est favorable à la GPA, au moins pour les couples qui ne peuvent pas avoir d'enfant."
     }
    ],
    "contre": [
     {
-     "a": "La loi est claire depuis 1994 : « toute convention portant sur la gestation pour le compte d'autrui est nulle » (article 16-7 du Code civil).",
-     "src": "gpa"
+     "a": "Le corps humain n'est pas à vendre : si la mère porteuse est payée, la grossesse devient un service commercial, et les femmes pauvres risquent d'être exploitées."
     },
     {
-     "a": "Le risque de marchandisation du corps des femmes : 61 % des Français refusent que les mères porteuses soient payées (52 % en 2022).",
-     "src": "ifop24"
+     "a": "L'intérêt de l'enfant passe en premier : un enfant n'est pas un droit pour les adultes, et il est séparé de la femme qui l'a porté pendant neuf mois."
     },
     {
-     "a": "Un sujet qui divise : 64 % des catholiques pratiquants approuvent les mots de Marion Maréchal, pour qui la GPA est « monstrueuse et honteuse » – mais seulement 29 % de l'ensemble des Français.",
-     "src": "ifop24"
+     "a": "La loi française est claire : depuis 1994, la GPA est interdite. Beaucoup pensent que la France doit garder ce principe, même si d'autres pays l'autorisent."
     }
+   ],
+   "modele": "[[D'un côté]], interdire la GPA protège les femmes, car le corps humain n'est pas à vendre. [[De l'autre]], l'interdiction ne fonctionne pas, [[puisque]] des couples vont à l'étranger. [[C'est pourquoi]] je pense qu'il vaudrait mieux encadrer la GPA, sans paiement, plutôt que l'interdire.",
+   "plus": [
+    "La GPA est interdite par l'article 16-7 du Code civil (1994).",
+    "71 % des Français sont favorables à la GPA pour les couples hétérosexuels et 56 % pour les couples d'hommes (60 % et 41 % en 2014).",
+    "61 % refusent que les mères porteuses soient payées.",
+    "La Cour de cassation a reconnu la filiation d'enfants nés par GPA à l'étranger (2019, puis 2024)."
    ]
   },
   {
@@ -153,36 +155,40 @@ registerUnit({
     },
     {
      "q": "Selon vous, jusqu'à quel point ces nouveaux types de famille sont-ils acceptés par tous les Français ?",
-     "note": "'Jusqu'à quel point' asks for a degree: 'largely, but not by everyone'. Say who accepts them and who does not."
+     "note": "'Jusqu'à quel point' asks for a degree: 'largely, but not by everyone'. Say who accepts them, who does not, and why."
     }
    ],
    "pour": [
     {
-     "a": "La pauvreté : 41 % des enfants de familles monoparentales vivent sous le seuil de pauvreté, contre 21 % de l'ensemble des enfants.",
-     "src": "insee21"
+     "a": "Le manque d'argent : dans une famille monoparentale, il n'y a souvent qu'un seul salaire. Beaucoup de ces enfants grandissent dans la pauvreté, ce qui pèse sur leur logement et leurs études."
     },
     {
-     "a": "Dans 82 % des familles monoparentales, c'est la mère qui élève seule les enfants, avec un seul salaire – alors que les femmes gagnent 14 % de moins que les hommes à temps de travail égal.",
-     "src": "insee21"
+     "a": "Ce sont surtout des mères qui élèvent seules leurs enfants, et les femmes gagnent encore moins que les hommes : la difficulté est donc double."
     },
     {
-     "a": "Les préjugés n'ont pas disparu : 4 945 infractions anti-LGBT ont été enregistrées en 2025.",
-     "src": "vplgbt"
+     "a": "Une séparation demande beaucoup d'adaptation : deux maisons, un beau-parent, des demi-frères et sœurs. Ce n'est pas toujours facile pour un enfant."
+    },
+    {
+     "a": "Le regard des autres : les préjugés n'ont pas disparu, et certains enfants de familles homoparentales peuvent subir des moqueries."
     }
    ],
    "contre": [
     {
-     "a": "Ce n'est pas la forme de la famille qui pose problème, mais le manque d'argent : la difficulté vient de la pauvreté, pas de l'amour des parents.",
-     "src": "insee21"
+     "a": "Ce n'est pas la forme de la famille qui pose problème, mais le manque d'argent : un enfant a d'abord besoin de stabilité et d'amour, qu'il ait un parent ou deux."
     },
     {
-     "a": "L'acceptation progresse : 68 % des Français considèrent les familles homoparentales comme des familles à part entière (61 % en 2014).",
-     "src": "ifop24"
+     "a": "L'acceptation progresse : une large majorité de Français considère aujourd'hui les familles homoparentales comme des familles à part entière."
     },
     {
-     "a": "La loi protège ces enfants : depuis 2021, les couples de femmes ont accès à la PMA et les deux mères sont reconnues dès la naissance.",
-     "src": "lcp"
+     "a": "La loi protège ces enfants : depuis 2021, avec la PMA pour les couples de femmes, les deux mères sont reconnues dès la naissance."
     }
+   ],
+   "modele": "[[Il est vrai que]] certains enfants rencontrent des difficultés, [[surtout]] dans les familles monoparentales, où l'argent manque. [[Pourtant]], ce n'est pas la forme de la famille qui pose problème, mais la pauvreté. [[Quant à]] l'acceptation, elle progresse, [[même si]] les préjugés n'ont pas disparu.",
+   "plus": [
+    "41 % des enfants de familles monoparentales vivent sous le seuil de pauvreté, contre 21 % de l'ensemble des enfants.",
+    "Dans 82 % des familles monoparentales, c'est la mère qui élève seule les enfants.",
+    "68 % des Français considèrent les familles homoparentales comme des familles à part entière (61 % en 2014).",
+    "4 945 infractions anti-LGBT ont été enregistrées en 2025."
    ]
   },
   {
@@ -195,7 +201,7 @@ registerUnit({
    "questions": [
     {
      "q": "Les couples homosexuels ont-ils les mêmes droits que les couples hétérosexuels en France ?",
-     "note": "A yes/no question: answer 'oui, sauf…' – marriage and adoption yes, having a child via GPA no."
+     "note": "A yes/no question: answer « oui, sauf… » – marriage and adoption yes, having a child through GPA no."
     },
     {
      "q": "Que pensez-vous des arguments de ceux qui s'opposent au mariage gay en France ?",
@@ -203,40 +209,40 @@ registerUnit({
     },
     {
      "q": "Quels groupes ont eu le plus de difficulté à accepter le mariage pour tous ?",
-     "note": "Name the groups: practising Catholics, part of the political right."
+     "note": "Name the groups – some practising Catholics, part of the political right – and say why they found it hard."
     },
     {
      "q": "Pourquoi, à votre avis, le mariage pour tous ne sera-t-il jamais soutenu par les Français ?",
-     "note": "A trap: the premise is false. Say politely that most French people DO support it, and give the figure."
+     "note": "A trap: the premise is false. Say politely that most French people DO support it today, then explain why."
     }
    ],
    "pour": [
     {
-     "a": "Depuis la loi Taubira (2013), les couples de même sexe peuvent se marier et adopter : environ 70 000 mariages en dix ans.",
-     "src": "e1"
+     "a": "Depuis la loi Taubira (2013), les couples de même sexe peuvent se marier et adopter : sur ces deux points, ils ont les mêmes droits que les autres."
     },
     {
-     "a": "Une large majorité est d'accord : 71 % des Français jugent la loi positive, y compris 64 % des sympathisants RN.",
-     "src": "ifop24"
+     "a": "La loi est entrée dans les mœurs : aujourd'hui, une large majorité de Français la juge positive, même à droite. La catastrophe annoncée par ses opposants n'a pas eu lieu."
     },
     {
-     "a": "L'égalité a progressé en 2021 : les couples de femmes peuvent avoir un enfant par PMA en France.",
-     "src": "lcp"
+     "a": "L'égalité a encore progressé en 2021 : les couples de femmes peuvent désormais avoir un enfant par PMA en France."
     }
    ],
    "contre": [
     {
-     "a": "Pas de parité complète : la GPA est interdite, donc un couple d'hommes ne peut pas avoir d'enfant en France.",
-     "src": "gpa"
+     "a": "La parité n'est pas complète : la GPA est interdite, donc un couple d'hommes ne peut pas avoir d'enfant en France."
     },
     {
-     "a": "Une partie de la droite reste réticente : seulement 53 % des sympathisants LR jugent la loi positive.",
-     "src": "ifop24"
+     "a": "Une minorité reste opposée, surtout chez certains catholiques pratiquants et dans une partie de la droite : pour eux, le mariage unit un homme et une femme, et un enfant a besoin d'un père et d'une mère."
     },
     {
-     "a": "L'hostilité persiste dans la société : 4 945 infractions anti-LGBT enregistrées en 2025.",
-     "src": "vplgbt"
+     "a": "L'hostilité n'a pas disparu : les actes homophobes restent nombreux, ce qui montre qu'une loi ne change pas toutes les mentalités."
     }
+   ],
+   "modele": "[[Oui, en grande partie]] : depuis la loi Taubira, les couples de même sexe peuvent se marier et adopter. [[Cependant]], la parité n'est pas complète, [[puisque]] la GPA reste interdite. [[Quant à]] l'opinion, une large majorité accepte la loi, [[bien qu']]une minorité y reste opposée.",
+   "plus": [
+    "Environ 70 000 mariages de couples de même sexe en dix ans (2013–2023).",
+    "71 % des Français jugent la loi positive (Ifop, 2024).",
+    "4 945 infractions anti-LGBT enregistrées en 2025."
    ]
   },
   {
@@ -248,7 +254,7 @@ registerUnit({
    "questions": [
     {
      "q": "Jusqu'à quel point est-ce qu'on peut dire que les Français se détournent du mariage ?",
-     "note": "A degree again: 'less than before, but…'. Compare marriages with PACS and with births outside marriage."
+     "note": "A degree again: 'less than before, but…'. Compare marriage with the PACS and with births outside marriage."
     },
     {
      "q": "À part le mariage, comment les Français choisissent-ils de vivre ensemble ?",
@@ -257,31 +263,31 @@ registerUnit({
    ],
    "pour": [
     {
-     "a": "Le PACS concurrence le mariage : 197 000 PACS en 2024, contre 251 000 mariages en 2025.",
-     "src": "insee26"
+     "a": "Le PACS est devenu une vraie alternative : plus simple et plus facile à rompre, il attire de nombreux couples qui ne veulent pas se marier."
     },
     {
-     "a": "On n'a plus besoin d'être marié pour fonder une famille : six bébés sur dix naissent hors mariage.",
-     "src": "inseehm"
+     "a": "On n'a plus besoin d'être marié pour fonder une famille : aujourd'hui, la majorité des bébés naissent hors mariage."
     },
     {
-     "a": "On s'engage plus tard : les femmes ont leur premier enfant à 31 ans en moyenne.",
-     "src": "insee26"
+     "a": "Le mariage a perdu son poids religieux et social : vivre ensemble sans être marié n'est plus mal vu, même par les grands-parents."
     }
    ],
    "contre": [
     {
-     "a": "Le mariage reste le premier choix en nombre : il y a encore plus de mariages que de PACS chaque année.",
-     "src": "insee26"
+     "a": "Le mariage reste le premier choix officiel : chaque année, il y a encore plus de mariages que de PACS."
     },
     {
-     "a": "Le mariage s'est ouvert à tous : environ 7 000 mariages entre personnes de même sexe en 2025.",
-     "src": "insee26"
+     "a": "Les couples se marient plus tard, mais ils se marient quand même : le mariage vient souvent après des années de vie commune, comme une étape symbolique."
     },
     {
-     "a": "Les Français se marient encore beaucoup : 251 000 mariages en 2025, soit près de 700 par jour.",
-     "src": "insee26"
+     "a": "Le mariage s'est ouvert à tous en 2013 : des milliers de couples de même sexe se marient chaque année, preuve que l'institution garde de la valeur."
     }
+   ],
+   "modele": "[[Il est vrai que]] les Français se détournent un peu du mariage : le PACS est une vraie alternative, et on n'a plus besoin d'être marié pour avoir des enfants. [[Néanmoins]], le mariage reste le premier choix officiel. [[Bref]], il n'a pas disparu : il est devenu un choix parmi d'autres.",
+   "plus": [
+    "Environ 251 000 mariages en 2025 (près de 700 par jour), contre 197 000 PACS en 2024.",
+    "Environ 7 000 mariages entre personnes de même sexe en 2025.",
+    "Âge moyen des femmes au premier enfant : 31 ans."
    ]
   },
   {
@@ -294,7 +300,7 @@ registerUnit({
    "questions": [
     {
      "q": "Comment est-ce que la vie des femmes a changé pendant ces dernières années en France ?",
-     "note": "Work, money, choice of when to have children, rights (PMA, equal pay laws)."
+     "note": "Work, money, choosing when to have children, rights – then say what still holds women back."
     },
     {
      "q": "Est-ce que ces changements sont responsables du déclin de la famille traditionnelle française ?",
@@ -311,31 +317,31 @@ registerUnit({
    ],
    "pour": [
     {
-     "a": "Les tâches ménagères restent surtout féminines : 68 % des femmes cuisinent ou font le ménage tous les jours, contre 43 % des hommes.",
-     "src": "oi"
+     "a": "Les tâches ménagères restent surtout féminines : ce sont encore les femmes qui cuisinent, font le ménage et s'occupent des enfants le plus souvent."
     },
     {
-     "a": "L'inégalité au travail renforce les rôles traditionnels : les femmes gagnent 14 % de moins que les hommes à temps de travail égal.",
-     "src": "inseesal"
+     "a": "L'inégalité de salaire renforce les rôles traditionnels : comme l'homme gagne souvent plus, c'est la femme qui réduit son temps de travail quand un enfant arrive."
     },
     {
-     "a": "Quand le couple se sépare, ce sont surtout les mères qui élèvent les enfants : 82 % des familles monoparentales.",
-     "src": "insee21"
+     "a": "Quand un couple se sépare, ce sont surtout les mères qui élèvent les enfants : la famille reste vue comme une affaire de femmes."
     }
    ],
    "contre": [
     {
-     "a": "Les choses bougent : entre 2007 et 2022, la part des hommes qui font le ménage tous les jours a augmenté de 10 points.",
-     "src": "oi"
+     "a": "Les choses bougent : les hommes participent davantage au ménage et aux enfants qu'il y a vingt ans, même si l'égalité n'est pas atteinte."
     },
     {
-     "a": "Les femmes choisissent davantage leur vie : elles ont leur premier enfant plus tard (31 ans en moyenne) et moins d'enfants.",
-     "src": "insee26"
+     "a": "Les femmes ont gagné leur indépendance : elles travaillent, font des études plus longues et choisissent quand avoir des enfants. Le couple est devenu un choix, pas une obligation."
     },
     {
-     "a": "Le déclin de la famille traditionnelle a plusieurs causes, pas seulement le travail des femmes : le PACS offre une autre façon de s'engager (197 000 PACS en 2024).",
-     "src": "insee26"
+     "a": "Le déclin de la famille traditionnelle a plusieurs causes, pas seulement les changements chez les femmes : le PACS, le divorce plus facile et le recul de la religion comptent aussi."
     }
+   ],
+   "modele": "[[D'un côté]], les femmes ont gagné leur indépendance : elles travaillent et choisissent quand avoir des enfants. [[De l'autre]], les rôles restent assez traditionnels, [[car]] ce sont encore elles qui font la plupart des tâches ménagères. [[Par conséquent]], le couple a changé, mais l'égalité n'est pas encore atteinte.",
+   "plus": [
+    "68 % des femmes cuisinent ou font le ménage tous les jours, contre 43 % des hommes.",
+    "Entre 2007 et 2022, la part des hommes qui font le ménage chaque jour a augmenté de 10 points.",
+    "Les femmes gagnent 14 % de moins que les hommes à temps de travail égal (2024)."
    ]
   }
  ]

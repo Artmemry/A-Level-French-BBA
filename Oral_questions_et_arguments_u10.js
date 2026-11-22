@@ -53,36 +53,39 @@ registerUnit({
     },
     {
      "q": "Quelles étaient les différentes formes de collaboration ?",
-     "note": "List the forms with an example of each."
+     "note": "List the forms (by the State, economic, ideological, everyday) with an example of each."
     }
    ],
    "pour": [
     {
-     "a": "Les collaborateurs convaincus étaient peu nombreux : environ 96 500 personnes soupçonnées en 1945, soit 0,24 % de la population (estimation basse).",
-     "src": "guichet"
+     "a": "Les collaborateurs convaincus étaient peu nombreux : seule une petite minorité de Français a vraiment choisi le camp de l'Allemagne."
     },
     {
-     "a": "Beaucoup de Français ont protégé les Juifs : les trois quarts des Juifs de France ont survécu, grâce notamment aux Justes.",
-     "src": "holl"
+     "a": "Beaucoup de Français voulaient seulement survivre : pénuries, files d'attente, peur. S'adapter à l'occupant, ce n'est pas la même chose que collaborer."
     },
     {
-     "a": "Beaucoup voulaient seulement survivre : la vie quotidienne était faite de pénuries, de files d'attente et de marché noir.",
-     "src": "veillon"
+     "a": "Beaucoup ont aidé les Juifs : grâce notamment aux Justes, les trois quarts des Juifs de France ont survécu."
     }
    ],
    "contre": [
     {
-     "a": "La collaboration était d'abord celle de l'État : Pétain rencontre Hitler à Montoire en octobre 1940 et Laval dirige le gouvernement de 1942 à 1944.",
-     "src": "lar"
+     "a": "La collaboration était d'abord celle de l'État : Pétain a choisi de collaborer avec Hitler dès octobre 1940."
     },
     {
-     "a": "La police française a arrêté 13 152 Juifs lors de la rafle du Vel d'Hiv (16-17 juillet 1942).",
-     "src": "vel"
+     "a": "La police française a elle-même arrêté des milliers de Juifs lors de la rafle du Vel d'Hiv, en juillet 1942."
     },
     {
-     "a": "Après la guerre, environ 97 000 personnes ont été condamnées pour collaboration.",
-     "src": "guichet"
+     "a": "Après la guerre, des dizaines de milliers de personnes ont été condamnées pour collaboration : ce n'était pas un phénomène marginal."
+    },
+    {
+     "a": "Il y avait d'autres choix : certains ont refusé, caché des Juifs ou rejoint la Résistance. On ne peut donc pas dire qu'il n'y avait « pas d'autre choix »."
     }
+   ],
+   "modele": "[[Il est vrai que]] peu de Français ont collaboré par conviction : la plupart voulaient seulement survivre. [[Cependant]], on ne peut pas dire que la collaboration a été exagérée, [[car]] c'est l'État lui-même qui a collaboré, [[par exemple]] lors de la rafle du Vel d'Hiv.",
+   "plus": [
+    "Rafle du Vel d'Hiv (16-17 juillet 1942) : 13 152 Juifs arrêtés par la police française.",
+    "Pierre Laval dirige le gouvernement de Vichy de 1942 à 1944.",
+    "Après la guerre, environ 97 000 personnes ont été condamnées pour collaboration."
    ]
   },
   {
@@ -107,39 +110,39 @@ registerUnit({
    ],
    "pour": [
     {
-     "a": "Le rationnement : une carte d'alimentation dès septembre 1940, des rations réduites d'année en année.",
-     "src": "veillon"
+     "a": "Le rationnement : chaque famille avait des tickets pour la nourriture, et les rations diminuaient d'année en année."
     },
     {
-     "a": "Les pénuries : viande, beurre, lait, charbon manquaient ; on faisait la queue pendant des heures et on avait froid l'hiver.",
-     "src": "veillon"
+     "a": "Les pénuries : la viande, le beurre, le lait et le charbon manquaient ; on faisait la queue pendant des heures et on avait froid l'hiver."
     },
     {
-     "a": "Le marché noir : dans les Côtes-du-Nord, les prix du marché noir ont été multipliés par cinq entre 1939 et 1944.",
-     "src": "veillon"
+     "a": "Le marché noir : on pouvait tout acheter, mais à des prix énormes, donc seuls les riches mangeaient bien."
     },
     {
-     "a": "Le Service du travail obligatoire (février 1943) envoyait des jeunes travailler en Allemagne.",
-     "src": "maquis"
+     "a": "La peur : arrestations, couvre-feu, et à partir de 1943 le STO envoyait des jeunes travailler de force en Allemagne."
     }
    ],
    "contre": [
     {
-     "a": "Le « café national » à base de châtaignes ou de glands, la saccharine au lieu du sucre.",
-     "src": "veillon"
+     "a": "Des produits de remplacement : un « café » à base de glands ou de châtaignes, la saccharine au lieu du sucre."
     },
     {
-     "a": "Le vélo devient roi : 11 millions de bicyclettes en juillet 1943, et même des vélos-taxis ; les voitures roulent au gazogène.",
-     "src": "veillon"
+     "a": "Le vélo devient roi : il n'y a plus d'essence, alors on circule à vélo, et même en vélo-taxi."
     },
     {
-     "a": "Un nouveau métier apparaît : la « queutière », payée pour faire la queue à la place des autres.",
-     "src": "veillon"
+     "a": "Le système D : on élève des lapins et des poules, on cultive des légumes dans les jardins et sur les balcons."
     },
     {
-     "a": "Certaines innovations ont duré : la culture du soja, le riz de Camargue, l'huile de pépins de raisin.",
-     "src": "veillon"
+     "a": "Certaines innovations ont duré, comme le riz de Camargue."
     }
+   ],
+   "modele": "[[La vie]] sous l'Occupation était très dure, [[à cause du]] rationnement et des pénuries. [[Malgré tout]], les Français ont fait preuve d'inventivité : ils ont trouvé des produits de remplacement [[et]] ont circulé à vélo. [[C'est ce qu'on appelle]] le « système D ».",
+   "plus": [
+    "Carte d'alimentation dès septembre 1940.",
+    "Dans les Côtes-du-Nord, les prix du marché noir ont été multipliés par cinq entre 1939 et 1944.",
+    "11 millions de bicyclettes en juillet 1943 ; les voitures roulent au gazogène.",
+    "Le STO est créé en février 1943.",
+    "La « queutière » était payée pour faire la queue à la place des autres."
    ]
   },
   {
@@ -164,31 +167,35 @@ registerUnit({
    ],
    "pour": [
     {
-     "a": "Par légalisme : le régime semblait légal, car le Parlement avait voté les pleins pouvoirs à Pétain en juillet 1940 (seuls 80 parlementaires s'y étaient opposés).",
-     "src": "lar"
+     "a": "Par légalisme : le régime semblait légal, car le Parlement avait voté les pleins pouvoirs à Pétain en 1940. Obéir à Pétain, c'était obéir à l'État."
     },
     {
-     "a": "Par idéologie : la Milice, créée en janvier 1943, combattait aux côtés de l'occupant.",
-     "src": "lar"
+     "a": "Par idéologie : certains partageaient les idées nazies ou détestaient le communisme, comme les membres de la Milice."
     },
     {
-     "a": "Par nécessité : face aux pénuries, beaucoup cherchaient d'abord à nourrir leur famille.",
-     "src": "veillon"
+     "a": "Par intérêt ou par nécessité : certains voulaient s'enrichir ; beaucoup cherchaient d'abord à nourrir leur famille."
     }
    ],
    "contre": [
     {
-     "a": "Refuser le STO : au moins 10 % des réfractaires sont devenus maquisards, souvent aidés par des paysans.",
-     "src": "maquis"
+     "a": "Attendre : la plupart des Français ont simplement attendu de voir qui gagnerait la guerre (l'attentisme)."
     },
     {
-     "a": "Sauver des vies : l'OSE a caché en secret plus de 5 000 enfants juifs.",
-     "src": "holl"
+     "a": "Refuser le STO : des milliers de jeunes se sont cachés, souvent aidés par des paysans, et beaucoup ont rejoint le maquis."
     },
     {
-     "a": "Rejoindre la France libre ou la Résistance, après l'appel du général de Gaulle le 18 juin 1940.",
-     "src": "res"
+     "a": "Sauver des vies : des familles et des réseaux ont caché des enfants juifs."
+    },
+    {
+     "a": "Rejoindre la France libre ou la Résistance, après l'appel du général de Gaulle le 18 juin 1940."
     }
+   ],
+   "modele": "[[Certains]] ont collaboré par idéologie ou par intérêt, [[mais]] beaucoup pensaient simplement obéir à un État légal. [[Pourtant]], la collaboration n'était pas le seul choix : on pouvait refuser le STO, cacher des Juifs [[ou]] rejoindre la Résistance.",
+   "plus": [
+    "Juillet 1940 : seuls 80 parlementaires refusent les pleins pouvoirs à Pétain.",
+    "La Milice est créée en janvier 1943.",
+    "Au moins 10 % des réfractaires au STO sont devenus maquisards.",
+    "L'OSE a caché plus de 5 000 enfants juifs."
    ]
   },
   {
@@ -213,31 +220,32 @@ registerUnit({
    ],
    "pour": [
     {
-     "a": "Vichy agit de sa propre initiative : le statut des Juifs du 3 octobre 1940, puis celui du 2 juin 1941, les excluent de la fonction publique, de l'armée et de la presse.",
-     "src": "mc18"
+     "a": "L'antisémitisme venait de l'État : Vichy a exclu les Juifs de nombreux métiers dès octobre 1940, sans que l'Allemagne le demande."
     },
     {
-     "a": "Environ 75 000 Juifs ont été déportés de France ; seuls quelque 2 500 sont revenus.",
-     "src": "holl"
+     "a": "Le régime a ensuite livré des Juifs aux nazis : environ 75 000 Juifs ont été déportés de France, et très peu sont revenus."
     },
     {
-     "a": "En 2012, François Hollande l'a dit clairement : « ce crime fut commis en France, par la France ».",
-     "src": "holl"
+     "a": "L'État l'a reconnu : en 1995, Jacques Chirac a admis la responsabilité de la France, et en 2012 François Hollande a dit : « ce crime fut commis en France, par la France »."
     }
    ],
    "contre": [
     {
-     "a": "Les trois quarts des Juifs de France ont survécu, notamment grâce à l'aide de nombreux Français.",
-     "src": "holl"
+     "a": "La population n'était pas majoritairement antisémite : les trois quarts des Juifs de France ont survécu, souvent grâce à l'aide de Français ordinaires."
     },
     {
-     "a": "Les Justes ont sauvé l'honneur : ils ont caché des Juifs au risque de leur vie ; la loi de 2000 leur rend hommage.",
-     "src": "mc18"
+     "a": "Les Justes ont sauvé l'honneur : ils ont caché des Juifs au risque de leur vie."
     },
     {
-     "a": "Des réseaux de sauvetage se sont organisés : l'OSE a caché en secret plus de 5 000 enfants juifs.",
-     "src": "holl"
+     "a": "D'autres raisons comptaient : l'obéissance, la peur ou le profit expliquent aussi le comportement de certains Français."
     }
+   ],
+   "modele": "[[Il est vrai que]] l'antisémitisme explique la politique de Vichy, [[puisque]] le régime a persécuté les Juifs de sa propre initiative. [[En revanche]], la population n'était pas majoritairement antisémite : beaucoup de Français ont aidé les Juifs à survivre.",
+   "plus": [
+    "Statuts des Juifs : 3 octobre 1940, puis 2 juin 1941.",
+    "Environ 75 000 Juifs déportés de France ; seuls quelque 2 500 sont revenus.",
+    "Les trois quarts des Juifs de France ont survécu.",
+    "Une loi de 2000 rend hommage aux Justes."
    ]
   }
  ]

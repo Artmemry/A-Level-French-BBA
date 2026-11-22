@@ -84,45 +84,46 @@ registerUnit({
    "questions": [
     {
      "q": "Selon vous, pourquoi la question du redoublement divise-t-elle la société française ?",
-     "note": "Explain WHO disagrees with whom (government vs teachers' unions, families) and on what grounds."
+     "note": "Explain WHO disagrees with whom (government, teachers' unions, families) and on what grounds: keeping a standard vs. fairness to pupils."
     },
     {
      "q": "Comment les élèves français sont-ils affectés par le redoublement ?",
-     "note": "Effects on pupils: results, motivation, self-esteem – and which pupils repeat most (social background).",
+     "note": "Effects on pupils: results, motivation, self-esteem – and which pupils repeat most (those from poorer families).",
      "also": "Comment le redoublement affecte-t-il les élèves français ?"
     },
     {
      "q": "Jusqu'à quel point le redoublement est-il un sujet de controverse en France ?",
-     "note": "'Jusqu'à quel point' = how much: say how strong the controversy is, and that it comes back with each new minister."
+     "note": "'Jusqu'à quel point' = how much: say how strong the controversy is, and that it comes back with each new government."
     }
    ],
    "pour": [
     {
-     "a": "La France a longtemps été une exception : 28,4 % des élèves de 15 ans avaient déjà redoublé, contre 12,4 % en moyenne dans l'OCDE (PISA 2012).",
-     "src": "redou"
+     "a": "Le redoublement est injuste : à niveau égal, les élèves de milieux défavorisés redoublent beaucoup plus souvent que les autres."
     },
     {
-     "a": "C'est injuste : à niveau égal, un élève défavorisé avait environ deux fois plus de risques de redoubler qu'un élève favorisé.",
-     "src": "redou"
+     "a": "C'est souvent une perte de temps : l'élève refait le même programme de la même façon, perd confiance en lui et quitte ses amis. Une aide ciblée serait plus efficace."
     },
     {
-     "a": "Le sujet divise : en 2024, le gouvernement a redonné le dernier mot à l'école plutôt qu'aux parents ; les syndicats ont dénoncé un risque de « tri » des élèves.",
-     "src": "ps24"
+     "a": "Le sujet divise parce qu'il oppose deux idées de l'école : pour certains, il faut exiger un niveau ; pour d'autres, il ne faut pas « trier » les élèves."
     }
    ],
    "contre": [
     {
-     "a": "Passer en classe supérieure sans les bases ne règle rien : pour la droite sénatoriale, « l'hétérogénéité des classes ne fonctionne plus ».",
-     "src": "ps24"
+     "a": "Passer en classe supérieure sans les bases ne règle rien : l'élève sera encore plus perdu l'année suivante."
     },
     {
-     "a": "Depuis 2024, c'est le chef d'établissement qui décide, après l'avis du conseil de classe : l'État considère donc que le redoublement peut encore aider certains élèves.",
-     "src": "ps24"
+     "a": "Le redoublement peut donner une seconde chance : pour un élève qui a été malade ou qui a eu une année difficile, recommencer peut l'aider à repartir."
     },
     {
-     "a": "Le redoublement est déjà devenu rare : moins de 14 % des élèves finissent l'école primaire en retard, contre plus de la moitié en 1960. Le débat est donc plus symbolique qu'avant.",
-     "src": "redou"
+     "a": "Le débat est moins vif qu'avant : le redoublement est devenu rare en France, alors qu'autrefois il était très fréquent."
     }
+   ],
+   "modele": "[[Certes]], passer en classe supérieure sans les bases ne règle rien. [[Toutefois]], le redoublement est souvent une perte de temps, [[car]] l'élève refait le même programme de la même façon et perd confiance. [[À mon avis]], une aide ciblée vaut mieux qu'une année de plus.",
+   "plus": [
+    "PISA 2012 : 28,4 % des élèves de 15 ans avaient déjà redoublé en France, contre 12,4 % en moyenne dans l'OCDE.",
+    "À niveau égal, un élève défavorisé avait environ deux fois plus de risques de redoubler.",
+    "Moins de 14 % des élèves finissent l'école primaire en retard, contre plus de la moitié en 1960.",
+    "Depuis 2024, c'est le chef d'établissement qui décide, après l'avis du conseil de classe."
    ]
   },
   {
@@ -134,7 +135,7 @@ registerUnit({
    "questions": [
     {
      "q": "Pourquoi le gouvernement français a-t-il décidé de modifier les rythmes scolaires ?",
-     "note": "First say WHICH change you mean: 2013 (4½ days, for children's learning and tiredness) or 2017 (most towns went back to 4 days). 'Rythmes scolaires' = how the school week and day are organised."
+     "note": "First say WHICH change you mean: 2013 (4½ days, for children's learning and tiredness) or 2017 (most towns went back to 4 days). Then give the reason."
     },
     {
      "q": "Comment ces changements ont-ils été reçus par les Français ?",
@@ -143,31 +144,31 @@ registerUnit({
    ],
    "pour": [
     {
-     "a": "Trop de réformes contradictoires : Darcos (2008), Peillon (2013), Blanquer (2017) – les familles et les communes ne savent plus sur quel pied danser.",
-     "src": "bdt"
+     "a": "Le retour à quatre jours va contre l'intérêt des enfants : les journées sont trop longues et les enfants sont plus fatigués."
     },
     {
-     "a": "Le retour à quatre jours va contre l'intérêt des enfants : selon la Cour des comptes (2025), la semaine de quatre jours est « en décalage avec les besoins de l'élève » ; les journées sont trop longues.",
-     "src": "bdt"
+     "a": "Les spécialistes pensent que les enfants apprennent mieux le matin : cinq matinées valent mieux que quatre. C'était le but de la réforme de 2013."
     },
     {
-     "a": "Pour les spécialistes du rythme de l'enfant, quatre jours et demi conviennent mieux aux apprentissages : c'était le but de la réforme de 2013.",
-     "src": "bdt"
-    },
-    {
-     "a": "Le débat revient : en novembre 2025, une convention citoyenne a proposé de revenir à cinq jours en primaire et de commencer les cours à 9 heures au collège et au lycée.",
-     "src": "conv"
+     "a": "Trop de réformes contradictoires : en dix ans, la semaine a changé plusieurs fois, et les familles comme les écoles ne savent plus sur quel pied danser."
     }
    ],
    "contre": [
     {
-     "a": "Le retour à quatre jours répondait à une demande locale : environ 90 % des communes l'ont choisi dès que la loi l'a permis.",
-     "src": "bdt"
+     "a": "Le retour à quatre jours répondait à une demande locale : presque toutes les communes l'ont choisi dès que la loi l'a permis."
     },
     {
-     "a": "Changer encore serait difficile : en janvier 2026, le ministre Édouard Geffray a renvoyé la décision au débat de la présidentielle de 2027.",
-     "src": "conv"
+     "a": "La semaine de quatre jours et demi coûtait cher aux communes, qui devaient organiser et payer des activités après l'école."
+    },
+    {
+     "a": "Le mercredi libre est utile : les enfants peuvent faire du sport, de la musique ou se reposer, et beaucoup de familles s'organisent autour."
     }
+   ],
+   "modele": "[[Il est vrai que]] la semaine de quatre jours répondait à une demande des communes et des familles. [[Cependant]], elle va contre l'intérêt des enfants, [[puisque]] les journées sont plus longues et plus fatigantes. [[Donc]], oui, c'est en partie un pas en arrière.",
+   "plus": [
+    "Environ 90 % des communes sont revenues à quatre jours dès que la loi l'a permis (2017).",
+    "Cour des comptes (2025) : la semaine de quatre jours est « en décalage avec les besoins de l'élève ».",
+    "Novembre 2025 : une convention citoyenne propose cinq jours en primaire et des cours à 9 heures au collège et au lycée."
    ]
   },
   {
@@ -183,36 +184,37 @@ registerUnit({
     },
     {
      "q": "Quelle est l'importance du secteur privé dans l'éducation en France ?",
-     "note": "'Importance' has TWO meanings here: HOW BIG the sector is (about 17 % of pupils, €8 bn from the State) AND what role it plays in society."
+     "note": "'Importance' has TWO meanings here: HOW BIG the sector is (about one pupil in six) AND what role it plays in society."
     }
    ],
    "pour": [
     {
-     "a": "Les parents fuient les absences non remplacées : 72 % des parents qui choisissent le privé citent ce problème, contre 54 % des parents du public.",
-     "src": "fjj"
+     "a": "Les absences de professeurs sont mieux remplacées dans le privé : c'est la première raison que donnent les parents qui changent d'école."
     },
     {
-     "a": "La sécurité et le suivi des élèves comptent : 79 % des parents du privé y voient un atout.",
-     "src": "fjj"
+     "a": "Les parents y voient plus de sécurité et un meilleur suivi : les établissements privés sont souvent plus petits et plus proches des familles."
     },
     {
-     "a": "Ce n'est pas un choix marginal : le privé accueille environ 17 % des élèves.",
-     "src": "cdc"
+     "a": "Ce n'est pas un choix marginal : environ un élève sur six est dans le privé, et la plupart de ces écoles suivent les mêmes programmes que le public."
     }
    ],
    "contre": [
     {
-     "a": "Le privé se referme socialement : plus de 40 % de ses élèves viennent de milieux très favorisés en 2021, contre 26,4 % en 2000.",
-     "src": "cdc"
+     "a": "Le privé crée des inégalités : il accueille de plus en plus d'enfants de familles aisées, et de moins en moins d'élèves boursiers. L'école se sépare selon l'argent."
     },
     {
-     "a": "Il est pourtant financé à plus de 75 % par l'argent public, dont 8 milliards d'euros de l'État – mais il ne compte que 11,8 % d'élèves boursiers, contre 29,1 % dans le public.",
-     "src": "cdc"
+     "a": "C'est injuste, car le privé est financé en grande partie par l'argent public, mais il peut choisir ses élèves."
     },
     {
-     "a": "Le public fait aussi bien : à public social comparable, l'école publique fait davantage progresser les élèves – 70 % des parents l'ignorent.",
-     "src": "fjj"
+     "a": "Le public fait aussi bien : à élèves comparables, l'école publique les fait progresser autant, voire plus. Les bons résultats du privé viennent surtout de ses élèves."
     }
+   ],
+   "modele": "[[Je comprends]] les parents qui choisissent le privé, [[car]] les absences y sont mieux remplacées. [[En revanche]], le privé crée des inégalités : financé par l'argent public, il accueille surtout des familles aisées. [[De plus]], à élèves comparables, le public fait aussi bien. [[Ce n'est donc pas forcément]] un meilleur choix.",
+   "plus": [
+    "Le privé accueille environ 17 % des élèves et reçoit 8 milliards d'euros de l'État ; il est financé à plus de 75 % par l'argent public.",
+    "Plus de 40 % de ses élèves viennent de milieux très favorisés (2021), contre 26,4 % en 2000.",
+    "Élèves boursiers : 11,8 % dans le privé, 29,1 % dans le public.",
+    "72 % des parents qui choisissent le privé citent les absences non remplacées."
    ]
   },
   {
@@ -228,48 +230,41 @@ registerUnit({
     },
     {
      "q": "Quels sont les aspects du Bac les plus appréciés par les étudiants ?",
-     "note": "Positive aspects only: choice of subjects (spécialités), the end of fixed streams, contrôle continu."
+     "note": "Positive aspects only (not pro/con): choice of subjects (spécialités), the end of fixed streams, contrôle continu."
     },
     {
      "q": "Parlez-moi de la nouvelle réforme du BAC ?",
-     "note": "Describe the reform (first bac in 2021: 40 % contrôle continu, spécialités instead of the S/ES/L series), what went wrong (spécialité exams in March, moved back to June in 2024) and the 2026 changes – then evaluate."
+     "note": "Describe the reform (spécialités instead of the S/ES/L streams, part of the mark from contrôle continu), what went wrong (exams in March, moved back to June) – then evaluate."
     }
    ],
    "pour": [
     {
-     "a": "Le calendrier a été un échec : en 2023, les épreuves de spécialité avaient lieu en mars ; les élèves connaissaient alors environ 80 % de leur note, et beaucoup ont cessé de venir en cours. Un syndicat de chefs d'établissement estime à 1,2 million les heures de cours perdues.",
-     "src": "mars23"
+     "a": "Le calendrier a été un échec : quand les épreuves de spécialité avaient lieu en mars, beaucoup d'élèves ont arrêté de travailler pour le reste de l'année. Le gouvernement a dû les remettre en juin."
     },
     {
-     "a": "Le gouvernement a dû reculer : dès 2024, les épreuves de spécialité sont revenues en juin pour lutter contre l'absentéisme du troisième trimestre.",
-     "src": "juin24"
+     "a": "Le contrôle continu devait réduire le stress, mais c'est l'inverse : maintenant chaque note compte, pour le bac comme pour Parcoursup."
     },
     {
-     "a": "Le contrôle continu devait réduire le stress, mais chaque note compte désormais, pour le bac comme pour Parcoursup : en 2025, la ministre Élisabeth Borne a voulu le revoir pour « diminuer la pression sur les élèves et l'anxiété ».",
-     "src": "borne"
-    },
-    {
-     "a": "La valeur du diplôme est mise en doute : dès 2026, les jurys ne peuvent plus ajouter plus de 50 points à un candidat qui n'a pas la moyenne.",
-     "src": "borne"
+     "a": "La valeur du diplôme est mise en doute : avec le contrôle continu, une note ne vaut pas la même chose dans tous les lycées."
     }
    ],
    "contre": [
     {
-     "a": "Le principe est juste : avec 40 % de contrôle continu, on ne joue plus tout sur un seul examen ; Jean-Michel Blanquer voulait « ne pas tout jouer sur une seule session d'examen » et récompenser le travail régulier plutôt que le bachotage.",
-     "src": "bac18"
+     "a": "Le principe est juste : on ne joue plus tout sur un seul examen, et le travail régulier est récompensé plutôt que le bachotage."
     },
     {
-     "a": "Les élèves choisissent leurs matières : trois spécialités en première, deux en terminale, au lieu des séries générales.",
-     "src": "bac18"
+     "a": "Les élèves choisissent leurs matières : au lieu des séries S, ES ou L, ils composent leur propre parcours selon leurs goûts et leurs projets."
     },
     {
-     "a": "Selon l'ancien ministre, plus de 500 000 élèves auraient évité l'échec en première année d'études supérieures grâce aux réformes du lycée, du bac et de l'orientation.",
-     "src": "blanq"
-    },
-    {
-     "a": "La réforme a été corrigée plutôt qu'abandonnée : retour des épreuves en juin (2024), règles de notation plus strictes (2026).",
-     "src": "juin24"
+     "a": "La réforme a été corrigée plutôt qu'abandonnée : on a gardé les bonnes idées et changé ce qui ne marchait pas, comme le calendrier."
     }
+   ],
+   "modele": "[[Le principe]] du nouveau bac est juste : on ne joue plus tout sur un seul examen. [[Mais]] la mise en place a été difficile : les épreuves en mars ont vidé les classes, et le contrôle continu ajoute de la pression. [[C'est pourquoi]] la réforme n'est pas populaire auprès de tous, [[même si]] elle a été corrigée.",
+   "plus": [
+    "Premier nouveau bac en 2021 : 40 % de la note en contrôle continu.",
+    "En 2023, avec les épreuves en mars, les élèves connaissaient environ 80 % de leur note ; un syndicat estime à 1,2 million les heures de cours perdues.",
+    "Depuis 2024, les épreuves de spécialité ont lieu en juin.",
+    "Depuis 2026, les jurys ne peuvent plus ajouter plus de 50 points à un candidat qui n'a pas la moyenne."
    ]
   },
   {
@@ -282,40 +277,45 @@ registerUnit({
    "questions": [
     {
      "q": "À votre avis, est-il vrai de dire que le système actuel des apprentissages en France est populaire ?",
-     "note": "'Populaire' = chosen by many young people and employers: use the number of contracts."
+     "note": "'Populaire' = chosen by many young people and employers: say how much it has grown, then whether that will last."
     },
     {
      "q": "Quels aspects de ce système vous paraissent positifs ?",
-     "note": "Positive aspects: pay, work experience, finding a job afterwards."
+     "note": "Positive aspects only (not pro/con): pay, work experience, finding a job afterwards."
     },
     {
      "q": "Les lycées professionnels doivent être réformés ! Qu'en penses-tu ?",
-     "note": "Give a view on the vocational lycée: its image, its results, the 2023 reform."
+     "note": "Give a view on the lycée professionnel: its image, its results, what a reform should change."
     }
    ],
    "pour": [
     {
-     "a": "Le système coûte très cher : environ 15 milliards d'euros en 2023, soit 14 700 € par apprenti – beaucoup plus qu'en Allemagne.",
-     "src": "tresor"
+     "a": "Le système coûte très cher à l'État : les entreprises reçoivent des aides importantes pour chaque apprenti. Quand les aides baissent, les contrats baissent aussi."
     },
     {
-     "a": "Il profite surtout aux étudiants du supérieur, moins aux jeunes peu diplômés qui en ont le plus besoin.",
-     "src": "tresor"
+     "a": "Il profite surtout aux étudiants du supérieur, déjà diplômés, et moins aux jeunes sans diplôme qui en ont le plus besoin."
     },
     {
-     "a": "Les aides ont été réduites en 2025 (5 000 € pour les entreprises de moins de 250 salariés, 2 000 € pour les autres) et les entrées en apprentissage ont baissé.",
-     "src": "dreets"
+     "a": "La voie professionnelle souffre d'une mauvaise image : on y oriente souvent les élèves en échec, au lieu d'en faire un vrai choix."
     }
    ],
    "contre": [
     {
-     "a": "Un succès de masse : 306 000 nouveaux contrats en 2017, 879 000 en 2024, et plus d'un million d'apprentis.",
-     "src": "tresor"
+     "a": "Un succès de masse : le nombre d'apprentis a presque triplé depuis 2017, et il y en a aujourd'hui plus d'un million."
     },
     {
-     "a": "Il aide à trouver un emploi : 63 % des apprentis titulaires d'un CAP travaillent 18 mois après, contre 36 % des élèves de la voie scolaire.",
-     "src": "tresor"
+     "a": "L'apprentissage aide à trouver un emploi : les apprentis trouvent du travail beaucoup plus vite que les jeunes formés seulement à l'école."
+    },
+    {
+     "a": "Les jeunes y gagnent : ils sont payés, apprennent un métier concret et deviennent indépendants plus tôt."
     }
+   ],
+   "modele": "[[Loin d'être]] un échec, l'apprentissage est un succès de masse, [[et]] il aide les jeunes à trouver un emploi. [[Toutefois]], il coûte très cher et profite surtout à ceux qui sont déjà diplômés. [[Il faudrait donc]] mieux cibler les aides vers les jeunes sans diplôme.",
+   "plus": [
+    "306 000 nouveaux contrats d'apprentissage en 2017, 879 000 en 2024.",
+    "63 % des apprentis titulaires d'un CAP travaillent 18 mois après, contre 36 % des élèves de la voie scolaire.",
+    "Coût : environ 15 milliards d'euros en 2023, soit 14 700 € par apprenti.",
+    "Aides réduites en 2025 : 5 000 € pour les entreprises de moins de 250 salariés, 2 000 € pour les autres."
    ]
   },
   {
@@ -327,11 +327,11 @@ registerUnit({
    "questions": [
     {
      "q": "Pourquoi, selon vous, dit-on que l'éducation française est élitiste ?",
-     "note": "'Élitiste' = it rewards children who are already privileged. Show the gap between social classes."
+     "note": "'Élitiste' = it rewards children who are already privileged. Show the gap between social classes with one clear example."
     },
     {
      "q": "Quelles sont quelques-unes des solutions suggérées pour rendre l'éducation française plus égalitaire ?",
-     "note": "List concrete measures (small groups, priority education…) and say whether they work."
+     "note": "List concrete measures (smaller classes, small groups, priority education…) and say whether they work."
     },
     {
      "q": "Quelles sont les causes principales du désengagement scolaire ?",
@@ -339,36 +339,36 @@ registerUnit({
     },
     {
      "q": "À votre avis, jusqu'à quel point le désengagement scolaire est-il un problème pour les autorités françaises ?",
-     "note": "Degree: is it getting better or worse? Compare with Europe."
+     "note": "Degree: is it getting better or worse? Say what the authorities do about it."
     }
    ],
    "pour": [
     {
-     "a": "Le milieu social pèse lourd : en mathématiques (PISA 2022), 113 points séparent les élèves les plus favorisés des moins favorisés, contre 94 en moyenne dans l'OCDE.",
-     "src": "inseeIneg"
+     "a": "Le milieu social pèse plus lourd en France qu'ailleurs : l'écart de résultats entre élèves favorisés et défavorisés est l'un des plus forts des pays riches."
     },
     {
-     "a": "83 % des enfants de cadres obtiennent un diplôme du supérieur, contre 37 % des enfants d'ouvriers.",
-     "src": "inseeIneg"
+     "a": "Les études longues restent surtout pour les enfants de cadres : les enfants d'ouvriers ont beaucoup moins de chances d'obtenir un diplôme du supérieur."
     },
     {
-     "a": "15 % des enfants d'ouvriers quittent l'école avec au mieux le brevet, contre 2 % des enfants de cadres.",
-     "src": "inseeIneg"
+     "a": "Le système valorise les grandes écoles et les filières prestigieuses, que les familles aisées connaissent et préparent mieux."
     }
    ],
    "contre": [
     {
-     "a": "Le décrochage recule : 7,6 % des 18-24 ans ont quitté l'école sans diplôme en 2023, contre 11,2 % en 2006 – mieux que la moyenne européenne (9,5 %).",
-     "src": "insSort"
+     "a": "Le décrochage recule : moins de jeunes quittent l'école sans diplôme qu'il y a vingt ans, et la France fait mieux que la moyenne européenne."
     },
     {
-     "a": "L'État réagit : depuis 2024, les collégiens en difficulté travaillent en petits groupes de besoins en français et en maths.",
-     "src": "ps24"
+     "a": "L'État réagit : éducation prioritaire, petites classes en primaire, groupes de besoin au collège pour les élèves en difficulté."
     },
     {
-     "a": "L'école publique reste gratuite et ouverte à tous ; à public égal, elle fait davantage progresser les élèves que le privé.",
-     "src": "fjj"
+     "a": "L'école publique reste gratuite et ouverte à tous : c'est la meilleure chance pour un enfant de milieu modeste de réussir."
     }
+   ],
+   "modele": "[[Il est vrai que]] l'école française reste élitiste : le milieu social pèse plus lourd en France qu'ailleurs. [[Néanmoins]], l'État réagit avec l'éducation prioritaire, et le décrochage recule. [[En somme]], l'école publique reste une chance pour tous, mais elle doit réduire davantage les inégalités.",
+   "plus": [
+    "PISA 2022 (maths) : 113 points d'écart entre les élèves les plus et les moins favorisés, contre 94 en moyenne dans l'OCDE.",
+    "83 % des enfants de cadres obtiennent un diplôme du supérieur, contre 37 % des enfants d'ouvriers.",
+    "Décrochage : 7,6 % des 18-24 ans en 2023, contre 11,2 % en 2006 (moyenne européenne : 9,5 %)."
    ]
   },
   {
@@ -389,27 +389,31 @@ registerUnit({
    ],
    "pour": [
     {
-     "a": "Environ 5 % des collégiens et 3 % des lycéens se disent harcelés ; le taux monte à 6 % en CAP.",
-     "src": "harc"
+     "a": "Le harcèlement touche des élèves dans presque chaque établissement, surtout au collège, et le problème ne recule pas d'une année sur l'autre."
     },
     {
-     "a": "Les chiffres sont stables d'une année sur l'autre : le problème ne recule pas.",
-     "src": "harc"
+     "a": "Avec les réseaux sociaux, le harcèlement ne s'arrête plus à la porte de l'école : il continue le soir et le week-end."
+    },
+    {
+     "a": "Les conséquences peuvent être graves : perte de confiance, échec scolaire, et parfois même le suicide."
     }
    ],
    "contre": [
     {
-     "a": "Depuis la loi du 2 mars 2022, le harcèlement scolaire est un délit : jusqu'à 10 ans de prison et 150 000 € d'amende en cas de suicide ou de tentative de suicide de la victime.",
-     "src": "caf"
+     "a": "Punir : depuis 2022, le harcèlement scolaire est un délit. La loi montre qu'il ne s'agit pas d'un simple jeu d'enfants."
     },
     {
-     "a": "Former tout le personnel (CPE, psychologues, surveillants) à repérer les signes.",
-     "src": "caf"
+     "a": "Former tous les adultes de l'école à repérer les signes, pour agir vite."
     },
     {
-     "a": "Donner la parole aux élèves : chaque année, un questionnaire permet aux élèves du CE2 à la terminale de signaler une situation.",
-     "src": "harc"
+     "a": "Donner la parole aux élèves : un questionnaire chaque année, et des élèves formés pour aider leurs camarades."
     }
+   ],
+   "modele": "[[Le harcèlement]] reste un problème sérieux, [[d'autant plus que]] les réseaux sociaux le prolongent à la maison. [[Pour y mettre fin]], il faut d'abord former les adultes à repérer les signes, [[puis]] donner la parole aux élèves. [[Enfin]], la loi doit punir les harceleurs.",
+   "plus": [
+    "Environ 5 % des collégiens et 3 % des lycéens se disent harcelés ; 6 % en CAP.",
+    "Loi du 2 mars 2022 : jusqu'à 10 ans de prison et 150 000 € d'amende en cas de suicide ou de tentative de suicide de la victime.",
+    "Un questionnaire chaque année pour les élèves du CE2 à la terminale."
    ]
   }
  ]

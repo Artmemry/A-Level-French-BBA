@@ -107,7 +107,7 @@ registerUnit({
     },
     {
      "q": "Quels sont les droits du travail les plus importants pour les travailleurs français ?",
-     "note": "Name concrete rights: the right to strike, 35 hours, paid holidays, minimum wage, pensions."
+     "note": "Name concrete rights (the right to strike, 35 hours, paid holidays, minimum wage, pensions) and say why they matter so much."
     },
     {
      "q": "Quel est l'impact des grèves sur la vie politique en France ?",
@@ -120,31 +120,32 @@ registerUnit({
    ],
    "pour": [
     {
-     "a": "La mobilisation est massive : en 2023, jusqu'à 1,3 million de manifestants contre la réforme des retraites, selon le ministère de l'Intérieur.",
-     "src": "ps23"
+     "a": "Les Français défendent leurs droits collectivement, dans la rue : contre la réforme des retraites en 2023, plus d'un million de personnes ont manifesté."
     },
     {
-     "a": "La mobilisation continue : le 17 octobre 2026, 550 000 personnes ont manifesté contre la vie chère, selon le gouvernement.",
-     "src": "oct17b"
+     "a": "La grève est un droit inscrit dans la Constitution, et les Français s'en servent : pour eux, les acquis sociaux ont été gagnés par la lutte et doivent être défendus."
     },
     {
-     "a": "Les grandes réformes passent difficilement : en 2023, le gouvernement a dû utiliser l'article 49.3, et la motion de censure n'a échoué qu'à neuf voix.",
-     "src": "ps23"
+     "a": "La mobilisation pèse sur la politique : les gouvernements reculent souvent, et les grandes réformes passent très difficilement."
     }
    ],
    "contre": [
     {
-     "a": "Les syndicats sont faibles en nombre : seulement 10,8 % des salariés sont syndiqués, et 8,4 % dans le privé.",
-     "src": "ifrap"
+     "a": "Les syndicats sont faibles : à peine un salarié sur dix est syndiqué, l'un des taux les plus bas d'Europe."
     },
     {
-     "a": "Les grèves reculent fortement après les grands conflits : 62 jours de grève pour 1 000 salariés en 2024, soit 64 % de moins qu'en 2023.",
-     "src": "tissot"
+     "a": "La rue ne gagne pas toujours : malgré la mobilisation de 2023, la réforme des retraites a été adoptée."
     },
     {
-     "a": "La rue ne gagne pas toujours : malgré la mobilisation de 2023, la réforme des retraites a été adoptée (article 49.3).",
-     "src": "ps23"
+     "a": "L'image des « Français toujours en grève » est exagérée : les grèves reculent fortement dès que les grands conflits sont terminés."
     }
+   ],
+   "modele": "[[Il est indéniable que]] les travailleurs français défendent leurs droits, [[car]] ils pensent que ces acquis ont été gagnés par la lutte. [[Pourtant]], les syndicats sont faibles, et la rue ne gagne pas toujours, [[comme]] en 2023. [[Bref]], les Français se mobilisent fortement, mais rarement.",
+   "plus": [
+    "2023 : jusqu'à 1,3 million de manifestants contre la réforme des retraites (ministère de l'Intérieur).",
+    "10,8 % des salariés sont syndiqués, 8,4 % dans le privé.",
+    "2024 : 62 jours de grève pour 1 000 salariés, 64 % de moins qu'en 2023.",
+    "17 octobre 2026 : 550 000 manifestants contre la vie chère (selon le gouvernement)."
    ]
   },
   {
@@ -160,36 +161,36 @@ registerUnit({
     },
     {
      "q": "Quels sont quelques-uns des changements proposés concernant la durée de la semaine de travail ?",
-     "note": "List proposals in both directions: work more (abolish 35 h, remove public holidays) and work less (32 h)."
+     "note": "List proposals in both directions: work more (end the 35 hours, fewer public holidays) and work less (32 hours)."
     }
    ],
    "pour": [
     {
-     "a": "La durée réelle reste loin de 35 heures : 38,9 heures par semaine en moyenne pour les salariés à temps complet. Attention : 35 heures n'est pas un maximum, c'est le seuil à partir duquel on paie des heures supplémentaires.",
-     "src": "inseeH"
+     "a": "Pour les entreprises, les 35 heures coûtent cher : elles doivent payer des heures supplémentaires ou embaucher, ce qui pèse surtout sur les petites entreprises."
     },
     {
-     "a": "La droite veut « travailler plus » : en 2024, Gérald Darmanin a proposé de mettre fin aux 35 heures.",
-     "src": "darm"
+     "a": "En réalité, beaucoup de salariés à temps complet travaillent plus de 35 heures : c'est le seuil des heures supplémentaires, pas un maximum."
     },
     {
-     "a": "Pour réduire la dette, François Bayrou a proposé en 2025 de supprimer deux jours fériés (le lundi de Pâques et le 8 mai) – idée finalement abandonnée.",
-     "src": "bay"
+     "a": "Une partie de la droite veut « travailler plus » pour produire plus et réduire la dette : elle propose de supprimer les 35 heures ou des jours fériés."
     }
    ],
    "contre": [
     {
-     "a": "Le bilan sur l'emploi est contesté : la Dares estime qu'environ 350 000 emplois ont été créés grâce aux 35 heures entre 1998 et 2002 ; d'autres économistes jugent ce chiffre trop optimiste.",
-     "src": "an14"
+     "a": "Les salariés y sont attachés : plus de temps libre et un meilleur équilibre avec la vie de famille. C'est pourquoi aucun gouvernement ne les a supprimées."
     },
     {
-     "a": "Les salariés y sont attachés : plus de temps libre (jours de RTT) et un meilleur équilibre avec la vie familiale – c'est pourquoi aucun gouvernement ne les a supprimées.",
-     "src": "darm"
+     "a": "Elles ont créé des emplois au début, même si les économistes ne sont pas d'accord sur le nombre."
     },
     {
-     "a": "Certains veulent même aller plus loin : la CGT défend la semaine de 32 heures pour créer des emplois.",
-     "src": "cgt"
+     "a": "Certains veulent même aller plus loin : des syndicats défendent la semaine de 32 heures pour partager le travail et créer des emplois."
     }
+   ],
+   "modele": "[[Selon]] certains employeurs, les 35 heures coûtent cher, [[surtout]] aux petites entreprises. [[En revanche]], les salariés y sont très attachés, [[parce qu']]elles leur donnent plus de temps libre. [[C'est pourquoi]] je ne parlerais pas d'échec : aucun gouvernement n'a osé les supprimer.",
+   "plus": [
+    "Durée réelle : 38,9 heures par semaine en moyenne pour les salariés à temps complet.",
+    "La Dares estime à environ 350 000 les emplois créés grâce aux 35 heures entre 1998 et 2002 (chiffre contesté).",
+    "2025 : le Premier ministre propose de supprimer le lundi de Pâques et le 8 mai – idée abandonnée."
    ]
   },
   {
@@ -206,36 +207,36 @@ registerUnit({
     },
     {
      "q": "Quelles sont les modifications imposées par le gouvernement français dans la réforme du Code du Travail ?",
-     "note": "'Imposées' hints at HOW: by ordonnances (government decrees, little parliamentary debate). Then list 2–3 changes."
+     "note": "'Imposées' hints at HOW: by ordonnances (government decrees, little debate in Parliament). Then explain 2–3 changes."
     }
    ],
    "pour": [
     {
-     "a": "Les instances du personnel ont été fusionnées dans le comité social et économique (CSE) : environ un tiers de mandats de représentants en moins.",
-     "src": "fo"
+     "a": "Les représentants des salariés ont été regroupés dans un seul comité (le CSE) : il y a moins de représentants, donc les syndicats ont moins de moyens d'agir."
     },
     {
-     "a": "Les indemnités pour licenciement abusif sont plafonnées par un barème ; la Cour de cassation l'a validé en 2022 malgré la résistance de plusieurs cours d'appel.",
-     "src": "bareme"
+     "a": "La réforme a été imposée par ordonnances, presque sans débat au Parlement : les syndicats ont eu l'impression d'être mis de côté."
     },
     {
-     "a": "Les réformes ont été imposées par ordonnances, c'est-à-dire avec peu de débat au Parlement.",
-     "src": "fo"
+     "a": "Les indemnités pour licenciement abusif sont plafonnées : le salarié est moins protégé, et le syndicat a moins de poids face au patron."
     }
    ],
    "contre": [
     {
-     "a": "Le but affiché était économique : rendre l'embauche moins risquée pour les entreprises, grâce à des indemnités prévisibles.",
-     "src": "bareme"
+     "a": "Le but affiché était économique : rendre l'embauche moins risquée pour les entreprises, afin de faire baisser le chômage."
     },
     {
-     "a": "Les syndicats restent puissants dans la rue : en 2023, ils se sont unis contre la réforme des retraites et ont réuni plus d'un million de manifestants.",
-     "src": "ps23"
+     "a": "Les syndicats restent puissants dans la rue : en 2023, ils se sont unis contre la réforme des retraites et ont fait descendre plus d'un million de personnes dans la rue."
     },
     {
-     "a": "La faiblesse des syndicats est plus ancienne : à peine un salarié sur dix est syndiqué.",
-     "src": "ifrap"
+     "a": "La faiblesse des syndicats est plus ancienne que la réforme : depuis longtemps, très peu de salariés sont syndiqués."
     }
+   ],
+   "modele": "[[Les syndicats]] avaient en partie raison de se sentir visés : la réforme réduit le nombre de représentants et a été imposée par ordonnances. [[Cependant]], son but affiché était économique. [[D'ailleurs]], la faiblesse des syndicats est bien plus ancienne.",
+   "plus": [
+    "Fusion des instances dans le CSE : environ un tiers de mandats de représentants en moins.",
+    "Le barème des indemnités pour licenciement abusif a été validé par la Cour de cassation en 2022.",
+    "Seulement 10,8 % des salariés sont syndiqués, 8,4 % dans le privé."
    ]
   },
   {
@@ -247,36 +248,40 @@ registerUnit({
    "questions": [
     {
      "q": "À votre avis, les changements majeurs apportés au régime des retraites étaient-ils justifiés ?",
-     "note": "Give both sides (demography and deficit vs. fairness), then your judgement."
+     "note": "Give both sides (people live longer and pensions must be paid for vs. fairness), then your judgement."
     },
     {
      "q": "Comment les Français ont-ils réagi, face à ces changements ?",
-     "note": "Reaction = protests, strikes, polls – AND the political outcome (suspension in 2025)."
+     "note": "Reaction = protests, strikes, polls – AND the political outcome (the reform was put on hold until 2028)."
     }
    ],
    "pour": [
     {
-     "a": "On vit plus longtemps et il y a moins d'actifs pour chaque retraité : c'est pourquoi la réforme de 2023 a reporté l'âge légal de 62 à 64 ans.",
-     "src": "susp"
+     "a": "On vit plus longtemps et il y a moins de travailleurs pour chaque retraité : pour payer les retraites, il faut travailler plus longtemps. C'est pourquoi l'âge légal est passé de 62 à 64 ans."
     },
     {
-     "a": "Le problème de financement n'a pas disparu : la réforme est seulement gelée jusqu'au 1er janvier 2028, et le débat reviendra à la présidentielle de 2027.",
-     "src": "ps25"
+     "a": "Le problème de financement ne va pas disparaître : la réforme est seulement gelée, et le débat reviendra à la présidentielle de 2027."
+    },
+    {
+     "a": "Nos voisins européens partent souvent plus tard à la retraite : la France ne peut pas faire exception longtemps."
     }
    ],
    "contre": [
     {
-     "a": "Une réforme imposée : adoptée sans vote grâce au 49.3, contre une large mobilisation (jusqu'à 1,3 million de manifestants selon le ministère).",
-     "src": "ps23"
+     "a": "C'est injuste pour les métiers pénibles et pour ceux qui ont commencé à travailler jeunes : ils cotisent plus longtemps et vivent souvent moins longtemps."
     },
     {
-     "a": "Elle est injuste pour les métiers pénibles et pour ceux qui ont commencé à travailler jeunes.",
-     "src": "susp"
+     "a": "La réforme a été imposée sans vote des députés, malgré une très forte opposition dans la rue : elle manque de légitimité."
     },
     {
-     "a": "Même le Parlement a reculé : la loi de financement de la sécurité sociale pour 2026 gèle l'âge à 62 ans et 9 mois jusqu'en 2028.",
-     "src": "susp"
+     "a": "Même le Parlement a reculé : la réforme est suspendue jusqu'en 2028, ce qui montre qu'elle n'a jamais été acceptée."
     }
+   ],
+   "modele": "[[D'un côté]], la réforme semblait justifiée : on vit plus longtemps, et il faut payer les retraites. [[De l'autre]], elle est injuste pour les métiers pénibles, [[et]] elle a été imposée sans vote. [[C'est pourquoi]] les Français l'ont rejetée, et elle est aujourd'hui suspendue.",
+   "plus": [
+    "Réforme de 2023 : âge légal de 62 à 64 ans, adoptée grâce à l'article 49.3.",
+    "Jusqu'à 1,3 million de manifestants selon le ministère de l'Intérieur.",
+    "La loi de financement de la sécurité sociale pour 2026 gèle l'âge à 62 ans et 9 mois jusqu'au 1er janvier 2028."
    ]
   },
   {
@@ -292,28 +297,35 @@ registerUnit({
     },
     {
      "q": "Quelle est la situation actuelle du télétravail en France ?",
-     "note": "'Situation actuelle' = how many, who, how often – figures."
+     "note": "'Situation actuelle' = how common it is, who does it and how often. Describe first, then give your view."
     }
    ],
    "pour": [
     {
-     "a": "Le télétravail s'est installé : 26 % des salariés télétravaillent au moins de temps en temps (2023), contre 9 % en 2019.",
-     "src": "tele"
+     "a": "Le télétravail s'est installé depuis le Covid : environ un salarié sur quatre télétravaille au moins de temps en temps."
     },
     {
-     "a": "Les salariés gagnent du temps (moins de transports) ; les entreprises économisent sur les bureaux.",
-     "src": "tele"
+     "a": "Tout le monde y gagne : les salariés gagnent du temps sans transports, et les entreprises économisent sur les bureaux."
+    },
+    {
+     "a": "C'est bon pour la planète et pour les régions : moins de voitures sur les routes, et on peut vivre loin des grandes villes."
     }
    ],
    "contre": [
     {
-     "a": "Il recule depuis le pic de 2021 (31 % des salariés) : beaucoup d'entreprises veulent le retour au bureau.",
-     "src": "tele"
+     "a": "Il recule depuis le Covid : beaucoup d'entreprises veulent le retour au bureau pour l'esprit d'équipe."
     },
     {
-     "a": "Il est très inégal : 65 % des cadres télétravaillent, mais seulement 11 % des employés et 1 % des ouvriers.",
-     "src": "tele"
+     "a": "Il est très inégal : beaucoup de cadres télétravaillent, mais presque jamais les ouvriers. Il crée deux catégories de salariés."
+    },
+    {
+     "a": "Il peut isoler : sans collègues, certains salariés se sentent seuls, et la frontière entre travail et vie privée disparaît."
     }
+   ],
+   "modele": "[[À première vue]], tout le monde gagne au télétravail : l'employé gagne du temps et l'entreprise économise sur les bureaux. [[Pourtant]], il reste très inégal, [[puisque]] les ouvriers ne peuvent pas télétravailler. [[À mon avis]], ce sont surtout les cadres qui y gagnent.",
+   "plus": [
+    "26 % des salariés télétravaillent au moins de temps en temps (2023), contre 9 % en 2019 et 31 % au pic de 2021.",
+    "65 % des cadres télétravaillent, contre 11 % des employés et 1 % des ouvriers."
    ]
   },
   {
@@ -326,40 +338,41 @@ registerUnit({
    "questions": [
     {
      "q": "Que dit la loi sur le harcèlement sexuel au travail en France ?",
-     "note": "State the law (offence, penalties, employer's duty), then whether it works in practice."
+     "note": "State the law (it is an offence, punished by prison and a fine; the employer must act), then say whether it works in practice."
     },
     {
      "q": "Est-ce que les femmes ont obtenu égalité dans le monde du travail ?",
-     "note": "Yes/no + justify: pay, top jobs, harassment."
+     "note": "Yes/no + justify: pay, top jobs, harassment. « Oui, en partie, mais… » works well."
     }
    ],
    "pour": [
     {
-     "a": "Des lois contraignantes : depuis mars 2026, les entreprises de plus de 1 000 salariés doivent compter au moins 30 % de femmes parmi leurs cadres dirigeants (40 % en 2029).",
-     "src": "rixain"
+     "a": "La loi impose l'égalité : les grandes entreprises doivent avoir un minimum de femmes parmi leurs dirigeants, et ce minimum va augmenter."
     },
     {
-     "a": "Le harcèlement sexuel est un délit : jusqu'à 2 ans de prison et 30 000 € d'amende, 3 ans et 45 000 € en cas d'abus d'autorité.",
-     "src": "btp"
+     "a": "Le harcèlement sexuel est un délit puni de prison : les employeurs ont l'obligation de protéger leurs salariées."
     },
     {
-     "a": "Plus de transparence : un projet de loi de septembre 2026 veut obliger les employeurs à annoncer la fourchette de salaire avant l'embauche.",
-     "src": "transp"
+     "a": "On va vers plus de transparence : un projet de loi veut obliger les employeurs à annoncer le salaire avant l'embauche, pour réduire les écarts."
     }
    ],
    "contre": [
     {
-     "a": "L'écart de salaire persiste : 14 % à temps de travail égal, et 3,6 % pour le même poste dans la même entreprise (2024).",
-     "src": "salaire"
+     "a": "L'écart de salaire persiste : à temps de travail égal, les femmes gagnent encore environ 14 % de moins que les hommes."
     },
     {
-     "a": "Le harcèlement reste fréquent : 30 % des Françaises disent avoir été harcelées ou agressées sexuellement au travail.",
-     "src": "ifop19"
+     "a": "Le harcèlement reste fréquent, et les victimes parlent peu : très peu de cas vont jusqu'à la justice."
     },
     {
-     "a": "Les victimes parlent peu : près de 3 victimes sur 10 n'en parlent à personne, et seulement 5 % des cas vont en justice.",
-     "src": "ddd"
+     "a": "Les postes de direction restent surtout masculins : si la loi doit imposer des quotas, c'est bien que l'égalité ne vient pas toute seule."
     }
+   ],
+   "modele": "[[Oui, en partie]] : la loi impose plus d'égalité, et le harcèlement est un délit. [[Mais]] dans la pratique, l'écart de salaire persiste, [[et]] les postes de direction restent surtout masculins. [[Donc]], l'égalité existe sur le papier, mais pas encore dans les faits.",
+   "plus": [
+    "Depuis mars 2026, les entreprises de plus de 1 000 salariés doivent compter au moins 30 % de femmes parmi leurs cadres dirigeants (40 % en 2029).",
+    "Harcèlement sexuel : jusqu'à 2 ans de prison et 30 000 € d'amende ; 3 ans et 45 000 € en cas d'abus d'autorité.",
+    "Écart de salaire : 14 % à temps de travail égal, 3,6 % pour le même poste dans la même entreprise (2024).",
+    "30 % des Françaises disent avoir été harcelées ou agressées sexuellement au travail ; seulement 5 % des cas vont en justice."
    ]
   },
   {
@@ -376,32 +389,35 @@ registerUnit({
     },
     {
      "q": "Est-ce que le stress au travail est un problème sérieux en France ?",
-     "note": "'Sérieux' = how big: give a figure, causes and consequences."
+     "note": "'Sérieux' = how big: give its causes and its consequences."
     }
    ],
    "pour": [
     {
-     "a": "Oui : à CV égal, les candidats au nom d'origine maghrébine ont 31,5 % de chances en moins d'être contactés par un recruteur (testing de la Dares, 2021).",
-     "src": "testing"
+     "a": "Oui : à CV égal, un candidat au nom d'origine maghrébine est nettement moins souvent rappelé par un recruteur. Le diplôme ne suffit donc pas."
     },
     {
-     "a": "Le stress est massif : en 2026, un salarié sur deux est en détresse psychologique, un record.",
-     "src": "emp"
+     "a": "Le stress au travail est massif : environ un salarié sur deux se dit en détresse psychologique."
     },
     {
-     "a": "Les causes sont liées au travail : 51 % disent avoir de moins en moins de temps pour bien travailler, 60 % se sentent de simples « exécutants ».",
-     "src": "emp"
+     "a": "Les causes viennent du travail lui-même : beaucoup de salariés manquent de temps pour bien faire leur travail et se sentent de simples « exécutants »."
     }
    ],
    "contre": [
     {
-     "a": "L'État mesure le problème pour pouvoir agir : c'est le ministère du Travail (Dares) qui a organisé ce testing à grande échelle.",
-     "src": "testing"
+     "a": "L'État prend le problème au sérieux : il organise des tests avec de faux CV pour mesurer la discrimination et pouvoir agir."
     },
     {
-     "a": "Le stress n'est pas seulement personnel : c'est une question d'organisation du travail, que les entreprises peuvent changer.",
-     "src": "emp"
+     "a": "Le stress n'est pas une fatalité : c'est une question d'organisation du travail, que les entreprises peuvent changer."
+    },
+    {
+     "a": "Le diplôme reste une protection : avec un diplôme, on trouve plus facilement un emploi que sans, même si on subit des discriminations."
     }
+   ],
+   "modele": "[[Malheureusement]], oui : même avec un diplôme, un candidat au nom maghrébin est moins souvent rappelé. [[Quant au]] stress, c'est un problème sérieux, [[car]] il touche un salarié sur deux. [[Cependant]], ce n'est pas une fatalité : l'État et les entreprises peuvent agir.",
+   "plus": [
+    "Testing de la Dares (2021) : à CV égal, 31,5 % de chances en moins d'être contacté par un recruteur.",
+    "51 % des salariés disent avoir de moins en moins de temps pour bien travailler ; 60 % se sentent de simples « exécutants »."
    ]
   }
  ]

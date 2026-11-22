@@ -62,35 +62,32 @@ registerUnit({
    ],
    "pour": [
     {
-     "a": "Sans les civils, rien n'était possible : environ 34 000 personnes ont été reconnues pour avoir aidé des soldats et aviateurs alliés, dont 30 % de femmes.",
-     "src": "femmes"
+     "a": "Sans les civils, rien n'était possible : les résistants avaient besoin de nourriture, de cachettes et de silence."
     },
     {
-     "a": "Les réfractaires au STO ont été cachés par leurs familles et par des paysans ; le maquis a gagné en légitimité.",
-     "src": "maquis"
+     "a": "Les jeunes qui refusaient le STO ont été cachés par leurs familles et par des paysans : c'est grâce à eux que le maquis a grandi."
     },
     {
-     "a": "Les femmes ont joué un rôle clé : agents de liaison, hébergement, renseignement, presse clandestine ; environ 10 % des résistants reconnus étaient des femmes.",
-     "src": "femmes"
-    },
-    {
-     "a": "Près de 300 000 hommes ont participé aux opérations de 1944.",
-     "src": "res"
+     "a": "Les femmes ont joué un rôle clé : elles transportaient des messages, cachaient des résistants et distribuaient la presse clandestine."
     }
    ],
    "contre": [
     {
-     "a": "Les représailles ont frappé les civils : 643 morts à Oradour-sur-Glane le 10 juin 1944, juste après les représailles de Tulle.",
-     "src": "orad"
+     "a": "Les représailles ont frappé les civils : à Oradour-sur-Glane, en juin 1944, les SS ont massacré presque toute la population du village."
     },
     {
-     "a": "La Résistance est restée longtemps très minoritaire.",
-     "src": "res"
+     "a": "La Résistance est restée longtemps très minoritaire : la plupart des Français attendaient de voir qui gagnerait (l'attentisme)."
     },
     {
-     "a": "Au printemps 1944, les maquisards n'étaient sans doute guère plus de 50 000.",
-     "src": "maquis"
+     "a": "Certains Français voyaient les résistants comme des « terroristes » qui mettaient leur famille en danger, comme le disait la propagande."
     }
+   ],
+   "modele": "[[Sans]] le soutien de la population, la Résistance n'aurait pas réussi, [[car]] elle avait besoin de nourriture et de cachettes. [[Cependant]], tous les Français ne l'approuvaient pas, [[surtout]] à cause des représailles, comme à Oradour-sur-Glane.",
+   "plus": [
+    "Environ 34 000 personnes ont été reconnues pour avoir aidé des soldats et aviateurs alliés, dont 30 % de femmes.",
+    "Environ 10 % des résistants reconnus étaient des femmes.",
+    "Oradour-sur-Glane, 10 juin 1944 : 643 morts.",
+    "Au printemps 1944, sans doute guère plus de 50 000 maquisards ; près de 300 000 hommes participent aux opérations de 1944."
    ]
   },
   {
@@ -108,7 +105,7 @@ registerUnit({
     },
     {
      "q": "Comment les journaux clandestins ont-ils aidé la Résistance ?",
-     "note": "Recruit, inform, counter Vichy propaganda – give titles."
+     "note": "Recruit, inform, counter Vichy propaganda – give one title (Combat, Libération, Défense de la France)."
     },
     {
      "q": "Est-il vrai de dire qu'il n'y avait pas une Résistance unifiée ? Pourquoi/pourquoi pas ?",
@@ -129,39 +126,34 @@ registerUnit({
    ],
    "pour": [
     {
-     "a": "De Gaulle donne le signal : l'appel du 18 juin 1940 demande de continuer le combat.",
-     "src": "res"
+     "a": "De Gaulle donne le signal : l'appel du 18 juin 1940 demande aux Français de continuer le combat."
     },
     {
-     "a": "Jean Moulin, parachuté le 2 janvier 1942, réunit les mouvements dans les MUR (janvier 1943) puis préside le Conseil national de la Résistance le 27 mai 1943.",
-     "src": "unif"
+     "a": "Jean Moulin unifie la Résistance : envoyé par de Gaulle, il réunit les différents mouvements dans le Conseil national de la Résistance en 1943."
     },
     {
-     "a": "Le CNR rassemble 16 organisations : 8 mouvements, 6 partis politiques et 2 syndicats.",
-     "src": "unif"
-    },
-    {
-     "a": "Son œuvre lui survit : son arrestation à Caluire, le 21 juin 1943, ne brise pas l'unité.",
-     "src": "unif"
+     "a": "Avant Moulin, la Résistance était dispersée : chaque mouvement agissait seul, avec peu d'argent et peu de contact avec Londres."
     }
    ],
    "contre": [
     {
-     "a": "Avant 1943, la Résistance était spontanée et dispersée ; les mouvements voulaient garder leur autonomie.",
-     "src": "unif"
+     "a": "La Résistance, ce sont aussi des milliers d'anonymes : ceux qui distribuaient les journaux clandestins, cachaient des gens ou sabotaient des trains."
     },
     {
-     "a": "Les divisions restent fortes : Brossolette s'oppose au CNR de Moulin, et la rivalité Giraud–de Gaulle complique tout.",
-     "src": "unif"
+     "a": "Après l'arrestation de Moulin en 1943, l'unité tient : la Résistance ne dépendait donc pas d'un seul homme."
     },
     {
-     "a": "La Résistance, c'est aussi des anonymes : la presse clandestine (Défense de la France, Libération-Nord) était distribuée par des milliers de militants.",
-     "src": "res"
+     "a": "Les divisions restent fortes : les mouvements, les partis et les chefs ne sont pas toujours d'accord, même après 1943."
     },
     {
-     "a": "Des femmes ont fondé des mouvements (Lucie Aubrac, Berty Albrecht), mais seules 6 figurent parmi les 1 038 compagnons de la Libération.",
-     "src": "femmes"
+     "a": "Des femmes ont fondé des mouvements, comme Lucie Aubrac, mais leur rôle a longtemps été oublié."
     }
+   ],
+   "modele": "[[Il est vrai que]] des personnages clefs comme de Gaulle et Jean Moulin ont joué un rôle décisif : Moulin a unifié la Résistance. [[Néanmoins]], elle reposait aussi sur des milliers d'anonymes, [[et]] les divisions n'ont jamais complètement disparu.",
+   "plus": [
+    "Jean Moulin : parachuté le 2 janvier 1942 ; MUR en janvier 1943 ; CNR le 27 mai 1943 ; arrêté à Caluire le 21 juin 1943.",
+    "Le CNR rassemble 16 organisations : 8 mouvements, 6 partis politiques et 2 syndicats.",
+    "Seules 6 femmes figurent parmi les 1 038 compagnons de la Libération."
    ]
   },
   {
@@ -182,31 +174,31 @@ registerUnit({
    ],
    "pour": [
     {
-     "a": "Au début, la direction du parti, paralysée par le pacte germano-soviétique, ne résiste pas : Charles Tillon appelle à la résistance dès l'été 1940, contre la passivité des dirigeants.",
-     "src": "res"
+     "a": "Au début, la direction du parti ne résiste pas : à cause du pacte entre Hitler et Staline (1939), elle reste passive."
     },
     {
-     "a": "Le PCF ne s'engage pleinement qu'après l'invasion de l'URSS par l'Allemagne (juin 1941).",
-     "src": "res"
+     "a": "Le PCF ne s'engage pleinement qu'en juin 1941, quand l'Allemagne attaque l'URSS : il suit donc d'abord les ordres de Moscou."
     },
     {
-     "a": "Les FTP communistes refusent de se fondre dans les FFI : ils restent à part.",
-     "src": "res"
+     "a": "Les communistes restent à part : leurs groupes armés refusent souvent de se fondre dans les autres forces de la Résistance."
     }
    ],
    "contre": [
     {
-     "a": "Pendant l'hiver 1941-1942, les communistes créent le Front national et sa branche armée, les Francs-tireurs et partisans (FTP), favorables à la guérilla immédiate.",
-     "src": "res"
+     "a": "Certains communistes résistent dès 1940, malgré leur direction."
     },
     {
-     "a": "Le parti rejoint la France combattante le 18 janvier 1943 et entre au CNR.",
-     "src": "res"
+     "a": "À partir de 1941, le PCF devient l'une des forces les plus actives : ses groupes armés, les FTP, attaquent l'occupant sans attendre."
     },
     {
-     "a": "Leur force rendait leur intégration difficile, preuve de leur poids dans la Résistance.",
-     "src": "unif"
+     "a": "Le parti rejoint de Gaulle et entre au CNR en 1943 : il devient un acteur central de la Résistance, et se présentera après la guerre comme « le parti des fusillés »."
     }
+   ],
+   "modele": "[[Au début]], le PCF n'a pas résisté, [[à cause du]] pacte germano-soviétique. [[Cependant]], à partir de juin 1941, il est devenu l'une des forces les plus actives. [[On ne peut donc pas dire]] qu'il n'a pas joué un grand rôle.",
+   "plus": [
+    "Pacte germano-soviétique : août 1939 ; invasion de l'URSS : juin 1941.",
+    "Hiver 1941-1942 : création du Front national et de sa branche armée, les Francs-tireurs et partisans (FTP).",
+    "18 janvier 1943 : le PCF rejoint la France combattante et entre au CNR."
    ]
   }
  ]

@@ -44,7 +44,7 @@ registerUnit({
     },
     {
      "q": "Quels festivals ont le plus gros impact dans le pays francophone que vous avez étudié ?",
-     "note": "'Impact' can be measured: visitors, media coverage, money. Name 2–3 festivals with a figure.",
+     "note": "'Impact' = visitors, media coverage, money. Name 2–3 festivals and say what each one brings.",
      "also": "Quels sont les festivals les plus connus et quelle est leur influence sur la société ?"
     },
     {
@@ -55,31 +55,31 @@ registerUnit({
    ],
    "pour": [
     {
-     "a": "La Fête de la musique rassemble tout le pays : 49 % des Français y vont régulièrement, et les 18-24 ans encore plus que leurs aînés.",
-     "src": "ipsos"
+     "a": "La Fête de la musique rassemble tout le pays : elle est gratuite, dans la rue, et attire tous les âges."
     },
     {
-     "a": "Le Festival interceltique de Lorient a attiré au moins 950 000 visiteurs en 2025, et la Grande Parade 1,1 million de téléspectateurs.",
-     "src": "fil"
+     "a": "Les festivals font vivre les régions : ils attirent des touristes et font travailler les hôtels, les restaurants et les commerces."
     },
     {
-     "a": "Les festivals attirent surtout les jeunes : 64 % des 18-24 ans comptaient aller à un festival l'été 2025.",
-     "src": "ipsos"
+     "a": "Ils font vivre une identité : le Festival interceltique de Lorient attire près d'un million de visiteurs pour célébrer la culture celtique."
     }
    ],
    "contre": [
     {
-     "a": "Beaucoup de festivals sont fragiles : en 2025, 79 % ont connu des difficultés et 34 % ont fini l'année en déficit.",
-     "src": "cnm"
+     "a": "Beaucoup de festivals sont fragiles : de nombreux festivals perdent de l'argent, et certains disparaissent."
     },
     {
-     "a": "La plupart restent petits : la moitié des festivals accueillent moins de 2 200 spectateurs.",
-     "src": "cnm"
+     "a": "La plupart restent petits et locaux : leur rôle dans la société est donc limité."
     },
     {
-     "a": "Seulement 30 % de l'ensemble des Français prévoyaient d'aller à un festival l'été 2025 : ce n'est pas la vie de tout le monde.",
-     "src": "ipsos"
+     "a": "Ils ne touchent pas tout le monde : les festivals attirent surtout les jeunes, et la majorité des Français n'y vont pas."
     }
+   ],
+   "modele": "[[Les festivals]] jouent un rôle important : ils rassemblent les gens, [[comme]] la Fête de la musique, et font vivre l'économie des régions. [[Toutefois]], « primordial » est un peu fort, [[car]] beaucoup de festivals sont petits et fragiles.",
+   "plus": [
+    "49 % des Français vont régulièrement à la Fête de la musique.",
+    "Festival interceltique de Lorient 2025 : au moins 950 000 visiteurs ; 1,1 million de téléspectateurs pour la Grande Parade.",
+    "La moitié des festivals accueillent moins de 2 200 spectateurs ; en 2025, 34 % ont fini en déficit."
    ]
   },
   {
@@ -96,7 +96,7 @@ registerUnit({
     },
     {
      "q": "Quelles sont les traditions les plus observées dans le pays francophone que vous avez étudié ?",
-     "note": "'Les plus observées' = the most widely practised: give examples (la galette des rois, la Fête de la musique, le 14 juillet)."
+     "note": "Give examples (la galette des rois, la Fête de la musique, le 14 juillet), then say whether they are still alive."
     },
     {
      "q": "Beaucoup de vieilles traditions francophones ont perdu de leur importance parmi les jeunes. Seriez-vous d'accord ?",
@@ -106,31 +106,31 @@ registerUnit({
    ],
    "pour": [
     {
-     "a": "Les langues régionales disparaissent chez les jeunes : 70 % des plus de 55 ans maîtrisent l'alsacien, contre 9 % des 18-24 ans.",
-     "src": "lr"
+     "a": "Les langues régionales disparaissent chez les jeunes : le breton ou l'alsacien sont surtout parlés par les personnes âgées."
     },
     {
-     "a": "Plus de 60 % des locuteurs du breton ont plus de 60 ans.",
-     "src": "lr"
+     "a": "Certaines traditions sont devenues commerciales : on les fête pour consommer, sans en connaître le sens."
     },
     {
-     "a": "Selon les sénateurs (2025), ces langues « seront quasiment éteintes d'ici une à deux générations » sans action forte.",
-     "src": "lr"
+     "a": "Beaucoup de traditions sont liées à la religion, et beaucoup de jeunes ne sont plus croyants : pour eux, elles ont perdu leur sens."
     }
    ],
    "contre": [
     {
-     "a": "Les traditions sont protégées et valorisées : en 2022, la culture de la baguette a été inscrite au patrimoine culturel immatériel de l'Unesco.",
-     "src": "bag"
+     "a": "Les traditions créent du lien : partager la galette des rois ou fêter le 14 juillet, c'est se sentir membre d'une communauté."
     },
     {
-     "a": "De plus en plus d'élèves apprennent une langue régionale : 107 192 en primaire en 2023, soit +47 % en deux ans.",
-     "src": "lr"
+     "a": "Les traditions sont protégées et valorisées : en 2022, la baguette a été inscrite au patrimoine de l'Unesco."
     },
     {
-     "a": "Les jeunes participent aussi : à Lorient, des concours de danse et de musique sont réservés aux jeunes des bagadoù (groupes de musique bretonne).",
-     "src": "fil"
+     "a": "Des jeunes s'y intéressent encore : de plus en plus d'élèves apprennent une langue régionale, et des jeunes jouent dans les festivals de musique traditionnelle, comme à Lorient."
     }
+   ],
+   "modele": "[[Il est vrai que]] certaines traditions perdent leur sens pour les jeunes, [[par exemple]] les langues régionales. [[Cependant]], il ne faut pas en finir avec elles, [[car]] elles créent du lien entre les générations. [[D'ailleurs]], certaines attirent de nouveau les jeunes.",
+   "plus": [
+    "70 % des plus de 55 ans maîtrisent l'alsacien, contre 9 % des 18-24 ans.",
+    "Plus de 60 % des locuteurs du breton ont plus de 60 ans.",
+    "107 192 élèves de primaire apprenaient une langue régionale en 2023, soit +47 % en deux ans."
    ]
   },
   {
@@ -142,7 +142,7 @@ registerUnit({
    "questions": [
     {
      "q": "Quelle est l'importance des traditions régionales pour la culture dans les pays francophones ?",
-     "note": "'Importance' = how much they matter (how many people take part) AND why (identity, diversity, tourism)."
+     "note": "'Importance' = how much they matter AND why (identity, diversity, tourism)."
     },
     {
      "q": "Que fait-on pour préserver certaines traditions locales dans les pays francophones ?",
@@ -159,31 +159,31 @@ registerUnit({
    ],
    "pour": [
     {
-     "a": "Les coutumes régionales attirent les foules : au moins 950 000 visiteurs au Festival interceltique de Lorient en 2025.",
-     "src": "fil"
+     "a": "Les coutumes régionales font la diversité de la France : chaque région a sa langue, sa musique, sa cuisine."
     },
     {
-     "a": "L'école s'en charge : 168 000 élèves, de la maternelle au lycée, apprennent une langue régionale.",
-     "src": "lr"
+     "a": "Elles attirent les foules et les touristes : le Festival interceltique de Lorient en est un bon exemple."
     },
     {
-     "a": "La loi Molac (2021) soutient les écoles en langue régionale : dans certains cas, la commune de l'enfant doit participer aux frais de sa scolarité dans une école privée en langue régionale.",
-     "src": "molac"
+     "a": "Elles donnent une identité et une fierté : on sait d'où l'on vient."
     }
    ],
    "contre": [
     {
-     "a": "La Constitution limite ce qu'on peut faire : en 2021, le Conseil constitutionnel a censuré l'enseignement immersif, car « la langue de la République est le français » (article 2).",
-     "src": "molac"
+     "a": "La Constitution limite ce qu'on peut faire : « la langue de la République est le français ». Les écoles publiques ne peuvent pas enseigner entièrement en langue régionale."
     },
     {
-     "a": "Les élèves abandonnent en grandissant : environ 48 000 collégiens et seulement 13 000 lycéens étudient encore une langue régionale.",
-     "src": "lr"
+     "a": "Les élèves abandonnent en grandissant : beaucoup apprennent une langue régionale à l'école primaire, mais très peu continuent au lycée."
     },
     {
-     "a": "Les moyens manquent : dans le Cantal, un poste et demi d'enseignant itinérant d'occitan pour toutes les écoles primaires.",
-     "src": "lr"
+     "a": "Les moyens manquent : il y a trop peu de professeurs, et les jeunes quittent souvent leur région pour étudier ou travailler."
     }
+   ],
+   "modele": "[[Les coutumes régionales]] enrichissent la culture, [[car]] elles font la diversité de la France. [[Pourtant]], elles sont difficiles à préserver : la Constitution impose le français, [[et]] les moyens manquent. [[Il faudrait donc]] plus de professeurs pour les faire vivre.",
+   "plus": [
+    "168 000 élèves apprennent une langue régionale, mais seulement 13 000 lycéens.",
+    "Loi Molac (2021) : la commune peut devoir participer aux frais d'une école privée en langue régionale.",
+    "2021 : le Conseil constitutionnel censure l'enseignement immersif (article 2 : « la langue de la République est le français »)."
    ]
   }
  ]

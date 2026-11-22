@@ -64,7 +64,7 @@ registerUnit({
     },
     {
      "q": "Comment la culture française a-t-elle été influencée par celle des immigrés ?",
-     "note": "Give examples in several areas (food, music, language), each with a fact."
+     "note": "Give examples in several areas (food, music, language) and explain each one."
     },
     {
      "q": "Quelle est votre opinion sur cette déclaration ?",
@@ -72,36 +72,36 @@ registerUnit({
     },
     {
      "q": "Quelle est la contribution des immigrés à la cuisine française ?",
-     "note": "Name dishes and show how popular they are (figures)."
+     "note": "Name dishes and show they are now part of everyday French life."
     }
    ],
    "pour": [
     {
-     "a": "Le kebab est devenu un repas populaire français : plus de 10 000 établissements, et 46 % des Français – 78 % des 18-24 ans – y mangent au moins de temps en temps.",
-     "src": "kebab"
+     "a": "La cuisine des immigrés fait partie du quotidien : le couscous est l'un des plats préférés des Français, et le kebab est devenu un repas courant, surtout chez les jeunes."
     },
     {
-     "a": "Le couscous fait partie des plats préférés des Français, à égalité avec la pizza (9 %).",
-     "src": "csa"
+     "a": "La culture française s'enrichit : le rap, le raï, et des mots arabes comme « kif » ou « toubib » sont entrés dans la vie de tous les jours."
     },
     {
-     "a": "Les immigrés font tourner de nombreux services du quotidien : 22 % des cuisiniers et 17,4 % des agents d'entretien sont immigrés.",
-     "src": "dares"
+     "a": "Les immigrés font tourner de nombreux services du quotidien : restauration, ménage, soins, bâtiment."
     }
    ],
    "contre": [
     {
-     "a": "Quand on demande quels plats représentent la France, les Français citent des plats traditionnels : le bœuf bourguignon arrive en tête (39 %), devant le cassoulet.",
-     "src": "ipsosplat"
+     "a": "Les Français restent attachés à leur cuisine traditionnelle : quand on leur demande un plat qui représente la France, ils citent le bœuf bourguignon ou le cassoulet."
     },
     {
-     "a": "Cet apport est parfois rejeté : à Béziers, le maire Robert Ménard, soutenu par le FN, a interdit l'ouverture de nouveaux kebabs dans le centre historique.",
-     "src": "kebab"
+     "a": "Cet apport est parfois rejeté : un maire soutenu par l'extrême droite a interdit les nouveaux kebabs dans le centre de sa ville, au nom de l'identité locale."
     },
     {
-     "a": "L'extrême droite parle de « kébabisation » pour dénoncer une perte d'identité locale.",
-     "src": "kebab"
+     "a": "Une partie de la population parle de perte d'identité : pour elle, la France change trop vite."
     }
+   ],
+   "modele": "[[Sans aucun doute]], l'immigration a enrichi la vie quotidienne : le couscous et le kebab font partie des repas des Français. [[Certes]], certains parlent de perte d'identité, [[mais]] la cuisine traditionnelle n'a pas disparu : elle s'est enrichie.",
+   "plus": [
+    "Plus de 10 000 kebabs en France ; 46 % des Français – et 78 % des 18-24 ans – y mangent au moins de temps en temps.",
+    "Le couscous est à égalité avec la pizza parmi les plats préférés des Français (9 %).",
+    "22 % des cuisiniers et 17,4 % des agents d'entretien sont immigrés."
    ]
   },
   {
@@ -118,7 +118,7 @@ registerUnit({
     },
     {
      "q": "Dans quels secteurs d'emploi trouve-t-on le plus d'immigrés ?",
-     "note": "Name sectors with percentages.",
+     "note": "Name sectors (home help, security, building, catering) and say why immigrants work there.",
      "also": "Quels sont les secteurs d'activité où la présence des immigrés est particulièrement importante ?"
     },
     {
@@ -128,31 +128,35 @@ registerUnit({
    ],
    "pour": [
     {
-     "a": "Les immigrés occupent environ un emploi sur dix (10,2 %).",
-     "src": "dares"
+     "a": "Les immigrés occupent environ un emploi sur dix, et ils sont indispensables dans certains métiers : aide à domicile, sécurité, bâtiment, restauration."
     },
     {
-     "a": "Ils sont indispensables dans certains métiers : 38,8 % des employés de maison, 28,4 % des agents de sécurité, 27 % des ouvriers non qualifiés du BTP.",
-     "src": "dares"
+     "a": "Ils font souvent les métiers les plus durs, que peu de Français veulent faire."
     },
     {
-     "a": "Ils font les métiers les plus durs : un métier pénible a 1,4 fois plus de chances d'être occupé par un immigré.",
-     "src": "dares"
+     "a": "La population vieillit : il faut des travailleurs pour payer les retraites et s'occuper des personnes âgées."
     },
     {
-     "a": "Même la loi de 2024 l'a reconnu : elle permet de régulariser des sans-papiers qui travaillent dans les métiers en tension.",
-     "src": "loi"
+     "a": "Même la loi de 2024 l'a reconnu : elle permet de régulariser des sans-papiers qui travaillent dans les métiers qui manquent de bras."
     }
    ],
    "contre": [
     {
-     "a": "L'effet sur les finances publiques est faible : selon une étude du CEPII (2012), légèrement positif à long terme, mais marginal.",
-     "src": "cepii"
+     "a": "L'effet sur les finances publiques est faible : selon les économistes, l'immigration ne coûte pas cher, mais elle ne rapporte pas beaucoup non plus."
     },
     {
-     "a": "Beaucoup d'immigrés sont bloqués dans des emplois peu qualifiés : environ la moitié sont ouvriers ou employés non qualifiés.",
-     "src": "legis"
+     "a": "Beaucoup d'immigrés sont bloqués dans des emplois peu qualifiés : leurs diplômes ne sont pas toujours reconnus, et leurs talents sont gaspillés."
+    },
+    {
+     "a": "La société pourrait s'adapter autrement : on pourrait mieux payer ces métiers difficiles pour attirer d'autres travailleurs."
     }
+   ],
+   "modele": "[[Les immigrés]] jouent un rôle important, [[car]] ils sont indispensables dans des métiers que peu de Français veulent faire. [[En revanche]], l'effet sur les finances publiques reste faible, [[et]] beaucoup sont bloqués dans des emplois peu qualifiés. [[Il faudrait donc]] mieux reconnaître leurs diplômes.",
+   "plus": [
+    "Les immigrés occupent 10,2 % des emplois.",
+    "Ils représentent 38,8 % des employés de maison, 28,4 % des agents de sécurité et 27 % des ouvriers non qualifiés du BTP.",
+    "Un métier pénible a 1,4 fois plus de chances d'être occupé par un immigré.",
+    "CEPII (2012) : effet légèrement positif à long terme sur les finances publiques, mais marginal."
    ]
   },
   {
@@ -173,31 +177,32 @@ registerUnit({
    ],
    "pour": [
     {
-     "a": "L'immigration fait partie de la France : 7,7 millions d'immigrés, soit 11,3 % de la population en 2024.",
-     "src": "insee"
+     "a": "L'immigration fait partie de la France : environ un habitant sur dix est immigré, et le pays s'est construit avec eux."
     },
     {
-     "a": "La tolérance reste élevée : l'indice de tolérance de la CNCDH est à 64/100 en 2025, le 4e meilleur score depuis 1990.",
-     "src": "cncdh"
+     "a": "Les Français sont plutôt tolérants : la tolérance envers les minorités est à l'un de ses plus hauts niveaux depuis 1990."
     },
     {
-     "a": "Les immigrés soutiennent l'économie dans les métiers essentiels (services à la personne, BTP, restauration).",
-     "src": "dares"
+     "a": "Les immigrés soutiennent l'économie dans les métiers essentiels."
     }
    ],
    "contre": [
     {
-     "a": "La discrimination persiste : 22 % des immigrés et 20 % des descendants d'immigrés disent avoir subi un traitement inégal à cause de leur origine.",
-     "src": "teo"
+     "a": "La discrimination persiste : beaucoup d'immigrés et d'enfants d'immigrés disent avoir été traités injustement à cause de leur origine."
     },
     {
-     "a": "Le racisme augmente : 9 737 crimes et délits racistes enregistrés en 2025, soit +5 %.",
-     "src": "cncdh"
+     "a": "Le racisme augmente : les actes racistes enregistrés par la police sont en hausse."
     },
     {
-     "a": "Le chômage est 2,3 fois plus élevé dans les quartiers prioritaires que dans les villes voisines.",
-     "src": "qpv"
+     "a": "Le chômage est beaucoup plus élevé dans les quartiers pauvres où vivent de nombreux immigrés : l'intégration économique n'est pas réussie."
     }
+   ],
+   "modele": "[[Dans l'ensemble]], l'immigration est positive : elle fait partie de l'histoire du pays et soutient l'économie. [[Néanmoins]], des progrès restent à faire, [[surtout]] contre la discrimination et le chômage dans les quartiers pauvres.",
+   "plus": [
+    "7,7 millions d'immigrés en 2024, soit 11,3 % de la population.",
+    "Indice de tolérance de la CNCDH : 64/100 en 2025, le 4e meilleur score depuis 1990.",
+    "9 737 crimes et délits racistes enregistrés en 2025 (+5 %).",
+    "22 % des immigrés et 20 % des descendants d'immigrés disent avoir subi un traitement inégal à cause de leur origine."
    ]
   }
  ]
