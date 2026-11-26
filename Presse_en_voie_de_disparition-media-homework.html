@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>La Presse Écrite – Devoirs interactifs</title>
+<title>La presse écrite a-t-elle encore un avenir ? · A-Level French BBA</title>
 <style>
   :root{--blue:#1a56a0;--lblue:#e8f0fb;--green:#16a34a;--red:#dc2626;--grey:#f3f4f6;--dark:#1e293b;--mid:#64748b}
   *{box-sizing:border-box;margin:0;padding:0}
@@ -87,7 +87,7 @@
 <body>
 
 <header>
-  <h1>📰 La Presse Écrite en Voie de Disparition ?</h1>
+  <h1>📰 La presse écrite a-t-elle encore un avenir ?</h1>
   <p>Devoirs interactifs – Préparez-vous pour le cours</p>
   <div>
     <span class="badge">A-Level French</span>
@@ -98,8 +98,8 @@
 
 <div id="nameSection">
   <h2>👋 Bienvenue !</h2>
-  <p style="margin-bottom:1rem;color:var(--mid)">Entrez votre prénom et nom pour commencer. Vos résultats seront téléchargés à la fin.</p>
-  <input type="text" id="nameInput" placeholder="Prénom et nom…" />
+  <p style="margin-bottom:1rem;color:var(--mid)">Type your first name and surname initial — it will appear on your downloaded results. You can also start without it.</p>
+  <input type="text" id="nameInput" placeholder="Prénom + initiale du nom…" />
   <br>
   <button class="btn" onclick="startActivities()">Commencer les activités →</button>
 </div>
@@ -150,7 +150,7 @@
       <strong>Banque de mots :</strong> Internet | presse | baisse | capter | augmenté | traditionnels | plateformes numériques | stables | TV | tombées | deux tiers
     </div>
     <div id="gapContainer"></div>
-    <button class="btn" style="margin-top:.8rem" onclick="checkGaps()">Vérifier ✓</button>
+    <button class="btn" style="margin-top:.8rem" onclick="checkGaps()">Vérifier ✓</button><p id="gapMsg" style="margin-top:.5rem;font-weight:600"></p>
   </div>
 
   <!-- SECTION 4: Synonym match -->
@@ -345,7 +345,7 @@ const vocabData=[
 ];
 
 const negData=[
-  {en:"I have never seen anyone like that! (jamais)",fr:"J'ai vu quelqu'un comme ça !",hint:"ne … jamais",ans:"Je n'ai jamais vu quelqu'un comme ça !"},
+  {en:"I have never paid for a newspaper! (jamais)",fr:"J'ai payé pour un journal !",hint:"ne … jamais",ans:"Je n'ai jamais payé pour un journal !"},
   {en:"He has hardly tried recently. (guère)",fr:"Il a essayé récemment.",hint:"ne … guère",ans:"Il n'a guère essayé récemment."},
   {en:"She paid nothing. (rien)",fr:"Elle a payé.",hint:"ne … rien",ans:"Elle n'a rien payé."},
   {en:"They no longer come. (plus)",fr:"Elles viennent.",hint:"ne … plus",ans:"Elles ne viennent plus."},
@@ -355,18 +355,18 @@ const negData=[
 ];
 
 const transData=[
-  {en:"15 years ago, nobody would ever have believed that the written press could be in danger.",partial:"Il y a quinze ans, ___ n'___ jamais ___ que la presse écrite ___ être en danger.",hints:"[personne / aurait / cru / puisse]",ans:"Il y a quinze ans, personne n'aurait jamais cru que la presse écrite puisse être en danger."},
-  {en:"Reading or consulting a blog online is no longer just reserved for adolescents.",partial:"Lire ou ___ un blog en ligne n'est ___ seulement réservé aux adolescents.",hints:"[consulter / plus]",ans:"Lire ou consulter un blog en ligne n'est plus seulement réservé aux adolescents."},
-  {en:"The number of internet surfers doesn't stop going up.",partial:"Le nombre d'internautes ne ___ pas d'___.",hints:"[cesse / augmenter]",ans:"Le nombre d'internautes ne cesse pas d'augmenter."},
-  {en:"Let us not forget either that publishing online involves no printing costs.",partial:"N'___ pas non plus que publier en ligne n'___ aucun frais d'___.",hints:"[oublions / entraîne / impression]",ans:"N'oublions pas non plus que publier en ligne n'entraîne aucun frais d'impression."},
-  {en:"Wouldn't we prefer the simplicity of a book to a tablet?",partial:"Ne ___-nous pas la simplicité d'un livre à une ___ ?",hints:"[préférerions / tablette]",ans:"Ne préférerions-nous pas la simplicité d'un livre à une tablette ?"},
+  {en:"Ten years ago, few people would have believed that a daily newspaper could disappear completely.",partial:"Il y a dix ans, peu de gens ___ ___ qu'un quotidien ___ disparaître complètement.",hints:"[auraient / cru / puisse]",ans:"Il y a dix ans, peu de gens auraient cru qu'un quotidien puisse disparaître complètement."},
+  {en:"Getting the news from social networks is no longer limited to young people.",partial:"S'informer sur les réseaux sociaux n'est ___ ___ aux jeunes.",hints:"[plus / réservé]",ans:"S'informer sur les réseaux sociaux n'est plus réservé aux jeunes."},
+  {en:"The number of digital subscribers keeps rising.",partial:"Le nombre d'abonnés numériques ne ___ d'___.",hints:"[cesse / augmenter]",ans:"Le nombre d'abonnés numériques ne cesse d'augmenter."},
+  {en:"Let us not forget that a video posted online costs almost nothing to produce.",partial:"N'___ pas qu'une vidéo publiée en ligne ne ___ presque ___ à produire.",hints:"[oublions / coûte / rien]",ans:"N'oublions pas qu'une vidéo publiée en ligne ne coûte presque rien à produire."},
+  {en:"Wouldn't we rather read a reliable article than a viral post?",partial:"Ne ___-nous pas lire un article fiable plutôt qu'une publication ___ ?",hints:"[préférerions / virale]",ans:"Ne préférerions-nous pas lire un article fiable plutôt qu'une publication virale ?"},
 ];
 
 // ── BUILD ─────────────────────────────────────────────────────────────────────
 
 function startActivities(){
   studentName=document.getElementById('nameInput').value.trim();
-  if(!studentName){alert('Veuillez entrer votre prénom !');return;}
+  if(!studentName) studentName='(no name)';
   document.getElementById('nameSection').style.display='none';
   document.getElementById('main').style.display='block';
   document.getElementById('scoreBar').style.display='flex';
@@ -507,7 +507,7 @@ function checkGaps(){
     else{el.classList.add('wrong-input');el.title=`Réponse : ${g.ans}`;}
   });
   scores.gaps={got:ok,total:gapData.length}; updateScore();
-  alert(`Texte à trous : ${ok}/${gapData.length} correct(s). Survolez les cases rouges pour voir la bonne réponse.`);
+  var gm=document.getElementById('gapMsg'); if(gm) gm.textContent=`Texte à trous : ${ok}/${gapData.length} correct(s). Survolez les cases rouges pour voir la bonne réponse.`;
 }
 
 function checkSyns(){
@@ -561,7 +561,7 @@ function downloadResults(){
   const now=new Date().toLocaleString('fr-FR');
   const labels={mcq:'Compréhension MCQ',vf:'Vrai ou Faux',gaps:'Texte à trous',syns:'Synonymes',vocab:'Vocabulaire',neg:'Formes négatives',trans:'Traduction'};
   let got=0,total=0;
-  let lines=[`DEVOIRS – La Presse Écrite en Voie de Disparition ?`,`Étudiant(e) : ${studentName}`,`Date : ${now}`,``,`=== SCORES PAR SECTION ===`];
+  let lines=[`DEVOIRS – La presse écrite a-t-elle encore un avenir ?`,`Étudiant(e) : ${studentName}`,`Date : ${now}`,``,`=== SCORES PAR SECTION ===`];
   Object.entries(scores).forEach(([k,v])=>{lines.push(`${labels[k]||k}: ${v.got}/${v.total}`);got+=v.got;total+=v.total;});
   lines.push(``,`TOTAL : ${got}/${total} (${total>0?Math.round(got/total*100):0}%)`,``,'=== RÉPONSES DÉTAILLÉES ===','','-- MCQ --');
   mcqData.forEach((q,i)=>{

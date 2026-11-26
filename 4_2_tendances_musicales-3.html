@@ -1,373 +1,508 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>4.2 Les Tendances Musicales - Leçon Interactive Complète</title>
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: linear-gradient(135deg,#667eea 0%,#764ba2 100%); padding: 20px; min-height:100vh; color:#333; padding-bottom:120px; }
-        .container { max-width:1200px; margin:0 auto; background:white; border-radius:15px; box-shadow:0 10px 40px rgba(0,0,0,0.25); padding:36px; }
-        .header { text-align:center; margin-bottom:30px; border-bottom:3px solid #667eea; padding-bottom:18px; }
-        h1 { color:#667eea; font-size:2.2em; }
-        .subtitle { color:#666; }
-        .section { background:#f8f9fa; padding:20px; border-radius:10px; margin-bottom:22px; border-left:5px solid #667eea; }
-        .section-title { color:#667eea; font-size:1.4em; margin-bottom:12px; }
-        .text-box { background:white; padding:18px; border-radius:8px; border:2px solid #e0e0e0; line-height:1.7; }
-        .vocab-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:10px; margin-top:12px; }
-        .vocab-card { background:#fff; padding:12px; border-radius:8px; border:1px solid #ddd; }
-        .activity-number { display:inline-block; background:#667eea; color:white; padding:6px 14px; border-radius:20px; font-weight:700; margin-bottom:10px; }
-        .controls { display:flex; gap:10px; flex-wrap:wrap; margin-top:12px; }
-        .btn { padding:10px 16px; border:none; border-radius:8px; cursor:pointer; font-weight:600; }
-        .btn-check { background:#4caf50; color:white; }
-        .btn-reset { background:#f44336; color:white; }
-        textarea,input[type=text]{ width:100%; padding:10px; border-radius:6px; border:2px solid #ddd; margin-top:8px; font-family:inherit; }
-        textarea{ min-height:100px; resize:vertical; }
-        .grammar-box{ background:#e3f2fd; padding:14px; border-radius:8px; border-left:4px solid #2196f3; margin-top:12px; }
-        .answer-box{ display:none; background:#f9f9f9; padding:12px; border-radius:8px; margin-top:10px; border-left:4px solid #4caf50; }
-        .toggle-answer{ background:#4caf50; color:white; border:none; padding:8px 12px; border-radius:6px; cursor:pointer; font-weight:700; }
-        .sentence-order{ display:flex; flex-direction:column; gap:8px; margin-top:12px; }
-        .sentence-item{ background:white; padding:12px; border-radius:8px; border:1px solid #ddd; cursor:move; display:flex; gap:12px; align-items:center; }
-        .sentence-number{ background:#667eea; color:white; width:32px; height:32px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:700; }
-        .homework-box{ background:#ffebee; padding:14px; border-radius:8px; border-left:4px solid #e91e63; }
-        .listening-section{ background:#fff3e0; padding:14px; border-radius:8px; border-left:4px solid #ff9800; }
-        @media(max-width:768px){ .vocab-grid{ grid-template-columns:1fr; } }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>La musique haïtienne : kompa, rara et racines · A-Level French BBA</title>
+<meta name="description" content="Thème 2 · La musique. Compréhension B2 sur la musique haïtienne — histoire, kompa, rara et mizik rasin — avec lexique, passé simple, traduction et rédaction.">
+<style>
+:root{
+  --paper:#FBFAF6; --card:#FFFFFF; --ink:#1A2440; --ink-soft:#4A5570; --muted:#8A8F9E;
+  --rojo:#C60B1E; --oro:#B8860B; --azul:#2B4C9B; --azul-pale:#EDF1FA;
+  --verde:#2E7D52; --verde-pale:#EAF4EE; --rojo-pale:#FBEDEE; --ambar-pale:#FFF7E6;
+  --line:#E5E2D8; --line-strong:#CFCBBD; --radius:12px;
+  --shadow:0 1px 2px rgba(26,36,64,.06), 0 4px 16px rgba(26,36,64,.05);
+  --serif:Georgia,'Times New Roman',serif;
+  --sans:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+  --mono:ui-monospace,'SF Mono',Menlo,Consolas,monospace;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.55}
+:focus-visible{outline:2px solid var(--azul);outline-offset:2px;border-radius:4px}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+header.site{border-bottom:3px solid var(--ink);background:var(--card);padding:0 20px}
+.site-inner{max-width:900px;margin:0 auto;padding:18px 0 14px;display:flex;align-items:baseline;gap:16px;flex-wrap:wrap}
+.brand{font-family:var(--serif);font-weight:700;font-size:1.4rem;letter-spacing:-.01em}
+.brand span{color:var(--rojo)}
+.brand-sub{font-family:var(--mono);font-size:.7rem;color:var(--muted);text-transform:uppercase;letter-spacing:.09em}
+.tag{margin-left:auto;font-family:var(--mono);font-size:.68rem;letter-spacing:.08em;text-transform:uppercase;
+  background:var(--rojo);color:#fff;padding:4px 10px;border-radius:99px}
+main{max-width:900px;margin:0 auto;padding:24px 20px 120px}
+h1{font-family:var(--serif);font-size:1.75rem;line-height:1.2;margin:0 0 6px}
+h2{font-family:var(--serif);font-size:1.2rem;margin:0 0 4px}
+.lede{color:var(--ink-soft);margin:0 0 20px;max-width:62ch}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:20px;margin-bottom:16px}
+.section-label{font-family:var(--mono);font-size:.7rem;text-transform:uppercase;letter-spacing:.11em;color:var(--rojo);
+  font-weight:700;margin:30px 0 10px;display:flex;align-items:center;gap:10px}
+.section-label::after{content:"";flex:1;height:1px;background:var(--line-strong)}
+.hint{font-size:.85rem;color:var(--muted);margin:4px 0 12px}
+
+/* texto */
+.lectura{background:var(--card);border:1px solid var(--line-strong);border-radius:var(--radius);
+  box-shadow:var(--shadow);padding:26px 28px;position:relative}
+.lectura::before{content:"";position:absolute;inset:8px;border:1px solid var(--line);border-radius:7px;pointer-events:none}
+.lectura p{font-family:var(--serif);font-size:1.09rem;line-height:1.75;margin:0 0 14px;position:relative}
+.lectura p:last-child{margin-bottom:0}
+.meta-lectura{font-family:var(--mono);font-size:.68rem;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);margin-bottom:14px}
+.gloss{border-bottom:1px dotted var(--rojo);cursor:help}
+
+/* botones */
+.btn{font-family:var(--sans);font-size:.92rem;font-weight:600;border-radius:9px;border:1.5px solid var(--ink);
+  background:var(--card);color:var(--ink);padding:9px 16px;cursor:pointer;transition:background .12s}
+.btn:hover{background:var(--azul-pale)}
+.btn.primary{background:var(--azul);border-color:var(--azul);color:#fff}
+.btn.primary:hover{background:#233F82}
+.btn.ghost{border-color:var(--line-strong);font-weight:500}
+.btn.small{padding:5px 11px;font-size:.83rem}
+.btn:disabled{opacity:.45;cursor:default}
+.btn-row{display:flex;gap:9px;flex-wrap:wrap;margin-top:14px}
+
+/* preguntas */
+.q{padding:14px 0;border-bottom:1px solid var(--line)}
+.q:last-child{border-bottom:none}
+.q-num{font-family:var(--mono);font-size:.72rem;color:var(--rojo);font-weight:700}
+.q-text{font-weight:600;margin:2px 0 8px}
+input.typed,textarea.typed{font-family:var(--sans);font-size:1rem;width:100%;border:1.5px solid var(--line-strong);
+  border-radius:9px;padding:10px 13px;background:var(--card);color:var(--ink)}
+textarea.typed{min-height:110px;line-height:1.6;resize:vertical}
+input.typed:focus,textarea.typed:focus{border-color:var(--azul)}
+.opts{display:flex;gap:8px;flex-wrap:wrap;margin-top:6px}
+.opt{font-family:var(--sans);font-size:.9rem;border:1.5px solid var(--line-strong);border-radius:99px;
+  background:var(--card);color:var(--ink);padding:7px 15px;cursor:pointer}
+.opt:hover{border-color:var(--azul)}
+.opt.sel{border-color:var(--azul);background:var(--azul-pale);color:var(--azul);font-weight:600}
+.opt.good{border-color:var(--verde);background:var(--verde-pale);color:#1D5A3A}
+.opt.bad{border-color:var(--rojo);background:var(--rojo-pale);color:#8A1020}
+.fb{margin-top:9px;padding:10px 13px;border-radius:9px;font-size:.92rem;display:none}
+.fb.show{display:block}
+.fb.good{background:var(--verde-pale);border:1px solid var(--verde);color:#1D5A3A}
+.fb.bad{background:var(--rojo-pale);border:1px solid var(--rojo);color:#8A1020}
+.fb.info{background:var(--ambar-pale);border:1px solid var(--oro);color:#7A5B08}
+.fb b{font-weight:700}
+select.typed{font-family:var(--sans);font-size:1rem;border:1.5px solid var(--line-strong);border-radius:9px;
+  padding:9px 12px;background:var(--card);color:var(--ink);max-width:100%}
+
+/* léxico */
+.lex{display:grid;gap:10px}
+@media(min-width:640px){.lex{grid-template-columns:1fr 1fr}}
+.lex-row{display:flex;gap:10px;align-items:center;flex-wrap:wrap;padding:9px 12px;border:1px solid var(--line);border-radius:9px;background:var(--card)}
+.lex-row .def{flex:1;font-size:.93rem}
+.lex-row select{min-width:150px}
+
+/* progreso */
+.kpi-row{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));margin:14px 0}
+.kpi{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:13px 15px;text-align:center}
+.kpi .n{font-family:var(--serif);font-size:1.7rem;font-weight:700;line-height:1}
+.kpi .l{font-family:var(--mono);font-size:.66rem;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);margin-top:4px}
+.bar{height:7px;background:var(--line);border-radius:4px;overflow:hidden;margin-top:8px}
+.bar i{display:block;height:100%;background:var(--verde);transition:width .3s}
+.bar i.warn{background:var(--oro)} .bar i.low{background:var(--rojo)}
+.wc{font-family:var(--mono);font-size:.78rem;color:var(--muted);margin-top:6px}
+.wc.ok{color:var(--verde);font-weight:700}
+
+/* checklist */
+.check-list{list-style:none;padding:0;margin:10px 0 0}
+.check-list li{padding:6px 0;display:flex;gap:9px;align-items:flex-start;font-size:.93rem;border-bottom:1px solid var(--line)}
+.check-list li:last-child{border-bottom:none}
+.check-list input{margin-top:4px;accent-color:var(--azul);flex-shrink:0}
+
+/* teclado flotante */
+.accent-pad{position:fixed;left:50%;transform:translateX(-50%);bottom:max(14px,env(safe-area-inset-bottom));
+  display:flex;gap:5px;flex-wrap:wrap;justify-content:center;background:var(--card);border:1.5px solid var(--ink);
+  border-radius:13px;box-shadow:0 6px 26px rgba(26,36,64,.2);padding:9px 11px;z-index:60;max-width:min(96vw,540px)}
+.accent-pad button{font-family:var(--serif);font-size:1.22rem;line-height:1;min-width:39px;padding:9px 6px;
+  border:1px solid var(--line-strong);border-radius:9px;background:var(--paper);color:var(--ink);cursor:pointer}
+.accent-pad button:hover{border-color:var(--azul);background:var(--azul-pale)}
+.accent-pad button:active{background:var(--azul);color:#fff}
+.accent-pad .cerrar{font-family:var(--sans);font-size:.9rem;min-width:34px;color:var(--muted)}
+body.pad-on{padding-bottom:120px}
+.hidden{display:none!important}
+footer.site{max-width:900px;margin:0 auto;padding:18px 20px 40px;border-top:1px solid var(--line);
+  font-family:var(--mono);font-size:.7rem;color:var(--muted)}
+@media print{
+  .accent-pad,.btn,.no-print{display:none!important}
+  body{background:#fff} .card,.lectura{box-shadow:none;break-inside:avoid}
+}
+:root{--c-h:#2E8C93;--c-m:#D9653B}
+.lectura{margin-bottom:16px}
+.lectura h2{position:relative}
+.frase{cursor:pointer;border-radius:4px;transition:background .15s}
+.frase:hover{background:var(--azul-pale)}
+.frase.leyendo{background:#FFF1C2}
+.gloss{position:relative}
+.gloss.abierta::after{content:attr(data-g);position:absolute;left:0;top:1.6em;z-index:5;background:var(--ink);color:#fff;
+  font-family:var(--sans);font-size:.8rem;line-height:1.35;padding:6px 9px;border-radius:7px;width:max-content;max-width:240px;white-space:normal}
+.grafico .ax{font:12px var(--sans);fill:var(--ink-soft)}
+.grafico .pt{font:700 15px var(--sans);fill:var(--ink)}
+.grafico .grid{stroke:var(--line-strong);stroke-width:1}
+.grafico .grid.cero{stroke:var(--ink-soft)}
+.grafico .bh{fill:var(--c-h)} .grafico .bm{fill:var(--c-m)}
+.grafico rect:hover{opacity:.8}
+.leyenda{display:flex;gap:16px;font-size:.85rem;margin:8px 0 4px}
+.leyenda i{display:inline-block;width:12px;height:12px;border-radius:2px;margin-right:6px;vertical-align:-1px}
+.fuente{font-size:.75rem;color:var(--muted);margin:6px 0 0}
+.banco{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0 12px}
+.chip{border:1px dashed var(--line-strong);border-radius:99px;padding:3px 11px;font-size:.88rem;background:var(--paper)}
+.cloze{line-height:2.3}
+.linea{padding:8px 0;border-bottom:1px solid var(--line);line-height:2.1}
+.linea:last-child{border-bottom:none}
+input.hueco{font:inherit;width:9.5em;border:none;border-bottom:1.5px solid var(--ink-soft);background:transparent;color:var(--ink);padding:0 4px;margin:0 3px}
+input.hueco:focus{outline:none;border-bottom-color:var(--azul);background:var(--azul-pale)}
+input.hueco.good,select.good{border-color:var(--verde);background:var(--verde-pale)}
+input.hueco.bad,select.bad{border-color:var(--rojo);background:var(--rojo-pale)}
+select.sel{padding:4px 8px;margin:0 3px;font-size:.95rem}
+.linea .fb{line-height:1.45}
+.ejemplos{margin:6px 0 10px;padding-left:20px;font-family:var(--serif);font-size:1.03rem}
+.ejemplos li{margin:4px 0}
+.muted{color:var(--muted);font-family:var(--sans);font-size:.8rem}
+.andamio{margin:4px 0 10px;font-size:.9rem}
+.andamio summary{cursor:pointer;color:var(--azul);font-weight:600}
+.andamio p{margin:6px 0 0;color:var(--ink-soft)}
+.dominio .dom{display:grid;grid-template-columns:170px 1fr 48px;gap:10px;align-items:center;font-size:.88rem;margin:4px 0}
+.dominio .bar{margin-top:0}
+
+.ingles{font-family:var(--serif);font-size:1.05rem;line-height:1.7;background:var(--paper);border-left:3px solid var(--azul);padding:10px 14px;margin:0 0 10px}
+.glosario summary{cursor:pointer}
+.glosario .lex{margin-top:12px}
+.glosario .lex-row b{min-width:170px}
+.crono{margin:0;padding-left:18px}.crono li{margin:3px 0}
+</style>
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <h1>🎶 4.2 Les Tendances Musicales</h1>
-            <p class="subtitle">Lecture, vocabulaire, grammaire et activités interactives</p>
-        </div>
-
-        <div class="section">
-            <h2 class="section-title">📋 Objectifs de l'unité</h2>
-            <div class="text-box">
-                <p><strong>Thème:</strong> Explorer les tendances musicales francophones, avec un accent sur Haïti et la chanson française.</p>
-                <ul style="margin-left:18px; margin-top:10px;">
-                    <li>Compréhension écrite et auditive</li>
-                    <li>Vocabulaire spécialisé (musique, histoire et société)</li>
-                    <li>Révision du passé simple / past historic et du passé composé</li>
-                    <li>Pratique de production écrite et discussion</li>
-                </ul>
-            </div>
-        </div>
-
-        <div class="section">
-            <div class="activity-number">Lecture</div>
-            <h2 class="section-title">La musique haïtienne – quelques tendances</h2>
-            <div class="text-box" id="haitiText">
-                <p>Pour bien comprendre les tendances musicales d’Haïti, il faut fouiller dans son passé. Ancienne colonie française, Haïti se libéra en 1804 quand les nombreux esclaves qu’avaient fait transporter les Français se révoltèrent. Dès lors indépendante, la culture française y resta tout de même importante voire dominante – surtout en ce qui concerne la haute société – et le français, la langue officielle. Ceci se refléta dans la musique haïtienne de l’époque, les riches préférant la musique francophone, les couches sociales moins favorisées, celle d’origine africaine. Inévitablement, les influences culturelles françaises, africaines et caribéennes finirent par s’entremêler, ce qui résulta en des styles musicaux uniques en Haïti dont le kompa, le rara et le mizik Rasin.</p>
-
-                <p>Une version plus moderne de la méringue française, le kompa provint du XIXème siècle et s’inspira, au départ, des rythmes vaudou. Ce fut dans les années cinquante qu’il devint vraiment connu grâce au musicien Nemours Jean Baptiste qui en créa sa propre version, plus proche de la méringue de la République Dominicaine, qu’il nomma kompa direct et qui n’avait aucun lien avec le vaudou. Malgré les différentes tendances qui voient périodiquement le jour, la formule du kompa reste homogène.</p>
-
-                <p>À la différence du kompa direct, le rara associe la musique et la culture du vaudou. Diffusé dans les rues uniquement à l’époque du carnaval jusqu’aux fêtes de Pâques, cette musique paysanne est le seul visage officiel du vaudou.</p>
-
-                <p>Plutôt méconnu à l’étranger, le mizik rasin naquit au milieu des années soixante-dix, au milieu des émeutes et des manifestations étudiantes. Ce fut alors la parole et l’énergie des jeunes Haïtiens. Dix ans après, ce courant musical devint un véritable mouvement de contestation. Les groupes de mizik rasin, comme Boukan Eksperyans ou Boukman Eksperyans, jouèrent un rôle important dans la révolte de 1986 qui mit fin au régime de Jean-Claude Duvalier. Le mizik rasin est encore aujourd’hui un genre musical très populaire en Haïti et continue d’influencer la vie et la culture du pays.</p>
-            </div>
-
-            <div style="margin-top:14px;">
-                <div class="activity-number">Activité 4.2.1</div>
-                <h3>Remettez ces phrases dans l'ordre (ordre du texte)</h3>
-                <p>Glissez pour réordonner selon le passage ci-dessus.</p>
-                <div class="sentence-order" id="orderContainer">
-                    <div class="sentence-item" draggable="true" data-id="1"><div class="sentence-number">1</div><div>Le kompa et son origine</div></div>
-                    <div class="sentence-item" draggable="true" data-id="2"><div class="sentence-number">2</div><div>Le rara et le vaudou</div></div>
-                    <div class="sentence-item" draggable="true" data-id="3"><div class="sentence-number">3</div><div>Le mizik rasin et la contestation</div></div>
-                    <div class="sentence-item" draggable="true" data-id="4"><div class="sentence-number">4</div><div>Influences françaises, africaines et caribéennes</div></div>
-                </div>
-                <div class="controls">
-                    <button class="btn btn-check" onclick="checkOrder()">✓ Vérifier</button>
-                    <button class="btn btn-reset" onclick="resetOrder()">🔄 Réinitialiser</button>
-                </div>
-                <div id="orderFeedback" style="margin-top:8px;font-weight:700"></div>
-                <div class="answer-box" id="orderAnswerBox"><p><strong>Ordre correct:</strong> Influences → Le kompa → Le rara → Le mizik rasin.</p></div>
-                <button class="toggle-answer" onclick="toggleAnswer('orderAnswerBox')">Voir la réponse</button>
-            </div>
-        </div>
-
-        <div class="section">
-            <div class="activity-number">Vocabulaire</div>
-            <h2 class="section-title">Mots clés & test de vocabulaire</h2>
-            <div class="text-box">
-                <p>Travaillez le vocabulaire suivant — associez les mots anglais à leur équivalent français dans le test plus bas.</p>
-                <div class="vocab-grid">
-                    <div class="vocab-card">1. controversial — controversé</div>
-                    <div class="vocab-card">2. une couche — a layer / a social class</div>
-                    <div class="vocab-card">3. from then on — dès lors</div>
-                    <div class="vocab-card">4. broadcast (adj / past participle) — diffusé</div>
-                    <div class="vocab-card">5. s’égarer — to get lost / to stray</div>
-                    <div class="vocab-card">6. s’entremêler — to blend / to get mixed</div>
-                    <div class="vocab-card">7. une époque — a period of history</div>
-                    <div class="vocab-card">8. un(e) esclave — a slave</div>
-                    <div class="vocab-card">9. favorisé — fortunate / privileged</div>
-                    <div class="vocab-card">10. fouiller — to rummage / to search</div>
-                    <div class="vocab-card">11. haïtien(ne) — Haitian</div>
-                    <div class="vocab-card">12. homogène — homogenous</div>
-                    <div class="vocab-card">13. un(e) interprète — a performer</div>
-                    <div class="vocab-card">14. se libérer — to become free</div>
-                    <div class="vocab-card">15. périodiquement — periodically</div>
-                    <div class="vocab-card">16. la réincarnation — reincarnation</div>
-                    <div class="vocab-card">17. revendiquer — to claim / to demand</div>
-                    <div class="vocab-card">18. se révolter — to revolt</div>
-                    <div class="vocab-card">19. une tendance — a trend</div>
-                    <div class="vocab-card">20. le vaudou — voodoo</div>
-                </div>
-
-                <div style="margin-top:12px;">
-                    <div class="activity-number">Test vocab</div>
-                    <p>Entrez la traduction française (ou anglaise) et cliquez Vérifier.</p>
-                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
-                        <div>
-                            <label>1. controversial →</label>
-                            <input type="text" id="v1" placeholder="votre réponse">
-                        </div>
-                        <div>
-                            <label>2. une couche →</label>
-                            <input type="text" id="v2" placeholder="votre réponse">
-                        </div>
-                    </div>
-                    <div class="controls" style="margin-top:10px;">
-                        <button class="btn btn-check" onclick="checkVocab()">✓ Vérifier</button>
-                        <button class="btn btn-reset" onclick="resetVocab()">🔄 Réinitialiser</button>
-                    </div>
-                    <div id="vocabFeedback" style="margin-top:8px;font-weight:700"></div>
-                </div>
-            </div>
-        </div>
-
-        <div class="section">
-            <div class="activity-number">Grammaire</div>
-            <h2 class="section-title">Le passé simple / Past historic (révision)</h2>
-            <div class="grammar-box">
-                <p><strong>Rappel:</strong> Le passé simple est utilisé principalement dans la langue écrite et la littérature. Voici quelques terminaisons et exemples tirés du texte.</p>
-                <ul style="margin-left:18px;">
-                    <li>Les verbes en -er : a (il chanta), èrent (ils chantèrent)</li>
-                    <li>Les verbes en -ir : it / irent (il partit / ils finirent)</li>
-                    <li>Verbes irréguliers : être → fut, avoir → eut, voir → vit, faire → fit</li>
-                </ul>
-                <p style="margin-top:8px;"><em>Exemples du texte:</em> <br>"Haïti se libéra en 1804..." / "les esclaves ... se révoltèrent" / "Ceci se refléta dans la musique..."</p>
-            </div>
-
-            <div style="margin-top:12px;">
-                <div class="activity-number">Activité Grammaire</div>
-                <h3>Transformez au passé simple</h3>
-                <p>Transformez ces phrases au passé simple (écrivez votre réponse ci-dessous).</p>
-                <div class="question"><label>1. se libérer →</label><input type="text" id="g1" placeholder="ex: se libéra"></div>
-                <div class="question" style="margin-top:8px;"><label>2. se révolter →</label><input type="text" id="g2" placeholder="ex: se révoltèrent"></div>
-                <div class="controls"><button class="btn btn-check" onclick="checkGrammar()">✓ Vérifier</button><button class="btn btn-reset" onclick="resetGrammar()">🔄 Réinitialiser</button></div>
-                <div id="grammarFeedback" style="margin-top:8px;font-weight:700"></div>
-                <div class="answer-box" id="grammarAnswerBox"><p><strong>Réponses modèles:</strong> 1. se libéra / 2. se révoltèrent</p></div>
-                <button class="toggle-answer" onclick="toggleAnswer('grammarAnswerBox')">Voir les réponses</button>
-            </div>
-        </div>
-
-        <div class="section">
-            <div class="activity-number">Écoute / Lecture</div>
-            <h2 class="section-title">La chanson française (texte d'écoute)</h2>
-            <div class="listening-section">
-                <p>PRÉSENTATEUR: Rares sont ceux, au moins dans le monde de la musique, qui n’ont jamais entendu parler de la chanson française, genre musical où les interprètes chantent des textes écrits en français. Mais que savent les jeunes Français de cette musique?</p>
-                <p>ADOLESCENTE 1: La chanson française provient du Moyen-Âge quand les troubadours, entre autres, chantaient lors des fêtes. Elle a connu de nombreuses réincarnations au cours des années – de la chanson réaliste, pleine de désespoir, à la musique pop.</p>
-                <p>ADOLESCENTE 2: Malgré le succès des cabarets et des chanteuses réalistes, comme Édith Piaf, ce n’est qu’après la Seconde Guerre Mondiale que la chanson française est devenue une vraie industrie.</p>
-                <p>ADOLESCENTE 1: Elle a évolué selon les goûts du moment. Les chanteurs-poètes tels que Georges Brassens et Jacques Brel – bref, les idoles des années cinquante – ont été par exemple vite remplacés par les yé-yé dans les années soixante...</p>
-
-                <div style="margin-top:10px;">
-                    <label>Question: En deux phrases, expliquez l'évolution de la chanson française.</label>
-                    <textarea id="listenQ" placeholder="Votre réponse..."></textarea>
-                    <div class="controls"><button class="btn btn-check" onclick="checkListening()">✓ Vérifier (auto-check)</button></div>
-                    <div id="listenFeedback" style="margin-top:8px;font-weight:700"></div>
-                </div>
-            </div>
-        </div>
-
-        <div class="section">
-            <div class="activity-number">Production écrite</div>
-            <h2 class="section-title">Exit Ticket</h2>
-            <div class="text-box">
-                <p>Écrivez un paragraphe (8-10 lignes) sur une tradition musicale francophone de votre choix en incluant:</p>
-                <ul style="margin-left:18px;">
-                    <li>origine</li>
-                    <li>interprètes</li>
-                    <li>évolution et popularité</li>
-                    <li>votre opinion et perspectives</li>
-                </ul>
-                <textarea id="exitParagraph" placeholder="Votre paragraphe..."></textarea>
-                <div class="controls"><button class="btn btn-check" onclick="checkExit()">✓ Soumettre</button></div>
-                <div id="exitFeedback" style="margin-top:8px;font-weight:700"></div>
-            </div>
-        </div>
-
-        <div class="section homework-box">
-            <h3>Devoirs / HW</h3>
-            <ul style="margin-left:18px;">
-                <li>Terminer 4.1 reading & listening (si non fait)</li>
-                <li>Faire 4.2 reading, vocabulaire et exercices</li>
-                <li>Rechercher trois traditions de musique francophone (ex.: Haïti, Québec, Maghreb)</li>
-                <li>Préparez un court exposé (2 minutes) sur votre tradition choisie</li>
-            </ul>
-        </div>
-
-    </div>
-
-    <script>
-        // Small interactivity: drag reorder
-        const container = document.getElementById('orderContainer');
-        let dragSrc = null;
-        container.addEventListener('dragstart', (e) => {
-            const li = e.target.closest('.sentence-item');
-            if(!li) return;
-            dragSrc = li;
-            li.classList.add('dragging');
-            e.dataTransfer.effectAllowed = 'move';
-        });
-        container.addEventListener('dragend', (e) => {
-            if(dragSrc) dragSrc.classList.remove('dragging');
-            dragSrc = null;
-        });
-        container.addEventListener('dragover', (e) => { e.preventDefault(); const after = getDragAfterElement(container, e.clientY); const dragging = document.querySelector('.dragging'); if(!dragging) return; if(after==null) container.appendChild(dragging); else container.insertBefore(dragging, after); });
-        function getDragAfterElement(container, y){ const draggableElements = [...container.querySelectorAll('.sentence-item:not(.dragging)')]; return draggableElements.reduce((closest, child) => { const box = child.getBoundingClientRect(); const offset = y - box.top - box.height/2; if(offset<0 && offset>closest.offset){ return {offset: offset, element: child}; } else return closest; }, {offset: Number.NEGATIVE_INFINITY}).element; }
-
-        function checkOrder(){
-            const items = [...container.querySelectorAll('.sentence-item')];
-            // extract the visible text part (ignore the leading number circle)
-            const texts = items.map(i => {
-                const node = i.querySelector('div:nth-child(2)');
-                const txt = node ? node.innerText.trim() : i.innerText.trim();
-                return txt.toLowerCase();
-            });
-            // expected phrases (lowercase)
-            const expected = [
-                'influences françaises, africaines et caribéennes',
-                'le kompa et son origine',
-                'le rara et le vaudou',
-                'le mizik rasin et la contestation'
-            ];
-            let ok = true;
-            if(texts.length !== expected.length) ok = false;
-            else{
-                for(let i=0;i<expected.length;i++){
-                    // check that the expected key words appear in the placed item
-                    const expKey = expected[i].split(' ')[0];
-                    if(!texts[i].includes(expKey)) { ok = false; break; }
-                }
-            }
-            const fb = document.getElementById('orderFeedback');
-            fb.textContent = ok ? 'Bon travail — ordre correct ✔️' : 'Il y a des erreurs. Réessayez.';
-        }
-        function resetOrder(){ // simple: move items back to initial
-            const initial = ['Le kompa et son origine','Le rara et le vaudou','Le mizik rasin et la contestation','Influences françaises, africaines et caribéennes'];
-            const items = [...container.querySelectorAll('.sentence-item')];
-            // clear
-            container.innerHTML='';
-            initial.forEach((t,i)=>{ const div=document.createElement('div'); div.className='sentence-item'; div.draggable=true; div.dataset.id=(i+1); div.innerHTML = `<div class="sentence-number">${i+1}</div><div>${t}</div>`; container.appendChild(div); });
-            document.getElementById('orderFeedback').textContent='';
-        }
-
-        function toggleAnswer(id){ const el=document.getElementById(id); el.style.display = (el.style.display==='block') ? 'none' : 'block'; }
-
-        function checkVocab(){ const a=document.getElementById('v1').value.trim().toLowerCase(); const b=document.getElementById('v2').value.trim().toLowerCase(); let score=0; if(a==='controversé' || a==='controversé' ) score++; if(b==='a layer' || b==='a social class' || b==='a layer / a social class' || b==='une couche') score++; document.getElementById('vocabFeedback').textContent = `Résultat: ${score}/2.`; }
-        function resetVocab(){ document.getElementById('v1').value=''; document.getElementById('v2').value=''; document.getElementById('vocabFeedback').textContent=''; }
-
-        function checkGrammar(){ const g1=document.getElementById('g1').value.trim().toLowerCase(); const g2=document.getElementById('g2').value.trim().toLowerCase(); let ok = (g1==='se libéra' || g1==='se libéra.') && (g2==='se révoltèrent' || g2==='se révoltèrent.'); document.getElementById('grammarFeedback').textContent = ok ? 'Correct ✔️' : 'Il y a des erreurs — comparez avec la réponse modèle.'; }
-        function resetGrammar(){ document.getElementById('g1').value=''; document.getElementById('g2').value=''; document.getElementById('grammarFeedback').textContent=''; }
-
-        function checkListening(){ const ans = document.getElementById('listenQ').value.trim(); document.getElementById('listenFeedback').textContent = ans.length>20 ? 'Bonne réponse — contient du détail.' : 'Répondez en deux phrases complètes.'; }
-
-        function checkExit(){ const p = document.getElementById('exitParagraph').value.trim(); document.getElementById('exitFeedback').textContent = p.length>120 ? 'Paragraphe soumis — bon travail.' : 'Élargissez votre paragraphe (8-10 lignes attendues).'; }
-
-    </script>
-
-
-<!-- Floating Accent Keyboard -->
-<div id="accentKeyboard" style="position:fixed; bottom:20px; right:20px; background:white; padding:10px; border-radius:10px; box-shadow:0 4px 12px rgba(0,0,0,0.3); display:flex; gap:6px; z-index:9999;">
-    <button onclick="insertAccent('é')">é</button>
-    <button onclick="insertAccent('è')">è</button>
-    <button onclick="insertAccent('ê')">ê</button>
-    <button onclick="insertAccent('à')">à</button>
-    <button onclick="insertAccent('ç')">ç</button>
-    <button onclick="insertAccent('ô')">ô</button>
-    <button onclick="insertAccent('ù')">ù</button>
-</div>
-
-<!-- Download HTML Button -->
-<div style="position:fixed; bottom:20px; left:20px; z-index:9999;">
-    <button onclick="downloadPage()" style="padding:10px 16px; background:#667eea; color:white; border:none; border-radius:8px; font-weight:700;">⬇ Télécharger cette page</button>
-</div>
-
+<header class="site"><div class="site-inner"><div><div class="brand">Passeport <span>·</span> A-Level French</div><div class="brand-sub">Edexcel · BBA Sixth Form</div></div><div class="tag">Thème 2 · La musique</div></div></header>
+<main>
+<h1>La musique haïtienne : kompa, rara et racines</h1>
+<p class="lede">Why is Haitian music a history lesson in itself? Three short texts — a music born of revolution, kompa as the sound of the diaspora, rara and the protest music of the 1980s — then vocabulary, the passé simple, a translation and an essay. Click any sentence to hear it; hover or tap the dotted words for help.</p>
+<div class="card no-print"><label for="nombre" style="font-weight:600;font-size:.9rem">Your name (it appears on your download)</label>
+<input id="nombre" class="typed" style="margin-top:7px" placeholder="First name + initial, e.g. Lucía G." autocomplete="off"></div>
+<div class="section-label">Los textos</div>
+<div id="textos"></div>
+<details class="card glosario"><summary><b>Vocabulario clave</b> — the topic words of this page, French → English</summary><div class="lex" id="glosario"></div></details>
+<div class="section-label">A · True, false or not mentioned</div>
+<p class="hint">"Non mentionné" means the texts do not give that information, even if it might be true in real life.</p>
+<div class="card" id="secA"></div>
+<div class="section-label">B · Comprehension questions</div>
+<p class="hint">Answer in French, in your own words and in full sentences. Click <b>Vérifier</b> for feedback on the key ideas and a model answer.</p>
+<div class="card" id="secB"></div>
+<div class="section-label">C · Vocabulary in context</div>
+<p class="hint">Complete each sentence with a word from the box, in the right form. Two words are not needed.</p>
+<div class="card"><div class="banco" id="bancoC"></div><div id="secC"></div>
+<div class="btn-row"><button class="btn primary" id="btnC">Vérifier</button></div><div class="fb" id="fbC"></div></div>
+<div class="section-label">D · Grammar: the passé simple</div>
+<div class="card"><p class="q-text">Spot the pattern first. Three verbs from the texts:</p><ul class="ejemplos"><li>En 1791, les esclaves <b>se révoltèrent</b>. <span class="muted">(se révolter)</span></li><li>En 1804, la colonie <b>devint</b> Haïti. <span class="muted">(devenir)</span></li><li>Des musiciens <b>eurent</b> l'idée de mêler ces rythmes. <span class="muted">(avoir)</span></li></ul><p class="hint">The passé simple is the written, literary past tense for completed events — in speech you would say <i>se sont révoltés, est devenue, ont eu</i>. You only need to <b>recognise</b> it at A-Level, but using it in a history essay is a mark of style. Notice the effect too: the texts switch to it for the great dated events. Choose the passé simple form in each sentence.</p><div id="secD"></div><div class="btn-row"><button class="btn primary" id="btnD">Vérifier</button></div><div class="fb" id="fbD"></div></div>
+<div class="section-label">E · Translation into French</div>
+<div class="card"><p class="q-text">Translate into French.</p><p class="ingles">Haitian music reflects the history of the country. While the elite listened to European dances, most Haitians kept African traditions alive. Today, kompa links the diaspora to Haiti, and many young people hope that it will never disappear.</p><details class="andamio"><summary>Help</summary><p>refléter · tandis que / alors que · l'élite écoutait · garder vivantes les traditions · relier la diaspora à Haïti · espérer que + indicatif (futur)</p></details><textarea class="typed" id="trad" placeholder="Écrivez votre traduction…"></textarea><div class="btn-row"><button class="btn primary" id="btnT">Vérifier</button></div><div class="fb" id="fbT"></div></div>
+<div class="section-label">F · Writing</div>
+<div class="card"><p class="q-text">« En Haïti, la musique a toujours été plus qu'un divertissement. » Dans quelle mesure êtes-vous d'accord ?</p><p class="hint">Write 90–140 words. Use at least one precise fact from the texts, two connectives and two subjunctives.</p><details class="andamio"><summary>Sentence starters</summary><p>Il est vrai que… · Cependant… · D'une part… d'autre part… · Bien que le kompa soit… · Ce qui me frappe le plus, c'est… · En conclusion…</p></details><textarea class="typed" id="ensayo" placeholder="Écrivez votre réponse ici…"></textarea><div class="wc" id="wc">0 mots</div><p class="hint" style="margin-top:8px"><b>Reto:</b> use one verb in the passé simple for a dated event (comment on its effect), and give an example from each text.</p><div class="btn-row"><button class="btn primary" id="btnE">Revoir mon texte</button><button class="btn ghost" id="btnModelo">Voir un modèle</button></div><div class="fb" id="fbE"></div><div class="fb info" id="modelo"></div></div>
+<div class="section-label">Results</div>
+<div class="card"><div class="kpi-row"><div class="kpi"><div class="n" id="kA">–</div><div class="l">A · V/F/NM</div></div><div class="kpi"><div class="n" id="kB">–</div><div class="l">B · Compréhension</div></div><div class="kpi"><div class="n" id="kC">–</div><div class="l">C · Lexique</div></div><div class="kpi"><div class="n" id="kD">–</div><div class="l">D · Grammaire</div></div><div class="kpi"><div class="n" id="kT">–</div><div class="l">E · Traduction</div></div></div><div id="dominio" class="dominio"></div><div class="btn-row"><button class="btn primary" id="btnDescargar">⬇ Download my answers</button><button class="btn ghost" id="btnReiniciar">Start again</button></div><p class="hint" style="margin-top:10px">The file is saved on your device: a readable report with your answers, the corrections and your texts. Send it to your teacher by email or Teams if asked.</p></div>
+</main>
+<footer class="site">Thème 2 · La culture politique et artistique — la musique. Textes originaux rédigés pour cette activité.</footer>
 <script>
-// Insert accent into focused input/textarea
-function insertAccent(char){
-    const active = document.activeElement;
-    if(active && (active.tagName === 'INPUT' || active.tagName === 'TEXTAREA')){
-        const start = active.selectionStart;
-        const end = active.selectionEnd;
-        const text = active.value;
-        active.value = text.slice(0,start) + char + text.slice(end);
-        active.selectionStart = active.selectionEnd = start + 1;
-        active.focus();
-    }
+(function(){
+"use strict";
+var $=function(s){return document.querySelector(s);};
+function el(tag,attrs){
+  var n=document.createElement(tag),k;
+  if(attrs)for(k in attrs){
+    if(k==="class")n.className=attrs[k];
+    else if(k==="html")n.innerHTML=attrs[k];
+    else if(k.indexOf("on")===0)n.addEventListener(k.slice(2),attrs[k]);
+    else n.setAttribute(k,attrs[k]);
+  }
+  for(var i=2;i<arguments.length;i++){var c=arguments[i];if(c==null)continue;
+    if(Array.isArray(c))c.forEach(function(x){if(x!=null)n.appendChild(x.nodeType?x:document.createTextNode(x));});
+    else n.appendChild(c.nodeType?c:document.createTextNode(c));}
+  return n;
+}
+function norm(s){return String(s||"").toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,"").replace(/[¡!¿?.,;:"'()«»]/g," ").replace(/\s+/g," ").trim();}
+function exact(s){return String(s||"").toLowerCase().replace(/\s+/g," ").trim();}
+function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"}[c];});}
+
+var CFG={"slug": "Haiti_musique", "titulo": "La musique haïtienne : kompa, rara et racines", "tag": "Thème 2 · La musique", "desc": "Thème 2 · La musique. Compréhension B2 sur la musique haïtienne — histoire, kompa, rara et mizik rasin — avec lexique, passé simple, traduction et rédaction.", "lede": "Why is Haitian music a history lesson in itself? Three short texts — a music born of revolution, kompa as the sound of the diaspora, rara and the protest music of the 1980s — then vocabulary, the passé simple, a translation and an essay.", "footer": "Thème 2 · La culture politique et artistique — la musique. Textes originaux rédigés pour cette activité.", "textos": [{"t": "1 · Une musique née de la révolution", "f": ["Au XVIIIe siècle, Saint-Domingue est la colonie la plus riche de l'empire français, grâce au sucre et au café produits par des centaines de milliers d'esclaves venus d'Afrique.", "En 1791, les esclaves se révoltèrent et, en 1804, la colonie devint Haïti, la première république noire du monde.", "Le pays resta pourtant profondément divisé : une petite élite parlait français et imitait la culture européenne, tandis que la grande majorité parlait créole et gardait vivantes les traditions africaines.", "La musique reflète encore ce [[clivage|division profonde entre deux groupes]] : d'un côté, les danses de salon venues d'Europe ; de l'autre, les tambours des cérémonies [[vaudou|religion haïtienne d'origine africaine]].", "Les grands styles haïtiens sont nés du mélange de ces deux mondes."]}, {"t": "2 · Le kompa, la bande-son de la diaspora", "f": ["En 1955, le saxophoniste Nemours Jean-Baptiste lança un nouveau rythme, le « compas direct », plus simple et plus dansant que les musiques de l'époque.", "Le kompa devint rapidement la musique des mariages, des fêtes et des bals, et il le reste aujourd'hui.", "Avec l'émigration, il a suivi les Haïtiens à Miami, à New York, à Montréal et à Paris, où il sert de lien avec le pays d'origine.", "Des groupes comme Tabou Combo, fondé en 1968, l'ont fait connaître bien au-delà des Caraïbes.", "Le kompa a même ses vedettes politiques : le chanteur Sweet Micky, de son vrai nom Michel Martelly, a été président d'Haïti de 2011 à 2016."]}, {"t": "3 · Rara et mizik rasin : la musique comme contestation", "f": ["Le rara est une musique de rue liée au vaudou : chaque année, pendant le carême et jusqu'à Pâques, des groupes défilent dans les villages au son des tambours et des trompettes en bambou.", "Longtemps méprisé par l'élite, il est devenu un symbole de fierté populaire.", "À la fin des années 1970, des jeunes musiciens eurent l'idée de mêler ces rythmes traditionnels au rock et au reggae : c'est la naissance de la mizik rasin, la « musique racine ».", "Sous la dictature des Duvalier, revendiquer la culture vaudou était déjà un acte politique.", "Après la chute de Jean-Claude Duvalier en 1986, des groupes comme Boukman Eksperyans chantèrent contre la corruption et la violence, au point d'être parfois [[censurés|interdits de diffusion]].", "Pour beaucoup d'Haïtiens, ces chansons ont été la voix de ceux qui n'en avaient pas."]}], "glosario": [["la colonie", "colony"], ["l'esclave", "slave"], ["se révolter", "to rise up"], ["la république", "republic"], ["le créole", "Creole"], ["le clivage", "divide"], ["le vaudou", "Vodou"], ["le rythme", "rhythm"], ["la diaspora", "diaspora (emigrant community)"], ["le bal", "dance (event)"], ["la vedette", "star"], ["défiler", "to march, parade"], ["le carême", "Lent"], ["mépriser", "to look down on"], ["la contestation", "protest"], ["la chute", "fall (of a regime)"]], "A": [{"t": "Avant 1804, Haïti était une colonie française.", "r": "V", "x": "Text 1: Saint-Domingue was the richest colony of the French empire."}, {"t": "Après l'indépendance, toute la population parlait français.", "r": "F", "x": "Text 1: only a small elite spoke French; the great majority spoke Creole."}, {"t": "Le kompa a été créé par un saxophoniste.", "r": "V", "x": "Text 2: Nemours Jean-Baptiste, saxophonist, launched compas direct in 1955."}, {"t": "Le kompa n'est plus écouté que par les personnes âgées.", "r": "F", "x": "Text 2: it is still the music of weddings and parties, in Haiti and in the diaspora."}, {"t": "Tabou Combo a vendu plus d'un million de disques.", "r": "NM", "x": "The text says the group made kompa famous, but gives no sales figures."}, {"t": "Le rara se joue toute l'année.", "r": "F", "x": "Text 3: only during Lent, until Easter."}, {"t": "La mizik rasin mélange des rythmes traditionnels avec le rock et le reggae.", "r": "V", "x": "Text 3: «mêler ces rythmes traditionnels au rock et au reggae»."}, {"t": "Les chansons de Boukman Eksperyans ont toujours été diffusées librement.", "r": "F", "x": "Text 3: they were sometimes censored."}], "B": [{"q": "Pourquoi la musique haïtienne reflète-t-elle un clivage social ?", "k": [{"n": "a French-speaking elite imitating Europe vs a Creole-speaking majority", "re": "élite|elite|français|europ|majorité|majorite|créole|creole"}, {"n": "salon dances on one side, Vodou drums on the other", "re": "salon|danses|tambours|vaudou|africa"}], "m": "Parce qu'une petite élite parlait français et imitait la culture européenne, avec ses danses de salon, tandis que la majorité parlait créole et gardait les traditions africaines, comme les tambours des cérémonies vaudou."}, {"q": "Expliquez pourquoi le kompa est important pour la diaspora haïtienne.", "k": [{"n": "it followed emigrants to Miami, New York, Montréal, Paris", "re": "miami|new york|montréal|montreal|paris|émigra|emigra"}, {"n": "it is a link with the home country", "re": "lien|pays d'origine|racines|identité|identite"}], "m": "Parce qu'il a suivi les Haïtiens émigrés à Miami, New York, Montréal ou Paris, où il sert de lien avec le pays d'origine dans les fêtes et les mariages."}, {"q": "Qu'est-ce que le rara, et comment son image a-t-elle changé ?", "k": [{"n": "street music linked to Vodou, during Lent until Easter", "re": "rue|vaudou|carême|careme|pâques|paques|défil|defil"}, {"n": "once looked down on by the elite, now a symbol of popular pride", "re": "méprisé|meprise|élite|elite|fierté|fierte|symbole"}], "m": "C'est une musique de rue liée au vaudou, jouée pendant le carême jusqu'à Pâques ; longtemps méprisée par l'élite, elle est devenue un symbole de fierté populaire."}, {"q": "En quoi la mizik rasin a-t-elle été une musique politique ?", "k": [{"n": "claiming Vodou culture was political under the Duvaliers", "re": "duvalier|dictature|vaudou|revendiqu"}, {"n": "songs against corruption and violence, sometimes censored", "re": "corruption|violence|censur|contestation|voix"}], "m": "Sous la dictature des Duvalier, revendiquer la culture vaudou était déjà politique ; après 1986, des groupes comme Boukman Eksperyans ont chanté contre la corruption et la violence, au point d'être parfois censurés."}], "C": [{"a": "En 1791, les esclaves de Saint-Domingue se ", "b": ".", "r": ["révoltèrent", "revoltèrent", "sont révoltés"]}, {"a": "Le pays reste marqué par un profond ", "b": " social.", "r": ["clivage"]}, {"a": "Les tambours accompagnent les cérémonies ", "b": ".", "r": ["vaudou"]}, {"a": "Le kompa a accompagné la ", "b": " haïtienne jusqu'à Montréal.", "r": ["diaspora"]}, {"a": "Sweet Micky est une ", "b": " du kompa.", "r": ["vedette"]}, {"a": "Pendant le rara, des groupes ", "b": " dans les villages.", "r": ["défilent", "defilent"]}, {"a": "L'élite a longtemps ", "b": " cette musique populaire.", "r": ["méprisé", "meprise"]}, {"a": "Après la ", "b": " de Duvalier, les chansons sont devenues plus politiques.", "r": ["chute"]}], "bancoC": ["révoltèrent", "clivage", "vaudou", "diaspora", "vedette", "défilent", "méprisé", "chute", "esclaves", "carême"], "D_titulo": "the passé simple", "D_intro": "<p class=\"q-text\">Spot the pattern first. Three verbs from the texts:</p><ul class=\"ejemplos\"><li>En 1791, les esclaves <b>se révoltèrent</b>. <span class=\"muted\">(se révolter)</span></li><li>En 1804, la colonie <b>devint</b> Haïti. <span class=\"muted\">(devenir)</span></li><li>Des musiciens <b>eurent</b> l'idée de mêler ces rythmes. <span class=\"muted\">(avoir)</span></li></ul><p class=\"hint\">The passé simple is the written, literary past tense for completed events — in speech you would say <i>se sont révoltés, est devenue, ont eu</i>. You only need to <b>recognise</b> it at A-Level, but using it in a history essay is a mark of style. Notice the effect too: the texts switch to it for the great dated events. Choose the passé simple form in each sentence.</p>", "D": [{"a": "En 1804, Haïti ", "o": ["devenait", "devint", "devient"], "r": 1, "b": " indépendante.", "x": "devenir → il devint (like venir → il vint)."}, {"a": "Les révoltés ", "o": ["brûlèrent", "brûlaient", "brûlent"], "r": 0, "b": " les plantations.", "x": "-er verbs: ils -èrent → brûlèrent."}, {"a": "En 1955, Nemours Jean-Baptiste ", "o": ["créait", "créa", "crée"], "r": 1, "b": " le compas direct.", "x": "-er verbs: il -a → créa."}, {"a": "Le nouveau rythme ", "o": ["fut", "était", "est"], "r": 0, "b": " un succès immédiat.", "x": "être → il fut."}, {"a": "Les musiciens ", "o": ["voyaient", "virent", "voient"], "r": 1, "b": " que le public adorait le kompa.", "x": "voir → ils virent."}, {"a": "En 1986, Jean-Claude Duvalier ", "o": ["partit", "partait", "part"], "r": 0, "b": " en exil.", "x": "-ir verbs: il -it → partit."}, {"a": "Les groupes de mizik rasin ", "o": ["avaient", "eurent", "ont"], "r": 1, "b": " un grand succès.", "x": "avoir → ils eurent."}, {"a": "Le gouvernement ", "o": ["interdit", "interdisait", "interdira"], "r": 0, "b": " certaines chansons en 1992.", "x": "interdire → il interdit (same form as the present: the date tells you it is passé simple)."}], "reglaD": "The rule: -er verbs take -a / -èrent; most -ir and -re verbs take -it / -irent; many irregular verbs take -ut / -urent (fut, eurent). Recognising the stem (devin-, eu-, vi-) is enough to understand any text.", "T": {"en": "Haitian music reflects the history of the country. While the elite listened to European dances, most Haitians kept African traditions alive. Today, kompa links the diaspora to Haiti, and many young people hope that it will never disappear.", "ayuda": "refléter · tandis que / alors que · l'élite écoutait · garder vivantes les traditions · relier la diaspora à Haïti · espérer que + indicatif (futur)", "claves": [{"n": "reflète l'histoire du pays", "re": "reflète l.histoire"}, {"n": "tandis que / alors que", "re": "tandis que|alors que"}, {"n": "l'élite écoutait (imparfait)", "re": "écoutait|ecoutait"}, {"n": "gardaient vivantes les traditions africaines", "re": "gard(aient|ait).*tradition"}, {"n": "relie la diaspora à Haïti", "re": "relie la diaspora"}, {"n": "espèrent qu'il ne disparaîtra jamais (indicatif après espérer)", "re": "espèrent qu.{0,15}(disparaîtra|disparaitra)"}], "modelo": "La musique haïtienne reflète l'histoire du pays. Tandis que l'élite écoutait des danses européennes, la plupart des Haïtiens gardaient vivantes les traditions africaines. Aujourd'hui, le kompa relie la diaspora à Haïti, et beaucoup de jeunes espèrent qu'il ne disparaîtra jamais."}, "F": {"prompt": "« En Haïti, la musique a toujours été plus qu'un divertissement. » Dans quelle mesure êtes-vous d'accord ?", "starters": "Il est vrai que… · Cependant… · D'une part… d'autre part… · Bien que le kompa soit… · Ce qui me frappe le plus, c'est… · En conclusion…", "reto": "use one verb in the passé simple for a dated event (comment on its effect), and give an example from each text.", "pistaSubj": "try bien que…, il faut que…, je ne pense pas que…", "datoRe": "1791|1804|1955|1968|1986|nemours|tabou|martelly|sweet micky|boukman|duvalier", "datoEj": "en 1804, Haïti devint indépendante; Boukman Eksperyans après 1986…", "lex": ["kompa", "rara", "vaudou", "diaspora", "élite", "créole", "contestation", "clivage", "tradition", "dictature"], "retos": [{"n": "a passé simple form", "re": "\\b(devint|fut|furent|eut|eurent|créa|lança|chantèrent|révoltèrent|partit|devinrent)\\b"}, {"n": "examples from more than one text", "re": "(révolution|1804|esclav|clivage).*(kompa|diaspora)|(kompa|diaspora).*(rara|rasin|boukman)"}], "modelo": "Il est vrai que la musique haïtienne sert d'abord à danser : le kompa accompagne encore les mariages et les fêtes, en Haïti comme dans la diaspora. Cependant, je ne pense pas qu'elle soit un simple divertissement. D'une part, elle porte la mémoire d'une histoire violente : quand Haïti devint indépendante en 1804, le pays resta divisé entre une élite francophone et une majorité créole, et la musique reflète encore ce clivage. D'autre part, elle a souvent été une forme de contestation : sous les Duvalier, revendiquer le vaudou était déjà politique, et après 1986 Boukman Eksperyans a chanté contre la corruption. En conclusion, bien que le kompa soit festif, la musique haïtienne reste une manière de dire qui l'on est."}};window.CFG=CFG;
+/* voz */
+var voz=null;
+function elegirVoz(){
+  if(!("speechSynthesis" in window))return;
+  var mejor=null,mejorP=-1;
+  speechSynthesis.getVoices().forEach(function(v){
+    if(!v.lang||v.lang.toLowerCase().indexOf("fr")!==0)return;
+    var p=0,n=(v.name||"").toLowerCase();
+    if(v.lang.replace("_","-")==="fr-FR")p+=40;
+    if(/natural|neural|premium|enhanced|siri/.test(n))p+=45;
+    if(/google/.test(n))p+=30;
+    if(v.localService===false)p+=20;
+    if(/espeak|compact/.test(n))p-=60;
+    if(p>mejorP){mejorP=p;mejor=v;}
+  });
+  voz=mejor;
+}
+if("speechSynthesis" in window){elegirVoz();speechSynthesis.onvoiceschanged=elegirVoz;}
+var cola=[];
+function hablar(spans){
+  if(!("speechSynthesis" in window)){alert("This browser cannot read aloud.");return;}
+  speechSynthesis.cancel();
+  document.querySelectorAll(".frase.leyendo").forEach(function(x){x.classList.remove("leyendo");});
+  cola=spans.slice();
+  (function sig(){
+    var s=cola.shift(); if(!s)return;
+    var u=new SpeechSynthesisUtterance(s.textContent);
+    if(voz)u.voice=voz; u.lang="fr-FR"; u.rate=0.9;
+    s.classList.add("leyendo");
+    u.onend=function(){s.classList.remove("leyendo");setTimeout(sig,350);};
+    u.onerror=function(){s.classList.remove("leyendo");};
+    speechSynthesis.speak(u);
+  })();
+}
+/* ═════════ generic activity logic: reads CFG ═════════ */
+var TEXTOS=CFG.textos, A=CFG.A||[], B=CFG.B||[], C=CFG.C||[], D=CFG.D||[], T=CFG.T||null;
+TEXTOS.forEach(function(Tx){
+  var caja=el("div",{class:"lectura"});
+  caja.appendChild(el("div",{class:"meta-lectura"},"Texto "+Tx.t.split(" · ")[0]+" · click a sentence to hear it"));
+  caja.appendChild(el("h2",{style:"margin-bottom:10px"},Tx.t.split(" · ").slice(1).join(" · ")));
+  var p=el("p"), spans=[];
+  Tx.f.forEach(function(fr){
+    var html=esc(fr).replace(/\[\[([^|\]]+)\|([^\]]+)\]\]/g,function(_,w,g){return '<span class="gloss" tabindex="0" title="'+g+'" data-g="'+g+'">'+w+'</span>';});
+    var s=el("span",{class:"frase",html:html,role:"button",tabindex:"0"});
+    s.addEventListener("click",function(ev){ if(ev.target.classList.contains("gloss"))return; hablar([s]); });
+    spans.push(s); p.appendChild(s); p.appendChild(document.createTextNode(" "));
+  });
+  caja.appendChild(p);
+  caja.appendChild(el("div",{class:"btn-row no-print"},
+    el("button",{class:"btn small ghost",type:"button",onclick:function(){hablar(spans);}},"🔊 Écouter le texte"),
+    el("button",{class:"btn small ghost",type:"button",onclick:function(){if("speechSynthesis" in window)speechSynthesis.cancel();}},"■ Arrêter")));
+  $("#textos").appendChild(caja);
+});
+document.addEventListener("click",function(e){
+  var g=e.target.closest&&e.target.closest(".gloss");
+  document.querySelectorAll(".gloss.abierta").forEach(function(x){if(x!==g)x.classList.remove("abierta");});
+  if(g)g.classList.toggle("abierta");
+});
+(CFG.glosario||[]).forEach(function(g){$("#glosario").appendChild(el("div",{class:"lex-row"},el("b",null,g[0]),el("span",{class:"def"},g[1])));});
+
+var estado={A:{},B:{},C:null,D:null,T:null,pA:0,pB:0,ensayoInfo:"",tradInfo:""};
+function banco(id,lista){var b=$(id);lista.slice().sort(function(){return Math.random()-.5;}).forEach(function(w){b.appendChild(el("span",{class:"chip"},w));});}
+
+/* A */
+(function(){var c=$("#secA");
+ A.forEach(function(it,i){
+  var box=el("div",{class:"q"}),fb=el("div",{class:"fb"}),bs=[];
+  box.appendChild(el("div",{class:"q-num"},"A"+(i+1)));
+  box.appendChild(el("div",{class:"q-text"},it.t));
+  var ops=el("div",{class:"opts"});
+  [["V","Vrai"],["F","Faux"],["NM","Non mentionné"]].forEach(function(o){
+    var b=el("button",{class:"opt",type:"button"},o[1]);
+    b.addEventListener("click",function(){
+      if(estado.A[i]!=null)return; estado.A[i]=o[0]; bs.forEach(function(x){x.disabled=true;});
+      var good=o[0]===it.r; b.classList.add(good?"good":"bad");
+      if(!good)bs.forEach(function(x,j){if(["V","F","NM"][j]===it.r)x.classList.add("good");});
+      fb.className="fb show "+(good?"good":"bad"); fb.innerHTML=(good?"<b>Correct.</b> ":"<b>Not quite.</b> ")+esc(it.x);
+      actualizar();
+    });
+    bs.push(b); ops.appendChild(b);
+  });
+  box.appendChild(ops); box.appendChild(fb); c.appendChild(box);
+ });})();
+
+/* B */
+(function(){var c=$("#secB");
+ B.forEach(function(it,i){
+  var box=el("div",{class:"q"}),ta=el("textarea",{class:"typed",rows:"3",id:"b"+i,placeholder:"Répondez en français…"}),fb=el("div",{class:"fb"});
+  it._inp=ta;
+  box.appendChild(el("div",{class:"q-num"},"B"+(i+1)+" · 2 points"));
+  box.appendChild(el("div",{class:"q-text"},it.q));
+  box.appendChild(ta);
+  box.appendChild(el("div",{class:"btn-row"},el("button",{class:"btn small",type:"button",onclick:function(){
+    var v=ta.value.toLowerCase(), pts=0, lineas=[];
+    if(v.trim().split(/\s+/).length<5){fb.className="fb show bad";fb.innerHTML="<b>Write a full answer first</b> — at least one complete sentence.";return;}
+    it.k.forEach(function(k){var ok=new RegExp(k.re,"i").test(v); if(ok)pts++; lineas.push((ok?"✓ ":"✗ ")+esc(k.n));});
+    estado.B[i]=pts;
+    fb.className="fb show "+(pts===2?"good":"info");
+    fb.innerHTML="<b>"+pts+"/2 key ideas found.</b><br>"+lineas.join("<br>")+"<br><br><b>Model answer:</b> <i>"+esc(it.m)+"</i>";
+    actualizar();
+  }},"Vérifier")));
+  box.appendChild(fb); c.appendChild(box);
+ });})();
+
+/* C */
+banco("#bancoC",CFG.bancoC||[]);
+(function(){var c=$("#secC");
+ C.forEach(function(it,i){c.appendChild(el("div",{class:"linea"},el("span",{class:"q-num"},"C"+(i+1)+" "),it.a,el("input",{class:"hueco",id:"c"+i,autocomplete:"off","aria-label":"C"+(i+1)}),it.b));});})();
+$("#btnC").addEventListener("click",function(){
+  var ok=0,fall=[];
+  C.forEach(function(it,i){var inp=$("#c"+i),v=exact(inp.value),good=it.r.indexOf(v)>=0;
+    inp.classList.remove("good","bad"); inp.classList.add(good?"good":"bad"); if(good)ok++; else fall.push("C"+(i+1)+": "+it.r[0]);});
+  estado.C=ok; var fb=$("#fbC");
+  fb.className="fb show "+(ok===C.length?"good":"info");
+  fb.innerHTML=ok===C.length?"<b>All correct.</b>":"<b>"+ok+" of "+C.length+" correct.</b> Answers: "+esc(fall.join(" · "))+".";
+  actualizar();
+});
+
+/* D — select items (o) or typed items (r) */
+(function(){var c=$("#secD");
+ D.forEach(function(it,i){
+  var ctl= it.o ? el("select",{class:"typed sel",id:"d"+i,"aria-label":"D"+(i+1)},el("option",{value:""},"…"),it.o.map(function(o,j){return el("option",{value:String(j)},o);}))
+                : el("input",{class:"hueco",id:"d"+i,autocomplete:"off","aria-label":"D"+(i+1),placeholder:it.h||""});
+  c.appendChild(el("div",{class:"linea"},el("span",{class:"q-num"},"D"+(i+1)+" "),it.a,ctl,it.b,el("div",{class:"fb",id:"fd"+i})));});})();
+function dOk(it,i){var v=$("#d"+i).value; if(it.o) return v!==""&&+v===it.r; return it.r.map(exact).indexOf(exact(v))>=0;}
+function dAns(it){return it.o?it.o[it.r]:it.r[0];}
+$("#btnD").addEventListener("click",function(){
+  var ok=0;
+  D.forEach(function(it,i){var s=$("#d"+i),f=$("#fd"+i);
+    if(!String(s.value).trim()){f.className="fb";return;}
+    var good=dOk(it,i); if(good)ok++;
+    s.classList.remove("good","bad"); s.classList.add(good?"good":"bad");
+    f.className="fb show "+(good?"good":"bad"); f.innerHTML=(good?"✓ ":"✗ <b>"+esc(dAns(it))+"</b> — ")+esc(it.x);});
+  estado.D=ok; var fb=$("#fbD");
+  fb.className="fb show "+(ok===D.length?"good":"info");
+  fb.innerHTML="<b>"+ok+" of "+D.length+" correct.</b> "+(CFG.reglaD||"");
+  actualizar();
+});
+
+/* E · traducción */
+if(T){
+ $("#btnT").addEventListener("click",function(){
+  var v=$("#trad").value.toLowerCase().replace(/\s+/g," "), fb=$("#fbT"), ok=0, L=[];
+  if(v.trim().split(" ").length<12){fb.className="fb show bad";fb.innerHTML="<b>Translate the whole passage first.</b>";return;}
+  T.claves.forEach(function(k){var g=new RegExp(k.re,"i").test(v); if(g)ok++; L.push((g?"✓ ":"✗ ")+esc(k.n));});
+  estado.T=ok; estado.tradInfo=L.join("\n");
+  fb.className="fb show "+(ok===T.claves.length?"good":"info");
+  fb.innerHTML="<b>"+ok+" of "+T.claves.length+" key structures found</b> (other correct wordings exist — compare with the model).<br>"+L.join("<br>")+"<br><br><b>Model:</b> <i>"+esc(T.modelo)+"</i>";
+  actualizar();
+ });
 }
 
-// Download current page as HTML
-function downloadPage(){
-    const blob = new Blob([document.documentElement.outerHTML], {type:'text/html'});
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = '4.2_tendances_musicales.html';
-    a.click();
-    URL.revokeObjectURL(url);
-}
-</script>
+/* F · redacción */
+var ensayo=$("#ensayo");
+function palabras(t){return t.trim().split(/\s+/).filter(function(w){return w.length;}).length;}
+ensayo.addEventListener("input",function(){var n=palabras(ensayo.value),w=$("#wc");w.textContent=n+" mots";w.className="wc"+(n>=90&&n<=140?" ok":"");});
+var CONECT=["cependant","pourtant","d'une part","d'autre part","de plus","en revanche","alors que","tandis que","bien que","donc","néanmoins","tout d'abord","en conclusion","étant donné que","puisque","c'est pourquoi","c'est-à-dire","malgré","par conséquent","ainsi"];
+var SUBJ=/(^|[^a-zàâçéèêëîïôûùœ])(qu[e\'’]|pour qu[e\'’]|avant qu[e\'’]|bien qu[e\'’]|sans qu[e\'’]|à moins qu[e\'’])\s*(\S+\s+){0,5}?(soit|soient|sois|ait|aient|aies|puisse|puissent|fasse|fassent|aille|aillent|sache|sachent|veuille|veuillent|vienne|viennent|prenne|prennent|devienne|deviennent|reconnaisse|reconnaissent|comprenne|comprennent|disparaisse|disparaissent|oublie|oublient|ait été|ait eu|soit devenu)(?=[\s.,;:!?]|$)/gi;
+$("#btnE").addEventListener("click",function(){
+  var t=ensayo.value, tl=t.toLowerCase(), n=palabras(t), fb=$("#fbE"), L=[];
+  if(n<20){fb.className="fb show bad";fb.innerHTML="<b>Write your paragraph first</b> — aim for 90–140 words.";return;}
+  L.push((n>=90&&n<=140?"✓ ":"✗ ")+n+" words"+(n<90?" — develop your argument further.":n>140?" — cut to the strongest points.":"."));
+  var con=CONECT.filter(function(c){return tl.indexOf(c)>=0;});
+  L.push((con.length>=2?"✓ ":"✗ ")+"Connectives: "+(con.length?esc(con.join(", ")):"none found")+(con.length<2?" — add at least two (cependant, d'une part…).":""));
+  var sub=(t.match(SUBJ)||[]).length;
+  L.push((sub>=2?"✓ ":"✗ ")+"Subjunctives spotted: about "+sub+(sub<2?" — "+(CFG.F.pistaSubj||"try bien que…, il faut que…, je ne pense pas que…"):"")+" (an automatic check: re-read them yourself).");
+  var dato=new RegExp(CFG.F.datoRe,"i").test(tl);
+  L.push((dato?"✓ ":"✗ ")+"A precise fact from the texts (date, name, figure)"+(dato?"":" — e.g. "+CFG.F.datoEj));
+  var lex=(CFG.F.lex||[]).filter(function(w){return tl.indexOf(w)>=0;});
+  L.push((lex.length>=3?"✓ ":"✗ ")+"Topic vocabulary: "+(lex.length?esc(lex.join(", ")):"none from the texts")+".");
+  (CFG.F.retos||[]).forEach(function(r){var g=new RegExp(r.re,"i").test(tl); L.push((g?"✓ ":"○ ")+"Reto: "+r.n);});
+  estado.ensayoInfo=L.join("\n");
+  fb.className="fb show info"; fb.innerHTML="<b>Checklist</b><br>"+L.join("<br>");
+});
+$("#btnModelo").addEventListener("click",function(){var m=$("#modelo");m.className="fb show info";m.innerHTML="<b>Model:</b><br><i>"+esc(CFG.F.modelo)+"</i>";});
 
-<script>
-/* === Correctif clavier d'accents (maintenance 2026) ===
-   Sous Chrome/Edge, cliquer un bouton déplace le focus : document.activeElement
-   n'était plus le champ de l'élève et l'accent n'était jamais inséré.
-   On empêche le vol de focus et on garde en mémoire le dernier champ utilisé. */
-(function () {
-  var last = null;
-  function isField(el) {
-    return !!el && (el.tagName === 'TEXTAREA' ||
-      (el.tagName === 'INPUT' && /^(text|search|email|)$/i.test(el.type || '')));
-  }
-  ['focus','focusin'].forEach(function(ev){ document.addEventListener(ev, function (e) { if (isField(e.target)) last = e.target; }, true); });
-  function isPadButton(b) {
-    if (!b || b.tagName !== 'BUTTON') return false;
-    var t = (b.textContent || '').trim();
-    if (t.length > 2) return false;
-    return /[À-ſŒœ«»']/.test(t) ||
-           (typeof b.className === 'string' && /accent|accent-key|accent-btn/i.test(b.className));
-  }
-  document.addEventListener('mousedown', function (e) {
-    var b = e.target && e.target.closest ? e.target.closest('button') : null;
-    if (isPadButton(b)) e.preventDefault();           /* le champ conserve le curseur */
-  }, true);
-  document.addEventListener('click', function (e) {
-    var b = e.target && e.target.closest ? e.target.closest('button') : null;
-    if (!isPadButton(b)) return;
-    if (!isField(document.activeElement) && last) last.focus();   /* filet de sécurité */
-  }, true);
+/* resultados */
+function cuenta(o){var n=0;for(var k in o)n++;return n;}
+function actualizar(){
+  estado.pA=0; A.forEach(function(it,i){if(estado.A[i]===it.r)estado.pA++;});
+  estado.pB=0; for(var k in estado.B)estado.pB+=estado.B[k];
+  $("#kA").textContent=cuenta(estado.A)?estado.pA+"/"+A.length:"–";
+  $("#kB").textContent=cuenta(estado.B)?estado.pB+"/"+(B.length*2):"–";
+  $("#kC").textContent=estado.C!=null?estado.C+"/"+C.length:"–";
+  $("#kD").textContent=estado.D!=null?estado.D+"/"+D.length:"–";
+  if(T)$("#kT").textContent=estado.T!=null?estado.T+"/"+T.claves.length:"–";
+  function fila(nom,p,m,hecho){var pc=hecho?Math.round(100*p/m):0;
+    return '<div class="dom"><span>'+nom+'</span><div class="bar"><i class="'+(pc>=80?"":pc>=50?"warn":"low")+'" style="width:'+pc+'%"></i></div><b>'+(hecho?pc+" %":"–")+'</b></div>';}
+  var gm=D.length+(T?T.claves.length:0);
+  $("#dominio").innerHTML="<p class='hint' style='margin:0 0 6px'>How much you have mastered:</p>"+
+    fila("Content (A, B)",estado.pA+estado.pB,A.length+B.length*2,cuenta(estado.A)||cuenta(estado.B))+
+    fila("Vocabulary (C)",estado.C||0,C.length,estado.C!=null)+
+    fila("Grammar"+(T?" (D, E)":" (D)"),(estado.D||0)+(estado.T||0),gm,estado.D!=null||estado.T!=null);
+}
+actualizar();
+/* ═════════ teclado flotante ═════════ */
+var ACENTOS=["é","è","ê","ë","à","â","ç","î","ï","ô","û","ù","œ","«","»"],padTarget=null;
+var pad=el("div",{class:"accent-pad hidden",role:"toolbar","aria-label":"French accents"});
+ACENTOS.forEach(function(ch){
+  var b=el("button",{type:"button",tabindex:"-1"},ch);
+  b.addEventListener("mousedown",function(ev){ev.preventDefault();});
+  b.addEventListener("click",function(){ if(!padTarget)return;
+    var st=padTarget.selectionStart,en=padTarget.selectionEnd;
+    padTarget.value=padTarget.value.slice(0,st)+ch+padTarget.value.slice(en);
+    padTarget.selectionStart=padTarget.selectionEnd=st+ch.length;
+    padTarget.dispatchEvent(new Event("input",{bubbles:true})); padTarget.focus(); });
+  pad.appendChild(b);
+});
+var cerrar=el("button",{type:"button",class:"cerrar",tabindex:"-1","aria-label":"Hide"},"✕");
+cerrar.addEventListener("mousedown",function(ev){ev.preventDefault();});
+cerrar.addEventListener("click",function(){pad.classList.add("hidden");document.body.classList.remove("pad-on");});
+pad.appendChild(cerrar); document.body.appendChild(pad);
+document.addEventListener("focusin",function(e){
+  var t=e.target; if(t.matches&&t.matches("input.typed,input.hueco,textarea.typed")&&t.id!=="nombre"){padTarget=t;pad.classList.remove("hidden");document.body.classList.add("pad-on");}
+});
+
+/* descarga */
+$("#btnDescargar").addEventListener("click",function(){
+  var nombre=$("#nombre").value.trim()||"(no name)", f=new Date(), L=[];
+  L.push("A-LEVEL FRENCH · BBA — "+CFG.tag+" · "+CFG.titulo);
+  L.push("Student: "+nombre);
+  L.push("Date: "+f.toLocaleDateString("en-GB")+" "+f.toLocaleTimeString("en-GB",{hour:"2-digit",minute:"2-digit"}));
+  L.push("");
+  L.push("SCORES   A: "+$("#kA").textContent+"   B: "+$("#kB").textContent+"   C: "+$("#kC").textContent+"   D: "+$("#kD").textContent+(T?"   E: "+$("#kT").textContent:""));
+  L.push("  "+$("#dominio").innerText.replace(/\n+/g,"  ").replace("How much you have mastered:","Mastered:"));
+  L.push("");
+  L.push("A · TRUE / FALSE / NOT MENTIONED");
+  var NOM={V:"vrai",F:"faux",NM:"non mentionné"};
+  A.forEach(function(it,i){var d=estado.A[i];L.push("  A"+(i+1)+". "+it.t+" — "+(d?NOM[d]:"—")+(d&&d!==it.r?"  (correct: "+NOM[it.r]+")":d?"  ✓":""));});
+  L.push("");
+  L.push("B · COMPREHENSION");
+  B.forEach(function(it,i){L.push("  B"+(i+1)+". "+it.q);L.push("      "+(it._inp.value.trim()||"—"));L.push("      key ideas: "+(estado.B[i]!=null?estado.B[i]+"/2":"not checked"));L.push("      model: "+it.m);});
+  L.push("");
+  L.push("C · VOCABULARY");
+  C.forEach(function(it,i){var v=$("#c"+i).value.trim();L.push("  C"+(i+1)+". "+it.a+"["+(v||"—")+"]"+it.b+(it.r.indexOf(exact(v))>=0?"  ✓":"  (→ "+it.r[0]+")"));});
+  L.push("");
+  L.push("D · GRAMMAR");
+  D.forEach(function(it,i){var v=$("#d"+i).value, sh=it.o?(v!==""?it.o[+v]:"—"):(v.trim()||"—");L.push("  D"+(i+1)+". "+it.a+"["+sh+"]"+it.b+(dOk(it,i)?"  ✓":"  (→ "+dAns(it)+")"));});
+  if(T){L.push("");L.push("E · TRANSLATION");L.push($("#trad").value.trim()||"—");if(estado.tradInfo){L.push("Key structures:");L.push(estado.tradInfo);}L.push("Model: "+T.modelo);}
+  L.push("");
+  L.push("WRITING ("+palabras(ensayo.value)+" words)");
+  L.push(ensayo.value.trim()||"—");
+  if(estado.ensayoInfo){L.push("");L.push("Checklist:");L.push(estado.ensayoInfo);}
+  var blob=new Blob([L.join("\n")],{type:"text/plain;charset=utf-8"}),url=URL.createObjectURL(blob),a=document.createElement("a");
+  a.href=url; a.download="Haiti_musique_"+nombre.replace(/[^\wàâçéèêëîïôûùœÀÂÇÉÈÊËÎÏÔÛÙŒ]+/g,"_")+".txt";
+  document.body.appendChild(a); a.click(); document.body.removeChild(a); setTimeout(function(){URL.revokeObjectURL(url);},1500);
+});
+$("#btnReiniciar").addEventListener("click",function(){ if(confirm("Clear all your answers and start again?")) location.reload(); });
 })();
 </script>
-     <script src="bba-kit-fr.js" defer></script>
+<script>window.BBA_KIT = {check:false, name:false, download:false};</script>
+<script src="bba-kit-fr.js" defer></script>
 <script src="bba-send-strip.js" defer></script>
-<script>/* BBA progress hookup: counter + saved score for the hub tile (Oct 2026) */
+<script>/* BBA progress hookup: counter + saved score for the hub tile */
 window.BBA_HOOKED=true;
 window.addEventListener("load",function(){
   if(!window.BBAMeter)return;
-  var TASKS=[{"fb": "orderFeedback", "ok": "correct"}, {"fb": "vocabFeedback", "n": 2, "frac": true, "inp": ["v1", "v2"]}, {"fb": "grammarFeedback", "n": 2, "ok": "^Correct", "inp": ["g1", "g2"]}, {"fb": "listenFeedback", "ok": "Bonne r\u00e9ponse", "inp": ["listenQ"]}, {"fb": "exitFeedback", "ok": "soumis", "inp": ["exitParagraph"]}], total=TASKS.reduce(function(a,t){return a+(t.n||1);},0);
-  function calc(rec){ var a=0,c=0;
-    TASKS.forEach(function(t){ var e=document.getElementById(t.fb), tx=e?(e.textContent||"").trim():""; if(!tx) return;
-      if(t.skip&&new RegExp(t.skip,"i").test(tx)) return;
-      if(t.inp&&!t.inp.some(function(id){var x=document.getElementById(id);return x&&String(x.value||"").trim();})) return;
-      var n=t.n||1; a+=n;
-      if(t.frac){ var m=tx.match(/(\d+(?:[.,]\d+)?)\s*\/\s*(\d+)/); if(m) c+=Math.min(n,Math.round(parseFloat(m[1].replace(",","."))*n/(+m[2]||n))); }
-      else if(new RegExp(t.ok,"i").test(tx)) c+=n; });
-    BBAMeter.set(a,c,total,{record:!!rec}); }
-  var mo=new MutationObserver(function(){ clearTimeout(mo.t); mo.t=setTimeout(function(){calc(true);},60); });
-  TASKS.forEach(function(t){ var e=document.getElementById(t.fb); if(e) mo.observe(e,{childList:true,characterData:true,subtree:true}); });
+  var NAMEISH=/(^|[-_\s])(name|nom|nombre|prenom|apellido|student|eleve|alumno|candidate)([-_\s]|$)/i;
+  function bbaFields(){
+    var groups={},list=[];
+    Array.prototype.forEach.call(document.body.querySelectorAll("input,select,textarea"),function(e){
+      var t=(e.type||"").toLowerCase();
+      if(e.closest("#bba-kit,#bba-howto,.bba-meter,#bba-resume"))return;
+      if(["hidden","button","submit","reset","file","range","color","search"].indexOf(t)>=0||e.disabled||e.readOnly)return;
+      if(NAMEISH.test(e.id||"")||NAMEISH.test(e.name||"")||NAMEISH.test(e.placeholder||""))return;
+      if(t==="radio"||t==="checkbox"){var k=t+":"+(e.name||e.id);if(!groups[k]){groups[k]=[];list.push(groups[k]);}groups[k].push(e);}
+      else list.push([e]);
+    });
+    return list;
+  }
+  function filled(g){var e=g[0];if(e.tagName==="SELECT")return e.selectedIndex>0;return !!String(e.value||"").trim();}
+  var IDS=["kA","kB","kC","kD","kT"],any=false;
+  function calc(rec){var s=0,m=0;IDS.forEach(function(id){var e=document.getElementById(id),t=e?(e.textContent||""):"";var k=t.match(/(\d+(?:[.,]\d+)?)\s*\/\s*(\d+)/);if(k){s+=parseFloat(k[1].replace(",","."));m+=+k[2];}});
+    /* buttons-only questions (chart, A) count as answered when clicked */
+    var L=bbaFields(),a=L.filter(filled).length, extra=document.querySelectorAll("#secA .q").length;
+    var resp=document.querySelectorAll("#secA .fb.show").length;
+    if(s>0)any=true;
+    BBAMeter.points(a+resp,L.length+extra,any?s:null,any?m:null,{record:!!rec});}
+  var mo=new MutationObserver(function(){clearTimeout(mo.t);mo.t=setTimeout(function(){calc(true);},60);});
+  IDS.forEach(function(id){var e=document.getElementById(id);if(e)mo.observe(e,{childList:true,characterData:true,subtree:true});});
+  ["input","change","click"].forEach(function(ev){document.addEventListener(ev,function(e){if(!(e.target.closest&&e.target.closest("#bba-kit")))setTimeout(function(){calc(false);},0);});});
   calc(false);
 });
 </script>

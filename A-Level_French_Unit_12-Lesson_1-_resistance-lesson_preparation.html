@@ -3,641 +3,508 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>La Résistance française – Devoirs interactifs</title>
+<title>La Résistance : des refus isolés aux réseaux (1940–1944) · A-Level French BBA</title>
+<meta name="description" content="Thème 4 · La Résistance. Compréhension B2 : les premiers refus, l'unification par Jean Moulin, la Libération et le mythe résistancialiste, avec lexique, temps du passé, traduction et rédaction.">
 <style>
-  :root{--blue:#7c3aed;--lblue:#f3eeff;--green:#16a34a;--red:#dc2626;--dark:#1e293b;--mid:#64748b}
-  *{box-sizing:border-box;margin:0;padding:0}
-  body{font-family:'Segoe UI',sans-serif;background:#f5f3ff;color:var(--dark);min-height:100vh}
-  header{background:linear-gradient(135deg,#4c1d95,#7c3aed);color:#fff;padding:2rem;text-align:center}
-  header h1{font-size:1.6rem;margin-bottom:.4rem}
-  header p{opacity:.85;font-size:.95rem}
-  .badge{display:inline-block;background:rgba(255,255,255,.2);border-radius:20px;padding:.2rem .8rem;font-size:.8rem;margin:.3rem .2rem}
-  #nameSection{background:#fff;max-width:500px;margin:2rem auto;border-radius:12px;padding:2rem;box-shadow:0 2px 12px rgba(0,0,0,.08);text-align:center}
-  #nameSection h2{margin-bottom:1rem;color:var(--blue)}
-  #nameInput{width:100%;padding:.7rem 1rem;border:2px solid #c4b5fd;border-radius:8px;font-size:1rem;margin-bottom:1rem}
-  #nameInput:focus{outline:none;border-color:var(--blue)}
-  .btn{background:var(--blue);color:#fff;border:none;padding:.7rem 1.6rem;border-radius:8px;font-size:1rem;cursor:pointer;transition:.2s}
-  .btn:hover{background:#6d28d9}
-  .btn-green{background:var(--green)}
-  .btn-green:hover{background:#15803d}
-  .btn-outline{background:#fff;color:var(--blue);border:2px solid var(--blue)}
-  .btn-outline:hover{background:var(--lblue)}
-  #main{display:none;max-width:860px;margin:0 auto;padding:1rem 1rem 5rem}
-  .section{background:#fff;border-radius:12px;padding:1.5rem;margin-bottom:1.5rem;box-shadow:0 2px 10px rgba(0,0,0,.06)}
-  .section h2{color:var(--blue);font-size:1.15rem;margin-bottom:.3rem;display:flex;align-items:center;gap:.5rem}
-  .section .subtitle{color:var(--mid);font-size:.85rem;margin-bottom:1rem}
-  .section-num{background:var(--blue);color:#fff;border-radius:50%;width:28px;height:28px;display:inline-flex;align-items:center;justify-content:center;font-size:.85rem;flex-shrink:0}
-  /* Reading text */
-  .reading-box{background:linear-gradient(135deg,#faf8ff,#f3eeff);border:1.5px solid #c4b5fd;border-radius:10px;padding:1.2rem 1.4rem;margin-bottom:1.2rem;line-height:1.8;font-size:.96rem}
-  .reading-box h3{color:var(--blue);font-size:1rem;margin-bottom:.7rem;border-bottom:1.5px solid #c4b5fd;padding-bottom:.5rem}
-  .reading-box .kw{color:#6d28d9;font-weight:700}
-  .source-tag{font-size:.75rem;color:var(--mid);margin-top:.7rem;text-align:right;font-style:italic}
-  /* MCQ */
-  .q-block{margin-bottom:1.2rem}
-  .q-text{font-weight:600;margin-bottom:.5rem;line-height:1.4}
-  .options label{display:flex;align-items:flex-start;gap:.5rem;padding:.45rem .6rem;margin:.2rem 0;border-radius:6px;cursor:pointer;border:1.5px solid #e2e8f0;transition:.15s}
-  .options label:hover{background:var(--lblue);border-color:#c4b5fd}
-  .options input{margin-top:.15rem;flex-shrink:0}
-  .correct{background:#dcfce7!important;border-color:var(--green)!important}
-  .wrong{background:#fee2e2!important;border-color:var(--red)!important}
-  .feedback{font-size:.85rem;margin-top:.4rem;padding:.4rem .7rem;border-radius:6px}
-  .feedback.ok{background:#dcfce7;color:#166534}
-  .feedback.bad{background:#fee2e2;color:#991b1b}
-  /* Gap fill */
-  .gap-sentence{line-height:2.5;margin-bottom:.6rem;font-size:.97rem}
-  .gap{display:inline-block;min-width:100px;border:none;border-bottom:2px solid var(--blue);background:transparent;font-size:.97rem;font-family:inherit;padding:.1rem .3rem;color:var(--dark);outline:none;transition:.2s}
-  .gap:focus{border-bottom-color:#f59e0b;background:var(--lblue)}
-  .gap.correct-input{border-bottom-color:var(--green);background:#dcfce7}
-  .gap.wrong-input{border-bottom-color:var(--red);background:#fee2e2}
-  /* Vrai/Faux */
-  .vf-row{margin-bottom:1rem;padding:.8rem;border:1.5px solid #e2e8f0;border-radius:8px}
-  .vf-row .vf-stmt{font-weight:600;margin-bottom:.5rem}
-  .vf-btns{display:flex;gap:.5rem;margin-bottom:.4rem}
-  .vf-btn{padding:.35rem 1rem;border-radius:6px;border:1.5px solid #cbd5e1;cursor:pointer;font-size:.9rem;background:#fff;transition:.15s}
-  .vf-btn.selected-v{background:#dcfce7;border-color:var(--green);font-weight:700}
-  .vf-btn.selected-f{background:#fee2e2;border-color:var(--red);font-weight:700}
-  .vf-just{width:100%;padding:.4rem .7rem;border:1.5px solid #cbd5e1;border-radius:6px;font-size:.88rem;margin-top:.3rem}
-  .vf-just:focus{outline:none;border-color:var(--blue)}
-  /* Synonym/vocab rows */
-  .syn-row{display:flex;align-items:center;gap:.5rem;margin-bottom:.5rem;flex-wrap:wrap}
-  .syn-word{font-weight:700;width:200px;flex-shrink:0;color:var(--blue)}
-  .syn-select{flex:1;padding:.4rem;border:1.5px solid #cbd5e1;border-radius:6px;font-size:.9rem}
-  .syn-select:focus{outline:none;border-color:var(--blue)}
-  /* Verb table */
-  .verb-table{width:100%;border-collapse:collapse;font-size:.9rem;margin-bottom:.8rem}
-  .verb-table th{background:#4c1d95;color:#fff;padding:.5rem .7rem;text-align:left}
-  .verb-table td{border:1px solid #e2e8f0;padding:.45rem .7rem;vertical-align:middle}
-  .verb-table tr:nth-child(even) td{background:#faf8ff}
-  .cell-input{width:100%;border:none;border-bottom:2px solid var(--blue);background:transparent;font-size:.88rem;font-family:inherit;padding:.1rem .2rem;outline:none}
-  .cell-input:focus{border-bottom-color:#f59e0b;background:var(--lblue)}
-  .cell-input.correct-input{border-bottom-color:var(--green);background:#dcfce7}
-  .cell-input.wrong-input{border-bottom-color:var(--red);background:#fee2e2}
-  /* Neg forms */
-  .neg-row{margin-bottom:.8rem}
-  .neg-row .sentence{margin-bottom:.3rem;color:var(--mid);font-size:.9rem}
-  .neg-input{width:100%;padding:.5rem .8rem;border:1.5px solid #cbd5e1;border-radius:6px;font-size:.93rem}
-  .neg-input:focus{outline:none;border-color:var(--blue)}
-  /* Tense choice */
-  .tense-row{margin-bottom:.8rem;padding:.7rem;border:1.5px solid #e2e8f0;border-radius:8px;font-size:.94rem;line-height:1.7}
-  .tense-select{padding:.3rem .5rem;border:1.5px solid #c4b5fd;border-radius:6px;font-size:.88rem;font-family:inherit;background:var(--lblue);cursor:pointer}
-  .tense-select:focus{outline:none;border-color:var(--blue)}
-  .tense-select.correct-input{border-color:var(--green);background:#dcfce7}
-  .tense-select.wrong-input{border-color:var(--red);background:#fee2e2}
-  /* Score bar */
-  #scoreBar{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:2px solid #e2e8f0;padding:.7rem 1.2rem;display:none;align-items:center;justify-content:space-between;gap:.8rem;z-index:90;box-shadow:0 -4px 12px rgba(0,0,0,.08)}
-  #scoreText{font-weight:700;font-size:1rem;color:var(--blue)}
-  .btn-row{display:flex;gap:.5rem;flex-wrap:wrap}
-  /* Accent keyboard */
-  #accentKb{position:fixed;bottom:66px;right:16px;background:#1e293b;border-radius:12px;padding:.6rem .7rem;display:none;flex-direction:column;align-items:center;gap:.4rem;z-index:100;box-shadow:0 4px 20px rgba(0,0,0,.3)}
-  #accentKb .kb-row{display:flex;gap:.4rem}
-  .kb-btn{background:#334155;color:#fff;border:none;border-radius:6px;width:40px;height:40px;font-size:1.15rem;cursor:pointer;transition:.15s}
-  .kb-btn:hover{background:#7c3aed}
-  #kbToggle{position:fixed;bottom:62px;right:16px;background:var(--blue);color:#fff;border:none;border-radius:50%;width:46px;height:46px;font-size:1.2rem;cursor:pointer;z-index:101;box-shadow:0 2px 10px rgba(0,0,0,.25);display:none}
-  /* Progress */
-  .progress-wrap{background:#e2e8f0;border-radius:99px;height:8px;margin-bottom:1.2rem;overflow:hidden}
-  .progress-fill{height:100%;background:linear-gradient(90deg,#7c3aed,#a78bfa);border-radius:99px;transition:.5s}
-  @media(max-width:600px){.syn-word{min-width:130px}.verb-table{font-size:.8rem}}
+:root{
+  --paper:#FBFAF6; --card:#FFFFFF; --ink:#1A2440; --ink-soft:#4A5570; --muted:#8A8F9E;
+  --rojo:#C60B1E; --oro:#B8860B; --azul:#2B4C9B; --azul-pale:#EDF1FA;
+  --verde:#2E7D52; --verde-pale:#EAF4EE; --rojo-pale:#FBEDEE; --ambar-pale:#FFF7E6;
+  --line:#E5E2D8; --line-strong:#CFCBBD; --radius:12px;
+  --shadow:0 1px 2px rgba(26,36,64,.06), 0 4px 16px rgba(26,36,64,.05);
+  --serif:Georgia,'Times New Roman',serif;
+  --sans:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+  --mono:ui-monospace,'SF Mono',Menlo,Consolas,monospace;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.55}
+:focus-visible{outline:2px solid var(--azul);outline-offset:2px;border-radius:4px}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+header.site{border-bottom:3px solid var(--ink);background:var(--card);padding:0 20px}
+.site-inner{max-width:900px;margin:0 auto;padding:18px 0 14px;display:flex;align-items:baseline;gap:16px;flex-wrap:wrap}
+.brand{font-family:var(--serif);font-weight:700;font-size:1.4rem;letter-spacing:-.01em}
+.brand span{color:var(--rojo)}
+.brand-sub{font-family:var(--mono);font-size:.7rem;color:var(--muted);text-transform:uppercase;letter-spacing:.09em}
+.tag{margin-left:auto;font-family:var(--mono);font-size:.68rem;letter-spacing:.08em;text-transform:uppercase;
+  background:var(--rojo);color:#fff;padding:4px 10px;border-radius:99px}
+main{max-width:900px;margin:0 auto;padding:24px 20px 120px}
+h1{font-family:var(--serif);font-size:1.75rem;line-height:1.2;margin:0 0 6px}
+h2{font-family:var(--serif);font-size:1.2rem;margin:0 0 4px}
+.lede{color:var(--ink-soft);margin:0 0 20px;max-width:62ch}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:20px;margin-bottom:16px}
+.section-label{font-family:var(--mono);font-size:.7rem;text-transform:uppercase;letter-spacing:.11em;color:var(--rojo);
+  font-weight:700;margin:30px 0 10px;display:flex;align-items:center;gap:10px}
+.section-label::after{content:"";flex:1;height:1px;background:var(--line-strong)}
+.hint{font-size:.85rem;color:var(--muted);margin:4px 0 12px}
+
+/* texto */
+.lectura{background:var(--card);border:1px solid var(--line-strong);border-radius:var(--radius);
+  box-shadow:var(--shadow);padding:26px 28px;position:relative}
+.lectura::before{content:"";position:absolute;inset:8px;border:1px solid var(--line);border-radius:7px;pointer-events:none}
+.lectura p{font-family:var(--serif);font-size:1.09rem;line-height:1.75;margin:0 0 14px;position:relative}
+.lectura p:last-child{margin-bottom:0}
+.meta-lectura{font-family:var(--mono);font-size:.68rem;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);margin-bottom:14px}
+.gloss{border-bottom:1px dotted var(--rojo);cursor:help}
+
+/* botones */
+.btn{font-family:var(--sans);font-size:.92rem;font-weight:600;border-radius:9px;border:1.5px solid var(--ink);
+  background:var(--card);color:var(--ink);padding:9px 16px;cursor:pointer;transition:background .12s}
+.btn:hover{background:var(--azul-pale)}
+.btn.primary{background:var(--azul);border-color:var(--azul);color:#fff}
+.btn.primary:hover{background:#233F82}
+.btn.ghost{border-color:var(--line-strong);font-weight:500}
+.btn.small{padding:5px 11px;font-size:.83rem}
+.btn:disabled{opacity:.45;cursor:default}
+.btn-row{display:flex;gap:9px;flex-wrap:wrap;margin-top:14px}
+
+/* preguntas */
+.q{padding:14px 0;border-bottom:1px solid var(--line)}
+.q:last-child{border-bottom:none}
+.q-num{font-family:var(--mono);font-size:.72rem;color:var(--rojo);font-weight:700}
+.q-text{font-weight:600;margin:2px 0 8px}
+input.typed,textarea.typed{font-family:var(--sans);font-size:1rem;width:100%;border:1.5px solid var(--line-strong);
+  border-radius:9px;padding:10px 13px;background:var(--card);color:var(--ink)}
+textarea.typed{min-height:110px;line-height:1.6;resize:vertical}
+input.typed:focus,textarea.typed:focus{border-color:var(--azul)}
+.opts{display:flex;gap:8px;flex-wrap:wrap;margin-top:6px}
+.opt{font-family:var(--sans);font-size:.9rem;border:1.5px solid var(--line-strong);border-radius:99px;
+  background:var(--card);color:var(--ink);padding:7px 15px;cursor:pointer}
+.opt:hover{border-color:var(--azul)}
+.opt.sel{border-color:var(--azul);background:var(--azul-pale);color:var(--azul);font-weight:600}
+.opt.good{border-color:var(--verde);background:var(--verde-pale);color:#1D5A3A}
+.opt.bad{border-color:var(--rojo);background:var(--rojo-pale);color:#8A1020}
+.fb{margin-top:9px;padding:10px 13px;border-radius:9px;font-size:.92rem;display:none}
+.fb.show{display:block}
+.fb.good{background:var(--verde-pale);border:1px solid var(--verde);color:#1D5A3A}
+.fb.bad{background:var(--rojo-pale);border:1px solid var(--rojo);color:#8A1020}
+.fb.info{background:var(--ambar-pale);border:1px solid var(--oro);color:#7A5B08}
+.fb b{font-weight:700}
+select.typed{font-family:var(--sans);font-size:1rem;border:1.5px solid var(--line-strong);border-radius:9px;
+  padding:9px 12px;background:var(--card);color:var(--ink);max-width:100%}
+
+/* léxico */
+.lex{display:grid;gap:10px}
+@media(min-width:640px){.lex{grid-template-columns:1fr 1fr}}
+.lex-row{display:flex;gap:10px;align-items:center;flex-wrap:wrap;padding:9px 12px;border:1px solid var(--line);border-radius:9px;background:var(--card)}
+.lex-row .def{flex:1;font-size:.93rem}
+.lex-row select{min-width:150px}
+
+/* progreso */
+.kpi-row{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));margin:14px 0}
+.kpi{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:13px 15px;text-align:center}
+.kpi .n{font-family:var(--serif);font-size:1.7rem;font-weight:700;line-height:1}
+.kpi .l{font-family:var(--mono);font-size:.66rem;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);margin-top:4px}
+.bar{height:7px;background:var(--line);border-radius:4px;overflow:hidden;margin-top:8px}
+.bar i{display:block;height:100%;background:var(--verde);transition:width .3s}
+.bar i.warn{background:var(--oro)} .bar i.low{background:var(--rojo)}
+.wc{font-family:var(--mono);font-size:.78rem;color:var(--muted);margin-top:6px}
+.wc.ok{color:var(--verde);font-weight:700}
+
+/* checklist */
+.check-list{list-style:none;padding:0;margin:10px 0 0}
+.check-list li{padding:6px 0;display:flex;gap:9px;align-items:flex-start;font-size:.93rem;border-bottom:1px solid var(--line)}
+.check-list li:last-child{border-bottom:none}
+.check-list input{margin-top:4px;accent-color:var(--azul);flex-shrink:0}
+
+/* teclado flotante */
+.accent-pad{position:fixed;left:50%;transform:translateX(-50%);bottom:max(14px,env(safe-area-inset-bottom));
+  display:flex;gap:5px;flex-wrap:wrap;justify-content:center;background:var(--card);border:1.5px solid var(--ink);
+  border-radius:13px;box-shadow:0 6px 26px rgba(26,36,64,.2);padding:9px 11px;z-index:60;max-width:min(96vw,540px)}
+.accent-pad button{font-family:var(--serif);font-size:1.22rem;line-height:1;min-width:39px;padding:9px 6px;
+  border:1px solid var(--line-strong);border-radius:9px;background:var(--paper);color:var(--ink);cursor:pointer}
+.accent-pad button:hover{border-color:var(--azul);background:var(--azul-pale)}
+.accent-pad button:active{background:var(--azul);color:#fff}
+.accent-pad .cerrar{font-family:var(--sans);font-size:.9rem;min-width:34px;color:var(--muted)}
+body.pad-on{padding-bottom:120px}
+.hidden{display:none!important}
+footer.site{max-width:900px;margin:0 auto;padding:18px 20px 40px;border-top:1px solid var(--line);
+  font-family:var(--mono);font-size:.7rem;color:var(--muted)}
+@media print{
+  .accent-pad,.btn,.no-print{display:none!important}
+  body{background:#fff} .card,.lectura{box-shadow:none;break-inside:avoid}
+}
+:root{--c-h:#2E8C93;--c-m:#D9653B}
+.lectura{margin-bottom:16px}
+.lectura h2{position:relative}
+.frase{cursor:pointer;border-radius:4px;transition:background .15s}
+.frase:hover{background:var(--azul-pale)}
+.frase.leyendo{background:#FFF1C2}
+.gloss{position:relative}
+.gloss.abierta::after{content:attr(data-g);position:absolute;left:0;top:1.6em;z-index:5;background:var(--ink);color:#fff;
+  font-family:var(--sans);font-size:.8rem;line-height:1.35;padding:6px 9px;border-radius:7px;width:max-content;max-width:240px;white-space:normal}
+.grafico .ax{font:12px var(--sans);fill:var(--ink-soft)}
+.grafico .pt{font:700 15px var(--sans);fill:var(--ink)}
+.grafico .grid{stroke:var(--line-strong);stroke-width:1}
+.grafico .grid.cero{stroke:var(--ink-soft)}
+.grafico .bh{fill:var(--c-h)} .grafico .bm{fill:var(--c-m)}
+.grafico rect:hover{opacity:.8}
+.leyenda{display:flex;gap:16px;font-size:.85rem;margin:8px 0 4px}
+.leyenda i{display:inline-block;width:12px;height:12px;border-radius:2px;margin-right:6px;vertical-align:-1px}
+.fuente{font-size:.75rem;color:var(--muted);margin:6px 0 0}
+.banco{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0 12px}
+.chip{border:1px dashed var(--line-strong);border-radius:99px;padding:3px 11px;font-size:.88rem;background:var(--paper)}
+.cloze{line-height:2.3}
+.linea{padding:8px 0;border-bottom:1px solid var(--line);line-height:2.1}
+.linea:last-child{border-bottom:none}
+input.hueco{font:inherit;width:9.5em;border:none;border-bottom:1.5px solid var(--ink-soft);background:transparent;color:var(--ink);padding:0 4px;margin:0 3px}
+input.hueco:focus{outline:none;border-bottom-color:var(--azul);background:var(--azul-pale)}
+input.hueco.good,select.good{border-color:var(--verde);background:var(--verde-pale)}
+input.hueco.bad,select.bad{border-color:var(--rojo);background:var(--rojo-pale)}
+select.sel{padding:4px 8px;margin:0 3px;font-size:.95rem}
+.linea .fb{line-height:1.45}
+.ejemplos{margin:6px 0 10px;padding-left:20px;font-family:var(--serif);font-size:1.03rem}
+.ejemplos li{margin:4px 0}
+.muted{color:var(--muted);font-family:var(--sans);font-size:.8rem}
+.andamio{margin:4px 0 10px;font-size:.9rem}
+.andamio summary{cursor:pointer;color:var(--azul);font-weight:600}
+.andamio p{margin:6px 0 0;color:var(--ink-soft)}
+.dominio .dom{display:grid;grid-template-columns:170px 1fr 48px;gap:10px;align-items:center;font-size:.88rem;margin:4px 0}
+.dominio .bar{margin-top:0}
+
+.ingles{font-family:var(--serif);font-size:1.05rem;line-height:1.7;background:var(--paper);border-left:3px solid var(--azul);padding:10px 14px;margin:0 0 10px}
+.glosario summary{cursor:pointer}
+.glosario .lex{margin-top:12px}
+.glosario .lex-row b{min-width:170px}
+.crono{margin:0;padding-left:18px}.crono li{margin:3px 0}
 </style>
 </head>
 <body>
-
-<header>
-  <h1>🎖️ La Résistance française</h1>
-  <p>Devoirs interactifs – Préparez-vous pour le cours</p>
-  <div>
-    <span class="badge">A-Level French</span>
-    <span class="badge">Edexcel B1–B2</span>
-    <span class="badge">Unité 12 – La Résistance</span>
-  </div>
-</header>
-
-<div id="nameSection">
-  <h2>👋 Bienvenue !</h2>
-  <p style="margin-bottom:1rem;color:var(--mid)">Entrez votre prénom et nom pour commencer. Vos résultats seront téléchargés à la fin.</p>
-  <input type="text" id="nameInput" placeholder="Prénom et nom…">
-  <br>
-  <button class="btn" onclick="startActivities()">Commencer les activités →</button>
-</div>
-
-<div id="main">
-  <div class="progress-wrap"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
-
-  <!-- READING TEXT -->
-  <div class="section">
-    <h2><span class="section-num">📖</span> Texte de référence – Lisez attentivement</h2>
-    <p class="subtitle">Utilisez ce texte pour répondre aux questions de compréhension ci-dessous.</p>
-    <div class="reading-box">
-      <h3>La Résistance française : des origines à la Libération</h3>
-      <p><span class="kw">Résister</span> signifiait s'opposer à un régime dictatorial : les résistants se battaient aussi bien contre <span class="kw">les nazis</span> que contre <span class="kw">le régime de Vichy</span>. Ils choisissaient la désobéissance, l'action, le refus et l'insoumission. Les risques étaient pourtant nombreux et la <span class="kw">clandestinité</span> s'imposait pour protéger son entourage. Beaucoup ont sacrifié leur confort personnel et leur vie quotidienne dans cette lutte.</p>
-      <br>
-      <p>Les motivations variaient : certains ne supportaient pas la défaite de la France et <span class="kw">l'occupation allemande</span>, d'autres étaient contre l'idéologie du régime de Vichy, et d'autres encore voulaient défendre les valeurs de la République, leur famille et leur liberté.</p>
-      <br>
-      <p>Au début, la Résistance était <span class="kw">peu organisée</span> : les initiatives étaient individuelles et dispersées. Pour beaucoup, résister jusqu'en 1942 voulait dire agir seul, sans lien avec les autres groupes. Ce n'est qu'<span class="kw">en 1943</span> que les différents groupes se sont organisés en réseaux et en mouvements, rendant la Résistance réellement visible aux yeux de la population.</p>
-      <br>
-      <p>Pour communiquer, les résistants utilisaient des <span class="kw">agents de liaison</span> qui déposaient des informations dans des « boîtes aux lettres » — des lieux publics ou privés. Si un endroit était repéré par la police, on l'appelait <span class="kw">« une boîte aux lettres brûlée »</span> et il fallait prévenir les autres résistants et changer de lieu. Enfin, en <span class="kw">février 1944</span>, les Forces françaises de l'intérieur (FFI) furent créées pour unifier les formations militaires de la Résistance.</p>
-      <div class="source-tag">D'après le manuel Edexcel A-Level French, Unité 12 – La Résistance française</div>
-    </div>
-  </div>
-
-  <!-- SECTION 1: MCQ -->
-  <div class="section">
-    <h2><span class="section-num">1</span> Compréhension – Questions à choix multiples</h2>
-    <p class="subtitle">Basé sur le texte ci-dessus. Choisissez la meilleure réponse.</p>
-    <div id="mcqContainer"></div>
-    <button class="btn" onclick="checkMCQ()">Vérifier ✓</button>
-  </div>
-
-  <!-- SECTION 2: Vrai ou Faux -->
-  <div class="section">
-    <h2><span class="section-num">2</span> Vrai ou Faux ? Justifiez !</h2>
-    <p class="subtitle">Cochez Vrai ou Faux, puis écrivez une courte justification en français.</p>
-    <div id="vfContainer"></div>
-    <button class="btn" onclick="checkVF()">Vérifier ✓</button>
-  </div>
-
-  <!-- SECTION 3: Verb table gap-fill -->
-  <div class="section">
-    <h2><span class="section-num">3</span> Formation des mots – Complétez le tableau</h2>
-    <p class="subtitle">Complétez les cases vides avec le nom du produit, le nom d'acteur ou l'adjectif correspondant.</p>
-    <div style="overflow-x:auto"><table class="verb-table" id="verbTable">
-      <thead><tr><th>Verbe</th><th>Nom du produit</th><th>Nom acteur (m/f)</th><th>Adjectif</th></tr></thead>
-      <tbody id="verbBody"></tbody>
-    </table></div>
-    <button class="btn" onclick="checkVerbs()">Vérifier ✓</button>
-  </div>
-
-  <!-- SECTION 4: Vocab English→French -->
-  <div class="section">
-    <h2><span class="section-num">4</span> Vocabulaire clé – Anglais → Français</h2>
-    <p class="subtitle">Choisissez la bonne traduction française pour chaque terme anglais.</p>
-    <div id="vocabContainer"></div>
-    <button class="btn" style="margin-top:.8rem" onclick="checkVocab()">Vérifier ✓</button>
-  </div>
-
-  <!-- SECTION 5: Gap-fill text -->
-  <div class="section">
-    <h2><span class="section-num">5</span> Texte à trous – Témoignage d'une résistante</h2>
-    <p class="subtitle">Choisissez le bon mot de la banque pour compléter le témoignage.</p>
-    <div style="background:var(--lblue);border-radius:8px;padding:.7rem 1rem;margin-bottom:1rem;font-size:.88rem">
-      <strong>Banque de mots :</strong> clandestinité | réseaux | dispersées | agents de liaison | boîtes aux lettres | occupation | insoumission | repéré | fusiller | colis
-    </div>
-    <div id="gapContainer"></div>
-    <button class="btn" style="margin-top:.8rem" onclick="checkGaps()">Vérifier ✓</button>
-  </div>
-
-  <!-- SECTION 6: Tense choice -->
-  <div class="section">
-    <h2><span class="section-num">6</span> Grammaire – Choisissez la bonne forme verbale</h2>
-    <p class="subtitle">Choisissez la forme correcte parmi les options proposées. Pensez au contexte et à l'expression de durée.</p>
-    <div id="tenseContainer"></div>
-    <button class="btn" style="margin-top:.8rem" onclick="checkTenses()">Vérifier ✓</button>
-  </div>
-
-  <!-- SECTION 7: Translation -->
-  <div class="section">
-    <h2><span class="section-num">7</span> Traduction – Anglais → Français</h2>
-    <p class="subtitle">Traduisez ces phrases en français en vous appuyant sur le texte. Les indices entre crochets vous guident.</p>
-    <div id="transContainer"></div>
-    <button class="btn" style="margin-top:.8rem" onclick="checkTrans()">Vérifier ✓</button>
-  </div>
-
-</div>
-
-<!-- Score bar -->
-<div id="scoreBar">
-  <span id="scoreText">Score : 0/0</span>
-  <div class="btn-row">
-    <button class="btn btn-outline" onclick="window.scrollTo({top:0,behavior:'smooth'})">⬆ Revoir</button>
-    <button class="btn btn-green" onclick="downloadResults()">📥 Télécharger mes résultats</button>
-  </div>
-</div>
-
-<!-- Accent keyboard -->
-<button id="kbToggle" onclick="toggleKb()" title="Accents">é</button>
-<div id="accentKb">
-  <div style="color:#94a3b8;font-size:.7rem;margin-bottom:.2rem">ACCENTS</div>
-  <div class="kb-row">
-    <button class="kb-btn" onclick="ins('é')" title="é">é</button>
-    <button class="kb-btn" onclick="ins('è')" title="è">è</button>
-    <button class="kb-btn" onclick="ins('ê')" title="ê">ê</button>
-    <button class="kb-btn" onclick="ins('à')" title="à">à</button>
-    <button class="kb-btn" onclick="ins('ç')" title="ç">ç</button>
-  </div>
-  <div style="color:#475569;font-size:.68rem;margin-top:.2rem">cliquez dans une case d'abord</div>
-</div>
-
+<header class="site"><div class="site-inner"><div><div class="brand">Passeport <span>·</span> A-Level French</div><div class="brand-sub">Edexcel · BBA Sixth Form</div></div><div class="tag">Thème 4 · L'Occupation et la Résistance</div></div></header>
+<main>
+<h1>La Résistance : des refus isolés aux réseaux (1940–1944)</h1>
+<p class="lede">How did a handful of isolated acts of refusal in 1940 turn into an organised army by 1944 — and why do historians now question the story France told itself afterwards? Three short texts, then vocabulary, past tenses, a translation and an essay. Click any sentence to hear it; hover or tap the dotted words for help.</p>
+<div class="card no-print"><label for="nombre" style="font-weight:600;font-size:.9rem">Your name (it appears on your download)</label>
+<input id="nombre" class="typed" style="margin-top:7px" placeholder="First name + initial, e.g. Lucía G." autocomplete="off"></div>
+<div class="section-label">Los textos</div>
+<div id="textos"></div>
+<details class="card glosario"><summary><b>Vocabulario clave</b> — the topic words of this page, French → English</summary><div class="lex" id="glosario"></div></details>
+<div class="section-label">A · True, false or not mentioned</div>
+<p class="hint">"Non mentionné" means the texts do not give that information, even if it might be true in real life.</p>
+<div class="card" id="secA"></div>
+<div class="section-label">B · Comprehension questions</div>
+<p class="hint">Answer in French, in your own words and in full sentences. Click <b>Vérifier</b> for feedback on the key ideas and a model answer.</p>
+<div class="card" id="secB"></div>
+<div class="section-label">C · Vocabulary in context</div>
+<p class="hint">Complete each sentence with a word from the box, in the right form. Two words are not needed.</p>
+<div class="card"><div class="banco" id="bancoC"></div><div id="secC"></div>
+<div class="btn-row"><button class="btn primary" id="btnC">Vérifier</button></div><div class="fb" id="fbC"></div></div>
+<div class="section-label">D · Grammar: passé composé, imparfait or plus-que-parfait?</div>
+<div class="card"><p class="q-text">Spot the pattern first. Tell the story of the Resistance in the past:</p><ul class="ejemplos"><li>Les premiers résistants <b>agissaient</b> souvent seuls. <span class="muted">— background, what usually happened</span></li><li>En mai 1943, Jean Moulin <b>a réuni</b> les mouvements. <span class="muted">— one completed event</span></li><li>Quand il a été arrêté, il <b>avait</b> déjà <b>réussi</b> sa mission. <span class="muted">— an event before another past event</span></li></ul><p class="hint">Choose the right tense in each sentence.</p><div id="secD"></div><div class="btn-row"><button class="btn primary" id="btnD">Vérifier</button></div><div class="fb" id="fbD"></div></div>
+<div class="section-label">E · Translation into French</div>
+<div class="card"><p class="q-text">Translate into French.</p><p class="ingles">At first, the resisters acted alone and many of them were arrested. In 1943, thousands of young men who wanted to avoid the STO joined the maquis. Although the Resistance was a minority, it helped to liberate France.</p><details class="andamio"><summary>Help</summary><p>au début · agir seul · beaucoup d'entre eux · être arrêté · des milliers de jeunes · éviter · rejoindre le maquis · bien que + subjonctif · être minoritaire · aider à libérer</p></details><textarea class="typed" id="trad" placeholder="Écrivez votre traduction…"></textarea><div class="btn-row"><button class="btn primary" id="btnT">Vérifier</button></div><div class="fb" id="fbT"></div></div>
+<div class="section-label">F · Writing</div>
+<div class="card"><p class="q-text">« La Résistance a été l'affaire d'une minorité courageuse, pas celle de tout un peuple. » Dans quelle mesure êtes-vous d'accord ?</p><p class="hint">Write 90–140 words. Use at least one precise fact from the texts, two connectives and two subjunctives.</p><details class="andamio"><summary>Sentence starters</summary><p>Il est vrai que… · Cependant, il ne faut pas oublier que… · D'une part… d'autre part… · Bien que la Résistance soit… · Ce qui me frappe le plus, c'est… · En conclusion…</p></details><textarea class="typed" id="ensayo" placeholder="Écrivez votre réponse ici…"></textarea><div class="wc" id="wc">0 mots</div><p class="hint" style="margin-top:8px"><b>Reto:</b> use the three past tenses correctly, and quote one historian's view (Paxton) against the post-war narrative.</p><div class="btn-row"><button class="btn primary" id="btnE">Revoir mon texte</button><button class="btn ghost" id="btnModelo">Voir un modèle</button></div><div class="fb" id="fbE"></div><div class="fb info" id="modelo"></div></div>
+<div class="section-label">Results</div>
+<div class="card"><div class="kpi-row"><div class="kpi"><div class="n" id="kA">–</div><div class="l">A · V/F/NM</div></div><div class="kpi"><div class="n" id="kB">–</div><div class="l">B · Compréhension</div></div><div class="kpi"><div class="n" id="kC">–</div><div class="l">C · Lexique</div></div><div class="kpi"><div class="n" id="kD">–</div><div class="l">D · Grammaire</div></div><div class="kpi"><div class="n" id="kT">–</div><div class="l">E · Traduction</div></div></div><div id="dominio" class="dominio"></div><div class="btn-row"><button class="btn primary" id="btnDescargar">⬇ Download my answers</button><button class="btn ghost" id="btnReiniciar">Start again</button></div><p class="hint" style="margin-top:10px">The file is saved on your device: a readable report with your answers, the corrections and your texts. Send it to your teacher by email or Teams if asked.</p></div>
+</main>
+<footer class="site">Thème 4 · L'Occupation et la Résistance. Textes originaux rédigés pour cette activité.</footer>
 <script>
-let studentName='', lastFocused=null, scores={};
+(function(){
+"use strict";
+var $=function(s){return document.querySelector(s);};
+function el(tag,attrs){
+  var n=document.createElement(tag),k;
+  if(attrs)for(k in attrs){
+    if(k==="class")n.className=attrs[k];
+    else if(k==="html")n.innerHTML=attrs[k];
+    else if(k.indexOf("on")===0)n.addEventListener(k.slice(2),attrs[k]);
+    else n.setAttribute(k,attrs[k]);
+  }
+  for(var i=2;i<arguments.length;i++){var c=arguments[i];if(c==null)continue;
+    if(Array.isArray(c))c.forEach(function(x){if(x!=null)n.appendChild(x.nodeType?x:document.createTextNode(x));});
+    else n.appendChild(c.nodeType?c:document.createTextNode(c));}
+  return n;
+}
+function norm(s){return String(s||"").toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,"").replace(/[¡!¿?.,;:"'()«»]/g," ").replace(/\s+/g," ").trim();}
+function exact(s){return String(s||"").toLowerCase().replace(/\s+/g," ").trim();}
+function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"}[c];});}
 
-document.addEventListener('focusin', e=>{
-  const t=e.target;
-  if((t.tagName==='INPUT'&&t.type==='text')||t.tagName==='TEXTAREA') lastFocused=t;
+var CFG={"slug": "Resistance", "titulo": "La Résistance : des refus isolés aux réseaux (1940–1944)", "tag": "Thème 4 · L'Occupation et la Résistance", "desc": "Thème 4 · La Résistance. Compréhension B2 : les premiers refus, l'unification par Jean Moulin, la Libération et le mythe résistancialiste, avec lexique, temps du passé, traduction et rédaction.", "lede": "How did a handful of isolated acts of refusal in 1940 turn into an organised army by 1944 — and why do historians now question the story France told itself afterwards? Three short texts, then vocabulary, past tenses, a translation and an essay.", "footer": "Thème 4 · L'Occupation et la Résistance. Textes originaux rédigés pour cette activité.", "textos": [{"t": "1 · Dire non (1940–1941)", "f": ["Le 18 juin 1940, depuis Londres, le général de Gaulle appelle à la BBC les Français à continuer le combat, mais très peu l'entendent ce jour-là.", "En France, les premiers résistants agissent souvent seuls : ils écrivent des slogans sur les murs, distribuent des [[tracts|petits textes imprimés distribués en secret]] ou cachent des aviateurs alliés.", "À Paris, l'ethnologue Germaine Tillion participe au réseau du musée de l'Homme, l'un des tout premiers groupes organisés.", "Ces pionniers n'ont ni armes, ni argent, ni contacts, et les risques sont énormes : l'arrestation, la [[déportation|envoi forcé dans un camp en Allemagne]] ou l'exécution.", "Le réseau du musée de l'Homme est d'ailleurs démantelé dès 1941 et plusieurs de ses membres sont fusillés."]}, {"t": "2 · De l'isolement aux réseaux (1941–1943)", "f": ["Deux événements font grossir les rangs de la Résistance.", "En juin 1941, l'Allemagne attaque l'Union soviétique et les communistes français s'engagent massivement dans la lutte.", "En 1943, le [[STO|Service du travail obligatoire : travail forcé en Allemagne]] pousse des milliers de jeunes hommes à fuir dans les forêts et les montagnes, où ils forment les [[maquis|groupes de résistants armés cachés dans la nature]].", "Les mouvements publient des journaux clandestins comme Combat ou Libération, et des agents de liaison, souvent des femmes, transportent messages et faux papiers d'un groupe à l'autre.", "Envoyé par de Gaulle, Jean Moulin réussit à réunir les principaux mouvements dans le Conseil national de la Résistance, en mai 1943.", "Un mois plus tard, il est arrêté près de Lyon ; il meurt après avoir été torturé, sans avoir parlé."]}, {"t": "3 · La Libération et la mémoire", "f": ["En février 1944, les groupes armés sont réunis dans les Forces françaises de l'intérieur (FFI).", "Au moment du débarquement de Normandie, ils sabotent les voies ferrées pour retarder les renforts allemands, et en août 1944 Paris se soulève avant d'être libéré.", "Après la guerre, de Gaulle impose un récit rassurant : celui d'une France presque tout entière résistante.", "Ce « mythe résistancialiste » a aidé le pays à se reconstruire, mais il a aussi laissé dans l'ombre la [[collaboration|coopération avec l'occupant]] et la passivité de la majorité.", "À partir des années 1970, les historiens, comme l'Américain Robert Paxton, montrent que les résistants actifs n'ont jamais été qu'une minorité.", "Leur courage n'en paraît que plus grand."]}], "glosario": [["l'appel du 18 juin", "de Gaulle's broadcast of 18 June 1940"], ["le tract", "leaflet"], ["le réseau", "network"], ["démanteler", "to dismantle, break up"], ["fusiller", "to shoot (execute)"], ["la déportation", "deportation"], ["grossir les rangs", "to swell the ranks"], ["le STO", "compulsory labour service in Germany"], ["le maquis", "rural Resistance group"], ["le journal clandestin", "underground newspaper"], ["l'agent de liaison", "courier / go-between"], ["les faux papiers", "false papers"], ["le Conseil national de la Résistance", "the National Council of the Resistance"], ["les FFI", "French Forces of the Interior"], ["saboter", "to sabotage"], ["le mythe résistancialiste", "the myth of a nation of resisters"]], "A": [{"t": "En juin 1940, la plupart des Français ont entendu l'appel du général de Gaulle.", "r": "F", "x": "Text 1: «très peu l'entendent ce jour-là»."}, {"t": "Au début, beaucoup de résistants agissaient seuls.", "r": "V", "x": "Text 1: «les premiers résistants agissent souvent seuls»."}, {"t": "Le réseau du musée de l'Homme a duré jusqu'à la Libération.", "r": "F", "x": "Text 1: it was broken up as early as 1941."}, {"t": "L'invasion de l'URSS a poussé les communistes à entrer dans la Résistance.", "r": "V", "x": "Text 2: after June 1941 «les communistes français s'engagent massivement»."}, {"t": "Le STO a fait diminuer le nombre de résistants.", "r": "F", "x": "Text 2: it did the opposite — young men fled to join the maquis."}, {"t": "Jean Moulin était le chef du journal Combat.", "r": "NM", "x": "The text names Combat and Moulin, but never links them."}, {"t": "Les FFI ont saboté des voies ferrées au moment du débarquement.", "r": "V", "x": "Text 3: they sabotaged railway lines to slow German reinforcements."}, {"t": "Selon les historiens, la majorité des Français a participé activement à la Résistance.", "r": "F", "x": "Text 3: active resisters were only ever a minority."}], "B": [{"q": "Pourquoi la Résistance des débuts était-elle si fragile ?", "k": [{"n": "isolated individuals with no weapons, money or contacts", "re": "seul|isol|armes|argent|contacts|individu"}, {"n": "huge risks: arrest, deportation, execution", "re": "risque|arrest|déport|deport|exécut|execut|fusill"}], "m": "Parce que les premiers résistants agissaient souvent seuls, sans armes, sans argent et sans contacts, et qu'ils risquaient l'arrestation, la déportation ou l'exécution."}, {"q": "Quels sont les deux événements qui ont fait grossir les rangs de la Résistance ?", "k": [{"n": "the German attack on the USSR (June 1941) and the communists", "re": "union soviétique|urss|1941|communist"}, {"n": "the STO (1943) and the maquis", "re": "sto|travail obligatoire|1943|maquis"}], "m": "L'attaque allemande contre l'Union soviétique en juin 1941, qui a poussé les communistes à s'engager, et le STO en 1943, qui a fait fuir de nombreux jeunes hommes vers les maquis."}, {"q": "Quel a été le rôle de Jean Moulin ?", "k": [{"n": "sent by de Gaulle to unite the movements", "re": "gaulle|réunir|reunir|unifi|unir"}, {"n": "the Conseil national de la Résistance, May 1943", "re": "conseil national|cnr|mai 1943"}], "m": "Envoyé par de Gaulle, il a réussi à réunir les principaux mouvements dans le Conseil national de la Résistance en mai 1943, avant d'être arrêté et de mourir sous la torture."}, {"q": "Qu'est-ce que le « mythe résistancialiste » et pourquoi a-t-il été remis en question ?", "k": [{"n": "the idea of a France almost entirely in the Resistance, which helped rebuild the country", "re": "tout entière|toute la france|presque|reconstruire|rassurant"}, {"n": "historians such as Paxton showed resisters were a minority / collaboration hidden", "re": "paxton|historien|minorité|minorite|collaboration|passivité"}], "m": "C'est l'idée, imposée par de Gaulle, d'une France presque tout entière résistante ; il a aidé le pays à se reconstruire, mais des historiens comme Robert Paxton ont montré que les résistants actifs n'étaient qu'une minorité et que la collaboration avait été cachée."}], "C": [{"a": "Les premiers résistants distribuaient des ", "b": " contre l'occupant.", "r": ["tracts"]}, {"a": "La police allemande a réussi à ", "b": " plusieurs réseaux.", "r": ["démanteler", "demanteler"]}, {"a": "Plusieurs membres du réseau ont été ", "b": " en 1942.", "r": ["fusillés", "fusilles"]}, {"a": "Pour échapper au STO, des jeunes ont rejoint le ", "b": ".", "r": ["maquis"]}, {"a": "Combat était un journal ", "b": ", imprimé en secret.", "r": ["clandestin"]}, {"a": "Les agents de liaison transportaient aussi de faux ", "b": ".", "r": ["papiers"]}, {"a": "En 1944, les FFI ont ", "b": " les voies ferrées.", "r": ["saboté", "sabote"]}, {"a": "Le mythe résistancialiste a laissé dans l'ombre la ", "b": ".", "r": ["collaboration"]}], "bancoC": ["tracts", "démanteler", "fusillés", "maquis", "clandestin", "papiers", "saboté", "collaboration", "déportation", "otages"], "D_titulo": "passé composé, imparfait or plus-que-parfait?", "D_intro": "<p class=\"q-text\">Spot the pattern first. Tell the story of the Resistance in the past:</p><ul class=\"ejemplos\"><li>Les premiers résistants <b>agissaient</b> souvent seuls. <span class=\"muted\">— background, what usually happened</span></li><li>En mai 1943, Jean Moulin <b>a réuni</b> les mouvements. <span class=\"muted\">— one completed event</span></li><li>Quand il a été arrêté, il <b>avait</b> déjà <b>réussi</b> sa mission. <span class=\"muted\">— an event before another past event</span></li></ul><p class=\"hint\">Choose the right tense in each sentence.</p>", "D": [{"a": "En 1940, les premiers résistants n'", "o": ["ont eu", "avaient", "avaient eu"], "r": 1, "b": " ni armes ni argent.", "x": "A description of the situation → imparfait: avaient."}, {"a": "Le 18 juin 1940, de Gaulle ", "o": ["a lancé", "lançait", "avait lancé"], "r": 0, "b": " son appel depuis Londres.", "x": "A single dated event → passé composé: a lancé."}, {"a": "Quand le réseau a été démantelé, ses membres ", "o": ["ont distribué", "distribuaient", "avaient distribué"], "r": 2, "b": " des milliers de tracts.", "x": "Before the dismantling → plus-que-parfait: avaient distribué."}, {"a": "Pendant que les jeunes ", "o": ["ont fui", "fuyaient", "avaient fui"], "r": 1, "b": " le STO, la police les recherchait.", "x": "Pendant que + ongoing background action → imparfait: fuyaient."}, {"a": "En mai 1943, le Conseil national de la Résistance ", "o": ["s'est réuni", "se réunissait", "s'était réuni"], "r": 0, "b": " pour la première fois.", "x": "Completed event at a precise moment → passé composé: s'est réuni."}, {"a": "Jean Moulin est mort sans révéler ce qu'il ", "o": ["a appris", "apprenait", "avait appris"], "r": 2, "b": ".", "x": "What he had learnt before his death → plus-que-parfait: avait appris."}, {"a": "Chaque semaine, les agents de liaison ", "o": ["ont transporté", "transportaient", "avaient transporté"], "r": 1, "b": " des messages.", "x": "Chaque semaine = habit → imparfait: transportaient."}, {"a": "En août 1944, Paris ", "o": ["a été libéré", "était libéré", "avait été libéré"], "r": 0, "b": ".", "x": "Single completed event → passé composé (passive): a été libéré."}], "reglaD": "The rule: the imparfait describes the background and habits; the passé composé tells the events that move the story on; the plus-que-parfait goes one step further back, to something that had already happened.", "T": {"en": "At first, the resisters acted alone and many of them were arrested. In 1943, thousands of young men who wanted to avoid the STO joined the maquis. Although the Resistance was a minority, it helped to liberate France.", "ayuda": "au début · agir seul · beaucoup d'entre eux · être arrêté · des milliers de jeunes · éviter · rejoindre le maquis · bien que + subjonctif · être minoritaire · aider à libérer", "claves": [{"n": "au début", "re": "au début|au debut"}, {"n": "agissaient seuls (imparfait)", "re": "agissaient seuls"}, {"n": "beaucoup d'entre eux ont été arrêtés", "re": "(ont été|furent) arrêtés|arretes"}, {"n": "qui voulaient éviter le STO", "re": "qui voulaient (éviter|eviter|échapper|echapper)"}, {"n": "ont rejoint le maquis", "re": "ont rejoint (le|les) maquis"}, {"n": "bien que + subjonctif (soit / fût)", "re": "bien qu.{0,20}(soit|fût|fut|ait été)"}], "modelo": "Au début, les résistants agissaient seuls et beaucoup d'entre eux ont été arrêtés. En 1943, des milliers de jeunes hommes qui voulaient éviter le STO ont rejoint le maquis. Bien que la Résistance soit restée minoritaire, elle a aidé à libérer la France."}, "F": {"prompt": "« La Résistance a été l'affaire d'une minorité courageuse, pas celle de tout un peuple. » Dans quelle mesure êtes-vous d'accord ?", "starters": "Il est vrai que… · Cependant, il ne faut pas oublier que… · D'une part… d'autre part… · Bien que la Résistance soit… · Ce qui me frappe le plus, c'est… · En conclusion…", "reto": "use the three past tenses correctly, and quote one historian's view (Paxton) against the post-war narrative.", "pistaSubj": "try bien que…, il faut que…, je ne pense pas que…", "datoRe": "1940|1941|1943|1944|18 juin|moulin|tillion|paxton|sto|ffi|conseil national|maquis", "datoEj": "en mai 1943, Jean Moulin a réuni les mouvements; le STO en 1943…", "lex": ["résistant", "réseau", "maquis", "clandestin", "tract", "collaboration", "minorité", "déportation", "sto", "ffi", "libération"], "retos": [{"n": "Paxton or the historians against the post-war narrative", "re": "paxton|historien"}, {"n": "three past tenses", "re": "(ait|aient|avait|avaient) .*(é|i|u)\\b"}], "modelo": "Il est vrai que les résistants actifs n'ont jamais été qu'une minorité : en 1940, ils agissaient seuls, sans armes et sans argent, et beaucoup ont été arrêtés. Après la guerre, de Gaulle a imposé l'image d'une France presque tout entière résistante, mais des historiens comme Robert Paxton ont montré que ce récit avait caché la collaboration et la passivité de la majorité. Cependant, je ne pense pas que la Résistance soit restée l'affaire de quelques héros isolés. À partir de 1943, le STO a poussé des milliers de jeunes vers les maquis, et des civils les nourrissaient ou les cachaient. En conclusion, bien que la Résistance soit minoritaire, elle a reposé sur de nombreux complices discrets."}};window.CFG=CFG;
+/* voz */
+var voz=null;
+function elegirVoz(){
+  if(!("speechSynthesis" in window))return;
+  var mejor=null,mejorP=-1;
+  speechSynthesis.getVoices().forEach(function(v){
+    if(!v.lang||v.lang.toLowerCase().indexOf("fr")!==0)return;
+    var p=0,n=(v.name||"").toLowerCase();
+    if(v.lang.replace("_","-")==="fr-FR")p+=40;
+    if(/natural|neural|premium|enhanced|siri/.test(n))p+=45;
+    if(/google/.test(n))p+=30;
+    if(v.localService===false)p+=20;
+    if(/espeak|compact/.test(n))p-=60;
+    if(p>mejorP){mejorP=p;mejor=v;}
+  });
+  voz=mejor;
+}
+if("speechSynthesis" in window){elegirVoz();speechSynthesis.onvoiceschanged=elegirVoz;}
+var cola=[];
+function hablar(spans){
+  if(!("speechSynthesis" in window)){alert("This browser cannot read aloud.");return;}
+  speechSynthesis.cancel();
+  document.querySelectorAll(".frase.leyendo").forEach(function(x){x.classList.remove("leyendo");});
+  cola=spans.slice();
+  (function sig(){
+    var s=cola.shift(); if(!s)return;
+    var u=new SpeechSynthesisUtterance(s.textContent);
+    if(voz)u.voice=voz; u.lang="fr-FR"; u.rate=0.9;
+    s.classList.add("leyendo");
+    u.onend=function(){s.classList.remove("leyendo");setTimeout(sig,350);};
+    u.onerror=function(){s.classList.remove("leyendo");};
+    speechSynthesis.speak(u);
+  })();
+}
+/* ═════════ generic activity logic: reads CFG ═════════ */
+var TEXTOS=CFG.textos, A=CFG.A||[], B=CFG.B||[], C=CFG.C||[], D=CFG.D||[], T=CFG.T||null;
+TEXTOS.forEach(function(Tx){
+  var caja=el("div",{class:"lectura"});
+  caja.appendChild(el("div",{class:"meta-lectura"},"Texto "+Tx.t.split(" · ")[0]+" · click a sentence to hear it"));
+  caja.appendChild(el("h2",{style:"margin-bottom:10px"},Tx.t.split(" · ").slice(1).join(" · ")));
+  var p=el("p"), spans=[];
+  Tx.f.forEach(function(fr){
+    var html=esc(fr).replace(/\[\[([^|\]]+)\|([^\]]+)\]\]/g,function(_,w,g){return '<span class="gloss" tabindex="0" title="'+g+'" data-g="'+g+'">'+w+'</span>';});
+    var s=el("span",{class:"frase",html:html,role:"button",tabindex:"0"});
+    s.addEventListener("click",function(ev){ if(ev.target.classList.contains("gloss"))return; hablar([s]); });
+    spans.push(s); p.appendChild(s); p.appendChild(document.createTextNode(" "));
+  });
+  caja.appendChild(p);
+  caja.appendChild(el("div",{class:"btn-row no-print"},
+    el("button",{class:"btn small ghost",type:"button",onclick:function(){hablar(spans);}},"🔊 Écouter le texte"),
+    el("button",{class:"btn small ghost",type:"button",onclick:function(){if("speechSynthesis" in window)speechSynthesis.cancel();}},"■ Arrêter")));
+  $("#textos").appendChild(caja);
+});
+document.addEventListener("click",function(e){
+  var g=e.target.closest&&e.target.closest(".gloss");
+  document.querySelectorAll(".gloss.abierta").forEach(function(x){if(x!==g)x.classList.remove("abierta");});
+  if(g)g.classList.toggle("abierta");
+});
+(CFG.glosario||[]).forEach(function(g){$("#glosario").appendChild(el("div",{class:"lex-row"},el("b",null,g[0]),el("span",{class:"def"},g[1])));});
+
+var estado={A:{},B:{},C:null,D:null,T:null,pA:0,pB:0,ensayoInfo:"",tradInfo:""};
+function banco(id,lista){var b=$(id);lista.slice().sort(function(){return Math.random()-.5;}).forEach(function(w){b.appendChild(el("span",{class:"chip"},w));});}
+
+/* A */
+(function(){var c=$("#secA");
+ A.forEach(function(it,i){
+  var box=el("div",{class:"q"}),fb=el("div",{class:"fb"}),bs=[];
+  box.appendChild(el("div",{class:"q-num"},"A"+(i+1)));
+  box.appendChild(el("div",{class:"q-text"},it.t));
+  var ops=el("div",{class:"opts"});
+  [["V","Vrai"],["F","Faux"],["NM","Non mentionné"]].forEach(function(o){
+    var b=el("button",{class:"opt",type:"button"},o[1]);
+    b.addEventListener("click",function(){
+      if(estado.A[i]!=null)return; estado.A[i]=o[0]; bs.forEach(function(x){x.disabled=true;});
+      var good=o[0]===it.r; b.classList.add(good?"good":"bad");
+      if(!good)bs.forEach(function(x,j){if(["V","F","NM"][j]===it.r)x.classList.add("good");});
+      fb.className="fb show "+(good?"good":"bad"); fb.innerHTML=(good?"<b>Correct.</b> ":"<b>Not quite.</b> ")+esc(it.x);
+      actualizar();
+    });
+    bs.push(b); ops.appendChild(b);
+  });
+  box.appendChild(ops); box.appendChild(fb); c.appendChild(box);
+ });})();
+
+/* B */
+(function(){var c=$("#secB");
+ B.forEach(function(it,i){
+  var box=el("div",{class:"q"}),ta=el("textarea",{class:"typed",rows:"3",id:"b"+i,placeholder:"Répondez en français…"}),fb=el("div",{class:"fb"});
+  it._inp=ta;
+  box.appendChild(el("div",{class:"q-num"},"B"+(i+1)+" · 2 points"));
+  box.appendChild(el("div",{class:"q-text"},it.q));
+  box.appendChild(ta);
+  box.appendChild(el("div",{class:"btn-row"},el("button",{class:"btn small",type:"button",onclick:function(){
+    var v=ta.value.toLowerCase(), pts=0, lineas=[];
+    if(v.trim().split(/\s+/).length<5){fb.className="fb show bad";fb.innerHTML="<b>Write a full answer first</b> — at least one complete sentence.";return;}
+    it.k.forEach(function(k){var ok=new RegExp(k.re,"i").test(v); if(ok)pts++; lineas.push((ok?"✓ ":"✗ ")+esc(k.n));});
+    estado.B[i]=pts;
+    fb.className="fb show "+(pts===2?"good":"info");
+    fb.innerHTML="<b>"+pts+"/2 key ideas found.</b><br>"+lineas.join("<br>")+"<br><br><b>Model answer:</b> <i>"+esc(it.m)+"</i>";
+    actualizar();
+  }},"Vérifier")));
+  box.appendChild(fb); c.appendChild(box);
+ });})();
+
+/* C */
+banco("#bancoC",CFG.bancoC||[]);
+(function(){var c=$("#secC");
+ C.forEach(function(it,i){c.appendChild(el("div",{class:"linea"},el("span",{class:"q-num"},"C"+(i+1)+" "),it.a,el("input",{class:"hueco",id:"c"+i,autocomplete:"off","aria-label":"C"+(i+1)}),it.b));});})();
+$("#btnC").addEventListener("click",function(){
+  var ok=0,fall=[];
+  C.forEach(function(it,i){var inp=$("#c"+i),v=exact(inp.value),good=it.r.indexOf(v)>=0;
+    inp.classList.remove("good","bad"); inp.classList.add(good?"good":"bad"); if(good)ok++; else fall.push("C"+(i+1)+": "+it.r[0]);});
+  estado.C=ok; var fb=$("#fbC");
+  fb.className="fb show "+(ok===C.length?"good":"info");
+  fb.innerHTML=ok===C.length?"<b>All correct.</b>":"<b>"+ok+" of "+C.length+" correct.</b> Answers: "+esc(fall.join(" · "))+".";
+  actualizar();
 });
 
-function toggleKb(){
-  const kb=document.getElementById('accentKb');
-  const show=kb.style.display!=='flex';
-  kb.style.display=show?'flex':'none';
-}
-function ins(ch){
-  if(!lastFocused) return;
-  const el=lastFocused, s=el.selectionStart, e2=el.selectionEnd;
-  el.value=el.value.slice(0,s)+ch+el.value.slice(e2);
-  el.selectionStart=el.selectionEnd=s+1; el.focus();
-}
+/* D — select items (o) or typed items (r) */
+(function(){var c=$("#secD");
+ D.forEach(function(it,i){
+  var ctl= it.o ? el("select",{class:"typed sel",id:"d"+i,"aria-label":"D"+(i+1)},el("option",{value:""},"…"),it.o.map(function(o,j){return el("option",{value:String(j)},o);}))
+                : el("input",{class:"hueco",id:"d"+i,autocomplete:"off","aria-label":"D"+(i+1),placeholder:it.h||""});
+  c.appendChild(el("div",{class:"linea"},el("span",{class:"q-num"},"D"+(i+1)+" "),it.a,ctl,it.b,el("div",{class:"fb",id:"fd"+i})));});})();
+function dOk(it,i){var v=$("#d"+i).value; if(it.o) return v!==""&&+v===it.r; return it.r.map(exact).indexOf(exact(v))>=0;}
+function dAns(it){return it.o?it.o[it.r]:it.r[0];}
+$("#btnD").addEventListener("click",function(){
+  var ok=0;
+  D.forEach(function(it,i){var s=$("#d"+i),f=$("#fd"+i);
+    if(!String(s.value).trim()){f.className="fb";return;}
+    var good=dOk(it,i); if(good)ok++;
+    s.classList.remove("good","bad"); s.classList.add(good?"good":"bad");
+    f.className="fb show "+(good?"good":"bad"); f.innerHTML=(good?"✓ ":"✗ <b>"+esc(dAns(it))+"</b> — ")+esc(it.x);});
+  estado.D=ok; var fb=$("#fbD");
+  fb.className="fb show "+(ok===D.length?"good":"info");
+  fb.innerHTML="<b>"+ok+" of "+D.length+" correct.</b> "+(CFG.reglaD||"");
+  actualizar();
+});
 
-// ── DATA ─────────────────────────────────────────────────────────────────────
-
-const mcqData=[
-  {q:"Contre qui les résistants se battaient-ils principalement ?",
-   opts:["Uniquement contre les nazis","Uniquement contre Vichy","Contre les nazis et contre le régime de Vichy","Contre les Alliés"],
-   ans:2, expl:"Les résistants se battaient aussi bien contre les nazis que contre le régime de Vichy."},
-  {q:"Pourquoi la clandestinité était-elle nécessaire pour les résistants ?",
-   opts:["Pour mieux communiquer entre eux","Pour protéger leur entourage","Pour éviter de payer des impôts","Pour voyager plus facilement"],
-   ans:1, expl:"La clandestinité s'imposait pour protéger son entourage."},
-  {q:"Qu'est-ce qui caractérisait la Résistance avant 1942 ?",
-   opts:["Elle était très bien organisée","Elle avait un chef unique","Les actes étaient individuels et dispersés","Elle avait déjà des réseaux structurés"],
-   ans:2, expl:"Pour beaucoup, résister jusqu'en 1942 voulait dire agir seul, sans lien avec les autres groupes."},
-  {q:"En quelle année les différents groupes se sont-ils organisés en réseaux ?",
-   opts:["1940","1941","1942","1943"],
-   ans:3, expl:"Ce n'est qu'en 1943 que les différents groupes se sont organisés en réseaux et en mouvements."},
-  {q:"Qu'est-ce qu'une « boîte aux lettres brûlée » ?",
-   opts:["Une vraie boîte aux lettres incendiée","Un lieu repéré par la police","Un message codé détruit","Un réseau de communication cassé"],
-   ans:1, expl:"Si un endroit était repéré par la police, on l'appelait 'une boîte aux lettres brûlée'."},
-  {q:"Comment s'appelait l'aile militaire unifiée créée en février 1944 ?",
-   opts:["La Milice","Les Francs-Tireurs Partisans","Les Forces françaises de l'intérieur","Le Conseil national de la Résistance"],
-   ans:2, expl:"En février 1944, les Forces françaises de l'intérieur (FFI) furent créées pour unifier les formations militaires."},
-  {q:"Quel était l'un des rôles des agents de liaison ?",
-   opts:["Saboter les trains","Déposer des informations dans des lieux convenus","Rédiger des journaux clandestins","Exécuter des collaborateurs"],
-   ans:1, expl:"Les agents de liaison déposaient des informations dans des 'boîtes aux lettres' — des lieux publics ou privés."},
-  {q:"Quelle motivation poussait certains résistants à agir ?",
-   opts:["L'appât du gain","La défense des valeurs républicaines et de leur famille","La peur des Allemands","L'ordre de De Gaulle uniquement"],
-   ans:1, expl:"D'autres voulaient défendre les valeurs de la République, leur famille et leur liberté."}
-];
-
-const vfData=[
-  {stmt:"La Résistance était parfaitement organisée dès le début de l'Occupation.",ans:false,just:"Les initiatives étaient individuelles et dispersées ; résister jusqu'en 1942 voulait dire agir seul."},
-  {stmt:"Les résistants luttaient uniquement contre l'occupant nazi.",ans:false,just:"Les résistants se battaient aussi bien contre les nazis que contre le régime de Vichy."},
-  {stmt:"La clandestinité permettait aux résistants de protéger leurs proches.",ans:true,just:"La clandestinité s'imposait pour protéger son entourage."},
-  {stmt:"C'est en 1943 que la Résistance est devenue plus structurée et efficace.",ans:true,just:"Ce n'est qu'en 1943 que les différents groupes se sont organisés en réseaux et en mouvements."},
-  {stmt:"Une 'boîte aux lettres brûlée' désigne un message détruit dans un incendie.",ans:false,just:"C'était un lieu repéré ou surveillé par la police — il fallait en prévenir les autres et changer de lieu."},
-  {stmt:"Les FFI ont été créées pour diviser les différents mouvements de la Résistance.",ans:false,just:"Les FFI furent créées pour unifier (et non diviser) les formations militaires des divers mouvements."},
-  {stmt:"Certains résistants étaient motivés par le refus de la défaite de la France.",ans:true,just:"Certains ne supportaient pas la défaite de la France et l'occupation allemande."},
-  {stmt:"Les agents de liaison ne jouaient aucun rôle dans la communication entre résistants.",ans:false,just:"Les agents de liaison déposaient des informations dans des 'boîtes aux lettres' pour faciliter la communication."}
-];
-
-const verbData=[
-  {v:"résister",   prod:"la résistance",     agent:"le résistant / la résistante",     adj:"résistant(e)",  blanks:[false,false,false,false]},
-  {v:"occuper",    prod:"l'occupation",      agent:"l'occupant / l'occupante",          adj:"occupant(e)",   blanks:[false,true,false,false]},
-  {v:"saboter",    prod:"le sabotage",       agent:"le saboteur / la saboteuse",        adj:"",              blanks:[false,false,true,false]},
-  {v:"organiser",  prod:"l'organisation",    agent:"l'organisateur / l'organisatrice",  adj:"organisateur",  blanks:[false,false,false,true]},
-  {v:"surveiller", prod:"la surveillance",   agent:"le surveillant / la surveillante",  adj:"surveillant(e)",blanks:[false,true,false,false]},
-  {v:"désobéir",   prod:"la désobéissance",  agent:"le désobéissant / la désobéissante",adj:"désobéissant(e)",blanks:[false,false,true,false]},
-  {v:"créer",      prod:"la création",       agent:"le créateur / la créatrice",        adj:"créatif/créative",blanks:[false,false,false,true]},
-  {v:"rédiger",    prod:"la rédaction",      agent:"le rédacteur / la rédactrice",      adj:"rédactionnel(le)",blanks:[false,true,false,false]},
-];
-
-const vocabData=[
-  {en:"an underground newspaper",opts:["un journal quotidien","un journal clandestin","un tract officiel","une revue"],ans:"un journal clandestin"},
-  {en:"to run a risk",opts:["courir un risque","prendre une décision","subir une perte","faire une erreur"],ans:"courir un risque"},
-  {en:"utter terror / fear",opts:["la peur légère","la peur bleue","la peur modérée","la crainte"],ans:"la peur bleue"},
-  {en:"an escape route",opts:["un réseau","une filière d'évasion","une boîte aux lettres","un passage"],ans:"une filière d'évasion"},
-  {en:"scattered / dispersed",opts:["organisé","concentré","dispersé","coordonné"],ans:"dispersé"},
-  {en:"to spot / locate",opts:["fouiller","hésiter","repérer","surveiller"],ans:"repérer"},
-  {en:"a leaflet / pamphlet",opts:["un réseau","un colis","un tract","un journal"],ans:"un tract"},
-  {en:"a liaison officer (agent secret)",opts:["un otage","un concierge","un agent de liaison","un menteur"],ans:"un agent de liaison"},
-  {en:"paramount / essential",opts:["dispersé","clandestin","primordial","fugitif"],ans:"primordial"},
-  {en:"the day before",opts:["le lendemain","la veille","la semaine avant","l'avant-veille"],ans:"la veille"},
-];
-
-const gapData=[
-  {before:"J'avais dix-huit ans quand j'ai choisi de résister à l'",ans:"occupation",after:" allemande."},
-  {before:"Les résistants devaient vivre dans la ",ans:"clandestinité",after:" pour ne pas être arrêtés."},
-  {before:"Au début, les actes de résistance étaient isolés et ",ans:"dispersées",after:" — personne ne coordinait rien."},
-  {before:"Je savais que les Allemands allaient les ",ans:"fusiller",after:" le lendemain matin."},
-  {before:"En 1943, les groupes se sont enfin organisés en ",ans:"réseaux",after:" coordonnés."},
-  {before:"Pour communiquer, on utilisait des ",ans:"agents de liaison",after:" qui connaissaient tous les membres."},
-  {before:"Les messages étaient déposés dans des ",ans:"boîtes aux lettres",after:" dans des immeubles ordinaires."},
-  {before:"Si un lieu était ",ans:"repéré",after:" par la Gestapo, il fallait immédiatement changer d'endroit."},
-  {before:"Chaque jour je livrais des ",ans:"colis",after:" qui contenaient des informations secrètes."},
-  {before:"Ils avaient choisi la désobéissance et l'",ans:"insoumission",after:" comme formes de résistance."},
-];
-
-const tenseData=[
-  {
-    before:"Pendant que Klaus Barbie et ses aides ",
-    opts:["faisaient","ont fait","avaient fait"],
-    ans:"faisaient",
-    after:" des choses indescriptibles à Lyon, des résistants ont fait exploser plusieurs trains de munitions.",
-    expl:"L'imparfait exprime une action de fond continue, en parallèle avec un événement ponctuel (passé composé)."
-  },
-  {
-    before:"Avant de se retirer de la zone occupée, les nazis ",
-    opts:["raseront","rasent","ont rasé"],
-    ans:"ont rasé",
-    after:" plusieurs villages.",
-    expl:"Le passé composé s'emploie pour une action accomplie et délimitée dans le passé."
-  },
-  {
-    before:"Les troupes alliées ",
-    opts:["arriveront","arrivent","étaient arrivées"],
-    ans:"étaient arrivées",
-    after:" peu à peu et se mettaient à libérer les gens emprisonnés.",
-    expl:"Le plus-que-parfait indique une action antérieure à une autre action passée."
-  },
-  {
-    before:"Plus tard, les résistants commençaient à faire des représailles contre ceux qui ",
-    opts:["avaient","eussent","avait"],
-    ans:"avaient",
-    after:" collaboré.",
-    expl:"Le plus-que-parfait (avaient collaboré) s'utilise ici pour une action antérieure dans le passé."
-  },
-  {
-    before:"Avant que les résistants n'",
-    opts:["ont eu","auront eu","aient eu"],
-    ans:"aient eu",
-    after:" le temps de regrouper les Allemands qui s'évadaient, bon nombre d'entre eux avaient déjà disparu.",
-    expl:"Après 'avant que', on utilise le subjonctif passé (aient eu)."
-  },
-  {
-    before:"Mais, après ",
-    opts:["avoir fait","a fait","aura fait"],
-    ans:"avoir fait",
-    after:" la liste à la cessation d'hostilités, le nombre de soi-disant résistants avait gravi jusqu'à presque 80 000 !",
-    expl:"Après 'après', on utilise l'infinitif passé (avoir fait)."
-  },
-  {
-    before:"Après ",
-    opts:["avoir rétabli","s'être rétablis","se rétabliront"],
-    ans:"s'être rétablis",
-    after:" un peu après les hostilités, les Français ordinaires se sont vengés sur les collaboratrices.",
-    expl:"Verbe réfléchi à l'infinitif passé : 's'être rétablis' (accord avec le sujet pluriel)."
-  },
-  {
-    before:"Au début de la Libération, le nombre de résistants actifs le plus fiable ",
-    opts:["sont","seront","aura été"],
-    ans:"aura été",
-    after:" à peu près 40 000.",
-    expl:"Le futur antérieur exprime ici un bilan rétrospectif depuis un point futur (la fin des hostilités)."
-  }
-];
-
-const transData=[
-  {en:"People in the resistance movement were opposed to the Nazis and to the Vichy government, so they fought against both.",partial:"Les résistants ___ opposés aux nazis et au gouvernement de Vichy, donc ils ___ contre les deux.",hints:"[s'étaient / se battaient]",ans:"Les résistants s'étaient opposés aux nazis et au gouvernement de Vichy, donc ils se battaient contre les deux."},
-  {en:"There were many risks and people had to act in secret to protect their family and friends.",partial:"Les risques ___ nombreux et les gens devaient agir en secret pour ___ leur entourage.",hints:"[étaient / protéger]",ans:"Les risques étaient nombreux et les gens devaient agir en secret pour protéger leur entourage."},
-  {en:"The resistance movement wasn't very well organised at the start.",partial:"La Résistance n'___ pas très bien ___ au début.",hints:"[était / organisée]",ans:"La Résistance n'était pas très bien organisée au début."},
-  {en:"It became more efficient when the different groups were organised into movements and a network.",partial:"Elle est devenue plus ___ quand les différents groupes ___ en mouvements et en réseaux.",hints:"[efficace / se sont organisés]",ans:"Elle est devenue plus efficace quand les différents groupes se sont organisés en mouvements et en réseaux."},
-  {en:"These special agents left information in special places called 'letter boxes'.",partial:"Ces ___ spéciaux ___ des informations dans des endroits spéciaux appelés '___ aux lettres'.",hints:"[agents / déposaient / boîtes]",ans:"Ces agents spéciaux déposaient des informations dans des endroits spéciaux appelés 'boîtes aux lettres'."},
-];
-
-// ── BUILD ─────────────────────────────────────────────────────────────────────
-
-function startActivities(){
-  studentName=document.getElementById('nameInput').value.trim();
-  if(!studentName){alert('Veuillez entrer votre prénom !');return;}
-  document.getElementById('nameSection').style.display='none';
-  document.getElementById('main').style.display='block';
-  document.getElementById('scoreBar').style.display='flex';
-  document.getElementById('kbToggle').style.display='block';
-  buildMCQ(); buildVF(); buildVerbTable(); buildVocab(); buildGaps(); buildTenses(); buildTrans();
+/* E · traducción */
+if(T){
+ $("#btnT").addEventListener("click",function(){
+  var v=$("#trad").value.toLowerCase().replace(/\s+/g," "), fb=$("#fbT"), ok=0, L=[];
+  if(v.trim().split(" ").length<12){fb.className="fb show bad";fb.innerHTML="<b>Translate the whole passage first.</b>";return;}
+  T.claves.forEach(function(k){var g=new RegExp(k.re,"i").test(v); if(g)ok++; L.push((g?"✓ ":"✗ ")+esc(k.n));});
+  estado.T=ok; estado.tradInfo=L.join("\n");
+  fb.className="fb show "+(ok===T.claves.length?"good":"info");
+  fb.innerHTML="<b>"+ok+" of "+T.claves.length+" key structures found</b> (other correct wordings exist — compare with the model).<br>"+L.join("<br>")+"<br><br><b>Model:</b> <i>"+esc(T.modelo)+"</i>";
+  actualizar();
+ });
 }
 
-function buildMCQ(){
-  const c=document.getElementById('mcqContainer');
-  mcqData.forEach((q,i)=>{
-    const d=document.createElement('div'); d.className='q-block';
-    d.innerHTML=`<div class="q-text">${i+1}. ${q.q}</div><div class="options" id="opts${i}">`
-      +q.opts.map((o,j)=>`<label id="lbl${i}_${j}"><input type="radio" name="mcq${i}" value="${j}"> ${o}</label>`).join('')
-      +`</div><div class="feedback" id="fb${i}" style="display:none"></div>`;
-    c.appendChild(d);
-  });
-}
+/* F · redacción */
+var ensayo=$("#ensayo");
+function palabras(t){return t.trim().split(/\s+/).filter(function(w){return w.length;}).length;}
+ensayo.addEventListener("input",function(){var n=palabras(ensayo.value),w=$("#wc");w.textContent=n+" mots";w.className="wc"+(n>=90&&n<=140?" ok":"");});
+var CONECT=["cependant","pourtant","d'une part","d'autre part","de plus","en revanche","alors que","tandis que","bien que","donc","néanmoins","tout d'abord","en conclusion","étant donné que","puisque","c'est pourquoi","c'est-à-dire","malgré","par conséquent","ainsi"];
+var SUBJ=/(^|[^a-zàâçéèêëîïôûùœ])(qu[e\'’]|pour qu[e\'’]|avant qu[e\'’]|bien qu[e\'’]|sans qu[e\'’]|à moins qu[e\'’])\s*(\S+\s+){0,5}?(soit|soient|sois|ait|aient|aies|puisse|puissent|fasse|fassent|aille|aillent|sache|sachent|veuille|veuillent|vienne|viennent|prenne|prennent|devienne|deviennent|reconnaisse|reconnaissent|comprenne|comprennent|disparaisse|disparaissent|oublie|oublient|ait été|ait eu|soit devenu)(?=[\s.,;:!?]|$)/gi;
+$("#btnE").addEventListener("click",function(){
+  var t=ensayo.value, tl=t.toLowerCase(), n=palabras(t), fb=$("#fbE"), L=[];
+  if(n<20){fb.className="fb show bad";fb.innerHTML="<b>Write your paragraph first</b> — aim for 90–140 words.";return;}
+  L.push((n>=90&&n<=140?"✓ ":"✗ ")+n+" words"+(n<90?" — develop your argument further.":n>140?" — cut to the strongest points.":"."));
+  var con=CONECT.filter(function(c){return tl.indexOf(c)>=0;});
+  L.push((con.length>=2?"✓ ":"✗ ")+"Connectives: "+(con.length?esc(con.join(", ")):"none found")+(con.length<2?" — add at least two (cependant, d'une part…).":""));
+  var sub=(t.match(SUBJ)||[]).length;
+  L.push((sub>=2?"✓ ":"✗ ")+"Subjunctives spotted: about "+sub+(sub<2?" — "+(CFG.F.pistaSubj||"try bien que…, il faut que…, je ne pense pas que…"):"")+" (an automatic check: re-read them yourself).");
+  var dato=new RegExp(CFG.F.datoRe,"i").test(tl);
+  L.push((dato?"✓ ":"✗ ")+"A precise fact from the texts (date, name, figure)"+(dato?"":" — e.g. "+CFG.F.datoEj));
+  var lex=(CFG.F.lex||[]).filter(function(w){return tl.indexOf(w)>=0;});
+  L.push((lex.length>=3?"✓ ":"✗ ")+"Topic vocabulary: "+(lex.length?esc(lex.join(", ")):"none from the texts")+".");
+  (CFG.F.retos||[]).forEach(function(r){var g=new RegExp(r.re,"i").test(tl); L.push((g?"✓ ":"○ ")+"Reto: "+r.n);});
+  estado.ensayoInfo=L.join("\n");
+  fb.className="fb show info"; fb.innerHTML="<b>Checklist</b><br>"+L.join("<br>");
+});
+$("#btnModelo").addEventListener("click",function(){var m=$("#modelo");m.className="fb show info";m.innerHTML="<b>Model:</b><br><i>"+esc(CFG.F.modelo)+"</i>";});
 
-function buildVF(){
-  const c=document.getElementById('vfContainer');
-  vfData.forEach((v,i)=>{
-    const d=document.createElement('div'); d.className='vf-row';
-    d.innerHTML=`<div class="vf-stmt">${i+1}. ${v.stmt}</div>
-      <div class="vf-btns">
-        <button class="vf-btn" id="vfV${i}" onclick="selVF(${i},'v')">✅ Vrai</button>
-        <button class="vf-btn" id="vfF${i}" onclick="selVF(${i},'f')">❌ Faux</button>
-      </div>
-      <input type="text" class="vf-just" id="vfJ${i}" placeholder="Justification en français…">
-      <div id="vfFb${i}" class="feedback" style="display:none"></div>`;
-    c.appendChild(d);
-  });
+/* resultados */
+function cuenta(o){var n=0;for(var k in o)n++;return n;}
+function actualizar(){
+  estado.pA=0; A.forEach(function(it,i){if(estado.A[i]===it.r)estado.pA++;});
+  estado.pB=0; for(var k in estado.B)estado.pB+=estado.B[k];
+  $("#kA").textContent=cuenta(estado.A)?estado.pA+"/"+A.length:"–";
+  $("#kB").textContent=cuenta(estado.B)?estado.pB+"/"+(B.length*2):"–";
+  $("#kC").textContent=estado.C!=null?estado.C+"/"+C.length:"–";
+  $("#kD").textContent=estado.D!=null?estado.D+"/"+D.length:"–";
+  if(T)$("#kT").textContent=estado.T!=null?estado.T+"/"+T.claves.length:"–";
+  function fila(nom,p,m,hecho){var pc=hecho?Math.round(100*p/m):0;
+    return '<div class="dom"><span>'+nom+'</span><div class="bar"><i class="'+(pc>=80?"":pc>=50?"warn":"low")+'" style="width:'+pc+'%"></i></div><b>'+(hecho?pc+" %":"–")+'</b></div>';}
+  var gm=D.length+(T?T.claves.length:0);
+  $("#dominio").innerHTML="<p class='hint' style='margin:0 0 6px'>How much you have mastered:</p>"+
+    fila("Content (A, B)",estado.pA+estado.pB,A.length+B.length*2,cuenta(estado.A)||cuenta(estado.B))+
+    fila("Vocabulary (C)",estado.C||0,C.length,estado.C!=null)+
+    fila("Grammar"+(T?" (D, E)":" (D)"),(estado.D||0)+(estado.T||0),gm,estado.D!=null||estado.T!=null);
 }
-const vfSel={};
-function selVF(i,v){
-  vfSel[i]=v;
-  document.getElementById(`vfV${i}`).className='vf-btn'+(v==='v'?' selected-v':'');
-  document.getElementById(`vfF${i}`).className='vf-btn'+(v==='f'?' selected-f':'');
-}
+actualizar();
+/* ═════════ teclado flotante ═════════ */
+var ACENTOS=["é","è","ê","ë","à","â","ç","î","ï","ô","û","ù","œ","«","»"],padTarget=null;
+var pad=el("div",{class:"accent-pad hidden",role:"toolbar","aria-label":"French accents"});
+ACENTOS.forEach(function(ch){
+  var b=el("button",{type:"button",tabindex:"-1"},ch);
+  b.addEventListener("mousedown",function(ev){ev.preventDefault();});
+  b.addEventListener("click",function(){ if(!padTarget)return;
+    var st=padTarget.selectionStart,en=padTarget.selectionEnd;
+    padTarget.value=padTarget.value.slice(0,st)+ch+padTarget.value.slice(en);
+    padTarget.selectionStart=padTarget.selectionEnd=st+ch.length;
+    padTarget.dispatchEvent(new Event("input",{bubbles:true})); padTarget.focus(); });
+  pad.appendChild(b);
+});
+var cerrar=el("button",{type:"button",class:"cerrar",tabindex:"-1","aria-label":"Hide"},"✕");
+cerrar.addEventListener("mousedown",function(ev){ev.preventDefault();});
+cerrar.addEventListener("click",function(){pad.classList.add("hidden");document.body.classList.remove("pad-on");});
+pad.appendChild(cerrar); document.body.appendChild(pad);
+document.addEventListener("focusin",function(e){
+  var t=e.target; if(t.matches&&t.matches("input.typed,input.hueco,textarea.typed")&&t.id!=="nombre"){padTarget=t;pad.classList.remove("hidden");document.body.classList.add("pad-on");}
+});
 
-function buildVerbTable(){
-  const tbody=document.getElementById('verbBody');
-  verbData.forEach((row,ri)=>{
-    const tr=document.createElement('tr');
-    const cells=[row.v, row.prod, row.agent, row.adj];
-    cells.forEach((val,ci)=>{
-      const td=document.createElement('td');
-      if(ci===0){td.textContent=val;tr.appendChild(td);return;}
-      // blank certain cells
-      const shouldBlank=(ci===1&&row.blanks[1])||(ci===2&&row.blanks[2])||(ci===3&&row.blanks[3]);
-      if(shouldBlank){
-        td.innerHTML=`<input type="text" class="cell-input" id="vb${ri}_${ci}" placeholder="…" autocomplete="off" data-ans="${val}">`;
-      } else {
-        td.textContent=val;
-      }
-      tr.appendChild(td);
-    });
-    tbody.appendChild(tr);
-  });
-}
-
-function buildVocab(){
-  const c=document.getElementById('vocabContainer');
-  vocabData.forEach((v,i)=>{
-    const d=document.createElement('div'); d.className='syn-row';
-    const sh=[...v.opts].sort(()=>Math.random()-.5);
-    d.innerHTML=`<span class="syn-word" style="color:var(--dark)">${v.en}</span>
-      <select class="syn-select" id="voc${i}"><option value="">-- choisir --</option>
-      ${sh.map(o=>`<option value="${o}">${o}</option>`).join('')}</select>
-      <span id="vocFb${i}" style="font-size:1.1rem"></span>`;
-    c.appendChild(d);
-  });
-}
-
-function buildGaps(){
-  const c=document.getElementById('gapContainer');
-  let html='<p class="gap-sentence">';
-  gapData.forEach((g,i)=>{
-    html+=g.before+`<input type="text" class="gap" id="gap${i}" placeholder="…" autocomplete="off">`+g.after+' ';
-  });
-  c.innerHTML=html+'</p>';
-}
-
-function buildTenses(){
-  const c=document.getElementById('tenseContainer');
-  tenseData.forEach((t,i)=>{
-    const d=document.createElement('div'); d.className='tense-row';
-    const sel=`<select class="tense-select" id="ts${i}">
-      <option value="">…</option>
-      ${t.opts.map(o=>`<option value="${o}">${o}</option>`).join('')}
-    </select>`;
-    d.innerHTML=`<strong>${i+1}.</strong> ${t.before}${sel}${t.after}
-      <div id="tsFb${i}" class="feedback" style="display:none;margin-top:.4rem"></div>`;
-    c.appendChild(d);
-  });
-}
-
-function buildTrans(){
-  const c=document.getElementById('transContainer');
-  transData.forEach((t,i)=>{
-    const d=document.createElement('div'); d.style.marginBottom='1rem';
-    d.innerHTML=`<div style="margin-bottom:.3rem"><strong>${i+1}.</strong> 🇬🇧 <em>${t.en}</em></div>
-      <div style="font-size:.82rem;color:var(--mid);margin-bottom:.3rem">Indices : <strong>${t.hints}</strong></div>
-      <div style="font-size:.87rem;color:var(--mid);margin-bottom:.3rem">${t.partial}</div>
-      <input type="text" class="neg-input" id="tr${i}" placeholder="Écrivez la traduction complète…" autocomplete="off">
-      <div id="trFb${i}" class="feedback" style="display:none;margin-top:.3rem"></div>`;
-    c.appendChild(d);
-  });
-}
-
-// ── CHECK ─────────────────────────────────────────────────────────────────────
-function norm(s){return s.toLowerCase().trim().replace(/['']/g,"'");}
-
-function checkMCQ(){
-  let ok=0;
-  mcqData.forEach((q,i)=>{
-    const sel=document.querySelector(`input[name="mcq${i}"]:checked`);
-    const fb=document.getElementById(`fb${i}`);
-    for(let j=0;j<q.opts.length;j++) document.getElementById(`lbl${i}_${j}`).classList.remove('correct','wrong');
-    if(!sel){fb.style.display='block';fb.className='feedback bad';fb.textContent='⚠️ Aucune réponse.';return;}
-    const v=parseInt(sel.value);
-    if(v===q.ans){document.getElementById(`lbl${i}_${v}`).classList.add('correct');fb.style.display='block';fb.className='feedback ok';fb.innerHTML=`✅ Correct ! ${q.expl}`;ok++;}
-    else{document.getElementById(`lbl${i}_${v}`).classList.add('wrong');document.getElementById(`lbl${i}_${q.ans}`).classList.add('correct');fb.style.display='block';fb.className='feedback bad';fb.innerHTML=`❌ Bonne réponse : <strong>${q.opts[q.ans]}</strong>. ${q.expl}`;}
-  });
-  scores.mcq={got:ok,total:mcqData.length}; updateScore();
-}
-
-function checkVF(){
-  let ok=0;
-  vfData.forEach((v,i)=>{
-    const sel=vfSel[i]; const fb=document.getElementById(`vfFb${i}`);
-    if(!sel){fb.style.display='block';fb.className='feedback bad';fb.textContent='⚠️ Choisissez Vrai ou Faux.';return;}
-    const correct=(sel==='v')===v.ans;
-    fb.style.display='block';
-    if(correct){fb.className='feedback ok';fb.innerHTML=`✅ Correct ! Justification suggérée : <em>${v.just}</em>`;ok++;}
-    else{fb.className='feedback bad';fb.innerHTML=`❌ C'est ${v.ans?'Vrai':'Faux'}. Justification : <em>${v.just}</em>`;}
-  });
-  scores.vf={got:ok,total:vfData.length}; updateScore();
-}
-
-function checkVerbs(){
-  let ok=0, total=0;
-  verbData.forEach((row,ri)=>{
-    [1,2,3].forEach(ci=>{
-      const el=document.getElementById(`vb${ri}_${ci}`);
-      if(!el) return;
-      total++;
-      el.classList.remove('correct-input','wrong-input');
-      const ans=el.dataset.ans;
-      if(norm(el.value)===norm(ans)){el.classList.add('correct-input');ok++;}
-      else{el.classList.add('wrong-input');el.title=`Réponse : ${ans}`;}
-    });
-  });
-  scores.verbs={got:ok,total}; updateScore();
-  alert(`Tableau de mots : ${ok}/${total}. Survolez les cases rouges pour voir la réponse.`);
-}
-
-function checkVocab(){
-  let ok=0;
-  vocabData.forEach((v,i)=>{
-    const val=document.getElementById(`voc${i}`).value;
-    const fb=document.getElementById(`vocFb${i}`);
-    if(val===v.ans){fb.textContent='✅';ok++;}
-    else{fb.innerHTML=`❌ <small style="color:var(--red)">${v.ans}</small>`;}
-  });
-  scores.vocab={got:ok,total:vocabData.length}; updateScore();
-}
-
-function checkGaps(){
-  let ok=0;
-  gapData.forEach((g,i)=>{
-    const el=document.getElementById(`gap${i}`);
-    el.classList.remove('correct-input','wrong-input');
-    if(norm(el.value)===norm(g.ans)){el.classList.add('correct-input');ok++;}
-    else{el.classList.add('wrong-input');el.title=`Réponse : ${g.ans}`;}
-  });
-  scores.gaps={got:ok,total:gapData.length}; updateScore();
-  alert(`Texte à trous : ${ok}/${gapData.length} correct(s). Survolez les cases rouges pour voir la bonne réponse.`);
-}
-
-function checkTenses(){
-  let ok=0;
-  tenseData.forEach((t,i)=>{
-    const val=document.getElementById(`ts${i}`).value;
-    const fb=document.getElementById(`tsFb${i}`);
-    const sel=document.getElementById(`ts${i}`);
-    sel.classList.remove('correct-input','wrong-input');
-    fb.style.display='block';
-    if(val===t.ans){sel.classList.add('correct-input');fb.className='feedback ok';fb.innerHTML=`✅ Correct ! ${t.expl}`;ok++;}
-    else{sel.classList.add('wrong-input');fb.className='feedback bad';fb.innerHTML=`❌ Réponse : <strong>${t.ans}</strong>. ${t.expl}`;}
-  });
-  scores.tenses={got:ok,total:tenseData.length}; updateScore();
-}
-
-function checkTrans(){
-  let ok=0;
-  transData.forEach((t,i)=>{
-    const val=document.getElementById(`tr${i}`).value.trim();
-    const fb=document.getElementById(`trFb${i}`);
-    fb.style.display='block';
-    if(norm(val)===norm(t.ans)){fb.className='feedback ok';fb.textContent='✅ Excellent !';ok++;}
-    else{fb.className='feedback bad';fb.innerHTML=`❌ Réponse suggérée : <em>${t.ans}</em>`;}
-  });
-  scores.trans={got:ok,total:transData.length}; updateScore();
-}
-
-function updateScore(){
-  let got=0, total=0;
-  Object.values(scores).forEach(s=>{got+=s.got;total+=s.total;});
-  document.getElementById('scoreText').textContent=`${studentName} – Score : ${got}/${total}`;
-  document.getElementById('progressFill').style.width=(total>0?Math.round(got/total*100):0)+'%';
-}
-
-function downloadResults(){
-  const now=new Date().toLocaleString('fr-FR');
-  const labels={mcq:'Compréhension MCQ',vf:'Vrai ou Faux',verbs:'Tableau de mots',vocab:'Vocabulaire',gaps:'Texte à trous',tenses:'Formes verbales',trans:'Traduction'};
-  let got=0,total=0;
-  let lines=[`DEVOIRS – La Résistance française`,`Étudiant(e) : ${studentName}`,`Date : ${now}`,``,`=== SCORES ===`];
-  Object.entries(scores).forEach(([k,v])=>{lines.push(`${labels[k]||k}: ${v.got}/${v.total}`);got+=v.got;total+=v.total;});
-  lines.push(``,`TOTAL : ${got}/${total} (${total>0?Math.round(got/total*100):0}%)`,``,`=== DÉTAILS ===`,``,`-- MCQ --`);
-  mcqData.forEach((q,i)=>{
-    const sel=document.querySelector(`input[name="mcq${i}"]:checked`);
-    lines.push(`${i+1}. ${q.q}`);
-    lines.push(`   Votre réponse : ${sel?q.opts[parseInt(sel.value)]:'(sans réponse)'} | Correcte : ${q.opts[q.ans]}`);
-  });
-  lines.push(``,`-- Formes verbales --`);
-  tenseData.forEach((t,i)=>{
-    lines.push(`${i+1}. ${t.before}[…]${t.after}`);
-    lines.push(`   Votre réponse : ${document.getElementById(`ts${i}`)?.value||''} | Correcte : ${t.ans}`);
-  });
-  lines.push(``,`-- Traduction --`);
-  transData.forEach((t,i)=>{
-    lines.push(`${i+1}. ${t.en}`);
-    lines.push(`   Votre réponse : ${document.getElementById(`tr${i}`)?.value||''}`);
-    lines.push(`   Réponse correcte : ${t.ans}`);
-  });
-  const blob=new Blob([lines.join('\n')],{type:'text/plain;charset=utf-8'});
-  const a=document.createElement('a');
-  a.href=URL.createObjectURL(blob);
-  a.download=`devoirs_resistance_${studentName.replace(/\s+/g,'_')}.txt`;
-  a.click();
-}
-  </script>
-   <script src="bba-kit-fr.js" defer></script>
+/* descarga */
+$("#btnDescargar").addEventListener("click",function(){
+  var nombre=$("#nombre").value.trim()||"(no name)", f=new Date(), L=[];
+  L.push("A-LEVEL FRENCH · BBA — "+CFG.tag+" · "+CFG.titulo);
+  L.push("Student: "+nombre);
+  L.push("Date: "+f.toLocaleDateString("en-GB")+" "+f.toLocaleTimeString("en-GB",{hour:"2-digit",minute:"2-digit"}));
+  L.push("");
+  L.push("SCORES   A: "+$("#kA").textContent+"   B: "+$("#kB").textContent+"   C: "+$("#kC").textContent+"   D: "+$("#kD").textContent+(T?"   E: "+$("#kT").textContent:""));
+  L.push("  "+$("#dominio").innerText.replace(/\n+/g,"  ").replace("How much you have mastered:","Mastered:"));
+  L.push("");
+  L.push("A · TRUE / FALSE / NOT MENTIONED");
+  var NOM={V:"vrai",F:"faux",NM:"non mentionné"};
+  A.forEach(function(it,i){var d=estado.A[i];L.push("  A"+(i+1)+". "+it.t+" — "+(d?NOM[d]:"—")+(d&&d!==it.r?"  (correct: "+NOM[it.r]+")":d?"  ✓":""));});
+  L.push("");
+  L.push("B · COMPREHENSION");
+  B.forEach(function(it,i){L.push("  B"+(i+1)+". "+it.q);L.push("      "+(it._inp.value.trim()||"—"));L.push("      key ideas: "+(estado.B[i]!=null?estado.B[i]+"/2":"not checked"));L.push("      model: "+it.m);});
+  L.push("");
+  L.push("C · VOCABULARY");
+  C.forEach(function(it,i){var v=$("#c"+i).value.trim();L.push("  C"+(i+1)+". "+it.a+"["+(v||"—")+"]"+it.b+(it.r.indexOf(exact(v))>=0?"  ✓":"  (→ "+it.r[0]+")"));});
+  L.push("");
+  L.push("D · GRAMMAR");
+  D.forEach(function(it,i){var v=$("#d"+i).value, sh=it.o?(v!==""?it.o[+v]:"—"):(v.trim()||"—");L.push("  D"+(i+1)+". "+it.a+"["+sh+"]"+it.b+(dOk(it,i)?"  ✓":"  (→ "+dAns(it)+")"));});
+  if(T){L.push("");L.push("E · TRANSLATION");L.push($("#trad").value.trim()||"—");if(estado.tradInfo){L.push("Key structures:");L.push(estado.tradInfo);}L.push("Model: "+T.modelo);}
+  L.push("");
+  L.push("WRITING ("+palabras(ensayo.value)+" words)");
+  L.push(ensayo.value.trim()||"—");
+  if(estado.ensayoInfo){L.push("");L.push("Checklist:");L.push(estado.ensayoInfo);}
+  var blob=new Blob([L.join("\n")],{type:"text/plain;charset=utf-8"}),url=URL.createObjectURL(blob),a=document.createElement("a");
+  a.href=url; a.download="Resistance_"+nombre.replace(/[^\wàâçéèêëîïôûùœÀÂÇÉÈÊËÎÏÔÛÙŒ]+/g,"_")+".txt";
+  document.body.appendChild(a); a.click(); document.body.removeChild(a); setTimeout(function(){URL.revokeObjectURL(url);},1500);
+});
+$("#btnReiniciar").addEventListener("click",function(){ if(confirm("Clear all your answers and start again?")) location.reload(); });
+})();
+</script>
+<script>window.BBA_KIT = {check:false, name:false, download:false};</script>
+<script src="bba-kit-fr.js" defer></script>
 <script src="bba-send-strip.js" defer></script>
+<script>/* BBA progress hookup: counter + saved score for the hub tile */
+window.BBA_HOOKED=true;
+window.addEventListener("load",function(){
+  if(!window.BBAMeter)return;
+  var NAMEISH=/(^|[-_\s])(name|nom|nombre|prenom|apellido|student|eleve|alumno|candidate)([-_\s]|$)/i;
+  function bbaFields(){
+    var groups={},list=[];
+    Array.prototype.forEach.call(document.body.querySelectorAll("input,select,textarea"),function(e){
+      var t=(e.type||"").toLowerCase();
+      if(e.closest("#bba-kit,#bba-howto,.bba-meter,#bba-resume"))return;
+      if(["hidden","button","submit","reset","file","range","color","search"].indexOf(t)>=0||e.disabled||e.readOnly)return;
+      if(NAMEISH.test(e.id||"")||NAMEISH.test(e.name||"")||NAMEISH.test(e.placeholder||""))return;
+      if(t==="radio"||t==="checkbox"){var k=t+":"+(e.name||e.id);if(!groups[k]){groups[k]=[];list.push(groups[k]);}groups[k].push(e);}
+      else list.push([e]);
+    });
+    return list;
+  }
+  function filled(g){var e=g[0];if(e.tagName==="SELECT")return e.selectedIndex>0;return !!String(e.value||"").trim();}
+  var IDS=["kA","kB","kC","kD","kT"],any=false;
+  function calc(rec){var s=0,m=0;IDS.forEach(function(id){var e=document.getElementById(id),t=e?(e.textContent||""):"";var k=t.match(/(\d+(?:[.,]\d+)?)\s*\/\s*(\d+)/);if(k){s+=parseFloat(k[1].replace(",","."));m+=+k[2];}});
+    /* buttons-only questions (chart, A) count as answered when clicked */
+    var L=bbaFields(),a=L.filter(filled).length, extra=document.querySelectorAll("#secA .q").length;
+    var resp=document.querySelectorAll("#secA .fb.show").length;
+    if(s>0)any=true;
+    BBAMeter.points(a+resp,L.length+extra,any?s:null,any?m:null,{record:!!rec});}
+  var mo=new MutationObserver(function(){clearTimeout(mo.t);mo.t=setTimeout(function(){calc(true);},60);});
+  IDS.forEach(function(id){var e=document.getElementById(id);if(e)mo.observe(e,{childList:true,characterData:true,subtree:true});});
+  ["input","change","click"].forEach(function(ev){document.addEventListener(ev,function(e){if(!(e.target.closest&&e.target.closest("#bba-kit")))setTimeout(function(){calc(false);},0);});});
+  calc(false);
+});
+</script>
 </body>
 </html>
